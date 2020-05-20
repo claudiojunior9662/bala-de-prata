@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="orcamento" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="6f224c23-46f8-4c6c-84e2-abc91e9d258c">
+	<property name="ireport.zoom" value="1.331000000000004"/>
+	<property name="ireport.x" value="31"/>
+	<property name="ireport.y" value="48"/>
+	<field name="cod_emissor" class="java.lang.String"/>
+	<field name="data_emissao" class="java.lang.String"/>
+	<field name="hora_emissao" class="java.lang.String"/>
+	<field name="cod_op" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="90" splitType="Stretch">
+			<image>
+				<reportElement x="0" y="11" width="555" height="79" uuid="ce858fad-9b47-4640-940c-b57fe5e6391e"/>
+				<imageExpression><![CDATA["/home/claudio/Área de Trabalho/EGGCF_Graph_v2/relA4.png"]]></imageExpression>
+			</image>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="29" splitType="Stretch">
+			<staticText>
+				<reportElement x="111" y="5" width="224" height="18" uuid="354dd6c0-e3a2-4db2-9669-e8b64a998547"/>
+				<textElement textAlignment="Justified">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Proposta de Orçamento Nº ]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="349" y="5" width="60" height="18" uuid="cb602532-843a-4b99-afe8-ed9728c459cd"/>
+				<textElement>
+					<font size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{cod_op}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="32" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="8" width="83" height="14" uuid="489f2267-9465-4b5e-a45b-28787954b1ba"/>
+				<text><![CDATA[Código Emissor:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="158" y="8" width="89" height="14" uuid="863ebb74-8216-4fb6-a88a-ec0209337f5f"/>
+				<text><![CDATA[Data de Emissão:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="395" y="8" width="89" height="14" uuid="a610c792-d58d-4cfd-8615-1a74b462af3d"/>
+				<text><![CDATA[Hora da Emissão:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="83" y="8" width="28" height="14" uuid="365e6a80-d609-490b-b778-dec8363bacbf"/>
+				<textFieldExpression><![CDATA[$F{cod_emissor}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="247" y="8" width="77" height="14" uuid="dd8c7637-abc2-4011-8b38-e94f120d340b"/>
+				<textFieldExpression><![CDATA[$F{data_emissao}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="484" y="8" width="71" height="14" uuid="fa973286-1af2-402f-b733-e1dcec106783"/>
+				<textFieldExpression><![CDATA[$F{hora_emissao}]]></textFieldExpression>
+			</textField>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="125" splitType="Stretch"/>
+	</detail>
+	<columnFooter>
+		<band height="45" splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="54" splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band height="42" splitType="Stretch"/>
+	</summary>
+</jasperReport>

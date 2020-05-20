@@ -1,0 +1,35 @@
+problema selecionar cliente assim que termina de cadastrar
+problema código cliente 0
+resguardar edição de preços de acabamentos e serviços
+CAMPO NULL CLIENTES FÍSICOS PROPOSTA
+THREADS TRAVANDO PROGRAMA
+verificar necessidade de excluir nome_contato e telefone_contato da tabela_ordens_producao
+erro ao selecionar cliente, se incluir o código vai zero
+
+NOVAS ALTERAÇÕES PARA O BANCO DE DADOS:
+
+alterar campo cod_produto para string em tabela_ordens_producao
+alterar campo cod_produto para string em tabela_calculos_op
+mudar field cod_produto em tabela_produtos_orcamento de int para varchar
+alterar campo cod_produto para string em tabela_papeis_produto
+alterar campo cod_produto para string em tabela_componentes_produto
+retirar a coluna cod_produto da tabela_componentes_orcamento
+excluir codigo 7 sts_orcamento
+
+criar tabela faturamentos(
+CODIGO - INT - PRIMARY
+CODIGO_ORC - INT - FK
+CODIGO_OP - INT -FK
+EMISSOR - VARCHAR(3) - FK
+QTD_ENTREGUE - INT
+VLR_FAT - DOUBLE
+DT_FAT - DATETIME
+FRETE_FAT - BIT
+SERVICOS_FAT - BIT
+OBSERVACOES - TINYTEXT - NULL)
+
+executar script NewMain 'atualizaNotas'
+
+UPDATE tabela_orcamentos 
+SET FAT_TOTALMENTE = 2 
+WHERE FAT_TOTALMENTE = 1

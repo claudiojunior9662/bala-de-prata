@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<Form version="1.3" maxVersion="1.9" type="org.netbeans.modules.form.forminfo.JFrameFormInfo">
+  <Properties>
+    <Property name="defaultCloseOperation" type="int" value="3"/>
+    <Property name="title" type="java.lang.String" value="SOBRE"/>
+  </Properties>
+  <SyntheticProperties>
+    <SyntheticProperty name="formSizePolicy" type="int" value="1"/>
+    <SyntheticProperty name="generateCenter" type="boolean" value="false"/>
+  </SyntheticProperties>
+  <AuxValues>
+    <AuxValue name="FormSettings_autoResourcing" type="java.lang.Integer" value="0"/>
+    <AuxValue name="FormSettings_autoSetComponentName" type="java.lang.Boolean" value="false"/>
+    <AuxValue name="FormSettings_generateFQN" type="java.lang.Boolean" value="true"/>
+    <AuxValue name="FormSettings_generateMnemonicsCode" type="java.lang.Boolean" value="false"/>
+    <AuxValue name="FormSettings_i18nAutoMode" type="java.lang.Boolean" value="false"/>
+    <AuxValue name="FormSettings_layoutCodeTarget" type="java.lang.Integer" value="1"/>
+    <AuxValue name="FormSettings_listenerGenerationStyle" type="java.lang.Integer" value="0"/>
+    <AuxValue name="FormSettings_variablesLocal" type="java.lang.Boolean" value="false"/>
+    <AuxValue name="FormSettings_variablesModifier" type="java.lang.Integer" value="2"/>
+  </AuxValues>
+
+  <Layout>
+    <DimensionLayout dim="0">
+      <Group type="103" groupAlignment="0" attributes="0">
+          <Component id="jLabel1" alignment="0" pref="499" max="32767" attributes="0"/>
+          <Group type="102" attributes="0">
+              <EmptySpace max="-2" attributes="0"/>
+              <Component id="jLabel2" pref="0" max="32767" attributes="0"/>
+              <EmptySpace max="-2" attributes="0"/>
+          </Group>
+      </Group>
+    </DimensionLayout>
+    <DimensionLayout dim="1">
+      <Group type="103" groupAlignment="0" attributes="0">
+          <Group type="102" alignment="0" attributes="0">
+              <EmptySpace max="-2" attributes="0"/>
+              <Component id="jLabel1" min="-2" pref="153" max="-2" attributes="0"/>
+              <EmptySpace max="-2" attributes="0"/>
+              <Component id="jLabel2" min="-2" pref="257" max="-2" attributes="0"/>
+              <EmptySpace max="32767" attributes="0"/>
+          </Group>
+      </Group>
+    </DimensionLayout>
+  </Layout>
+  <SubComponents>
+    <Component class="javax.swing.JLabel" name="jLabel1">
+      <Properties>
+        <Property name="horizontalAlignment" type="int" value="0"/>
+        <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+          <Image iconType="3" name="/icones/cabSobre.png"/>
+        </Property>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JLabel" name="jLabel2">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="&lt;html&gt;&#xa;&lt;p style=&quot;text-align:center&quot;&gt; &lt;b &gt; Copyright &#xa9; 2020&lt;/b&gt; &lt;/p&gt;&#xa;&lt;p style=&quot;text-align:center&quot;&gt; &lt;b&gt;Se&#xe7;&#xe3;o de Processamento de Dados (SPD)&lt;/b&gt; &lt;/p&gt;&#xa;&lt;p style=&quot;text-align:center&quot;&gt; &lt;b&gt;Gr&#xe1;fica do Ex&#xe9;rcito&lt;/b&gt; &lt;/p&gt;&#xa;&lt;p&gt;&lt;/p&gt;&#xa;&lt;p style=&quot;text-align:justify&quot;&gt;O software Bala de Prata foi desenvolvido com a finalidade de organizar a produ&#xe7;&#xe3;o gr&#xe1;fica no &#xe2;mbito da Gr&#xe1;fica do Ex&#xe9;rcito. Tendo sua produ&#xe7;&#xe3;o utilizando &#xa;ferramentas gratuitas e seu c&#xf3;digo fonte disponibilizado em reposit&#xf3;rio livre para acesso ao p&#xfa;blico, com total acordo com a comunidade de desenvolvimento de software livre do &#xa;Brasil - http://softwarelivre.org&lt;/p&gt;&#xa;&lt;p&gt;&lt;/p&gt;&#xa;&lt;p&gt;+ Java v.1.8.0&lt;/p&gt;&#xa;&lt;p&gt;+ MySQL Community Server v. 8&lt;/p&gt;&#xa;&lt;p&gt;+ &#xcd;cones em:  https://icons8.com &lt;/p&gt;"/>
+        <Property name="doubleBuffered" type="boolean" value="true"/>
+        <Property name="focusCycleRoot" type="boolean" value="true"/>
+        <Property name="opaque" type="boolean" value="true"/>
+      </Properties>
+    </Component>
+  </SubComponents>
+</Form>
