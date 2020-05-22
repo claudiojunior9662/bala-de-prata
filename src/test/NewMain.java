@@ -50,33 +50,34 @@ public class NewMain {
 
         try {
             stmt = con.prepareStatement("SELECT cod, nome "
-                    + "FROM tabela_clientes_juridicos ");
+                    + "FROM tabela_clientes_fisicos ");
             rs = stmt.executeQuery();
             while (rs.next()) {
                 credito = 0d;
-                stmt = con.prepareStatement("SELECT valor "
-                        + "FROM tabela_notas "
-                        + "WHERE DATE_FORMAT(STR_TO_DATE(`data`, '%d/%m/%Y'), '%Y-%m-%d') BETWEEN "
-                        + "DATE_FORMAT(STR_TO_DATE('01/01/2019', '%d/%m/%Y'), '%Y-%m-%d') AND "
-                        + "DATE_FORMAT(STR_TO_DATE('31/12/2019', '%d/%m/%Y'), '%Y-%m-%d') AND "
-                        + "cod_cliente = ? AND tipo_pessoa = 2");
-                stmt.setInt(1, rs.getInt("cod"));
-                rs2 = stmt.executeQuery();
-                while (rs2.next()) {
-                    credito += rs2.getFloat("valor");
-                }
+//                stmt = con.prepareStatement("SELECT valor "
+//                        + "FROM tabela_notas "
+//                        + "WHERE DATE_FORMAT(STR_TO_DATE(`data`, '%d/%m/%Y'), '%Y-%m-%d') BETWEEN "
+//                        + "DATE_FORMAT(STR_TO_DATE('01/05/2020', '%d/%m/%Y'), '%Y-%m-%d') AND "
+//                        + "DATE_FORMAT(STR_TO_DATE('22/05/2020', '%d/%m/%Y'), '%Y-%m-%d') AND "
+//                        + "cod_cliente = ? AND tipo_pessoa = 1");
+//                stmt.setInt(1, rs.getInt("cod"));
+//                rs2 = stmt.executeQuery();
+//                while (rs2.next()) {
+//                    credito += rs2.getFloat("valor");
+//                }
 
                 stmt = con.prepareStatement("SELECT FATURAMENTOS.VLR_FAT "
                         + "FROM FATURAMENTOS "
                         + "INNER JOIN tabela_ordens_producao ON tabela_ordens_producao.cod = FATURAMENTOS.CODIGO_OP "
-                        + "WHERE FATURAMENTOS.DT_FAT BETWEEN '2019-01-01' AND '2019-12-31' AND "
-                        + "tabela_ordens_producao.cod_cliente = ? AND tabela_ordens_producao.tipo_cliente = 2");
+                        + "WHERE FATURAMENTOS.DT_FAT BETWEEN '2020-05-01' AND '2020-05-22' AND "
+                        + "tabela_ordens_producao.cod_cliente = ? AND tabela_ordens_producao.tipo_cliente = 1");
                 stmt.setInt(1, rs.getInt("cod"));
                 rs2 = stmt.executeQuery();
                 while (rs2.next()) {
                     credito -= rs2.getFloat("FATURAMENTOS.VLR_FAT");
                 }
 
+                
                 System.out.println(df.format(credito));
             }
         } catch (SQLException ex) {
@@ -103,8 +104,8 @@ public class NewMain {
                     + "WHERE tabela_ordens_producao.status != 'ENTREGUE' "
                     + "AND tabela_ordens_producao.status != 'ENTREGUE PARCIALMENTE' "
                     + "AND tabela_ordens_producao.status != 'CANCELADA'"
-                    + "AND tabela_ordens_producao.tipo_cliente = 2 "
-                    + "AND tabela_ordens_producao.data_emissao BETWEEN '2020-04-01' AND '2020-04-30' "
+                    + "AND tabela_ordens_producao.tipo_cliente = 1 "
+                    + "AND tabela_ordens_producao.data_emissao BETWEEN '2020-05-01' AND '2020-05-22' "
                     + "ORDER BY tabela_ordens_producao.cod_cliente ASC");
             rs = stmt.executeQuery();
             while (rs.next()) {
@@ -117,9 +118,9 @@ public class NewMain {
                             + "WHERE tabela_ordens_producao.status != 'ENTREGUE' "
                             + "AND tabela_ordens_producao.status != 'ENTREGUE PARCIALMENTE' "
                             + "AND tabela_ordens_producao.status != 'CANCELADA'"
-                            + "AND tabela_ordens_producao.tipo_cliente = 2 "
+                            + "AND tabela_ordens_producao.tipo_cliente = 1 "
                             + "AND tabela_ordens_producao.cod_cliente = ? "
-                            + "AND tabela_ordens_producao.data_emissao BETWEEN '2020-04-01' AND '2020-04-30' "
+                            + "AND tabela_ordens_producao.data_emissao BETWEEN '2020-05-01' AND '2020-05-22' "
                             + "ORDER BY tabela_ordens_producao.cod_cliente ASC");
                     stmt.setInt(1, rs.getInt("tabela_ordens_producao.cod_cliente"));
                     rs2 = stmt.executeQuery();
@@ -186,11 +187,16 @@ public class NewMain {
         List<String> ranking = new ArrayList();
 
         try {
-            stmt = con.prepareStatement("SELECT tabela_ordens_producao.cod, tabela_ordens_producao.cod_cliente, tabela_ordens_producao.orcamento_base "
+            stmt = con.prepareStatement("SELECT tabela_ordens_producao.cod, "
+                    + "tabela_ordens_producao.cod_cliente, "
+                    + "tabela_ordens_producao.orcamento_base,"
+                    + "tabela_ordens_producao.cod_produto,"
+                    + "PRODUTOS.DESCRICAO "
                     + "FROM tabela_ordens_producao "
                     + "INNER JOIN tabela_orcamentos ON tabela_orcamentos.cod = tabela_ordens_producao.orcamento_base "
+                    + "INNER JOIN PRODUTOS ON PRODUTOS.CODIGO = tabela_ordens_producao.cod_produto "
                     + "WHERE tabela_ordens_producao.status != 'CANCELADA' "
-                    + "AND tabela_ordens_producao.data_emissao BETWEEN '2020-01-01' AND '2020-05-12' "
+                    + "AND tabela_ordens_producao.data_emissao BETWEEN '2018-01-01' AND '2020-05-22' "
                     + "AND tabela_ordens_producao.tipo_cliente = 2 "
                     + "AND tabela_orcamentos.FAT_TOTALMENTE > 1");
             rs = stmt.executeQuery();
@@ -200,13 +206,15 @@ public class NewMain {
                     qtdProdutos = 0;
                     stmt = con.prepareStatement("SELECT tabela_ordens_producao.cod, "
                             + "tabela_ordens_producao.orcamento_base,"
-                            + "tabela_ordens_producao.cod_produto  "
+                            + "tabela_ordens_producao.cod_produto,"
+                            + "PRODUTOS.DESCRICAO  "
                             + "FROM tabela_ordens_producao "
                             + "INNER JOIN tabela_orcamentos ON tabela_orcamentos.cod = tabela_ordens_producao.orcamento_base "
+                            + "INNER JOIN PRODUTOS ON PRODUTOS.CODIGO = tabela_ordens_producao.cod_produto "
                             + "WHERE tabela_ordens_producao.status != 'CANCELADA' "
                             + "AND tabela_ordens_producao.cod_cliente = ? "
                             + "AND tabela_ordens_producao.tipo_cliente = 2 "
-                            + "AND tabela_ordens_producao.data_emissao BETWEEN '2020-01-01' AND '2020-05-12'"
+                            + "AND tabela_ordens_producao.data_emissao BETWEEN '2018-01-01' AND '2020-05-22'"
                             + "AND tabela_orcamentos.FAT_TOTALMENTE > 1");
                     stmt.setInt(1, rs.getInt("cod_cliente"));
                     rs2 = stmt.executeQuery();
@@ -219,12 +227,10 @@ public class NewMain {
                         stmt.setInt(2, rs2.getInt("tabela_ordens_producao.cod_produto"));
                         rs3 = stmt.executeQuery();
                         if(rs3.next()){qtdProdutos += rs3.getInt("quantidade");}
-                        System.out.println(rs.getInt("tabela_ordens_producao.cod_cliente") + " " + 
-                                rs2.getInt("tabela_ordens_producao.cod") + " " +
+                        System.out.println(rs2.getInt("tabela_ordens_producao.cod_produto") + "#" 
+                                + rs2.getString("PRODUTOS.DESCRICAO") + "#" +
                                 qtdProdutos);
-                    }
-                    
-                    
+                    } 
                 }
             }
         } catch (SQLException ex) {
