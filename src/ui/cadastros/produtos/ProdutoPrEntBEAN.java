@@ -105,7 +105,7 @@ public class ProdutoPrEntBEAN {
             int avisoEstoqueUn
             ) {
         this.codigo = codigo;
-        this.descricao = descricao;
+        this.estoque = estoque;
         this.avisoEstoque = avisoEstoque;
         this.avisoEstoqueUn = avisoEstoqueUn;
     }

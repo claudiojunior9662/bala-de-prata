@@ -741,8 +741,12 @@ public class ProdutoDAO {
             stmt.setByte(8, prodPrEnt.getPreVenda());
             stmt.setByte(9, prodPrEnt.getPromocao());
             stmt.setDouble(10, prodPrEnt.getVlrPromocao());
-            stmt.setDate(11, new java.sql.Date(prodPrEnt.getInicioPromocao().getTime()));
-            stmt.setDate(12, new java.sql.Date(prodPrEnt.getFimPromocao().getTime()));
+            stmt.setDate(11, prodPrEnt.getPromocao() == 1 ? 
+                    new java.sql.Date(prodPrEnt.getInicioPromocao().getTime()) : 
+                    null);
+            stmt.setDate(12, prodPrEnt.getPromocao() == 1 ? 
+                    new java.sql.Date(prodPrEnt.getFimPromocao().getTime()) : 
+                    null);
             stmt.setInt(13, prodPrEnt.getQtdPaginas());
             stmt.setInt(14, prodPrEnt.getEstoque());
             stmt.setByte(15, prodPrEnt.getAvisoEstoque());

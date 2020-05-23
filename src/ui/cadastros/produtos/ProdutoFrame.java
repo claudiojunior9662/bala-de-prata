@@ -72,8 +72,8 @@ public class ProdutoFrame extends javax.swing.JInternalFrame {
         limpa();
         limpaPe();
 
-        tabPane.setEnabledAt(2, false);
-        tabPane.setEnabledAt(3, false);
+//        tabPane.setEnabledAt(2, false);
+//        tabPane.setEnabledAt(3, false);
     }
 
     /**
@@ -1425,7 +1425,7 @@ public class ProdutoFrame extends javax.swing.JInternalFrame {
                                     jckbAvisoEstoque.isSelected() ? (byte) 1 : (byte) 0,
                                     Integer.valueOf(jftfAvisoEstoque.getText())
                             ));
-                            JOptionPane.showMessageDialog(null, "ESTOQUE ATUALIZADO COM SUCESSO.",
+                            JOptionPane.showMessageDialog(null, "INFORMAÇÕES ATUALIZADAS COM SUCESSO.",
                                     "CONFIMAÇÃO", JOptionPane.INFORMATION_MESSAGE);
                             //--------------------------------------------------------------
                             break;
@@ -1936,18 +1936,36 @@ public class ProdutoFrame extends javax.swing.JInternalFrame {
         jtfDescricaoPe.setEditable(false);
         jftfLarguraPe.setEditable(false);
         jftfAlturaPe.setEditable(false);
+        jftfEspessuraPe.setEditable(false);
+        jftfPesoPe.setEditable(false);
         jsfQtdFolhasPe.setEnabled(false);
         jcbTipoPe.setEnabled(false);
-
+        jckbProdPreVenda.setEnabled(true);
+        jftfVlrUnitPe.setEnabled(true);
+        jckbProm.setEnabled(true);
+        jftfEstoqueFisico.setEnabled(true);
+        jckbAvisoEstoque.setEnabled(true);
+        jftfQtdMin.setEnabled(true);
+        jckbQtdMax.setEnabled(true);
+        jckbDispVendas.setEnabled(true);
     }
 
     private void estadoInicialPe() {
         jtfDescricaoPe.setEditable(true);
         jftfLarguraPe.setEditable(true);
         jftfAlturaPe.setEditable(true);
+        jftfEspessuraPe.setEditable(true);
+        jftfPesoPe.setEditable(true);
         jsfQtdFolhasPe.setEnabled(true);
         jcbTipoPe.setEnabled(true);
-
+        jckbProdPreVenda.setEnabled(true);
+        jftfVlrUnitPe.setEnabled(true);
+        jckbProm.setEnabled(true);
+        jftfEstoqueFisico.setEnabled(true);
+        jckbAvisoEstoque.setEnabled(true);
+        jftfQtdMin.setEnabled(true);
+        jckbQtdMax.setEnabled(true);
+        jckbDispVendas.setEnabled(true);
     }
 
     public void limpa() {
@@ -1969,14 +1987,22 @@ public class ProdutoFrame extends javax.swing.JInternalFrame {
         jtfDescricaoPe.setText("");
         jftfLarguraPe.setValue(0);
         jftfAlturaPe.setValue(0);
+        jftfEspessuraPe.setValue(0);
+        jftfPesoPe.setValue(0);
         jsfQtdFolhasPe.setValue(1);
-        jftfVlrUnitPe.setValue(0);
-        jckbDispVendas.setSelected(false);
         jcbTipoPe.setSelectedIndex(0);
+        jckbProdPreVenda.setSelected(false);
+        jftfVlrUnitPe.setValue(0);
+        jckbProm.setSelected(false);
+        jftfVlrProm.setValue(0);
+        jdcInicioProm.setDate(null);
+        jdcFimProm.setDate(null);
         jftfEstoqueFisico.setValue(0);
         jckbAvisoEstoque.setSelected(false);
         jftfAvisoEstoque.setValue(0);
-        jftfAvisoEstoque.setEnabled(false);
+        jftfQtdMin.setValue(0);
+        jckbQtdMax.setSelected(false);
+        jftfQtdMax.setValue(0);
         lblMov.setText("");
         FUNCAO = 0;
         COD_PROD = null;
@@ -2067,7 +2093,7 @@ public class ProdutoFrame extends javax.swing.JInternalFrame {
             }
 
             //VERIFICA CASOS DE ERRO--------------------------------------------
-            if (ProdutoDAO.verificaDescricao(descricaoProduto.getText().toString())
+            if (ProdutoDAO.verificaDescricao(descricaoProduto.getText())
                     & FUNCAO != 1) {
                 JOptionPane.showMessageDialog(null, "DESCRIÇÃO DE PRODUTO JÁ EXISTENTE!", "ERRO AO SALVAR", JOptionPane.ERROR_MESSAGE);
                 loading.setVisible(false);
@@ -2078,7 +2104,7 @@ public class ProdutoFrame extends javax.swing.JInternalFrame {
                     loading.setVisible(false);
                     return;
                 }
-                if (descricaoProduto.getText().toString().length() >= 150) {
+                if (descricaoProduto.getText().length() >= 150) {
                     JOptionPane.showMessageDialog(null, "O CAMPO DESCRIÇÃO DO PRODUTO EXCEDE 150 CARACTERES", "LIMITE DE CARACTERES", JOptionPane.ERROR_MESSAGE);
                     loading.setVisible(false);
                     return;
