@@ -28,6 +28,7 @@ import model.dao.OrdemProducaoDAO;
 import model.tabelas.FatPesqTableModel;
 import ui.cadastros.clientes.ClienteDAO;
 import ui.cadastros.produtos.ProdutoDAO;
+import ui.cadastros.produtos.ProdutoPrEntBEAN;
 import ui.cadastros.servicos.ServicoDAO;
 import ui.controle.Controle;
 
@@ -486,17 +487,36 @@ public class FatPesquisa extends javax.swing.JInternalFrame {
                     prodOrc.getQuantidade() - (int) FatFrame.qtdEntregue.getValue(),
                     1));
 
-            if (prodOrc.getCodProduto().contains("PE")) {
-                FatFrame.valorUnitario.setValue(ProdutoDAO.retornaVlrPe(prodOrc.getCodProduto()));
-            } else {
-                FatFrame.valorUnitario.setValue(OrcamentoDAO.retornaValorUnitario(fat.getCodOrc(),
-                        op.getCodProduto()));
-            }
+            FatFrame.valorUnitario.setValue(prodOrc.getPrecoUnitario());
             FatFrame.setCOD_PRODUTO(prodOrc.getCodProduto());
 
-            ProdutoBEAN produto = ProdutoDAO.selecionaDimensoesProduto(op.getCodProduto());
-            FatFrame.alturaProduto.setValue(produto.getAltura());
-            FatFrame.larguraProduto.setValue(produto.getLargura());
+            if (op.getCodProduto().contains("PE")) {
+                /**
+                 * Pesquisa as informações do produto
+                 */
+                ProdutoPrEntBEAN produto = ProdutoDAO.selDimProdPrEnt(op.getCodProduto());
+                FatFrame.alturaProduto.setValue(produto.getAltura());
+                FatFrame.larguraProduto.setValue(produto.getLargura());
+                FatFrame.espessuraProduto.setValue(produto.getEspessura());
+                FatFrame.pesoProduto.setValue(produto.getPeso());
+                /**
+                 * Desativa os campos não editáveis
+                 */
+                FatFrame.espessuraProduto.setEditable(false);
+                FatFrame.pesoProduto.setEditable(false);
+            } else {
+                /**
+                 * Pesquisa as informações do produto
+                 */
+                ProdutoBEAN produto = ProdutoDAO.selecionaDimensoesProduto(op.getCodProduto());
+                FatFrame.alturaProduto.setValue(produto.getAltura());
+                FatFrame.larguraProduto.setValue(produto.getLargura());
+                /**
+                 * Ativa os campos editáveis
+                 */
+                FatFrame.espessuraProduto.setEditable(true);
+                FatFrame.pesoProduto.setEditable(true);
+            }
 
             /**
              * seta estado pós pesquisar na classe FatFrame
@@ -556,24 +576,24 @@ public class FatPesquisa extends javax.swing.JInternalFrame {
                     }
                     break;
                 case 5:
-                        List<ClienteBEAN> clientes;
-                        switch (p2.getSelectedIndex()) {
-                            case 2:
-                            case 6:
-                                clientes = ClienteDAO.retornaCliente(p2.getSelectedItem().toString(),
-                                        p3Formatado.getText());
-                                break;
-                            default:
-                                clientes = ClienteDAO.retornaCliente(p2.getSelectedItem().toString(),
-                                        p3Texto.getText());
-                                break;
+                    List<ClienteBEAN> clientes;
+                    switch (p2.getSelectedIndex()) {
+                        case 2:
+                        case 6:
+                            clientes = ClienteDAO.retornaCliente(p2.getSelectedItem().toString(),
+                                    p3Formatado.getText());
+                            break;
+                        default:
+                            clientes = ClienteDAO.retornaCliente(p2.getSelectedItem().toString(),
+                                    p3Texto.getText());
+                            break;
+                    }
+                    List<Integer> op = OrdemProducaoDAO.retornaCodOpCliente(clientes);
+                    for (int codOp : op) {
+                        for (Faturamento fat : NotaDAO.pesqFat((byte) 5, String.valueOf(codOp), null)) {
+                            model.addRow(fat);
                         }
-                        List<Integer> op = OrdemProducaoDAO.retornaCodOpCliente(clientes);
-                        for (int codOp : op) {
-                            for (Faturamento fat : NotaDAO.pesqFat((byte) 5, String.valueOf(codOp), null)) {
-                                model.addRow(fat);
-                            }
-                        }
+                    }
                     break;
             }
         } catch (SQLException ex) {

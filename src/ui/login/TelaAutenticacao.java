@@ -32,8 +32,8 @@ public class TelaAutenticacao extends javax.swing.JFrame {
     public static String loginAtendente;
     public static String tipoAtendente;
     public static String senhaAtendente;
-    public static final String codVersao = "2.3.3";
-    public static final String atualizacao = "India";
+    public static final String codVersao = "2.3.4";
+    public static final String atualizacao = "Alfa";
 
     public TelaAutenticacao() {
         initComponents();
@@ -360,6 +360,12 @@ public class TelaAutenticacao extends javax.swing.JFrame {
                             + "- Implantação dos valores dos produtos na OP, solicitado pelo Diretor;\n"
                             + "CORREÇÕES E ATUALIZAÇÕES DA v.2.3.3 India (20-05-2020)\n"
                             + "- Correção de erros enviados (25);\n"
+                            + "CORREÇÕES E ATUALIZAÇÕES DA v.2.3.4 Alfa (24-05-2020)\n"
+                            + "- Correção de erros enviados (26-62);\n"
+                            + "- Implementação dos campos necessários para o e-commerce, assim como para\n"
+                            + "venda dos produtos para pronta entrega;\n"
+                            + "- Adição da tabela de corte de papel na tela de orçamentos;\n"
+                            + "- Atualizações e correções diversas para fins de estabilidade e otimização;\n"
                             + "AVISOS:\n"
                             + "- Todas as sugestões de melhoria de usabilidade do programa serão estudadas, mas não há previsão de implementação;\n"
                             + "- Qualquer problema nas correções acima expostas deverão ser informados o mais rápido possível à SPD;\n"

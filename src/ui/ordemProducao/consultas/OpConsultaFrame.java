@@ -30,6 +30,7 @@ import model.dao.OrdemProducaoDAO;
 import ui.cadastros.clientes.ClienteDAO;
 import ui.cadastros.notas.FatFrame;
 import ui.cadastros.produtos.ProdutoDAO;
+import ui.cadastros.produtos.ProdutoPrEntBEAN;
 import ui.cadastros.servicos.ServicoDAO;
 import ui.controle.Controle;
 
@@ -631,8 +632,7 @@ public class OpConsultaFrame extends javax.swing.JInternalFrame {
              */
             ProdOrcamento prodOrc = OrcamentoDAO.selecionaInformacoesProduto(
                     CODIGO_ORCAMENTO_BASE, String.valueOf(op.getCodProduto()));
-            ProdutoBEAN produto = ProdutoDAO.selecionaDimensoesProduto(String.valueOf(op.getCodProduto()));
-
+            
             /**
              * Define as informações sobre o faturamento
              */
@@ -679,19 +679,40 @@ public class OpConsultaFrame extends javax.swing.JInternalFrame {
                     0,
                     prodOrc.getQuantidade() - (int) FatFrame.qtdEntregue.getValue(),
                     1));
-            FatFrame.alturaProduto.setValue(produto.getAltura());
-            FatFrame.larguraProduto.setValue(produto.getLargura());
+            
+            
+            if (op.getCodProduto().contains("PE")) {
+                /**
+                 * Pesquisa as informações do produto
+                 */
+                ProdutoPrEntBEAN produto = ProdutoDAO.selDimProdPrEnt(op.getCodProduto());
+                FatFrame.alturaProduto.setValue(produto.getAltura());
+                FatFrame.larguraProduto.setValue(produto.getLargura());
+                FatFrame.espessuraProduto.setValue(produto.getEspessura());
+                FatFrame.pesoProduto.setValue(produto.getPeso());
+                /**
+                 * Desativa os campos não editáveis
+                 */
+                FatFrame.espessuraProduto.setEditable(false);
+                FatFrame.pesoProduto.setEditable(false);
+            } else {
+                /**
+                 * Pesquisa as informações do produto
+                 */
+                ProdutoBEAN produto = ProdutoDAO.selecionaDimensoesProduto(op.getCodProduto());
+                FatFrame.alturaProduto.setValue(produto.getAltura());
+                FatFrame.larguraProduto.setValue(produto.getLargura());
+                /**
+                 * Ativa os campos editáveis
+                 */
+                FatFrame.espessuraProduto.setEditable(true);
+                FatFrame.pesoProduto.setEditable(true);
+            }
 
             /**
              * Define informações sobre valores
              */
-            if (prodOrc.getCodProduto().contains("PE")) {
-                FatFrame.valorUnitario.setValue(ProdutoDAO.retornaVlrPe(prodOrc.getCodProduto()));
-            } else {
-                FatFrame.valorUnitario.setValue(OrcamentoDAO.retornaValorUnitario(op.getOrcamentoBase(),
-                        prodOrc.getCodProduto()));
-            }
-
+            FatFrame.valorUnitario.setValue((double) prodOrc.getPrecoUnitario());
             FatFrame.verificaFaturamento();
 
         } catch (SQLException ex) {

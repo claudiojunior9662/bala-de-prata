@@ -167,9 +167,10 @@ public class OrcamentoDAO {
         return retorno;
     }
 
-    /*
+    /**
     @param codOrc código do orçamento
     @return orçamento a ser selecionado
+     * @throws java.sql.SQLException
     @see carregaEdicaoOrcamento
      */
     public static Orcamento carregaEdicaoOrcamento(int codOrc) throws SQLException {
@@ -265,7 +266,8 @@ public class OrcamentoDAO {
         PreparedStatement stmt = null;
 
         try {
-            stmt = con.prepareStatement("DELETE FROM tabela_orcamentos WHERE cod = " + codigoOrcamento);
+            stmt = con.prepareStatement("DELETE FROM tabela_orcamentos "
+                    + "WHERE cod = " + codigoOrcamento);
             stmt.executeUpdate();
         } catch (SQLException ex) {
             throw new SQLException(ex);
@@ -339,10 +341,10 @@ public class OrcamentoDAO {
         }
     }
 
-    /*
+    /**
     @param codOrcamento código do orçamento
     @param novoStatus novo status do orçamento
-    @return void muda o status do orçamento
+     * @throws java.sql.SQLException
     @see mudarStatus
      */
     public static void mudarStatus(int codOrcamento, byte novoStatus) throws SQLException {
@@ -359,29 +361,6 @@ public class OrcamentoDAO {
         } finally {
             ConnectionFactory.closeConnection(con, stmt);
         }
-    }
-
-    public float retorna_valor_unitario(int cod_produto, int quantidade_limite) {
-        Connection con = ConnectionFactory.getConnection();
-        PreparedStatement stmt = null;
-        ResultSet rs = null;
-        float retorno = 0;
-
-        try {
-            stmt = con.prepareStatement("SELECT * FROM tabela_preco_quantidade WHERE cod_produto = ? and quantidade = ?");
-            stmt.setInt(1, cod_produto);
-            stmt.setInt(2, quantidade_limite);
-            rs = stmt.executeQuery();
-            while (rs.next()) {
-                retorno = rs.getFloat("preco");
-            }
-            stmt.close();
-        } catch (SQLException ex) {
-            System.out.println("Erro ao retornar valor unitário " + ex);
-        } finally {
-            ConnectionFactory.closeConnection(con, stmt, rs);
-        }
-        return retorno;
     }
 
     public static void createProdutosOrcamento(ProdOrcamento produtosOrcamentoBEAN) throws SQLException {
@@ -561,16 +540,16 @@ public class OrcamentoDAO {
             try {
                 switch (p1) {
                     case 1:
-                        stmt = con.prepareStatement("SELECT cod, "
-                                + "cod_cliente, "
-                                + "tipo_cliente, "
-                                + "data_emissao, "
-                                + "data_validade, "
-                                + "valor_total, "
-                                + "status "
+                        stmt = con.prepareStatement("SELECT tabela_orcamentos.cod, "
+                                + "tabela_orcamentos.cod_cliente, "
+                                + "tabela_orcamentos.tipo_cliente, "
+                                + "tabela_orcamentos.data_emissao, "
+                                + "tabela_orcamentos.data_validade, "
+                                + "tabela_orcamentos.valor_total, "
+                                + "tabela_orcamentos.status "
                                 + "FROM tabela_orcamentos "
-                                + "WHERE cod = ? "
-                                + "ORDER BY cod "
+                                + "WHERE tabela_orcamentos.cod = ? "
+                                + "ORDER BY tabela_orcamentos.cod "
                                 + "DESC "
                                 + "LIMIT 45");
                         stmt.setInt(1, Integer.valueOf(p3));
@@ -737,7 +716,7 @@ public class OrcamentoDAO {
                                     + "tabela_clientes_juridicos.cod "
                                     + "FROM tabela_orcamentos "
                                     + "INNER JOIN tabela_clientes_juridicos ON tabela_clientes_juridicos.cnpj = ? "
-                                    + "WHERE tabela_orcamentos.cod_cliente = tabela_clientes_juridicos.cod  AND tabela_orcamentos.tipo_cliente = 1 "
+                                    + "WHERE tabela_orcamentos.cod_cliente = tabela_clientes_juridicos.cod  AND tabela_orcamentos.tipo_cliente = 2 "
                                     + "ORDER BY tabela_orcamentos.cod "
                                     + "DESC "
                                     + "LIMIT 45");
@@ -839,7 +818,7 @@ public class OrcamentoDAO {
                                 + "tabela_orcamentos.data_emissao, "
                                 + "tabela_orcamentos.data_validade, "
                                 + "tabela_orcamentos.valor_total, "
-                                + "tabela_orcamentos.status,"
+                                + "tabela_orcamentos.status "
                                 + "FROM tabela_orcamentos "
                                 + "WHERE tabela_orcamentos.status = ? "
                                 + "ORDER BY tabela_orcamentos.cod "
@@ -973,7 +952,7 @@ public class OrcamentoDAO {
                                     + "tabela_clientes_juridicos.cod "
                                     + "FROM tabela_orcamentos "
                                     + "INNER JOIN tabela_clientes_juridicos ON tabela_clientes_juridicos.cnpj = ? "
-                                    + "WHERE tabela_orcamentos.cod_cliente = tabela_clientes_juridicos.cod  AND tabela_orcamentos.tipo_cliente = 1 "
+                                    + "WHERE tabela_orcamentos.cod_cliente = tabela_clientes_juridicos.cod  AND tabela_orcamentos.tipo_cliente = 2 "
                                     + "ORDER BY tabela_orcamentos.cod "
                                     + "DESC "
                                     + "LIMIT 45 "
@@ -1001,7 +980,7 @@ public class OrcamentoDAO {
                     while (rs.next()) {
                         Orcamento aux = new Orcamento();
                         aux.setCod(rs.getInt("tabela_orcamentos.cod"));
-                        aux.setNomeCliente(rs.getInt("ttabela_orcamentos.ipo_cliente") == 1
+                        aux.setNomeCliente(rs.getInt("tabela_orcamentos.tipo_cliente") == 1
                                 ? retornaNomeCliente(rs.getInt("tabela_clientes_fisicos.cod"), rs.getInt("tabela_orcamentos.tipo_cliente"))
                                 : retornaNomeCliente(rs.getInt("tabela_clientes_juridicos.cod"), rs.getInt("tabela_orcamentos.tipo_cliente")));
                         aux.setTipo_pessoa(rs.getInt("tabela_orcamentos.tipo_cliente"));
@@ -1080,9 +1059,10 @@ public class OrcamentoDAO {
         return retorno;
     }
 
-    /*
-    @param codOrcamento código do orçamento a ser selecionado o frete
+    /**
+     * @param codOrc
     @return double valor do frete
+     * @throws java.sql.SQLException
     @see retornaValorFrete
      */
     public static Double retornaValorFrete(Integer codOrc) throws SQLException {
@@ -1227,6 +1207,7 @@ public class OrcamentoDAO {
     /**
     @param codigoOrcamento Código do orçamento
     @param statusFaturamento Status do faturamento
+     * @throws java.sql.SQLException
     @see atualizaStatusFaturamento
      */
     public static void atualizaStatusFaturamento(int codigoOrcamento, byte statusFaturamento) throws SQLException {
@@ -1247,8 +1228,9 @@ public class OrcamentoDAO {
         }
     }
 
-    /*
+    /**
     @return List<> lista de status
+     * @throws java.sql.SQLException
     @see retornaStsOrcamento
      */
     public static List<StsOrcamento> retornaStsOrcamento() throws SQLException {
@@ -1272,9 +1254,10 @@ public class OrcamentoDAO {
         }
     }
 
-    /*
+    /**
     @param codOrc código do orçamento
     @return Orcamento orçamento a ser selecionado para a nota de venda
+     * @throws java.sql.SQLException
     @see selInfoNota
      */
     public static Orcamento selecionaInformacoesNota(int codOrc) throws SQLException {
@@ -1303,9 +1286,11 @@ public class OrcamentoDAO {
         }
     }
 
-    /*
+    /**
     @param codOrc código do orcamento
+     * @param codProduto
     @return ProdOrcamento produto do orçamento
+     * @throws java.sql.SQLException
     @see selecionaInformacoesProduto
      */
     public synchronized static ProdOrcamento selecionaInformacoesProduto(int codOrc, String codProduto) throws SQLException {
@@ -1352,9 +1337,10 @@ public class OrcamentoDAO {
         }
     }
 
-    /*
+    /**
     @param codOrc código do orçamento a ser selecionado
     @return Cliente código e tipo do cliente a ser selecionado
+     * @throws java.sql.SQLException
     @see retornaClienteOrc
      */
     public static Cliente retornaClienteOrc(int codOrc) throws SQLException {
@@ -1389,6 +1375,7 @@ public class OrcamentoDAO {
      * @param codOrc código do orçamento
      * @param codProd código do produto
      * @return
+     * @throws java.sql.SQLException
      */
     public static double retornaVlrParcProd(int codOrc, String codProd) throws SQLException {
         Connection con = ConnectionFactory.getConnection();

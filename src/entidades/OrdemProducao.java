@@ -38,6 +38,7 @@ import java.text.DecimalFormat;
 import java.util.Date;
 import java.util.List;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableCellRenderer;
 import model.dao.OrcamentoDAO;
@@ -1381,9 +1382,14 @@ public class OrdemProducao {
             //ABRE O DOCUMENTO--------------------------------------------------
             java.awt.Desktop.getDesktop().open(new File(System.getProperty("java.io.tmpdir") + "/ordemProducao" + codOp + ".pdf"));
             //------------------------------------------------------------------
-        } catch (SQLException | IOException | DocumentException ex) {
+        } catch (SQLException | DocumentException ex) {
             EnvioExcecao envioExcecao = new EnvioExcecao(Controle.getDefaultGj(), ex);
             EnvioExcecao.envio();
+        }catch(IOException ex){
+            JOptionPane.showMessageDialog(null, 
+                    "O ARQUIVO ESTÁ SENDO UTILIZADO POR OUTRO PROCESSO.\nVERIFIQUE E TENTE NOVAMENTE", 
+                    "ARQUIVO ABERTO", 
+                    JOptionPane.ERROR_MESSAGE);
         }
     }
 

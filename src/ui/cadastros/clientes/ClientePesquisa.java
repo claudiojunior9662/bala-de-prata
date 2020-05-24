@@ -407,24 +407,28 @@ public class ClientePesquisa extends javax.swing.JInternalFrame {
             mascaraCpf.setValueContainsLiteralCharacters(false);
 
             String p3Txt = null;
-            if (p2.getSelectedItem().toString().equals("CPF")) {
-                try {
-                    p3Txt = mascaraCpf.valueToString(p3.getText());
-                } catch (ParseException ex) {
-                    EnvioExcecao envioExcecao = new EnvioExcecao(Controle.getDefaultGj(), ex);
-                    EnvioExcecao.envio();
-                    return;
-                }
-            } else if (p2.getSelectedItem().toString().equals("CNPJ")) {
-                try {
-                    p3Txt = mascaraCnpj.valueToString(p3.getText());
-                } catch (ParseException ex) {
-                    EnvioExcecao envioExcecao = new EnvioExcecao(Controle.getDefaultGj(), ex);
-                    EnvioExcecao.envio();
-                    return;
-                }
-            } else {
-                p3Txt = p3.getText();
+            switch (p2.getSelectedItem().toString()) {
+                case "CPF":
+                    try {
+                        p3Txt = mascaraCpf.valueToString(p3.getText());
+                    } catch (ParseException ex) {
+                        EnvioExcecao envioExcecao = new EnvioExcecao(Controle.getDefaultGj(), ex);
+                        EnvioExcecao.envio();
+                        return;
+                    }   break;
+                case "CNPJ":
+                    try {
+                        p3Txt = mascaraCnpj.valueToString(p3.getText().replace("/", "")
+                                .replace(".", "")
+                                .replace("-", ""));
+                    } catch (ParseException ex) {
+                        EnvioExcecao envioExcecao = new EnvioExcecao(Controle.getDefaultGj(), ex);
+                        EnvioExcecao.envio();
+                        return;
+                    }   break;
+                default:
+                    p3Txt = p3.getText();
+                    break;
             }
 
             for (ClienteBEAN cadastroClientes2BEAN : ClienteDAO.retornaPesquisa(p1.getSelectedItem().toString(), p2.getSelectedItem().toString(), p3Txt)) {

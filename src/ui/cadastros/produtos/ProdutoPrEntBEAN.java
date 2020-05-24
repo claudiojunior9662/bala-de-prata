@@ -110,6 +110,16 @@ public class ProdutoPrEntBEAN {
         this.avisoEstoqueUn = avisoEstoqueUn;
     }
     
+    public ProdutoPrEntBEAN(float altura, 
+            float largura, 
+            float espessura, 
+            float peso){
+        this.altura = altura;
+        this.largura = largura;
+        this.espessura = espessura;
+        this.peso = peso;
+    }
+    
     public String getCodigo() {
         return codigo;
     }
