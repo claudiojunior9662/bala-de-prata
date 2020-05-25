@@ -604,10 +604,14 @@ public class ProdutoDAO {
 
         try {
             if (codProduto.contains("PE")) {
-                stmt = con.prepareStatement("SELECT LARGURA FROM PRODUTOS WHERE CODIGO = ?");
+                stmt = con.prepareStatement("SELECT LARGURA "
+                        + "FROM PRODUTOS_PR_ENT "
+                        + "WHERE CODIGO = ?");
                 stmt.setString(1, codProduto);
             } else {
-                stmt = con.prepareStatement("SELECT LARGURA FROM PRODUTOS WHERE CODIGO = ?");
+                stmt = con.prepareStatement("SELECT LARGURA "
+                        + "FROM PRODUTOS "
+                        + "WHERE CODIGO = ?");
                 stmt.setInt(1, Integer.valueOf(codProduto));
             }
             rs = stmt.executeQuery();
@@ -616,7 +620,7 @@ public class ProdutoDAO {
             }
             return 0f;
         } catch (SQLException ex) {
-            throw new SQLException(null, ex);
+            throw new SQLException(ex);
         } finally {
             ConnectionFactory.closeConnection(con, stmt, rs);
         }
@@ -634,10 +638,14 @@ public class ProdutoDAO {
 
         try {
             if (codProduto.contains("PE")) {
-                stmt = con.prepareStatement("SELECT ALTURA FROM PRODUTOS_PR_ENT WHERE CODIGO = ?");
+                stmt = con.prepareStatement("SELECT ALTURA "
+                        + "FROM PRODUTOS_PR_ENT "
+                        + "WHERE CODIGO = ?");
                 stmt.setString(1, codProduto);
             } else {
-                stmt = con.prepareStatement("SELECT ALTURA FROM PRODUTOS WHERE CODIGO = ?");
+                stmt = con.prepareStatement("SELECT ALTURA "
+                        + "FROM PRODUTOS "
+                        + "WHERE CODIGO = ?");
                 stmt.setInt(1, Integer.valueOf(codProduto));
             }
             rs = stmt.executeQuery();
@@ -646,7 +654,7 @@ public class ProdutoDAO {
             }
             return 0f;
         } catch (SQLException ex) {
-            throw new SQLException(null, ex);
+            throw new SQLException(ex);
         } finally {
             ConnectionFactory.closeConnection(con, stmt, rs);
         }
@@ -664,10 +672,14 @@ public class ProdutoDAO {
 
         try {
             if (codProduto.contains("PE")) {
-                stmt = con.prepareStatement("SELECT QTD_PAGINAS FROM PRODUTOS WHERE CODIGO = ?");
+                stmt = con.prepareStatement("SELECT QTD_PAGINAS "
+                        + "FROM PRODUTOS_PR_ENT "
+                        + "WHERE CODIGO = ?");
                 stmt.setString(1, codProduto);
             } else {
-                stmt = con.prepareStatement("SELECT QTD_PAGINAS FROM PRODUTOS WHERE CODIGO = ?");
+                stmt = con.prepareStatement("SELECT QTD_PAGINAS "
+                        + "FROM PRODUTOS "
+                        + "WHERE CODIGO = ?");
                 stmt.setInt(1, Integer.valueOf(codProduto));
             }
             rs = stmt.executeQuery();

@@ -71,7 +71,7 @@
       <Properties>
         <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
           <Border info="org.netbeans.modules.form.compat2.border.TitledBorderInfo">
-            <TitledBorder title="INFORMA&#xc7;&#xd5;ES DO CLIENTE">
+            <TitledBorder title="CLIENTE">
               <Border PropertyName="innerBorder" info="org.netbeans.modules.form.compat2.border.SoftBevelBorderInfo">
                 <BevelBorder/>
               </Border>
@@ -271,7 +271,7 @@
             <Property name="rows" type="int" value="5"/>
             <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
               <Border info="org.netbeans.modules.form.compat2.border.TitledBorderInfo">
-                <TitledBorder title="OBSERVA&#xc7;&#xd5;ES DA ORDEM DE PRODU&#xc7;&#xc3;O"/>
+                <TitledBorder title="OBSERVA&#xc7;&#xd5;ES"/>
               </Border>
             </Property>
           </Properties>
@@ -306,7 +306,7 @@
       <Properties>
         <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
           <Border info="org.netbeans.modules.form.compat2.border.TitledBorderInfo">
-            <TitledBorder title="INFORMA&#xc7;&#xd5;ES SOBRE A ORDEM DE PRODU&#xc7;&#xc3;O">
+            <TitledBorder title="INFORMA&#xc7;&#xd5;ES">
               <Border PropertyName="innerBorder" info="org.netbeans.modules.form.compat2.border.SoftBevelBorderInfo">
                 <BevelBorder/>
               </Border>

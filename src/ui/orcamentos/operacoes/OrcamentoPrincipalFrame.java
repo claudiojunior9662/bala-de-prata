@@ -216,6 +216,7 @@ public class OrcamentoPrincipalFrame extends javax.swing.JInternalFrame {
         enviarEmailAnexo = new javax.swing.JButton();
         jPanel13 = new javax.swing.JPanel();
         enviarProducao = new javax.swing.JButton();
+        enviarExpedicao = new javax.swing.JButton();
         jPanel15 = new javax.swing.JPanel();
         autorizarProducao = new javax.swing.JButton();
         negarProducao = new javax.swing.JButton();
@@ -409,7 +410,7 @@ public class OrcamentoPrincipalFrame extends javax.swing.JInternalFrame {
                     .addComponent(removerProduto, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(observacaoProduto, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 1145, Short.MAX_VALUE))
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 1154, Short.MAX_VALUE))
         );
 
         jPanel6Layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {adicionarProduto, observacaoProduto, removerProduto});
@@ -489,7 +490,7 @@ public class OrcamentoPrincipalFrame extends javax.swing.JInternalFrame {
         jPanel8Layout.setHorizontalGroup(
             jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel8Layout.createSequentialGroup()
-                .addContainerGap(992, Short.MAX_VALUE)
+                .addContainerGap(1001, Short.MAX_VALUE)
                 .addComponent(valoresManuais)
                 .addContainerGap())
             .addComponent(jScrollPane8)
@@ -534,7 +535,7 @@ public class OrcamentoPrincipalFrame extends javax.swing.JInternalFrame {
         jPanel7.setLayout(jPanel7Layout);
         jPanel7Layout.setHorizontalGroup(
             jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane9, javax.swing.GroupLayout.DEFAULT_SIZE, 1219, Short.MAX_VALUE)
+            .addComponent(jScrollPane9, javax.swing.GroupLayout.DEFAULT_SIZE, 1228, Short.MAX_VALUE)
         );
         jPanel7Layout.setVerticalGroup(
             jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -565,7 +566,7 @@ public class OrcamentoPrincipalFrame extends javax.swing.JInternalFrame {
         jPanel9.setLayout(jPanel9Layout);
         jPanel9Layout.setHorizontalGroup(
             jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane6, javax.swing.GroupLayout.DEFAULT_SIZE, 1219, Short.MAX_VALUE)
+            .addComponent(jScrollPane6, javax.swing.GroupLayout.DEFAULT_SIZE, 1228, Short.MAX_VALUE)
         );
         jPanel9Layout.setVerticalGroup(
             jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -623,7 +624,7 @@ public class OrcamentoPrincipalFrame extends javax.swing.JInternalFrame {
                     .addComponent(adicionarServico, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(removeServico, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane7, javax.swing.GroupLayout.DEFAULT_SIZE, 1147, Short.MAX_VALUE))
+                .addComponent(jScrollPane7, javax.swing.GroupLayout.DEFAULT_SIZE, 1156, Short.MAX_VALUE))
         );
         jPanel10Layout.setVerticalGroup(
             jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -648,7 +649,7 @@ public class OrcamentoPrincipalFrame extends javax.swing.JInternalFrame {
         jPanel11.setLayout(jPanel11Layout);
         jPanel11Layout.setHorizontalGroup(
             jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane5, javax.swing.GroupLayout.DEFAULT_SIZE, 1219, Short.MAX_VALUE)
+            .addComponent(jScrollPane5, javax.swing.GroupLayout.DEFAULT_SIZE, 1228, Short.MAX_VALUE)
         );
         jPanel11Layout.setVerticalGroup(
             jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1044,19 +1045,28 @@ public class OrcamentoPrincipalFrame extends javax.swing.JInternalFrame {
             }
         });
 
+        enviarExpedicao.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icones/enviar_trabalho.png"))); // NOI18N
+        enviarExpedicao.setText("ENVIAR PARA EXPEDIÇÃO");
+        enviarExpedicao.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                enviarExpedicaoActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel13Layout = new javax.swing.GroupLayout(jPanel13);
         jPanel13.setLayout(jPanel13Layout);
         jPanel13Layout.setHorizontalGroup(
             jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel13Layout.createSequentialGroup()
-                .addComponent(enviarProducao)
-                .addGap(0, 0, Short.MAX_VALUE))
+            .addComponent(enviarProducao)
+            .addComponent(enviarExpedicao)
         );
         jPanel13Layout.setVerticalGroup(
             jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel13Layout.createSequentialGroup()
                 .addComponent(enviarProducao)
-                .addGap(0, 78, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(enviarExpedicao)
+                .addGap(0, 40, Short.MAX_VALUE))
         );
 
         jPanel15.setBorder(javax.swing.BorderFactory.createTitledBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED), "ORDENADOR DE DESPESAS", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 11))); // NOI18N
@@ -1157,47 +1167,45 @@ public class OrcamentoPrincipalFrame extends javax.swing.JInternalFrame {
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jScrollPane1)
                     .addGroup(jPanel5Layout.createSequentialGroup()
+                        .addGap(2, 2, 2)
                         .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel5Layout.createSequentialGroup()
-                                .addGap(2, 2, 2)
-                                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(jPanel5Layout.createSequentialGroup()
-                                        .addComponent(p1, 0, 129, Short.MAX_VALUE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(p3Data, javax.swing.GroupLayout.PREFERRED_SIZE, 295, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addComponent(p2, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                .addComponent(p1, 0, 126, Short.MAX_VALUE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                    .addComponent(p3Texto)
-                                    .addComponent(p3Formatado, javax.swing.GroupLayout.PREFERRED_SIZE, 495, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(botaoPesquisar, javax.swing.GroupLayout.PREFERRED_SIZE, 199, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(mostrarTodos))
-                                .addGap(87, 87, 87))
+                                .addComponent(p3Data, javax.swing.GroupLayout.PREFERRED_SIZE, 295, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(p2, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addComponent(p3Texto)
+                            .addComponent(p3Formatado, javax.swing.GroupLayout.PREFERRED_SIZE, 495, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(botaoPesquisar, javax.swing.GroupLayout.PREFERRED_SIZE, 199, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(mostrarTodos))
+                        .addGap(87, 87, 87))
+                    .addGroup(jPanel5Layout.createSequentialGroup()
+                        .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel16)
                             .addGroup(jPanel5Layout.createSequentialGroup()
                                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel16)
-                                    .addGroup(jPanel5Layout.createSequentialGroup()
-                                        .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(tipoPdf, javax.swing.GroupLayout.PREFERRED_SIZE, 148, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(gerarPdf, javax.swing.GroupLayout.PREFERRED_SIZE, 148, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(jPanel12, javax.swing.GroupLayout.PREFERRED_SIZE, 483, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(jPanel13, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(jPanel15, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(antPag)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                            .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                            .addComponent(pagAtual, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                        .addGap(10, 10, 10)
-                                        .addComponent(proxPag)))
-                                .addGap(0, 0, Short.MAX_VALUE)))
-                        .addContainerGap())))
+                                    .addComponent(tipoPdf, javax.swing.GroupLayout.PREFERRED_SIZE, 148, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(gerarPdf, javax.swing.GroupLayout.PREFERRED_SIZE, 148, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jPanel12, javax.swing.GroupLayout.PREFERRED_SIZE, 483, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jPanel13, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jPanel15, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(antPag)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(pagAtual, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(10, 10, 10)
+                                .addComponent(proxPag)))
+                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addContainerGap())
         );
 
         jPanel5Layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {botaoPesquisar, mostrarTodos});
@@ -2198,6 +2206,175 @@ public class OrcamentoPrincipalFrame extends javax.swing.JInternalFrame {
                 imagem);
     }//GEN-LAST:event_limpar1ActionPerformed
 
+    private void enviarExpedicaoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_enviarExpedicaoActionPerformed
+        try {
+            //CARREGA OS DADOS DO ORÇEMENTO-------------------------------------
+            CODIGO_ORCAMENTO = (int) tabelaConsulta.getValueAt(tabelaConsulta.getSelectedRow(), 0);
+            Orcamento orcamento = OrcamentoDAO.carregaEdicaoOrcamento(CODIGO_ORCAMENTO);
+            //------------------------------------------------------------------
+
+            //VERIFICA SE O CLIENTE POSSUI CRÉDITO SUFICIENTE-------------------
+            if ((ClienteDAO.retornaCredCliente(orcamento.getCodCliente(), orcamento.getTipoPessoa())
+                    < Float.valueOf(tabelaConsulta.getValueAt(tabelaConsulta.getSelectedRow(), 5).toString()))
+                    & STATUS != 4) {
+                int dialogButton = JOptionPane.YES_NO_OPTION;
+                int dialogResult = JOptionPane.showConfirmDialog(this,
+                        "O CLIENTE NÃO POSSUI CRÉDITO SUFICIENTE PARA A PRODUÇÃO.\n"
+                        + "DESEJA ENVIAR O ORÇAMENTO PARA A AVALIAÇÃO DO OD?",
+                        "ERRO",
+                        dialogButton);
+                if (dialogResult == 0) {
+                    //ENVIA O ORÇAMENTO PARA A AVALIAÇÃO DO OD------------------
+                    OrcamentoDAO.alteraStatus(CODIGO_ORCAMENTO, 3);
+                    mostraTodos();
+                    JOptionPane.showMessageDialog(null,
+                            "O ORÇAMENTO FOI ENCAMINHADO PARA A AVALIAÇÃO DO ORDENADOR DE DESPESAS",
+                            "MENSAGEM",
+                            JOptionPane.INFORMATION_MESSAGE);
+                    //----------------------------------------------------------
+                } else {
+                    return;
+                }
+                //------------------------------------------------------------------
+
+            } else {
+                //ABRE A TELA DE ORDEM DE PRODUÇÃO------------------------------
+                gj.abrirJanelas(EnviarOrdemProducaoFrame.getInstancia(loading, gj), "ENVIAR PEDIDO PARA EXPEDIÇÃO");
+                //--------------------------------------------------------------
+
+                //CARREGA OS MODELOS DAS TABELAS--------------------------------
+                DefaultTableModel modeloProdutos = (DefaultTableModel) EnviarOrdemProducaoFrame.tabelaProdutos.getModel();
+                DefaultTableModel modeloServicos = (DefaultTableModel) EnviarOrdemProducaoFrame.tabelaServicos.getModel();
+                DefaultTableModel modeloQuantidades = (DefaultTableModel) EnviarOrdemProducaoFrame.tabelaQuantidades.getModel();
+                //--------------------------------------------------------------
+
+                //PREENCHE OS CAMPOS DA TELA------------------------------------
+                EnviarOrdemProducaoFrame.ORC_BASE = CODIGO_ORCAMENTO;
+                EnviarOrdemProducaoFrame.codigoOrcamentoBase.setValue(CODIGO_ORCAMENTO);
+                EnviarOrdemProducaoFrame.setVLR_ORC(
+                        Double.valueOf(tabelaConsulta.getValueAt(tabelaConsulta.getSelectedRow(), 5).toString()));
+
+                //ZERAR AS TABELAS----------------------------------------------
+                modeloProdutos.setNumRows(0);
+                modeloServicos.setNumRows(0);
+                modeloQuantidades.setNumRows(0);
+                //--------------------------------------------------------------
+
+                //CARREGA OS DADOS DO CLIENTE-----------------------------------
+                ClienteBEAN cliente = ClienteDAO.selInfoOp(orcamento.getTipoPessoa(), orcamento.getCodCliente());
+                if (orcamento.getTipoPessoa() == 1) {
+                    EnviarOrdemProducaoFrame.tipoPessoa.setText("PESSOA FÍSICA");
+                    EnviarOrdemProducaoFrame.cpfCliente.setValue(cliente.getCpf());
+                } else {
+                    EnviarOrdemProducaoFrame.tipoPessoa.setText("PESSOA JURÍDICA");
+                    EnviarOrdemProducaoFrame.cnpjCliente.setValue(cliente.getCnpj());
+                }
+                EnviarOrdemProducaoFrame.codigoCliente.setValue(orcamento.getCodCliente());
+                EnviarOrdemProducaoFrame.nomeCliente.setText(cliente.getNome());
+                for (ContatoBEAN a1 : OrcamentoDAO.retornaInformacoesContatos(orcamento.getCodContato())) {
+                    EnviarOrdemProducaoFrame.nomeContato.setText(a1.getNomeContato());
+                    EnviarOrdemProducaoFrame.telefoneContato.setText(a1.getTelefone());
+                }
+                EnviarOrdemProducaoFrame.setCOD_CONTATO(orcamento.getCodContato());
+                for (EnderecoBEAN a1 : OrcamentoDAO.retornaInformacoesEnderecos(orcamento.getCodEndereco())) {
+                    EnviarOrdemProducaoFrame.cidade.setText(a1.getCidade());
+                    EnviarOrdemProducaoFrame.uf.setText(a1.getUf());
+                }
+                EnviarOrdemProducaoFrame.setCOD_ENDERECO(orcamento.getCodEndereco());
+                //--------------------------------------------------------------
+
+                //CARREGA OS PRODUTOS DO ORÇAMENTO------------------------------
+                for (ProdOrcamento produtos : ProdutoDAO.carregaProdutosOrcamento(CODIGO_ORCAMENTO)) {
+                    if (!produtos.getCodProduto().equals("0")) {
+                        //ARMAZENA O CÓDIGO DO PRODUTO--------------------------
+                        CODIGO_PRODUTO = produtos.getCodProduto();
+                        //------------------------------------------------------
+
+                        //VERIFICA SE EXISTE ESTOQUE DISPONÍVEL CASO PR ENT-----
+                        if (TIPO_ORCAMENTO == 1) {
+                            if (ProdutoDAO.verificaEstoque(CODIGO_PRODUTO,
+                                    produtos.getQuantidade())) {
+                                JOptionPane.showMessageDialog(null,
+                                        "A QUANTIDADE SOLICITADA É MAIOR DO QUE A QUANTIDADE DISPONÍVEL EM ESTOQUE."
+                                        + "\nFALE COM O SETOR RESPONSÁVEL E TENTE NOVAMENTE.",
+                                        "ERRO",
+                                        JOptionPane.ERROR_MESSAGE);
+                                gj.fecharJanelas(EnviarOrdemProducaoFrame.class);
+                                return;
+                            }
+                        }
+                        //------------------------------------------------------
+
+                        //INSERE NA TABELA PRODUTOS-----------------------------
+                        if (TIPO_ORCAMENTO == 1) {
+                            ProdutoPrEntBEAN produto = ProdutoDAO.retornaInfoPe(CODIGO_PRODUTO);
+                            modeloProdutos.addRow(new Object[]{
+                                CODIGO_PRODUTO,
+                                produto.getDescricao(),
+                                produto.getLargura(),
+                                produto.getAltura(),
+                                produto.getQtdPaginas(),
+                                "",
+                                produtos.getObservacaoProduto()});
+                        } else if (TIPO_ORCAMENTO == 2) {
+                            ProdutoBEAN produto = ProdutoDAO.retornaInfoProd(CODIGO_PRODUTO);
+                            modeloProdutos.addRow(new Object[]{
+                                CODIGO_PRODUTO,
+                                produto.getDescricao(),
+                                produto.getLargura(),
+                                produto.getAltura(),
+                                produto.getQuantidadeFolhas(),
+                                "",
+                                produtos.getObservacaoProduto()});
+                        }
+                        //------------------------------------------------------
+
+                        //INSERE NA TABELA QUANTIDADES--------------------------
+                        modeloQuantidades.addRow(new Object[]{
+                            CODIGO_PRODUTO,
+                            produtos.getQuantidade()});
+                        //------------------------------------------------------
+                        
+                    } else {
+                        //CASO O ORÇAMENTO SEJA SOMENTE DE SERVIÇO--------------
+                        modeloProdutos.addRow(new Object[]{
+                            0,
+                            "SERVIÇOS",
+                            "-",
+                            "-",
+                            "-",
+                            "",
+                            "-"});
+                        //------------------------------------------------------
+                    }
+                }
+
+                //CARREGA OS SERVIÇOS DO ORÇAMENTO------------------------------
+                for (Servicos servicos : ServicoDAO.carregaServicosOrcamento(CODIGO_ORCAMENTO)) {
+                    modeloServicos.addRow(new Object[]{
+                        servicos.getCod(),
+                        ServicoDAO.carregaDescricaoServicos(servicos.getCod())
+                    });
+                }
+                //--------------------------------------------------------------
+
+                //RESETA OS ESTADOS DA UI ORÇAMENTOS----------------------------
+                excluir.setEnabled(false);
+                editar.setEnabled(false);
+                gerarPdf.setEnabled(false);
+                enviarProducao.setEnabled(false);
+
+                if (TIPO_ORCAMENTO == 1) {
+                    EnviarOrdemProducaoFrame.estadoPe();
+                }
+                //--------------------------------------------------------------
+            }
+        } catch (SQLException ex) {
+            EnvioExcecao envioExcecao = new EnvioExcecao(Controle.getDefaultGj(), ex);
+            EnvioExcecao.envio();
+        }
+    }//GEN-LAST:event_enviarExpedicaoActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton adicionarProduto;
@@ -2217,6 +2394,7 @@ public class OrcamentoPrincipalFrame extends javax.swing.JInternalFrame {
     private javax.swing.JButton downloadEstoque;
     public static javax.swing.JButton editar;
     public static javax.swing.JButton enviarEmailAnexo;
+    public static javax.swing.JButton enviarExpedicao;
     public static javax.swing.JButton enviarProducao;
     public static javax.swing.JButton excluir;
     public static javax.swing.JFormattedTextField frete;

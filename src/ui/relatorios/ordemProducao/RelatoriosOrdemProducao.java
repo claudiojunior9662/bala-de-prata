@@ -36,6 +36,7 @@ import ui.administrador.FuncionarioDAO;
 import ui.cadastros.clientes.ClienteDAO;
 import ui.cadastros.produtos.ProdutoDAO;
 import ui.controle.Controle;
+import ui.login.TelaAutenticacao;
 
 /**
  *
@@ -2360,7 +2361,7 @@ public class RelatoriosOrdemProducao extends javax.swing.JInternalFrame {
         try {
             PdfPTable retorno = retornaTabela();
             PdfPCell celula = null;
-
+            
             /*
             @param tipoCondicaoCliente
             1 - codigo
@@ -2387,6 +2388,7 @@ public class RelatoriosOrdemProducao extends javax.swing.JInternalFrame {
             } else if (porTodosClientes.isSelected()) {
                 tipoCondicaoCliente = 4;
             }
+            
             /*
             @param tipoCondicaoOpOrcamento
             1 - codigo op
@@ -2544,7 +2546,7 @@ public class RelatoriosOrdemProducao extends javax.swing.JInternalFrame {
                     retorno.addCell(celula);
                 }
                 if (campoCodigoOrcamento.isSelected()) {
-                    celula = new PdfPCell(new Phrase(String.valueOf(op.getOrcamentoBase()), FontFactory.getFont("arial.ttf", 6)));
+                    celula = new PdfPCell(new Phrase(String.valueOf(op.getOrcBase()), FontFactory.getFont("arial.ttf", 6)));
                     celula.setHorizontalAlignment(Element.ALIGN_CENTER);
                     retorno.addCell(celula);
                 }
@@ -2642,20 +2644,16 @@ public class RelatoriosOrdemProducao extends javax.swing.JInternalFrame {
                     }
 
                     document.open();
+                    document.addAuthor(TelaAutenticacao.nomeAtendente);
+                    document.addCreator(TelaAutenticacao.nomeAtendente);
 
-                    Image imagem = Image.getInstance(getClass().getResource("/ui/orcamentos/operacoes/cabecalhoPropostaPng.png"));
-                    imagem.setAlignment(1);
-                    imagem.scaleToFit(500, 1000);
-                    document.add(imagem);
-
-                    document.add(new Paragraph("\n"));
-
-                    Paragraph p = new Paragraph("RELATÓRIO DE ORDEM DE PRODUÇÃO", FontFactory.getFont("arial.ttf", 12, Font.BOLD));
-                    p.setAlignment(1);
-                    document.add(p);
-
-                    document.add(new Paragraph("\n"));
-
+                    document.add(new Paragraph(new Phrase("RELATÓRIO DE ORDEM DE PRODUÇÃO - "
+                            + "DATA E HORA DE EMISSÃO: " + 
+                            data + 
+                            " " + 
+                            hora + 
+                            " - SISTEMA BALA DE PRATA\n\n", FontFactory.getFont("arial.ttf", 9))));
+                    
                     PdfPTable tabelaPrincipal = retornaTabelaComConteudo();
                     document.add(tabelaPrincipal);
 

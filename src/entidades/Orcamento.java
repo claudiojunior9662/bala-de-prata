@@ -32,8 +32,6 @@ import java.sql.SQLException;
 import java.text.DecimalFormat;
 import java.util.Date;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import model.dao.OrcamentoDAO;
@@ -118,10 +116,10 @@ public class Orcamento {
         this.precosManuais = precosManuais;
         this.frete = frete;
     }
-    
+
     public Orcamento(int codigo,
             int codCliente,
-            int tipoPessoa){
+            int tipoPessoa) {
         this.codigo = codigo;
         this.codigoCliente = codCliente;
         this.tipoPessoa = tipoPessoa;
@@ -367,12 +365,25 @@ public class Orcamento {
                     PdfPTable tabelaCabecalho = new PdfPTable(new float[]{1f});
                     tabelaCabecalho.setWidthPercentage(100);
                     PdfPCell celulaCabecalho = null;
+
+                    List<ProdOrcamento> produtos = OrcamentoDAO.carregaProdutosOrcamento(codOrc);
+
                     if (consulta == true) {
                         if (status == 1) {
-                            celulaCabecalho = new PdfPCell(new Phrase("PROPOSTA DE ORÇAMENTO Nº " + codOrc, FontFactory.getFont("arial.ttf", 12, Font.BOLD)));
+                            if (produtos.get(0).getCodProduto().contains("PE")) {
+                                celulaCabecalho = new PdfPCell(new Phrase("PROPOSTA DE PEDIDO DE VENDA Nº "
+                                        + codOrc,
+                                        FontFactory.getFont("arial.ttf", 12, Font.BOLD)));
+                            } else {
+                                celulaCabecalho = new PdfPCell(new Phrase("PROPOSTA DE ORÇAMENTO Nº "
+                                        + codOrc,
+                                        FontFactory.getFont("arial.ttf", 12, Font.BOLD)));
+                            }
                         } else {
-                            Integer nOp = OrdemProducaoDAO.retornaCodOpOrc(codOrc);
-                            celulaCabecalho = new PdfPCell(new Phrase("PROPOSTA DE ORÇAMENTO Nº " + codOrc + " / OP Nº " + nOp, FontFactory.getFont("arial.ttf", 12, Font.BOLD)));
+                                Integer nOp = OrdemProducaoDAO.retornaCodOpOrc(codOrc);
+                                celulaCabecalho = new PdfPCell(new Phrase("PROPOSTA DE ORÇAMENTO Nº "
+                                        + codOrc + " / PEDIDO DE VENDA Nº " + nOp,
+                                        FontFactory.getFont("arial.ttf", 12, Font.BOLD)));
                         }
                     } else {
                         celulaCabecalho = new PdfPCell(new Phrase("PROPOSTA DE ORÇAMENTO Nº " + codOrc, FontFactory.getFont("arial.ttf", 12, Font.BOLD)));
@@ -428,7 +439,7 @@ public class Orcamento {
                     p2.setAlignment(1);
                     document.add(p2);
                     //INFORMAÇÕES DO PRODUTO------------------------------------
-                    for (ProdOrcamento produto : OrcamentoDAO.carregaProdutosOrcamento(codOrc)) {
+                    for (ProdOrcamento produto : produtos) {
                         document.add(new Paragraph("\n"));
                         p2 = new Paragraph("CÓDIGO PRODUTO: " + produto.getCodProduto(), FontFactory.getFont("arial.ttf", 9, Font.UNDERLINE));
                         document.add(p2);
@@ -694,11 +705,11 @@ public class Orcamento {
                 } catch (DocumentException | SQLException ex) {
                     EnvioExcecao envioExcecao = new EnvioExcecao(Controle.getDefaultGj(), ex);
                     EnvioExcecao.envio();
-                }catch(FileNotFoundException ex){
-                    JOptionPane.showMessageDialog(null, 
+                } catch (FileNotFoundException ex) {
+                    JOptionPane.showMessageDialog(null,
                             "O ARQUIVO DEVE ESTAR SENDO UTILIZADO POR OUTRO PROCESSO OU\n"
-                                    + "JÁ ESTÁ ABERTO.", 
-                            "ERRO AO ABRIR O ARQUIVO", 
+                            + "JÁ ESTÁ ABERTO.",
+                            "ERRO AO ABRIR O ARQUIVO",
                             JOptionPane.ERROR_MESSAGE);
                 } catch (IOException ex) {
                     EnvioExcecao envioExcecao = new EnvioExcecao(Controle.getDefaultGj(), ex);

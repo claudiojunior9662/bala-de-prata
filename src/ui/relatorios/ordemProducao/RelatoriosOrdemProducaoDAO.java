@@ -409,7 +409,7 @@ public class RelatoriosOrdemProducaoDAO {
                     ordensProducao.setCodigo(rs.getInt("tabela_ordens_producao.cod"));
                 }
                 if (codigoOrcamento) {
-                    ordensProducao.setOrcamentoBase(rs.getInt("tabela_ordens_producao.orcamento_base"));
+                    ordensProducao.setOrcBase(rs.getInt("tabela_ordens_producao.orcamento_base"));
                 }
                 if (codigoCliente || nomeCliente) {
                     ordensProducao.setCodCliente(rs.getInt("tabela_ordens_producao.cod_cliente"));

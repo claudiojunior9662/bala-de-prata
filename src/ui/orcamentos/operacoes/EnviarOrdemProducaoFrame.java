@@ -137,7 +137,7 @@ public class EnviarOrdemProducaoFrame extends javax.swing.JInternalFrame {
         setTitle("ENVIAR ORDEM DE PRODUÇÃO");
         setFrameIcon(new javax.swing.ImageIcon(getClass().getResource("/icones/producao.png"))); // NOI18N
 
-        jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED), "INFORMAÇÕES DO CLIENTE", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Arial", 1, 12))); // NOI18N
+        jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED), "CLIENTE", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Arial", 1, 12))); // NOI18N
 
         nomeCliente.setBorder(javax.swing.BorderFactory.createTitledBorder("NOME DO CLIENTE"));
 
@@ -221,7 +221,7 @@ public class EnviarOrdemProducaoFrame extends javax.swing.JInternalFrame {
 
         observacoesOrdemProducao.setColumns(20);
         observacoesOrdemProducao.setRows(5);
-        observacoesOrdemProducao.setBorder(javax.swing.BorderFactory.createTitledBorder("OBSERVAÇÕES DA ORDEM DE PRODUÇÃO"));
+        observacoesOrdemProducao.setBorder(javax.swing.BorderFactory.createTitledBorder("OBSERVAÇÕES"));
         jScrollPane5.setViewportView(observacoesOrdemProducao);
 
         jLabel31.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
@@ -230,7 +230,7 @@ public class EnviarOrdemProducaoFrame extends javax.swing.JInternalFrame {
         codigoOrcamentoBase.setDisabledTextColor(new java.awt.Color(255, 0, 0));
         codigoOrcamentoBase.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
 
-        jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED), "INFORMAÇÕES SOBRE A ORDEM DE PRODUÇÃO", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Arial", 1, 12))); // NOI18N
+        jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED), "INFORMAÇÕES", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Arial", 1, 12))); // NOI18N
 
         confirmarEnvio.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icones/confirma.png"))); // NOI18N
         confirmarEnvio.setText("CONFIRMAR ENVIO");
@@ -519,7 +519,7 @@ public class EnviarOrdemProducaoFrame extends javax.swing.JInternalFrame {
                 String codProd = tabelaProdutos.getValueAt(i, 0).toString();
 
                 op.setCodigo(codOp);
-                op.setOrcamentoBase(ORC_BASE);
+                op.setOrcBase(ORC_BASE);
                 op.setCodCliente(Integer.valueOf(codigoCliente.getValue().toString()));
                 op.setTipoPessoa(tipoPessoa.getText().contains("FÍSICA") ? (byte) 1 : (byte) 2);
                 op.setDataEmissao(new Date());
@@ -586,7 +586,7 @@ public class EnviarOrdemProducaoFrame extends javax.swing.JInternalFrame {
             /**
              * Atualiza o status do faturamento
              */
-            OrcamentoDAO.atualizaStatusFaturamento(op.getOrcamentoBase(), (byte) 1);
+            OrcamentoDAO.atualizaStatusFaturamento(op.getOrcBase(), (byte) 1);
 
         } catch (SQLException ex) {
             EnvioExcecao envioExcecao = new EnvioExcecao(Controle.getDefaultGj(), ex);

@@ -197,7 +197,7 @@ public class OpConsultaFrame extends javax.swing.JInternalFrame {
         });
 
         botaoCancelarOp.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icones/cancelar.png"))); // NOI18N
-        botaoCancelarOp.setText("CANCELAR OP");
+        botaoCancelarOp.setText("CANCELAR");
         botaoCancelarOp.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 botaoCancelarOpActionPerformed(evt);
@@ -231,7 +231,7 @@ public class OpConsultaFrame extends javax.swing.JInternalFrame {
                         .addComponent(jLabel2)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(paginaTotal, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 27, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 47, Short.MAX_VALUE)
                         .addComponent(botaoGerarPdf)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(faturar)
@@ -263,7 +263,7 @@ public class OpConsultaFrame extends javax.swing.JInternalFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(mostraTodos))
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                        .addComponent(p1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 43, Short.MAX_VALUE)
+                        .addComponent(p1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 43, Short.MAX_VALUE)
                         .addComponent(p2, javax.swing.GroupLayout.Alignment.LEADING)
                         .addComponent(p3Data, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(p3Formatado, javax.swing.GroupLayout.Alignment.LEADING)
@@ -443,6 +443,8 @@ public class OpConsultaFrame extends javax.swing.JInternalFrame {
                             JOptionPane.ERROR_MESSAGE);
                     return;
                 }
+                
+                
 
                 CODIGO_OP = Integer.valueOf(tabelaConsulta.getValueAt(tabelaConsulta.getSelectedRow(), 0).toString());
                 CODIGO_ORCAMENTO_BASE = Integer.valueOf(tabelaConsulta.getValueAt(tabelaConsulta.getSelectedRow(), 1).toString());
@@ -494,7 +496,6 @@ public class OpConsultaFrame extends javax.swing.JInternalFrame {
                                         (byte) 1);
                                 break;
                         }
-
                         OrcamentoDAO.mudarStatus(CODIGO_ORCAMENTO_BASE, (byte) 1);
                         OrcamentoDAO.atualizaStatusFaturamento(CODIGO_ORCAMENTO_BASE, (byte) 0);
                     }
@@ -625,7 +626,7 @@ public class OpConsultaFrame extends javax.swing.JInternalFrame {
             /**
              * Define o código do orçamento base
              */
-            CODIGO_ORCAMENTO_BASE = op.getOrcamentoBase();
+            CODIGO_ORCAMENTO_BASE = op.getOrcBase();
 
             /**
              * Carrega informações sobre o produto
@@ -639,9 +640,9 @@ public class OpConsultaFrame extends javax.swing.JInternalFrame {
             FatFrame.codOrc.setText(String.valueOf(CODIGO_ORCAMENTO_BASE));
             FatFrame.codOp.setText(String.valueOf(CODIGO_OP));
             FatFrame.qtdEntregue.setValue(NotaDAO.verificaQuantidadeEntregue(op.getCodigo()));
-            FatFrame.valorServicos.setValue(ServicoDAO.retornaVlrSvOrcExistente(op.getOrcamentoBase()));
-            FatFrame.valorFrete.setValue(OrcamentoDAO.retornaValorFrete(op.getOrcamentoBase()));
-            FatFrame.STATUS_FATURAMENTO = OrcamentoDAO.retornaStatusFaturamento(op.getOrcamentoBase());
+            FatFrame.valorServicos.setValue(ServicoDAO.retornaVlrSvOrcExistente(op.getOrcBase()));
+            FatFrame.valorFrete.setValue(OrcamentoDAO.retornaValorFrete(op.getOrcBase()));
+            FatFrame.STATUS_FATURAMENTO = OrcamentoDAO.retornaStatusFaturamento(op.getOrcBase());
             FatFrame.setFAT(new Faturamento());
 
             /**
@@ -745,7 +746,7 @@ public class OpConsultaFrame extends javax.swing.JInternalFrame {
                 }
                 modeloConsulta.addRow(new Object[]{
                     op.getCodigo(),
-                    op.getOrcamentoBase(),
+                    op.getOrcBase(),
                     ProdutoDAO.retornaDescricaoProduto(op.getCodProduto()),
                     ClienteDAO.retornaNomeCliente(op.getCodCliente(), op.getTipoPessoa()),
                     tipoPessoa,
@@ -785,7 +786,7 @@ public class OpConsultaFrame extends javax.swing.JInternalFrame {
                 }
                 modeloConsulta.addRow(new Object[]{
                     op.getCodigo(),
-                    op.getOrcamentoBase(),
+                    op.getOrcBase(),
                     ProdutoDAO.retornaDescricaoProduto(op.getCodProduto()),
                     ClienteDAO.retornaNomeCliente(op.getCodCliente(), op.getTipoPessoa()),
                     tipoPessoa,
@@ -849,7 +850,7 @@ public class OpConsultaFrame extends javax.swing.JInternalFrame {
                             null)) {
                         modeloConsulta.addRow(new Object[]{
                             op.getCodigo(),
-                            op.getOrcamentoBase(),
+                            op.getOrcBase(),
                             ProdutoDAO.retornaDescricaoProduto(op.getCodProduto()).toString(),
                             OrcamentoDAO.carregaNomeCliente(op.getTipoPessoa(), op.getCodCliente()),
                             op.getTipoPessoa() == 1 ? "PF" : "PJ",
@@ -866,7 +867,7 @@ public class OpConsultaFrame extends javax.swing.JInternalFrame {
                             null)) {
                         modeloConsulta.addRow(new Object[]{
                             op.getCodigo(),
-                            op.getOrcamentoBase(),
+                            op.getOrcBase(),
                             ProdutoDAO.retornaDescricaoProduto(op.getCodProduto()).toString(),
                             OrcamentoDAO.carregaNomeCliente(op.getTipoPessoa(), op.getCodCliente()),
                             op.getTipoPessoa() == 1 ? "PF" : "PJ",
@@ -883,7 +884,7 @@ public class OpConsultaFrame extends javax.swing.JInternalFrame {
                             null)) {
                         modeloConsulta.addRow(new Object[]{
                             op.getCodigo(),
-                            op.getOrcamentoBase(),
+                            op.getOrcBase(),
                             ProdutoDAO.retornaDescricaoProduto(op.getCodProduto()).toString(),
                             OrcamentoDAO.carregaNomeCliente(op.getTipoPessoa(), op.getCodCliente()),
                             op.getTipoPessoa() == 1 ? "PF" : "PJ",
@@ -902,7 +903,7 @@ public class OpConsultaFrame extends javax.swing.JInternalFrame {
                             null)) {
                         modeloConsulta.addRow(new Object[]{
                             op.getCodigo(),
-                            op.getOrcamentoBase(),
+                            op.getOrcBase(),
                             ProdutoDAO.retornaDescricaoProduto(op.getCodProduto()).toString(),
                             OrcamentoDAO.carregaNomeCliente(op.getTipoPessoa(), op.getCodCliente()),
                             op.getTipoPessoa() == 1 ? "PF" : "PJ",
@@ -919,7 +920,7 @@ public class OpConsultaFrame extends javax.swing.JInternalFrame {
                             p3Data.getDate())) {
                         modeloConsulta.addRow(new Object[]{
                             op.getCodigo(),
-                            op.getOrcamentoBase(),
+                            op.getOrcBase(),
                             ProdutoDAO.retornaDescricaoProduto(op.getCodProduto()).toString(),
                             OrcamentoDAO.carregaNomeCliente(op.getTipoPessoa(), op.getCodCliente()),
                             op.getTipoPessoa() == 1 ? "PF" : "PJ",
@@ -936,7 +937,7 @@ public class OpConsultaFrame extends javax.swing.JInternalFrame {
                             p3Data.getDate())) {
                         modeloConsulta.addRow(new Object[]{
                             op.getCodigo(),
-                            op.getOrcamentoBase(),
+                            op.getOrcBase(),
                             ProdutoDAO.retornaDescricaoProduto(op.getCodProduto()).toString(),
                             OrcamentoDAO.carregaNomeCliente(op.getTipoPessoa(), op.getCodCliente()),
                             op.getTipoPessoa() == 1 ? "PF" : "PJ",
@@ -953,7 +954,7 @@ public class OpConsultaFrame extends javax.swing.JInternalFrame {
                             null)) {
                         modeloConsulta.addRow(new Object[]{
                             op.getCodigo(),
-                            op.getOrcamentoBase(),
+                            op.getOrcBase(),
                             ProdutoDAO.retornaDescricaoProduto(op.getCodProduto()).toString(),
                             OrcamentoDAO.carregaNomeCliente(op.getTipoPessoa(), op.getCodCliente()),
                             op.getTipoPessoa() == 1 ? "PF" : "PJ",

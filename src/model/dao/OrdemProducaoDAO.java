@@ -142,7 +142,7 @@ public class OrdemProducaoDAO {
                     + "data_emissao, data_entrega, status, descricao, cod_emissor, cod_produto, cod_contato, cod_endereco) "
                     + "VALUES (?,?,?,?,?,?,?,?,?,?,?,?)");
             stmt.setInt(1, op.getCodigo());
-            stmt.setInt(2, op.getOrcamentoBase());
+            stmt.setInt(2, op.getOrcBase());
             stmt.setInt(3, op.getCodCliente());
             stmt.setInt(4, op.getTipoPessoa());
             stmt.setDate(5, new java.sql.Date(op.getDataEmissao().getTime()));
@@ -588,7 +588,7 @@ public class OrdemProducaoDAO {
             while (rs.next()) {
                 OrdemProducao aux = new OrdemProducao();
                 aux.setCodigo(rs.getInt("cod"));
-                aux.setOrcamentoBase(rs.getInt("orcamento_base"));
+                aux.setOrcBase(rs.getInt("orcamento_base"));
                 aux.setCodProduto(rs.getString("cod_produto"));
                 aux.setCodCliente(rs.getInt("cod_cliente"));
                 aux.setTipoPessoa(rs.getByte("tipo_cliente"));
@@ -817,7 +817,7 @@ public class OrdemProducaoDAO {
                             if (rs.getInt("cod") >= 364) {
                                 OrdemProducao oBEAN = new OrdemProducao();
                                 oBEAN.setCodigo(rs.getInt("cod"));
-                                oBEAN.setOrcamentoBase(rs.getInt("orcamento_base"));
+                                oBEAN.setOrcBase(rs.getInt("orcamento_base"));
                                 oBEAN.setCodProduto(rs.getString("cod_produto"));
                                 oBEAN.setCodCliente(rs.getInt("cod_cliente"));
                                 oBEAN.setTipoPessoa(rs.getByte("tipo_cliente"));
@@ -885,7 +885,7 @@ public class OrdemProducaoDAO {
                     while (rs.next()) {
                         OrdemProducao oBEAN = new OrdemProducao();
                         oBEAN.setCodigo(rs.getInt("cod"));
-                        oBEAN.setOrcamentoBase(rs.getInt("orcamento_base"));
+                        oBEAN.setOrcBase(rs.getInt("orcamento_base"));
                         oBEAN.setCodProduto(rs.getString("cod_produto"));
                         oBEAN.setCodCliente(rs.getInt("cod_cliente"));
                         oBEAN.setTipoPessoa(rs.getByte("tipo_cliente"));
@@ -901,7 +901,7 @@ public class OrdemProducaoDAO {
                 while (rs.next()) {
                     OrdemProducao oBEAN = new OrdemProducao();
                     oBEAN.setCodigo(rs.getInt("cod"));
-                    oBEAN.setOrcamentoBase(rs.getInt("orcamento_base"));
+                    oBEAN.setOrcBase(rs.getInt("orcamento_base"));
                     oBEAN.setCodProduto(rs.getString("cod_produto"));
                     oBEAN.setCodCliente(rs.getInt("cod_cliente"));
                     oBEAN.setTipoPessoa(rs.getByte("tipo_cliente"));

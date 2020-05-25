@@ -60,15 +60,21 @@ import ui.cadastros.servicos.ServicoDAO;
  */
 public class OrdemProducao {
 
+    /**
+     * Campos do banco de dados
+     */
     private int cod;
+    private int orcBase;
+    private String codProduto;
     private int codCliente;
+    private int codContato;
+    private int codEndereco;
+    private String codEmissor;
     private byte tipoPessoa;
     private Date dataEmissao;
     private Date dataEntrega;
     private String status;
     private String descricao;
-    private String opSecao;
-    private String codEmissor;
     private Date data1aProva;
     private Date data2aProva;
     private Date data3aProva;
@@ -81,16 +87,13 @@ public class OrdemProducao {
     private Date dataEntTipografia;
     private Date dataEntAcabamento;
     private Date dataEnvioDivCmcl;
+    private Date dataCancelamento;
     private int indEntPrazo;
     private int indEntErro;
-    private String codProduto;
-
-    private int orcamentoBase;
-    private int codContato;
-    private int codEndereco;
-    private Date dataCancelamento;
     private String tipoTrabalho;
-
+    private String opSecao;
+    
+    
     private int quantidade;
     private float valorParcial;
 
@@ -120,7 +123,7 @@ public class OrdemProducao {
             String status,
             String descricao) {
         this.cod = cod;
-        this.orcamentoBase = orcamentoBase;
+        this.orcBase = orcamentoBase;
         this.codCliente = codCliente;
         this.tipoPessoa = tipoPessoa;
         this.codProduto = codProduto;
@@ -141,7 +144,7 @@ public class OrdemProducao {
             byte tipoPessoa,
             String codEmissor) {
         this.cod = cod;
-        this.orcamentoBase = orcamentoBase;
+        this.orcBase = orcamentoBase;
         this.codProduto = codProduto;
         this.codCliente = codCliente;
         this.codContato = codContato;
@@ -162,7 +165,7 @@ public class OrdemProducao {
             String codEmissor,
             Date dataCancelamento) {
         this.cod = cod;
-        this.orcamentoBase = orcamentoBase;
+        this.orcBase = orcamentoBase;
         this.codCliente = codCliente;
         this.codContato = codContato;
         this.codEndereco = codEndereco;
@@ -227,7 +230,7 @@ public class OrdemProducao {
         this.indEntPrazo = indEntPrazo;
         this.indEntErro = indEntErro;
         this.codProduto = codProduto;
-        this.orcamentoBase = orcamentoBase;
+        this.orcBase = orcamentoBase;
         this.codContato = codContato;
         this.codEndereco = codEndereco;
         this.dataCancelamento = dataCancelamento;
@@ -282,12 +285,12 @@ public class OrdemProducao {
         this.codEndereco = codEndereco;
     }
 
-    public int getOrcamentoBase() {
-        return orcamentoBase;
+    public int getOrcBase() {
+        return orcBase;
     }
 
-    public void setOrcamentoBase(int orcamentoBase) {
-        this.orcamentoBase = orcamentoBase;
+    public void setOrcBase(int orcBase) {
+        this.orcBase = orcBase;
     }
 
     public int getCodigo() {
@@ -606,17 +609,32 @@ public class OrdemProducao {
             /**
              * Preenche o cabeçalho
              */
-            cell1 = new PdfPCell(new Phrase("ORCAMENTO BASE: " + op.getOrcamentoBase() + "\n" + "EMISSOR: " + TelaAutenticacao.codAtendente + "\n" + "EMISSÃO: " + Controle.dataPadrao.format(op.getDataEmissao()), FontFactory.getFont("arial.ttf", 9)));
+            cell1 = new PdfPCell(new Phrase("ORCAMENTO BASE: " + op.getOrcBase() + "\n" + "EMISSOR: " + TelaAutenticacao.codAtendente + "\n" + "EMISSÃO: " + Controle.dataPadrao.format(op.getDataEmissao()), FontFactory.getFont("arial.ttf", 9)));
             if (tipo == 2) {
-                cell2 = new PdfPCell(new Phrase("ORDEM DE PRODUÇÃO nº " + op.getCodigo() + "\nRECIBO DE ENTREGA nº " + fat.getCod(),
-                        FontFactory.getFont("arial.ttf", 15, Font.BOLD)));
-                cell2.setHorizontalAlignment(1);
-                cell2.setVerticalAlignment(1);
+                if (op.getCodProduto().contains("PE")) {
+                    cell2 = new PdfPCell(new Phrase("PEDIDO DE VENDA nº " + op.getCodigo() + "\nRECIBO DE ENTREGA nº " + fat.getCod(),
+                            FontFactory.getFont("arial.ttf", 15, Font.BOLD)));
+                    cell2.setHorizontalAlignment(1);
+                    cell2.setVerticalAlignment(1);
+                } else {
+                    cell2 = new PdfPCell(new Phrase("ORDEM DE PRODUÇÃO nº " + op.getCodigo() + "\nRECIBO DE ENTREGA nº " + fat.getCod(),
+                            FontFactory.getFont("arial.ttf", 15, Font.BOLD)));
+                    cell2.setHorizontalAlignment(1);
+                    cell2.setVerticalAlignment(1);
+                }
+
             } else {
-                cell2 = new PdfPCell(new Phrase("ORDEM DE PRODUÇÃO\n" + op.getCodigo(),
-                        FontFactory.getFont("arial.ttf", 15, Font.BOLD)));
-                cell2.setHorizontalAlignment(1);
-                cell2.setVerticalAlignment(1);
+                if (op.getCodProduto().contains("PE")) {
+                    cell2 = new PdfPCell(new Phrase("PEDIDO DE VENDA\n" + op.getCodigo(),
+                            FontFactory.getFont("arial.ttf", 15, Font.BOLD)));
+                    cell2.setHorizontalAlignment(1);
+                    cell2.setVerticalAlignment(1);
+                } else {
+                    cell2 = new PdfPCell(new Phrase("ORDEM DE PRODUÇÃO\n" + op.getCodigo(),
+                            FontFactory.getFont("arial.ttf", 15, Font.BOLD)));
+                    cell2.setHorizontalAlignment(1);
+                    cell2.setVerticalAlignment(1);
+                }
             }
 
             cell3 = new PdfPCell(new Phrase(op.getDataCancelamento() == null
@@ -794,7 +812,13 @@ public class OrdemProducao {
                     } else {
                         sb.append(prodOrc.getObservacaoProduto());
                     }
-                    sb.append("\n\nENTREGA: ______ DIAS ÚTEIS APÓS A APROVAÇÃO DO 'MODELO DE PROVA'.");
+                    
+                    if(op.getCodProduto().contains("PE")){
+                        sb.append("\n\nPRAZO DE ENTREGA: 5 A 15 DIAS ÚTEIS* APÓS ENVIO DA PROPOSTA "
+                                + "ASSINADA E/OU CARIMBADA PELO OD E/OU COMANDANTE DA OM.");
+                    }else{
+                        sb.append("\n\nENTREGA: ______ DIAS ÚTEIS APÓS A APROVAÇÃO DO 'MODELO DE PROVA'.");
+                    }
                     cell2 = new PdfPCell(new Phrase(sb.toString(),
                             FontFactory.getFont("arial.ttf", 9, Font.BOLD)));
                     cell2.setBorder(0);
@@ -1004,7 +1028,7 @@ public class OrdemProducao {
                             cell1.setBorder(Rectangle.RIGHT | Rectangle.LEFT | Rectangle.BOTTOM);
                             tblAcabamentos.addCell(cell1);
                         }
-                    }catch(SemAcabamentoException ex){
+                    } catch (SemAcabamentoException ex) {
                         //NENHUMA AÇÃO
                     }
 
@@ -1107,12 +1131,12 @@ public class OrdemProducao {
                         FontFactory.getFont("arial.ttf", 9)));
                 sb = new StringBuilder().append("VALOR FRETE\n\nR$ ")
                         .append(fat.getFreteFat() == 1 ? df.format(vlrFrete)
-                                        : "0,00");
+                                : "0,00");
                 cell4 = new PdfPCell(new Phrase(sb.toString(),
                         FontFactory.getFont("arial.ttf", 9)));
                 sb = new StringBuilder().append("VALOR SERVIÇOS\n\nR$ ")
                         .append(fat.getFreteFat() == 1 ? df.format(vlrSv)
-                                        : "0,00");
+                                : "0,00");
                 cell5 = new PdfPCell(new Phrase(sb.toString(),
                         FontFactory.getFont("arial.ttf", 9)));
                 cell6 = new PdfPCell(new Phrase("VALOR FATURADO\n\n" + "R$ " + df.format(fat.getVlrFat()),
@@ -1154,12 +1178,12 @@ public class OrdemProducao {
                                 FontFactory.getFont("arial.ttf", 9)));
                         sb = new StringBuilder().append("VALOR FRETE\n\nR$ ")
                                 .append(fat.getFreteFat() == 1 ? df.format(vlrFrete)
-                                                : "0,00");
+                                        : "0,00");
                         cell4 = new PdfPCell(new Phrase(sb.toString(),
                                 FontFactory.getFont("arial.ttf", 9)));
                         sb = new StringBuilder().append("VALOR SERVIÇOS\n\nR$ ")
                                 .append(fat.getFreteFat() == 1 ? df.format(vlrSv)
-                                                : "0,00");
+                                        : "0,00");
                         cell5 = new PdfPCell(new Phrase(sb.toString(),
                                 FontFactory.getFont("arial.ttf", 9)));
                         cell6 = new PdfPCell(new Phrase("VALOR FATURADO\n\n" + "R$ " + df.format(recibo.getVlrFat()),
@@ -1219,8 +1243,8 @@ public class OrdemProducao {
 
                 cell3 = new PdfPCell(new Phrase("VALOR FRETE\n\n"
                         + "R$ " + (fat.getFreteFat() == 1
-                                ? df.format(vlrFrete)
-                                : "0,00"),
+                        ? df.format(vlrFrete)
+                        : "0,00"),
                         FontFactory.getFont("arial.ttf", 9)));
                 cell4 = new PdfPCell(new Phrase("VALOR SERVIÇOS\n\nR$ " + (fat.getFreteFat() == 1
                         ? df.format(vlrSv)
@@ -1350,30 +1374,28 @@ public class OrdemProducao {
                 p.setAlignment(1);
                 document.add(p);
 
-            }
-            
-            /**
-             * Se não for para faturamento, acrescenta o valor unitário dos produtos
+            } /**
+             * Se não for para faturamento, acrescenta o valor unitário dos
+             * produtos
              */
-            else{
+            else {
                 cell1 = new PdfPCell(new Phrase("QUANTIDADE", FontFactory.getFont("arial.ttf", 9, Font.BOLD)));
                 cell2 = new PdfPCell(new Phrase("VALOR UNITÁRIO", FontFactory.getFont("arial.ttf", 9, Font.BOLD)));
                 cell3 = new PdfPCell(new Phrase("VALOR TOTAL", FontFactory.getFont("arial.ttf", 9, Font.BOLD)));
                 tblValor.addCell(cell1);
                 tblValor.addCell(cell2);
                 tblValor.addCell(cell3);
-                cell1 = new PdfPCell(new Phrase(String.valueOf(prodOrc.getQuantidade()), 
+                cell1 = new PdfPCell(new Phrase(String.valueOf(prodOrc.getQuantidade()),
                         FontFactory.getFont("arial.ttf", 9)));
-                cell2 = new PdfPCell(new Phrase("R$ " + df.format(OrcamentoDAO.retornaValorUnitario(op.getOrcamentoBase(), 
+                cell2 = new PdfPCell(new Phrase("R$ " + df.format(OrcamentoDAO.retornaValorUnitario(op.getOrcBase(),
                         op.getCodProduto())), FontFactory.getFont("arial.ttf", 9)));
-                cell3 = new PdfPCell(new Phrase("R$ " + df.format(OrcamentoDAO.retornaVlrParcProd(op.getOrcamentoBase(), 
+                cell3 = new PdfPCell(new Phrase("R$ " + df.format(OrcamentoDAO.retornaVlrParcProd(op.getOrcBase(),
                         op.getCodProduto())), FontFactory.getFont("arial.ttf", 9)));
                 tblValor.addCell(cell1);
                 tblValor.addCell(cell2);
                 tblValor.addCell(cell3);
                 document.add(tblValor);
             }
-            
 
             //FECHA A INSTÂNCIA DO DOCUMENTO------------------------------------
             document.close();
@@ -1385,10 +1407,10 @@ public class OrdemProducao {
         } catch (SQLException | DocumentException ex) {
             EnvioExcecao envioExcecao = new EnvioExcecao(Controle.getDefaultGj(), ex);
             EnvioExcecao.envio();
-        }catch(IOException ex){
-            JOptionPane.showMessageDialog(null, 
-                    "O ARQUIVO ESTÁ SENDO UTILIZADO POR OUTRO PROCESSO.\nVERIFIQUE E TENTE NOVAMENTE", 
-                    "ARQUIVO ABERTO", 
+        } catch (IOException ex) {
+            JOptionPane.showMessageDialog(null,
+                    "O ARQUIVO ESTÁ SENDO UTILIZADO POR OUTRO PROCESSO.\nVERIFIQUE E TENTE NOVAMENTE",
+                    "ARQUIVO ABERTO",
                     JOptionPane.ERROR_MESSAGE);
         }
     }

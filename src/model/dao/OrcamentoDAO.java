@@ -409,7 +409,9 @@ public class OrcamentoDAO {
         List<ProdOrcamento> retorno = new ArrayList();
 
         try {
-            stmt = con.prepareStatement("SELECT * FROM tabela_produtos_orcamento WHERE cod_orcamento = ?");
+            stmt = con.prepareStatement("SELECT * "
+                    + "FROM tabela_produtos_orcamento "
+                    + "WHERE cod_orcamento = ?");
             stmt.setInt(1, codOrcamento);
             rs = stmt.executeQuery();
             while (rs.next()) {
