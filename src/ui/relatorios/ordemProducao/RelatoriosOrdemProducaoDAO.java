@@ -17,7 +17,6 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import ui.cadastros.clientes.ClienteDAO;
 
 /**
  * *
@@ -59,6 +58,7 @@ public class RelatoriosOrdemProducaoDAO {
             boolean dataEntrega,
             boolean emissor,
             boolean nomeCliente,
+            boolean status,
             byte condicaoCliente,
             byte condicaoOpOrcamento,
             byte condicaoProduto,
@@ -81,12 +81,12 @@ public class RelatoriosOrdemProducaoDAO {
 
         try {
             comando = retornaComandoOrdemProducao(codigoOp, codigoOrcamento, codigoCliente, codigoProduto, descricaoProduto, tipoPessoa, quantidade, valorParcial,
-                    dataEmissao, dataEntrega, emissor, nomeCliente, condicaoCliente, condicaoOpOrcamento, condicaoProduto, condicaoEmissor, condicaoPeriodo, condicaoOrdenar,
+                    dataEmissao, dataEntrega, emissor, nomeCliente, status, condicaoCliente, condicaoOpOrcamento, condicaoProduto, condicaoEmissor, condicaoPeriodo, condicaoOrdenar,
                     textoOpOrcamento, textoEmissor, textoPeriodoInicio, textoPeriodoFim, cliente, produto);
             stmt = con.prepareStatement(comando);
             rs = stmt.executeQuery();
             retorno = retornaResultadoQueryOrdemProducao(rs, codigoOp, codigoOrcamento, codigoCliente, codigoProduto, descricaoProduto, tipoPessoa, quantidade, valorParcial, dataEmissao, dataEntrega,
-                    emissor, nomeCliente);
+                    emissor, nomeCliente, status);
         } catch (SQLException ex) {
             throw new SQLException(ex);
         } finally {
@@ -107,6 +107,7 @@ public class RelatoriosOrdemProducaoDAO {
             boolean dataEntrega,
             boolean emissor,
             boolean nomeCliente,
+            boolean status,
             byte condicaoCliente,
             byte condicaoOpOrcamento,
             byte condicaoProduto,
@@ -143,7 +144,7 @@ public class RelatoriosOrdemProducaoDAO {
                 comando = comando + " , tabela_ordens_producao.cod_cliente";
             }
         }
-        if (codigoProduto) {
+        if (codigoProduto || descricaoProduto) {
             if (primeiro == 0) {
                 comando = comando + " tabela_ordens_producao.cod_produto";
                 primeiro += 1;
@@ -206,6 +207,14 @@ public class RelatoriosOrdemProducaoDAO {
             } else {
                 comando = comando + " , tabela_ordens_producao.cod_emissor";
             }
+        }
+        if(status){
+           if (primeiro == 0) {
+                comando = comando + " tabela_ordens_producao.status";
+                primeiro += 1;
+            } else {
+                comando = comando + " , tabela_ordens_producao.status";
+            } 
         }
 
         comando = comando + " FROM tabela_ordens_producao";
@@ -392,7 +401,8 @@ public class RelatoriosOrdemProducaoDAO {
             boolean dataEmissao,
             boolean dataEntrega,
             boolean emissor,
-            boolean nomeCliente) throws SQLException {
+            boolean nomeCliente,
+            boolean status) throws SQLException {
 
         List<OrdemProducao> retorno = new ArrayList();
 
@@ -434,6 +444,9 @@ public class RelatoriosOrdemProducaoDAO {
                 }
                 if (emissor) {
                     ordensProducao.setCodEmissor(rs.getString("tabela_ordens_producao.cod_emissor"));
+                }
+                if(status){
+                    ordensProducao.setStatus(rs.getString("tabela_ordens_producao.status"));
                 }
 
                 retorno.add(ordensProducao);

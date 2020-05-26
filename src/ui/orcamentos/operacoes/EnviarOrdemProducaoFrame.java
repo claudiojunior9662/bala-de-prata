@@ -593,7 +593,18 @@ public class EnviarOrdemProducaoFrame extends javax.swing.JInternalFrame {
             EnvioExcecao.envio();
         }
 
-        JOptionPane.showMessageDialog(null, "ORDEM DE PRODUÇÃO CRIADA COM SUCESSO." + "\nCÓDIGO DA(S) ORDEM(NS) DE PRODUÇÃO: " + listaOps + "\nDISPONÍVEL CONSULTA NA TELA DE CONSULTAS - ORDEM DE PRODUÇÃO.");
+        if (op.getCodProduto().contains("PE")) {
+            JOptionPane.showMessageDialog(null, "PEDIDO DE VENDA ENVIADO COM SUCESSO."
+                    + "\nCÓDIGO DO(S) PEDIDO(OS) DE VENDA: "
+                    + listaOps
+                    + "\nDISPONÍVEL CONSULTA NA TELA DE CONSULTAS - ORDEM DE PRODUÇÃO.");
+        } else {
+            JOptionPane.showMessageDialog(null, "ORDEM DE PRODUÇÃO CRIADA COM SUCESSO."
+                    + "\nCÓDIGO DA(S) ORDEM(NS) DE PRODUÇÃO: "
+                    + listaOps
+                    + "\nDISPONÍVEL CONSULTA NA TELA DE CONSULTAS - ORDEM DE PRODUÇÃO.");
+        }
+
         OrcamentoPrincipalFrame.mostraTodos();
         this.dispose();
     }//GEN-LAST:event_confirmarEnvioActionPerformed

@@ -37,7 +37,11 @@ import javax.swing.JOptionPane;
 import javax.swing.SpinnerNumberModel;
 import entidades.ProdOrcamento;
 import exception.EnvioExcecao;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import model.dao.OrcamentoDAO;
 import model.dao.OrdemProducaoDAO;
 import ui.cadastros.clientes.ClienteDAO;
@@ -45,7 +49,6 @@ import ui.cadastros.produtos.ProdutoDAO;
 import ui.cadastros.servicos.ServicoDAO;
 import ui.controle.Controle;
 import ui.ordemProducao.consultas.OpConsultaFrame;
-import ui.principal.Expedicao;
 import ui.principal.GerenteJanelas;
 
 /**
@@ -68,6 +71,8 @@ public class FatFrame extends javax.swing.JInternalFrame {
     private static int COD_ENDERECO;
 
     private static Faturamento FAT;
+
+    private static List<Integer> listaCancelamento = new ArrayList();
 
     public static Faturamento getFAT() {
         return FAT;
@@ -125,6 +130,11 @@ public class FatFrame extends javax.swing.JInternalFrame {
         this.gj = gj;
         emissor.setText(TelaAutenticacao.nomeAtendente);
         estadoInicial();
+
+        listaCancelamento.add(2018);
+        listaCancelamento.add(2019);
+        
+        avisoAnoFin.setVisible(false);
     }
 
     /**
@@ -139,7 +149,7 @@ public class FatFrame extends javax.swing.JInternalFrame {
         tabsNV = new javax.swing.JTabbedPane();
         jPanel5 = new javax.swing.JPanel();
         jPanel6 = new javax.swing.JPanel();
-        origem = new javax.swing.JComboBox<>();
+        origem = new javax.swing.JComboBox<String>();
         codOp = new javax.swing.JTextField();
         pesquisarOrigem = new javax.swing.JButton();
         descricao = new javax.swing.JTextField();
@@ -155,13 +165,14 @@ public class FatFrame extends javax.swing.JInternalFrame {
         vlrTotalNota = new javax.swing.JFormattedTextField();
         codOrc = new javax.swing.JTextField();
         jPanel7 = new javax.swing.JPanel();
+        avisoAnoFin = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
         numeroNota = new javax.swing.JFormattedTextField();
         dataEntrega = new com.toedter.calendar.JDateChooser();
-        serieNota = new javax.swing.JComboBox<>();
+        serieNota = new javax.swing.JComboBox<String>();
         jPanel3 = new javax.swing.JPanel();
-        descricaoNota = new javax.swing.JComboBox<>();
+        descricaoNota = new javax.swing.JComboBox<String>();
         jLabel11 = new javax.swing.JLabel();
         emissor = new javax.swing.JLabel();
         jPanel4 = new javax.swing.JPanel();
@@ -182,7 +193,7 @@ public class FatFrame extends javax.swing.JInternalFrame {
         emailCliente = new javax.swing.JTextField();
         jPanel8 = new javax.swing.JPanel();
         jPanel9 = new javax.swing.JPanel();
-        modalidadeFrete = new javax.swing.JComboBox<>();
+        modalidadeFrete = new javax.swing.JComboBox<String>();
         jPanel10 = new javax.swing.JPanel();
         nomeTransportador = new javax.swing.JTextField();
         jPanel11 = new javax.swing.JPanel();
@@ -225,7 +236,7 @@ public class FatFrame extends javax.swing.JInternalFrame {
 
         jPanel6.setBorder(javax.swing.BorderFactory.createTitledBorder("PRODUTO/SERVIÇO"));
 
-        origem.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "1 - ORDEM DE PRODUÇÃO" }));
+        origem.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "1 - ORDEM DE PRODUÇÃO" }));
         origem.setBorder(javax.swing.BorderFactory.createTitledBorder("ORIGEM"));
 
         codOp.setBorder(javax.swing.BorderFactory.createTitledBorder("CÓDIGO OP"));
@@ -402,20 +413,31 @@ public class FatFrame extends javax.swing.JInternalFrame {
         jPanel7.setLayout(jPanel7Layout);
         jPanel7Layout.setHorizontalGroup(
             jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
+            .addGap(0, 1, Short.MAX_VALUE)
         );
         jPanel7Layout.setVerticalGroup(
             jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGap(0, 158, Short.MAX_VALUE)
         );
 
+        avisoAnoFin.setBackground(new java.awt.Color(255, 51, 51));
+        avisoAnoFin.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        avisoAnoFin.setForeground(new java.awt.Color(255, 51, 51));
+        avisoAnoFin.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        avisoAnoFin.setText("ANO FINANCEIRO DE EMISSÃO DESTA OP JÁ FOI FECHADO. A OP SERÁ FATURADA COM VALOR ZERO.");
+
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
         jPanel5.setLayout(jPanel5Layout);
         jPanel5Layout.setHorizontalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel5Layout.createSequentialGroup()
-                .addGap(6, 6, 6)
-                .addComponent(jPanel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel5Layout.createSequentialGroup()
+                        .addGap(6, 6, 6)
+                        .addComponent(jPanel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(jPanel5Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(avisoAnoFin, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
@@ -429,8 +451,10 @@ public class FatFrame extends javax.swing.JInternalFrame {
                         .addComponent(jPanel7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel5Layout.createSequentialGroup()
                         .addGap(19, 19, 19)
-                        .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(226, 226, 226))
+                        .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(avisoAnoFin, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(192, Short.MAX_VALUE))
         );
 
         tabsNV.addTab("PRODUTOS E SERVIÇOS", new javax.swing.ImageIcon(getClass().getResource("/icones/produto.png")), jPanel5); // NOI18N
@@ -442,7 +466,7 @@ public class FatFrame extends javax.swing.JInternalFrame {
 
         dataEntrega.setBorder(javax.swing.BorderFactory.createTitledBorder("DATA DE ENTREGA"));
 
-        serieNota.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "1" }));
+        serieNota.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "1" }));
         serieNota.setBorder(javax.swing.BorderFactory.createTitledBorder("SÉRIE"));
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
@@ -472,7 +496,7 @@ public class FatFrame extends javax.swing.JInternalFrame {
 
         jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder("TIPO DE DOCUMENTO"));
 
-        descricaoNota.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "2 - FATURAMENTO DE ORDEM DE PRODUÇÃO" }));
+        descricaoNota.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "2 - FATURAMENTO DE ORDEM DE PRODUÇÃO" }));
         descricaoNota.setBorder(javax.swing.BorderFactory.createTitledBorder("DESCRIÇÃO"));
 
         jLabel11.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -637,7 +661,7 @@ public class FatFrame extends javax.swing.JInternalFrame {
 
         jPanel9.setBorder(javax.swing.BorderFactory.createTitledBorder("MODALIDADE DO FRETE"));
 
-        modalidadeFrete.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "EMC - ENTREGUE EM MÃOS AO CLIENTE", "COR - CORREIOS" }));
+        modalidadeFrete.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "EMC - ENTREGUE EM MÃOS AO CLIENTE", "COR - CORREIOS" }));
         modalidadeFrete.addItemListener(new java.awt.event.ItemListener() {
             public void itemStateChanged(java.awt.event.ItemEvent evt) {
                 modalidadeFreteItemStateChanged(evt);
@@ -1149,9 +1173,9 @@ public class FatFrame extends javax.swing.JInternalFrame {
                                 Integer.valueOf(codOp.getText())),
                                 (byte) 1);
                     }
-                    ClienteDAO.corrigeCredito((int) codigoCliente.getValue(), 
-                            (byte) tipoPessoa, 
-                            Float.valueOf(vlrTotalNota.getValue().toString()), 
+                    ClienteDAO.corrigeCredito((int) codigoCliente.getValue(),
+                            (byte) tipoPessoa,
+                            Float.valueOf(vlrTotalNota.getValue().toString()),
                             (byte) 1);
                     CODIGO_FAT = Integer.valueOf(numeroNota.getValue().toString());
                     NotaDAO.excluiVolumes(CODIGO_FAT);
@@ -1218,6 +1242,7 @@ public class FatFrame extends javax.swing.JInternalFrame {
     public static javax.swing.JFormattedTextField alturaProduto;
     public static javax.swing.JFormattedTextField alturaVolume;
     public static javax.swing.JTextArea areaObservacoes;
+    public static javax.swing.JLabel avisoAnoFin;
     public static javax.swing.JTextField bairroCliente;
     public static javax.swing.JButton botaoAdicionarVolume;
     public static javax.swing.JButton botaoCancelarNota;
@@ -1455,8 +1480,8 @@ public class FatFrame extends javax.swing.JInternalFrame {
 
                     cell3 = new PdfPCell(new Phrase("VALOR FRETE\n\n"
                             + "R$ " + (nota.getFatFrete() == 1
-                            ? df.format(OrcamentoDAO.retornaValorFrete(nota.getCodOrc()))
-                            : "0,00"),
+                                    ? df.format(OrcamentoDAO.retornaValorFrete(nota.getCodOrc()))
+                                    : "0,00"),
                             FontFactory.getFont("arial.ttf", 9)));
                     cell4 = new PdfPCell(new Phrase("VALOR SERVIÇOS\n\nR$ " + (nota.getFatServicos() == 1
                             ? df.format(ServicoDAO.retornaVlrSvOrcExistente(nota.getCodOrc()))
@@ -1617,6 +1642,7 @@ public class FatFrame extends javax.swing.JInternalFrame {
         botaoRetirarTabela.setEnabled(false);
         //OBSERVACOES-----------------------------------------------------------
         areaObservacoes.setEditable(false);
+        avisoAnoFin.setVisible(false);
     }
 
     public synchronized static void estadoPosPesquisar() {
@@ -1681,6 +1707,7 @@ public class FatFrame extends javax.swing.JInternalFrame {
         botaoRetirarTabela.setEnabled(false);
         //OBSERVACOES-----------------------------------------------------------
         areaObservacoes.setEditable(false);
+        avisoAnoFin.setVisible(false);
     }
 
     public void estadoEditar() {
@@ -1748,6 +1775,7 @@ public class FatFrame extends javax.swing.JInternalFrame {
                 (int) qtdSolicitada.getValue(),
                 1));
         qtdEntregue.setValue(0);
+        avisoAnoFin.setVisible(false);
     }
 
     public void estadoIncluir() {
@@ -1852,6 +1880,7 @@ public class FatFrame extends javax.swing.JInternalFrame {
         //OBSERVACOES-----------------------------------------------------------
         areaObservacoes.setEditable(true);
         areaObservacoes.setText("");
+        avisoAnoFin.setVisible(false);
     }
 
     public void estadoGravar() {
@@ -1927,6 +1956,7 @@ public class FatFrame extends javax.swing.JInternalFrame {
                 0,
                 (int) qtdSolicitada.getValue(),
                 1));
+        avisoAnoFin.setVisible(false);
     }
 
     public void estadoPosExcluir() {
@@ -2031,6 +2061,7 @@ public class FatFrame extends javax.swing.JInternalFrame {
         vlrTotalNota.setValue(0);
         DefaultTableModel modeloVolumes = (DefaultTableModel) tabelaVolumes.getModel();
         modeloVolumes.setNumRows(0);
+        avisoAnoFin.setVisible(false);
     }
     //--------------------------------------------------------------------------
 
@@ -2081,13 +2112,22 @@ public class FatFrame extends javax.swing.JInternalFrame {
 
     //FUNÇÕES PARA CALCULAR VALOR TOTAL
     private void calculaVlrTotal() {
-        double vlrTotal = 0d;
-        vlrTotal += (int) qtdSerEntregue.getValue() * (double) valorUnitario.getValue();
-        vlrTotal += faturarServicos.isSelected() ? (double) valorServicos.getValue() : 0d;
-        vlrTotal += faturarFrete.isSelected() ? (double) valorFrete.getValue() : 0d;
-        valorTotalEntregue.setValue(vlrTotal);
-        if (EDITAR | INCLUIR) {
-            vlrTotalNota.setValue(vlrTotal);
+        try {
+            double vlrTotal = 0d;
+            if (!listaCancelamento.contains(OrdemProducaoDAO.retornaAnoOp(Integer.valueOf(codOp.getText())))) {
+                vlrTotal += (int) qtdSerEntregue.getValue() * (double) valorUnitario.getValue();
+                vlrTotal += faturarServicos.isSelected() ? (double) valorServicos.getValue() : 0d;
+                vlrTotal += faturarFrete.isSelected() ? (double) valorFrete.getValue() : 0d;
+                valorTotalEntregue.setValue(vlrTotal);
+            }else{
+                avisoAnoFin.setVisible(true);
+            }
+            if (EDITAR | INCLUIR) {
+                vlrTotalNota.setValue(vlrTotal);
+            }
+        } catch (SQLException ex) {
+            EnvioExcecao envioExcecao = new EnvioExcecao(Controle.getDefaultGj(), ex);
+            EnvioExcecao.envio();
         }
     }
 
@@ -2222,15 +2262,15 @@ public class FatFrame extends javax.swing.JInternalFrame {
                     loading.setVisible(false);
                     return;
                 } else {
-                    ClienteDAO.corrigeCredito((int) codigoCliente.getValue(), 
-                            tipoCliente.getText().contains("FÍSICA") ? (byte) 1 : (byte) 2, 
+                    ClienteDAO.corrigeCredito((int) codigoCliente.getValue(),
+                            tipoCliente.getText().contains("FÍSICA") ? (byte) 1 : (byte) 2,
                             valorAntigo, (byte) 1);
                     STATUS_FATURAMENTO = 0;
                     NotaDAO.excluiVolumes(FAT.getCod());
                     NotaDAO.excluiTransportes(FAT.getCod());
                     NotaDAO.removeFat(FAT.getCod());
                 }
-            }else{
+            } else {
                 FAT.setCod(NotaDAO.retornaUltFat() + 1);
             }
 

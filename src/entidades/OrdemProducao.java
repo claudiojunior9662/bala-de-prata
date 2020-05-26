@@ -92,8 +92,7 @@ public class OrdemProducao {
     private int indEntErro;
     private String tipoTrabalho;
     private String opSecao;
-    
-    
+
     private int quantidade;
     private float valorParcial;
 
@@ -637,9 +636,16 @@ public class OrdemProducao {
                 }
             }
 
-            cell3 = new PdfPCell(new Phrase(op.getDataCancelamento() == null
-                    ? "DATA PROVÁVEL DE ENTREGA:\n" + Controle.dataPadrao.format(op.getDataEntrega())
-                    : "DATA DE CANCELAMENTO:\n" + Controle.dataPadrao.format(op.getDataCancelamento()), FontFactory.getFont("arial.ttf", 10, Font.BOLD)));
+            if (op.getCodProduto().contains("PE")) {
+                cell3 = new PdfPCell(new Phrase(op.getDataCancelamento() == null
+                        ? "DATA DE ENTREGA:\n" + Controle.dataPadrao.format(op.getDataEntrega())
+                        : "DATA DE CANCELAMENTO:\n" + Controle.dataPadrao.format(op.getDataCancelamento()), FontFactory.getFont("arial.ttf", 10, Font.BOLD)));
+            } else {
+                cell3 = new PdfPCell(new Phrase(op.getDataCancelamento() == null
+                        ? "DATA PROVÁVEL DE ENTREGA:\n" + Controle.dataPadrao.format(op.getDataEntrega())
+                        : "DATA DE CANCELAMENTO:\n" + Controle.dataPadrao.format(op.getDataCancelamento()), FontFactory.getFont("arial.ttf", 10, Font.BOLD)));
+            }
+
             cell3.setHorizontalAlignment(1);
             cell3.setVerticalAlignment(1);
             cell3.setBackgroundColor(op.getDataCancelamento() == null ? BaseColor.WHITE : Controle.fundoDestaque);
@@ -812,11 +818,11 @@ public class OrdemProducao {
                     } else {
                         sb.append(prodOrc.getObservacaoProduto());
                     }
-                    
-                    if(op.getCodProduto().contains("PE")){
+
+                    if (op.getCodProduto().contains("PE")) {
                         sb.append("\n\nPRAZO DE ENTREGA: 5 A 15 DIAS ÚTEIS* APÓS ENVIO DA PROPOSTA "
                                 + "ASSINADA E/OU CARIMBADA PELO OD E/OU COMANDANTE DA OM.");
-                    }else{
+                    } else {
                         sb.append("\n\nENTREGA: ______ DIAS ÚTEIS APÓS A APROVAÇÃO DO 'MODELO DE PROVA'.");
                     }
                     cell2 = new PdfPCell(new Phrase(sb.toString(),
@@ -1131,12 +1137,12 @@ public class OrdemProducao {
                         FontFactory.getFont("arial.ttf", 9)));
                 sb = new StringBuilder().append("VALOR FRETE\n\nR$ ")
                         .append(fat.getFreteFat() == 1 ? df.format(vlrFrete)
-                                : "0,00");
+                                        : "0,00");
                 cell4 = new PdfPCell(new Phrase(sb.toString(),
                         FontFactory.getFont("arial.ttf", 9)));
                 sb = new StringBuilder().append("VALOR SERVIÇOS\n\nR$ ")
                         .append(fat.getFreteFat() == 1 ? df.format(vlrSv)
-                                : "0,00");
+                                        : "0,00");
                 cell5 = new PdfPCell(new Phrase(sb.toString(),
                         FontFactory.getFont("arial.ttf", 9)));
                 cell6 = new PdfPCell(new Phrase("VALOR FATURADO\n\n" + "R$ " + df.format(fat.getVlrFat()),
@@ -1178,12 +1184,12 @@ public class OrdemProducao {
                                 FontFactory.getFont("arial.ttf", 9)));
                         sb = new StringBuilder().append("VALOR FRETE\n\nR$ ")
                                 .append(fat.getFreteFat() == 1 ? df.format(vlrFrete)
-                                        : "0,00");
+                                                : "0,00");
                         cell4 = new PdfPCell(new Phrase(sb.toString(),
                                 FontFactory.getFont("arial.ttf", 9)));
                         sb = new StringBuilder().append("VALOR SERVIÇOS\n\nR$ ")
                                 .append(fat.getFreteFat() == 1 ? df.format(vlrSv)
-                                        : "0,00");
+                                                : "0,00");
                         cell5 = new PdfPCell(new Phrase(sb.toString(),
                                 FontFactory.getFont("arial.ttf", 9)));
                         cell6 = new PdfPCell(new Phrase("VALOR FATURADO\n\n" + "R$ " + df.format(recibo.getVlrFat()),
@@ -1243,8 +1249,8 @@ public class OrdemProducao {
 
                 cell3 = new PdfPCell(new Phrase("VALOR FRETE\n\n"
                         + "R$ " + (fat.getFreteFat() == 1
-                        ? df.format(vlrFrete)
-                        : "0,00"),
+                                ? df.format(vlrFrete)
+                                : "0,00"),
                         FontFactory.getFont("arial.ttf", 9)));
                 cell4 = new PdfPCell(new Phrase("VALOR SERVIÇOS\n\nR$ " + (fat.getFreteFat() == 1
                         ? df.format(vlrSv)

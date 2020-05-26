@@ -97,7 +97,7 @@ public class RelatoriosOrdemProducao extends javax.swing.JInternalFrame {
         grupoOrientacao = new javax.swing.ButtonGroup();
         jTabbedPane1 = new javax.swing.JTabbedPane();
         jPanel1 = new javax.swing.JPanel();
-        listaPesquisaCliente = new javax.swing.JList<>();
+        listaPesquisaCliente = new javax.swing.JList<String>();
         porCodigoCliente = new javax.swing.JRadioButton();
         codigoCliente = new javax.swing.JFormattedTextField();
         porNomeCliente = new javax.swing.JRadioButton();
@@ -106,7 +106,7 @@ public class RelatoriosOrdemProducao extends javax.swing.JInternalFrame {
         pessoaJuridica = new javax.swing.JRadioButton();
         pessoaFisica = new javax.swing.JRadioButton();
         porTodosClientes = new javax.swing.JRadioButton();
-        comboTipoPessoa = new javax.swing.JComboBox<>();
+        comboTipoPessoa = new javax.swing.JComboBox<String>();
         jPanel7 = new javax.swing.JPanel();
         porOrdemProducao = new javax.swing.JRadioButton();
         textoOrdemProducao = new javax.swing.JFormattedTextField();
@@ -120,11 +120,11 @@ public class RelatoriosOrdemProducao extends javax.swing.JInternalFrame {
         codigoProduto = new javax.swing.JFormattedTextField();
         descricaoProduto = new javax.swing.JTextField();
         porTodosProdutos = new javax.swing.JRadioButton();
-        listaPesquisaProdutos = new javax.swing.JList<>();
+        listaPesquisaProdutos = new javax.swing.JList<String>();
         tipoProduto = new javax.swing.JComboBox();
         jPanel2 = new javax.swing.JPanel();
         porEmissor = new javax.swing.JRadioButton();
-        comboEmissores = new javax.swing.JComboBox<>();
+        comboEmissores = new javax.swing.JComboBox<String>();
         porTodosEmissores = new javax.swing.JRadioButton();
         jPanel3 = new javax.swing.JPanel();
         periodoFimEmissao = new com.toedter.calendar.JDateChooser();
@@ -155,6 +155,7 @@ public class RelatoriosOrdemProducao extends javax.swing.JInternalFrame {
         campoCodigoProduto = new javax.swing.JCheckBox();
         campoDescricaoProduto = new javax.swing.JCheckBox();
         campoDataEntrega = new javax.swing.JCheckBox();
+        campoStatus = new javax.swing.JCheckBox();
         jPanel5 = new javax.swing.JPanel();
         porCodigoOpCrescente = new javax.swing.JRadioButton();
         porCodigoOpDecrescente = new javax.swing.JRadioButton();
@@ -244,7 +245,7 @@ public class RelatoriosOrdemProducao extends javax.swing.JInternalFrame {
             }
         });
 
-        comboTipoPessoa.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "1 - PESSOA FÍSICA (PF)", "2 - PESSOA JURÍDICA (PJ)" }));
+        comboTipoPessoa.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "1 - PESSOA FÍSICA (PF)", "2 - PESSOA JURÍDICA (PJ)" }));
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -721,6 +722,8 @@ public class RelatoriosOrdemProducao extends javax.swing.JInternalFrame {
             }
         });
 
+        campoStatus.setText("STATUS");
+
         javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
         jPanel6.setLayout(jPanel6Layout);
         jPanel6Layout.setHorizontalGroup(
@@ -729,16 +732,17 @@ public class RelatoriosOrdemProducao extends javax.swing.JInternalFrame {
                 .addContainerGap()
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(campoQuantidade)
-                    .addComponent(campoTipoPessoa)
                     .addGroup(jPanel6Layout.createSequentialGroup()
                         .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(campoCodigoOp)
                             .addComponent(campoCodigoCliente)
                             .addComponent(campoCodigoProduto)
                             .addComponent(campoDescricaoProduto)
-                            .addComponent(campoCodigoOrcamento))
+                            .addComponent(campoCodigoOrcamento)
+                            .addComponent(campoTipoPessoa))
                         .addGap(18, 18, 18)
                         .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(campoStatus)
                             .addComponent(campoDataEmissao)
                             .addComponent(campoValorParcial)
                             .addComponent(campoNomeCliente)
@@ -772,7 +776,9 @@ public class RelatoriosOrdemProducao extends javax.swing.JInternalFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(campoNomeCliente)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(campoTipoPessoa)
+                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(campoTipoPessoa)
+                    .addComponent(campoStatus))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(campoQuantidade)
                 .addContainerGap(89, Short.MAX_VALUE))
@@ -1446,6 +1452,7 @@ public class RelatoriosOrdemProducao extends javax.swing.JInternalFrame {
     private javax.swing.JCheckBox campoEmissor;
     private javax.swing.JCheckBox campoNomeCliente;
     private javax.swing.JCheckBox campoQuantidade;
+    private javax.swing.JCheckBox campoStatus;
     private javax.swing.JCheckBox campoTipoPessoa;
     private javax.swing.JCheckBox campoValorParcial;
     private javax.swing.JFormattedTextField codigoCliente;
@@ -1563,6 +1570,9 @@ public class RelatoriosOrdemProducao extends javax.swing.JInternalFrame {
         if (campoNomeCliente.isSelected()) {
             quantidadeSelecionada += 1;
         }
+        if(campoStatus.isSelected()){
+            quantidadeSelecionada += 1;
+        }
 
         return quantidadeSelecionada;
     }
@@ -1637,6 +1647,11 @@ public class RelatoriosOrdemProducao extends javax.swing.JInternalFrame {
                     celula.setHorizontalAlignment(Element.ALIGN_CENTER);
                     retorno.addCell(celula);
                 }
+                if (campoStatus.isSelected()) {
+                    celula = new PdfPCell(new Phrase("STATUS", FontFactory.getFont("arial.ttf", 8, Font.BOLD)));
+                    celula.setHorizontalAlignment(Element.ALIGN_CENTER);
+                    retorno.addCell(celula);
+                }
                 break;
             case 2:
                 retorno = new PdfPTable(new float[]{5f, 5f});
@@ -1699,6 +1714,11 @@ public class RelatoriosOrdemProducao extends javax.swing.JInternalFrame {
                 }
                 if (campoNomeCliente.isSelected()) {
                     celula = new PdfPCell(new Phrase("NOME CLIENTE", FontFactory.getFont("arial.ttf", 8, Font.BOLD)));
+                    celula.setHorizontalAlignment(Element.ALIGN_CENTER);
+                    retorno.addCell(celula);
+                }
+                if (campoStatus.isSelected()) {
+                    celula = new PdfPCell(new Phrase("STATUS", FontFactory.getFont("arial.ttf", 8, Font.BOLD)));
                     celula.setHorizontalAlignment(Element.ALIGN_CENTER);
                     retorno.addCell(celula);
                 }
@@ -1767,6 +1787,11 @@ public class RelatoriosOrdemProducao extends javax.swing.JInternalFrame {
                     celula.setHorizontalAlignment(Element.ALIGN_CENTER);
                     retorno.addCell(celula);
                 }
+                if (campoStatus.isSelected()) {
+                    celula = new PdfPCell(new Phrase("STATUS", FontFactory.getFont("arial.ttf", 8, Font.BOLD)));
+                    celula.setHorizontalAlignment(Element.ALIGN_CENTER);
+                    retorno.addCell(celula);
+                }
                 break;
             case 4:
                 retorno = new PdfPTable(new float[]{5f, 5f, 5f, 5f});
@@ -1829,6 +1854,11 @@ public class RelatoriosOrdemProducao extends javax.swing.JInternalFrame {
                 }
                 if (campoNomeCliente.isSelected()) {
                     celula = new PdfPCell(new Phrase("NOME CLIENTE", FontFactory.getFont("arial.ttf", 8, Font.BOLD)));
+                    celula.setHorizontalAlignment(Element.ALIGN_CENTER);
+                    retorno.addCell(celula);
+                }
+                if (campoStatus.isSelected()) {
+                    celula = new PdfPCell(new Phrase("STATUS", FontFactory.getFont("arial.ttf", 8, Font.BOLD)));
                     celula.setHorizontalAlignment(Element.ALIGN_CENTER);
                     retorno.addCell(celula);
                 }
@@ -1897,6 +1927,11 @@ public class RelatoriosOrdemProducao extends javax.swing.JInternalFrame {
                     celula.setHorizontalAlignment(Element.ALIGN_CENTER);
                     retorno.addCell(celula);
                 }
+                if (campoStatus.isSelected()) {
+                    celula = new PdfPCell(new Phrase("STATUS", FontFactory.getFont("arial.ttf", 8, Font.BOLD)));
+                    celula.setHorizontalAlignment(Element.ALIGN_CENTER);
+                    retorno.addCell(celula);
+                }
                 break;
             case 6:
                 retorno = new PdfPTable(new float[]{5f, 5f, 5f, 5f, 5f, 5f});
@@ -1959,6 +1994,11 @@ public class RelatoriosOrdemProducao extends javax.swing.JInternalFrame {
                 }
                 if (campoNomeCliente.isSelected()) {
                     celula = new PdfPCell(new Phrase("NOME CLIENTE", FontFactory.getFont("arial.ttf", 8, Font.BOLD)));
+                    celula.setHorizontalAlignment(Element.ALIGN_CENTER);
+                    retorno.addCell(celula);
+                }
+                if (campoStatus.isSelected()) {
+                    celula = new PdfPCell(new Phrase("STATUS", FontFactory.getFont("arial.ttf", 8, Font.BOLD)));
                     celula.setHorizontalAlignment(Element.ALIGN_CENTER);
                     retorno.addCell(celula);
                 }
@@ -2027,6 +2067,11 @@ public class RelatoriosOrdemProducao extends javax.swing.JInternalFrame {
                     celula.setHorizontalAlignment(Element.ALIGN_CENTER);
                     retorno.addCell(celula);
                 }
+                if (campoStatus.isSelected()) {
+                    celula = new PdfPCell(new Phrase("STATUS", FontFactory.getFont("arial.ttf", 8, Font.BOLD)));
+                    celula.setHorizontalAlignment(Element.ALIGN_CENTER);
+                    retorno.addCell(celula);
+                }
                 break;
             case 8:
                 retorno = new PdfPTable(new float[]{5f, 5f, 5f, 5f, 5f, 5f, 5f, 5f});
@@ -2089,6 +2134,11 @@ public class RelatoriosOrdemProducao extends javax.swing.JInternalFrame {
                 }
                 if (campoNomeCliente.isSelected()) {
                     celula = new PdfPCell(new Phrase("NOME CLIENTE", FontFactory.getFont("arial.ttf", 8, Font.BOLD)));
+                    celula.setHorizontalAlignment(Element.ALIGN_CENTER);
+                    retorno.addCell(celula);
+                }
+                if (campoStatus.isSelected()) {
+                    celula = new PdfPCell(new Phrase("STATUS", FontFactory.getFont("arial.ttf", 8, Font.BOLD)));
                     celula.setHorizontalAlignment(Element.ALIGN_CENTER);
                     retorno.addCell(celula);
                 }
@@ -2157,6 +2207,11 @@ public class RelatoriosOrdemProducao extends javax.swing.JInternalFrame {
                     celula.setHorizontalAlignment(Element.ALIGN_CENTER);
                     retorno.addCell(celula);
                 }
+                if (campoStatus.isSelected()) {
+                    celula = new PdfPCell(new Phrase("STATUS", FontFactory.getFont("arial.ttf", 8, Font.BOLD)));
+                    celula.setHorizontalAlignment(Element.ALIGN_CENTER);
+                    retorno.addCell(celula);
+                }
                 break;
             case 10:
                 retorno = new PdfPTable(new float[]{5f, 5f, 5f, 5f, 5f, 5f, 5f, 5f, 5f, 5f});
@@ -2219,6 +2274,11 @@ public class RelatoriosOrdemProducao extends javax.swing.JInternalFrame {
                 }
                 if (campoNomeCliente.isSelected()) {
                     celula = new PdfPCell(new Phrase("NOME CLIENTE", FontFactory.getFont("arial.ttf", 8, Font.BOLD)));
+                    celula.setHorizontalAlignment(Element.ALIGN_CENTER);
+                    retorno.addCell(celula);
+                }
+                if (campoStatus.isSelected()) {
+                    celula = new PdfPCell(new Phrase("STATUS", FontFactory.getFont("arial.ttf", 8, Font.BOLD)));
                     celula.setHorizontalAlignment(Element.ALIGN_CENTER);
                     retorno.addCell(celula);
                 }
@@ -2287,6 +2347,11 @@ public class RelatoriosOrdemProducao extends javax.swing.JInternalFrame {
                     celula.setHorizontalAlignment(Element.ALIGN_CENTER);
                     retorno.addCell(celula);
                 }
+                if (campoStatus.isSelected()) {
+                    celula = new PdfPCell(new Phrase("STATUS", FontFactory.getFont("arial.ttf", 8, Font.BOLD)));
+                    celula.setHorizontalAlignment(Element.ALIGN_CENTER);
+                    retorno.addCell(celula);
+                }
                 break;
             case 12:
                 retorno = new PdfPTable(new float[]{5f, 5f, 5f, 5f, 5f, 5f, 5f, 5f, 5f, 5f, 5f, 5f});
@@ -2352,6 +2417,81 @@ public class RelatoriosOrdemProducao extends javax.swing.JInternalFrame {
                     celula.setHorizontalAlignment(Element.ALIGN_CENTER);
                     retorno.addCell(celula);
                 }
+                if (campoStatus.isSelected()) {
+                    celula = new PdfPCell(new Phrase("STATUS", FontFactory.getFont("arial.ttf", 8, Font.BOLD)));
+                    celula.setHorizontalAlignment(Element.ALIGN_CENTER);
+                    retorno.addCell(celula);
+                }
+                break;
+            case 13:
+                retorno = new PdfPTable(new float[]{5f, 5f, 5f, 5f, 5f, 5f, 5f, 5f, 5f, 5f, 5f, 5f, 5f});
+                retorno.setWidthPercentage(100);
+
+                if (campoCodigoOp.isSelected()) {
+                    celula = new PdfPCell(new Phrase("CÓDIGO OP", FontFactory.getFont("arial.ttf", 8, Font.BOLD)));
+                    celula.setHorizontalAlignment(Element.ALIGN_CENTER);
+                    retorno.addCell(celula);
+                }
+                if (campoCodigoOrcamento.isSelected()) {
+                    celula = new PdfPCell(new Phrase("CÓDIGO ORÇAMENTO", FontFactory.getFont("arial.ttf", 8, Font.BOLD)));
+                    celula.setHorizontalAlignment(Element.ALIGN_CENTER);
+                    retorno.addCell(celula);
+                }
+                if (campoCodigoCliente.isSelected()) {
+                    celula = new PdfPCell(new Phrase("CÓDIGO CLIENTE", FontFactory.getFont("arial.ttf", 8, Font.BOLD)));
+                    celula.setHorizontalAlignment(Element.ALIGN_CENTER);
+                    retorno.addCell(celula);
+                }
+                if (campoCodigoProduto.isSelected()) {
+                    celula = new PdfPCell(new Phrase("CÓDIGO PRODUTO", FontFactory.getFont("arial.ttf", 8, Font.BOLD)));
+                    celula.setHorizontalAlignment(Element.ALIGN_CENTER);
+                    retorno.addCell(celula);
+                }
+                if (campoDescricaoProduto.isSelected()) {
+                    celula = new PdfPCell(new Phrase("DESCRIÇÃO PRODUTO", FontFactory.getFont("arial.ttf", 8, Font.BOLD)));
+                    celula.setHorizontalAlignment(Element.ALIGN_CENTER);
+                    retorno.addCell(celula);
+                }
+                if (campoTipoPessoa.isSelected()) {
+                    celula = new PdfPCell(new Phrase("TIPO PESSOA", FontFactory.getFont("arial.ttf", 8, Font.BOLD)));
+                    celula.setHorizontalAlignment(Element.ALIGN_CENTER);
+                    retorno.addCell(celula);
+                }
+                if (campoQuantidade.isSelected()) {
+                    celula = new PdfPCell(new Phrase("QUANTIDADE", FontFactory.getFont("arial.ttf", 8, Font.BOLD)));
+                    celula.setHorizontalAlignment(Element.ALIGN_CENTER);
+                    retorno.addCell(celula);
+                }
+                if (campoValorParcial.isSelected()) {
+                    celula = new PdfPCell(new Phrase("VALOR PARCIAL", FontFactory.getFont("arial.ttf", 8, Font.BOLD)));
+                    celula.setHorizontalAlignment(Element.ALIGN_CENTER);
+                    retorno.addCell(celula);
+                }
+                if (campoDataEmissao.isSelected()) {
+                    celula = new PdfPCell(new Phrase("DATA EMISSÃO", FontFactory.getFont("arial.ttf", 8, Font.BOLD)));
+                    celula.setHorizontalAlignment(Element.ALIGN_CENTER);
+                    retorno.addCell(celula);
+                }
+                if (campoDataEntrega.isSelected()) {
+                    celula = new PdfPCell(new Phrase("DATA ENTREGA", FontFactory.getFont("arial.ttf", 8, Font.BOLD)));
+                    celula.setHorizontalAlignment(Element.ALIGN_CENTER);
+                    retorno.addCell(celula);
+                }
+                if (campoEmissor.isSelected()) {
+                    celula = new PdfPCell(new Phrase("EMISSOR", FontFactory.getFont("arial.ttf", 8, Font.BOLD)));
+                    celula.setHorizontalAlignment(Element.ALIGN_CENTER);
+                    retorno.addCell(celula);
+                }
+                if (campoNomeCliente.isSelected()) {
+                    celula = new PdfPCell(new Phrase("NOME CLIENTE", FontFactory.getFont("arial.ttf", 8, Font.BOLD)));
+                    celula.setHorizontalAlignment(Element.ALIGN_CENTER);
+                    retorno.addCell(celula);
+                }
+                if (campoStatus.isSelected()) {
+                    celula = new PdfPCell(new Phrase("STATUS", FontFactory.getFont("arial.ttf", 8, Font.BOLD)));
+                    celula.setHorizontalAlignment(Element.ALIGN_CENTER);
+                    retorno.addCell(celula);
+                }
                 break;
         }
         return retorno;
@@ -2361,13 +2501,13 @@ public class RelatoriosOrdemProducao extends javax.swing.JInternalFrame {
         try {
             PdfPTable retorno = retornaTabela();
             PdfPCell celula = null;
-            
+
             /*
-            @param tipoCondicaoCliente
-            1 - codigo
-            2 - nome
-            3 - tipoPessoa
-            4 - todos
+             @param tipoCondicaoCliente
+             1 - codigo
+             2 - nome
+             3 - tipoPessoa
+             4 - todos
              */
             byte tipoCondicaoCliente = 0;
             if (porCodigoCliente.isSelected()) {
@@ -2388,12 +2528,12 @@ public class RelatoriosOrdemProducao extends javax.swing.JInternalFrame {
             } else if (porTodosClientes.isSelected()) {
                 tipoCondicaoCliente = 4;
             }
-            
+
             /*
-            @param tipoCondicaoOpOrcamento
-            1 - codigo op
-            2 - codigo orcamento base
-            3 - todos
+             @param tipoCondicaoOpOrcamento
+             1 - codigo op
+             2 - codigo orcamento base
+             3 - todos
              */
             int textoOpOrcamento = 0;
             byte tipoCondicaoOpOrcamento = 0;
@@ -2407,11 +2547,11 @@ public class RelatoriosOrdemProducao extends javax.swing.JInternalFrame {
                 tipoCondicaoOpOrcamento = 3;
             }
             /*
-            @param tipoCondicaoProduto
-            1 - codigo
-            2 - descricao
-            3 - tipo
-            4 - todos
+             @param tipoCondicaoProduto
+             1 - codigo
+             2 - descricao
+             3 - tipo
+             4 - todos
              */
             byte tipoCondicaoProduto = 0;
             if (porCodigoProduto.isSelected()) {
@@ -2429,9 +2569,9 @@ public class RelatoriosOrdemProducao extends javax.swing.JInternalFrame {
                 tipoCondicaoProduto = 4;
             }
             /*
-            @param tipoCondicaoEmissor
-            1 - por emissor
-            2 - todos
+             @param tipoCondicaoEmissor
+             1 - por emissor
+             2 - todos
              */
             String textoEmissor = null;
             byte tipoCondicaoEmissor = 0;
@@ -2442,12 +2582,12 @@ public class RelatoriosOrdemProducao extends javax.swing.JInternalFrame {
                 tipoCondicaoEmissor = 2;
             }
             /*
-            @param tipoCondicaoPeriodo
-            1 - por dia emissao
-            2 - por dia entrega
-            3 - por periodo data emissao
-            4 - por periodo data entrega
-            5 - todos
+             @param tipoCondicaoPeriodo
+             1 - por dia emissao
+             2 - por dia entrega
+             3 - por periodo data emissao
+             4 - por periodo data entrega
+             5 - todos
              */
             Date textoPeriodoInicio = null;
             Date textoPeriodoFim = null;
@@ -2470,20 +2610,20 @@ public class RelatoriosOrdemProducao extends javax.swing.JInternalFrame {
                 tipoCondicaoPeriodo = 5;
             }
             /*
-            @param tipoCondicaoOrdenar
-            1 - codigo op crescente
-            2 - codigo op decrescente
-            3 - quantidade crescente
-            4 - quantidade decrescente
-            5 - emissor
-            6 - tipoPessoa
-            7 - valor crescente
-            8 - valor decrescente
-            9 - data emissao mais atual
-            10 - data emissao mais antiga
-            11 - data entrega mais atual
-            12 - data entrega mais antiga
-            13 - sem ordenacao
+             @param tipoCondicaoOrdenar
+             1 - codigo op crescente
+             2 - codigo op decrescente
+             3 - quantidade crescente
+             4 - quantidade decrescente
+             5 - emissor
+             6 - tipoPessoa
+             7 - valor crescente
+             8 - valor decrescente
+             9 - data emissao mais atual
+             10 - data emissao mais antiga
+             11 - data entrega mais atual
+             12 - data entrega mais antiga
+             13 - sem ordenacao
              */
             byte tipoCondicaoOrdenar = 0;
             if (porCodigoOpCrescente.isSelected()) {
@@ -2527,6 +2667,7 @@ public class RelatoriosOrdemProducao extends javax.swing.JInternalFrame {
                     campoDataEntrega.isSelected(),
                     campoEmissor.isSelected(),
                     campoNomeCliente.isSelected(),
+                    campoStatus.isSelected(),
                     tipoCondicaoCliente,
                     tipoCondicaoOpOrcamento,
                     tipoCondicaoProduto,
@@ -2601,6 +2742,11 @@ public class RelatoriosOrdemProducao extends javax.swing.JInternalFrame {
                     celula.setHorizontalAlignment(Element.ALIGN_CENTER);
                     retorno.addCell(celula);
                 }
+                if(campoStatus.isSelected()){
+                    celula = new PdfPCell(new Phrase(op.getStatus(), FontFactory.getFont("arial.ttf", 6)));
+                    celula.setHorizontalAlignment(Element.ALIGN_CENTER);
+                    retorno.addCell(celula);
+                }
             }
             return retorno;
         } catch (SQLException ex) {
@@ -2613,7 +2759,7 @@ public class RelatoriosOrdemProducao extends javax.swing.JInternalFrame {
     }
 
     /*
-    1 - ORCAMENTO
+     1 - ORCAMENTO
      */
     public void geraRelatorio() {
 
@@ -2648,12 +2794,12 @@ public class RelatoriosOrdemProducao extends javax.swing.JInternalFrame {
                     document.addCreator(TelaAutenticacao.nomeAtendente);
 
                     document.add(new Paragraph(new Phrase("RELATÓRIO DE ORDEM DE PRODUÇÃO - "
-                            + "DATA E HORA DE EMISSÃO: " + 
-                            data + 
-                            " " + 
-                            hora + 
-                            " - SISTEMA BALA DE PRATA\n\n", FontFactory.getFont("arial.ttf", 9))));
-                    
+                            + "DATA E HORA DE EMISSÃO: "
+                            + data
+                            + " "
+                            + hora
+                            + " - SISTEMA BALA DE PRATA\n\n", FontFactory.getFont("arial.ttf", 9))));
+
                     PdfPTable tabelaPrincipal = retornaTabelaComConteudo();
                     document.add(tabelaPrincipal);
 

@@ -380,10 +380,10 @@ public class Orcamento {
                                         FontFactory.getFont("arial.ttf", 12, Font.BOLD)));
                             }
                         } else {
-                                Integer nOp = OrdemProducaoDAO.retornaCodOpOrc(codOrc);
-                                celulaCabecalho = new PdfPCell(new Phrase("PROPOSTA DE ORÇAMENTO Nº "
-                                        + codOrc + " / PEDIDO DE VENDA Nº " + nOp,
-                                        FontFactory.getFont("arial.ttf", 12, Font.BOLD)));
+                            Integer nOp = OrdemProducaoDAO.retornaCodOpOrc(codOrc);
+                            celulaCabecalho = new PdfPCell(new Phrase("PROPOSTA DE ORÇAMENTO Nº "
+                                    + codOrc + " / PEDIDO DE VENDA Nº " + nOp,
+                                    FontFactory.getFont("arial.ttf", 12, Font.BOLD)));
                         }
                     } else {
                         celulaCabecalho = new PdfPCell(new Phrase("PROPOSTA DE ORÇAMENTO Nº " + codOrc, FontFactory.getFont("arial.ttf", 12, Font.BOLD)));
@@ -668,7 +668,16 @@ public class Orcamento {
 
                     PdfPTable tabelaRodape = new PdfPTable(new float[]{1f});
                     tabelaRodape.setWidthPercentage(100);
-                    PdfPCell celulaRodape = new PdfPCell(new Phrase("ENTREGA: ______ DIAS ÚTEIS APÓS A APROVAÇÃO DO 'MODELO DE PROVA'.", FontFactory.getFont("arial.ttf", 10, Font.BOLD)));
+                    PdfPCell celulaRodape = null;
+                    if (produtos.get(0).getCodProduto().contains("PE")) {
+                        if (orcamento.getTipoPessoa() == 1) {
+                            celulaRodape = new PdfPCell(new Phrase("ENTREGA: 5 A 10 DIAS ÚTEIS APÓS A CONFIRMAÇÃO DO PAGAMENTO DA GRU.", FontFactory.getFont("arial.ttf", 10, Font.BOLD)));
+                        } else {
+                            celulaRodape = new PdfPCell(new Phrase("ENTREGA: 5 A 10 DIAS ÚTEIS APÓS O RECEBIMENTO DA PROPOSTA ASSINADA.", FontFactory.getFont("arial.ttf", 10, Font.BOLD)));
+                        }
+                    } else {
+                        celulaRodape = new PdfPCell(new Phrase("ENTREGA: ______ DIAS ÚTEIS APÓS A APROVAÇÃO DO 'MODELO DE PROVA'.", FontFactory.getFont("arial.ttf", 10, Font.BOLD)));
+                    }
                     celulaRodape.setBackgroundColor(Controle.fundoDestaque);
                     celulaRodape.setBorder(0);
                     celulaRodape.setHorizontalAlignment(1);
@@ -751,20 +760,20 @@ public class Orcamento {
     }
 
     /*
-    TIPOS PRODUTO
-    1 - FOLHA
-    2 - LIVRO
-    3 - BLOCO
-    4 - BANNER
-    5 - OUTROS
+     TIPOS PRODUTO
+     1 - FOLHA
+     2 - LIVRO
+     3 - BLOCO
+     4 - BANNER
+     5 - OUTROS
     
-    TIPOS PAPEL:
-    1 - FOLHA
-    2 - CAPA
-    3 - MIOLO
-    4 - 1A VIA
-    5 - 2A VIA
-    6 - 3A VIA
+     TIPOS PAPEL:
+     1 - FOLHA
+     2 - CAPA
+     3 - MIOLO
+     4 - 1A VIA
+     5 - 2A VIA
+     6 - 3A VIA
      */
     public static int retornaQuantidadeFolhas(byte tipoProduto,
             byte tipoPapel,

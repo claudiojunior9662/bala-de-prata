@@ -92,7 +92,7 @@ public class ProdutoFrame extends javax.swing.JInternalFrame {
         jPanel1 = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
         tabelaPapel = new javax.swing.JTable();
-        tipoPapel = new javax.swing.JComboBox<>();
+        tipoPapel = new javax.swing.JComboBox<String>();
         coresFrente = new com.toedter.components.JSpinField();
         coresVerso = new com.toedter.components.JSpinField();
         concluirPapel = new javax.swing.JButton();
@@ -108,13 +108,13 @@ public class ProdutoFrame extends javax.swing.JInternalFrame {
         tabelaAcabamentos = new javax.swing.JTable();
         pesquisar_acabamentos = new javax.swing.JButton();
         retirarAcabamento = new javax.swing.JButton();
-        tipoProduto = new javax.swing.JComboBox<>();
+        tipoProduto = new javax.swing.JComboBox<String>();
         disponivelVendas = new javax.swing.JCheckBox();
         jButton1 = new javax.swing.JButton();
         jPanel3 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tabelaConsulta = new javax.swing.JTable();
-        tipoPesquisa = new javax.swing.JComboBox<>();
+        tipoPesquisa = new javax.swing.JComboBox<String>();
         textoPesquisa = new javax.swing.JTextField();
         botaoPesquisar = new javax.swing.JButton();
         botaoMostrarUltimos = new javax.swing.JButton();
@@ -124,7 +124,7 @@ public class ProdutoFrame extends javax.swing.JInternalFrame {
         jPanel5 = new javax.swing.JPanel();
         jtfDescricaoPe = new javax.swing.JTextField();
         btnSalvarPe = new javax.swing.JButton();
-        jcbTipoPe = new javax.swing.JComboBox<>();
+        jcbTipoPe = new javax.swing.JComboBox<String>();
         jckbDispVendas = new javax.swing.JCheckBox();
         btnLimparPe = new javax.swing.JButton();
         jftfLarguraPe = new javax.swing.JFormattedTextField();
@@ -163,7 +163,7 @@ public class ProdutoFrame extends javax.swing.JInternalFrame {
         btnClonarPe = new javax.swing.JButton();
         jScrollPane4 = new javax.swing.JScrollPane();
         tblConsultaPe = new javax.swing.JTable();
-        tipoPesqPe = new javax.swing.JComboBox<>();
+        tipoPesqPe = new javax.swing.JComboBox<String>();
         altEstoque = new javax.swing.JButton();
 
         setTitle("CADASTRO DE PRODUTOS");
@@ -218,7 +218,7 @@ public class ProdutoFrame extends javax.swing.JInternalFrame {
         });
         jScrollPane2.setViewportView(tabelaPapel);
 
-        tipoPapel.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "SELECIONE...", "CAPA", "MIOLO", "FOLHA", "1ª VIA", "2ª VIA", "3ª VIA" }));
+        tipoPapel.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "SELECIONE...", "CAPA", "MIOLO", "FOLHA", "1ª VIA", "2ª VIA", "3ª VIA" }));
         tipoPapel.setBorder(javax.swing.BorderFactory.createTitledBorder("TIPO"));
         tipoPapel.addItemListener(new java.awt.event.ItemListener() {
             public void itemStateChanged(java.awt.event.ItemEvent evt) {
@@ -329,7 +329,7 @@ public class ProdutoFrame extends javax.swing.JInternalFrame {
             }
         });
 
-        quantidadeFolhas.setBorder(javax.swing.BorderFactory.createTitledBorder("QTD FOLHAS"));
+        quantidadeFolhas.setBorder(javax.swing.BorderFactory.createTitledBorder("QTD PÁGINAS"));
         quantidadeFolhas.setValue(1);
 
         jPanel4.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED), "ACABAMENTOS", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Arial", 1, 12))); // NOI18N
@@ -400,7 +400,7 @@ public class ProdutoFrame extends javax.swing.JInternalFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        tipoProduto.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "SELECIONE...", "FOLHA", "BLOCO", "LIVRO" }));
+        tipoProduto.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "SELECIONE...", "FOLHA", "BLOCO", "LIVRO" }));
         tipoProduto.setBorder(javax.swing.BorderFactory.createTitledBorder("TIPO"));
         tipoProduto.addItemListener(new java.awt.event.ItemListener() {
             public void itemStateChanged(java.awt.event.ItemEvent evt) {
@@ -506,7 +506,7 @@ public class ProdutoFrame extends javax.swing.JInternalFrame {
             tabelaConsulta.getColumnModel().getColumn(1).setPreferredWidth(700);
         }
 
-        tipoPesquisa.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "SELECIONE...", "CÓDIGO", "DESCRIÇÃO" }));
+        tipoPesquisa.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "SELECIONE...", "CÓDIGO", "DESCRIÇÃO" }));
         tipoPesquisa.setBorder(javax.swing.BorderFactory.createTitledBorder("PESQUISAR POR"));
         tipoPesquisa.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -618,7 +618,7 @@ public class ProdutoFrame extends javax.swing.JInternalFrame {
             }
         });
 
-        jcbTipoPe.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "SELECIONE...", "FOLHA", "BLOCO", "LIVRO" }));
+        jcbTipoPe.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "SELECIONE...", "FOLHA", "BLOCO", "LIVRO" }));
         jcbTipoPe.setBorder(javax.swing.BorderFactory.createTitledBorder("TIPO"));
         jcbTipoPe.addItemListener(new java.awt.event.ItemListener() {
             public void itemStateChanged(java.awt.event.ItemEvent evt) {
@@ -1018,7 +1018,7 @@ public class ProdutoFrame extends javax.swing.JInternalFrame {
             tblConsultaPe.getColumnModel().getColumn(5).setPreferredWidth(35);
         }
 
-        tipoPesqPe.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "SELECIONE...", "CÓDIGO", "DESCRIÇÃO" }));
+        tipoPesqPe.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "SELECIONE...", "CÓDIGO", "DESCRIÇÃO" }));
         tipoPesqPe.setBorder(javax.swing.BorderFactory.createTitledBorder("PESQUISAR POR"));
 
         altEstoque.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icones/editar.png"))); // NOI18N

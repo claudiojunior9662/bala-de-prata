@@ -832,17 +832,18 @@
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Component id="campoQuantidade" alignment="0" min="-2" max="-2" attributes="0"/>
-                          <Component id="campoTipoPessoa" alignment="0" min="-2" max="-2" attributes="0"/>
-                          <Group type="102" attributes="0">
+                          <Group type="102" alignment="0" attributes="0">
                               <Group type="103" groupAlignment="0" attributes="0">
                                   <Component id="campoCodigoOp" alignment="0" min="-2" max="-2" attributes="0"/>
                                   <Component id="campoCodigoCliente" alignment="0" min="-2" max="-2" attributes="0"/>
                                   <Component id="campoCodigoProduto" alignment="0" min="-2" max="-2" attributes="0"/>
                                   <Component id="campoDescricaoProduto" alignment="0" min="-2" max="-2" attributes="0"/>
                                   <Component id="campoCodigoOrcamento" alignment="0" min="-2" max="-2" attributes="0"/>
+                                  <Component id="campoTipoPessoa" alignment="0" min="-2" max="-2" attributes="0"/>
                               </Group>
                               <EmptySpace type="separate" max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="0" attributes="0">
+                                  <Component id="campoStatus" min="-2" max="-2" attributes="0"/>
                                   <Component id="campoDataEmissao" alignment="0" min="-2" max="-2" attributes="0"/>
                                   <Component id="campoValorParcial" alignment="0" min="-2" max="-2" attributes="0"/>
                                   <Component id="campoNomeCliente" min="-2" max="-2" attributes="0"/>
@@ -884,7 +885,10 @@
                           </Group>
                       </Group>
                       <EmptySpace min="-2" max="-2" attributes="0"/>
-                      <Component id="campoTipoPessoa" min="-2" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="3" attributes="0">
+                          <Component id="campoTipoPessoa" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="campoStatus" alignment="3" min="-2" max="-2" attributes="0"/>
+                      </Group>
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="campoQuantidade" min="-2" max="-2" attributes="0"/>
                       <EmptySpace pref="89" max="32767" attributes="0"/>
@@ -979,6 +983,11 @@
               <Events>
                 <EventHandler event="itemStateChanged" listener="java.awt.event.ItemListener" parameters="java.awt.event.ItemEvent" handler="campoDataEntregaItemStateChanged"/>
               </Events>
+            </Component>
+            <Component class="javax.swing.JCheckBox" name="campoStatus">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="STATUS"/>
+              </Properties>
             </Component>
           </SubComponents>
         </Container>

@@ -17,6 +17,8 @@ import entidades.OrdemProducao;
 import entidades.CalculosOpBEAN;
 import entidades.Servicos;
 import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import static model.dao.OrdemProducaoDAO.alteraDtCancelamento;
 import static model.dao.OrdemProducaoDAO.alteraStatusOp;
 import static model.dao.OrdemProducaoDAO.consultaOp;
@@ -1063,5 +1065,25 @@ public class OrdemProducaoDAO {
         }
     }
     
-    
+    public static int retornaAnoOp(int codOp) throws SQLException{
+        Connection con = ConnectionFactory.getConnection();
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+        
+        try{
+            stmt = con.prepareStatement("SELECT YEAR(tabela_ordens_producao.data_emissao) AS ano "
+                    + "FROM tabela_ordens_producao "
+                    + "WHERE tabela_ordens_producao.cod = ?");
+            stmt.setInt(1, codOp);
+            rs = stmt.executeQuery();
+            if(rs.next()){
+                return rs.getInt("ano");
+            }
+            return 0;
+        } catch (SQLException ex) {
+            throw new SQLException(ex);
+        }finally{
+            ConnectionFactory.closeConnection(con, stmt, rs);
+        }
+    }
 }

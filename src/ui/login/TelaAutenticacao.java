@@ -33,7 +33,7 @@ public class TelaAutenticacao extends javax.swing.JFrame {
     public static String tipoAtendente;
     public static String senhaAtendente;
     public static final String codVersao = "2.3.4";
-    public static final String atualizacao = "Alfa";
+    public static final String atualizacao = "Bravo";
 
     public TelaAutenticacao() {
         initComponents();
@@ -341,9 +341,7 @@ public class TelaAutenticacao extends javax.swing.JFrame {
                     mInt.setVisible(true);
                     this.setVisible(false);
 
-                    JOptionPane.showMessageDialog(null, "CORREÇÕES E ATUALIZAÇÕES DA v.2.3.2 Echo (07-05-2020)\n"
-                            + "- Correção ao editar faturamento;\n"
-                            + "CORREÇÕES E ATUALIZAÇÕES DA v.2.3.2 Foxtrot (09-05-2020)\n"
+                    JOptionPane.showMessageDialog(null, "CORREÇÕES E ATUALIZAÇÕES DA v.2.3.2 Foxtrot (09-05-2020)\n"
                             + "- Correção do bug ao pesquisar por código do cliente em FATURAMENTOS;\n"
                             + "CORREÇÕES E ATUALIZAÇÕES DA v.2.3.3 Alfa (10-05-2020)\n"
                             + "- Implementação da inserção de informações sobre o pagamento de empenhos via\n"
@@ -366,6 +364,8 @@ public class TelaAutenticacao extends javax.swing.JFrame {
                             + "venda dos produtos para pronta entrega;\n"
                             + "- Adição da tabela de corte de papel na tela de orçamentos;\n"
                             + "- Atualizações e correções diversas para fins de estabilidade e otimização;\n"
+                            + "CORREÇÕES E ATUALIZAÇÕES DA v.2.3.4 Bravo (26-05-2020)\n"
+                            + "- Correção de erros diversos e faturamento;\n"
                             + "AVISOS:\n"
                             + "- Todas as sugestões de melhoria de usabilidade do programa serão estudadas, mas não há previsão de implementação;\n"
                             + "- Qualquer problema nas correções acima expostas deverão ser informados o mais rápido possível à SPD;\n"
