@@ -282,6 +282,7 @@ public class RelatoriosFinanceiroDAO {
         return retorno;
     }
 
+    //FATURAMENTOS
     /**-------------------------------------------------------------------------
      * Retorna relatório faturamento
      * @param codigo
@@ -893,4 +894,5 @@ public class RelatoriosFinanceiroDAO {
 
         return retorno;
     }
+
 }

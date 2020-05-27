@@ -386,7 +386,15 @@ public class Orcamento {
                                     FontFactory.getFont("arial.ttf", 12, Font.BOLD)));
                         }
                     } else {
-                        celulaCabecalho = new PdfPCell(new Phrase("PROPOSTA DE ORÇAMENTO Nº " + codOrc, FontFactory.getFont("arial.ttf", 12, Font.BOLD)));
+                        if (produtos.get(0).getCodProduto().contains("PE")) {
+                                celulaCabecalho = new PdfPCell(new Phrase("PROPOSTA DE PEDIDO DE VENDA Nº "
+                                        + codOrc,
+                                        FontFactory.getFont("arial.ttf", 12, Font.BOLD)));
+                            } else {
+                                celulaCabecalho = new PdfPCell(new Phrase("PROPOSTA DE ORÇAMENTO Nº "
+                                        + codOrc,
+                                        FontFactory.getFont("arial.ttf", 12, Font.BOLD)));
+                            }
                     }
                     celulaCabecalho.setHorizontalAlignment(1);
                     celulaCabecalho.setBorder(0);

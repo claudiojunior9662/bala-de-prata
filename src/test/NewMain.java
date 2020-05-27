@@ -50,7 +50,7 @@ public class NewMain {
 
         try {
             stmt = con.prepareStatement("SELECT cod, nome "
-                    + "FROM tabela_clientes_juridicos ");
+                    + "FROM tabela_clientes_fisicos ");
             rs = stmt.executeQuery();
             while (rs.next()) {
                 credito = 0d;
@@ -59,7 +59,7 @@ public class NewMain {
 //                        + "WHERE DATE_FORMAT(STR_TO_DATE(`data`, '%d/%m/%Y'), '%Y-%m-%d') BETWEEN "
 //                        + "DATE_FORMAT(STR_TO_DATE('01/05/2020', '%d/%m/%Y'), '%Y-%m-%d') AND "
 //                        + "DATE_FORMAT(STR_TO_DATE('26/05/2020', '%d/%m/%Y'), '%Y-%m-%d') AND "
-//                        + "cod_cliente = ? AND tipo_pessoa = 2");
+//                        + "cod_cliente = ? AND tipo_pessoa = 1");
 //                stmt.setInt(1, rs.getInt("cod"));
 //                rs2 = stmt.executeQuery();
 //                while (rs2.next()) {
@@ -70,7 +70,7 @@ public class NewMain {
                         + "FROM FATURAMENTOS "
                         + "INNER JOIN tabela_ordens_producao ON tabela_ordens_producao.cod = FATURAMENTOS.CODIGO_OP "
                         + "WHERE FATURAMENTOS.DT_FAT BETWEEN '2020-05-01' AND '2020-05-26' AND "
-                        + "tabela_ordens_producao.cod_cliente = ? AND tabela_ordens_producao.tipo_cliente = 2");
+                        + "tabela_ordens_producao.cod_cliente = ? AND tabela_ordens_producao.tipo_cliente = 1");
                 stmt.setInt(1, rs.getInt("cod"));
                 rs2 = stmt.executeQuery();
                 while (rs2.next()) {
@@ -78,7 +78,8 @@ public class NewMain {
                 }
 
 //                if(credito != 0d){
-                    System.out.println(df.format(credito));
+//                System.out.println(rs.getInt("cod") + "#" + rs.getString("nome") + "#" + df.format(credito));
+                System.out.println(df.format(credito));
 //                }
             }
         } catch (SQLException ex) {
@@ -105,8 +106,8 @@ public class NewMain {
                     + "WHERE tabela_ordens_producao.status != 'ENTREGUE' "
                     + "AND tabela_ordens_producao.status != 'ENTREGUE PARCIALMENTE' "
                     + "AND tabela_ordens_producao.status != 'CANCELADA'"
-                    + "AND tabela_ordens_producao.tipo_cliente = 2 "
-                    + "AND tabela_ordens_producao.data_emissao BETWEEN '2018-01-01' AND '2020-05-26' "
+                    + "AND tabela_ordens_producao.tipo_cliente = 1 "
+                    + "AND tabela_ordens_producao.data_emissao BETWEEN '2020-01-01' AND '2020-05-26' "
                     + "ORDER BY tabela_ordens_producao.cod_cliente ASC");
             rs = stmt.executeQuery();
             while (rs.next()) {
@@ -119,9 +120,9 @@ public class NewMain {
                             + "WHERE tabela_ordens_producao.status != 'ENTREGUE' "
                             + "AND tabela_ordens_producao.status != 'ENTREGUE PARCIALMENTE' "
                             + "AND tabela_ordens_producao.status != 'CANCELADA'"
-                            + "AND tabela_ordens_producao.tipo_cliente = 2 "
+                            + "AND tabela_ordens_producao.tipo_cliente = 1 "
                             + "AND tabela_ordens_producao.cod_cliente = ? "
-                            + "AND tabela_ordens_producao.data_emissao BETWEEN '2018-01-01' AND '2020-05-26' "
+                            + "AND tabela_ordens_producao.data_emissao BETWEEN '2020-01-01' AND '2020-05-26' "
                             + "ORDER BY tabela_ordens_producao.cod_cliente ASC");
                     stmt.setInt(1, rs.getInt("tabela_ordens_producao.cod_cliente"));
                     rs2 = stmt.executeQuery();
@@ -202,7 +203,7 @@ public class NewMain {
                     + "AND tabela_orcamentos.FAT_TOTALMENTE > 1");
             rs = stmt.executeQuery();
             while (rs.next()) {
-                
+
                 if (!opsLidas.contains(rs.getInt("tabela_ordens_producao.cod"))) {
                     qtdProdutos = 0;
                     stmt = con.prepareStatement("SELECT tabela_ordens_producao.cod, "
@@ -219,7 +220,7 @@ public class NewMain {
                             + "AND tabela_orcamentos.FAT_TOTALMENTE > 1");
                     stmt.setInt(1, rs.getInt("cod_cliente"));
                     rs2 = stmt.executeQuery();
-                    while(rs2.next()){
+                    while (rs2.next()) {
                         opsLidas.add(rs2.getInt("tabela_ordens_producao.cod"));
                         stmt = con.prepareStatement("SELECT quantidade "
                                 + "FROM tabela_produtos_orcamento "
@@ -227,11 +228,13 @@ public class NewMain {
                         stmt.setInt(1, rs2.getInt("tabela_ordens_producao.orcamento_base"));
                         stmt.setInt(2, rs2.getInt("tabela_ordens_producao.cod_produto"));
                         rs3 = stmt.executeQuery();
-                        if(rs3.next()){qtdProdutos += rs3.getInt("quantidade");}
-                        System.out.println(rs2.getInt("tabela_ordens_producao.cod_produto") + "#" 
-                                + rs2.getString("PRODUTOS.DESCRICAO") + "#" +
-                                qtdProdutos);
-                    } 
+                        if (rs3.next()) {
+                            qtdProdutos += rs3.getInt("quantidade");
+                        }
+                        System.out.println(rs2.getInt("tabela_ordens_producao.cod_produto") + "#"
+                                + rs2.getString("PRODUTOS.DESCRICAO") + "#"
+                                + qtdProdutos);
+                    }
                 }
             }
         } catch (SQLException ex) {
