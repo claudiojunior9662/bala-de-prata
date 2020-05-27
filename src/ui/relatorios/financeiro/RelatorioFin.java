@@ -6,16 +6,12 @@
 package ui.relatorios.financeiro;
 
 import com.itextpdf.text.DocumentException;
-import com.itextpdf.text.Font;
 import com.itextpdf.text.FontFactory;
-import com.itextpdf.text.Image;
 import com.itextpdf.text.PageSize;
 import com.itextpdf.text.Paragraph;
 import com.itextpdf.text.Phrase;
-import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
-import com.lowagie.text.Element;
 import entidades.Cliente;
 import exception.EnvioExcecao;
 import java.io.File;
@@ -23,15 +19,15 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.sql.SQLException;
-import java.text.DecimalFormat;
 import java.util.Date;
 import javax.swing.DefaultListModel;
 import javax.swing.JLabel;
 import ui.administrador.FuncionarioBEAN;
 import ui.administrador.FuncionarioDAO;
-import ui.cadastros.clientes.ClienteDAO;
 import ui.controle.Controle;
 import ui.login.TelaAutenticacao;
+import static ui.orcamentos.operacoes.OrcamentoPrincipalFrame.codigoCliente;
+import static ui.orcamentos.operacoes.OrcamentoPrincipalFrame.nomeCliente;
 
 /**
  *
@@ -52,23 +48,8 @@ public class RelatorioFin extends javax.swing.JInternalFrame {
     }
 
     public RelatorioFin(JLabel loading) {
-        try {
             initComponents();
-            this.loading = loading;
-            listaPesquisaCliente.setModel(model);
-
-            comboEmissores.removeAllItems();
-            for (FuncionarioBEAN cadastroFuncionariosBEAN
-                    : FuncionarioDAO.retornaAtendentes((byte) 3)) {
-                comboEmissores.addItem(cadastroFuncionariosBEAN.getCodigoAtendente() + " - "
-                        + cadastroFuncionariosBEAN.getNomeAtendente());
-            }
-
-            estadoInicial();
-        } catch (SQLException ex) {
-            EnvioExcecao envioExcecao = new EnvioExcecao(Controle.getDefaultGj(), ex);
-            EnvioExcecao.envio();
-        }
+            
     }
 
     /**
@@ -95,17 +76,17 @@ public class RelatorioFin extends javax.swing.JInternalFrame {
         pessoaFisica = new javax.swing.JRadioButton();
         porTodosClientes = new javax.swing.JRadioButton();
         jPanel3 = new javax.swing.JPanel();
-        periodoFim = new com.toedter.calendar.JDateChooser();
-        porTodosPeriodos = new javax.swing.JRadioButton();
-        porPeriodoRadio = new javax.swing.JRadioButton();
+        jdcFimPeriodo = new com.toedter.calendar.JDateChooser();
+        jrbTodos = new javax.swing.JRadioButton();
+        jrbPorPeriodo = new javax.swing.JRadioButton();
         jLabel1 = new javax.swing.JLabel();
-        periodoInicio = new com.toedter.calendar.JDateChooser();
+        jdcInicioPeriodo = new com.toedter.calendar.JDateChooser();
         jLabel2 = new javax.swing.JLabel();
-        porPeriodoRadio1 = new javax.swing.JRadioButton();
-        jYearChooser1 = new com.toedter.calendar.JYearChooser();
-        porPeriodoRadio2 = new javax.swing.JRadioButton();
-        jMonthChooser1 = new com.toedter.calendar.JMonthChooser();
-        jYearChooser2 = new com.toedter.calendar.JYearChooser();
+        jrbPorAno = new javax.swing.JRadioButton();
+        jycAno = new com.toedter.calendar.JYearChooser();
+        jrbPorMes = new javax.swing.JRadioButton();
+        jmcMes = new com.toedter.calendar.JMonthChooser();
+        jycAnoMes = new com.toedter.calendar.JYearChooser();
         jPanel5 = new javax.swing.JPanel();
         porCodigoCrescente = new javax.swing.JRadioButton();
         porCodigoDecrescente = new javax.swing.JRadioButton();
@@ -186,19 +167,19 @@ public class RelatorioFin extends javax.swing.JInternalFrame {
 
         jTabbedPane1.addTab("CLIENTE", new javax.swing.ImageIcon(getClass().getResource("/icones/cliente.png")), jPanel1); // NOI18N
 
-        grupoPeriodo.add(porTodosPeriodos);
-        porTodosPeriodos.setText("TODOS");
-        porTodosPeriodos.addItemListener(new java.awt.event.ItemListener() {
+        grupoPeriodo.add(jrbTodos);
+        jrbTodos.setText("TODOS");
+        jrbTodos.addItemListener(new java.awt.event.ItemListener() {
             public void itemStateChanged(java.awt.event.ItemEvent evt) {
-                porTodosPeriodosItemStateChanged(evt);
+                jrbTodosItemStateChanged(evt);
             }
         });
 
-        grupoPeriodo.add(porPeriodoRadio);
-        porPeriodoRadio.setText("POR PERÍODO");
-        porPeriodoRadio.addItemListener(new java.awt.event.ItemListener() {
+        grupoPeriodo.add(jrbPorPeriodo);
+        jrbPorPeriodo.setText("POR PERÍODO");
+        jrbPorPeriodo.addItemListener(new java.awt.event.ItemListener() {
             public void itemStateChanged(java.awt.event.ItemEvent evt) {
-                porPeriodoRadioItemStateChanged(evt);
+                jrbPorPeriodoItemStateChanged(evt);
             }
         });
 
@@ -206,19 +187,19 @@ public class RelatorioFin extends javax.swing.JInternalFrame {
 
         jLabel2.setText("FIM");
 
-        grupoPeriodo.add(porPeriodoRadio1);
-        porPeriodoRadio1.setText("POR ANO");
-        porPeriodoRadio1.addItemListener(new java.awt.event.ItemListener() {
+        grupoPeriodo.add(jrbPorAno);
+        jrbPorAno.setText("POR ANO");
+        jrbPorAno.addItemListener(new java.awt.event.ItemListener() {
             public void itemStateChanged(java.awt.event.ItemEvent evt) {
-                porPeriodoRadio1ItemStateChanged(evt);
+                jrbPorAnoItemStateChanged(evt);
             }
         });
 
-        grupoPeriodo.add(porPeriodoRadio2);
-        porPeriodoRadio2.setText("POR MÊS");
-        porPeriodoRadio2.addItemListener(new java.awt.event.ItemListener() {
+        grupoPeriodo.add(jrbPorMes);
+        jrbPorMes.setText("POR MÊS");
+        jrbPorMes.addItemListener(new java.awt.event.ItemListener() {
             public void itemStateChanged(java.awt.event.ItemEvent evt) {
-                porPeriodoRadio2ItemStateChanged(evt);
+                jrbPorMesItemStateChanged(evt);
             }
         });
 
@@ -229,58 +210,59 @@ public class RelatorioFin extends javax.swing.JInternalFrame {
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(porPeriodoRadio2)
-                    .addComponent(porPeriodoRadio)
-                    .addComponent(porTodosPeriodos)
+                    .addComponent(jrbPorMes)
+                    .addComponent(jrbPorPeriodo)
+                    .addComponent(jrbTodos)
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addGap(21, 21, 21)
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addGroup(jPanel3Layout.createSequentialGroup()
                                 .addComponent(jLabel1)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(periodoInicio, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(jYearChooser1, javax.swing.GroupLayout.PREFERRED_SIZE, 133, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jMonthChooser1, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(jdcInicioPeriodo, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jycAno, javax.swing.GroupLayout.PREFERRED_SIZE, 133, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addGroup(jPanel3Layout.createSequentialGroup()
-                                .addComponent(jLabel2)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(periodoFim, javax.swing.GroupLayout.PREFERRED_SIZE, 128, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(jYearChooser2, javax.swing.GroupLayout.PREFERRED_SIZE, 133, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addComponent(porPeriodoRadio1))
+                        .addComponent(jLabel2)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jdcFimPeriodo, javax.swing.GroupLayout.PREFERRED_SIZE, 128, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jrbPorAno)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
+                        .addComponent(jmcMes, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jycAnoMes, javax.swing.GroupLayout.PREFERRED_SIZE, 133, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(63, 63, 63)))
                 .addContainerGap(503, Short.MAX_VALUE))
         );
 
-        jPanel3Layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {periodoFim, periodoInicio});
+        jPanel3Layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {jdcFimPeriodo, jdcInicioPeriodo});
 
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(porPeriodoRadio)
+                .addComponent(jrbPorPeriodo)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel1)
-                    .addComponent(periodoInicio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jdcInicioPeriodo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(periodoFim, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jdcFimPeriodo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(porPeriodoRadio2)
+                .addComponent(jrbPorMes)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jMonthChooser1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jYearChooser2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jmcMes, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jycAnoMes, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(porPeriodoRadio1)
+                .addComponent(jrbPorAno)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jYearChooser1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jycAno, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(porTodosPeriodos)
-                .addContainerGap(51, Short.MAX_VALUE))
+                .addComponent(jrbTodos)
+                .addContainerGap(48, Short.MAX_VALUE))
         );
 
-        jPanel3Layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {jLabel1, jLabel2, jMonthChooser1, jYearChooser1, jYearChooser2, periodoFim, periodoInicio, porPeriodoRadio});
+        jPanel3Layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {jLabel1, jLabel2, jdcFimPeriodo, jdcInicioPeriodo, jmcMes, jrbPorPeriodo, jycAno, jycAnoMes});
 
         jTabbedPane1.addTab("PERÍODO", new javax.swing.ImageIcon(getClass().getResource("/icones/periodo.png")), jPanel3); // NOI18N
 
@@ -445,84 +427,16 @@ public class RelatorioFin extends javax.swing.JInternalFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void porTipoPessoaItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_porTipoPessoaItemStateChanged
-        if (porCodigo.isSelected() == true) {
-            comboTipoPessoa.setEnabled(true);
-            codigoCliente.setEnabled(true);
-            nomeCliente.setEnabled(false);
-            listaPesquisaCliente.setVisible(false);
-            pessoaFisica.setEnabled(false);
-            pessoaJuridica.setEnabled(false);
-        } else if (porNome.isSelected() == true) {
-            comboTipoPessoa.setEnabled(false);
-            codigoCliente.setEnabled(false);
-            nomeCliente.setEnabled(true);
-            listaPesquisaCliente.setVisible(false);
-            pessoaFisica.setEnabled(false);
-            pessoaJuridica.setEnabled(false);
-        } else if (porTipoPessoa.isSelected() == true) {
-            comboTipoPessoa.setEnabled(false);
-            codigoCliente.setEnabled(false);
-            nomeCliente.setEnabled(false);
-            listaPesquisaCliente.setVisible(false);
-            pessoaFisica.setEnabled(true);
-            pessoaJuridica.setEnabled(true);
-        } else {
-            comboTipoPessoa.setEnabled(false);
-            codigoCliente.setEnabled(false);
-            nomeCliente.setEnabled(false);
-            listaPesquisaCliente.setVisible(false);
-            pessoaFisica.setEnabled(false);
-            pessoaJuridica.setEnabled(false);
-        }
+        
     }//GEN-LAST:event_porTipoPessoaItemStateChanged
 
     private void porTodosClientesItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_porTodosClientesItemStateChanged
-        if (porCodigo.isSelected() == true) {
-            comboTipoPessoa.setEnabled(true);
-            codigoCliente.setEnabled(true);
-            nomeCliente.setEnabled(false);
-            listaPesquisaCliente.setVisible(false);
-            pessoaFisica.setEnabled(false);
-            pessoaJuridica.setEnabled(false);
-        } else if (porNome.isSelected() == true) {
-            comboTipoPessoa.setEnabled(false);
-            codigoCliente.setEnabled(false);
-            nomeCliente.setEnabled(true);
-            listaPesquisaCliente.setVisible(false);
-            pessoaFisica.setEnabled(false);
-            pessoaJuridica.setEnabled(false);
-        } else if (porTipoPessoa.isSelected() == true) {
-            comboTipoPessoa.setEnabled(false);
-            codigoCliente.setEnabled(false);
-            nomeCliente.setEnabled(false);
-            listaPesquisaCliente.setVisible(false);
-            pessoaFisica.setEnabled(true);
-            pessoaJuridica.setEnabled(true);
-        } else {
-            comboTipoPessoa.setEnabled(false);
-            codigoCliente.setEnabled(false);
-            nomeCliente.setEnabled(false);
-            listaPesquisaCliente.setVisible(false);
-            pessoaFisica.setEnabled(false);
-            pessoaJuridica.setEnabled(false);
-        }
+        
     }//GEN-LAST:event_porTodosClientesItemStateChanged
 
-    private void porPeriodoRadioItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_porPeriodoRadioItemStateChanged
-        if (porDiaRadio.isSelected() == true) {
-            dia.setEnabled(true);
-            periodoInicio.setEnabled(false);
-            periodoFim.setEnabled(false);
-        } else if (porPeriodoRadio.isSelected() == true) {
-            dia.setEnabled(false);
-            periodoInicio.setEnabled(true);
-            periodoFim.setEnabled(true);
-        } else {
-            dia.setEnabled(false);
-            periodoInicio.setEnabled(false);
-            periodoFim.setEnabled(false);
-        }
-    }//GEN-LAST:event_porPeriodoRadioItemStateChanged
+    private void jrbPorPeriodoItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_jrbPorPeriodoItemStateChanged
+        
+    }//GEN-LAST:event_jrbPorPeriodoItemStateChanged
 
     private void porQuantidadeCrescenteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_porQuantidadeCrescenteActionPerformed
         // TODO add your handling code here:
@@ -532,33 +446,21 @@ public class RelatorioFin extends javax.swing.JInternalFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_porQuantidadeDecrescenteActionPerformed
 
-    private void porTodosPeriodosItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_porTodosPeriodosItemStateChanged
-        if (porDiaRadio.isSelected() == true) {
-            dia.setEnabled(true);
-            periodoInicio.setEnabled(false);
-            periodoFim.setEnabled(false);
-        } else if (porPeriodoRadio.isSelected() == true) {
-            dia.setEnabled(false);
-            periodoInicio.setEnabled(true);
-            periodoFim.setEnabled(true);
-        } else {
-            dia.setEnabled(false);
-            periodoInicio.setEnabled(false);
-            periodoFim.setEnabled(false);
-        }
-    }//GEN-LAST:event_porTodosPeriodosItemStateChanged
+    private void jrbTodosItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_jrbTodosItemStateChanged
+        
+    }//GEN-LAST:event_jrbTodosItemStateChanged
 
     private void botaoGeraRelatorio1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botaoGeraRelatorio1ActionPerformed
         geraRelatorio();
     }//GEN-LAST:event_botaoGeraRelatorio1ActionPerformed
 
-    private void porPeriodoRadio1ItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_porPeriodoRadio1ItemStateChanged
+    private void jrbPorAnoItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_jrbPorAnoItemStateChanged
         // TODO add your handling code here:
-    }//GEN-LAST:event_porPeriodoRadio1ItemStateChanged
+    }//GEN-LAST:event_jrbPorAnoItemStateChanged
 
-    private void porPeriodoRadio2ItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_porPeriodoRadio2ItemStateChanged
+    private void jrbPorMesItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_jrbPorMesItemStateChanged
         // TODO add your handling code here:
-    }//GEN-LAST:event_porPeriodoRadio2ItemStateChanged
+    }//GEN-LAST:event_jrbPorMesItemStateChanged
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -574,15 +476,19 @@ public class RelatorioFin extends javax.swing.JInternalFrame {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
-    private com.toedter.calendar.JMonthChooser jMonthChooser1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel5;
     private javax.swing.JTabbedPane jTabbedPane1;
-    private com.toedter.calendar.JYearChooser jYearChooser1;
-    private com.toedter.calendar.JYearChooser jYearChooser2;
-    private com.toedter.calendar.JDateChooser periodoFim;
-    private com.toedter.calendar.JDateChooser periodoInicio;
+    private com.toedter.calendar.JDateChooser jdcFimPeriodo;
+    private com.toedter.calendar.JDateChooser jdcInicioPeriodo;
+    private com.toedter.calendar.JMonthChooser jmcMes;
+    private javax.swing.JRadioButton jrbPorAno;
+    private javax.swing.JRadioButton jrbPorMes;
+    private javax.swing.JRadioButton jrbPorPeriodo;
+    private javax.swing.JRadioButton jrbTodos;
+    private com.toedter.calendar.JYearChooser jycAno;
+    private com.toedter.calendar.JYearChooser jycAnoMes;
     private javax.swing.JRadioButton pessoaFisica;
     private javax.swing.JRadioButton pessoaJuridica;
     private javax.swing.JRadioButton porCodigoCrescente;
@@ -592,15 +498,11 @@ public class RelatorioFin extends javax.swing.JInternalFrame {
     private javax.swing.JRadioButton porDataMaisAntiga;
     private javax.swing.JRadioButton porDataMaisAtual;
     private javax.swing.JRadioButton porEmissorOrdenar;
-    private javax.swing.JRadioButton porPeriodoRadio;
-    private javax.swing.JRadioButton porPeriodoRadio1;
-    private javax.swing.JRadioButton porPeriodoRadio2;
     private javax.swing.JRadioButton porQuantidadeCrescente;
     private javax.swing.JRadioButton porQuantidadeDecrescente;
     private javax.swing.JRadioButton porTipoPessoa;
     private javax.swing.JRadioButton porTipoPessoaOrdenar;
     private javax.swing.JRadioButton porTodosClientes;
-    private javax.swing.JRadioButton porTodosPeriodos;
     private javax.swing.JRadioButton porValorCrescente;
     private javax.swing.JRadioButton porValorDecrescente;
     private javax.swing.JRadioButton rBtnPaisagem;
@@ -609,34 +511,7 @@ public class RelatorioFin extends javax.swing.JInternalFrame {
     // End of variables declaration//GEN-END:variables
     //ESTADOS DA UI-------------------------------------------------------------
     public void estadoInicial() {
-        //CLIENTES
-        porTodosClientes.setSelected(true);
-        listaPesquisaCliente.setVisible(false);
-        //OP-ORCAMENTO----------------------------------------------------------
-        porTodosOpOrcamento.setSelected(true);
-        //EMISSOR---------------------------------------------------------------
-        porTodosEmissores.setSelected(true);
-        //PERIODO---------------------------------------------------------------
-        porTodosPeriodos.setSelected(true);
-        //TRANSPORTE------------------------------------------------------------
-        porTodosTransporte.setSelected(true);
-        //ORDENAR---------------------------------------------------------------
-        porCodigoCrescente.setEnabled(false);
-        porCodigoDecrescente.setEnabled(false);
-        porCodigoOpCrescente.setEnabled(false);
-        porCodigoOpDecrescente.setEnabled(false);
-        porQuantidadeCrescente.setEnabled(false);
-        porQuantidadeDecrescente.setEnabled(false);
-        porEmissorOrdenar.setEnabled(false);
-        porTipoPessoaOrdenar.setEnabled(false);
-        porValorCrescente.setEnabled(false);
-        porValorDecrescente.setEnabled(false);
-        porDataMaisAtual.setEnabled(false);
-        porDataMaisAntiga.setEnabled(false);
-        semOrdenacao.setEnabled(true);
-        semOrdenacao.setSelected(true);
-        //ORIENTAÇÃO
-        rBtnRetrato.setSelected(true);
+        
     }
 
     //GERA RELATÓRIO------------------------------------------------------------
@@ -683,7 +558,6 @@ public class RelatorioFin extends javax.swing.JInternalFrame {
                             + hora
                             + " - SISTEMA BALA DE PRATA\n\n", FontFactory.getFont("arial.ttf", 9))));
                     
-                    document.add(tabelaPrincipal);
 
                     document.close();
                 } catch (FileNotFoundException ex) {

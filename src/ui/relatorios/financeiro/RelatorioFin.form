@@ -173,31 +173,31 @@
                   <Group type="102" attributes="0">
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="porPeriodoRadio2" alignment="0" min="-2" max="-2" attributes="0"/>
-                          <Component id="porPeriodoRadio" min="-2" max="-2" attributes="0"/>
-                          <Component id="porTodosPeriodos" alignment="0" min="-2" max="-2" attributes="0"/>
+                          <Component id="jrbPorMes" alignment="0" min="-2" max="-2" attributes="0"/>
+                          <Component id="jrbPorPeriodo" min="-2" max="-2" attributes="0"/>
+                          <Component id="jrbTodos" alignment="0" min="-2" max="-2" attributes="0"/>
                           <Group type="102" attributes="0">
                               <EmptySpace min="-2" pref="21" max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="1" attributes="0">
                                   <Group type="102" attributes="0">
                                       <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
                                       <EmptySpace max="-2" attributes="0"/>
-                                      <Component id="periodoInicio" linkSize="7" min="-2" pref="132" max="-2" attributes="0"/>
+                                      <Component id="jdcInicioPeriodo" linkSize="7" min="-2" pref="132" max="-2" attributes="0"/>
                                   </Group>
-                                  <Component id="jYearChooser1" min="-2" pref="133" max="-2" attributes="0"/>
-                                  <Component id="jMonthChooser1" min="-2" pref="135" max="-2" attributes="0"/>
+                                  <Component id="jycAno" min="-2" pref="133" max="-2" attributes="0"/>
                               </Group>
                               <EmptySpace max="-2" attributes="0"/>
-                              <Group type="103" groupAlignment="1" attributes="0">
-                                  <Group type="102" attributes="0">
-                                      <Component id="jLabel2" min="-2" max="-2" attributes="0"/>
-                                      <EmptySpace max="-2" attributes="0"/>
-                                      <Component id="periodoFim" linkSize="7" min="-2" pref="128" max="-2" attributes="0"/>
-                                  </Group>
-                                  <Component id="jYearChooser2" min="-2" pref="133" max="-2" attributes="0"/>
-                              </Group>
+                              <Component id="jLabel2" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace max="-2" attributes="0"/>
+                              <Component id="jdcFimPeriodo" linkSize="7" min="-2" pref="128" max="-2" attributes="0"/>
                           </Group>
-                          <Component id="porPeriodoRadio1" alignment="0" min="-2" max="-2" attributes="0"/>
+                          <Component id="jrbPorAno" alignment="0" min="-2" max="-2" attributes="0"/>
+                          <Group type="102" alignment="1" attributes="0">
+                              <Component id="jmcMes" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                              <Component id="jycAnoMes" min="-2" pref="133" max="-2" attributes="0"/>
+                              <EmptySpace min="-2" pref="63" max="-2" attributes="0"/>
+                          </Group>
                       </Group>
                       <EmptySpace pref="503" max="32767" attributes="0"/>
                   </Group>
@@ -207,36 +207,36 @@
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" alignment="0" attributes="0">
                       <EmptySpace max="-2" attributes="0"/>
-                      <Component id="porPeriodoRadio" linkSize="1" min="-2" max="-2" attributes="0"/>
+                      <Component id="jrbPorPeriodo" linkSize="1" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Component id="jLabel1" linkSize="1" alignment="0" min="-2" max="-2" attributes="0"/>
-                          <Component id="periodoInicio" linkSize="1" alignment="0" min="-2" max="-2" attributes="0"/>
+                          <Component id="jdcInicioPeriodo" linkSize="1" alignment="0" min="-2" max="-2" attributes="0"/>
                           <Component id="jLabel2" linkSize="1" alignment="0" min="-2" pref="29" max="-2" attributes="0"/>
-                          <Component id="periodoFim" linkSize="1" alignment="0" min="-2" max="-2" attributes="0"/>
+                          <Component id="jdcFimPeriodo" linkSize="1" alignment="0" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                      <Component id="porPeriodoRadio2" min="-2" max="-2" attributes="0"/>
+                      <Component id="jrbPorMes" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="jMonthChooser1" linkSize="1" min="-2" max="-2" attributes="0"/>
-                          <Component id="jYearChooser2" linkSize="1" min="-2" max="-2" attributes="0"/>
+                          <Component id="jmcMes" linkSize="1" min="-2" max="-2" attributes="0"/>
+                          <Component id="jycAnoMes" linkSize="1" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                      <Component id="porPeriodoRadio1" min="-2" max="-2" attributes="0"/>
+                      <Component id="jrbPorAno" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
-                      <Component id="jYearChooser1" linkSize="1" min="-2" max="-2" attributes="0"/>
+                      <Component id="jycAno" linkSize="1" min="-2" max="-2" attributes="0"/>
                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                      <Component id="porTodosPeriodos" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace pref="51" max="32767" attributes="0"/>
+                      <Component id="jrbTodos" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace pref="48" max="32767" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
           </Layout>
           <SubComponents>
-            <Component class="com.toedter.calendar.JDateChooser" name="periodoFim">
+            <Component class="com.toedter.calendar.JDateChooser" name="jdcFimPeriodo">
             </Component>
-            <Component class="javax.swing.JRadioButton" name="porTodosPeriodos">
+            <Component class="javax.swing.JRadioButton" name="jrbTodos">
               <Properties>
                 <Property name="buttonGroup" type="javax.swing.ButtonGroup" editor="org.netbeans.modules.form.RADComponent$ButtonGroupPropertyEditor">
                   <ComponentRef name="grupoPeriodo"/>
@@ -244,10 +244,10 @@
                 <Property name="text" type="java.lang.String" value="TODOS"/>
               </Properties>
               <Events>
-                <EventHandler event="itemStateChanged" listener="java.awt.event.ItemListener" parameters="java.awt.event.ItemEvent" handler="porTodosPeriodosItemStateChanged"/>
+                <EventHandler event="itemStateChanged" listener="java.awt.event.ItemListener" parameters="java.awt.event.ItemEvent" handler="jrbTodosItemStateChanged"/>
               </Events>
             </Component>
-            <Component class="javax.swing.JRadioButton" name="porPeriodoRadio">
+            <Component class="javax.swing.JRadioButton" name="jrbPorPeriodo">
               <Properties>
                 <Property name="buttonGroup" type="javax.swing.ButtonGroup" editor="org.netbeans.modules.form.RADComponent$ButtonGroupPropertyEditor">
                   <ComponentRef name="grupoPeriodo"/>
@@ -255,7 +255,7 @@
                 <Property name="text" type="java.lang.String" value="POR PER&#xcd;ODO"/>
               </Properties>
               <Events>
-                <EventHandler event="itemStateChanged" listener="java.awt.event.ItemListener" parameters="java.awt.event.ItemEvent" handler="porPeriodoRadioItemStateChanged"/>
+                <EventHandler event="itemStateChanged" listener="java.awt.event.ItemListener" parameters="java.awt.event.ItemEvent" handler="jrbPorPeriodoItemStateChanged"/>
               </Events>
             </Component>
             <Component class="javax.swing.JLabel" name="jLabel1">
@@ -263,14 +263,14 @@
                 <Property name="text" type="java.lang.String" value="INIC&#xcd;O"/>
               </Properties>
             </Component>
-            <Component class="com.toedter.calendar.JDateChooser" name="periodoInicio">
+            <Component class="com.toedter.calendar.JDateChooser" name="jdcInicioPeriodo">
             </Component>
             <Component class="javax.swing.JLabel" name="jLabel2">
               <Properties>
                 <Property name="text" type="java.lang.String" value="FIM"/>
               </Properties>
             </Component>
-            <Component class="javax.swing.JRadioButton" name="porPeriodoRadio1">
+            <Component class="javax.swing.JRadioButton" name="jrbPorAno">
               <Properties>
                 <Property name="buttonGroup" type="javax.swing.ButtonGroup" editor="org.netbeans.modules.form.RADComponent$ButtonGroupPropertyEditor">
                   <ComponentRef name="grupoPeriodo"/>
@@ -278,12 +278,12 @@
                 <Property name="text" type="java.lang.String" value="POR ANO"/>
               </Properties>
               <Events>
-                <EventHandler event="itemStateChanged" listener="java.awt.event.ItemListener" parameters="java.awt.event.ItemEvent" handler="porPeriodoRadio1ItemStateChanged"/>
+                <EventHandler event="itemStateChanged" listener="java.awt.event.ItemListener" parameters="java.awt.event.ItemEvent" handler="jrbPorAnoItemStateChanged"/>
               </Events>
             </Component>
-            <Component class="com.toedter.calendar.JYearChooser" name="jYearChooser1">
+            <Component class="com.toedter.calendar.JYearChooser" name="jycAno">
             </Component>
-            <Component class="javax.swing.JRadioButton" name="porPeriodoRadio2">
+            <Component class="javax.swing.JRadioButton" name="jrbPorMes">
               <Properties>
                 <Property name="buttonGroup" type="javax.swing.ButtonGroup" editor="org.netbeans.modules.form.RADComponent$ButtonGroupPropertyEditor">
                   <ComponentRef name="grupoPeriodo"/>
@@ -291,12 +291,12 @@
                 <Property name="text" type="java.lang.String" value="POR M&#xca;S"/>
               </Properties>
               <Events>
-                <EventHandler event="itemStateChanged" listener="java.awt.event.ItemListener" parameters="java.awt.event.ItemEvent" handler="porPeriodoRadio2ItemStateChanged"/>
+                <EventHandler event="itemStateChanged" listener="java.awt.event.ItemListener" parameters="java.awt.event.ItemEvent" handler="jrbPorMesItemStateChanged"/>
               </Events>
             </Component>
-            <Component class="com.toedter.calendar.JMonthChooser" name="jMonthChooser1">
+            <Component class="com.toedter.calendar.JMonthChooser" name="jmcMes">
             </Component>
-            <Component class="com.toedter.calendar.JYearChooser" name="jYearChooser2">
+            <Component class="com.toedter.calendar.JYearChooser" name="jycAnoMes">
             </Component>
           </SubComponents>
         </Container>

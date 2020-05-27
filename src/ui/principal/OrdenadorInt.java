@@ -53,8 +53,8 @@ public class OrdenadorInt extends javax.swing.JFrame {
                                     + Controle.retornaAvOrd()
                             );
                             
-                            if(Controle.verificaVersao(TelaAutenticacao.codVersao, 
-                                    TelaAutenticacao.atualizacao)){
+                            if(Controle.verificaVersao(TelaAutenticacao.getCodVersao(), 
+                                    TelaAutenticacao.getAtualizacao())){
                                 atualizacao.setVisible(true);
                             }
                             Thread.sleep(600000);

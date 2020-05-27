@@ -40,8 +40,6 @@ import exception.EnvioExcecao;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import model.dao.OrcamentoDAO;
 import model.dao.OrdemProducaoDAO;
 import ui.cadastros.clientes.ClienteDAO;
@@ -2115,9 +2113,10 @@ public class FatFrame extends javax.swing.JInternalFrame {
         try {
             double vlrTotal = 0d;
             if (!listaCancelamento.contains(OrdemProducaoDAO.retornaAnoOp(Integer.valueOf(codOp.getText())))) {
-                vlrTotal += (int) qtdSerEntregue.getValue() * (double) valorUnitario.getValue();
-                vlrTotal += faturarServicos.isSelected() ? (double) valorServicos.getValue() : 0d;
-                vlrTotal += faturarFrete.isSelected() ? (double) valorFrete.getValue() : 0d;
+                vlrTotal += (int) qtdSerEntregue.getValue() * 
+                        Double.valueOf(valorUnitario.getText().replace(",", ".").replace("R$ ", ""));
+                vlrTotal += faturarServicos.isSelected() ? Double.valueOf(valorServicos.getText().replace(",", ".").replace("R$ ", "")) : 0d;
+                vlrTotal += faturarFrete.isSelected() ? Double.valueOf(valorFrete.getText().replace(",", ".").replace("R$ ", "")) : 0d;
                 valorTotalEntregue.setValue(vlrTotal);
             }else{
                 avisoAnoFin.setVisible(true);

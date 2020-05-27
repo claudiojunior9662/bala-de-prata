@@ -66,8 +66,8 @@ public class Expedicao extends javax.swing.JFrame {
                                     + "\n\n* Dicas de utilização:\n\n"
                                     + Controle.retornaAvExp());
                             
-                            if(Controle.verificaVersao(TelaAutenticacao.codVersao, 
-                                    TelaAutenticacao.atualizacao)){
+                            if(Controle.verificaVersao(TelaAutenticacao.getCodVersao(), 
+                                    TelaAutenticacao.getAtualizacao())){
                                 atualizacao.setVisible(true);
                             }
                             Thread.sleep(600000);

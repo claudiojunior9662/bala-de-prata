@@ -1406,16 +1406,16 @@ public class OrcamentoPrincipalFrame extends javax.swing.JInternalFrame {
 
     private void adicionarProdutoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_adicionarProdutoActionPerformed
         DefaultTableModel modeloTiragem = (DefaultTableModel) tabelaTiragens.getModel();
-        if (modeloTiragem.getRowCount() > 0 & TIPO_ORCAMENTO == 1) {
-            JOptionPane.showMessageDialog(null,
-                    "ESSA FUNÇÃO ESTÁ LIMITADA A APENAS 1 PRODUTO POR PROPOSTA.",
-                    "ATENÇÃO",
-                    JOptionPane.INFORMATION_MESSAGE);
-        } else {
+//        if (modeloTiragem.getRowCount() > 0 & TIPO_ORCAMENTO == 1) {
+//            JOptionPane.showMessageDialog(null,
+//                    "ESSA FUNÇÃO ESTÁ LIMITADA A APENAS 1 PRODUTO POR PROPOSTA.",
+//                    "ATENÇÃO",
+//                    JOptionPane.INFORMATION_MESSAGE);
+//        } else {
             gj.abrirJanelas(ProdutoFrame.getInstancia(loading, gj), "CADASTRO DE PRODUTOS");
             ProdutoFrame.orcamentoNovo = true;
             ProdutoFrame.setSEL_ORC(true);
-        }
+//        }
     }//GEN-LAST:event_adicionarProdutoActionPerformed
 
     private void tabelaTiragensMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tabelaTiragensMouseClicked
@@ -1546,7 +1546,13 @@ public class OrcamentoPrincipalFrame extends javax.swing.JInternalFrame {
                         case 2:
                             switch (STATUS) {
                                 case 1:
-                                    enviarProducao.setEnabled(true);
+                                    if(TIPO_ORCAMENTO == 1){
+                                        enviarProducao.setEnabled(false);
+                                        enviarExpedicao.setEnabled(true);
+                                    }else{
+                                        enviarProducao.setEnabled(true);
+                                        enviarExpedicao.setEnabled(false);
+                                    }
                                     excluir.setEnabled(true);
                                     editar.setEnabled(true);
                                     naoAprovadoCliente.setEnabled(true);
@@ -1559,12 +1565,19 @@ public class OrcamentoPrincipalFrame extends javax.swing.JInternalFrame {
                                 case 8:
                                 case 9:
                                     enviarProducao.setEnabled(false);
+                                    enviarExpedicao.setEnabled(false);
                                     excluir.setEnabled(false);
                                     editar.setEnabled(false);
                                     naoAprovadoCliente.setEnabled(false);
                                     break;
                                 case 4:
-                                    enviarProducao.setEnabled(true);
+                                    if(TIPO_ORCAMENTO == 1){
+                                        enviarProducao.setEnabled(false);
+                                        enviarExpedicao.setEnabled(true);
+                                    }else{
+                                        enviarProducao.setEnabled(true);
+                                        enviarExpedicao.setEnabled(false);
+                                    }
                                     excluir.setEnabled(true);
                                     editar.setEnabled(true);
                                     naoAprovadoCliente.setEnabled(true);
@@ -1590,7 +1603,13 @@ public class OrcamentoPrincipalFrame extends javax.swing.JInternalFrame {
                         default:
                             switch (STATUS) {
                                 case 1:
-                                    enviarProducao.setEnabled(true);
+                                    if(TIPO_ORCAMENTO == 1){
+                                        enviarProducao.setEnabled(false);
+                                        enviarExpedicao.setEnabled(true);
+                                    }else{
+                                        enviarProducao.setEnabled(true);
+                                        enviarExpedicao.setEnabled(false);
+                                    }
                                     excluir.setEnabled(true);
                                     editar.setEnabled(true);
                                     naoAprovadoCliente.setEnabled(true);
@@ -1608,7 +1627,13 @@ public class OrcamentoPrincipalFrame extends javax.swing.JInternalFrame {
                                     naoAprovadoCliente.setEnabled(false);
                                     break;
                                 case 4:
-                                    enviarProducao.setEnabled(true);
+                                    if(TIPO_ORCAMENTO == 1){
+                                        enviarProducao.setEnabled(false);
+                                        enviarExpedicao.setEnabled(true);
+                                    }else{
+                                        enviarProducao.setEnabled(true);
+                                        enviarExpedicao.setEnabled(false);
+                                    }
                                     excluir.setEnabled(true);
                                     editar.setEnabled(true);
                                     naoAprovadoCliente.setEnabled(true);
@@ -2514,6 +2539,7 @@ public class OrcamentoPrincipalFrame extends javax.swing.JInternalFrame {
         negarProducao.setEnabled(false);
         //----------------------------------
         enviarProducao.setEnabled(false);
+        enviarExpedicao.setEnabled(false);
         salvarOrcamento.setEnabled(false);
         desconto.setValue(0);
         cif.setValue(0);

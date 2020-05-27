@@ -43,8 +43,8 @@ public class Producao extends javax.swing.JFrame {
                             taAvisos.setText("* Dicas de utilização:\n\n"
                                     + Controle.retornaAvProd());
                             
-                            if(Controle.verificaVersao(TelaAutenticacao.codVersao, 
-                                    TelaAutenticacao.atualizacao)){
+                            if(Controle.verificaVersao(TelaAutenticacao.getCodVersao(), 
+                                    TelaAutenticacao.getAtualizacao())){
                                 atualizacao.setVisible(true);
                             }
                             Thread.sleep(600000);

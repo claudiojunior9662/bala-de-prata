@@ -32,8 +32,18 @@ public class TelaAutenticacao extends javax.swing.JFrame {
     public static String loginAtendente;
     public static String tipoAtendente;
     public static String senhaAtendente;
-    public static final String codVersao = "2.3.4";
-    public static final String atualizacao = "Bravo";
+    private static final String codVersao = "2.3.4";
+    private static final String atualizacao = "Charlie";
+
+    public static String getCodVersao() {
+        return codVersao;
+    }
+
+    public static String getAtualizacao() {
+        return atualizacao;
+    }
+    
+    
 
     public TelaAutenticacao() {
         initComponents();
@@ -366,6 +376,8 @@ public class TelaAutenticacao extends javax.swing.JFrame {
                             + "- Atualizações e correções diversas para fins de estabilidade e otimização;\n"
                             + "CORREÇÕES E ATUALIZAÇÕES DA v.2.3.4 Bravo (26-05-2020)\n"
                             + "- Correção de erros diversos e faturamento;\n"
+                            + "CORREÇÕES E ATUALIZAÇÕES DA v.2.3.4 Charlie (27-05-2020)\n"
+                            + "- Remoção da limitação para adicionar produtos para pronta entrega na proposta de orçamento;\n"
                             + "AVISOS:\n"
                             + "- Todas as sugestões de melhoria de usabilidade do programa serão estudadas, mas não há previsão de implementação;\n"
                             + "- Qualquer problema nas correções acima expostas deverão ser informados o mais rápido possível à SPD;\n"

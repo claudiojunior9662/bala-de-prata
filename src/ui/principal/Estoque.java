@@ -43,8 +43,8 @@ public class Estoque extends javax.swing.JFrame {
                 while (true) {
                     try {
                         try {
-                            if(Controle.verificaVersao(TelaAutenticacao.codVersao, 
-                                    TelaAutenticacao.atualizacao)){
+                            if(Controle.verificaVersao(TelaAutenticacao.getCodVersao(), 
+                                    TelaAutenticacao.getAtualizacao())){
                                 atualizacao.setVisible(true);
                             }
                             Thread.sleep(600000);
