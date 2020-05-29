@@ -92,7 +92,7 @@ public class ProdutoFrame extends javax.swing.JInternalFrame {
         jPanel1 = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
         tabelaPapel = new javax.swing.JTable();
-        tipoPapel = new javax.swing.JComboBox<String>();
+        tipoPapel = new javax.swing.JComboBox<>();
         coresFrente = new com.toedter.components.JSpinField();
         coresVerso = new com.toedter.components.JSpinField();
         concluirPapel = new javax.swing.JButton();
@@ -108,13 +108,13 @@ public class ProdutoFrame extends javax.swing.JInternalFrame {
         tabelaAcabamentos = new javax.swing.JTable();
         pesquisar_acabamentos = new javax.swing.JButton();
         retirarAcabamento = new javax.swing.JButton();
-        tipoProduto = new javax.swing.JComboBox<String>();
+        tipoProduto = new javax.swing.JComboBox<>();
         disponivelVendas = new javax.swing.JCheckBox();
         jButton1 = new javax.swing.JButton();
         jPanel3 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tabelaConsulta = new javax.swing.JTable();
-        tipoPesquisa = new javax.swing.JComboBox<String>();
+        tipoPesquisa = new javax.swing.JComboBox<>();
         textoPesquisa = new javax.swing.JTextField();
         botaoPesquisar = new javax.swing.JButton();
         botaoMostrarUltimos = new javax.swing.JButton();
@@ -124,7 +124,7 @@ public class ProdutoFrame extends javax.swing.JInternalFrame {
         jPanel5 = new javax.swing.JPanel();
         jtfDescricaoPe = new javax.swing.JTextField();
         btnSalvarPe = new javax.swing.JButton();
-        jcbTipoPe = new javax.swing.JComboBox<String>();
+        jcbTipoPe = new javax.swing.JComboBox<>();
         jckbDispVendas = new javax.swing.JCheckBox();
         btnLimparPe = new javax.swing.JButton();
         jftfLarguraPe = new javax.swing.JFormattedTextField();
@@ -163,7 +163,7 @@ public class ProdutoFrame extends javax.swing.JInternalFrame {
         btnClonarPe = new javax.swing.JButton();
         jScrollPane4 = new javax.swing.JScrollPane();
         tblConsultaPe = new javax.swing.JTable();
-        tipoPesqPe = new javax.swing.JComboBox<String>();
+        tipoPesqPe = new javax.swing.JComboBox<>();
         altEstoque = new javax.swing.JButton();
 
         setTitle("CADASTRO DE PRODUTOS");
@@ -218,7 +218,7 @@ public class ProdutoFrame extends javax.swing.JInternalFrame {
         });
         jScrollPane2.setViewportView(tabelaPapel);
 
-        tipoPapel.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "SELECIONE...", "CAPA", "MIOLO", "FOLHA", "1ª VIA", "2ª VIA", "3ª VIA" }));
+        tipoPapel.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "SELECIONE...", "CAPA", "MIOLO", "FOLHA", "1ª VIA", "2ª VIA", "3ª VIA" }));
         tipoPapel.setBorder(javax.swing.BorderFactory.createTitledBorder("TIPO"));
         tipoPapel.addItemListener(new java.awt.event.ItemListener() {
             public void itemStateChanged(java.awt.event.ItemEvent evt) {
@@ -400,7 +400,7 @@ public class ProdutoFrame extends javax.swing.JInternalFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        tipoProduto.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "SELECIONE...", "FOLHA", "BLOCO", "LIVRO" }));
+        tipoProduto.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "SELECIONE...", "FOLHA", "BLOCO", "LIVRO" }));
         tipoProduto.setBorder(javax.swing.BorderFactory.createTitledBorder("TIPO"));
         tipoProduto.addItemListener(new java.awt.event.ItemListener() {
             public void itemStateChanged(java.awt.event.ItemEvent evt) {
@@ -483,12 +483,19 @@ public class ProdutoFrame extends javax.swing.JInternalFrame {
 
             },
             new String [] {
-                "CÓDIGO", "DESCRIÇÃO"
+                "CÓDIGO", "ID", "DESCRIÇÃO"
             }
         ) {
-            boolean[] canEdit = new boolean [] {
-                false, false
+            Class[] types = new Class [] {
+                java.lang.Object.class, java.lang.String.class, java.lang.Object.class
             };
+            boolean[] canEdit = new boolean [] {
+                false, false, false
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
                 return canEdit [columnIndex];
@@ -503,10 +510,11 @@ public class ProdutoFrame extends javax.swing.JInternalFrame {
         if (tabelaConsulta.getColumnModel().getColumnCount() > 0) {
             tabelaConsulta.getColumnModel().getColumn(0).setMinWidth(50);
             tabelaConsulta.getColumnModel().getColumn(0).setPreferredWidth(50);
-            tabelaConsulta.getColumnModel().getColumn(1).setPreferredWidth(700);
+            tabelaConsulta.getColumnModel().getColumn(1).setPreferredWidth(15);
+            tabelaConsulta.getColumnModel().getColumn(2).setPreferredWidth(700);
         }
 
-        tipoPesquisa.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "SELECIONE...", "CÓDIGO", "DESCRIÇÃO" }));
+        tipoPesquisa.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "SELECIONE...", "CÓDIGO", "DESCRIÇÃO" }));
         tipoPesquisa.setBorder(javax.swing.BorderFactory.createTitledBorder("PESQUISAR POR"));
         tipoPesquisa.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -618,7 +626,7 @@ public class ProdutoFrame extends javax.swing.JInternalFrame {
             }
         });
 
-        jcbTipoPe.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "SELECIONE...", "FOLHA", "BLOCO", "LIVRO" }));
+        jcbTipoPe.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "SELECIONE...", "FOLHA", "BLOCO", "LIVRO" }));
         jcbTipoPe.setBorder(javax.swing.BorderFactory.createTitledBorder("TIPO"));
         jcbTipoPe.addItemListener(new java.awt.event.ItemListener() {
             public void itemStateChanged(java.awt.event.ItemEvent evt) {
@@ -977,14 +985,14 @@ public class ProdutoFrame extends javax.swing.JInternalFrame {
 
             },
             new String [] {
-                "CÓDIGO", "DESCRIÇÃO", "VALOR UNITÁRIO", "ESTOQUE", "PRÉ-VENDA", "PROMOÇÃO"
+                "CÓDIGO", "ID", "DESCRIÇÃO", "VALOR UNITÁRIO", "ESTOQUE", "PRÉ-VENDA", "PROMOÇÃO"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.String.class, java.lang.String.class, java.lang.Double.class, java.lang.Integer.class, java.lang.Boolean.class, java.lang.Boolean.class
+                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Double.class, java.lang.Integer.class, java.lang.Boolean.class, java.lang.Boolean.class
             };
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false
+                false, false, false, false, false, false, false
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -1012,13 +1020,14 @@ public class ProdutoFrame extends javax.swing.JInternalFrame {
         if (tblConsultaPe.getColumnModel().getColumnCount() > 0) {
             tblConsultaPe.getColumnModel().getColumn(0).setMinWidth(50);
             tblConsultaPe.getColumnModel().getColumn(0).setPreferredWidth(20);
-            tblConsultaPe.getColumnModel().getColumn(1).setPreferredWidth(400);
-            tblConsultaPe.getColumnModel().getColumn(3).setPreferredWidth(30);
-            tblConsultaPe.getColumnModel().getColumn(4).setPreferredWidth(35);
-            tblConsultaPe.getColumnModel().getColumn(5).setPreferredWidth(35);
+            tblConsultaPe.getColumnModel().getColumn(1).setPreferredWidth(15);
+            tblConsultaPe.getColumnModel().getColumn(2).setPreferredWidth(400);
+            tblConsultaPe.getColumnModel().getColumn(4).setPreferredWidth(30);
+            tblConsultaPe.getColumnModel().getColumn(5).setPreferredWidth(45);
+            tblConsultaPe.getColumnModel().getColumn(6).setPreferredWidth(45);
         }
 
-        tipoPesqPe.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "SELECIONE...", "CÓDIGO", "DESCRIÇÃO" }));
+        tipoPesqPe.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "SELECIONE...", "CÓDIGO", "DESCRIÇÃO" }));
         tipoPesqPe.setBorder(javax.swing.BorderFactory.createTitledBorder("PESQUISAR POR"));
 
         altEstoque.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icones/editar.png"))); // NOI18N
@@ -1212,8 +1221,8 @@ public class ProdutoFrame extends javax.swing.JInternalFrame {
             }
 
             botaoClonar.setEnabled(true);
-            COD_PROD = 
-                    Integer.valueOf(tabelaConsulta.getValueAt(tabelaConsulta.getSelectedRow(), 0).toString());
+            COD_PROD
+                    = Integer.valueOf(tabelaConsulta.getValueAt(tabelaConsulta.getSelectedRow(), 0).toString());
             if (ProdutoDAO.retornaUsoProduto(Integer.valueOf(COD_PROD)) == 1) {
                 botaoEditar.setEnabled(false);
             } else {
@@ -1248,8 +1257,8 @@ public class ProdutoFrame extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_botaoMostrarUltimosActionPerformed
 
     private void botaoSelecionarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botaoSelecionarActionPerformed
-        COD_PROD = 
-                Integer.valueOf(tabelaConsulta.getValueAt(tabelaConsulta.getSelectedRow(), 0).toString());
+        COD_PROD
+                = Integer.valueOf(tabelaConsulta.getValueAt(tabelaConsulta.getSelectedRow(), 0).toString());
         new Thread() {
             @Override
             public void run() {
@@ -1529,8 +1538,8 @@ public class ProdutoFrame extends javax.swing.JInternalFrame {
             loading.setVisible(true);
             loading.setText("CARREGANDO...");
 
-            COD_PROD = 
-                    Integer.valueOf(tblConsultaPe.getValueAt(tblConsultaPe.getSelectedRow(), 0).toString());
+            COD_PROD
+                    = Integer.valueOf(tblConsultaPe.getValueAt(tblConsultaPe.getSelectedRow(), 0).toString());
 
             //CARREGA OS DADOS DO BD--------------------------------------------
             ProdutoPrEntBEAN produto = ProdutoDAO.retornaPeEdicao(COD_PROD);
@@ -1584,8 +1593,8 @@ public class ProdutoFrame extends javax.swing.JInternalFrame {
                     loading.setText("CARREGANDO...");
                     loading.setVisible(true);
 
-                    COD_PROD = 
-                            Integer.valueOf(tblConsultaPe.getValueAt(tblConsultaPe.getSelectedRow(), 0).toString());
+                    COD_PROD
+                            = Integer.valueOf(tblConsultaPe.getValueAt(tblConsultaPe.getSelectedRow(), 0).toString());
 
                     //CARREGA OS DADOS DO BD------------------------------------
                     ProdutoPrEntBEAN produto = ProdutoDAO.retornaPeEdicao(COD_PROD);
@@ -1635,8 +1644,8 @@ public class ProdutoFrame extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_btnEditarPeActionPerformed
 
     private void btnSelPeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSelPeActionPerformed
-        COD_PROD = 
-                Integer.valueOf(tblConsultaPe.getValueAt(tblConsultaPe.getSelectedRow(), 0).toString());
+        COD_PROD
+                = Integer.valueOf(tblConsultaPe.getValueAt(tblConsultaPe.getSelectedRow(), 0).toString());
         new Thread() {
             @Override
             public void run() {
@@ -1651,14 +1660,7 @@ public class ProdutoFrame extends javax.swing.JInternalFrame {
             DefaultTableModel modeloConsulta = (DefaultTableModel) tblConsultaPe.getModel();
             modeloConsulta.setNumRows(0);
             for (ProdutoPrEntBEAN produto : ProdutoDAO.pesquisaPe((byte) 3, null)) {
-                modeloConsulta.addRow(new Object[]{
-                    produto.getCodigo(),
-                    produto.getDescricao(),
-                    produto.getVlrUnit(),
-                    produto.getEstoque(),
-                    (produto.getPreVenda() == 1),
-                    (produto.getPromocao() == 1)
-                });
+                adicionaTblConsultaPe(modeloConsulta, produto);
             }
         } catch (SQLException ex) {
             EnvioExcecao envioExcecao = new EnvioExcecao(Controle.getDefaultGj(), ex);
@@ -1678,27 +1680,13 @@ public class ProdutoFrame extends javax.swing.JInternalFrame {
                 case 1:
                     for (ProdutoPrEntBEAN produto : ProdutoDAO.pesquisaPe((byte) 1,
                             textoPesqPe.getText())) {
-                        modeloConsulta.addRow(new Object[]{
-                            produto.getCodigo(),
-                            produto.getDescricao(),
-                            produto.getVlrUnit(),
-                            produto.getEstoque(),
-                            (produto.getPreVenda() == 1),
-                            (produto.getPromocao() == 1)
-                        });
+                        adicionaTblConsultaPe(modeloConsulta, produto);
                     }
                     break;
                 case 2:
                     for (ProdutoPrEntBEAN produto : ProdutoDAO.pesquisaPe((byte) 2,
                             textoPesqPe.getText())) {
-                        modeloConsulta.addRow(new Object[]{
-                            produto.getCodigo(),
-                            produto.getDescricao(),
-                            produto.getVlrUnit(),
-                            produto.getEstoque(),
-                            (produto.getPreVenda() == 1),
-                            (produto.getPromocao() == 1)
-                        });
+                        adicionaTblConsultaPe(modeloConsulta, produto);
                     }
                     break;
             }
@@ -1717,8 +1705,8 @@ public class ProdutoFrame extends javax.swing.JInternalFrame {
                     loading.setText("CARREGANDO...");
                     loading.setVisible(true);
 
-                    COD_PROD = 
-                            Integer.valueOf(tblConsultaPe.getValueAt(tblConsultaPe.getSelectedRow(), 0).toString());
+                    COD_PROD
+                            = Integer.valueOf(tblConsultaPe.getValueAt(tblConsultaPe.getSelectedRow(), 0).toString());
 
                     /**
                      * Carrega mais informações sobre o produto
@@ -1887,8 +1875,8 @@ public class ProdutoFrame extends javax.swing.JInternalFrame {
     //TABELA CONSULTA-----------------------------------------------------------
     private void mouseClicked() {
         try {
-            COD_PROD = 
-                    Integer.valueOf(tblConsultaPe.getValueAt(tblConsultaPe.getSelectedRow(), 0).toString());
+            COD_PROD
+                    = Integer.valueOf(tblConsultaPe.getValueAt(tblConsultaPe.getSelectedRow(), 0).toString());
 
             if (ProdutoDAO.verificaUsoProdPe(COD_PROD)) {
                 btnEditarPe.setEnabled(false);
@@ -2035,8 +2023,8 @@ public class ProdutoFrame extends javax.swing.JInternalFrame {
             loading.setText("CARREGANDO CLONAGEM...");
 
             limpa();
-            COD_PROD = 
-                    Integer.valueOf(tabelaConsulta.getValueAt(tabelaConsulta.getSelectedRow(), 0).toString());
+            COD_PROD
+                    = Integer.valueOf(tabelaConsulta.getValueAt(tabelaConsulta.getSelectedRow(), 0).toString());
             FUNCAO = 2;
 
             ProdutoBEAN produto = ProdutoDAO.retornaInfoProd(COD_PROD, (byte) 1);
@@ -2243,13 +2231,11 @@ public class ProdutoFrame extends javax.swing.JInternalFrame {
         modeloConsulta.setNumRows(0);
         if (tipoPesquisa.getSelectedItem().equals("SELECIONE...")) {
             JOptionPane.showMessageDialog(null, "SELECIONE UM TIPO DE PESQUISA!");
-            return;
         } else {
             try {
-                for (ProdutoBEAN cadastroProdutosBEAN : ProdutoDAO.pesquisaRegistro((String) tipoPesquisa.getSelectedItem(), textoPesquisa.getText().toString())) {
-                    modeloConsulta.addRow(new Object[]{
-                        cadastroProdutosBEAN.getCodigo(),
-                        cadastroProdutosBEAN.getDescricao()});
+                for (ProdutoBEAN produto : ProdutoDAO.pesquisaRegistro((String) tipoPesquisa.getSelectedItem(), 
+                        textoPesquisa.getText())) {
+                    adicionaTblConsultaPp(modeloConsulta, produto);
                 }
             } catch (SQLException ex) {
                 EnvioExcecao envioExcecao = new EnvioExcecao(Controle.getDefaultGj(), ex);
@@ -2263,10 +2249,8 @@ public class ProdutoFrame extends javax.swing.JInternalFrame {
         try {
             DefaultTableModel modeloConsulta = (DefaultTableModel) tabelaConsulta.getModel();
             modeloConsulta.setNumRows(0);
-            for (ProdutoBEAN cadastroProdutosBEAN : ProdutoDAO.mostraTodos()) {
-                modeloConsulta.addRow(new Object[]{
-                    cadastroProdutosBEAN.getCodigo(),
-                    cadastroProdutosBEAN.getDescricao()});
+            for (ProdutoBEAN produto : ProdutoDAO.mostraTodos()) {
+                adicionaTblConsultaPp(modeloConsulta, produto);
             }
         } catch (SQLException ex) {
             EnvioExcecao envioExcecao = new EnvioExcecao(Controle.getDefaultGj(), ex);
@@ -2281,8 +2265,8 @@ public class ProdutoFrame extends javax.swing.JInternalFrame {
             loading.setText("CARREGANDO EDIÇÃO...");
 
             limpa();
-            COD_PROD = 
-                    Integer.valueOf(tabelaConsulta.getValueAt(tabelaConsulta.getSelectedRow(), 0).toString());
+            COD_PROD
+                    = Integer.valueOf(tabelaConsulta.getValueAt(tabelaConsulta.getSelectedRow(), 0).toString());
             FUNCAO = 1;
 
             ProdutoBEAN produto = ProdutoDAO.retornaInfoProd(COD_PROD, (byte) 1);
@@ -2323,6 +2307,25 @@ public class ProdutoFrame extends javax.swing.JInternalFrame {
         }
 
         loading.setVisible(false);
+    }
+
+    private void adicionaTblConsultaPe(DefaultTableModel modelo, ProdutoPrEntBEAN produto) {
+        modelo.addRow(new Object[]{
+            produto.getCodigo(),
+            "PE",
+            produto.getDescricao(),
+            produto.getVlrUnit(),
+            produto.getEstoque(),
+            (produto.getPreVenda() == 1),
+            (produto.getPromocao() == 1)
+        });
+    }
+
+    private void adicionaTblConsultaPp(DefaultTableModel modelo, ProdutoBEAN produto) {
+        modelo.addRow(new Object[]{
+            produto.getCodigo(),
+            "PP",
+            produto.getDescricao()});
     }
 
 }

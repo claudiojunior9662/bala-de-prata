@@ -195,6 +195,12 @@ public class ProdutoDAO {
         }
     }
 
+    /**
+     * Carrega os produtos do orçamento
+     * @param codOrcamento código do orçamento
+     * @return
+     * @throws SQLException 
+     */
     public static List<ProdOrcamento> carregaProdutosOrcamento(int codOrcamento) throws SQLException {
         Connection con = ConnectionFactory.getConnection();
         PreparedStatement stmt = null;
@@ -515,12 +521,16 @@ public class ProdutoDAO {
         try {
             switch (tipoProduto) {
                 case 1:
-                    stmt = con.prepareStatement("SELECT DESCRICAO FROM PRODUTOS_PR_ENT WHERE CODIGO = ?");
+                    stmt = con.prepareStatement("SELECT DESCRICAO "
+                            + "FROM PRODUTOS "
+                            + "WHERE CODIGO = ?");
                     stmt.setInt(1, codProduto);
                     break;
                 case 2:
-                    stmt = con.prepareStatement("SELECT DESCRICAO FROM PRODUTOS WHERE CODIGO = ?");
-                    stmt.setInt(1, Integer.valueOf(codProduto));
+                    stmt = con.prepareStatement("SELECT DESCRICAO "
+                            + "FROM PRODUTOS_PR_ENT "
+                            + "WHERE CODIGO = ?");
+                    stmt.setInt(1, codProduto);
                     break;
                 case 3:
 
@@ -1306,7 +1316,7 @@ public class ProdutoDAO {
         }
     }
 
-    /**
+    /**Seleciona as dimensões do produto
      * @param codProduto Código do produto
      * @return List altura e largura do produto
      * @throws java.sql.SQLException
@@ -1337,4 +1347,17 @@ public class ProdutoDAO {
         }
     }
     //--------------------------------------------------------------------------
+    
+    public synchronized static String traduzCodProd(int codProd, byte tipoProd){
+        switch(tipoProd){
+            case 1:
+                return "PP" + codProd;
+            case 2:
+                return "PE" + codProd;
+            case 3:
+                return "PI" + codProd;
+            default:
+                return null;
+        }
+    }
 }

@@ -631,7 +631,7 @@ public class OrdemProducaoDAO {
                 retorno.add(aux);
             }
         } catch (SQLException ex) {
-            throw new SQLException();
+            throw new SQLException(ex);
         } finally {
             ConnectionFactory.closeConnection(con, stmt, rs);
         }
