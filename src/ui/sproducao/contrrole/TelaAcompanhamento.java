@@ -923,7 +923,7 @@ public class TelaAcompanhamento extends javax.swing.JInternalFrame {
                                     op.getCodigo(),
                                     Controle.dataPadrao.format(op.getDataEntrega()),
                                     op.getStatus(),
-                                    ProdutoDAO.retornaDescricaoProduto(op.getCodProduto())
+                                    ProdutoDAO.retornaDescricaoProduto(op.getCodProduto(), op.getTipoProduto())
                                 });
                             }
                         }
@@ -933,7 +933,7 @@ public class TelaAcompanhamento extends javax.swing.JInternalFrame {
                                 op.getCodigo(),
                                 Controle.dataPadrao.format(op.getDataEntrega()),
                                 op.getStatus(),
-                                ProdutoDAO.retornaDescricaoProduto(op.getCodProduto())
+                                ProdutoDAO.retornaDescricaoProduto(op.getCodProduto(), op.getTipoProduto())
                             });
                         }
                     } else if (produto.isSelected() == true) {
@@ -946,7 +946,7 @@ public class TelaAcompanhamento extends javax.swing.JInternalFrame {
                                 op.getCodigo(),
                                 Controle.dataPadrao.format(op.getDataEntrega()),
                                 op.getStatus(),
-                                ProdutoDAO.retornaDescricaoProduto(op.getCodProduto())
+                                ProdutoDAO.retornaDescricaoProduto(op.getCodProduto(), op.getTipoProduto())
                             });
                         }
                     } else if (mesEmissao.isSelected()) {
@@ -963,7 +963,7 @@ public class TelaAcompanhamento extends javax.swing.JInternalFrame {
                                 op.getCodigo(),
                                 Controle.dataPadrao.format(op.getDataEntrega()),
                                 op.getStatus(),
-                                ProdutoDAO.retornaDescricaoProduto(op.getCodProduto())
+                                ProdutoDAO.retornaDescricaoProduto(op.getCodProduto(), op.getTipoProduto())
                             });
 
                         }
@@ -981,7 +981,7 @@ public class TelaAcompanhamento extends javax.swing.JInternalFrame {
                                 op.getCodigo(),
                                 Controle.dataPadrao.format(op.getDataEntrega()),
                                 op.getStatus(),
-                                ProdutoDAO.retornaDescricaoProduto(op.getCodProduto())
+                                ProdutoDAO.retornaDescricaoProduto(op.getCodProduto(), op.getTipoProduto())
                             });
 
                         }
@@ -992,7 +992,7 @@ public class TelaAcompanhamento extends javax.swing.JInternalFrame {
                                 op.getCodigo(),
                                 Controle.dataPadrao.format(op.getDataEntrega()),
                                 op.getStatus(),
-                                ProdutoDAO.retornaDescricaoProduto(op.getCodProduto())
+                                ProdutoDAO.retornaDescricaoProduto(op.getCodProduto(), op.getTipoProduto())
                             });
                         }
                     }
@@ -1312,7 +1312,7 @@ public class TelaAcompanhamento extends javax.swing.JInternalFrame {
                     dataEntrada.setText(Controle.dataPadrao.format(op.getDataEmissao()));
                     dataPrevEntrega.setDate(op.getDataEntrega());
                     observacoesOrcamento.setText(op.getDescricao());
-                    codigoProduto.setText(op.getCodProduto());
+                    codigoProduto.setText(String.valueOf(op.getCodProduto()));
 
                     /**
                      * Preenche as datas
@@ -1398,8 +1398,8 @@ public class TelaAcompanhamento extends javax.swing.JInternalFrame {
                     /**
                      * Preenche o código do produto
                      */
-                    if (!op.getCodProduto().equals("0")) {
-                        descricaoProduto.setText(ProdutoDAO.retornaDescricaoProduto(op.getCodProduto()));
+                    if (op.getCodProduto() != 0) {
+                        descricaoProduto.setText(ProdutoDAO.retornaDescricaoProduto(op.getCodProduto(), op.getTipoProduto()));
                     } else {
                         descricaoProduto.setText("SERVIÇOS");
                     }

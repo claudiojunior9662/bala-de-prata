@@ -12,7 +12,8 @@ package entidades;
 public class ProdOrcamento {
 
     private int codOrcamento;
-    private String codProduto;
+    private int codProduto;
+    private byte tipoProduto;
     private String descricaoProduto;
     private int quantidade;
     private String observacaoProduto;
@@ -24,13 +25,14 @@ public class ProdOrcamento {
     public ProdOrcamento(String descricaoProduto,
             int quantidade,
             float precoUnitario,
-            String codProduto,
+            int codProduto,
+            byte tipoProduto,
             String observacaoProduto) {
         this.descricaoProduto = descricaoProduto;
         this.quantidade = quantidade;
         this.codProduto = codProduto;
+        this.tipoProduto = tipoProduto;
         this.precoUnitario = precoUnitario;
-        this.codProduto = codProduto;
     }
 
     public ProdOrcamento() {
@@ -100,12 +102,20 @@ public class ProdOrcamento {
         this.quantidade = quantidade;
     }
 
-    public String getCodProduto() {
+    public int getCodProduto() {
         return codProduto;
     }
 
-    public void setCodProduto(String codProduto) {
+    public void setCodProduto(int codProduto) {
         this.codProduto = codProduto;
+    }
+
+    public byte getTipoProduto() {
+        return tipoProduto;
+    }
+
+    public void setTipoProduto(byte tipoProduto) {
+        this.tipoProduto = tipoProduto;
     }
 
 }

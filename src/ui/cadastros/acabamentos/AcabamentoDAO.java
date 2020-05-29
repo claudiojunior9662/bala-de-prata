@@ -262,14 +262,21 @@ public class AcabamentoDAO {
         return retorno;
     }
 
-    public static void criaAcabamentosProduto(AcabamentoProdBEAN cadastroProdutosComponentesBEAN) throws SQLException {
+    /**
+     * Associa os acabamentos do produto
+     * @param cadastroProd acabamentos do produto
+     * @throws SQLException 
+     */
+    public static void criaAcabamentosProduto(AcabamentoProdBEAN cadastroProd) throws SQLException {
         Connection con = ConnectionFactory.getConnection();
         PreparedStatement stmt = null;
 
         try {
-            stmt = con.prepareStatement("INSERT INTO tabela_componentes_produto(cod_produto, cod_acabamento) VALUES(?,?)");
-            stmt.setInt(1, cadastroProdutosComponentesBEAN.getCodigoProduto());
-            stmt.setInt(2, cadastroProdutosComponentesBEAN.getCodigoAcabamento());
+            stmt = con.prepareStatement("INSERT INTO tabela_componentes_produto(cod_produto, tipo_produto, cod_acabamento) "
+                    + "VALUES(?,?,?)");
+            stmt.setInt(1, cadastroProd.getCodigoProduto());
+            stmt.setByte(2, cadastroProd.getTipoProduto());
+            stmt.setInt(3, cadastroProd.getCodigoAcabamento());
             stmt.executeUpdate();
         } catch (SQLException ex) {
             throw new SQLException(ex);
@@ -278,13 +285,21 @@ public class AcabamentoDAO {
         }
     }
     
-    public static void excluiAcabamentosProduto(int cod) throws SQLException{
+    /**
+     * Exclui os acabamentos do produto
+     * @param codProd
+     * @throws SQLException 
+     */
+    public static void excluiAcabamentosProduto(int codProd, byte tipoProd) throws SQLException{
         Connection con = ConnectionFactory.getConnection();
         PreparedStatement stmt = null;
         
         try{
-            stmt = con.prepareStatement("DELETE FROM tabela_componentes_produto WHERE cod_produto = ?");
-            stmt.setInt(1, cod);
+            stmt = con.prepareStatement("DELETE "
+                    + "FROM tabela_componentes_produto "
+                    + "WHERE cod_produto = ? AND tipo_produto = ?");
+            stmt.setInt(1, codProd);
+            stmt.setByte(2, tipoProd);
             stmt.executeUpdate();
         } catch (SQLException ex) {
             throw new SQLException(ex);
@@ -295,11 +310,11 @@ public class AcabamentoDAO {
     
     /**
      * Retorna os acabamentos atrelados ao produto
-     * @param codigoProduto código do produto
+     * @param codProd código do produto
      * @return
      * @throws SQLException 
      */
-    public static List<AcabamentoProdBEAN> retornaAcabamentosProduto(String codigoProduto) throws SQLException{
+    public static List<AcabamentoProdBEAN> retornaAcabamentosProduto(int codProd) throws SQLException{
         Connection con = ConnectionFactory.getConnection();
         PreparedStatement stmt = null;
         ResultSet rs = null;
@@ -310,7 +325,7 @@ public class AcabamentoDAO {
             stmt = con.prepareStatement("SELECT cod_acabamento "
                     + "FROM tabela_componentes_produto "
                     + "WHERE cod_produto = ?");
-            stmt.setString(1, codigoProduto);
+            stmt.setInt(1, codProd);
             rs = stmt.executeQuery();
             if(rs.wasNull()){
                 throw new SemAcabamentoException();

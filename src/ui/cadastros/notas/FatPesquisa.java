@@ -478,7 +478,7 @@ public class FatPesquisa extends javax.swing.JInternalFrame {
              * preenche informações dos produtos
              */
             ProdOrcamento prodOrc = OrcamentoDAO.selecionaInformacoesProduto(
-                    fat.getCodOrc(), op.getCodProduto());
+                    fat.getCodOrc(), op.getCodProduto(), op.getTipoProduto());
             FatFrame.descricao.setText(prodOrc.getDescricaoProduto());
             FatFrame.qtdSolicitada.setValue(prodOrc.getQuantidade());
             FatFrame.qtdEntregue.setValue(fat.getQtdEntregue());
@@ -490,7 +490,7 @@ public class FatPesquisa extends javax.swing.JInternalFrame {
             FatFrame.valorUnitario.setValue(prodOrc.getPrecoUnitario());
             FatFrame.setCOD_PRODUTO(prodOrc.getCodProduto());
 
-            if (op.getCodProduto().contains("PE")) {
+            if (op.getTipoProduto() == 2) {
                 /**
                  * Pesquisa as informações do produto
                  */

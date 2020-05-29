@@ -33,6 +33,15 @@ public class EnviarOrdemProducaoFrame extends javax.swing.JInternalFrame {
     private static int COD_CONTATO = 0;
     private static int COD_ENDERECO = 0;
     private static double VLR_ORC = 0d;
+    private static byte TIPO_PROD = 0;
+
+    public static byte getTIPO_PROD() {
+        return TIPO_PROD;
+    }
+
+    public static void setTIPO_PROD(byte TIPO_PROD) {
+        EnviarOrdemProducaoFrame.TIPO_PROD = TIPO_PROD;
+    }
 
     public static double getVLR_ORC() {
         return VLR_ORC;
@@ -516,14 +525,14 @@ public class EnviarOrdemProducaoFrame extends javax.swing.JInternalFrame {
             for (int i = 0; i < tabelaProdutos.getRowCount(); i++) {
 
                 int codOp = OrdemProducaoDAO.retornaUltimoRegistro() + 1;
-                String codProd = tabelaProdutos.getValueAt(i, 0).toString();
+                int codProd = Integer.valueOf(tabelaProdutos.getValueAt(i, 0).toString());
 
                 op.setCodigo(codOp);
                 op.setOrcBase(ORC_BASE);
                 op.setCodCliente(Integer.valueOf(codigoCliente.getValue().toString()));
                 op.setTipoPessoa(tipoPessoa.getText().contains("FÍSICA") ? (byte) 1 : (byte) 2);
                 op.setDataEmissao(new Date());
-                op.setStatus(codProd.contains("PE") ? "ENCAMINHADO PARA EXPEDIÇÃO"
+                op.setStatus(getTIPO_PROD() == 2 ? "ENCAMINHADO PARA EXPEDIÇÃO"
                         : "EM AVALIAÇÃO PELA SEÇ TÉCNICA");
                 try {
                     op.setDataEntrega(Controle.dataPadrao.parse(tabelaProdutos.getValueAt(i, 5).toString()));
@@ -537,13 +546,15 @@ public class EnviarOrdemProducaoFrame extends javax.swing.JInternalFrame {
                 op.setCodProduto(codProd);
                 op.setCodContato(COD_CONTATO);
                 op.setCodEndereco(COD_ENDERECO);
+                op.setTipoProduto(getTIPO_PROD());
                 OrdemProducaoDAO.createOp(op);
 
-                if (!codProd.equals("0")) {
+                if (codProd != 0) {
                     for (int j = 0; j < tabelaPapeis.getRowCount(); j++) {
                         if (tabelaPapeis.getValueAt(j, 0).equals(codProd)) {
                             OrdemProducaoDAO.alteraCalculosOp(ORC_BASE,
                                     codProd,
+                                    getTIPO_PROD(),
                                     Integer.valueOf(tabelaPapeis.getValueAt(j, 1).toString()),
                                     codOp,
                                     tabelaPapeis.getValueAt(j, 3).toString());
@@ -557,7 +568,7 @@ public class EnviarOrdemProducaoFrame extends javax.swing.JInternalFrame {
                 /**
                  * Retira do estoque, caso pronta entrega
                  */
-                if (codProd.contains("PE")) {
+                if (getTIPO_PROD() == 2) {
                     ProdutoDAO.movEst(codProd,
                             Integer.valueOf(tabelaQuantidades.getValueAt(i, 1).toString()),
                             (byte) 1);
@@ -593,7 +604,7 @@ public class EnviarOrdemProducaoFrame extends javax.swing.JInternalFrame {
             EnvioExcecao.envio();
         }
 
-        if (op.getCodProduto().contains("PE")) {
+        if (getTIPO_PROD() == 2) {
             JOptionPane.showMessageDialog(null, "PEDIDO DE VENDA ENVIADO COM SUCESSO."
                     + "\nCÓDIGO DO(S) PEDIDO(OS) DE VENDA: "
                     + listaOps

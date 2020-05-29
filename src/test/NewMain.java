@@ -146,37 +146,37 @@ public class NewMain {
         }
     }
 
-    private static void descontaOrdemProducao() {
-        Connection con = ConnectionFactory.getConnection();
-        PreparedStatement stmt = null;
-        ResultSet rs = null;
-        ResultSet rs2 = null;
-
-        try {
-            stmt = con.prepareStatement("SELECT orcamento_base, cod_cliente, tipo_cliente, cod_produto  "
-                    + "FROM tabela_ordens_producao "
-                    + "WHERE status != 'ENTREGUE' AND status != 'CANCELADA'");
-            rs = stmt.executeQuery();
-            while (rs.next()) {
-                stmt = con.prepareStatement("SELECT FAT_TOTALMENTE "
-                        + "FROM tabela_orcamentos "
-                        + "WHERE cod = ? AND FAT_TOTALMENTE = 0");
-                stmt.setInt(1, rs.getInt("orcamento_base"));
-                rs2 = stmt.executeQuery();
-                if (rs2.next()) {
-                    double vlrParc = OrcamentoDAO.retornaVlrParcProd(rs.getInt("orcamento_base"),
-                            rs.getString("cod_produto"));
-                    ClienteDAO.corrigeCredito(rs.getInt("cod_cliente"), (byte) rs.getInt("tipo_cliente"),
-                            vlrParc, (byte) 2);
-                    OrcamentoDAO.alteraStatus(rs.getInt("orcamento_base"), 1);
-                    System.out.println("Cliente: " + rs.getInt("cod_cliente") + " Tipo: " + rs.getInt("tipo_cliente")
-                            + " Orcamento: " + rs.getInt("orcamento_base") + " Valor descontado: " + vlrParc);
-                }
-            }
-        } catch (SQLException ex) {
-            Logger.getLogger(NewMain.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
+//    private static void descontaOrdemProducao() {
+//        Connection con = ConnectionFactory.getConnection();
+//        PreparedStatement stmt = null;
+//        ResultSet rs = null;
+//        ResultSet rs2 = null;
+//
+//        try {
+//            stmt = con.prepareStatement("SELECT orcamento_base, cod_cliente, tipo_cliente, cod_produto  "
+//                    + "FROM tabela_ordens_producao "
+//                    + "WHERE status != 'ENTREGUE' AND status != 'CANCELADA'");
+//            rs = stmt.executeQuery();
+//            while (rs.next()) {
+//                stmt = con.prepareStatement("SELECT FAT_TOTALMENTE "
+//                        + "FROM tabela_orcamentos "
+//                        + "WHERE cod = ? AND FAT_TOTALMENTE = 0");
+//                stmt.setInt(1, rs.getInt("orcamento_base"));
+//                rs2 = stmt.executeQuery();
+//                if (rs2.next()) {
+//                    double vlrParc = OrcamentoDAO.retornaVlrParcProd(rs.getInt("orcamento_base"),
+//                            rs.getString("cod_produto"));
+//                    ClienteDAO.corrigeCredito(rs.getInt("cod_cliente"), (byte) rs.getInt("tipo_cliente"),
+//                            vlrParc, (byte) 2);
+//                    OrcamentoDAO.alteraStatus(rs.getInt("orcamento_base"), 1);
+//                    System.out.println("Cliente: " + rs.getInt("cod_cliente") + " Tipo: " + rs.getInt("tipo_cliente")
+//                            + " Orcamento: " + rs.getInt("orcamento_base") + " Valor descontado: " + vlrParc);
+//                }
+//            }
+//        } catch (SQLException ex) {
+//            Logger.getLogger(NewMain.class.getName()).log(Level.SEVERE, null, ex);
+//        }
+//    }
 
     private static void ranking() {
         Connection con = ConnectionFactory.getConnection();

@@ -429,7 +429,7 @@ public class OpConsultaFrame extends javax.swing.JInternalFrame {
 
                 JLabel lbl2 = new JLabel("DIGITE O MOTIVO DO CANCELAMENTO");
                 JTextArea motivo = new JTextArea();
-                motivo.setPreferredSize(new Dimension(400,200));
+                motivo.setPreferredSize(new Dimension(400, 200));
                 motivo.setLineWrap(true);
                 int retorno2 = JOptionPane.showConfirmDialog(null,
                         new Object[]{lbl2, motivo},
@@ -437,14 +437,12 @@ public class OpConsultaFrame extends javax.swing.JInternalFrame {
                         JOptionPane.OK_CANCEL_OPTION);
                 String txtMotivo = "Motivo do cancelamento: " + motivo.getText();
                 if (retorno != 0 | txtMotivo.isEmpty()) {
-                    JOptionPane.showMessageDialog(null, 
+                    JOptionPane.showMessageDialog(null,
                             "INSIRA UM MOTIVO PARA O CANCELAMENTO DA OP",
                             "ERRO",
                             JOptionPane.ERROR_MESSAGE);
                     return;
                 }
-                
-                
 
                 CODIGO_OP = Integer.valueOf(tabelaConsulta.getValueAt(tabelaConsulta.getSelectedRow(), 0).toString());
                 CODIGO_ORCAMENTO_BASE = Integer.valueOf(tabelaConsulta.getValueAt(tabelaConsulta.getSelectedRow(), 1).toString());
@@ -453,6 +451,7 @@ public class OpConsultaFrame extends javax.swing.JInternalFrame {
                 OrdemProducaoDAO.alteraDtCancelamento(CODIGO_OP, new java.util.Date());
                 tabelaConsulta.setValueAt("CANCELADA", tabelaConsulta.getSelectedRow(), 7);
                 OrdemProducao.corTabela(tabelaConsulta, (byte) 2);
+                byte tipoProduto = OrdemProducaoDAO.retornaTipoProduto(CODIGO_OP);
 
                 /**
                  * Verifica se é o caso restaurar o crédito do cliente
@@ -460,6 +459,7 @@ public class OpConsultaFrame extends javax.swing.JInternalFrame {
                 if (OrcamentoDAO.retornaStatusFaturamento(CODIGO_ORCAMENTO_BASE) == 1) {
                     double vlrParc = OrcamentoDAO.retornaVlrParcProd(
                             CODIGO_ORCAMENTO_BASE,
+                            tipoProduto,
                             OrdemProducaoDAO.retornaCodProd(CODIGO_OP));
 
                     if (OrdemProducaoDAO.verificaOpOrcNEntregues(CODIGO_ORCAMENTO_BASE, CODIGO_OP)) {
@@ -632,8 +632,10 @@ public class OpConsultaFrame extends javax.swing.JInternalFrame {
              * Carrega informações sobre o produto
              */
             ProdOrcamento prodOrc = OrcamentoDAO.selecionaInformacoesProduto(
-                    CODIGO_ORCAMENTO_BASE, String.valueOf(op.getCodProduto()));
-            
+                    CODIGO_ORCAMENTO_BASE,
+                    op.getCodProduto(),
+                    op.getTipoProduto());
+
             /**
              * Define as informações sobre o faturamento
              */
@@ -680,9 +682,8 @@ public class OpConsultaFrame extends javax.swing.JInternalFrame {
                     0,
                     prodOrc.getQuantidade() - (int) FatFrame.qtdEntregue.getValue(),
                     1));
-            
-            
-            if (op.getCodProduto().contains("PE")) {
+
+            if (prodOrc.getTipoProduto() == 2) {
                 /**
                  * Pesquisa as informações do produto
                  */
@@ -747,7 +748,7 @@ public class OpConsultaFrame extends javax.swing.JInternalFrame {
                 modeloConsulta.addRow(new Object[]{
                     op.getCodigo(),
                     op.getOrcBase(),
-                    ProdutoDAO.retornaDescricaoProduto(op.getCodProduto()),
+                    ProdutoDAO.retornaDescricaoProduto(op.getCodProduto(), op.getTipoProduto()),
                     ClienteDAO.retornaNomeCliente(op.getCodCliente(), op.getTipoPessoa()),
                     tipoPessoa,
                     op.getDataEmissao(),
@@ -787,7 +788,7 @@ public class OpConsultaFrame extends javax.swing.JInternalFrame {
                 modeloConsulta.addRow(new Object[]{
                     op.getCodigo(),
                     op.getOrcBase(),
-                    ProdutoDAO.retornaDescricaoProduto(op.getCodProduto()),
+                    ProdutoDAO.retornaDescricaoProduto(op.getCodProduto(), op.getTipoProduto()),
                     ClienteDAO.retornaNomeCliente(op.getCodCliente(), op.getTipoPessoa()),
                     tipoPessoa,
                     op.getDataEmissao(),
@@ -851,7 +852,7 @@ public class OpConsultaFrame extends javax.swing.JInternalFrame {
                         modeloConsulta.addRow(new Object[]{
                             op.getCodigo(),
                             op.getOrcBase(),
-                            ProdutoDAO.retornaDescricaoProduto(op.getCodProduto()).toString(),
+                            ProdutoDAO.retornaDescricaoProduto(op.getCodProduto(), op.getTipoProduto()).toString(),
                             OrcamentoDAO.carregaNomeCliente(op.getTipoPessoa(), op.getCodCliente()),
                             op.getTipoPessoa() == 1 ? "PF" : "PJ",
                             op.getDataEmissao(),
@@ -868,7 +869,7 @@ public class OpConsultaFrame extends javax.swing.JInternalFrame {
                         modeloConsulta.addRow(new Object[]{
                             op.getCodigo(),
                             op.getOrcBase(),
-                            ProdutoDAO.retornaDescricaoProduto(op.getCodProduto()).toString(),
+                            ProdutoDAO.retornaDescricaoProduto(op.getCodProduto(), op.getTipoProduto()).toString(),
                             OrcamentoDAO.carregaNomeCliente(op.getTipoPessoa(), op.getCodCliente()),
                             op.getTipoPessoa() == 1 ? "PF" : "PJ",
                             op.getDataEmissao(),
@@ -885,7 +886,7 @@ public class OpConsultaFrame extends javax.swing.JInternalFrame {
                         modeloConsulta.addRow(new Object[]{
                             op.getCodigo(),
                             op.getOrcBase(),
-                            ProdutoDAO.retornaDescricaoProduto(op.getCodProduto()).toString(),
+                            ProdutoDAO.retornaDescricaoProduto(op.getCodProduto(), op.getTipoProduto()).toString(),
                             OrcamentoDAO.carregaNomeCliente(op.getTipoPessoa(), op.getCodCliente()),
                             op.getTipoPessoa() == 1 ? "PF" : "PJ",
                             op.getDataEmissao(),
@@ -904,7 +905,7 @@ public class OpConsultaFrame extends javax.swing.JInternalFrame {
                         modeloConsulta.addRow(new Object[]{
                             op.getCodigo(),
                             op.getOrcBase(),
-                            ProdutoDAO.retornaDescricaoProduto(op.getCodProduto()).toString(),
+                            ProdutoDAO.retornaDescricaoProduto(op.getCodProduto(), op.getTipoProduto()).toString(),
                             OrcamentoDAO.carregaNomeCliente(op.getTipoPessoa(), op.getCodCliente()),
                             op.getTipoPessoa() == 1 ? "PF" : "PJ",
                             op.getDataEmissao(),
@@ -921,7 +922,7 @@ public class OpConsultaFrame extends javax.swing.JInternalFrame {
                         modeloConsulta.addRow(new Object[]{
                             op.getCodigo(),
                             op.getOrcBase(),
-                            ProdutoDAO.retornaDescricaoProduto(op.getCodProduto()).toString(),
+                            ProdutoDAO.retornaDescricaoProduto(op.getCodProduto(), op.getTipoProduto()).toString(),
                             OrcamentoDAO.carregaNomeCliente(op.getTipoPessoa(), op.getCodCliente()),
                             op.getTipoPessoa() == 1 ? "PF" : "PJ",
                             op.getDataEmissao(),
@@ -938,7 +939,7 @@ public class OpConsultaFrame extends javax.swing.JInternalFrame {
                         modeloConsulta.addRow(new Object[]{
                             op.getCodigo(),
                             op.getOrcBase(),
-                            ProdutoDAO.retornaDescricaoProduto(op.getCodProduto()).toString(),
+                            ProdutoDAO.retornaDescricaoProduto(op.getCodProduto(), op.getTipoProduto()).toString(),
                             OrcamentoDAO.carregaNomeCliente(op.getTipoPessoa(), op.getCodCliente()),
                             op.getTipoPessoa() == 1 ? "PF" : "PJ",
                             op.getDataEmissao(),
@@ -955,7 +956,7 @@ public class OpConsultaFrame extends javax.swing.JInternalFrame {
                         modeloConsulta.addRow(new Object[]{
                             op.getCodigo(),
                             op.getOrcBase(),
-                            ProdutoDAO.retornaDescricaoProduto(op.getCodProduto()).toString(),
+                            ProdutoDAO.retornaDescricaoProduto(op.getCodProduto(), op.getTipoProduto()).toString(),
                             OrcamentoDAO.carregaNomeCliente(op.getTipoPessoa(), op.getCodCliente()),
                             op.getTipoPessoa() == 1 ? "PF" : "PJ",
                             op.getDataEmissao(),

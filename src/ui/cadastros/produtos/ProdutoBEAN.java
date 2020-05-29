@@ -12,7 +12,7 @@ package ui.cadastros.produtos;
 public class ProdutoBEAN {
 
     //IDENTIFICADORES
-    private String codigo;
+    private int codigo;
     private int codigoOrcamento;
     private int codigoProduto;
     private String descricao;
@@ -26,8 +26,7 @@ public class ProdutoBEAN {
     private String tipoProduto;
     private String descricaoProduto;
     private int quantidadeProduzida;
-    
-    
+
     public ProdutoBEAN() {
     }
 
@@ -36,12 +35,12 @@ public class ProdutoBEAN {
         this.altura = altura;
     }
 
-    public ProdutoBEAN(String codigo, 
-            String descricao, 
-            float largura, 
-            float altura, 
-            int qtdPaginas, 
-            String tipoProduto, 
+    public ProdutoBEAN(int codigo,
+            String descricao,
+            float largura,
+            float altura,
+            int qtdPaginas,
+            String tipoProduto,
             int disponivelVendas) {
         this.codigo = codigo;
         this.descricao = descricao;
@@ -100,11 +99,11 @@ public class ProdutoBEAN {
         this.tipoProduto = tipoProduto;
     }
 
-    public String getCodigo() {
+    public int getCodigo() {
         return codigo;
     }
 
-    public void setCodigo(String codigo) {
+    public void setCodigo(int codigo) {
         this.codigo = codigo;
     }
 

@@ -37,7 +37,7 @@ public class Controle {
      * @param tipoVersao 1 - produção 2 - desenvolvimento rede 3 -
      * desenvolvimento local
      */
-    private static byte tipoVersao = 1;
+    private static byte tipoVersao = 3;
 
     public static byte getTipoVersao() {
         return tipoVersao;

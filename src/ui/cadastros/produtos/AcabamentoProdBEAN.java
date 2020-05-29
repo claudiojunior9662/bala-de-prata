@@ -10,8 +10,18 @@ package ui.cadastros.produtos;
  * @author claud
  */
 public class AcabamentoProdBEAN {
+
+    private byte tipoProduto;
     private int codigoProduto;
     private int codigoAcabamento;
+
+    public byte getTipoProduto() {
+        return tipoProduto;
+    }
+
+    public void setTipoProduto(byte tipoProduto) {
+        this.tipoProduto = tipoProduto;
+    }
 
     public int getCodigoProduto() {
         return codigoProduto;
@@ -28,5 +38,5 @@ public class AcabamentoProdBEAN {
     public void setCodigoAcabamento(int codigoAcabamento) {
         this.codigoAcabamento = codigoAcabamento;
     }
-    
+
 }

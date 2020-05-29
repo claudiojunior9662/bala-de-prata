@@ -11,7 +11,8 @@ package ui.cadastros.papeis;
  */
 public class PapelBEAN {
 
-    private String codProduto;
+    private int codProduto;
+    private byte tipoProduto;
     private int codPapel;
     private String tipo_papel;
     private int cor_frente;
@@ -28,9 +29,7 @@ public class PapelBEAN {
 
     public PapelBEAN() {
     }
-    
-    
-    
+
     public int getQtdGasta() {
         return qtdGasta;
     }
@@ -71,12 +70,20 @@ public class PapelBEAN {
         this.descricaoPapel = descricaoPapel;
     }
 
-    public String getCod_produto() {
+    public int getCodProduto() {
         return codProduto;
     }
 
-    public void setCod_produto(String cod_produto) {
-        this.codProduto = cod_produto;
+    public void setCodProduto(int codProduto) {
+        this.codProduto = codProduto;
+    }
+
+    public byte getTipoProduto() {
+        return tipoProduto;
+    }
+
+    public void setTipoProduto(byte tipoProduto) {
+        this.tipoProduto = tipoProduto;
     }
 
     public int getCodigo() {

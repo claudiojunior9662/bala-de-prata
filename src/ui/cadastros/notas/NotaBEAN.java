@@ -63,7 +63,7 @@ public class NotaBEAN {
     private String observacoes;
     private byte fatFrete;
     private byte fatServicos;
-    private String codProduto;
+    private int codProduto;
 
     public NotaBEAN(int cod,
             int serie,
@@ -82,7 +82,7 @@ public class NotaBEAN {
             byte fatFrete,
             byte fatServicos,
             String nomeCliente,
-            String codProduto) {
+            int codProduto) {
         this.cod = cod;
         this.serie = serie;
         this.codOp = codOp;
@@ -250,11 +250,11 @@ public class NotaBEAN {
         this.data = data;
     }
 
-    public String getCodProduto() {
+    public int getCodProduto() {
         return codProduto;
     }
 
-    public void setCodProduto(String codProduto) {
+    public void setCodProduto(int codProduto) {
         this.codProduto = codProduto;
     }
 
@@ -572,7 +572,7 @@ public class NotaBEAN {
                      * Procura as informações do produto
                      */
                     ProdOrcamento prodOrc = null;
-                    if (!op.getCodProduto().equals("0")) {
+                    if (op.getCodProduto() != 0) {
                         prodOrc = OrcamentoDAO.retornaProdutoOrcamento(fat.getCodOrc(),
                                 op.getCodProduto());
                     }
@@ -755,7 +755,7 @@ public class NotaBEAN {
                     cell1.setHorizontalAlignment(0);
                     tblValores.addCell(cell1);
 
-                    if (prodOrc.getCodProduto().contains("PE")) {
+                    if (prodOrc.getCodProduto() == 2) {
                         cell1 = new PdfPCell(new Phrase("VALOR UNITÁRIO\n\nR$ "
                                 + df.format(ProdutoDAO.retornaVlrPe(prodOrc.getCodProduto())),
                                 FontFactory.getFont("arial.ttf", 9)));

@@ -2703,7 +2703,7 @@ public class RelatoriosOrdemProducao extends javax.swing.JInternalFrame {
                     retorno.addCell(celula);
                 }
                 if (campoDescricaoProduto.isSelected()) {
-                    celula = new PdfPCell(new Phrase(String.valueOf(ProdutoDAO.retornaDescricaoProduto(op.getCodProduto())), FontFactory.getFont("arial.ttf", 6)));
+                    celula = new PdfPCell(new Phrase(String.valueOf(ProdutoDAO.retornaDescricaoProduto(op.getCodProduto(), op.getTipoProduto())), FontFactory.getFont("arial.ttf", 6)));
                     celula.setHorizontalAlignment(Element.ALIGN_CENTER);
                     retorno.addCell(celula);
                 }

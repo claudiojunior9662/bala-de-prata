@@ -146,10 +146,10 @@ public class RelatoriosOrdemProducaoDAO {
         }
         if (codigoProduto || descricaoProduto) {
             if (primeiro == 0) {
-                comando = comando + " tabela_ordens_producao.cod_produto";
+                comando = comando + " tabela_ordens_producao.cod_produto, tabela_ordens_producao.tipo_produto";
                 primeiro += 1;
             } else {
-                comando = comando + " , tabela_ordens_producao.cod_produto";
+                comando = comando + " , tabela_ordens_producao.cod_produto, tabela_ordens_producao.tipo_produto";
             }
         }
         if (descricaoProduto) {
@@ -425,7 +425,8 @@ public class RelatoriosOrdemProducaoDAO {
                     ordensProducao.setCodCliente(rs.getInt("tabela_ordens_producao.cod_cliente"));
                 }
                 if (codigoProduto | descricaoProduto) {
-                    ordensProducao.setCodProduto(rs.getString("tabela_ordens_producao.cod_produto"));
+                    ordensProducao.setCodProduto(rs.getInt("tabela_ordens_producao.cod_produto"));
+                    ordensProducao.setTipoProduto(rs.getByte("tabela_ordens_producao.tipo_produto"));
                 }
 
                 ordensProducao.setTipoPessoa(rs.getByte("tabela_ordens_producao.tipo_cliente"));

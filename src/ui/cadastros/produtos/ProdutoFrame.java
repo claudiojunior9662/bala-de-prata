@@ -30,7 +30,7 @@ public class ProdutoFrame extends javax.swing.JInternalFrame {
     public static boolean orcamentoNovo;
     public static boolean orcamentoEditar;
     public static String descricaoPapel;
-    private String COD_PROD;
+    private int COD_PROD;
     private static boolean SEL_ORC = false;
     public static boolean inserir = false;
     private final JLabel loading;
@@ -1212,7 +1212,8 @@ public class ProdutoFrame extends javax.swing.JInternalFrame {
             }
 
             botaoClonar.setEnabled(true);
-            COD_PROD = tabelaConsulta.getValueAt(tabelaConsulta.getSelectedRow(), 0).toString();
+            COD_PROD = 
+                    Integer.valueOf(tabelaConsulta.getValueAt(tabelaConsulta.getSelectedRow(), 0).toString());
             if (ProdutoDAO.retornaUsoProduto(Integer.valueOf(COD_PROD)) == 1) {
                 botaoEditar.setEnabled(false);
             } else {
@@ -1247,11 +1248,12 @@ public class ProdutoFrame extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_botaoMostrarUltimosActionPerformed
 
     private void botaoSelecionarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botaoSelecionarActionPerformed
-        COD_PROD = tabelaConsulta.getValueAt(tabelaConsulta.getSelectedRow(), 0).toString();
+        COD_PROD = 
+                Integer.valueOf(tabelaConsulta.getValueAt(tabelaConsulta.getSelectedRow(), 0).toString());
         new Thread() {
             @Override
             public void run() {
-                OrcamentoPrincipalFrame.carregaProdutos(COD_PROD);
+                OrcamentoPrincipalFrame.carregaProdutos(COD_PROD, (byte) 1);
             }
         }.start();
         this.dispose();
@@ -1527,7 +1529,8 @@ public class ProdutoFrame extends javax.swing.JInternalFrame {
             loading.setVisible(true);
             loading.setText("CARREGANDO...");
 
-            COD_PROD = tblConsultaPe.getValueAt(tblConsultaPe.getSelectedRow(), 0).toString();
+            COD_PROD = 
+                    Integer.valueOf(tblConsultaPe.getValueAt(tblConsultaPe.getSelectedRow(), 0).toString());
 
             //CARREGA OS DADOS DO BD--------------------------------------------
             ProdutoPrEntBEAN produto = ProdutoDAO.retornaPeEdicao(COD_PROD);
@@ -1581,7 +1584,8 @@ public class ProdutoFrame extends javax.swing.JInternalFrame {
                     loading.setText("CARREGANDO...");
                     loading.setVisible(true);
 
-                    COD_PROD = tblConsultaPe.getValueAt(tblConsultaPe.getSelectedRow(), 0).toString();
+                    COD_PROD = 
+                            Integer.valueOf(tblConsultaPe.getValueAt(tblConsultaPe.getSelectedRow(), 0).toString());
 
                     //CARREGA OS DADOS DO BD------------------------------------
                     ProdutoPrEntBEAN produto = ProdutoDAO.retornaPeEdicao(COD_PROD);
@@ -1631,11 +1635,12 @@ public class ProdutoFrame extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_btnEditarPeActionPerformed
 
     private void btnSelPeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSelPeActionPerformed
-        COD_PROD = tblConsultaPe.getValueAt(tblConsultaPe.getSelectedRow(), 0).toString();
+        COD_PROD = 
+                Integer.valueOf(tblConsultaPe.getValueAt(tblConsultaPe.getSelectedRow(), 0).toString());
         new Thread() {
             @Override
             public void run() {
-                OrcamentoPrincipalFrame.carregaProdutos(COD_PROD);
+                OrcamentoPrincipalFrame.carregaProdutos(COD_PROD, (byte) 2);
             }
         }.start();
         this.dispose();
@@ -1712,7 +1717,8 @@ public class ProdutoFrame extends javax.swing.JInternalFrame {
                     loading.setText("CARREGANDO...");
                     loading.setVisible(true);
 
-                    COD_PROD = tblConsultaPe.getValueAt(tblConsultaPe.getSelectedRow(), 0).toString();
+                    COD_PROD = 
+                            Integer.valueOf(tblConsultaPe.getValueAt(tblConsultaPe.getSelectedRow(), 0).toString());
 
                     /**
                      * Carrega mais informações sobre o produto
@@ -1881,7 +1887,8 @@ public class ProdutoFrame extends javax.swing.JInternalFrame {
     //TABELA CONSULTA-----------------------------------------------------------
     private void mouseClicked() {
         try {
-            COD_PROD = tblConsultaPe.getValueAt(tblConsultaPe.getSelectedRow(), 0).toString();
+            COD_PROD = 
+                    Integer.valueOf(tblConsultaPe.getValueAt(tblConsultaPe.getSelectedRow(), 0).toString());
 
             if (ProdutoDAO.verificaUsoProdPe(COD_PROD)) {
                 btnEditarPe.setEnabled(false);
@@ -1969,7 +1976,7 @@ public class ProdutoFrame extends javax.swing.JInternalFrame {
     }
 
     public void limpa() {
-        COD_PROD = null;
+        COD_PROD = 0;
         FUNCAO = 0;
         descricaoProduto.setText("");
         larguraProduto.setText("");
@@ -1980,7 +1987,6 @@ public class ProdutoFrame extends javax.swing.JInternalFrame {
         DefaultTableModel modeloAcabamentos = (DefaultTableModel) tabelaAcabamentos.getModel();
         modeloAcabamentos.setNumRows(0);
         estado1Papel();
-        COD_PROD = null;
     }
 
     public void limpaPe() {
@@ -2005,7 +2011,7 @@ public class ProdutoFrame extends javax.swing.JInternalFrame {
         jftfQtdMax.setValue(0);
         lblMov.setText("");
         FUNCAO = 0;
-        COD_PROD = null;
+        COD_PROD = 0;
     }
     //--------------------------------------------------------------------------
 
@@ -2029,19 +2035,20 @@ public class ProdutoFrame extends javax.swing.JInternalFrame {
             loading.setText("CARREGANDO CLONAGEM...");
 
             limpa();
-            COD_PROD = tabelaConsulta.getValueAt(tabelaConsulta.getSelectedRow(), 0).toString();
+            COD_PROD = 
+                    Integer.valueOf(tabelaConsulta.getValueAt(tabelaConsulta.getSelectedRow(), 0).toString());
             FUNCAO = 2;
 
-            ProdutoBEAN produto = ProdutoDAO.retornaInfoProd(COD_PROD);
+            ProdutoBEAN produto = ProdutoDAO.retornaInfoProd(COD_PROD, (byte) 1);
             descricaoProduto.setText(produto.getDescricao());
             larguraProduto.setValue(produto.getLargura());
             alturaProduto.setValue(produto.getAltura());
             quantidadeFolhas.setValue(produto.getQuantidadeFolhas());
             tipoProduto.setSelectedItem(produto.getTipoProduto());
-            disponivelVendas.setSelected(produto.getDisponivelVendas() == 1 ? true : false);
+            disponivelVendas.setSelected((produto.getDisponivelVendas() == 1));
 
             DefaultTableModel modeloPapeis = (DefaultTableModel) ProdutoFrame.tabelaPapel.getModel();
-            for (PapelBEAN bean : ProdutoDAO.retornaInformacoesPapel(Integer.valueOf(COD_PROD))) {
+            for (PapelBEAN bean : ProdutoDAO.retornaInformacoesPapel(COD_PROD)) {
                 modeloPapeis.addRow(new Object[]{
                     bean.getCodigo(),
                     bean.getDescricaoPapel(),
@@ -2087,7 +2094,7 @@ public class ProdutoFrame extends javax.swing.JInternalFrame {
                     break;
                 case 0:
                 case 2:
-                    COD_PROD = String.valueOf(ProdutoDAO.retornaUltimoRegistro() + 1);
+                    COD_PROD = ProdutoDAO.retornaUltimoRegistro() + 1;
                     produto.setCodigo(COD_PROD);
                     break;
             }
@@ -2177,8 +2184,8 @@ public class ProdutoFrame extends javax.swing.JInternalFrame {
 
             switch (FUNCAO) {
                 case 1:
-                    PapelDAO.exluiPapeisProduto(Integer.valueOf(COD_PROD));
-                    AcabamentoDAO.excluiAcabamentosProduto(Integer.valueOf(COD_PROD));
+                    PapelDAO.exluiPapeisProduto(Integer.valueOf(COD_PROD), (byte) 1);
+                    AcabamentoDAO.excluiAcabamentosProduto(Integer.valueOf(COD_PROD), (byte) 1);
                     ProdutoDAO.atualiza(produto);
                     break;
                 case 0:
@@ -2194,7 +2201,8 @@ public class ProdutoFrame extends javax.swing.JInternalFrame {
                 case 2:
                     if (tabelaPapel.getRowCount() > 0) {
                         for (int i = 0; i < tabelaPapel.getRowCount(); i++) {
-                            papeisCadastroBEAN.setCod_produto(COD_PROD);
+                            papeisCadastroBEAN.setCodProduto(COD_PROD);
+                            papeisCadastroBEAN.setTipoProduto((byte) 1);
                             papeisCadastroBEAN.setCodPapel((int) tabelaPapel.getValueAt(i, 0));
                             papeisCadastroBEAN.setTipo_papel((String) tabelaPapel.getValueAt(i, 2));
                             papeisCadastroBEAN.setCor_frente((int) tabelaPapel.getValueAt(i, 4));
@@ -2207,7 +2215,8 @@ public class ProdutoFrame extends javax.swing.JInternalFrame {
 
                     if (tabelaAcabamentos.getRowCount() > 0) {
                         for (int i = 0; i < tabelaAcabamentos.getRowCount(); i++) {
-                            produtosComponentesBEAN.setCodigoProduto(Integer.valueOf(COD_PROD));
+                            produtosComponentesBEAN.setTipoProduto((byte) 1);
+                            produtosComponentesBEAN.setCodigoProduto(COD_PROD);
                             produtosComponentesBEAN.setCodigoAcabamento((int) tabelaAcabamentos.getValueAt(i, 0));
                             AcabamentoDAO.criaAcabamentosProduto(produtosComponentesBEAN);
                         }
@@ -2272,10 +2281,11 @@ public class ProdutoFrame extends javax.swing.JInternalFrame {
             loading.setText("CARREGANDO EDIÇÃO...");
 
             limpa();
-            COD_PROD = tabelaConsulta.getValueAt(tabelaConsulta.getSelectedRow(), 0).toString();
+            COD_PROD = 
+                    Integer.valueOf(tabelaConsulta.getValueAt(tabelaConsulta.getSelectedRow(), 0).toString());
             FUNCAO = 1;
 
-            ProdutoBEAN produto = ProdutoDAO.retornaInfoProd(COD_PROD);
+            ProdutoBEAN produto = ProdutoDAO.retornaInfoProd(COD_PROD, (byte) 1);
             descricaoProduto.setText(produto.getDescricao());
             larguraProduto.setValue(produto.getLargura());
             alturaProduto.setValue(produto.getAltura());

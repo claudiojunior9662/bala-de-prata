@@ -227,14 +227,23 @@ public class PapelDAO {
         PreparedStatement stmt = null;
         
         try {
-            stmt = con.prepareStatement("INSERT INTO tabela_papeis_produto(cod_produto, cod_papel, tipo_papel, cor_frente, cor_verso, descricao, orelha) VALUES(?,?,?,?,?,?,?)");
-            stmt.setString(1, papel.getCod_produto());
-            stmt.setInt(2, papel.getCodigo());
-            stmt.setString(3, papel.getTipoPapel());
-            stmt.setInt(4, papel.getCorFrente());
-            stmt.setInt(5, papel.getCorVerso());
-            stmt.setString(6, papel.getDescricaoPapel());
-            stmt.setFloat(7, (float) papel.getOrelha());
+            stmt = con.prepareStatement("INSERT INTO tabela_papeis_produto(tipo_produto, "
+                    + "cod_produto,  "
+                    + "cod_papel, "
+                    + "tipo_papel, "
+                    + "cor_frente, "
+                    + "cor_verso, "
+                    + "descricao, "
+                    + "orelha) "
+                    + "VALUES(?,?,?,?,?,?,?,?)");
+            stmt.setInt(1, papel.getTipoProduto());
+            stmt.setInt(2, papel.getCodProduto());
+            stmt.setInt(3, papel.getCodigo());
+            stmt.setString(4, papel.getTipoPapel());
+            stmt.setInt(5, papel.getCorFrente());
+            stmt.setInt(6, papel.getCorVerso());
+            stmt.setString(7, papel.getDescricaoPapel());
+            stmt.setFloat(8, (float) papel.getOrelha());
             stmt.executeUpdate();
         } catch (SQLException ex) {
             throw new SQLException(ex);
@@ -243,13 +252,22 @@ public class PapelDAO {
         }
     }
     
-    public static void exluiPapeisProduto(int cod) throws SQLException {
+    /**
+     * Exclui os papéis associados ao produto
+     * @param codProd código do produto
+     * @param tipoProd tipo de produto 1 - PERSONALIZADO (PP), 2 - PRONTA ENTREGA (PE), 3 - INTERNET (PI)
+     * @throws SQLException 
+     */
+    public static void exluiPapeisProduto(int codProd, byte tipoProd) throws SQLException {
         Connection con = ConnectionFactory.getConnection();
         PreparedStatement stmt = null;
         
         try {
-            stmt = con.prepareStatement("DELETE FROM tabela_papeis_produto WHERE cod_produto = ?");
-            stmt.setInt(1, cod);
+            stmt = con.prepareStatement("DELETE "
+                    + "FROM tabela_papeis_produto "
+                    + "WHERE cod_produto = ? AND tipo_produto = ?");
+            stmt.setInt(1, codProd);
+            stmt.setByte(2, tipoProd);
             stmt.executeUpdate();
         } catch (SQLException ex) {
             throw new SQLException(ex);
@@ -338,7 +356,7 @@ public class PapelDAO {
      * @return
      * @throws SQLException 
      */
-    public static List<PapelBEAN> carregaPapeisProd(String codProduto) throws SQLException {
+    public static List<PapelBEAN> carregaPapeisProd(int codProduto) throws SQLException {
         Connection con = ConnectionFactory.getConnection();
         PreparedStatement stmt = null;
         ResultSet rs = null;
@@ -349,11 +367,11 @@ public class PapelDAO {
             stmt = con.prepareStatement("SELECT * "
                     + "FROM tabela_papeis_produto "
                     + "WHERE cod_produto = ?");
-            stmt.setString(1, codProduto);
+            stmt.setInt(1, codProduto);
             rs = stmt.executeQuery();
             while (rs.next()) {
                 PapelBEAN papel = new PapelBEAN();
-                papel.setCod_produto(codProduto);
+                papel.setCodProduto(codProduto);
                 papel.setCodPapel(rs.getInt("cod_papel"));
                 papel.setTipo_papel(rs.getString("tipo_papel"));
                 papel.setCor_frente(rs.getInt("cor_frente"));

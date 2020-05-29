@@ -64,7 +64,7 @@ import ui.principal.OrcamentoFrame;
 public class OrcamentoPrincipalFrame extends javax.swing.JInternalFrame {
 
     public static int CODIGO_ORCAMENTO = 0;
-    public static String CODIGO_PRODUTO = null;
+    public static int CODIGO_PRODUTO = 0;
     public static boolean EDITANDO = false;
     private int STATUS = 0;
     private static JLabel loading;
@@ -1335,7 +1335,8 @@ public class OrcamentoPrincipalFrame extends javax.swing.JInternalFrame {
 
         //PEGA O CÓDIGO DO PRODUTO----------------------------------------------
         DefaultTableModel modeloProdutos = (DefaultTableModel) tabelaProdutos.getModel();
-        CODIGO_PRODUTO = tabelaProdutos.getValueAt(tabelaProdutos.getSelectedRow(), 0).toString();
+        CODIGO_PRODUTO = 
+                Integer.valueOf(tabelaProdutos.getValueAt(tabelaProdutos.getSelectedRow(), 0).toString());
         modeloProdutos.removeRow(tabelaProdutos.getSelectedRow());
         //----------------------------------------------------------------------
 
@@ -1525,10 +1526,19 @@ public class OrcamentoPrincipalFrame extends javax.swing.JInternalFrame {
                             bean.getQuantidade(),
                             bean.getPrecoUnitario()
                         });
-                        if (bean.getCodProduto().contains("PE")) {
-                            TIPO_ORCAMENTO = 1;
-                        } else {
-                            TIPO_ORCAMENTO = 2;
+                        
+                        switch(bean.getTipoProduto()){
+                            case 1:
+                                TIPO_ORCAMENTO = 2;
+                                break;
+                            case 2:
+                                TIPO_ORCAMENTO = 1;
+                                break;
+                            case 3:
+                                TIPO_ORCAMENTO = 3;
+                                break;
+                            default:
+                                return;
                         }
                     }
                     //----------------------------------------------------------
@@ -1675,7 +1685,7 @@ public class OrcamentoPrincipalFrame extends javax.swing.JInternalFrame {
             int dialogButton = JOptionPane.YES_NO_OPTION;
             int dialogResult = JOptionPane.showConfirmDialog(this, "EXCLUIR ORÇAMENTO Nº " + this.CODIGO_ORCAMENTO + " ?", "CONFIRMAÇÃO DE EXCLUSÃO", dialogButton);
             if (dialogResult == 0) {
-                OrcamentoDAO.excluiProdutosOrcamentos(this.CODIGO_ORCAMENTO);
+                OrcamentoDAO.excluiProdOrc(this.CODIGO_ORCAMENTO);
                 ServicoDAO.desassociaSvOrcamento(this.CODIGO_ORCAMENTO);
                 OrcamentoDAO.excluiOrcamento(this.CODIGO_ORCAMENTO);
                 OrcamentoDAO.excluiCalculosProposta(this.CODIGO_ORCAMENTO);
@@ -1892,7 +1902,7 @@ public class OrcamentoPrincipalFrame extends javax.swing.JInternalFrame {
 
                 //CARREGA OS PRODUTOS DO ORÇAMENTO------------------------------
                 for (ProdOrcamento produtos : ProdutoDAO.carregaProdutosOrcamento(CODIGO_ORCAMENTO)) {
-                    if (!produtos.getCodProduto().equals("0")) {
+                    if (produtos.getCodProduto() != 0) {
                         //ARMAZENA O CÓDIGO DO PRODUTO--------------------------
                         CODIGO_PRODUTO = produtos.getCodProduto();
                         //------------------------------------------------------
@@ -1924,7 +1934,7 @@ public class OrcamentoPrincipalFrame extends javax.swing.JInternalFrame {
                                 "",
                                 produtos.getObservacaoProduto()});
                         } else if (TIPO_ORCAMENTO == 2) {
-                            ProdutoBEAN produto = ProdutoDAO.retornaInfoProd(CODIGO_PRODUTO);
+                            ProdutoBEAN produto = ProdutoDAO.retornaInfoProd(CODIGO_PRODUTO, (byte) 1);
                             modeloProdutos.addRow(new Object[]{
                                 CODIGO_PRODUTO,
                                 produto.getDescricao(),
@@ -1947,6 +1957,7 @@ public class OrcamentoPrincipalFrame extends javax.swing.JInternalFrame {
                             for (PapelBEAN papeisCadastroBEAN : ProdutoDAO.retornaInformacoesPapel(Integer.valueOf(CODIGO_PRODUTO))) {
                                 CalculosOpBEAN calculosBEAN = OrcamentoDAO.retornaCalculosProposta(CODIGO_ORCAMENTO,
                                         Integer.valueOf(CODIGO_PRODUTO),
+                                        produtos.getTipoProduto(),
                                         papeisCadastroBEAN.getCodigo(),
                                         papeisCadastroBEAN.getTipoPapel());
                                 modeloPapel.addRow(new Object[]{
@@ -1981,7 +1992,8 @@ public class OrcamentoPrincipalFrame extends javax.swing.JInternalFrame {
                     //INSERE NA TABELA ACABAMENTOS------------------------------
                     if (TIPO_ORCAMENTO == 2) {
                         try {
-                            for (AcabamentoProdBEAN lcBEAN : AcabamentoDAO.retornaAcabamentosProduto(CODIGO_PRODUTO)) {
+                            for (AcabamentoProdBEAN lcBEAN : 
+                                    AcabamentoDAO.retornaAcabamentosProduto(CODIGO_PRODUTO)) {
                                 modeloAcabamentos.addRow(new Object[]{
                                     CODIGO_PRODUTO,
                                     lcBEAN.getCodigoAcabamento(),
@@ -1991,6 +2003,10 @@ public class OrcamentoPrincipalFrame extends javax.swing.JInternalFrame {
                             //NENHUMA AÇÃO
                         }
                     }
+                    //----------------------------------------------------------
+                    
+                    //INFORMA O TIPO DE PRODUTO---------------------------------
+                    EnviarOrdemProducaoFrame.setTIPO_PROD(produtos.getTipoProduto());
                     //----------------------------------------------------------
                 }
 
@@ -2310,7 +2326,7 @@ public class OrcamentoPrincipalFrame extends javax.swing.JInternalFrame {
 
                 //CARREGA OS PRODUTOS DO ORÇAMENTO------------------------------
                 for (ProdOrcamento produtos : ProdutoDAO.carregaProdutosOrcamento(CODIGO_ORCAMENTO)) {
-                    if (!produtos.getCodProduto().equals("0")) {
+                    if (produtos.getCodProduto() != 0) {
                         //ARMAZENA O CÓDIGO DO PRODUTO--------------------------
                         CODIGO_PRODUTO = produtos.getCodProduto();
                         //------------------------------------------------------
@@ -2342,7 +2358,7 @@ public class OrcamentoPrincipalFrame extends javax.swing.JInternalFrame {
                                 "",
                                 produtos.getObservacaoProduto()});
                         } else if (TIPO_ORCAMENTO == 2) {
-                            ProdutoBEAN produto = ProdutoDAO.retornaInfoProd(CODIGO_PRODUTO);
+                            ProdutoBEAN produto = ProdutoDAO.retornaInfoProd(CODIGO_PRODUTO, (byte) 1);
                             modeloProdutos.addRow(new Object[]{
                                 CODIGO_PRODUTO,
                                 produto.getDescricao(),
@@ -2839,9 +2855,9 @@ public class OrcamentoPrincipalFrame extends javax.swing.JInternalFrame {
              */
             for (ProdOrcamento prodOrc : ProdutoDAO.carregaProdutosOrcamento(
                     (int) codigoOrcamento.getValue())) {
-                TIPO_ORCAMENTO = prodOrc.getCodProduto().contains("PE") ? (byte) 1 : (byte) 2;
+                TIPO_ORCAMENTO = prodOrc.getTipoProduto() == 1 ? (byte) 2 : (byte) 1;
                 CODIGO_PRODUTO = prodOrc.getCodProduto();
-                ProdutoBEAN produto = ProdutoDAO.retornaInfoProd(CODIGO_PRODUTO);
+                ProdutoBEAN produto = ProdutoDAO.retornaInfoProd(CODIGO_PRODUTO, (byte) 1);
                 DefaultTableModel modeloProdutos = (DefaultTableModel) tabelaProdutos.getModel();
                 modeloProdutos.addRow(new Object[]{
                     CODIGO_PRODUTO,
@@ -2854,6 +2870,7 @@ public class OrcamentoPrincipalFrame extends javax.swing.JInternalFrame {
                     for (PapelBEAN papel : PapelDAO.carregaPapeisProd(CODIGO_PRODUTO)) {
                         CalculosOpBEAN calculosBEAN = OrcamentoDAO.retornaCalculosProposta((int) codigoOrcamento.getValue(),
                                 Integer.valueOf(CODIGO_PRODUTO),
+                                prodOrc.getTipoProduto(),
                                 papel.getCodigo(),
                                 papel.getTipoPapel());
                         DefaultTableModel modeloPapeis = (DefaultTableModel) tabelaPapeis.getModel();
@@ -3388,14 +3405,15 @@ public class OrcamentoPrincipalFrame extends javax.swing.JInternalFrame {
      * Carrega os produtos selecionados para a tela
      *
      * @param codProd código do produto
+     * @param tipoProd 1 - PERSONALIZADO (PP), 2 - PRONTA ENTREGA (PE), 3 - INTERNET (PI)
      */
-    public synchronized static void carregaProdutos(String codProd) {
+    public synchronized static void carregaProdutos(int codProd, byte tipoProd) {
         try {
 
             /**
              * verifica se existem produtos iguais na tabela
              */
-            if (verificaCodProd(codProd) == null) {
+            if (verificaCodProd(codProd) == 0) {
                 return;
             }
 
@@ -3416,7 +3434,7 @@ public class OrcamentoPrincipalFrame extends javax.swing.JInternalFrame {
             /**
              * função condição para produtos a pronta entrega
              */
-            if (codProd.contains("PE")) {
+            if (tipoProd == 2) {
                 /**
                  * verifica se existem somente prod produção ou somente prod
                  * entrega
@@ -3523,7 +3541,7 @@ public class OrcamentoPrincipalFrame extends javax.swing.JInternalFrame {
                  * preenche a tabela produtos
                  */
                 DefaultTableModel modeloProdutos = (DefaultTableModel) tabelaProdutos.getModel();
-                ProdutoBEAN produto = ProdutoDAO.retornaInfoProd(codProd);
+                ProdutoBEAN produto = ProdutoDAO.retornaInfoProd(codProd,(byte) 1);
                 modeloProdutos.addRow(new Object[]{
                     codProd,
                     produto.getDescricao(),
@@ -3610,7 +3628,7 @@ public class OrcamentoPrincipalFrame extends javax.swing.JInternalFrame {
             DefaultTableModel modeloServicos = (DefaultTableModel) tabelaServicos.getModel();
             DefaultTableModel modeloProdutos = (DefaultTableModel) tabelaProdutos.getModel();
 
-            boolean semProduto = tabelaProdutos.getRowCount() == 0 ? true : false;
+            boolean semProduto = tabelaProdutos.getRowCount() == 0;
 
             //VERIFICAÇÃO DE ERROS--------------------------------------------------
             if (semProduto) {
@@ -3663,8 +3681,8 @@ public class OrcamentoPrincipalFrame extends javax.swing.JInternalFrame {
             orcamento.setFrete(Double.valueOf(frete.getText().replace(",", ".")));
             orcamento.setValorTotal(Float.valueOf(vlrTotal.getText().replace(",", ".")));
             orcamento.setDescricao(observacoesOrcamento.getText().toUpperCase());
-            orcamento.setNomeContato(nomeContatoCliente.getText().toString());
-            orcamento.setTelefoneContato(telefoneContatoCliente.getText().toString());
+            orcamento.setNomeContato(nomeContatoCliente.getText());
+            orcamento.setTelefoneContato(telefoneContatoCliente.getText());
             orcamento.setCodContato(CODIGO_CONTATO);
             orcamento.setCodEndereco(CODIGO_ENDERECO);
 
@@ -3676,7 +3694,7 @@ public class OrcamentoPrincipalFrame extends javax.swing.JInternalFrame {
 
             if (EDITANDO) {
                 OrcamentoDAO.excluiCalculosProposta(CODIGO_ORCAMENTO);
-                OrcamentoDAO.excluiProdutosOrcamentos(CODIGO_ORCAMENTO);
+                OrcamentoDAO.excluiProdOrc(CODIGO_ORCAMENTO);
                 ServicoDAO.desassociaSvOrcamento(CODIGO_ORCAMENTO);
                 OrcamentoDAO.excluiOrcamento(CODIGO_ORCAMENTO);
             }
@@ -3694,10 +3712,12 @@ public class OrcamentoPrincipalFrame extends javax.swing.JInternalFrame {
             if (!semProduto) {
                 for (int j = 0; j < tabelaProdutos.getRowCount(); j++) {
                     produtosOrcamentoBEAN.setCodOrcamento(CODIGO_ORCAMENTO);
-                    CODIGO_PRODUTO = tabelaProdutos.getValueAt(j, 0).toString();
+                    CODIGO_PRODUTO = 
+                            Integer.valueOf(tabelaProdutos.getValueAt(j, 0).toString());
                     produtosOrcamentoBEAN.setCodProduto(CODIGO_PRODUTO);
                     produtosOrcamentoBEAN.setDescricaoProduto(tabelaProdutos.getValueAt(j, 1).toString());
-                    if (tabelaTiragens.getValueAt(j, 0).toString() == CODIGO_PRODUTO) {
+                    if (Integer.valueOf(tabelaTiragens.getValueAt(j, 0).toString()) 
+                            == CODIGO_PRODUTO) {
                         produtosOrcamentoBEAN.setQuantidade(Integer.valueOf(tabelaTiragens.getValueAt(j, 1).toString()));
                     }
 
@@ -3717,13 +3737,17 @@ public class OrcamentoPrincipalFrame extends javax.swing.JInternalFrame {
 
                     produtosOrcamentoBEAN.setPrecoUnitario(Float.valueOf(tabelaTiragens.getValueAt(j, 5).toString().replace(",", ".")));
 
-                    OrcamentoDAO.createProdutosOrcamento(produtosOrcamentoBEAN);
+                    produtosOrcamentoBEAN.setTipoProduto(TIPO_ORCAMENTO == 1 ? (byte) 2 : (byte) 1);
+                    
+                    OrcamentoDAO.criaProdOrc(produtosOrcamentoBEAN);
 
                     for (int i = 0; i < tabelaPapeis.getRowCount(); i++) {
-                        if (tabelaPapeis.getValueAt(i, 0).toString() == CODIGO_PRODUTO) {
+                        if (Integer.valueOf(tabelaPapeis.getValueAt(i, 0).toString()) 
+                                == CODIGO_PRODUTO) {
                             CalculosOpBEAN calculosBEAN = new CalculosOpBEAN();
                             calculosBEAN.setCodOp(0);
                             calculosBEAN.setCodProduto(CODIGO_PRODUTO);
+                            calculosBEAN.setTipoProduto(TIPO_ORCAMENTO == 1 ? (byte) 2 : (byte) 1);
                             calculosBEAN.setTipoPapel(tabelaPapeis.getValueAt(i, 3).toString());
                             calculosBEAN.setQtdFolhasTotal(Integer.valueOf(tabelaPapeis.getValueAt(i, 8).toString()));
                             calculosBEAN.setFormato(Integer.valueOf(tabelaPapeis.getValueAt(i, 6).toString()));
@@ -3791,14 +3815,14 @@ public class OrcamentoPrincipalFrame extends javax.swing.JInternalFrame {
         }
     }
 
-    private static synchronized String verificaCodProd(String codProd) {
+    private static synchronized int verificaCodProd(int codProd) {
         for (int i = 0; i < tabelaProdutos.getRowCount(); i++) {
             if (tabelaProdutos.getValueAt(i, 0).toString().equals(codProd)) {
                 JOptionPane.showMessageDialog(null,
                         "ADICIONAR PRODUTOS IGUAIS NO MESMO ORÇAMENTO ESTÁ EM FASE DE TESTES.",
                         "ATENÇÃO",
                         JOptionPane.INFORMATION_MESSAGE);
-                return null;
+                return 0;
             }
         }
         return codProd;
@@ -3815,7 +3839,7 @@ public class OrcamentoPrincipalFrame extends javax.swing.JInternalFrame {
         if (TIPO_ORCAMENTO == 1) {
             try {
                 if (ProdutoDAO.verificaEstoque(
-                        tabelaTiragens.getValueAt(0, 0).toString(),
+                        Integer.valueOf(tabelaTiragens.getValueAt(0, 0).toString()),
                         Integer.valueOf(tabelaTiragens.getValueAt(0, 1).toString()))) {
                     JOptionPane.showMessageDialog(null,
                             "NÃO HÁ ESTOQUE DISPONÍVEL PARA A QUANTIDADE SOLICITADA",

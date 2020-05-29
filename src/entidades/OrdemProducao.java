@@ -65,7 +65,8 @@ public class OrdemProducao {
      */
     private int cod;
     private int orcBase;
-    private String codProduto;
+    private byte tipoProduto;
+    private int codProduto;
     private int codCliente;
     private int codContato;
     private int codEndereco;
@@ -103,7 +104,7 @@ public class OrdemProducao {
     public OrdemProducao(int cod,
             Date dataEntrega,
             String status,
-            String codProduto) {
+            int codProduto) {
         this.cod = cod;
         this.dataEntrega = dataEntrega;
         this.status = status;
@@ -114,7 +115,8 @@ public class OrdemProducao {
             Integer orcamentoBase,
             Integer codCliente,
             byte tipoPessoa,
-            String codProduto,
+            int codProduto,
+            byte tipoProduto,
             Integer codContato,
             Integer codEndereco,
             Date dataEmissao,
@@ -126,6 +128,7 @@ public class OrdemProducao {
         this.codCliente = codCliente;
         this.tipoPessoa = tipoPessoa;
         this.codProduto = codProduto;
+        this.tipoProduto = tipoProduto;
         this.codContato = codContato;
         this.codEndereco = codEndereco;
         this.dataEmissao = dataEmissao;
@@ -136,7 +139,8 @@ public class OrdemProducao {
 
     public OrdemProducao(int cod,
             int orcamentoBase,
-            String codProduto,
+            int codProduto,
+            byte tipoProduto,
             int codCliente,
             int codContato,
             int codEndereco,
@@ -145,6 +149,7 @@ public class OrdemProducao {
         this.cod = cod;
         this.orcBase = orcamentoBase;
         this.codProduto = codProduto;
+        this.tipoProduto = tipoProduto;
         this.codCliente = codCliente;
         this.codContato = codContato;
         this.codEndereco = codEndereco;
@@ -157,7 +162,8 @@ public class OrdemProducao {
             int codCliente,
             int codContato,
             int codEndereco,
-            String codProduto,
+            int codProduto,
+            byte tipoProduto,
             Date dataEntrega,
             Date dataEmissao,
             byte tipoPessoa,
@@ -174,6 +180,7 @@ public class OrdemProducao {
         this.codEmissor = codEmissor;
         this.dataCancelamento = dataCancelamento;
         this.codProduto = codProduto;
+        this.tipoProduto = tipoProduto;
     }
 
     public OrdemProducao(int cod,
@@ -199,7 +206,8 @@ public class OrdemProducao {
             Date dataEnvioDivCmcl,
             int indEntPrazo,
             int indEntErro,
-            String codProduto,
+            int codProduto,
+            byte tipoProduto,
             int orcamentoBase,
             int codContato,
             int codEndereco,
@@ -234,6 +242,7 @@ public class OrdemProducao {
         this.codEndereco = codEndereco;
         this.dataCancelamento = dataCancelamento;
         this.tipoTrabalho = tipoTrabalho;
+        this.tipoProduto = tipoProduto;
     }
 
     public int getQuantidade() {
@@ -260,11 +269,19 @@ public class OrdemProducao {
         this.dataCancelamento = dataCancelamento;
     }
 
-    public String getCodProduto() {
+    public byte getTipoProduto() {
+        return tipoProduto;
+    }
+
+    public void setTipoProduto(byte tipoProduto) {
+        this.tipoProduto = tipoProduto;
+    }
+
+    public int getCodProduto() {
         return codProduto;
     }
 
-    public void setCodProduto(String codProduto) {
+    public void setCodProduto(int codProduto) {
         this.codProduto = codProduto;
     }
 
@@ -521,7 +538,7 @@ public class OrdemProducao {
              * Procura o produto
              */
             ProdOrcamento prodOrc = null;
-            if (!op.getCodProduto().equals("0")) {
+            if (op.getCodProduto() != 0) {
                 prodOrc = OrcamentoDAO.retornaProdutoOrcamento(codOrcBase, op.getCodProduto());
             }
 
@@ -610,7 +627,7 @@ public class OrdemProducao {
              */
             cell1 = new PdfPCell(new Phrase("ORCAMENTO BASE: " + op.getOrcBase() + "\n" + "EMISSOR: " + TelaAutenticacao.codAtendente + "\n" + "EMISSÃO: " + Controle.dataPadrao.format(op.getDataEmissao()), FontFactory.getFont("arial.ttf", 9)));
             if (tipo == 2) {
-                if (op.getCodProduto().contains("PE")) {
+                if (prodOrc.getTipoProduto() == 2) {
                     cell2 = new PdfPCell(new Phrase("PEDIDO DE VENDA nº " + op.getCodigo() + "\nRECIBO DE ENTREGA nº " + fat.getCod(),
                             FontFactory.getFont("arial.ttf", 15, Font.BOLD)));
                     cell2.setHorizontalAlignment(1);
@@ -623,7 +640,7 @@ public class OrdemProducao {
                 }
 
             } else {
-                if (op.getCodProduto().contains("PE")) {
+                if (prodOrc.getTipoProduto() == 2) {
                     cell2 = new PdfPCell(new Phrase("PEDIDO DE VENDA\n" + op.getCodigo(),
                             FontFactory.getFont("arial.ttf", 15, Font.BOLD)));
                     cell2.setHorizontalAlignment(1);
@@ -636,7 +653,7 @@ public class OrdemProducao {
                 }
             }
 
-            if (op.getCodProduto().contains("PE")) {
+            if (prodOrc.getTipoProduto() == 2) {
                 cell3 = new PdfPCell(new Phrase(op.getDataCancelamento() == null
                         ? "DATA DE ENTREGA:\n" + Controle.dataPadrao.format(op.getDataEntrega())
                         : "DATA DE CANCELAMENTO:\n" + Controle.dataPadrao.format(op.getDataCancelamento()), FontFactory.getFont("arial.ttf", 10, Font.BOLD)));
@@ -779,12 +796,12 @@ public class OrdemProducao {
             /**
              * Verifica se é op ou serviço
              */
-            if (!op.getCodProduto().equals("0")) {
+            if (op.getCodProduto() != 0) {
 
                 /**
                  * Procura as informações do produto
                  */
-                ProdutoBEAN produto = ProdutoDAO.retornaInfoProd(op.getCodProduto());
+                ProdutoBEAN produto = ProdutoDAO.retornaInfoProd(op.getCodProduto(), (byte) 1);
 
                 /**
                  * Preenche as informações do produto
@@ -819,7 +836,7 @@ public class OrdemProducao {
                         sb.append(prodOrc.getObservacaoProduto());
                     }
 
-                    if (op.getCodProduto().contains("PE")) {
+                    if (prodOrc.getTipoProduto() == 2) {
                         sb.append("\n\nPRAZO DE ENTREGA: 5 A 15 DIAS ÚTEIS* APÓS ENVIO DA PROPOSTA "
                                 + "ASSINADA E/OU CARIMBADA PELO OD E/OU COMANDANTE DA OM.");
                     } else {
@@ -889,12 +906,12 @@ public class OrdemProducao {
             /**
              * Verifica se é produto ou serviço
              */
-            if (!op.getCodProduto().equals("0")) {
+            if (op.getCodProduto() != 0) {
 
                 /**
                  * Verifica se o produto é pr ent
                  */
-                if (!op.getCodProduto().contains("PE")) {
+                if (prodOrc.getTipoProduto() != 2) {
 
                     /**
                      * Preenche as informações dos papéis
@@ -920,7 +937,8 @@ public class OrdemProducao {
                         cell1.setPaddingBottom(5);
                         tblPapel.addCell(cell1);
                         for (CalculosOpBEAN calculo : OrdemProducaoDAO.retornaCalculosOp(
-                                codOp, op.getCodProduto(), papel.getTipoPapel())) {
+                                codOp, prodOrc.getTipoProduto(),
+                                op.getCodProduto(), papel.getTipoPapel())) {
                             cell2 = new PdfPCell(new Phrase("GASTO DE FOLHAS: " + calculo.getQtdFolhasTotal(), FontFactory.getFont("arial.ttf", 9, Font.BOLD)));
                             cell2.setBorder(Rectangle.RIGHT | Rectangle.LEFT | Rectangle.BOTTOM);
                             cell2.setColspan(2);
@@ -955,12 +973,12 @@ public class OrdemProducao {
             /**
              * Verifica se não é serviço
              */
-            if (!op.getCodProduto().equals("0")) {
+            if (op.getCodProduto() != 0) {
 
                 /**
                  * Verifica se o produto é pr ent
                  */
-                if (!op.getCodProduto().contains("PE")) {
+                if (prodOrc.getTipoProduto() != 2) {
 
                     /**
                      * Preenche as informações sobre as chapas
@@ -1011,12 +1029,12 @@ public class OrdemProducao {
             /**
              * Verifica se a op não é serviço
              */
-            if (!op.getCodProduto().equals("0")) {
+            if (op.getCodProduto() != 0) {
 
                 /**
                  * Verifica se o produto não é pr ent
                  */
-                if (!op.getCodProduto().contains("PE")) {
+                if (prodOrc.getTipoProduto() != 2) {
 
                     /**
                      * Preenche os acabamentos
@@ -1137,12 +1155,12 @@ public class OrdemProducao {
                         FontFactory.getFont("arial.ttf", 9)));
                 sb = new StringBuilder().append("VALOR FRETE\n\nR$ ")
                         .append(fat.getFreteFat() == 1 ? df.format(vlrFrete)
-                                        : "0,00");
+                                : "0,00");
                 cell4 = new PdfPCell(new Phrase(sb.toString(),
                         FontFactory.getFont("arial.ttf", 9)));
                 sb = new StringBuilder().append("VALOR SERVIÇOS\n\nR$ ")
                         .append(fat.getFreteFat() == 1 ? df.format(vlrSv)
-                                        : "0,00");
+                                : "0,00");
                 cell5 = new PdfPCell(new Phrase(sb.toString(),
                         FontFactory.getFont("arial.ttf", 9)));
                 cell6 = new PdfPCell(new Phrase("VALOR FATURADO\n\n" + "R$ " + df.format(fat.getVlrFat()),
@@ -1184,12 +1202,12 @@ public class OrdemProducao {
                                 FontFactory.getFont("arial.ttf", 9)));
                         sb = new StringBuilder().append("VALOR FRETE\n\nR$ ")
                                 .append(fat.getFreteFat() == 1 ? df.format(vlrFrete)
-                                                : "0,00");
+                                        : "0,00");
                         cell4 = new PdfPCell(new Phrase(sb.toString(),
                                 FontFactory.getFont("arial.ttf", 9)));
                         sb = new StringBuilder().append("VALOR SERVIÇOS\n\nR$ ")
                                 .append(fat.getFreteFat() == 1 ? df.format(vlrSv)
-                                                : "0,00");
+                                        : "0,00");
                         cell5 = new PdfPCell(new Phrase(sb.toString(),
                                 FontFactory.getFont("arial.ttf", 9)));
                         cell6 = new PdfPCell(new Phrase("VALOR FATURADO\n\n" + "R$ " + df.format(recibo.getVlrFat()),
@@ -1249,8 +1267,8 @@ public class OrdemProducao {
 
                 cell3 = new PdfPCell(new Phrase("VALOR FRETE\n\n"
                         + "R$ " + (fat.getFreteFat() == 1
-                                ? df.format(vlrFrete)
-                                : "0,00"),
+                        ? df.format(vlrFrete)
+                        : "0,00"),
                         FontFactory.getFont("arial.ttf", 9)));
                 cell4 = new PdfPCell(new Phrase("VALOR SERVIÇOS\n\nR$ " + (fat.getFreteFat() == 1
                         ? df.format(vlrSv)
@@ -1396,7 +1414,7 @@ public class OrdemProducao {
                 cell2 = new PdfPCell(new Phrase("R$ " + df.format(OrcamentoDAO.retornaValorUnitario(op.getOrcBase(),
                         op.getCodProduto())), FontFactory.getFont("arial.ttf", 9)));
                 cell3 = new PdfPCell(new Phrase("R$ " + df.format(OrcamentoDAO.retornaVlrParcProd(op.getOrcBase(),
-                        op.getCodProduto())), FontFactory.getFont("arial.ttf", 9)));
+                        prodOrc.getTipoProduto(), op.getCodProduto())), FontFactory.getFont("arial.ttf", 9)));
                 tblValor.addCell(cell1);
                 tblValor.addCell(cell2);
                 tblValor.addCell(cell3);

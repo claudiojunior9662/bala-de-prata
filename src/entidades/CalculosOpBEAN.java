@@ -12,7 +12,8 @@ package entidades;
 public class CalculosOpBEAN {
 
     private int codOp;
-    private String codProduto;
+    private byte tipoProduto;
+    private int codProduto;
     private String tipoPapel;
     private int qtdFolhas;
     private int qtdFolhasTotal;
@@ -71,11 +72,19 @@ public class CalculosOpBEAN {
         this.codOp = codOp;
     }
 
-    public String getCodProduto() {
+    public byte getTipoProduto() {
+        return tipoProduto;
+    }
+
+    public void setTipoProduto(byte tipoProduto) {
+        this.tipoProduto = tipoProduto;
+    }
+
+    public int getCodProduto() {
         return codProduto;
     }
 
-    public void setCodProduto(String codProduto) {
+    public void setCodProduto(int codProduto) {
         this.codProduto = codProduto;
     }
 

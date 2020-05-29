@@ -10,7 +10,6 @@ import com.itextpdf.text.FontFactory;
 import com.itextpdf.text.PageSize;
 import com.itextpdf.text.Paragraph;
 import com.itextpdf.text.Phrase;
-import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
 import entidades.Cliente;
 import exception.EnvioExcecao;
@@ -18,16 +17,11 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.sql.SQLException;
 import java.util.Date;
 import javax.swing.DefaultListModel;
 import javax.swing.JLabel;
-import ui.administrador.FuncionarioBEAN;
-import ui.administrador.FuncionarioDAO;
 import ui.controle.Controle;
 import ui.login.TelaAutenticacao;
-import static ui.orcamentos.operacoes.OrcamentoPrincipalFrame.codigoCliente;
-import static ui.orcamentos.operacoes.OrcamentoPrincipalFrame.nomeCliente;
 
 /**
  *

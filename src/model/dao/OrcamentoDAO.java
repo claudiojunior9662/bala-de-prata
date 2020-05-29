@@ -363,21 +363,36 @@ public class OrcamentoDAO {
         }
     }
 
-    public static void createProdutosOrcamento(ProdOrcamento produtosOrcamentoBEAN) throws SQLException {
+    /**
+     * Cria produtos do orçamento
+     * @param prodOrc lista de produtos do orçamento
+     * @throws SQLException 
+     */
+    public static void criaProdOrc(ProdOrcamento prodOrc) throws SQLException {
         Connection con = ConnectionFactory.getConnection();
         PreparedStatement stmt = null;
         ResultSet rs = null;
 
         try {
-            stmt = con.prepareStatement("INSERT INTO tabela_produtos_orcamento(cod_orcamento, cod_produto, descricao_produto, quantidade, observacao_produto, preco_unitario, valor_digital, maquina) VALUES(?,?,?,?,?,?,?,?)");
-            stmt.setInt(1, produtosOrcamentoBEAN.getCodOrcamento());
-            stmt.setString(2, produtosOrcamentoBEAN.getCodProduto());
-            stmt.setString(3, produtosOrcamentoBEAN.getDescricaoProduto());
-            stmt.setInt(4, produtosOrcamentoBEAN.getQuantidade());
-            stmt.setString(5, produtosOrcamentoBEAN.getObservacaoProduto());
-            stmt.setFloat(6, produtosOrcamentoBEAN.getPrecoUnitario());
-            stmt.setDouble(7, produtosOrcamentoBEAN.getValorDigital());
-            stmt.setInt(8, produtosOrcamentoBEAN.getMaquina());
+            stmt = con.prepareStatement("INSERT INTO tabela_produtos_orcamento(cod_orcamento, "
+                    + "cod_produto, "
+                    + "tipo_produto, "
+                    + "descricao_produto, "
+                    + "quantidade, "
+                    + "observacao_produto, "
+                    + "preco_unitario, "
+                    + "valor_digital, "
+                    + "maquina) "
+                    + "VALUES(?,?,?,?,?,?,?,?,?)");
+            stmt.setInt(1, prodOrc.getCodOrcamento());
+            stmt.setInt(2, prodOrc.getCodProduto());
+            stmt.setByte(3, prodOrc.getTipoProduto());
+            stmt.setString(4, prodOrc.getDescricaoProduto());
+            stmt.setInt(5, prodOrc.getQuantidade());
+            stmt.setString(6, prodOrc.getObservacaoProduto());
+            stmt.setFloat(7, prodOrc.getPrecoUnitario());
+            stmt.setDouble(8, prodOrc.getValorDigital());
+            stmt.setInt(9, prodOrc.getMaquina());
             stmt.executeUpdate();
         } catch (SQLException ex) {
             throw new SQLException(ex);
@@ -386,13 +401,20 @@ public class OrcamentoDAO {
         }
     }
 
-    public static void excluiProdutosOrcamentos(int codOrcamento) throws SQLException {
+    /**
+     * Exclui produtos do orçamento
+     * @param codOrc código do orçamento
+     * @throws SQLException 
+     */
+    public static void excluiProdOrc(int codOrc) throws SQLException {
         Connection con = ConnectionFactory.getConnection();
         PreparedStatement stmt = null;
 
         try {
-            stmt = con.prepareStatement("DELETE FROM tabela_produtos_orcamento WHERE cod_orcamento = ?");
-            stmt.setInt(1, codOrcamento);
+            stmt = con.prepareStatement("DELETE "
+                    + "FROM tabela_produtos_orcamento "
+                    + "WHERE cod_orcamento = ?");
+            stmt.setInt(1, codOrc);
             stmt.executeUpdate();
         } catch (SQLException ex) {
             throw new SQLException(ex);
@@ -401,7 +423,13 @@ public class OrcamentoDAO {
         }
     }
 
-    public static List<ProdOrcamento> carregaProdutosOrcamento(int codOrcamento) throws SQLException {
+    /**
+     * Carrega os produtos do orçamento
+     * @param codOrc código do orçamento
+     * @return
+     * @throws SQLException 
+     */
+    public static List<ProdOrcamento> carregaProdOrc(int codOrc) throws SQLException {
         Connection con = ConnectionFactory.getConnection();
         PreparedStatement stmt = null;
         ResultSet rs = null;
@@ -412,12 +440,13 @@ public class OrcamentoDAO {
             stmt = con.prepareStatement("SELECT * "
                     + "FROM tabela_produtos_orcamento "
                     + "WHERE cod_orcamento = ?");
-            stmt.setInt(1, codOrcamento);
+            stmt.setInt(1, codOrc);
             rs = stmt.executeQuery();
             while (rs.next()) {
                 ProdOrcamento poAUX = new ProdOrcamento();
                 poAUX.setCodOrcamento(rs.getInt("cod_orcamento"));
-                poAUX.setCodProduto(rs.getString("cod_produto"));
+                poAUX.setTipoProduto(rs.getByte("tipo_produto"));
+                poAUX.setCodProduto(rs.getInt("cod_produto"));
                 poAUX.setDescricaoProduto(rs.getString("descricao_produto"));
                 poAUX.setQuantidade(rs.getInt("quantidade"));
                 poAUX.setObservacaoProduto(rs.getString("observacao_produto"));
@@ -425,7 +454,6 @@ public class OrcamentoDAO {
                 poAUX.setMaquina(rs.getInt("maquina"));
                 retorno.add(poAUX);
             }
-            stmt.close();
         } catch (SQLException ex) {
             throw new SQLException(ex);
         } finally {
@@ -434,7 +462,7 @@ public class OrcamentoDAO {
         return retorno;
     }
 
-    public synchronized static double retornaValorUnitario(int codOrcamento, String codProduto) throws SQLException {
+    public synchronized static double retornaValorUnitario(int codOrcamento, int codProduto) throws SQLException {
         Connection con = ConnectionFactory.getConnection();
         PreparedStatement stmt = null;
         ResultSet rs = null;
@@ -445,7 +473,7 @@ public class OrcamentoDAO {
                     + "FROM tabela_produtos_orcamento "
                     + "WHERE cod_orcamento = ? AND cod_produto = ?");
             stmt.setInt(1, codOrcamento);
-            stmt.setString(2, codProduto);
+            stmt.setInt(2, codProduto);
 
             rs = stmt.executeQuery();
             if (rs.next()) {
@@ -1038,6 +1066,7 @@ public class OrcamentoDAO {
 
         try {
             stmt = con.prepareStatement("SELECT cod_produto, "
+                    + "tipo_produto, "
                     + "descricao_produto, "
                     + "quantidade, "
                     + "preco_unitario "
@@ -1047,7 +1076,8 @@ public class OrcamentoDAO {
             rs = stmt.executeQuery();
             while (rs.next()) {
                 ProdOrcamento aux = new ProdOrcamento();
-                aux.setCodProduto(rs.getString("cod_produto"));
+                aux.setCodProduto(rs.getInt("cod_produto"));
+                aux.setTipoProduto(rs.getByte("tipo_produto"));
                 aux.setDescricaoProduto(rs.getString("descricao_produto"));
                 aux.setQuantidade(rs.getInt("quantidade"));
                 aux.setPrecoUnitario(rs.getFloat("preco_unitario"));
@@ -1087,13 +1117,20 @@ public class OrcamentoDAO {
         }
     }
 
+    /**
+     * Cria os cálculos de papel da proposta, que serão reutilizados na ordem de produção
+     * @param calculosBEAN cálculos da proposta
+     * @throws SQLException 
+     */
     public static void createCalculosProposta(CalculosOpBEAN calculosBEAN) throws SQLException {
         Connection con = ConnectionFactory.getConnection();
         PreparedStatement stmt = null;
 
         try {
             stmt = con.prepareStatement("INSERT INTO tabela_calculos_op(cod_op, tipo_papel,"
-                    + "qtd_folhas_total, formato, qtd_chapas, perca, cod_proposta, cod_produto, cod_papel) VALUES(?,?,?,?,?,?,?,?,?)");
+                    + "qtd_folhas_total, formato, qtd_chapas, perca, cod_proposta, cod_produto, tipo_produto, "
+                    + "cod_papel) "
+                    + "VALUES(?,?,?,?,?,?,?,?,?,?)");
             stmt.setInt(1, calculosBEAN.getCodOp());
             stmt.setString(2, calculosBEAN.getTipoPapel());
             stmt.setInt(3, calculosBEAN.getQtdFolhasTotal());
@@ -1101,10 +1138,10 @@ public class OrcamentoDAO {
             stmt.setInt(5, calculosBEAN.getQtdChapas());
             stmt.setFloat(6, calculosBEAN.getPerca());
             stmt.setInt(7, calculosBEAN.getCodigoProposta());
-            stmt.setString(8, calculosBEAN.getCodProduto());
-            stmt.setInt(9, calculosBEAN.getCodigoPapel());
+            stmt.setInt(8, calculosBEAN.getCodProduto());
+            stmt.setByte(9, calculosBEAN.getTipoProduto());
+            stmt.setInt(10, calculosBEAN.getCodigoPapel());
             stmt.executeUpdate();
-            stmt.close();
         } catch (SQLException ex) {
             throw new SQLException(ex);
         } finally {
@@ -1112,9 +1149,20 @@ public class OrcamentoDAO {
         }
     }
 
-    public static CalculosOpBEAN retornaCalculosProposta(int codigoProposta,
-            int codigoProduto,
-            int codigoPapel,
+    /**
+     * Retorna os cálculos de papel da proposta de orçamento
+     * @param codProposta código da proposta
+     * @param codProd código do produto
+     * @param tipoProd tipo do produto
+     * @param codPapel código do papel
+     * @param tipoPapel tipo do papel
+     * @return
+     * @throws SQLException 
+     */
+    public static CalculosOpBEAN retornaCalculosProposta(int codProposta,
+            int codProd,
+            byte tipoProd,
+            int codPapel,
             String tipoPapel) throws SQLException {
         Connection con = ConnectionFactory.getConnection();
         PreparedStatement stmt = null;
@@ -1123,12 +1171,18 @@ public class OrcamentoDAO {
         CalculosOpBEAN retorno = new CalculosOpBEAN();
 
         try {
-            stmt = con.prepareStatement("SELECT formato, perca, qtd_folhas_total, qtd_chapas, cod_papel"
-                    + " FROM tabela_calculos_op WHERE cod_proposta = ? AND cod_produto = ? AND tipo_papel = ? AND cod_papel = ?");
-            stmt.setInt(1, codigoProposta);
-            stmt.setInt(2, codigoProduto);
+            stmt = con.prepareStatement("SELECT formato, perca, qtd_folhas_total, qtd_chapas, cod_papel "
+                    + "FROM tabela_calculos_op "
+                    + "WHERE cod_proposta = ? "
+                    + "AND cod_produto = ? "
+                    + "AND tipo_papel = ? "
+                    + "AND cod_papel = ? "
+                    + "AND tipo_produto = ?");
+            stmt.setInt(1, codProposta);
+            stmt.setInt(2, codProd);
             stmt.setString(3, tipoPapel);
-            stmt.setInt(4, codigoPapel);
+            stmt.setInt(4, codPapel);
+            stmt.setByte(5, tipoProd);
             rs = stmt.executeQuery();
             if (rs.first()) {
                 retorno.setFormato(rs.getInt("formato"));
@@ -1137,47 +1191,62 @@ public class OrcamentoDAO {
                 retorno.setQtdChapas(rs.getInt("qtd_chapas"));
                 retorno.setCodigoPapel(rs.getInt("cod_papel"));
             }
-        } catch (SQLException ex) {
-            throw new SQLException();
-        } finally {
-            ConnectionFactory.closeConnection(con, stmt, rs);
-        }
-        return retorno;
-    }
-
-    public static void excluiCalculosProposta(int codigoProposta) throws SQLException {
-        Connection con = ConnectionFactory.getConnection();
-        PreparedStatement stmt = null;
-
-        try {
-            stmt = con.prepareStatement("DELETE FROM tabela_calculos_op WHERE cod_proposta = ?");
-            stmt.setInt(1, codigoProposta);
-            stmt.executeUpdate();
-        } catch (SQLException ex) {
-            throw new SQLException();
-        } finally {
-            ConnectionFactory.closeConnection(con, stmt);
-        }
-    }
-
-    public static boolean verificaCalculos(int codigoOrcamento) throws SQLException {
-        Connection con = ConnectionFactory.getConnection();
-        PreparedStatement stmt = null;
-        ResultSet rs = null;
-
-        try {
-            stmt = con.prepareStatement("SELECT cod FROM tabela_calculos_op WHERE cod_proposta = ?");
-            stmt.setInt(1, codigoOrcamento);
-            rs = stmt.executeQuery();
-            if (rs.next()) {
-                return true;
-            }
+            return retorno;
         } catch (SQLException ex) {
             throw new SQLException(ex);
         } finally {
             ConnectionFactory.closeConnection(con, stmt, rs);
         }
-        return false;
+    }
+
+    /**
+     * Exclui os cálculos de papéis do orçamento
+     * @param codProposta código da proposta de orçamento
+     * @throws SQLException 
+     */
+    public static void excluiCalculosProposta(int codProposta) throws SQLException {
+        Connection con = ConnectionFactory.getConnection();
+        PreparedStatement stmt = null;
+
+        try {
+            stmt = con.prepareStatement("DELETE "
+                    + "FROM tabela_calculos_op "
+                    + "WHERE cod_proposta = ?");
+            stmt.setInt(1, codProposta);
+            stmt.executeUpdate();
+        } catch (SQLException ex) {
+            throw new SQLException(ex);
+        } finally {
+            ConnectionFactory.closeConnection(con, stmt);
+        }
+    }
+
+    /**
+     * Verifica se existe cálculos pré-cadastrados de papéis
+     * @param codOrc código da proposta de orçamento
+     * @return
+     * @throws SQLException 
+     */
+    public static boolean verificaCalculos(int codOrc) throws SQLException {
+        Connection con = ConnectionFactory.getConnection();
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+
+        try {
+            stmt = con.prepareStatement("SELECT cod "
+                    + "FROM tabela_calculos_op "
+                    + "WHERE cod_proposta = ?");
+            stmt.setInt(1, codOrc);
+            rs = stmt.executeQuery();
+            if (rs.next()) {
+                return true;
+            }
+            return false;
+        } catch (SQLException ex) {
+            throw new SQLException(ex);
+        } finally {
+            ConnectionFactory.closeConnection(con, stmt, rs);
+        }
     }
 
     /**
@@ -1295,14 +1364,17 @@ public class OrcamentoDAO {
      * @throws java.sql.SQLException
     @see selecionaInformacoesProduto
      */
-    public synchronized static ProdOrcamento selecionaInformacoesProduto(int codOrc, String codProduto) throws SQLException {
+    public synchronized static ProdOrcamento selecionaInformacoesProduto(int codOrc, 
+            int codProduto,
+            byte tipoProduto) throws SQLException {
         Connection con = ConnectionFactory.getConnection();
         PreparedStatement stmt = null;
         ResultSet rs = null;
 
         try {
-            if (codProduto == null) {
+            if (codProduto == 0) {
                 stmt = con.prepareStatement("SELECT cod_produto, "
+                        + "tipo_produto, "
                         + "descricao_produto, "
                         + "quantidade, "
                         + "preco_unitario,"
@@ -1312,14 +1384,16 @@ public class OrcamentoDAO {
                 stmt.setInt(1, codOrc);
             } else {
                 stmt = con.prepareStatement("SELECT cod_produto, "
+                        + "tipo_produto, "
                         + "descricao_produto, "
                         + "quantidade, "
                         + "preco_unitario,"
                         + "observacao_produto "
                         + "FROM tabela_produtos_orcamento "
-                        + "WHERE cod_orcamento = ? AND cod_produto = ?");
+                        + "WHERE cod_orcamento = ? AND cod_produto = ? AND tipo_produto = ?");
                 stmt.setInt(1, codOrc);
-                stmt.setString(2, codProduto);
+                stmt.setInt(2, codProduto);
+                stmt.setByte(3, tipoProduto);
             }
 
             rs = stmt.executeQuery();
@@ -1327,7 +1401,8 @@ public class OrcamentoDAO {
                 return new ProdOrcamento(rs.getString("descricao_produto"),
                         rs.getInt("quantidade"),
                         rs.getFloat("preco_unitario"),
-                        rs.getString("cod_produto"),
+                        rs.getInt("cod_produto"),
+                        rs.getByte("tipo_produto"),
                         rs.getString("observacao_produto")
                 );
             }
@@ -1379,7 +1454,7 @@ public class OrcamentoDAO {
      * @return
      * @throws java.sql.SQLException
      */
-    public static double retornaVlrParcProd(int codOrc, String codProd) throws SQLException {
+    public static double retornaVlrParcProd(int codOrc, byte tipoProduto, int codProd) throws SQLException {
         Connection con = ConnectionFactory.getConnection();
         PreparedStatement stmt = null;
         ResultSet rs = null;
@@ -1387,9 +1462,10 @@ public class OrcamentoDAO {
         try {
             stmt = con.prepareStatement("SELECT (quantidade * preco_unitario) AS VLR_PARC "
                     + "FROM tabela_produtos_orcamento "
-                    + "WHERE cod_orcamento = ? AND cod_produto = ?");
+                    + "WHERE cod_orcamento = ? AND cod_produto = ? AND tipo_produto = ?");
             stmt.setInt(1, codOrc);
-            stmt.setString(2, codProd);
+            stmt.setInt(2, codProd);
+            stmt.setByte(3, tipoProduto);
             rs = stmt.executeQuery();
             if (rs.next()) {
                 return rs.getDouble("VLR_PARC");
@@ -1441,7 +1517,7 @@ public class OrcamentoDAO {
      * @return
      * @throws SQLException
      */
-    public static ProdOrcamento retornaProdutoOrcamento(int codOrcamento, String codProduto) throws SQLException {
+    public static ProdOrcamento retornaProdutoOrcamento(int codOrcamento, int codProduto) throws SQLException {
         Connection con = ConnectionFactory.getConnection();
         PreparedStatement stmt = null;
         ResultSet rs = null;
@@ -1450,19 +1526,21 @@ public class OrcamentoDAO {
             stmt = con.prepareStatement("SELECT observacao_produto, "
                     + "quantidade, "
                     + "preco_unitario, "
+                    + "tipo_produto,"
                     + "cod_produto,"
                     + "descricao_produto "
                     + "FROM tabela_produtos_orcamento "
                     + "WHERE cod_orcamento = ? AND cod_produto = ?");
             stmt.setInt(1, codOrcamento);
-            stmt.setString(2, codProduto);
+            stmt.setInt(2, codProduto);
             rs = stmt.executeQuery();
             if (rs.next()) {
                 return new ProdOrcamento(
                         rs.getString("descricao_produto"),
                         rs.getInt("quantidade"),
                         rs.getFloat("preco_unitario"),
-                        rs.getString("cod_produto"),
+                        rs.getInt("cod_produto"),
+                        rs.getByte("tipo_produto"),
                         rs.getString("observacao_produto")
                 );
             }

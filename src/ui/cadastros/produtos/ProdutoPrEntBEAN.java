@@ -13,8 +13,8 @@ import java.util.Date;
  * @author claud
  */
 public class ProdutoPrEntBEAN {
-    
-    private String codigo;
+
+    private int codigo;
     private String descricao;
     private float largura;
     private float altura;
@@ -40,7 +40,7 @@ public class ProdutoPrEntBEAN {
     public ProdutoPrEntBEAN() {
     }
 
-    public ProdutoPrEntBEAN(String codigo, String descricao, byte preVenda, byte promocao, 
+    public ProdutoPrEntBEAN(int codigo, String descricao, byte preVenda, byte promocao,
             int estoque, byte avisoEstoque, double vlrUnit) {
         this.codigo = codigo;
         this.descricao = descricao;
@@ -51,9 +51,9 @@ public class ProdutoPrEntBEAN {
         this.vlrUnit = vlrUnit;
     }
 
-    public ProdutoPrEntBEAN(String codigo, String descricao, float largura, float altura, float espessura, 
-            float peso, byte vendas, byte preVenda, byte promocao, double vlrPromocao, Date inicioPromocao, 
-            Date fimPromocao, int qtdPaginas, int estoque, byte avisoEstoque, int avisoEstoqueUn, String tipo, 
+    public ProdutoPrEntBEAN(int codigo, String descricao, float largura, float altura, float espessura,
+            float peso, byte vendas, byte preVenda, byte promocao, double vlrPromocao, Date inicioPromocao,
+            Date fimPromocao, int qtdPaginas, int estoque, byte avisoEstoque, int avisoEstoqueUn, String tipo,
             double vlrUnit, Timestamp ultMov, int pdQtdMin, byte pdMax, int pdQtdMax) {
         this.codigo = codigo;
         this.descricao = descricao;
@@ -79,7 +79,7 @@ public class ProdutoPrEntBEAN {
         this.pdQtdMax = pdQtdMax;
     }
 
-    public ProdutoPrEntBEAN(String codigo, String descricao){
+    public ProdutoPrEntBEAN(int codigo, String descricao) {
         this.codigo = codigo;
         this.descricao = descricao;
     }
@@ -93,38 +93,38 @@ public class ProdutoPrEntBEAN {
         this.vlrUnit = vlrUnit;
     }
 
-    public ProdutoPrEntBEAN(String codigo, String descricao, int estoque) {
+    public ProdutoPrEntBEAN(int codigo, String descricao, int estoque) {
         this.codigo = codigo;
         this.descricao = descricao;
         this.estoque = estoque;
     }
-    
-    public ProdutoPrEntBEAN(String codigo, 
+
+    public ProdutoPrEntBEAN(int codigo,
             int estoque,
             byte avisoEstoque,
             int avisoEstoqueUn
-            ) {
+    ) {
         this.codigo = codigo;
         this.estoque = estoque;
         this.avisoEstoque = avisoEstoque;
         this.avisoEstoqueUn = avisoEstoqueUn;
     }
-    
-    public ProdutoPrEntBEAN(float altura, 
-            float largura, 
-            float espessura, 
-            float peso){
+
+    public ProdutoPrEntBEAN(float altura,
+            float largura,
+            float espessura,
+            float peso) {
         this.altura = altura;
         this.largura = largura;
         this.espessura = espessura;
         this.peso = peso;
     }
-    
-    public String getCodigo() {
+
+    public int getCodigo() {
         return codigo;
     }
 
-    public void setCodigo(String codigo) {
+    public void setCodigo(int codigo) {
         this.codigo = codigo;
     }
 
@@ -295,6 +295,5 @@ public class ProdutoPrEntBEAN {
     public void setPdQtdMaxUn(int pdQtdMaxUn) {
         this.pdQtdMax = pdQtdMaxUn;
     }
-    
-    
+
 }

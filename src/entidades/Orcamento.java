@@ -366,11 +366,12 @@ public class Orcamento {
                     tabelaCabecalho.setWidthPercentage(100);
                     PdfPCell celulaCabecalho = null;
 
-                    List<ProdOrcamento> produtos = OrcamentoDAO.carregaProdutosOrcamento(codOrc);
+                    List<ProdOrcamento> produtos = 
+                            OrcamentoDAO.carregaProdOrc(codOrc);
 
                     if (consulta == true) {
                         if (status == 1) {
-                            if (produtos.get(0).getCodProduto().contains("PE")) {
+                            if (produtos.get(0).getTipoProduto() == 2) {
                                 celulaCabecalho = new PdfPCell(new Phrase("PROPOSTA DE PEDIDO DE VENDA Nº "
                                         + codOrc,
                                         FontFactory.getFont("arial.ttf", 12, Font.BOLD)));
@@ -386,7 +387,7 @@ public class Orcamento {
                                     FontFactory.getFont("arial.ttf", 12, Font.BOLD)));
                         }
                     } else {
-                        if (produtos.get(0).getCodProduto().contains("PE")) {
+                        if (produtos.get(0).getTipoProduto() == 2) {
                                 celulaCabecalho = new PdfPCell(new Phrase("PROPOSTA DE PEDIDO DE VENDA Nº "
                                         + codOrc,
                                         FontFactory.getFont("arial.ttf", 12, Font.BOLD)));
@@ -453,13 +454,16 @@ public class Orcamento {
                         document.add(p2);
                         p2 = new Paragraph(produto.getDescricaoProduto().toUpperCase()
                                 + "    QUANTIDADE: " + produto.getQuantidade()
-                                + "    TAMANHO: " + ProdutoDAO.carregaAlturaProduto(produto.getCodProduto())
-                                + " X " + ProdutoDAO.carregaLarguraProduto(produto.getCodProduto())
-                                + "    PÁGINAS: " + ProdutoDAO.retornaQuantidadePaginas(produto.getCodProduto()),
+                                + "    TAMANHO: " + ProdutoDAO.carregaAlturaProduto(produto.getCodProduto(), 
+                                        produto.getTipoProduto())
+                                + " X " + ProdutoDAO.carregaLarguraProduto(produto.getCodProduto(), 
+                                        produto.getTipoProduto())
+                                + "    PÁGINAS: " + ProdutoDAO.retornaQuantidadePaginas(produto.getCodProduto(), 
+                                        produto.getTipoProduto()),
                                 FontFactory.getFont("arial.ttf", 9));
                         document.add(p2);
 
-                        if (!produto.getCodProduto().contains("PE")) {
+                        if (produtos.get(0).getTipoProduto() != 2) {
                             if (detalhado) {
                                 //PAPÉIS DO PRODUTO-----------------------------
                                 p2 = new Paragraph("\n");
@@ -551,8 +555,8 @@ public class Orcamento {
 
                     //VALOR PRODUTOS--------------------------------------------
                     double valorUnitario = 0d;
-                    for (ProdOrcamento produto : OrcamentoDAO.carregaProdutosOrcamento(codOrc)) {
-                        if (produto.getCodProduto().contains("PE")) {
+                    for (ProdOrcamento produto : OrcamentoDAO.carregaProdOrc(codOrc)) {
+                        if (produtos.get(0).getTipoProduto() == 2) {
                             valorUnitario = ProdutoDAO.retornaVlrPe(produto.getCodProduto());
                         } else {
                             valorUnitario = OrcamentoDAO.retornaValorUnitario(codOrc, produto.getCodProduto());
@@ -677,7 +681,7 @@ public class Orcamento {
                     PdfPTable tabelaRodape = new PdfPTable(new float[]{1f});
                     tabelaRodape.setWidthPercentage(100);
                     PdfPCell celulaRodape = null;
-                    if (produtos.get(0).getCodProduto().contains("PE")) {
+                    if (produtos.get(0).getTipoProduto() == 2) {
                         if (orcamento.getTipoPessoa() == 1) {
                             celulaRodape = new PdfPCell(new Phrase("ENTREGA: 5 A 10 DIAS ÚTEIS APÓS A CONFIRMAÇÃO DO PAGAMENTO DA GRU.", FontFactory.getFont("arial.ttf", 10, Font.BOLD)));
                         } else {

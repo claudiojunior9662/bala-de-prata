@@ -240,7 +240,7 @@ public class NotaDAO {
                         (byte) rs.getInt("FAT_FRETE"),
                         (byte) rs.getInt("FAT_SERVICOS"),
                         ClienteDAO.retornaNomeCliente(rs.getInt("cod_cliente"), (byte) rs.getInt("tipo_pessoa")),
-                        rs.getString("COD_PRODUTO")
+                        rs.getInt("COD_PRODUTO")
                 );
             }
             return null;
@@ -463,7 +463,7 @@ public class NotaDAO {
             stmt.setString(12, notaBEAN.getObservacoes());
             stmt.setByte(13, notaBEAN.getFatFrete());
             stmt.setByte(14, notaBEAN.getFatServicos());
-            stmt.setString(15, notaBEAN.getCodProduto());
+            stmt.setInt(15, notaBEAN.getCodProduto());
             stmt.setInt(16, notaBEAN.getCodEndereco());
             stmt.setInt(17, notaBEAN.getCodContato());
             stmt.executeUpdate();

@@ -37,7 +37,7 @@ public class ProdutoDAO {
         try {
             stmt = con.prepareStatement("INSERT INTO PRODUTOS(CODIGO, DESCRICAO, LARGURA, ALTURA, QTD_PAGINAS, TIPO, VENDAS) "
                     + "VALUES(?,?,?,?,?,?,?)");
-            stmt.setInt(1, Integer.valueOf(produto.getCodigo()));
+            stmt.setInt(1, produto.getCodigo());
             stmt.setString(2, produto.getDescricao());
             stmt.setFloat(3, produto.getLargura());
             stmt.setFloat(4, produto.getAltura());
@@ -144,7 +144,7 @@ public class ProdutoDAO {
 
             while (rs.next()) {
                 ProdutoBEAN lpBEAN = new ProdutoBEAN();
-                lpBEAN.setCodigo(String.valueOf(rs.getInt("CODIGO")));
+                lpBEAN.setCodigo(rs.getInt("CODIGO"));
                 lpBEAN.setDescricao(rs.getString("DESCRICAO"));
                 cadastrolc.add(lpBEAN);
             }
@@ -168,7 +168,7 @@ public class ProdutoDAO {
             rs = stmt.executeQuery();
             while (rs.next()) {
                 ProdutoBEAN lpBEAN = new ProdutoBEAN();
-                lpBEAN.setCodigo(String.valueOf(rs.getInt("CODIGO")));
+                lpBEAN.setCodigo(rs.getInt("CODIGO"));
                 lpBEAN.setDescricao(rs.getString("DESCRICAO"));
                 cadastrolc.add(lpBEAN);
             }
@@ -203,12 +203,15 @@ public class ProdutoDAO {
         List<ProdOrcamento> retorno = new ArrayList();
 
         try {
-            stmt = con.prepareStatement("SELECT * FROM tabela_produtos_orcamento WHERE cod_orcamento = ?");
+            stmt = con.prepareStatement("SELECT * "
+                    + "FROM tabela_produtos_orcamento "
+                    + "WHERE cod_orcamento = ?");
             stmt.setInt(1, codOrcamento);
             rs = stmt.executeQuery();
             while (rs.next()) {
                 ProdOrcamento produtosOrcamentoBEAN = new ProdOrcamento();
-                produtosOrcamentoBEAN.setCodProduto(rs.getString("cod_produto"));
+                produtosOrcamentoBEAN.setCodProduto(rs.getInt("cod_produto"));
+                produtosOrcamentoBEAN.setTipoProduto(rs.getByte("tipo_produto"));
                 produtosOrcamentoBEAN.setDescricaoProduto(rs.getString("descricao_produto"));
                 produtosOrcamentoBEAN.setQuantidade(rs.getInt("quantidade"));
                 produtosOrcamentoBEAN.setObservacaoProduto(rs.getString("observacao_produto"));
@@ -229,21 +232,32 @@ public class ProdutoDAO {
      * Retorna informações sobre o produto para produção
      *
      * @param codProduto código do produto
+     * @param tipoProduto 1 - PERSONALIZADO (PP), 2 - PRONTA ENTREGA (PE), 3 -
+     * INTERNET (PI)
      * @return
      * @throws SQLException
      */
-    public static ProdutoBEAN retornaInfoProd(String codProduto) throws SQLException {
+    public static ProdutoBEAN retornaInfoProd(int codProduto, byte tipoProduto) throws SQLException {
         Connection con = ConnectionFactory.getConnection();
         PreparedStatement stmt = null;
         ResultSet rs = null;
 
         try {
-            if (!codProduto.contains("PE")) {
-                stmt = con.prepareStatement("SELECT * FROM PRODUTOS WHERE CODIGO = ?");
-                stmt.setInt(1, Integer.valueOf(codProduto));
-            } else {
-                stmt = con.prepareStatement("SELECT * FROM PRODUTOS_PR_ENT WHERE CODIGO = ?");
-                stmt.setString(1, codProduto);
+            switch (tipoProduto) {
+                case 1:
+                    stmt = con.prepareStatement("SELECT * "
+                            + "FROM PRODUTOS "
+                            + "WHERE CODIGO = ?");
+                    stmt.setInt(1, codProduto);
+                    break;
+                case 2:
+                    stmt = con.prepareStatement("SELECT * "
+                            + "FROM PRODUTOS_PR_ENT "
+                            + "WHERE CODIGO = ?");
+                    stmt.setInt(1, codProduto);
+                    break;
+                case 3:
+                    break;
             }
 
             rs = stmt.executeQuery();
@@ -493,18 +507,24 @@ public class ProdutoDAO {
     @return string descrição do produto
     @see retornaDescricaoProduto
      */
-    public static String retornaDescricaoProduto(String codProduto) throws SQLException {
+    public static String retornaDescricaoProduto(int codProduto, byte tipoProduto) throws SQLException {
         Connection con = ConnectionFactory.getConnection();
         PreparedStatement stmt = null;
         ResultSet rs = null;
 
         try {
-            if (!codProduto.contains("PE")) {
-                stmt = con.prepareStatement("SELECT DESCRICAO FROM PRODUTOS WHERE CODIGO = ?");
-                stmt.setInt(1, Integer.valueOf(codProduto));
-            } else {
-                stmt = con.prepareStatement("SELECT DESCRICAO FROM PRODUTOS_PR_ENT WHERE CODIGO = ?");
-                stmt.setString(1, codProduto);
+            switch (tipoProduto) {
+                case 1:
+                    stmt = con.prepareStatement("SELECT DESCRICAO FROM PRODUTOS_PR_ENT WHERE CODIGO = ?");
+                    stmt.setInt(1, codProduto);
+                    break;
+                case 2:
+                    stmt = con.prepareStatement("SELECT DESCRICAO FROM PRODUTOS WHERE CODIGO = ?");
+                    stmt.setInt(1, Integer.valueOf(codProduto));
+                    break;
+                case 3:
+
+                    break;
             }
             rs = stmt.executeQuery();
             if (rs.next()) {
@@ -597,23 +617,29 @@ public class ProdutoDAO {
     @return float altura do produto
     @see carregaLarguraProduto
      */
-    public static float carregaLarguraProduto(String codProduto) throws SQLException {
+    public static float carregaLarguraProduto(int codProduto, byte tipoProduto) throws SQLException {
         Connection con = ConnectionFactory.getConnection();
         PreparedStatement stmt = null;
         ResultSet rs = null;
 
         try {
-            if (codProduto.contains("PE")) {
-                stmt = con.prepareStatement("SELECT LARGURA "
-                        + "FROM PRODUTOS_PR_ENT "
-                        + "WHERE CODIGO = ?");
-                stmt.setString(1, codProduto);
-            } else {
-                stmt = con.prepareStatement("SELECT LARGURA "
-                        + "FROM PRODUTOS "
-                        + "WHERE CODIGO = ?");
-                stmt.setInt(1, Integer.valueOf(codProduto));
+            switch (tipoProduto) {
+                case 1:
+                    stmt = con.prepareStatement("SELECT LARGURA "
+                            + "FROM PRODUTOS "
+                            + "WHERE CODIGO = ?");
+                    stmt.setInt(1, Integer.valueOf(codProduto));
+                    break;
+                case 2:
+                    stmt = con.prepareStatement("SELECT LARGURA "
+                            + "FROM PRODUTOS_PR_ENT "
+                            + "WHERE CODIGO = ?");
+                    stmt.setInt(1, codProduto);
+                    break;
+                case 3:
+                    break;
             }
+
             rs = stmt.executeQuery();
             if (rs.next()) {
                 return rs.getFloat("LARGURA");
@@ -631,23 +657,29 @@ public class ProdutoDAO {
     @return float altura do produto
     @see carregaAlturaProduto
      */
-    public static float carregaAlturaProduto(String codProduto) throws SQLException {
+    public static float carregaAlturaProduto(int codProduto, byte tipoProduto) throws SQLException {
         Connection con = ConnectionFactory.getConnection();
         PreparedStatement stmt = null;
         ResultSet rs = null;
 
         try {
-            if (codProduto.contains("PE")) {
-                stmt = con.prepareStatement("SELECT ALTURA "
-                        + "FROM PRODUTOS_PR_ENT "
-                        + "WHERE CODIGO = ?");
-                stmt.setString(1, codProduto);
-            } else {
-                stmt = con.prepareStatement("SELECT ALTURA "
-                        + "FROM PRODUTOS "
-                        + "WHERE CODIGO = ?");
-                stmt.setInt(1, Integer.valueOf(codProduto));
+            switch (tipoProduto) {
+                case 1:
+                    stmt = con.prepareStatement("SELECT ALTURA "
+                            + "FROM PRODUTOS "
+                            + "WHERE CODIGO = ?");
+                    stmt.setInt(1, Integer.valueOf(codProduto));
+                    break;
+                case 2:
+                    stmt = con.prepareStatement("SELECT ALTURA "
+                            + "FROM PRODUTOS_PR_ENT "
+                            + "WHERE CODIGO = ?");
+                    stmt.setInt(1, codProduto);
+                    break;
+                case 3:
+                    break;
             }
+
             rs = stmt.executeQuery();
             if (rs.next()) {
                 return rs.getFloat("ALTURA");
@@ -665,23 +697,30 @@ public class ProdutoDAO {
     @return int quantidade de páginas
     @see retornaQuantidadePaginas
      */
-    public static int retornaQuantidadePaginas(String codProduto) throws SQLException {
+    public static int retornaQuantidadePaginas(int codProduto, byte tipoProduto) throws SQLException {
         Connection con = ConnectionFactory.getConnection();
         PreparedStatement stmt = null;
         ResultSet rs = null;
 
         try {
-            if (codProduto.contains("PE")) {
-                stmt = con.prepareStatement("SELECT QTD_PAGINAS "
-                        + "FROM PRODUTOS_PR_ENT "
-                        + "WHERE CODIGO = ?");
-                stmt.setString(1, codProduto);
-            } else {
-                stmt = con.prepareStatement("SELECT QTD_PAGINAS "
-                        + "FROM PRODUTOS "
-                        + "WHERE CODIGO = ?");
-                stmt.setInt(1, Integer.valueOf(codProduto));
+            switch (tipoProduto) {
+                case 1:
+                    stmt = con.prepareStatement("SELECT QTD_PAGINAS "
+                            + "FROM PRODUTOS "
+                            + "WHERE CODIGO = ?");
+                    stmt.setInt(1, Integer.valueOf(codProduto));
+                    break;
+                case 2:
+                    stmt = con.prepareStatement("SELECT QTD_PAGINAS "
+                            + "FROM PRODUTOS_PR_ENT "
+                            + "WHERE CODIGO = ?");
+                    stmt.setInt(1, codProduto);
+                    break;
+                case 3:
+
+                    break;
             }
+
             rs = stmt.executeQuery();
             while (rs.next()) {
                 return rs.getInt("QTD_PAGINAS");
@@ -700,7 +739,7 @@ public class ProdutoDAO {
      * @throws java.sql.SQLException
      * @see selecionaDimensoesProduto
      */
-    public synchronized static ProdutoBEAN selecionaDimensoesProduto(String codProduto) throws SQLException {
+    public synchronized static ProdutoBEAN selecionaDimensoesProduto(int codProduto) throws SQLException {
         Connection con = ConnectionFactory.getConnection();
         PreparedStatement stmt = null;
         ResultSet rs = null;
@@ -709,7 +748,7 @@ public class ProdutoDAO {
             stmt = con.prepareStatement("SELECT ALTURA, LARGURA "
                     + "FROM PRODUTOS "
                     + "WHERE CODIGO = ?");
-            stmt.setInt(1, Integer.valueOf(codProduto));
+            stmt.setInt(1, codProduto);
             rs = stmt.executeQuery();
             if (rs.next()) {
                 return new ProdutoBEAN(rs.getFloat("LARGURA"), rs.getFloat("ALTURA"));
@@ -741,7 +780,7 @@ public class ProdutoDAO {
                     + "FIM_PROM, QTD_PAGINAS, ESTOQUE, AVISO_ESTOQUE, AVISO_ESTOQUE_UN, TIPO,"
                     + "VLR_UNIT, ULT_MOV, PD_QTD_MIN, PD_MAX, PD_QTD_MAX) "
                     + "VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
-            stmt.setString(1, prodPrEnt.getCodigo());
+            stmt.setInt(1, prodPrEnt.getCodigo());
             stmt.setString(2, prodPrEnt.getDescricao());
             stmt.setFloat(3, prodPrEnt.getLargura());
             stmt.setFloat(4, prodPrEnt.getAltura());
@@ -813,7 +852,7 @@ public class ProdutoDAO {
             stmt.setInt(19, prodPrEnt.getPdQtdMin());
             stmt.setByte(20, prodPrEnt.getPdMax());
             stmt.setInt(21, prodPrEnt.getPdQtdMax());
-            stmt.setString(22, prodPrEnt.getCodigo());
+            stmt.setInt(22, prodPrEnt.getCodigo());
             stmt.executeUpdate();
         } catch (SQLException ex) {
             throw new SQLException(ex);
@@ -875,7 +914,7 @@ public class ProdutoDAO {
                     vlrUnit = rs.getDouble("VLR_UNIT");
                 }
 
-                retorno.add(new ProdutoPrEntBEAN(rs.getString("CODIGO"),
+                retorno.add(new ProdutoPrEntBEAN(rs.getInt("CODIGO"),
                         rs.getString("DESCRICAO"),
                         rs.getByte("PRE_VENDA"),
                         rs.getByte("PROM"),
@@ -898,7 +937,7 @@ public class ProdutoDAO {
      * @return String codigo do último produto
      * @see retornaCodPe
      */
-    public static String retornaCodPe() throws SQLException {
+    public static int retornaCodPe() throws SQLException {
         Connection con = ConnectionFactory.getConnection();
         PreparedStatement stmt = null;
         ResultSet rs = null;
@@ -910,9 +949,9 @@ public class ProdutoDAO {
                     + "LIMIT 1");
             rs = stmt.executeQuery();
             if (rs.next()) {
-                return "PE-" + ((int) Integer.valueOf(rs.getString("CODIGO").substring(3)) + 1);
+                return rs.getInt("CODIGO") + 1;
             }
-            return null;
+            return 0;
         } catch (SQLException ex) {
             throw new SQLException(ex);
         } finally {
@@ -927,7 +966,7 @@ public class ProdutoDAO {
      * @return ProdutoBEAN produto a ser editado
      * @see retornaPeEdicao
      */
-    public static ProdutoPrEntBEAN retornaPeEdicao(String codPe) throws SQLException {
+    public static ProdutoPrEntBEAN retornaPeEdicao(int codPe) throws SQLException {
         Connection con = ConnectionFactory.getConnection();
         PreparedStatement stmt = null;
         ResultSet rs = null;
@@ -936,11 +975,11 @@ public class ProdutoDAO {
             stmt = con.prepareStatement("SELECT * "
                     + "FROM PRODUTOS_PR_ENT "
                     + "WHERE CODIGO = ?");
-            stmt.setString(1, codPe);
+            stmt.setInt(1, codPe);
             rs = stmt.executeQuery();
             if (rs.next()) {
                 return new ProdutoPrEntBEAN(
-                        rs.getString("CODIGO"),
+                        rs.getInt("CODIGO"),
                         rs.getString("DESCRICAO"),
                         rs.getFloat("LARGURA"),
                         rs.getFloat("ALTURA"),
@@ -977,9 +1016,10 @@ public class ProdutoDAO {
      *
      * @param codPe
      * @return ProdutoBEAN produto a ser carregado para o orçamento
+     * @throws java.sql.SQLException
      * @see retornaInfoPe
      */
-    public static ProdutoPrEntBEAN retornaInfoPe(String codPe) throws SQLException {
+    public static ProdutoPrEntBEAN retornaInfoPe(int codPe) throws SQLException {
         Connection con = ConnectionFactory.getConnection();
         PreparedStatement stmt = null;
         ResultSet rs = null;
@@ -989,7 +1029,7 @@ public class ProdutoDAO {
                     + "ESTOQUE, VLR_UNIT, PROM, VLR_PROM, INICIO_PROM, FIM_PROM "
                     + "FROM PRODUTOS_PR_ENT "
                     + "WHERE CODIGO = ?");
-            stmt.setString(1, codPe);
+            stmt.setInt(1, codPe);
             rs = stmt.executeQuery();
             if (rs.next()) {
                 Double vlrUnit = 0d;
@@ -1026,7 +1066,7 @@ public class ProdutoDAO {
      * @return
      * @throws SQLException
      */
-    public synchronized static double retornaVlrPe(String codProd) throws SQLException {
+    public synchronized static double retornaVlrPe(int codProd) throws SQLException {
         Connection con = ConnectionFactory.getConnection();
         PreparedStatement stmt = null;
         ResultSet rs = null;
@@ -1035,7 +1075,7 @@ public class ProdutoDAO {
             stmt = con.prepareStatement("SELECT VLR_UNIT, PROM, VLR_PROM, INICIO_PROM, FIM_PROM "
                     + "FROM PRODUTOS_PR_ENT "
                     + "WHERE CODIGO = ?");
-            stmt.setString(1, codProd);
+            stmt.setInt(1, codProd);
             rs = stmt.executeQuery();
             if (rs.next()) {
                 if (rs.getByte("PROM") == 1) {
@@ -1062,7 +1102,7 @@ public class ProdutoDAO {
      * @return
      * @throws SQLException
      */
-    public synchronized static boolean verificaEstoque(String codProdPe, int qtdSol) throws SQLException {
+    public synchronized static boolean verificaEstoque(int codProdPe, int qtdSol) throws SQLException {
         Connection con = ConnectionFactory.getConnection();
         PreparedStatement stmt = null;
         ResultSet rs = null;
@@ -1071,7 +1111,7 @@ public class ProdutoDAO {
             stmt = con.prepareStatement("SELECT ESTOQUE "
                     + "FROM PRODUTOS_PR_ENT "
                     + "WHERE CODIGO = ?");
-            stmt.setString(1, codProdPe);
+            stmt.setInt(1, codProdPe);
             rs = stmt.executeQuery();
             if (rs.next()) {
                 if (qtdSol > rs.getInt("ESTOQUE")) {
@@ -1096,7 +1136,7 @@ public class ProdutoDAO {
      * @param operacao 1 - RETIRADA, 2 - CHEGADA
      * @throws SQLException
      */
-    public synchronized static void movEst(String codProdPe, int qtdMov, byte operacao) throws SQLException {
+    public synchronized static void movEst(int codProdPe, int qtdMov, byte operacao) throws SQLException {
         Connection con = ConnectionFactory.getConnection();
         PreparedStatement stmt = null;
 
@@ -1108,7 +1148,7 @@ public class ProdutoDAO {
                             + "WHERE CODIGO = ?");
                     stmt.setInt(1, qtdMov);
                     stmt.setTimestamp(2, new java.sql.Timestamp(new Date().getTime()));
-                    stmt.setString(3, codProdPe);
+                    stmt.setInt(3, codProdPe);
                     break;
                 case 2:
                     stmt = con.prepareStatement("UPDATE PRODUTOS_PR_ENT "
@@ -1116,7 +1156,7 @@ public class ProdutoDAO {
                             + "WHERE CODIGO = ?");
                     stmt.setInt(1, qtdMov);
                     stmt.setTimestamp(2, new java.sql.Timestamp(new Date().getTime()));
-                    stmt.setString(3, codProdPe);
+                    stmt.setInt(3, codProdPe);
                     break;
             }
             stmt.executeUpdate();
@@ -1148,7 +1188,7 @@ public class ProdutoDAO {
             rs = stmt.executeQuery();
             while (rs.next()) {
                 retorno.add(new ProdutoPrEntBEAN(
-                        rs.getString("CODIGO"),
+                        rs.getInt("CODIGO"),
                         rs.getString("DESCRICAO"),
                         rs.getInt("ESTOQUE")
                 ));
@@ -1168,7 +1208,7 @@ public class ProdutoDAO {
      * @return
      * @throws SQLException
      */
-    public synchronized static boolean verificaUsoProdPe(String codProd) throws SQLException {
+    public synchronized static boolean verificaUsoProdPe(int codProd) throws SQLException {
         Connection con = ConnectionFactory.getConnection();
         PreparedStatement stmt = null;
         ResultSet rs = null;
@@ -1179,7 +1219,7 @@ public class ProdutoDAO {
                     + "WHERE cod_produto = ? "
                     + "ORDER BY cod_produto "
                     + "DESC LIMIT 1");
-            stmt.setString(1, codProd);
+            stmt.setInt(1, codProd);
             rs = stmt.executeQuery();
             return rs.next();
         } catch (SQLException ex) {
@@ -1257,7 +1297,7 @@ public class ProdutoDAO {
             stmt.setByte(2, produto.getAvisoEstoque());
             stmt.setInt(3, produto.getAvisoEstoqueUn());
             stmt.setTimestamp(4, new java.sql.Timestamp(new Date().getTime()));
-            stmt.setString(5, produto.getCodigo());
+            stmt.setInt(5, produto.getCodigo());
             stmt.executeUpdate();
         } catch (SQLException ex) {
             throw new SQLException(ex);
@@ -1265,14 +1305,14 @@ public class ProdutoDAO {
             ConnectionFactory.closeConnection(con, stmt, rs);
         }
     }
-    
+
     /**
      * @param codProduto Código do produto
      * @return List altura e largura do produto
      * @throws java.sql.SQLException
      * @see selecionaDimensoesProduto
      */
-    public synchronized static ProdutoPrEntBEAN selDimProdPrEnt(String codProduto) throws SQLException {
+    public synchronized static ProdutoPrEntBEAN selDimProdPrEnt(int codProduto) throws SQLException {
         Connection con = ConnectionFactory.getConnection();
         PreparedStatement stmt = null;
         ResultSet rs = null;
@@ -1281,12 +1321,12 @@ public class ProdutoDAO {
             stmt = con.prepareStatement("SELECT ALTURA, LARGURA, ESPESSURA, PESO "
                     + "FROM PRODUTOS_PR_ENT "
                     + "WHERE CODIGO = ?");
-            stmt.setString(1, codProduto);
+            stmt.setInt(1, codProduto);
             rs = stmt.executeQuery();
             if (rs.next()) {
-                return new ProdutoPrEntBEAN(rs.getFloat("ALTURA"), 
-                        rs.getFloat("LARGURA"), 
-                        rs.getFloat("ESPESSURA"), 
+                return new ProdutoPrEntBEAN(rs.getFloat("ALTURA"),
+                        rs.getFloat("LARGURA"),
+                        rs.getFloat("ESPESSURA"),
                         rs.getFloat("PESO"));
             }
             return null;

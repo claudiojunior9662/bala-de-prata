@@ -6,7 +6,6 @@
 package model.dao;
 
 import connection.ConnectionFactory;
-import ui.cadastros.enderecos.EnderecoBEAN;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -17,8 +16,6 @@ import entidades.OrdemProducao;
 import entidades.CalculosOpBEAN;
 import entidades.Servicos;
 import java.util.Date;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import static model.dao.OrdemProducaoDAO.alteraDtCancelamento;
 import static model.dao.OrdemProducaoDAO.alteraStatusOp;
 import static model.dao.OrdemProducaoDAO.consultaOp;
@@ -70,7 +67,8 @@ public class OrdemProducaoDAO {
                         rs.getDate("data_envio_div_cmcl"),
                         rs.getInt("ind_ent_prazo"),
                         rs.getInt("ind_ent_erro"),
-                        rs.getString("cod_produto"),
+                        rs.getInt("cod_produto"),
+                        rs.getByte("tipo_produto"),
                         rs.getInt("orcamento_base"),
                         rs.getInt("cod_contato"),
                         rs.getInt("cod_endereco"),
@@ -141,8 +139,9 @@ public class OrdemProducaoDAO {
 
         try {
             stmt = con.prepareStatement("INSERT INTO tabela_ordens_producao(cod, orcamento_base, cod_cliente, tipo_cliente,"
-                    + "data_emissao, data_entrega, status, descricao, cod_emissor, cod_produto, cod_contato, cod_endereco) "
-                    + "VALUES (?,?,?,?,?,?,?,?,?,?,?,?)");
+                    + "data_emissao, data_entrega, status, descricao, cod_emissor, cod_produto, tipo_produto, cod_contato, "
+                    + "cod_endereco) "
+                    + "VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)");
             stmt.setInt(1, op.getCodigo());
             stmt.setInt(2, op.getOrcBase());
             stmt.setInt(3, op.getCodCliente());
@@ -152,9 +151,10 @@ public class OrdemProducaoDAO {
             stmt.setString(7, op.getStatus());
             stmt.setString(8, op.getDescricao());
             stmt.setString(9, op.getCodEmissor());
-            stmt.setString(10, op.getCodProduto());
-            stmt.setInt(11, op.getCodContato());
-            stmt.setInt(12, op.getCodEndereco());
+            stmt.setInt(10, op.getCodProduto());
+            stmt.setByte(11, op.getTipoProduto());
+            stmt.setInt(12, op.getCodContato());
+            stmt.setInt(13, op.getCodEndereco());
             stmt.executeUpdate();
         } catch (SQLException ex) {
             throw new SQLException(ex);
@@ -163,10 +163,21 @@ public class OrdemProducaoDAO {
         }
     }
 
-    public static void alteraCalculosOp(int codigoProposta,
-            String codigoProduto,
-            int codigoPapel,
-            int codigoOrdemProducao,
+    /**
+     * Atualiza os cálculo da ordem de produção
+     * @param codProposta código da proposta de orçamento
+     * @param codProd código do produto
+     * @param tipoProd tipo do produto 1 - PERSONALIZADO (PP), 2 - PRONTA ENTREGA (PE), 3 - INTERNET (PI)
+     * @param codPapel código do papel
+     * @param codOp código da ordem de produção
+     * @param tipoPapel tipo do papel
+     * @throws SQLException 
+     */
+    public static void alteraCalculosOp(int codProposta,
+            int codProd,
+            byte tipoProd,
+            int codPapel,
+            int codOp,
             String tipoPapel) throws SQLException {
         Connection con = ConnectionFactory.getConnection();
         PreparedStatement stmt = null;
@@ -175,15 +186,20 @@ public class OrdemProducaoDAO {
         try {
             stmt = con.prepareStatement("UPDATE tabela_calculos_op "
                     + "SET cod_op = ? "
-                    + "WHERE cod_proposta = ? AND cod_produto = ? AND cod_papel = ? AND tipo_papel = ?");
-            stmt.setInt(1, codigoOrdemProducao);
-            stmt.setInt(2, codigoProposta);
-            stmt.setString(3, codigoProduto);
-            stmt.setInt(4, codigoPapel);
+                    + "WHERE cod_proposta = ? "
+                    + "AND cod_produto = ? "
+                    + "AND cod_papel = ? "
+                    + "AND tipo_papel = ? "
+                    + "AND tipo_produto = ?");
+            stmt.setInt(1, codOp);
+            stmt.setInt(2, codProposta);
+            stmt.setInt(3, codProd);
+            stmt.setInt(4, codPapel);
             stmt.setString(5, tipoPapel);
+            stmt.setByte(6, tipoProd);
             stmt.executeUpdate();
         } catch (SQLException ex) {
-            throw new SQLException();
+            throw new SQLException(ex);
         } finally {
             ConnectionFactory.closeConnection(con, stmt);
         }
@@ -195,7 +211,9 @@ public class OrdemProducaoDAO {
         ResultSet rs = null;
 
         try {
-            stmt = con.prepareStatement("SELECT * FROM tabela_ordens_producao WHERE cod = ?");
+            stmt = con.prepareStatement("SELECT * "
+                    + "FROM tabela_ordens_producao "
+                    + "WHERE cod = ?");
             stmt.setInt(1, codOp);
             rs = stmt.executeQuery();
             if (rs.next()) {
@@ -205,7 +223,8 @@ public class OrdemProducaoDAO {
                         rs.getInt("cod_cliente"),
                         rs.getInt("cod_contato"),
                         rs.getInt("cod_endereco"),
-                        rs.getString("cod_produto"),
+                        rs.getInt("cod_produto"),
+                        rs.getByte("tipo_produto"),
                         rs.getDate("data_entrega"),
                         rs.getDate("data_emissao"),
                         rs.getByte("tipo_cliente"),
@@ -246,12 +265,16 @@ public class OrdemProducaoDAO {
      * Retorna os cálculos da op feitos no orçamento
      *
      * @param codOp código da ordem de produção
+     * @param tipoProduto
      * @param codProduto código do produto
      * @param tipoPapel tipo de papel
      * @return
      * @throws SQLException
      */
-    public static List<CalculosOpBEAN> retornaCalculosOp(int codOp, String codProduto, String tipoPapel) throws SQLException {
+    public static List<CalculosOpBEAN> retornaCalculosOp(int codOp, 
+            byte tipoProduto,
+            int codProduto, 
+            String tipoPapel) throws SQLException {
         Connection con = ConnectionFactory.getConnection();
         PreparedStatement stmt = null;
         ResultSet rs = null;
@@ -263,13 +286,15 @@ public class OrdemProducaoDAO {
                     + "FROM tabela_calculos_op "
                     + "WHERE cod_op = ? "
                     + "AND cod_produto = ? "
+                    + "AND tipo_produto = ? "
                     + "AND tipo_papel = ? "
                     + "ORDER BY cod_op "
                     + "DESC "
                     + "LIMIT 1");
             stmt.setInt(1, codOp);
-            stmt.setString(2, codProduto);
-            stmt.setString(3, tipoPapel);
+            stmt.setInt(2, codProduto);
+            stmt.setByte(3, tipoProduto);
+            stmt.setString(4, tipoPapel);
             rs = stmt.executeQuery();
             while (rs.next()) {
                 CalculosOpBEAN calculo = new CalculosOpBEAN();
@@ -390,7 +415,7 @@ public class OrdemProducaoDAO {
      * @return
      * @throws SQLException
      */
-    public static String retornaCodProd(int codOp) throws SQLException {
+    public static int retornaCodProd(int codOp) throws SQLException {
         Connection con = ConnectionFactory.getConnection();
         PreparedStatement stmt = null;
         ResultSet rs = null;
@@ -402,9 +427,9 @@ public class OrdemProducaoDAO {
             stmt.setInt(1, codOp);
             rs = stmt.executeQuery();
             if (rs.next()) {
-                return rs.getString("cod_produto");
+                return rs.getInt("cod_produto");
             }
-            return null;
+            return 0;
         } catch (SQLException ex) {
             throw new SQLException(ex);
         } finally {
@@ -543,14 +568,17 @@ public class OrdemProducaoDAO {
         ResultSet rs = null;
 
         try {
-            stmt = con.prepareStatement("SELECT cod, cod_produto, cod_contato, cod_endereco, cod_cliente,"
-                    + "tipo_cliente, cod_emissor, orcamento_base FROM tabela_ordens_producao WHERE cod = ?");
+            stmt = con.prepareStatement("SELECT cod, cod_produto, tipo_produto, cod_contato, "
+                    + "cod_endereco, cod_cliente, tipo_cliente, cod_emissor, orcamento_base "
+                    + "FROM tabela_ordens_producao "
+                    + "WHERE cod = ?");
             stmt.setInt(1, codOp);
             rs = stmt.executeQuery();
             if (rs.next()) {
                 return new OrdemProducao(codOp,
                         rs.getInt("orcamento_base"),
-                        rs.getString("cod_produto"),
+                        rs.getInt("cod_produto"),
+                        rs.getByte("tipo_produto"),
                         rs.getInt("cod_cliente"),
                         rs.getInt("cod_contato"),
                         rs.getInt("cod_endereco"),
@@ -559,7 +587,7 @@ public class OrdemProducaoDAO {
             }
             return null;
         } catch (Exception ex) {
-            throw new SQLException();
+            throw new SQLException(ex);
         } finally {
             ConnectionFactory.closeConnection(con, stmt, rs);
         }
@@ -578,11 +606,13 @@ public class OrdemProducaoDAO {
 
         try {
             if (pagina == 1) {
-                stmt = con.prepareStatement("SELECT cod, orcamento_base, cod_produto, cod_cliente, tipo_cliente, data_emissao, data_entrega, status "
+                stmt = con.prepareStatement("SELECT cod, orcamento_base, cod_produto, tipo_produto, "
+                        + "cod_cliente, tipo_cliente, data_emissao, data_entrega, status "
                         + "FROM tabela_ordens_producao ORDER BY cod DESC LIMIT 45");
             } else {
                 offset = (pagina * limite) - limite;
-                stmt = con.prepareStatement("SELECT cod, orcamento_base, cod_produto, cod_cliente, tipo_cliente, data_emissao, data_entrega, status "
+                stmt = con.prepareStatement("SELECT cod, orcamento_base, cod_produto, tipo_produto, "
+                        + "cod_cliente, tipo_cliente, data_emissao, data_entrega, status "
                         + "FROM tabela_ordens_producao ORDER BY cod DESC LIMIT 45 OFFSET ?");
                 stmt.setInt(1, offset);
             }
@@ -591,7 +621,8 @@ public class OrdemProducaoDAO {
                 OrdemProducao aux = new OrdemProducao();
                 aux.setCodigo(rs.getInt("cod"));
                 aux.setOrcBase(rs.getInt("orcamento_base"));
-                aux.setCodProduto(rs.getString("cod_produto"));
+                aux.setCodProduto(rs.getInt("cod_produto"));
+                aux.setTipoProduto(rs.getByte("tipo_produto"));
                 aux.setCodCliente(rs.getInt("cod_cliente"));
                 aux.setTipoPessoa(rs.getByte("tipo_cliente"));
                 aux.setDataEmissao(rs.getDate("data_emissao"));
@@ -790,7 +821,7 @@ public class OrdemProducaoDAO {
             switch (tipo) {
                 case 1:
                     stmt = con.prepareStatement("SELECT cod, orcamento_base,"
-                            + "cod_produto, cod_cliente,"
+                            + "cod_produto, tipo_produto, cod_cliente,"
                             + "tipo_cliente, data_emissao,"
                             + "data_entrega, status"
                             + " FROM tabela_ordens_producao WHERE cod = ?");
@@ -798,7 +829,7 @@ public class OrdemProducaoDAO {
                     break;
                 case 2:
                     stmt = con.prepareStatement("SELECT cod, orcamento_base,"
-                            + "cod_produto, cod_cliente,"
+                            + "cod_produto, tipo_produto, cod_cliente,"
                             + "tipo_cliente, data_emissao,"
                             + "data_entrega, status"
                             + " FROM tabela_ordens_producao WHERE orcamento_base =  ?");
@@ -809,7 +840,7 @@ public class OrdemProducaoDAO {
                     List codProd = ProdutoDAO.retornaCodigosProdutos(pesquisa);
                     for (int i = 0; i < codProd.size(); i++) {
                         stmt = con.prepareStatement("SELECT cod, orcamento_base,"
-                                + "cod_produto, cod_cliente,"
+                                + "cod_produto, tipo_produto, cod_cliente,"
                                 + "tipo_cliente, data_emissao,"
                                 + "data_entrega, status"
                                 + " FROM tabela_ordens_producao WHERE cod_produto = ? ORDER BY cod DESC");
@@ -820,7 +851,8 @@ public class OrdemProducaoDAO {
                                 OrdemProducao oBEAN = new OrdemProducao();
                                 oBEAN.setCodigo(rs.getInt("cod"));
                                 oBEAN.setOrcBase(rs.getInt("orcamento_base"));
-                                oBEAN.setCodProduto(rs.getString("cod_produto"));
+                                oBEAN.setCodProduto(rs.getInt("cod_produto"));
+                                oBEAN.setTipoProduto(rs.getByte("tipo_produto"));
                                 oBEAN.setCodCliente(rs.getInt("cod_cliente"));
                                 oBEAN.setTipoPessoa(rs.getByte("tipo_cliente"));
                                 oBEAN.setDataEmissao(rs.getDate("data_emissao"));
@@ -841,7 +873,7 @@ public class OrdemProducaoDAO {
                     break;
                 case 5:
                     stmt = con.prepareStatement("SELECT cod, orcamento_base,"
-                            + "cod_produto, cod_cliente,"
+                            + "cod_produto, tipo_produto, cod_cliente,"
                             + "tipo_cliente, data_emissao,"
                             + "data_entrega, status"
                             + " FROM tabela_ordens_producao WHERE data_emissao =  ?");
@@ -849,7 +881,7 @@ public class OrdemProducaoDAO {
                     break;
                 case 6:
                     stmt = con.prepareStatement("SELECT cod, orcamento_base,"
-                            + "cod_produto, cod_cliente,"
+                            + "cod_produto, tipo_produto, cod_cliente,"
                             + "tipo_cliente, data_emissao,"
                             + "data_entrega, status"
                             + " FROM tabela_ordens_producao WHERE data_entrega = ?");
@@ -857,7 +889,7 @@ public class OrdemProducaoDAO {
                     break;
                 case 7:
                     stmt = con.prepareStatement("SELECT cod, orcamento_base,"
-                            + "cod_produto, cod_cliente,"
+                            + "cod_produto, tipo_produto, cod_cliente,"
                             + "tipo_cliente, data_emissao,"
                             + "data_entrega, status"
                             + " FROM tabela_ordens_producao WHERE status = ?");
@@ -869,7 +901,7 @@ public class OrdemProducaoDAO {
                 for (int i = 0; i < retornoCliente.size(); i++) {
                     if (tipoPesqCliente.contains("FÍSICA")) {
                         stmt = con.prepareStatement("SELECT cod, orcamento_base,"
-                                + "cod_produto, cod_cliente,"
+                                + "cod_produto, tipo_produto, cod_cliente,"
                                 + "tipo_cliente, data_emissao,"
                                 + "data_entrega, status"
                                 + " FROM tabela_ordens_producao WHERE cod_cliente = ? AND tipo_cliente = 1 ORDER BY cod ASC");
@@ -877,7 +909,7 @@ public class OrdemProducaoDAO {
                     }
                     if (tipoPesqCliente.contains("JURÍDICA")) {
                         stmt = con.prepareStatement("SELECT cod, orcamento_base,"
-                                + "cod_produto, cod_cliente,"
+                                + "cod_produto, tipo_produto, cod_cliente,"
                                 + "tipo_cliente, data_emissao,"
                                 + "data_entrega, status"
                                 + " FROM tabela_ordens_producao WHERE cod_cliente = ? AND tipo_cliente = 2 ORDER BY cod ASC");
@@ -888,7 +920,8 @@ public class OrdemProducaoDAO {
                         OrdemProducao oBEAN = new OrdemProducao();
                         oBEAN.setCodigo(rs.getInt("cod"));
                         oBEAN.setOrcBase(rs.getInt("orcamento_base"));
-                        oBEAN.setCodProduto(rs.getString("cod_produto"));
+                        oBEAN.setCodProduto(rs.getInt("cod_produto"));
+                        oBEAN.setTipoProduto(rs.getByte("tipo_produto"));
                         oBEAN.setCodCliente(rs.getInt("cod_cliente"));
                         oBEAN.setTipoPessoa(rs.getByte("tipo_cliente"));
                         oBEAN.setDataEmissao(rs.getDate("data_emissao"));
@@ -904,7 +937,8 @@ public class OrdemProducaoDAO {
                     OrdemProducao oBEAN = new OrdemProducao();
                     oBEAN.setCodigo(rs.getInt("cod"));
                     oBEAN.setOrcBase(rs.getInt("orcamento_base"));
-                    oBEAN.setCodProduto(rs.getString("cod_produto"));
+                    oBEAN.setCodProduto(rs.getInt("cod_produto"));
+                    oBEAN.setTipoProduto(rs.getByte("tipo_produto"));
                     oBEAN.setCodCliente(rs.getInt("cod_cliente"));
                     oBEAN.setTipoPessoa(rs.getByte("tipo_cliente"));
                     oBEAN.setDataEmissao(rs.getDate("data_emissao"));
@@ -1065,6 +1099,12 @@ public class OrdemProducaoDAO {
         }
     }
     
+    /**
+     * Retorna o ano da ordem de produção
+     * @param codOp código da ordem de produção
+     * @return
+     * @throws SQLException 
+     */
     public static int retornaAnoOp(int codOp) throws SQLException{
         Connection con = ConnectionFactory.getConnection();
         PreparedStatement stmt = null;
@@ -1078,6 +1118,28 @@ public class OrdemProducaoDAO {
             rs = stmt.executeQuery();
             if(rs.next()){
                 return rs.getInt("ano");
+            }
+            return 0;
+        } catch (SQLException ex) {
+            throw new SQLException(ex);
+        }finally{
+            ConnectionFactory.closeConnection(con, stmt, rs);
+        }
+    }
+    
+    public static byte retornaTipoProduto(int codOp) throws SQLException{
+        Connection con = ConnectionFactory.getConnection();
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+        
+        try{
+            stmt = con.prepareStatement("SELECT tabela_ordens_producao.tipo_produto "
+                    + "FROM tabela_ordens_producao "
+                    + "WHERE tabela_ordens_producao.cod = ?");
+            stmt.setInt(1, codOp);
+            rs = stmt.executeQuery();
+            if(rs.next()){
+                return rs.getByte("tabela_ordens_producao.tipo_produto");
             }
             return 0;
         } catch (SQLException ex) {
