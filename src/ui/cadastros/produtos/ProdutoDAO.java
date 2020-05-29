@@ -197,9 +197,10 @@ public class ProdutoDAO {
 
     /**
      * Carrega os produtos do orçamento
+     *
      * @param codOrcamento código do orçamento
      * @return
-     * @throws SQLException 
+     * @throws SQLException
      */
     public static List<ProdOrcamento> carregaProdutosOrcamento(int codOrcamento) throws SQLException {
         Connection con = ConnectionFactory.getConnection();
@@ -893,19 +894,22 @@ public class ProdutoDAO {
                     stmt = con.prepareStatement("SELECT CODIGO, DESCRICAO, VLR_UNIT, ESTOQUE, PRE_VENDA, PROM,"
                             + "AVISO_ESTOQUE, INICIO_PROM, FIM_PROM, VLR_PROM "
                             + " FROM PRODUTOS_PR_ENT"
-                            + " WHERE CODIGO = ?");
+                            + " WHERE CODIGO = ? "
+                            + "ORDER BY CODIGO DESC");
                     stmt.setString(1, pesquisa);
                     break;
                 case 2:
                     stmt = con.prepareStatement("SELECT CODIGO, DESCRICAO, VLR_UNIT, ESTOQUE, PRE_VENDA, PROM,"
                             + "AVISO_ESTOQUE, INICIO_PROM, FIM_PROM, VLR_PROM "
                             + " FROM PRODUTOS_PR_ENT"
-                            + " WHERE DESCRICAO LIKE '%" + pesquisa + "%'");
+                            + " WHERE DESCRICAO LIKE '%" + pesquisa + "%' "
+                            + "ORDER BY CODIGO DESC");
                     break;
                 case 3:
                     stmt = con.prepareStatement("SELECT CODIGO, DESCRICAO, VLR_UNIT, ESTOQUE, PRE_VENDA, PROM,"
                             + "AVISO_ESTOQUE, INICIO_PROM, FIM_PROM, VLR_PROM "
-                            + "FROM PRODUTOS_PR_ENT");
+                            + "FROM PRODUTOS_PR_ENT "
+                            + "ORDER BY CODIGO DESC");
                     break;
                 default:
                     break;
@@ -1316,7 +1320,9 @@ public class ProdutoDAO {
         }
     }
 
-    /**Seleciona as dimensões do produto
+    /**
+     * Seleciona as dimensões do produto
+     *
      * @param codProduto Código do produto
      * @return List altura e largura do produto
      * @throws java.sql.SQLException
@@ -1347,9 +1353,9 @@ public class ProdutoDAO {
         }
     }
     //--------------------------------------------------------------------------
-    
-    public synchronized static String traduzCodProd(int codProd, byte tipoProd){
-        switch(tipoProd){
+
+    public synchronized static String traduzCodProd(int codProd, byte tipoProd) {
+        switch (tipoProd) {
             case 1:
                 return "PP" + codProd;
             case 2:

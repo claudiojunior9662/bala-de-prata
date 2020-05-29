@@ -162,7 +162,7 @@ public class OpConsultaFrame extends javax.swing.JInternalFrame {
 
             },
             new String [] {
-                "CÓDIGO", "ORÇAMENTO BASE", "PRODUTO", "CLIENTE", "TIPO CLIENTE", "DATA EMISSÃO", "DATA ENTREGA", "STATUS"
+                "CÓDIGO", "ORÇAMENTO", "PRODUTO", "CLIENTE", "TIPO CLIENTE", "DATA EMISSÃO", "DATA ENTREGA", "STATUS"
             }
         ) {
             boolean[] canEdit = new boolean [] {
@@ -187,6 +187,16 @@ public class OpConsultaFrame extends javax.swing.JInternalFrame {
             }
         });
         jScrollPane1.setViewportView(tabelaConsulta);
+        if (tabelaConsulta.getColumnModel().getColumnCount() > 0) {
+            tabelaConsulta.getColumnModel().getColumn(0).setPreferredWidth(10);
+            tabelaConsulta.getColumnModel().getColumn(1).setPreferredWidth(10);
+            tabelaConsulta.getColumnModel().getColumn(2).setPreferredWidth(150);
+            tabelaConsulta.getColumnModel().getColumn(3).setPreferredWidth(150);
+            tabelaConsulta.getColumnModel().getColumn(4).setPreferredWidth(15);
+            tabelaConsulta.getColumnModel().getColumn(5).setPreferredWidth(15);
+            tabelaConsulta.getColumnModel().getColumn(6).setPreferredWidth(15);
+            tabelaConsulta.getColumnModel().getColumn(7).setPreferredWidth(150);
+        }
 
         faturar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icones/faturamento.png"))); // NOI18N
         faturar.setText("FATURAR");

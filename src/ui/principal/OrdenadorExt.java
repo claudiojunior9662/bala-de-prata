@@ -42,7 +42,7 @@ public class OrdenadorExt extends javax.swing.JFrame {
                     try {
                         try {
                             if(Controle.verificaVersao(TelaAutenticacao.getCodVersao(), 
-                                    TelaAutenticacao.getAtualizacao())){
+                                    TelaAutenticacao.getUpdate())){
                                 atualizacao.setVisible(true);
                             }
                             Thread.sleep(600000);

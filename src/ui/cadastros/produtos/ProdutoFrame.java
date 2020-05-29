@@ -1467,7 +1467,7 @@ public class ProdutoFrame extends javax.swing.JInternalFrame {
                             ));
                             //INTERAÇÃO COM O USUÁRIO---------------------------------------
                             JOptionPane.showMessageDialog(null, "PRODUTO SALVO COM SUCESSO COM SUCESSO. >> CÓDIGO: "
-                                    + COD_PROD, "CONFIMAÇÃO", JOptionPane.INFORMATION_MESSAGE);
+                                    + ProdutoDAO.traduzCodProd(COD_PROD, (byte) 2), "CONFIMAÇÃO", JOptionPane.INFORMATION_MESSAGE);
                             //--------------------------------------------------------------
                             break;
                     }

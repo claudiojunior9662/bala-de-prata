@@ -64,7 +64,7 @@ public class Financeiro extends javax.swing.JFrame {
                             );
                             
                             if(Controle.verificaVersao(TelaAutenticacao.getCodVersao(), 
-                                    TelaAutenticacao.getAtualizacao())){
+                                    TelaAutenticacao.getUpdate())){
                                 atualizacao.setVisible(true);
                             }
                             Thread.sleep(600000);

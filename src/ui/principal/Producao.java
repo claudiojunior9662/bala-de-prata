@@ -44,7 +44,7 @@ public class Producao extends javax.swing.JFrame {
                                     + Controle.retornaAvProd());
                             
                             if(Controle.verificaVersao(TelaAutenticacao.getCodVersao(), 
-                                    TelaAutenticacao.getAtualizacao())){
+                                    TelaAutenticacao.getUpdate())){
                                 atualizacao.setVisible(true);
                             }
                             Thread.sleep(600000);

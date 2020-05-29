@@ -96,7 +96,7 @@ public class OrcamentoFrame extends javax.swing.JFrame {
                                     + avProd.toString());
 
                             if (Controle.verificaVersao(TelaAutenticacao.getCodVersao(),
-                                    TelaAutenticacao.getAtualizacao())) {
+                                    TelaAutenticacao.getUpdate())) {
                                 atualizacao.setVisible(true);
                             }
                             Thread.sleep(600000);
