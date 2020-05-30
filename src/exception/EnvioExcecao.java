@@ -43,7 +43,7 @@ public class EnvioExcecao {
             ex.printStackTrace(pw);
             ErroBEAN bean = new ErroBEAN(ex.toString() + "\n\n" + sw.toString(),
                     "EM ANÁLISE",
-                    TelaAutenticacao.codAtendente);
+                    TelaAutenticacao.getAtendenteLogado().getCodigoAtendente());
             ErroDAO.insereErro(bean);
             JOptionPane.showMessageDialog(null,
                     "ORCORREU UM ERRO AO REALIZAR ESTA AÇÃO.\n"

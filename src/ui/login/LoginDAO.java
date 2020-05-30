@@ -14,10 +14,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.DateFormat;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
-import ui.administrador.FuncionarioBEAN;
+import ui.administrador.UsuarioBEAN;
 import ui.controle.Controle;
 
 /**
@@ -62,39 +60,6 @@ public class LoginDAO extends RuntimeException {
         } finally {
             ConnectionFactory.closeConnection(con, stmt, rs);
         }
-    }
-
-    public List<FuncionarioBEAN> read(String login, String senha) throws SQLException {
-        Connection con = ConnectionFactory.getConnection();
-        PreparedStatement stmt = null;
-        ResultSet rs = null;
-
-        List<FuncionarioBEAN> retorno = new ArrayList<>();
-
-        try {
-            stmt = con.prepareStatement("SELECT nome_atendente,"
-                    + "login_atendente,"
-                    + "tipo_atendente,"
-                    + "codigo_atendente "
-                    + "FROM tabela_atendentes "
-                    + "WHERE login_atendente = ? AND senha_atendente = md5(?)");
-            stmt.setString(1, login);
-            stmt.setString(2, senha);
-            rs = stmt.executeQuery();
-            while (rs.next()) {
-                retorno.add(new FuncionarioBEAN(rs.getString("codigo_atendente"),
-                        rs.getString("login_atendente"),
-                        rs.getString("nome_atendente"),
-                        rs.getString("tipo_atendente")));
-            }
-            stmt.close();
-            rs.close();
-        } catch (SQLException ex) {
-            throw new SQLException(ex);
-        } finally {
-            ConnectionFactory.closeConnection(con, stmt, rs);
-        }
-        return retorno;
     }
 
     public static int realizaConexao() {

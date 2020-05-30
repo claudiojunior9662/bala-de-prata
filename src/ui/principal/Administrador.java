@@ -16,7 +16,7 @@ import java.util.logging.Logger;
 import javax.swing.ImageIcon;
 import ui.administrador.AnaliseErros;
 import ui.administrador.Avisos;
-import ui.administrador.FuncionarioCadastro;
+import ui.administrador.UsuarioCadastro;
 import ui.administrador.SelData;
 import ui.controle.Controle;
 import ui.login.TelaAutenticacao;
@@ -250,7 +250,7 @@ public class Administrador extends javax.swing.JFrame {
     }//GEN-LAST:event_mnAtendentesMouseClicked
 
     private void mnAtendentesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnAtendentesActionPerformed
-        Controle.getDefaultGj().abrirJanelas(FuncionarioCadastro.getInstancia(), "CADASTRO DE ATENDENTES");
+        Controle.getDefaultGj().abrirJanelas(UsuarioCadastro.getInstancia(), "CADASTRO DE ATENDENTES");
     }//GEN-LAST:event_mnAtendentesActionPerformed
 
     private void modulosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_modulosActionPerformed

@@ -18,9 +18,9 @@ import java.util.List;
  *
  * @author spd3
  */
-public class FuncionarioDAO {
+public class UsuarioDAO {
 
-    public static void create(FuncionarioBEAN cadastroFuncionariosBEAN) throws SQLException {
+    public static void create(UsuarioBEAN cadastroFuncionariosBEAN) throws SQLException {
         Connection con = ConnectionFactory.getConnection();
         PreparedStatement stmt = null;
 
@@ -44,11 +44,11 @@ public class FuncionarioDAO {
                 stmt.setString(3, cadastroFuncionariosBEAN.getNomeAtendente());
                 stmt.setString(4, cadastroFuncionariosBEAN.getSenhaAtendente());
                 stmt.setString(5, cadastroFuncionariosBEAN.getTipoAtendente());
-                stmt.setByte(6, cadastroFuncionariosBEAN.getAcessoProducao());
-                stmt.setByte(7, cadastroFuncionariosBEAN.getAcessoOrcamentacao());
-                stmt.setByte(8, cadastroFuncionariosBEAN.getAcessoExpedicao());
-                stmt.setByte(9, cadastroFuncionariosBEAN.getAcessoFinanceiro());
-                stmt.setByte(10, cadastroFuncionariosBEAN.getAcessoEstoque());
+                stmt.setByte(6, cadastroFuncionariosBEAN.getAcessoProd());
+                stmt.setByte(7, cadastroFuncionariosBEAN.getAcessoOrc());
+                stmt.setByte(8, cadastroFuncionariosBEAN.getAcessoExp());
+                stmt.setByte(9, cadastroFuncionariosBEAN.getAcessoFin());
+                stmt.setByte(10, cadastroFuncionariosBEAN.getAcessoEst());
                 stmt.setDate(11, new java.sql.Date(new Date().getTime()));
             } else {
                 stmt = con.prepareStatement("INSERT INTO tabela_atendentes(codigo_atendente, "
@@ -67,11 +67,11 @@ public class FuncionarioDAO {
                 stmt.setString(2, cadastroFuncionariosBEAN.getLoginAtendente());
                 stmt.setString(3, cadastroFuncionariosBEAN.getNomeAtendente());
                 stmt.setString(5, cadastroFuncionariosBEAN.getTipoAtendente());
-                stmt.setByte(6, cadastroFuncionariosBEAN.getAcessoProducao());
-                stmt.setByte(7, cadastroFuncionariosBEAN.getAcessoOrcamentacao());
-                stmt.setByte(8, cadastroFuncionariosBEAN.getAcessoExpedicao());
-                stmt.setByte(9, cadastroFuncionariosBEAN.getAcessoFinanceiro());
-                stmt.setByte(10, cadastroFuncionariosBEAN.getAcessoEstoque());
+                stmt.setByte(6, cadastroFuncionariosBEAN.getAcessoProd());
+                stmt.setByte(7, cadastroFuncionariosBEAN.getAcessoOrc());
+                stmt.setByte(8, cadastroFuncionariosBEAN.getAcessoExp());
+                stmt.setByte(9, cadastroFuncionariosBEAN.getAcessoFin());
+                stmt.setByte(10, cadastroFuncionariosBEAN.getAcessoEst());
                 stmt.setDate(11, new java.sql.Date(new Date().getTime()));
             }
             stmt.executeUpdate();
@@ -144,12 +144,12 @@ public class FuncionarioDAO {
         return retorno;
     }
 
-    public static List<FuncionarioBEAN> retornaAcessos(String login_atendente) throws SQLException {
+    public static List<UsuarioBEAN> retornaAcessos(String login_atendente) throws SQLException {
         Connection con = ConnectionFactory.getConnection();
         PreparedStatement stmt = null;
         ResultSet rs = null;
 
-        List<FuncionarioBEAN> cadastrofc = new ArrayList();
+        List<UsuarioBEAN> cadastrofc = new ArrayList();
 
         try {
             stmt = con.prepareStatement("SELECT acesso_orc, acesso_prod, acesso_exp, acesso_fin, acesso_estoque,"
@@ -157,12 +157,12 @@ public class FuncionarioDAO {
             stmt.setString(1, login_atendente);
             rs = stmt.executeQuery();
             while (rs.next()) {
-                FuncionarioBEAN cadastroFuncionariosBEAN = new FuncionarioBEAN();
-                cadastroFuncionariosBEAN.setAcessoOrcamentacao(rs.getByte("acesso_orc"));
-                cadastroFuncionariosBEAN.setAcessoProducao(rs.getByte("acesso_prod"));
-                cadastroFuncionariosBEAN.setAcessoExpedicao(rs.getByte("acesso_exp"));
-                cadastroFuncionariosBEAN.setAcessoFinanceiro(rs.getByte("acesso_fin"));
-                cadastroFuncionariosBEAN.setAcessoEstoque(rs.getByte("acesso_estoque"));
+                UsuarioBEAN cadastroFuncionariosBEAN = new UsuarioBEAN();
+                cadastroFuncionariosBEAN.setAcessoOrc(rs.getByte("acesso_orc"));
+                cadastroFuncionariosBEAN.setAcessoProd(rs.getByte("acesso_prod"));
+                cadastroFuncionariosBEAN.setAcessoExp(rs.getByte("acesso_exp"));
+                cadastroFuncionariosBEAN.setAcessoFin(rs.getByte("acesso_fin"));
+                cadastroFuncionariosBEAN.setAcessoEst(rs.getByte("acesso_estoque"));
                 cadastroFuncionariosBEAN.setAcessoOrd(rs.getByte("acesso_ord"));
                 cadastrofc.add(cadastroFuncionariosBEAN);
             }
@@ -174,27 +174,38 @@ public class FuncionarioDAO {
         return cadastrofc;
     }
 
-    public static List<FuncionarioBEAN> carregaLista() throws SQLException {
+    public static List<UsuarioBEAN> carregaLista() throws SQLException {
         Connection con = ConnectionFactory.getConnection();
         PreparedStatement stmt = null;
         ResultSet rs = null;
 
-        List<FuncionarioBEAN> retorno = new ArrayList();
+        List<UsuarioBEAN> retorno = new ArrayList();
 
         try {
-            stmt = con.prepareStatement("SELECT * FROM tabela_atendentes ORDER BY codigo_atendente ASC");
+            stmt = con.prepareStatement("SELECT * "
+                    + "FROM tabela_atendentes "
+                    + "INNER JOIN USUARIO_ACESSOS "
+                    + "ON USUARIO_ACESSOS.CODIGO_USR = tabela_atendentes.codigo_atendente "
+                    + "ORDER BY codigo_atendente ASC");
             rs = stmt.executeQuery();
             while (rs.next()) {
-                retorno.add(new FuncionarioBEAN(rs.getString("nome_atendente"),
+                retorno.add(new UsuarioBEAN(
+                        rs.getString("nome_atendente"),
                         rs.getString("codigo_atendente"),
                         rs.getString("login_atendente"),
                         rs.getString("tipo_atendente"),
-                        rs.getByte("acesso_orc"),
-                        rs.getByte("acesso_prod"),
-                        rs.getByte("acesso_exp"),
-                        rs.getByte("acesso_fin"),
-                        rs.getByte("acesso_estoque"),
-                        rs.getInt("ativo")));
+                        rs.getByte("USUARIO_ACESSOS.ORC"),
+                        rs.getByte("USUARIO_ACESSOS.ORC_ADM"),
+                        rs.getByte("USUARIO_ACESSOS.PROD"),
+                        rs.getByte("USUARIO_ACESSOS.PROD_ADM"),
+                        rs.getByte("USUARIO_ACESSOS.EXP"),
+                        rs.getByte("USUARIO_ACESSOS.EXP_ADM"),
+                        rs.getByte("USUARIO_ACESSOS.FIN"),
+                        rs.getByte("USUARIO_ACESSOS.FIN_ADM"),
+                        rs.getByte("USUARIO_ACESSOS.EST"),
+                        rs.getByte("USUARIO_ACESSOS.ORD"),
+                        rs.getByte("ativo")
+                ));
             }
         } catch (SQLException ex) {
             throw new SQLException(ex);
@@ -220,68 +231,117 @@ public class FuncionarioDAO {
         }
     }
 
-    public static List<FuncionarioBEAN> retornaPesquisa(String tipo, String tipoAux, String texto) throws SQLException {
+    public static List<UsuarioBEAN> retornaPesquisa(String tipo, 
+            String tipoAux, 
+            String texto) throws SQLException {
         Connection con = ConnectionFactory.getConnection();
         PreparedStatement stmt = null;
         ResultSet rs = null;
 
-        List<FuncionarioBEAN> cadastroFunc = new ArrayList();
+        List<UsuarioBEAN> retorno = new ArrayList();
 
         try {
             if (tipo.equals("NOME ATENDENTE")) {
-                stmt = con.prepareStatement("SELECT * FROM tabela_atendentes WHERE nome_atendente = ? ORDER BY codigo_atendente ASC");
+                stmt = con.prepareStatement("SELECT * "
+                        + "FROM tabela_atendentes "
+                        + "INNER JOIN USUARIO_ACESSOS ON USUARIO_ACESSOS.CODIGO_USR = tabela_atendentes.codigo_atendente "
+                        + "WHERE nome_atendente = ? "
+                        + "ORDER BY codigo_atendente "
+                        + "ASC");
                 stmt.setString(1, texto);
             }
             if (tipo.equals("CÓDIGO ATENDENTE")) {
-                stmt = con.prepareStatement("SELECT * FROM tabela_atendentes WHERE codigo_atendente = ?");
+                stmt = con.prepareStatement("SELECT * "
+                        + "FROM tabela_atendentes "
+                        + "INNER JOIN USUARIO_ACESSOS ON USUARIO_ACESSOS.CODIGO_USR = tabela_atendentes.codigo_atendente "
+                        + "WHERE codigo_atendente = ?");
                 stmt.setString(1, texto);
             }
             if (tipo.equals("LOGIN ATENDENTE")) {
-                stmt = con.prepareStatement("SELECT * FROM tabela_atendentes WHERE login_atendente = ?");
+                stmt = con.prepareStatement("SELECT * "
+                        + "FROM tabela_atendentes "
+                        + "INNER JOIN USUARIO_ACESSOS ON USUARIO_ACESSOS.CODIGO_USR = tabela_atendentes.codigo_atendente "
+                        + "WHERE login_atendente = ?");
                 stmt.setString(1, texto);
             }
             if (tipo.equals("TIPO ATENDENTE")) {
                 if (tipoAux.equals("USUÁRIO")) {
-                    stmt = con.prepareStatement("SELECT * FROM tabela_atendentes WHERE tipo_atendente = 'USUÁRIO' ORDER BY codigo_atendente ASC");
+                    stmt = con.prepareStatement("SELECT * "
+                            + "FROM tabela_atendentes "
+                            + "INNER JOIN USUARIO_ACESSOS ON USUARIO_ACESSOS.CODIGO_USR = tabela_atendentes.codigo_atendente "
+                            + "WHERE tipo_atendente = 'USUÁRIO' "
+                            + "ORDER BY codigo_atendente "
+                            + "ASC");
                 }
                 if (tipoAux.equals("ADMINISTRADOR")) {
-                    stmt = con.prepareStatement("SELECT * FROM tabela_atendentes WHERE tipo_atendente = 'ADMINISTRADOR' ORDER BY codigo_atendente ASC");
+                    stmt = con.prepareStatement("SELECT * "
+                            + "FROM tabela_atendentes "
+                            + "INNER JOIN USUARIO_ACESSOS ON USUARIO_ACESSOS.CODIGO_USR = tabela_atendentes.codigo_atendente "
+                            + "WHERE tipo_atendente = 'ADMINISTRADOR' "
+                            + "ORDER BY codigo_atendente "
+                            + "ASC");
                 }
             }
             if (tipo.equals("ACESSO PRODUÇÃO")) {
                 if (tipoAux.equals("SIM")) {
-                    stmt = con.prepareStatement("SELECT * FROM tabela_atendentes WHERE acesso_prod = 1 ORDER BY codigo_atendente ASC");
+                    stmt = con.prepareStatement("SELECT * "
+                            + "FROM tabela_atendentes "
+                            + "INNER JOIN USUARIO_ACESSOS ON USUARIO_ACESSOS.CODIGO_USR = tabela_atendentes.codigo_atendente "
+                            + "WHERE acesso_prod = 1 "
+                            + "ORDER BY codigo_atendente "
+                            + "ASC");
                 } else {
-                    stmt = con.prepareStatement("SELECT * FROM tabela_atendentes WHERE acesso_prod = 0 ORDER BY codigo_atendente ASC");
+                    stmt = con.prepareStatement("SELECT * "
+                            + "FROM tabela_atendentes "
+                            + "INNER JOIN USUARIO_ACESSOS ON USUARIO_ACESSOS.CODIGO_USR = tabela_atendentes.codigo_atendente "
+                            + "WHERE acesso_prod = 0 "
+                            + "ORDER BY codigo_atendente "
+                            + "ASC");
                 }
             }
             if (tipo.equals("ACESSO ORÇAMENTAÇÃO")) {
                 if (tipoAux.equals("SIM")) {
-                    stmt = con.prepareStatement("SELECT * FROM tabela_atendentes WHERE acesso_orc = 1 ORDER BY codigo_atendente ASC");
+                    stmt = con.prepareStatement("SELECT * "
+                            + "FROM tabela_atendentes "
+                            + "INNER JOIN USUARIO_ACESSOS ON USUARIO_ACESSOS.CODIGO_USR = tabela_atendentes.codigo_atendente "
+                            + "WHERE acesso_orc = 1 "
+                            + "ORDER BY codigo_atendente "
+                            + "ASC");
                 } else {
-                    stmt = con.prepareStatement("SELECT * FROM tabela_atendentes WHERE acesso_orc = 0 ORDER BY codigo_atendente ASC");
+                    stmt = con.prepareStatement("SELECT * "
+                            + "FROM tabela_atendentes "
+                            + "INNER JOIN USUARIO_ACESSOS ON USUARIO_ACESSOS.CODIGO_USR = tabela_atendentes.codigo_atendente "
+                            + "WHERE acesso_orc = 0 "
+                            + "ORDER BY codigo_atendente "
+                            + "ASC");
                 }
             }
             rs = stmt.executeQuery();
             while (rs.next()) {
-                FuncionarioBEAN cadastroFuncionariosBEAN = new FuncionarioBEAN();
-                cadastroFuncionariosBEAN.setNomeAtendente(rs.getString("nome_atendente"));
-                cadastroFuncionariosBEAN.setCodigoAtendente(rs.getString("codigo_atendente"));
-                cadastroFuncionariosBEAN.setLogin_atendente(rs.getString("login_atendente"));
-                cadastroFuncionariosBEAN.setTipoAtendente(rs.getString("tipo_atendente"));
-                cadastroFuncionariosBEAN.setAcessoOrcamentacao(rs.getByte("acesso_orc"));
-                cadastroFuncionariosBEAN.setAcessoProducao(rs.getByte("acesso_prod"));
-                cadastroFuncionariosBEAN.setAcessoExpedicao(rs.getByte("acesso_exp"));
-                cadastroFuncionariosBEAN.setAcessoFinanceiro(rs.getByte("acesso_fin"));
-                cadastroFuncionariosBEAN.setAcessoEstoque(rs.getByte("acesso_estoque"));
-                cadastroFunc.add(cadastroFuncionariosBEAN);
+                retorno.add(new UsuarioBEAN(
+                        rs.getString("nome_atendente"),
+                        rs.getString("codigo_atendente"),
+                        rs.getString("login_atendente"),
+                        rs.getString("tipo_atendente"),
+                        rs.getByte("USUARIO_ACESSOS.ORC"),
+                        rs.getByte("USUARIO_ACESSOS.ORC_ADM"),
+                        rs.getByte("USUARIO_ACESSOS.PROD"),
+                        rs.getByte("USUARIO_ACESSOS.PROD_ADM"),
+                        rs.getByte("USUARIO_ACESSOS.EXP"),
+                        rs.getByte("USUARIO_ACESSOS.EXP_ADM"),
+                        rs.getByte("USUARIO_ACESSOS.FIN"),
+                        rs.getByte("USUARIO_ACESSOS.FIN_ADM"),
+                        rs.getByte("USUARIO_ACESSOS.EST"),
+                        rs.getByte("USUARIO_ACESSOS.ORD"),
+                        rs.getByte("ativo")
+                ));
             }
+            return retorno;
         } catch (SQLException ex) {
             throw new SQLException(ex);
         } finally {
             ConnectionFactory.closeConnection(con, stmt, rs);
         }
-        return cadastroFunc;
     }
 
     public String retornaSenha(String codAtendente) throws SQLException {
@@ -349,12 +409,12 @@ public class FuncionarioDAO {
     4 - FINANCEIRO
     5 - ESTOQUE
     */
-    public static List<FuncionarioBEAN> retornaAtendentes(byte acesso) throws SQLException {
+    public static List<UsuarioBEAN> retornaAtendentes(byte acesso) throws SQLException {
         Connection con = ConnectionFactory.getConnection();
         PreparedStatement stmt = null;
         ResultSet rs = null;
 
-        List<FuncionarioBEAN> retorno = new ArrayList();
+        List<UsuarioBEAN> retorno = new ArrayList();
 
         try {
             switch(acesso){
@@ -390,7 +450,7 @@ public class FuncionarioDAO {
             }
             rs = stmt.executeQuery();
             while (rs.next()) {
-                retorno.add(new FuncionarioBEAN(rs.getString("codigo_atendente"), 
+                retorno.add(new UsuarioBEAN(rs.getString("codigo_atendente"), 
                         rs.getString("nome_atendente")));
             }
         } catch (SQLException ex) {
@@ -420,6 +480,54 @@ public class FuncionarioDAO {
             rs = stmt.executeQuery();
             if (rs.next()) {
                 return rs.getString("nome_atendente");
+            }
+            return null;
+        } catch (SQLException ex) {
+            throw new SQLException(ex);
+        } finally {
+            ConnectionFactory.closeConnection(con, stmt, rs);
+        }
+    }
+    
+    /**
+     * Retorna as informações básicas do usuário
+     * @param login login do usuário
+     * @param senha senha do usuário
+     * @return
+     * @throws SQLException 
+     */
+    public static UsuarioBEAN retornaInfoUsr(String login, String senha) throws SQLException {
+        Connection con = ConnectionFactory.getConnection();
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+
+        try {
+            stmt = con.prepareStatement("SELECT * "
+                    + "FROM tabela_atendentes "
+                    + "INNER JOIN USUARIO_ACESSOS "
+                    + "ON USUARIO_ACESSOS.CODIGO_USR = tabela_atendentes.codigo_atendente "
+                    + "WHERE login_atendente = ? AND senha_atendente = md5(?)");
+            stmt.setString(1, login);
+            stmt.setString(2, senha);
+            rs = stmt.executeQuery();
+            if (rs.next()) {
+                return new UsuarioBEAN(
+                        rs.getString("nome_atendente"),
+                        rs.getString("codigo_atendente"),
+                        rs.getString("login_atendente"),
+                        rs.getString("tipo_atendente"),
+                        rs.getByte("USUARIO_ACESSOS.ORC"),
+                        rs.getByte("USUARIO_ACESSOS.ORC_ADM"),
+                        rs.getByte("USUARIO_ACESSOS.PROD"),
+                        rs.getByte("USUARIO_ACESSOS.PROD_ADM"),
+                        rs.getByte("USUARIO_ACESSOS.EXP"),
+                        rs.getByte("USUARIO_ACESSOS.EXP_ADM"),
+                        rs.getByte("USUARIO_ACESSOS.FIN"),
+                        rs.getByte("USUARIO_ACESSOS.FIN_ADM"),
+                        rs.getByte("USUARIO_ACESSOS.EST"),
+                        rs.getByte("USUARIO_ACESSOS.ORD"),
+                        rs.getByte("ativo")
+                );
             }
             return null;
         } catch (SQLException ex) {

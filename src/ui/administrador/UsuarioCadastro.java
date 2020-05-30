@@ -10,24 +10,26 @@ import ui.login.TelaAutenticacao;
 import java.sql.SQLException;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+import model.tabelas.UsuarioTableModel;
 import ui.controle.Controle;
 
 /**
  *
  * @author claud
  */
-public class FuncionarioCadastro extends javax.swing.JInternalFrame {
+public class UsuarioCadastro extends javax.swing.JInternalFrame {
 
-    private static FuncionarioCadastro cadastroFuncionariosNovo;
+    private static UsuarioCadastro usuarioCadastro;
+    UsuarioTableModel model = new UsuarioTableModel();
 
-    public static FuncionarioCadastro getInstancia() {
-        return new FuncionarioCadastro();
+    public static UsuarioCadastro getInstancia() {
+        return new UsuarioCadastro();
     }
 
     /**
      * Creates new form CadastroFuncionariosNovo
      */
-    public FuncionarioCadastro() {
+    public UsuarioCadastro() {
         initComponents();
         excluir.setEnabled(false);
         pesquisaTexto.setText("");
@@ -36,7 +38,9 @@ public class FuncionarioCadastro extends javax.swing.JInternalFrame {
         editar.setEnabled(false);
         ativar.setEnabled(false);
         desativar.setEnabled(false);
-        carregaLista(null, null, null);
+        
+        
+        tabelaAtendentes.setModel(model);
     }
 
     /**
@@ -60,9 +64,6 @@ public class FuncionarioCadastro extends javax.swing.JInternalFrame {
         codigoAtendente = new javax.swing.JFormattedTextField();
         cadastrar = new javax.swing.JButton();
         novaSenha = new javax.swing.JPasswordField();
-        jLabel7 = new javax.swing.JLabel();
-        acessoOrcamentacao = new javax.swing.JCheckBox();
-        acessoProducao = new javax.swing.JCheckBox();
         jScrollPane1 = new javax.swing.JScrollPane();
         tabelaAtendentes = new javax.swing.JTable();
         excluir = new javax.swing.JButton();
@@ -73,12 +74,11 @@ public class FuncionarioCadastro extends javax.swing.JInternalFrame {
         pesquisaTexto = new javax.swing.JTextField();
         pesquisar = new javax.swing.JButton();
         editar = new javax.swing.JButton();
-        acessoExpedicao = new javax.swing.JCheckBox();
-        acessoEstoque = new javax.swing.JCheckBox();
         desativar = new javax.swing.JButton();
         ativar = new javax.swing.JButton();
         resetarSenha = new javax.swing.JButton();
-        acessoFinanceiro = new javax.swing.JCheckBox();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        jTable1 = new javax.swing.JTable();
 
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "CADASTRO DE ATENDENTES", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 12))); // NOI18N
 
@@ -114,17 +114,6 @@ public class FuncionarioCadastro extends javax.swing.JInternalFrame {
         cadastrar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 cadastrarActionPerformed(evt);
-            }
-        });
-
-        jLabel7.setText("ACESSO:");
-
-        acessoOrcamentacao.setText("ORCAMENTACAO (ORC)");
-
-        acessoProducao.setText("PRODUCAO (PROD)");
-        acessoProducao.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                acessoProducaoActionPerformed(evt);
             }
         });
 
@@ -183,7 +172,7 @@ public class FuncionarioCadastro extends javax.swing.JInternalFrame {
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                .addContainerGap(119, Short.MAX_VALUE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jLabel6)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(pesquisaCombo, javax.swing.GroupLayout.PREFERRED_SIZE, 131, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -215,20 +204,6 @@ public class FuncionarioCadastro extends javax.swing.JInternalFrame {
             }
         });
 
-        acessoExpedicao.setText("EXPEDICAO (EXP)");
-        acessoExpedicao.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                acessoExpedicaoActionPerformed(evt);
-            }
-        });
-
-        acessoEstoque.setText("ESTOQUE(EST)");
-        acessoEstoque.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                acessoEstoqueActionPerformed(evt);
-            }
-        });
-
         desativar.setText("DESATIVAR");
         desativar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -250,54 +225,37 @@ public class FuncionarioCadastro extends javax.swing.JInternalFrame {
             }
         });
 
-        acessoFinanceiro.setText("FINANCEIRO (FIN)");
-        acessoFinanceiro.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                acessoFinanceiroActionPerformed(evt);
+        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {"USUÁRIO", null, null, null, null, null, null},
+                {"ADMIN", null, null, null, null, null, null}
+            },
+            new String [] {
+                "TIPO ACESSO", "ORÇAMENTO", "PRODUÇÃO", "EXPEDIÇÃO", "FINANCEIRO", "ESTOQUE", "ORD DESPESAS"
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.Object.class, java.lang.Boolean.class, java.lang.Boolean.class, java.lang.Boolean.class, java.lang.Boolean.class, java.lang.Boolean.class, java.lang.Boolean.class
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
             }
         });
+        jScrollPane2.setViewportView(jTable1);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+            .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jScrollPane1)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(resetarSenha)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(ativar)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(desativar)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(excluir)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(editar)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(cadastrar))
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
-                        .addComponent(jLabel7)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(acessoOrcamentacao)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(acessoProducao)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(acessoExpedicao)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(acessoFinanceiro)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(acessoEstoque))
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(jLabel1)
-                                .addGap(0, 0, Short.MAX_VALUE))
-                            .addComponent(nomeAtendente))
-                        .addGap(18, 18, 18)
+                            .addComponent(jLabel1)
+                            .addComponent(nomeAtendente, javax.swing.GroupLayout.PREFERRED_SIZE, 246, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 22, Short.MAX_VALUE)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel2)
                             .addComponent(codigoAtendente, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -312,8 +270,23 @@ public class FuncionarioCadastro extends javax.swing.JInternalFrame {
                         .addGap(18, 18, 18)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel5)
-                            .addComponent(tipoAtendente, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addContainerGap())
+                            .addComponent(tipoAtendente, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(jPanel2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(resetarSenha)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(ativar)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(desativar)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(excluir)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(editar)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(cadastrar))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane2))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -332,19 +305,13 @@ public class FuncionarioCadastro extends javax.swing.JInternalFrame {
                     .addComponent(tipoAtendente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(codigoAtendente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(novaSenha, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel7)
-                    .addComponent(acessoOrcamentacao)
-                    .addComponent(acessoProducao)
-                    .addComponent(acessoExpedicao)
-                    .addComponent(acessoEstoque)
-                    .addComponent(acessoFinanceiro))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 342, Short.MAX_VALUE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 265, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(cadastrar)
                     .addComponent(excluir)
@@ -352,7 +319,7 @@ public class FuncionarioCadastro extends javax.swing.JInternalFrame {
                     .addComponent(desativar)
                     .addComponent(ativar)
                     .addComponent(resetarSenha))
-                .addContainerGap())
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -361,15 +328,15 @@ public class FuncionarioCadastro extends javax.swing.JInternalFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
@@ -386,10 +353,6 @@ public class FuncionarioCadastro extends javax.swing.JInternalFrame {
     private void cadastrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cadastrarActionPerformed
         cadastraEdita(1);
     }//GEN-LAST:event_cadastrarActionPerformed
-
-    private void acessoProducaoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_acessoProducaoActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_acessoProducaoActionPerformed
 
     private void tabelaAtendentesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tabelaAtendentesMouseClicked
         nomeAtendente.setText(tabelaAtendentes.getValueAt(tabelaAtendentes.getSelectedRow(), 0).toString());
@@ -428,18 +391,18 @@ public class FuncionarioCadastro extends javax.swing.JInternalFrame {
         int dialogResult = JOptionPane.showConfirmDialog(this, "Excluir cliente nº " + codAtendente + "?", "Confirmação de exclusão", dialogButton);
         if (dialogResult == 0) {
             try {
-                FuncionarioDAO.excluiFuncionario(codAtendente);
+                UsuarioDAO.excluiFuncionario(codAtendente);
                 DefaultTableModel modeloAtendentes = (DefaultTableModel) tabelaAtendentes.getModel();
                 modeloAtendentes.setNumRows(0);
-                for (FuncionarioBEAN cfBEAN : FuncionarioDAO.carregaLista()) {
+                for (UsuarioBEAN cfBEAN : UsuarioDAO.carregaLista()) {
                     modeloAtendentes.addRow(new Object[]{
                         cfBEAN.getNomeAtendente(),
                         cfBEAN.getCodigoAtendente(),
                         cfBEAN.getLoginAtendente(),
                         cfBEAN.getSenhaAtendente(),
                         cfBEAN.getTipoAtendente(),
-                        cfBEAN.getAcessoOrcamentacao(),
-                        cfBEAN.getAcessoProducao()
+                        cfBEAN.getAcessoOrc(),
+                        cfBEAN.getAcessoProd()
                     });
                 }
             } catch (SQLException ex) {
@@ -535,13 +498,9 @@ public class FuncionarioCadastro extends javax.swing.JInternalFrame {
         cadastraEdita(2);
     }//GEN-LAST:event_editarActionPerformed
 
-    private void acessoExpedicaoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_acessoExpedicaoActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_acessoExpedicaoActionPerformed
-
     private void desativarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_desativarActionPerformed
         try {
-            FuncionarioDAO.desativaAtivaFuncionario(0, (String) tabelaAtendentes.getValueAt(tabelaAtendentes.getSelectedRow(), 1));
+            UsuarioDAO.desativaAtivaFuncionario(0, (String) tabelaAtendentes.getValueAt(tabelaAtendentes.getSelectedRow(), 1));
             JOptionPane.showMessageDialog(null, "ATENDENTE DESATIVADO COM SUCESSO", "CONFIRMAÇÃO", JOptionPane.INFORMATION_MESSAGE);
             carregaLista(null, null, null);
         } catch (SQLException ex) {
@@ -552,7 +511,7 @@ public class FuncionarioCadastro extends javax.swing.JInternalFrame {
 
     private void ativarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ativarActionPerformed
         try {
-            FuncionarioDAO.desativaAtivaFuncionario(1, (String) tabelaAtendentes.getValueAt(tabelaAtendentes.getSelectedRow(), 1));
+            UsuarioDAO.desativaAtivaFuncionario(1, (String) tabelaAtendentes.getValueAt(tabelaAtendentes.getSelectedRow(), 1));
             JOptionPane.showMessageDialog(null, "ATENDENTE ATIVADO COM SUCESSO", "CONFIRMAÇÃO", JOptionPane.INFORMATION_MESSAGE);
             carregaLista(null, null, null);
         } catch (SQLException ex) {
@@ -560,14 +519,6 @@ public class FuncionarioCadastro extends javax.swing.JInternalFrame {
             EnvioExcecao.envio();
         }
     }//GEN-LAST:event_ativarActionPerformed
-
-    private void acessoEstoqueActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_acessoEstoqueActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_acessoEstoqueActionPerformed
-
-    private void acessoFinanceiroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_acessoFinanceiroActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_acessoFinanceiroActionPerformed
 
     private void resetarSenhaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_resetarSenhaActionPerformed
         int dialogButton = JOptionPane.YES_NO_OPTION;
@@ -581,7 +532,7 @@ public class FuncionarioCadastro extends javax.swing.JInternalFrame {
                 return;
             }
             try {
-                FuncionarioDAO.resetaSenha(tabelaAtendentes.getValueAt(tabelaAtendentes.getSelectedRow(), 2).toString().toLowerCase());
+                UsuarioDAO.resetaSenha(tabelaAtendentes.getValueAt(tabelaAtendentes.getSelectedRow(), 2).toString().toLowerCase());
                 JOptionPane.showMessageDialog(null, "SENHA RESETADA COM SUCESSO", "CONFIRMAÇÃO", JOptionPane.INFORMATION_MESSAGE);
             } catch (SQLException ex) {
                 EnvioExcecao envioExcecao = new EnvioExcecao(Controle.getDefaultGj(), ex);
@@ -592,11 +543,6 @@ public class FuncionarioCadastro extends javax.swing.JInternalFrame {
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JCheckBox acessoEstoque;
-    private javax.swing.JCheckBox acessoExpedicao;
-    private javax.swing.JCheckBox acessoFinanceiro;
-    private javax.swing.JCheckBox acessoOrcamentacao;
-    private javax.swing.JCheckBox acessoProducao;
     private javax.swing.JButton ativar;
     private javax.swing.JButton cadastrar;
     public static javax.swing.JFormattedTextField codigoAtendente;
@@ -609,10 +555,11 @@ public class FuncionarioCadastro extends javax.swing.JInternalFrame {
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
-    private javax.swing.JLabel jLabel7;
     public static javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JTable jTable1;
     public static javax.swing.JTextField nomeAtendente;
     public static javax.swing.JPasswordField novaSenha;
     public static javax.swing.JTextField novoLogin;
@@ -638,35 +585,23 @@ public class FuncionarioCadastro extends javax.swing.JInternalFrame {
             modeloAtendentes.setNumRows(0);
 
             if (tipo == null && tipoAux == null && texto == null) {
-                for (FuncionarioBEAN cadastroFuncionariosBEAN : FuncionarioDAO.carregaLista()) {
-
-                    modeloAtendentes.addRow(new Object[]{
-                        cadastroFuncionariosBEAN.getNomeAtendente(),
-                        cadastroFuncionariosBEAN.getCodigoAtendente(),
-                        cadastroFuncionariosBEAN.getLoginAtendente(),
-                        cadastroFuncionariosBEAN.getTipoAtendente(),
-                        cadastroFuncionariosBEAN.getAcessoOrcamentacao() == 1 ? "SIM" : "NÃO",
-                        cadastroFuncionariosBEAN.getAcessoProducao() == 1 ? "SIM" : "NÃO",
-                        cadastroFuncionariosBEAN.getAcessoExpedicao() == 1 ? "SIM" : "NÃO",
-                        cadastroFuncionariosBEAN.getAcessoFinanceiro() == 1 ? "SIM" : "NÃO",
-                        cadastroFuncionariosBEAN.getAcessoEstoque() == 1 ? "SIM" : "NÃO",
-                        cadastroFuncionariosBEAN.getAtivo() == 1 ? "SIM" : "NÃO"
-
-                    });
+                for (UsuarioBEAN usuario : UsuarioDAO.carregaLista()) {
+                    model.addRow(usuario);
                 }
             } else {
-                for (FuncionarioBEAN cadastroFuncionariosBEAN : FuncionarioDAO.retornaPesquisa(tipo, tipoAux, texto)) {
+                for (UsuarioBEAN cadastroFuncionariosBEAN : 
+                        UsuarioDAO.retornaPesquisa(tipo, tipoAux, texto)) {
 
                     modeloAtendentes.addRow(new Object[]{
                         cadastroFuncionariosBEAN.getNomeAtendente(),
                         cadastroFuncionariosBEAN.getCodigoAtendente(),
                         cadastroFuncionariosBEAN.getLoginAtendente(),
                         cadastroFuncionariosBEAN.getTipoAtendente(),
-                        cadastroFuncionariosBEAN.getAcessoOrcamentacao() == 1 ? "SIM" : "NÃO",
-                        cadastroFuncionariosBEAN.getAcessoProducao() == 1 ? "SIM" : "NÃO",
-                        cadastroFuncionariosBEAN.getAcessoExpedicao() == 1 ? "SIM" : "NÃO",
-                        cadastroFuncionariosBEAN.getAcessoFinanceiro() == 1 ? "SIM" : "NÃO",
-                        cadastroFuncionariosBEAN.getAcessoEstoque() == 1 ? "SIM" : "NÃO",
+                        cadastroFuncionariosBEAN.getAcessoOrc() == 1 ? "SIM" : "NÃO",
+                        cadastroFuncionariosBEAN.getAcessoProd() == 1 ? "SIM" : "NÃO",
+                        cadastroFuncionariosBEAN.getAcessoExp() == 1 ? "SIM" : "NÃO",
+                        cadastroFuncionariosBEAN.getAcessoFin() == 1 ? "SIM" : "NÃO",
+                        cadastroFuncionariosBEAN.getAcessoEst() == 1 ? "SIM" : "NÃO",
                         cadastroFuncionariosBEAN.getAtivo() == 1 ? "SIM" : "NÃO"
 
                     });
@@ -679,7 +614,7 @@ public class FuncionarioCadastro extends javax.swing.JInternalFrame {
     }
 
     public void cadastraEdita(Integer funcao) {
-        FuncionarioBEAN cadastroFuncionariosBEAN = new FuncionarioBEAN();
+        UsuarioBEAN cadastroFuncionariosBEAN = new UsuarioBEAN();
 
         try {
             if (nomeAtendente.getText().equals(null)) {
@@ -707,7 +642,7 @@ public class FuncionarioCadastro extends javax.swing.JInternalFrame {
                 JOptionPane.showMessageDialog(null, "O CAMPO CÓDIGO DEVE SER PREENCHIDO.");
                 return;
             }
-            if (FuncionarioDAO.verificaCodigo(codigoAtendente.getText()) && funcao != 2) {
+            if (UsuarioDAO.verificaCodigo(codigoAtendente.getText()) && funcao != 2) {
                 JOptionPane.showMessageDialog(null, "O CÓDIGO DIGITADO JÁ EXISTE.");
                 return;
             } else {
@@ -722,41 +657,41 @@ public class FuncionarioCadastro extends javax.swing.JInternalFrame {
             }
 
             if (acessoOrcamentacao.isSelected()) {
-                cadastroFuncionariosBEAN.setAcessoOrcamentacao((byte) 1);
+                cadastroFuncionariosBEAN.setAcessoOrc((byte) 1);
             } else {
-                cadastroFuncionariosBEAN.setAcessoOrcamentacao((byte) 0);
+                cadastroFuncionariosBEAN.setAcessoOrc((byte) 0);
             }
 
             if (acessoProducao.isSelected()) {
-                cadastroFuncionariosBEAN.setAcessoProducao((byte) 1);
+                cadastroFuncionariosBEAN.setAcessoProd((byte) 1);
             } else {
-                cadastroFuncionariosBEAN.setAcessoProducao((byte) 0);
+                cadastroFuncionariosBEAN.setAcessoProd((byte) 0);
             }
 
             if (acessoExpedicao.isSelected()) {
-                cadastroFuncionariosBEAN.setAcessoExpedicao((byte) 1);
+                cadastroFuncionariosBEAN.setAcessoExp((byte) 1);
             } else {
-                cadastroFuncionariosBEAN.setAcessoExpedicao((byte) 0);
+                cadastroFuncionariosBEAN.setAcessoExp((byte) 0);
             }
 
             if (acessoFinanceiro.isSelected()) {
-                cadastroFuncionariosBEAN.setAcessoFinanceiro((byte) 1);
+                cadastroFuncionariosBEAN.setAcessoFin((byte) 1);
             } else {
-                cadastroFuncionariosBEAN.setAcessoFinanceiro((byte) 0);
+                cadastroFuncionariosBEAN.setAcessoFin((byte) 0);
             }
 
             if (acessoEstoque.isSelected()) {
-                cadastroFuncionariosBEAN.setAcessoEstoque((byte) 1);
+                cadastroFuncionariosBEAN.setAcessoEst((byte) 1);
             } else {
-                cadastroFuncionariosBEAN.setAcessoEstoque((byte) 0);
+                cadastroFuncionariosBEAN.setAcessoEst((byte) 0);
             }
 
             if (funcao == 1) {
-                FuncionarioDAO.create(cadastroFuncionariosBEAN);
+                UsuarioDAO.create(cadastroFuncionariosBEAN);
                 JOptionPane.showMessageDialog(null, "USUÁRIO CRIADO COM SUCESSO.", "MENSAGEM", JOptionPane.INFORMATION_MESSAGE);
             } else {
-                FuncionarioDAO.excluiFuncionario(cadastroFuncionariosBEAN.getCodigoAtendente());
-                FuncionarioDAO.create(cadastroFuncionariosBEAN);
+                UsuarioDAO.excluiFuncionario(cadastroFuncionariosBEAN.getCodigoAtendente());
+                UsuarioDAO.create(cadastroFuncionariosBEAN);
                 JOptionPane.showMessageDialog(null, "USUÁRIO EDITADO COM SUCESSO.", "MENSAGEM", JOptionPane.INFORMATION_MESSAGE);
             }
 

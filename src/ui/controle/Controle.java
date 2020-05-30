@@ -37,7 +37,7 @@ public class Controle {
      * @param tipoVersao 1 - produção 2 - desenvolvimento rede 3 -
      * desenvolvimento local
      */
-    private static byte tipoVersao = 1;
+    private static byte tipoVersao = 3;
 
     public static byte getTipoVersao() {
         return tipoVersao;
@@ -68,14 +68,14 @@ public class Controle {
         ta.setDefaultCloseOperation(EXIT_ON_CLOSE);
         ta.setLocationRelativeTo(null);
         ta.setVisible(true);
-        ta.campoUsuario.setText(TelaAutenticacao.loginAtendente);
+        ta.campoUsuario.setText(TelaAutenticacao.getAtendenteLogado().getLoginAtendente());
         frame.dispose();
     }
 
     public static void defineStatus(JTextPane status) {
         status.setEditable(false);
         status.setText("GRÁFICA DO EXÉRCITO | USUÁRIO: "
-                + TelaAutenticacao.nomeAtendente
+                + TelaAutenticacao.getAtendenteLogado().getNomeAtendente()
                 + " | BASE DE DADOS: "
                 + Controle.getSelBanco()
                 + " | " + Controle.dataPadrao.format(new Date()));

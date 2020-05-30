@@ -18,6 +18,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import model.dao.OrcamentoDAO;
 import ui.cadastros.clientes.ClienteDAO;
+import ui.controle.Controle;
 
 /**
  *
@@ -36,7 +37,7 @@ public class NewMain {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        mostraValorProducao();
+        preencheAcessoUsr();
     }
 
     //--------------------------------------------------------------------------
@@ -236,6 +237,36 @@ public class NewMain {
                                 + qtdProdutos);
                     }
                 }
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(NewMain.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    private static void preencheAcessoUsr(){
+        Connection con = ConnectionFactory.getConnection();
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+        System.out.println(con);
+        
+        try{
+            stmt = con.prepareStatement("SELECT * "
+                    + "FROM tabela_atendentes");
+            rs = stmt.executeQuery();
+            while(rs.next()){
+                stmt = con.prepareStatement("INSERT INTO usuario_acessos VALUES(?,?,?,?,?,?,?,?,?,?,?)");
+                stmt.setString(1, rs.getString("codigo_atendente"));
+                stmt.setByte(2, rs.getByte("acesso_orc"));
+                stmt.setByte(3, rs.getByte("acesso_orc_adm"));
+                stmt.setByte(4, rs.getByte("acesso_prod"));
+                stmt.setByte(5, rs.getByte("acesso_prod_adm"));
+                stmt.setByte(6, rs.getByte("acesso_exp"));
+                stmt.setByte(7, rs.getByte("acesso_exp_adm"));
+                stmt.setByte(8, rs.getByte("acesso_fin"));
+                stmt.setByte(9, rs.getByte("acesso_fin_adm"));
+                stmt.setByte(10, rs.getByte("acesso_estoque"));
+                stmt.setByte(11, rs.getByte("acesso_ord"));
+                stmt.executeUpdate();
             }
         } catch (SQLException ex) {
             Logger.getLogger(NewMain.class.getName()).log(Level.SEVERE, null, ex);

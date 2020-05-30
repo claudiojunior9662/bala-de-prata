@@ -18,8 +18,8 @@ import java.sql.SQLException;
 import java.util.Date;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
-import ui.administrador.FuncionarioBEAN;
-import ui.administrador.FuncionarioDAO;
+import ui.administrador.UsuarioBEAN;
+import ui.administrador.UsuarioDAO;
 import ui.cadastros.clientes.ClienteDAO;
 import ui.cadastros.produtos.ProdutoDAO;
 import ui.controle.Controle;
@@ -1371,7 +1371,7 @@ public class TelaAcompanhamento extends javax.swing.JInternalFrame {
                     operadorSecao.removeAllItems();
                     operadorSecao.addItem("SELECIONE...");
 
-                    for (FuncionarioBEAN funcionario : FuncionarioDAO.retornaAtendentes((byte) 0)) {
+                    for (UsuarioBEAN funcionario : UsuarioDAO.retornaAtendentes((byte) 0)) {
                         operadorSecao.addItem(funcionario.getNomeAtendente());
                     }
                     if (op.getOpSecao() != null) {

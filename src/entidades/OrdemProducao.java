@@ -625,7 +625,15 @@ public class OrdemProducao {
             /**
              * Preenche o cabeçalho
              */
-            cell1 = new PdfPCell(new Phrase("ORCAMENTO BASE: " + op.getOrcBase() + "\n" + "EMISSOR: " + TelaAutenticacao.codAtendente + "\n" + "EMISSÃO: " + Controle.dataPadrao.format(op.getDataEmissao()), FontFactory.getFont("arial.ttf", 9)));
+            cell1 = new PdfPCell(new Phrase("ORCAMENTO BASE: "
+                    + op.getOrcBase()
+                    + "\n"
+                    + "EMISSOR: "
+                    + TelaAutenticacao.getAtendenteLogado().getCodigoAtendente()
+                    + "\n"
+                    + "EMISSÃO: "
+                    + Controle.dataPadrao.format(op.getDataEmissao()),
+                    FontFactory.getFont("arial.ttf", 9)));
             if (tipo == 2) {
                 if (prodOrc.getTipoProduto() == 2) {
                     cell2 = new PdfPCell(new Phrase("PEDIDO DE VENDA nº " + op.getCodigo() + "\nRECIBO DE ENTREGA nº " + fat.getCod(),
@@ -712,7 +720,11 @@ public class OrdemProducao {
                     cell1.setBorder(0);
                     tblCliente.addCell(cell1);
                     tblCliente.addCell(cell2);
-                    cell1 = new PdfPCell(new Phrase("EMISSOR: " + TelaAutenticacao.nomeAtendente + " - " + TelaAutenticacao.codAtendente, FontFactory.getFont("arial.ttf", 9)));
+                    cell1 = new PdfPCell(new Phrase("EMISSOR: "
+                            + TelaAutenticacao.getAtendenteLogado().getNomeAtendente()
+                            + " - "
+                            + TelaAutenticacao.getAtendenteLogado().getCodigoAtendente(),
+                            FontFactory.getFont("arial.ttf", 9)));
                     cell1.setBorder(0);
                     cell1.setColspan(3);
                     tblCliente.addCell(cell1);
@@ -1374,7 +1386,7 @@ public class OrdemProducao {
                 p = new Paragraph("_________________________________________");
                 p.setAlignment(1);
                 document.add(p);
-                p = new Paragraph(OrcamentoDAO.carregaNomeVendedor(TelaAutenticacao.codAtendente),
+                p = new Paragraph(TelaAutenticacao.getAtendenteLogado().getNomeAtendente(),
                         FontFactory.getFont("arial.ttf", 9));
                 p.setAlignment(1);
                 document.add(p);

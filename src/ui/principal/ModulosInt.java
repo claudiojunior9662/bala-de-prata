@@ -13,9 +13,8 @@ import java.util.logging.Logger;
 import javax.swing.JInternalFrame;
 import javax.swing.JOptionPane;
 import ui.login.TelaAutenticacao;
-import static ui.login.TelaAutenticacao.loginAtendente;
-import ui.administrador.FuncionarioBEAN;
-import ui.administrador.FuncionarioDAO;
+import ui.administrador.UsuarioBEAN;
+import ui.administrador.UsuarioDAO;
 
 public class ModulosInt extends javax.swing.JFrame {
 
@@ -36,21 +35,21 @@ public class ModulosInt extends javax.swing.JFrame {
             financeiro.setEnabled(false);
             ordenador.setEnabled(false);
             tutoriais.setEnabled(true);
-            for (FuncionarioBEAN cadastroFuncionariosBEAN
-                    : FuncionarioDAO.retornaAcessos(loginAtendente)) {
-                if (cadastroFuncionariosBEAN.getAcessoOrcamentacao() == 1 | loginAtendente.equals("admin")) {
+            for (UsuarioBEAN cadastroFuncionariosBEAN
+                    : UsuarioDAO.retornaAcessos(loginAtendente)) {
+                if (cadastroFuncionariosBEAN.getAcessoOrc() == 1 | loginAtendente.equals("admin")) {
                     orcamento.setEnabled(true);
                 }
-                if (cadastroFuncionariosBEAN.getAcessoProducao() == 1 | loginAtendente.equals("admin")) {
+                if (cadastroFuncionariosBEAN.getAcessoProd() == 1 | loginAtendente.equals("admin")) {
                     producao.setEnabled(true);
                 }
-                if (cadastroFuncionariosBEAN.getAcessoExpedicao() == 1 | loginAtendente.equals("admin")) {
+                if (cadastroFuncionariosBEAN.getAcessoExp() == 1 | loginAtendente.equals("admin")) {
                     expedicao.setEnabled(true);
                 }
-                if (cadastroFuncionariosBEAN.getAcessoFinanceiro() == 1 | loginAtendente.equals("admin")) {
+                if (cadastroFuncionariosBEAN.getAcessoFin() == 1 | loginAtendente.equals("admin")) {
                     financeiro.setEnabled(true);
                 }
-                if (cadastroFuncionariosBEAN.getAcessoEstoque() == 1 | loginAtendente.equals("admin")) {
+                if (cadastroFuncionariosBEAN.getAcessoEst() == 1 | loginAtendente.equals("admin")) {
                     estoque.setEnabled(true);
                 }
                 if (cadastroFuncionariosBEAN.getAcessoOrd() == 1 | loginAtendente.equals("admin")) {

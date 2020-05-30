@@ -22,7 +22,7 @@ import javax.swing.SpinnerNumberModel;
 import entidades.ProdOrcamento;
 import exception.EnvioExcecao;
 import model.dao.OrcamentoDAO;
-import ui.administrador.FuncionarioDAO;
+import ui.administrador.UsuarioDAO;
 import ui.cadastros.clientes.ClienteDAO;
 import ui.cadastros.produtos.ProdutoDAO;
 import ui.cadastros.servicos.ServicoDAO;
@@ -421,7 +421,7 @@ public class NotaPesquisa extends javax.swing.JInternalFrame {
                 } else {
                     NCFrame.descricaoNota.setSelectedIndex(1);
                 }
-                NCFrame.emissor.setText(FuncionarioDAO.retornaNomeAtendente(nota.getCodEmissor()));
+                NCFrame.emissor.setText(UsuarioDAO.retornaNomeAtendente(nota.getCodEmissor()));
                 if (nota.getTipoPessoa() == 1) {
                     NCFrame.tipoCliente.setText("PESSOA FÍSICA");
                 } else if (nota.getTipoPessoa() == 2) {

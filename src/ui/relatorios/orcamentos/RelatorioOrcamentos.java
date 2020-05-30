@@ -32,8 +32,8 @@ import java.text.DecimalFormat;
 import javax.swing.DefaultListModel;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
-import ui.administrador.FuncionarioBEAN;
-import ui.administrador.FuncionarioDAO;
+import ui.administrador.UsuarioBEAN;
+import ui.administrador.UsuarioDAO;
 import ui.cadastros.clientes.ClienteDAO;
 import ui.cadastros.produtos.ProdutoDAO;
 import ui.controle.Controle;
@@ -67,8 +67,8 @@ public class RelatorioOrcamentos extends javax.swing.JInternalFrame {
             for (StsOrcamento status : Controle.stsOrcamento) {
                 statusOrcamento.addItem(status.getCod() + " - " + status.getStatus());
             }
-            for (FuncionarioBEAN cadastroFuncionariosBEAN
-                    : FuncionarioDAO.retornaAtendentes((byte) 2)) {
+            for (UsuarioBEAN cadastroFuncionariosBEAN
+                    : UsuarioDAO.retornaAtendentes((byte) 2)) {
                 comboEmissores.addItem(cadastroFuncionariosBEAN.getCodigoAtendente() + " - "
                         + cadastroFuncionariosBEAN.getNomeAtendente());
             }

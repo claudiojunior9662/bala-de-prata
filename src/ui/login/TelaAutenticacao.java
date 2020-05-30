@@ -16,7 +16,8 @@ import java.sql.SQLException;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import model.dao.OrcamentoDAO;
-import ui.administrador.FuncionarioBEAN;
+import ui.administrador.UsuarioBEAN;
+import ui.administrador.UsuarioDAO;
 import ui.cadastros.clientes.ClienteDAO;
 import ui.controle.Controle;
 import ui.principal.ModulosExt;
@@ -26,14 +27,18 @@ import ui.principal.ModulosExt;
  * @author Seçao SPD3
  */
 public class TelaAutenticacao extends javax.swing.JFrame {
-
-    public static String codAtendente;
-    public static String nomeAtendente;
-    public static String loginAtendente;
-    public static String tipoAtendente;
-    public static String senhaAtendente;
+    
     private static final String codVersao = "2.3.4";
     private static final String update = "Delta";
+    private static UsuarioBEAN atendenteLogado;
+
+    public static UsuarioBEAN getAtendenteLogado() {
+        return atendenteLogado;
+    }
+
+    public static void setAtendenteLogado(UsuarioBEAN atendenteLogado) {
+        TelaAutenticacao.atendenteLogado = atendenteLogado;
+    }
 
     public static String getCodVersao() {
         return codVersao;
@@ -42,8 +47,6 @@ public class TelaAutenticacao extends javax.swing.JFrame {
     public static String getUpdate() {
         return update;
     }
-    
-    
 
     public TelaAutenticacao() {
         initComponents();
@@ -321,7 +324,12 @@ public class TelaAutenticacao extends javax.swing.JFrame {
 
             if (campoUsuario.getText().matches("[0-9]*")) {
                 if (ClienteDAO.autenticaCliente(Integer.valueOf(campoUsuario.getText()), campoSenha.getText())) {
-                    preencheInformacoes(campoUsuario.getText().toUpperCase(), campoSenha.getText());
+                    atendenteLogado = new UsuarioBEAN(
+                            "ODC",
+                            campoUsuario.getText(),
+                            ClienteDAO.retornaNomeCliente(Integer.valueOf(campoUsuario.getText()), (byte) 2),
+                            "USUARIO"
+                    );
                     mExt = new ModulosExt();
                     mExt.setLocationRelativeTo(null);
                     mExt.setDefaultCloseOperation(ModulosInt.EXIT_ON_CLOSE);
@@ -332,9 +340,10 @@ public class TelaAutenticacao extends javax.swing.JFrame {
                 } else {
                     throw new UsuarioSenhaIncorretosException();
                 }
+
             } else if (loginDAO.verificaNome(campoUsuario.getText().toUpperCase(), campoSenha.getText())) {
-                preencheInformacoes(campoUsuario.getText().toUpperCase(), campoSenha.getText());
-                if (loginDAO.verificaExpiracaoSenha(codAtendente)
+                atendenteLogado = UsuarioDAO.retornaInfoUsr(campoUsuario.getText().toUpperCase(), campoSenha.getText());
+                if (loginDAO.verificaExpiracaoSenha(atendenteLogado.getCodigoAtendente())
                         && !campoUsuario.getText().equals("admin")) {
                     JOptionPane.showMessageDialog(null, "SUA SENHA EXPIROU.\nO SR(A) SERÁ REDIRECIONADO PARA A MUDANÇA DE SENHA.");
                     MudancaSenha md = new MudancaSenha();
@@ -469,28 +478,4 @@ public class TelaAutenticacao extends javax.swing.JFrame {
     private javax.swing.JLabel lblVersao;
     private javax.swing.JLabel minimizar;
     // End of variables declaration//GEN-END:variables
-    public void preencheInformacoes(String login, String senha) {
-        try {
-            if (campoUsuario.getText().matches("[0-9]*")) {
-
-                loginAtendente = campoUsuario.getText();
-                codAtendente = "ODC";
-                nomeAtendente = ClienteDAO.retornaNomeCliente(Integer.valueOf(campoUsuario.getText()), (byte) 2);
-                tipoAtendente = "USUARIO";
-
-            } else {
-                LoginDAO ld = new LoginDAO();
-                for (FuncionarioBEAN cf : ld.read(login, senha)) {
-                    codAtendente = cf.getCodigoAtendente().toUpperCase();
-                    nomeAtendente = cf.getNomeAtendente().toUpperCase();
-                    loginAtendente = cf.getLoginAtendente().toUpperCase();
-                    tipoAtendente = cf.getTipoAtendente().toUpperCase();
-                    senhaAtendente = cf.getSenhaAtendente();
-                }
-            }
-        } catch (SQLException ex) {
-            EnvioExcecao envioExcecao = new EnvioExcecao(Controle.getDefaultGj(), ex);
-            EnvioExcecao.envio();
-        }
-    }
 }

@@ -1,0 +1,210 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package ui.administrador;
+
+/**
+ *
+ * @author spd3
+ */
+public class UsuarioBEAN {
+
+    private String codigoAtendente;
+    private String loginAtendente;
+    private String nomeAtendente;
+    private String senhaAtendente;
+    private String tipoAtendente;
+    private byte acessoOrc;
+    private byte acessoOrcAdm;
+    private byte acessoProd;
+    private byte acessoProdAdm;
+    private byte acessoExp;
+    private byte acessoExpAdm;
+    private byte acessoFin;
+    private byte acessoFinAdm;
+    private byte acessoEst;
+    private byte acessoOrd;
+    private byte ativo;
+
+    public UsuarioBEAN(String codigoAtendente,
+            String loginAtendente,
+            String nomeAtendente,
+            String tipoAtendente) {
+        this.codigoAtendente = codigoAtendente;
+        this.loginAtendente = loginAtendente;
+        this.nomeAtendente = nomeAtendente;
+        this.tipoAtendente = tipoAtendente;
+    }
+
+    public UsuarioBEAN(String nomeAtendente,
+            String codigoAtendente,
+            String loginAtendente,
+            String tipoAtendente,
+            byte acessoOrc,
+            byte acessoOrcAdm,
+            byte acessoProd,
+            byte acessoProdAdm,
+            byte acessoExp,
+            byte acessoExpAdm,
+            byte acessoFin,
+            byte acessoFinAdm,
+            byte acessoEst,
+            byte acessoOrd,
+            byte ativo) {
+        this.nomeAtendente = nomeAtendente;
+        this.codigoAtendente = codigoAtendente;
+        this.loginAtendente = loginAtendente;
+        this.tipoAtendente = tipoAtendente;
+        this.acessoOrc = acessoOrc;
+        this.acessoOrcAdm = acessoOrcAdm;
+        this.acessoProd = acessoProd;
+        this.acessoProdAdm = acessoProdAdm;
+        this.acessoExp = acessoExp;
+        this.acessoExpAdm = acessoExpAdm;
+        this.acessoFin = acessoFin;
+        this.acessoFinAdm = acessoFinAdm;
+        this.acessoEst = acessoEst;
+        this.acessoOrd = acessoOrd;
+        this.ativo = ativo;
+    }
+
+    public UsuarioBEAN(String codigoAtendente, String nomeAtendente) {
+        this.codigoAtendente = codigoAtendente;
+        this.nomeAtendente = nomeAtendente;
+    }
+
+    public byte getAcessoOrcAdm() {
+        return acessoOrcAdm;
+    }
+
+    public void setAcessoOrcAdm(byte acessoOrcAdm) {
+        this.acessoOrcAdm = acessoOrcAdm;
+    }
+
+    public byte getAcessoProdAdm() {
+        return acessoProdAdm;
+    }
+
+    public void setAcessoProdAdm(byte acessoProdAdm) {
+        this.acessoProdAdm = acessoProdAdm;
+    }
+
+    public byte getAcessoExpAdm() {
+        return acessoExpAdm;
+    }
+
+    public void setAcessoExpAdm(byte acessoExpAdm) {
+        this.acessoExpAdm = acessoExpAdm;
+    }
+
+    public byte getAcessoFinAdm() {
+        return acessoFinAdm;
+    }
+
+    public void setAcessoFinAdm(byte acessoFinAdm) {
+        this.acessoFinAdm = acessoFinAdm;
+    }
+
+    public byte getAcessoOrd() {
+        return acessoOrd;
+    }
+
+    public void setAcessoOrd(byte acessoOrd) {
+        this.acessoOrd = acessoOrd;
+    }
+
+    public UsuarioBEAN() {
+
+    }
+
+    public byte getAcessoOrc() {
+        return acessoOrc;
+    }
+
+    public void setAcessoOrc(byte acessoOrc) {
+        this.acessoOrc = acessoOrc;
+    }
+
+    public byte getAcessoProd() {
+        return acessoProd;
+    }
+
+    public void setAcessoProd(byte acessoProd) {
+        this.acessoProd = acessoProd;
+    }
+
+    public byte getAcessoExp() {
+        return acessoExp;
+    }
+
+    public void setAcessoExp(byte acessoExp) {
+        this.acessoExp = acessoExp;
+    }
+
+    public byte getAcessoFin() {
+        return acessoFin;
+    }
+
+    public void setAcessoFin(byte acessoFin) {
+        this.acessoFin = acessoFin;
+    }
+
+    public byte getAcessoEst() {
+        return acessoEst;
+    }
+
+    public void setAcessoEst(byte acessoEst) {
+        this.acessoEst = acessoEst;
+    }
+
+    public byte getAtivo() {
+        return ativo;
+    }
+
+    public void setAtivo(byte ativo) {
+        this.ativo = ativo;
+    }
+
+    public String getCodigoAtendente() {
+        return codigoAtendente;
+    }
+
+    public void setCodigoAtendente(String codigo_atendente) {
+        this.codigoAtendente = codigo_atendente;
+    }
+
+    public String getLoginAtendente() {
+        return loginAtendente;
+    }
+
+    public void setLogin_atendente(String login_atendente) {
+        this.loginAtendente = login_atendente;
+    }
+
+    public String getNomeAtendente() {
+        return nomeAtendente;
+    }
+
+    public void setNomeAtendente(String nome_atendente) {
+        this.nomeAtendente = nome_atendente;
+    }
+
+    public String getSenhaAtendente() {
+        return senhaAtendente;
+    }
+
+    public void setSenha_atendente(String senha_atendente) {
+        this.senhaAtendente = senha_atendente;
+    }
+
+    public String getTipoAtendente() {
+        return tipoAtendente;
+    }
+
+    public void setTipoAtendente(String tipo_atendente) {
+        this.tipoAtendente = tipo_atendente;
+    }
+
+}

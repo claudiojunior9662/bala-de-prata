@@ -411,7 +411,7 @@ public class Orcamento {
                     Orcamento orcamento = OrcamentoDAO.carregaEdicaoOrcamento(codOrc);
                     sep = new Paragraph("----------------------------------------------------------------------------------------------------------------------------------------");
                     document.add(sep);
-                    p2 = new Paragraph("CÓDIGO EMISSOR: " + TelaAutenticacao.codAtendente
+                    p2 = new Paragraph("CÓDIGO EMISSOR: " + TelaAutenticacao.getAtendenteLogado().getCodigoAtendente()
                             + "        DATA EMISSÃO: " + Controle.dataPadrao.format(
                                     orcamento.getDataEmissao()) + "        HORA EMISSÃO: "
                             + Controle.horaPadrao.format(new Date()), FontFactory.getFont("arial.ttf", 9));

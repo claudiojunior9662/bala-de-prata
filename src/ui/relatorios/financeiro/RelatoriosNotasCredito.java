@@ -28,8 +28,8 @@ import java.text.DecimalFormat;
 import java.util.Date;
 import javax.swing.DefaultListModel;
 import javax.swing.JLabel;
-import ui.administrador.FuncionarioBEAN;
-import ui.administrador.FuncionarioDAO;
+import ui.administrador.UsuarioBEAN;
+import ui.administrador.UsuarioDAO;
 import ui.cadastros.clientes.ClienteDAO;
 import ui.controle.Controle;
 
@@ -59,8 +59,8 @@ public class RelatoriosNotasCredito extends javax.swing.JInternalFrame {
             listaPesquisaCliente.setModel(model);
 
             comboEmissores.removeAllItems();
-            for (FuncionarioBEAN cadastroFuncionariosBEAN
-                    : FuncionarioDAO.retornaAtendentes((byte) 4)) {
+            for (UsuarioBEAN cadastroFuncionariosBEAN
+                    : UsuarioDAO.retornaAtendentes((byte) 4)) {
                 comboEmissores.addItem(cadastroFuncionariosBEAN.getCodigoAtendente() + " - "
                         + cadastroFuncionariosBEAN.getNomeAtendente());
             }
