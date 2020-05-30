@@ -282,7 +282,7 @@ public class RelatoriosFinanceiroDAO {
         return retorno;
     }
 
-    //FATURAMENTOS
+    //faturamentos
     /**-------------------------------------------------------------------------
      * Retorna relatório faturamento
      * @param codigo
@@ -403,14 +403,14 @@ public class RelatoriosFinanceiroDAO {
 
         if (tipoCondicaoTransporte != "POR TODOS") {
 
-            comando = comando + " FATURAMENTOS.CODIGO";
+            comando = comando + " faturamentos.CODIGO";
             primeiro += 1;
 
             if (primeiro == 0) {
-                comando = comando + " FATURAMENTOS.CODIGO_OP";
+                comando = comando + " faturamentos.CODIGO_OP";
                 primeiro += 1;
             } else {
-                comando = comando + ", FATURAMENTOS.CODIGO_OP";
+                comando = comando + ", faturamentos.CODIGO_OP";
             }
             
             if(produto){
@@ -424,18 +424,18 @@ public class RelatoriosFinanceiroDAO {
 
             if (codigoOrcamento == true) {
                 if (primeiro == 0) {
-                    comando = comando + " FATURAMENTOS.CODIGO_ORC";
+                    comando = comando + " faturamentos.CODIGO_ORC";
                     primeiro += 1;
                 } else {
-                    comando = comando + ", FATURAMENTOS.CODIGO_ORC";
+                    comando = comando + ", faturamentos.CODIGO_ORC";
                 }
             }
             if (emissor == true) {
                 if (primeiro == 0) {
-                    comando = comando + " FATURAMENTOS.EMISSOR";
+                    comando = comando + " faturamentos.EMISSOR";
                     primeiro += 1;
                 } else {
-                    comando = comando + ", FATURAMENTOS.EMISSOR";
+                    comando = comando + ", faturamentos.EMISSOR";
                 }
             }
 
@@ -455,26 +455,26 @@ public class RelatoriosFinanceiroDAO {
 
             if (quantidadeEntregue == true) {
                 if (primeiro == 0) {
-                    comando = comando + " FATURAMENTOS.QTD_ENTREGUE";
+                    comando = comando + " faturamentos.QTD_ENTREGUE";
                     primeiro += 1;
                 } else {
-                    comando = comando + ", FATURAMENTOS.QTD_ENTREGUE";
+                    comando = comando + ", faturamentos.QTD_ENTREGUE";
                 }
             }
             if (valor == true) {
                 if (primeiro == 0) {
-                    comando = comando + " FATURAMENTOS.VLR_FAT";
+                    comando = comando + " faturamentos.VLR_FAT";
                     primeiro += 1;
                 } else {
-                    comando = comando + ", FATURAMENTOS.VLR_FAT";
+                    comando = comando + ", faturamentos.VLR_FAT";
                 }
             }
             if (data == true) {
                 if (primeiro == 0) {
-                    comando = comando + " FATURAMENTOS.DT_FAT";
+                    comando = comando + " faturamentos.DT_FAT";
                     primeiro += 1;
                 } else {
-                    comando = comando + ", FATURAMENTOS.DT_FAT";
+                    comando = comando + ", faturamentos.DT_FAT";
                 }
             }
 
@@ -489,11 +489,11 @@ public class RelatoriosFinanceiroDAO {
                         + "tabela_notas_transporte.nome_transportador";
             }
 
-            comando = comando + " FROM FATURAMENTOS";
+            comando = comando + " FROM faturamentos";
             comando = comando + " INNER JOIN tabela_notas_transporte "
-                    + "ON tabela_notas_transporte.cod_nota = FATURAMENTOS.CODIGO";
+                    + "ON tabela_notas_transporte.cod_nota = faturamentos.CODIGO";
             comando = comando + " INNER JOIN tabela_ordens_producao "
-                    + "ON tabela_ordens_producao.cod = FATURAMENTOS.CODIGO_OP";
+                    + "ON tabela_ordens_producao.cod = faturamentos.CODIGO_OP";
             primeiro = 0;
 
             if (tipoCondicaoTransporte == "POR MODALIDADE DE FRETE") {
@@ -517,52 +517,52 @@ public class RelatoriosFinanceiroDAO {
             }
 
             if (primeiro == 0) {
-                comando = comando + " WHERE tabela_notas_transporte.cod_nota = FATURAMENTOS.CODIGO";
+                comando = comando + " WHERE tabela_notas_transporte.cod_nota = faturamentos.CODIGO";
                 primeiro += 1;
             } else {
-                comando = comando + " AND tabela_notas_transporte.cod_nota = FATURAMENTOS.CODIGO";
+                comando = comando + " AND tabela_notas_transporte.cod_nota = faturamentos.CODIGO";
             }
 
             if (tipoCondicaoOpOrcamento == "ORDEM DE PRODUÇÃO (CÓDIGO)") {
                 if (primeiro == 0) {
-                    comando = comando + " WHERE FATURAMENTOS.CODIGO_OP = " + Integer.valueOf(textoOpOrcamento);
+                    comando = comando + " WHERE faturamentos.CODIGO_OP = " + Integer.valueOf(textoOpOrcamento);
                     primeiro += 1;
                 } else {
-                    comando = comando + " AND FATURAMENTOS.CODIGO_OP = " + Integer.valueOf(textoOpOrcamento);
+                    comando = comando + " AND faturamentos.CODIGO_OP = " + Integer.valueOf(textoOpOrcamento);
                 }
             } else if (tipoCondicaoOpOrcamento == "ORÇAMENTO (CÓDIGO)") {
                 if (primeiro == 0) {
-                    comando = comando + " WHERE FATURAMENTOS.CODIGO_ORC = " + Integer.valueOf(textoOpOrcamento);
+                    comando = comando + " WHERE faturamentos.CODIGO_ORC = " + Integer.valueOf(textoOpOrcamento);
                     primeiro += 1;
                 } else {
-                    comando = comando + " AND FATURAMENTOS.CODIGO_ORC = " + Integer.valueOf(textoOpOrcamento);
+                    comando = comando + " AND faturamentos.CODIGO_ORC = " + Integer.valueOf(textoOpOrcamento);
                 }
             }
 
             if (tipoCondicaoEmissor == "POR EMISSOR") {
                 if (primeiro == 0) {
-                    comando = comando + " WHERE FATURAMENTOS.EMISSOR = '" + textoEmissor + "'";
+                    comando = comando + " WHERE faturamentos.EMISSOR = '" + textoEmissor + "'";
                     primeiro += 1;
                 } else {
-                    comando = comando + " AND FATURAMENTOS.EMISSOR = '" + textoEmissor + "'";
+                    comando = comando + " AND faturamentos.EMISSOR = '" + textoEmissor + "'";
                 }
             }
 
             if (tipoCondicaoPeriodo == "POR DIA") {
                 if (primeiro == 0) {
-                    comando = comando + " WHERE FATURAMENTOS.DT_FAT = '" + periodoInicio + "'";
+                    comando = comando + " WHERE faturamentos.DT_FAT = '" + periodoInicio + "'";
                     primeiro += 1;
                 } else {
-                    comando = comando + " AND FATURAMENTOS.DT_FAT = '" + periodoInicio + "'";
+                    comando = comando + " AND faturamentos.DT_FAT = '" + periodoInicio + "'";
                 }
             } else if (tipoCondicaoPeriodo == "POR PERIODO") {
                 if (primeiro == 0) {
-                    comando = comando + " WHERE FATURAMENTOS.DT_FAT "
+                    comando = comando + " WHERE faturamentos.DT_FAT "
                             + "BETWEEN '" + periodoInicio + "' "
                             + "AND '" + periodoFim + "'";
                     primeiro += 1;
                 } else {
-                    comando = comando + " AND FATURAMENTOS.DT_FAT "
+                    comando = comando + " AND faturamentos.DT_FAT "
                             + "BETWEEN '" + periodoInicio + "' "
                             + "AND '" + periodoFim + "'";
                 }
@@ -590,40 +590,40 @@ public class RelatoriosFinanceiroDAO {
             }
 
             if (tipoCondicaoOrdenar == "POR CÓDIGO CRESCENTE") {
-                comando = comando + " ORDER BY FATURAMENTOS.CODIGO ASC";
+                comando = comando + " ORDER BY faturamentos.CODIGO ASC";
             } else if (tipoCondicaoOrdenar == "POR CÓDIGO DECRESCENTE") {
-                comando = comando + " ORDER BY FATURAMENTOS.CODIGO DESC";
+                comando = comando + " ORDER BY faturamentos.CODIGO DESC";
             } else if (tipoCondicaoOrdenar == "POR CÓDIGO OP CRESCENTE") {
-                comando = comando + " ORDER BY FATURAMENTOS.CODIGO_OP ASC";
+                comando = comando + " ORDER BY faturamentos.CODIGO_OP ASC";
             } else if (tipoCondicaoOrdenar == "POR CÓDIGO OP DECRESCENTE") {
-                comando = comando + " ORDER BY FATURAMENTOS.CODIGO_OP DESC";
+                comando = comando + " ORDER BY faturamentos.CODIGO_OP DESC";
             } else if (tipoCondicaoOrdenar == "POR QUANTIDADE CRESCENTE") {
-                comando = comando + " ORDER BY FATURAMENTOS.QTD_ENTREGUE ASC";
+                comando = comando + " ORDER BY faturamentos.QTD_ENTREGUE ASC";
             } else if (tipoCondicaoOrdenar == "POR QUANTIDADE DECRESCENTE") {
-                comando = comando + " ORDER BY FATURAMENTOS.QTD_ENTREGUE DESC";
+                comando = comando + " ORDER BY faturamentos.QTD_ENTREGUE DESC";
             } else if (tipoCondicaoOrdenar == "POR EMISSOR") {
-                comando = comando + " ORDER BY FATURAMENTOS.EMISSOR ASC";
+                comando = comando + " ORDER BY faturamentos.EMISSOR ASC";
             } else if (tipoCondicaoOrdenar == "POR TIPO DE PESSOA") {
                 comando = comando + " ORDER BY tabela_ordens_producao.tipo_cliente ASC";
             } else if (tipoCondicaoOrdenar == "POR VALOR CRESCENTE") {
-                comando = comando + " ORDER BY FATURAMENTOS.VLR_FAT ASC";
+                comando = comando + " ORDER BY faturamentos.VLR_FAT ASC";
             } else if (tipoCondicaoOrdenar == "POR VALOR DECRESCENTE") {
-                comando = comando + " ORDER BY FATURAMENTOS.VLR_FAT DESC";
+                comando = comando + " ORDER BY faturamentos.VLR_FAT DESC";
             } else if (tipoCondicaoOrdenar == "POR DATA MAIS ATUAL") {
-                comando = comando + " ORDER BY FATURAMENTOS.DT_FAT DESC";
+                comando = comando + " ORDER BY faturamentos.DT_FAT DESC";
             } else if (tipoCondicaoOrdenar == "POR DATA MAIS ANTIGA") {
-                comando = comando + " ORDER BY FATURAMENTOS.DT_FAT ASC";
+                comando = comando + " ORDER BY faturamentos.DT_FAT ASC";
             }
         } else {
 
-            comando = comando + " FATURAMENTOS.CODIGO";
+            comando = comando + " faturamentos.CODIGO";
             primeiro += 1;
 
             if (primeiro == 0) {
-                comando = comando + " FATURAMENTOS.CODIGO_OP";
+                comando = comando + " faturamentos.CODIGO_OP";
                 primeiro += 1;
             } else {
-                comando = comando + ", FATURAMENTOS.CODIGO_OP";
+                comando = comando + ", faturamentos.CODIGO_OP";
             }
             
             if(produto){
@@ -637,18 +637,18 @@ public class RelatoriosFinanceiroDAO {
 
             if (codigoOrcamento == true) {
                 if (primeiro == 0) {
-                    comando = comando + " FATURAMENTOS.CODIGO_ORC";
+                    comando = comando + " faturamentos.CODIGO_ORC";
                     primeiro += 1;
                 } else {
-                    comando = comando + ", FATURAMENTOS.CODIGO_ORC";
+                    comando = comando + ", faturamentos.CODIGO_ORC";
                 }
             }
             if (emissor == true) {
                 if (primeiro == 0) {
-                    comando = comando + " FATURAMENTOS.EMISSOR";
+                    comando = comando + " faturamentos.EMISSOR";
                     primeiro += 1;
                 } else {
-                    comando = comando + ", FATURAMENTOS.EMISSOR";
+                    comando = comando + ", faturamentos.EMISSOR";
                 }
             }
 
@@ -668,26 +668,26 @@ public class RelatoriosFinanceiroDAO {
 
             if (quantidadeEntregue == true) {
                 if (primeiro == 0) {
-                    comando = comando + " FATURAMENTOS.QTD_ENTREGUE";
+                    comando = comando + " faturamentos.QTD_ENTREGUE";
                     primeiro += 1;
                 } else {
-                    comando = comando + ", FATURAMENTOS.QTD_ENTREGUE";
+                    comando = comando + ", faturamentos.QTD_ENTREGUE";
                 }
             }
             if (valor == true) {
                 if (primeiro == 0) {
-                    comando = comando + " FATURAMENTOS.VLR_FAT";
+                    comando = comando + " faturamentos.VLR_FAT";
                     primeiro += 1;
                 } else {
-                    comando = comando + ", FATURAMENTOS.VLR_FAT";
+                    comando = comando + ", faturamentos.VLR_FAT";
                 }
             }
             if (data == true) {
                 if (primeiro == 0) {
-                    comando = comando + " FATURAMENTOS.DT_FAT";
+                    comando = comando + " faturamentos.DT_FAT";
                     primeiro += 1;
                 } else {
-                    comando = comando + ", FATURAMENTOS.DT_FAT";
+                    comando = comando + ", faturamentos.DT_FAT";
                 }
             }
 
@@ -702,61 +702,61 @@ public class RelatoriosFinanceiroDAO {
                         + "tabela_notas_transporte.nome_transportador";
             }
 
-            comando = comando + " FROM FATURAMENTOS";
+            comando = comando + " FROM faturamentos";
             comando = comando + " INNER JOIN tabela_notas_transporte "
-                    + "ON tabela_notas_transporte.cod_nota = FATURAMENTOS.CODIGO";
+                    + "ON tabela_notas_transporte.cod_nota = faturamentos.CODIGO";
             comando = comando + " INNER JOIN tabela_ordens_producao "
-                    + "ON tabela_ordens_producao.cod = FATURAMENTOS.CODIGO_OP";
+                    + "ON tabela_ordens_producao.cod = faturamentos.CODIGO_OP";
             primeiro = 0;
 
             if (primeiro == 0) {
-                comando = comando + " WHERE tabela_notas_transporte.cod_nota = FATURAMENTOS.CODIGO";
+                comando = comando + " WHERE tabela_notas_transporte.cod_nota = faturamentos.CODIGO";
                 primeiro += 1;
             } else {
-                comando = comando + " AND tabela_notas_transporte.cod_nota = FATURAMENTOS.CODIGO";
+                comando = comando + " AND tabela_notas_transporte.cod_nota = faturamentos.CODIGO";
             }
 
             if (tipoCondicaoOpOrcamento == "ORDEM DE PRODUÇÃO (CÓDIGO)") {
                 System.out.println("entrou");
                 if (primeiro == 0) {
-                    comando = comando + " WHERE FATURAMENTOS.CODIGO_OP = " + Integer.valueOf(textoOpOrcamento);
+                    comando = comando + " WHERE faturamentos.CODIGO_OP = " + Integer.valueOf(textoOpOrcamento);
                     primeiro += 1;
                 } else {
-                    comando = comando + " AND FATURAMENTOS.CODIGO_OP = " + Integer.valueOf(textoOpOrcamento);
+                    comando = comando + " AND faturamentos.CODIGO_OP = " + Integer.valueOf(textoOpOrcamento);
                 }
             } else if (tipoCondicaoOpOrcamento == "ORÇAMENTO (CÓDIGO)") {
                 if (primeiro == 0) {
-                    comando = comando + " WHERE FATURAMENTOS.CODIGO_ORC = " + Integer.valueOf(textoOpOrcamento);
+                    comando = comando + " WHERE faturamentos.CODIGO_ORC = " + Integer.valueOf(textoOpOrcamento);
                     primeiro += 1;
                 } else {
-                    comando = comando + " AND FATURAMENTOS.CODIGO_ORC = " + Integer.valueOf(textoOpOrcamento);
+                    comando = comando + " AND faturamentos.CODIGO_ORC = " + Integer.valueOf(textoOpOrcamento);
                 }
             }
 
             if (tipoCondicaoEmissor == "POR EMISSOR") {
                 if (primeiro == 0) {
-                    comando = comando + " WHERE FATURAMENTOS.EMISSOR = '" + textoEmissor + "'";
+                    comando = comando + " WHERE faturamentos.EMISSOR = '" + textoEmissor + "'";
                     primeiro += 1;
                 } else {
-                    comando = comando + " AND FATURAMENTOS.EMISSOR = '" + textoEmissor + "'";
+                    comando = comando + " AND faturamentos.EMISSOR = '" + textoEmissor + "'";
                 }
             }
 
             if (tipoCondicaoPeriodo == "POR DIA") {
                 if (primeiro == 0) {
-                    comando = comando + " WHERE FATURAMENTOS.DT_FAT = '" + periodoInicio + "'";
+                    comando = comando + " WHERE faturamentos.DT_FAT = '" + periodoInicio + "'";
                     primeiro += 1;
                 } else {
-                    comando = comando + " AND FATURAMENTOS.DT_FAT = '" + periodoInicio + "'";
+                    comando = comando + " AND faturamentos.DT_FAT = '" + periodoInicio + "'";
                 }
             } else if (tipoCondicaoPeriodo == "POR PERIODO") {
                 if (primeiro == 0) {
-                    comando = comando + " WHERE FATURAMENTOS.DT_FAT "
+                    comando = comando + " WHERE faturamentos.DT_FAT "
                             + "BETWEEN '" + periodoInicio + "' "
                             + "AND '" + periodoFim + "'";
                     primeiro += 1;
                 } else {
-                    comando = comando + " AND FATURAMENTOS.DT_FAT "
+                    comando = comando + " AND faturamentos.DT_FAT "
                             + "BETWEEN '" + periodoInicio + "' "
                             + "AND '" + periodoFim + "'";
                 }
@@ -784,29 +784,29 @@ public class RelatoriosFinanceiroDAO {
             }
 
             if (tipoCondicaoOrdenar == "POR CÓDIGO CRESCENTE") {
-                comando = comando + " ORDER BY FATURAMENTOS.CODIGO ASC";
+                comando = comando + " ORDER BY faturamentos.CODIGO ASC";
             } else if (tipoCondicaoOrdenar == "POR CÓDIGO DECRESCENTE") {
-                comando = comando + " ORDER BY FATURAMENTOS.CODIGO DESC";
+                comando = comando + " ORDER BY faturamentos.CODIGO DESC";
             } else if (tipoCondicaoOrdenar == "POR CÓDIGO OP CRESCENTE") {
-                comando = comando + " ORDER BY FATURAMENTOS.CODIGO_OP ASC";
+                comando = comando + " ORDER BY faturamentos.CODIGO_OP ASC";
             } else if (tipoCondicaoOrdenar == "POR CÓDIGO OP DECRESCENTE") {
-                comando = comando + " ORDER BY FATURAMENTOS.CODIGO_OP DESC";
+                comando = comando + " ORDER BY faturamentos.CODIGO_OP DESC";
             } else if (tipoCondicaoOrdenar == "POR QUANTIDADE CRESCENTE") {
-                comando = comando + " ORDER BY FATURAMENTOS.QTD_ENTREGUE ASC";
+                comando = comando + " ORDER BY faturamentos.QTD_ENTREGUE ASC";
             } else if (tipoCondicaoOrdenar == "POR QUANTIDADE DECRESCENTE") {
-                comando = comando + " ORDER BY FATURAMENTOS.QTD_ENTREGUE DESC";
+                comando = comando + " ORDER BY faturamentos.QTD_ENTREGUE DESC";
             } else if (tipoCondicaoOrdenar == "POR EMISSOR") {
-                comando = comando + " ORDER BY FATURAMENTOS.EMISSOR ASC";
+                comando = comando + " ORDER BY faturamentos.EMISSOR ASC";
             } else if (tipoCondicaoOrdenar == "POR TIPO DE PESSOA") {
                 comando = comando + " ORDER BY tabela_ordens_producao.tipo_cliente ASC";
             } else if (tipoCondicaoOrdenar == "POR VALOR CRESCENTE") {
-                comando = comando + " ORDER BY FATURAMENTOS.VLR_FAT ASC";
+                comando = comando + " ORDER BY faturamentos.VLR_FAT ASC";
             } else if (tipoCondicaoOrdenar == "POR VALOR DECRESCENTE") {
-                comando = comando + " ORDER BY FATURAMENTOS.VLR_FAT DESC";
+                comando = comando + " ORDER BY faturamentos.VLR_FAT DESC";
             } else if (tipoCondicaoOrdenar == "POR DATA MAIS ATUAL") {
-                comando = comando + " ORDER BY FATURAMENTOS.DT_FAT DESC";
+                comando = comando + " ORDER BY faturamentos.DT_FAT DESC";
             } else if (tipoCondicaoOrdenar == "POR DATA MAIS ANTIGA") {
-                comando = comando + " ORDER BY FATURAMENTOS.DT_FAT ASC";
+                comando = comando + " ORDER BY faturamentos.DT_FAT ASC";
             }
         }
         System.out.println(comando);
@@ -837,16 +837,16 @@ public class RelatoriosFinanceiroDAO {
                 RelatoriosFatBEAN fat = new RelatoriosFatBEAN();
 
                 if (codigo == true) {
-                    fat.setCod(rs.getInt("FATURAMENTOS.CODIGO"));
+                    fat.setCod(rs.getInt("faturamentos.CODIGO"));
                 }
                 if (codigoOp == true) {
-                    fat.setCodOp(rs.getInt("FATURAMENTOS.CODIGO_OP"));
+                    fat.setCodOp(rs.getInt("faturamentos.CODIGO_OP"));
                 }
                 if (codigoOrcamento == true) {
-                    fat.setCodOrcamento(rs.getInt("FATURAMENTOS.CODIGO_ORC"));
+                    fat.setCodOrcamento(rs.getInt("faturamentos.CODIGO_ORC"));
                 }
                 if (emissor == true) {
-                    fat.setCodEmissor(rs.getString("FATURAMENTOS.EMISSOR"));
+                    fat.setCodEmissor(rs.getString("faturamentos.EMISSOR"));
                 }
                 if (codigoCliente == true) {
                     fat.setCodCliente(rs.getInt("tabela_ordens_producao.cod_cliente"));
@@ -866,13 +866,13 @@ public class RelatoriosFinanceiroDAO {
                     fat.setTipo_pessoa(rs.getInt("tabela_ordens_producao.tipo_cliente"));
                 }
                 if (quantidadeEntregue == true) {
-                    fat.setQuantidadeEntregue(rs.getInt("FATURAMENTOS.QTD_ENTREGUE"));
+                    fat.setQuantidadeEntregue(rs.getInt("faturamentos.QTD_ENTREGUE"));
                 }
                 if (valor == true) {
-                    fat.setValor(rs.getFloat("FATURAMENTOS.VLR_FAT"));
+                    fat.setValor(rs.getFloat("faturamentos.VLR_FAT"));
                 }
                 if (data == true) {
-                    fat.setData(rs.getString("FATURAMENTOS.DT_FAT"));
+                    fat.setData(rs.getString("faturamentos.DT_FAT"));
                 }
                 if (nomeTransportador == true) {
                     fat.setNomeTransportador(rs.getString("tabela_notas_transporte.nome_transportador"));

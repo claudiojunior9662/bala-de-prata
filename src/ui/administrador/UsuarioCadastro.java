@@ -6,8 +6,8 @@
 package ui.administrador;
 
 import exception.EnvioExcecao;
-import ui.login.TelaAutenticacao;
 import java.sql.SQLException;
+import java.util.Date;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import model.tabelas.UsuarioTableModel;
@@ -31,16 +31,13 @@ public class UsuarioCadastro extends javax.swing.JInternalFrame {
      */
     public UsuarioCadastro() {
         initComponents();
-        excluir.setEnabled(false);
-        pesquisaTexto.setText("");
-        pesquisaComboAux.setEnabled(false);
-        resetarSenha.setEnabled(false);
-        editar.setEnabled(false);
-        ativar.setEnabled(false);
-        desativar.setEnabled(false);
-        
-        
-        tabelaAtendentes.setModel(model);
+        btnResetarSenha.setEnabled(false);
+        btnEditar.setEnabled(false);
+        btnAtivar.setEnabled(false);
+        btnDesativar.setEnabled(false);
+
+        carregaLista(null, null, null);
+        tblUsr.setModel(model);
     }
 
     /**
@@ -53,71 +50,69 @@ public class UsuarioCadastro extends javax.swing.JInternalFrame {
     private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel();
-        jLabel1 = new javax.swing.JLabel();
-        nomeAtendente = new javax.swing.JTextField();
-        jLabel2 = new javax.swing.JLabel();
-        jLabel3 = new javax.swing.JLabel();
-        novoLogin = new javax.swing.JTextField();
-        jLabel4 = new javax.swing.JLabel();
-        tipoAtendente = new javax.swing.JComboBox<>();
-        jLabel5 = new javax.swing.JLabel();
-        codigoAtendente = new javax.swing.JFormattedTextField();
-        cadastrar = new javax.swing.JButton();
-        novaSenha = new javax.swing.JPasswordField();
+        jtfNomeUsr = new javax.swing.JTextField();
+        jtfLoginUsr = new javax.swing.JTextField();
+        jcbTipoUsr = new javax.swing.JComboBox<>();
+        jftfCodigoUsr = new javax.swing.JFormattedTextField();
+        btnCadastrar = new javax.swing.JButton();
+        jpfSenhaUsr = new javax.swing.JPasswordField();
         jScrollPane1 = new javax.swing.JScrollPane();
-        tabelaAtendentes = new javax.swing.JTable();
-        excluir = new javax.swing.JButton();
-        jPanel2 = new javax.swing.JPanel();
-        jLabel6 = new javax.swing.JLabel();
-        pesquisaCombo = new javax.swing.JComboBox<>();
-        pesquisaComboAux = new javax.swing.JComboBox<>();
-        pesquisaTexto = new javax.swing.JTextField();
-        pesquisar = new javax.swing.JButton();
-        editar = new javax.swing.JButton();
-        desativar = new javax.swing.JButton();
-        ativar = new javax.swing.JButton();
-        resetarSenha = new javax.swing.JButton();
+        tblUsr = new javax.swing.JTable();
+        btnEditar = new javax.swing.JButton();
+        btnDesativar = new javax.swing.JButton();
+        btnAtivar = new javax.swing.JButton();
+        btnResetarSenha = new javax.swing.JButton();
         jScrollPane2 = new javax.swing.JScrollPane();
         tblAcessos = new javax.swing.JTable();
 
-        jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "CADASTRO DE ATENDENTES", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 12))); // NOI18N
+        setTitle("CADASTRO DE ATENDENTES");
 
-        jLabel1.setText("NOME:");
+        jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 12))); // NOI18N
 
-        jLabel2.setText("CÓDIGO:");
+        jtfNomeUsr.setBorder(javax.swing.BorderFactory.createTitledBorder("NOME"));
 
-        jLabel3.setText("NOVO LOGIN:");
+        jtfLoginUsr.setBorder(javax.swing.BorderFactory.createTitledBorder("LOGIN"));
+        jtfLoginUsr.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                jtfLoginUsrFocusLost(evt);
+            }
+        });
 
-        jLabel4.setText("NOVA SENHA:");
-
-        tipoAtendente.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "SELECIONE...", "ADMINISTRADOR", "USUÁRIO" }));
-        tipoAtendente.addItemListener(new java.awt.event.ItemListener() {
+        jcbTipoUsr.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "SELECIONE...", "ADMINISTRADOR", "USUÁRIO" }));
+        jcbTipoUsr.setBorder(javax.swing.BorderFactory.createTitledBorder("TIPO"));
+        jcbTipoUsr.addItemListener(new java.awt.event.ItemListener() {
             public void itemStateChanged(java.awt.event.ItemEvent evt) {
-                tipoAtendenteItemStateChanged(evt);
+                jcbTipoUsrItemStateChanged(evt);
             }
         });
-        tipoAtendente.addActionListener(new java.awt.event.ActionListener() {
+        jcbTipoUsr.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                tipoAtendenteActionPerformed(evt);
+                jcbTipoUsrActionPerformed(evt);
             }
         });
 
-        jLabel5.setText("TIPO:");
-
+        jftfCodigoUsr.setBorder(javax.swing.BorderFactory.createTitledBorder("CÓDIGO"));
         try {
-            codigoAtendente.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("???")));
+            jftfCodigoUsr.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("???")));
         } catch (java.text.ParseException ex) {
             ex.printStackTrace();
         }
-
-        cadastrar.setText("CADASTRAR");
-        cadastrar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                cadastrarActionPerformed(evt);
+        jftfCodigoUsr.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                jftfCodigoUsrFocusLost(evt);
             }
         });
 
-        tabelaAtendentes.setModel(new javax.swing.table.DefaultTableModel(
+        btnCadastrar.setText("CADASTRAR");
+        btnCadastrar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCadastrarActionPerformed(evt);
+            }
+        });
+
+        jpfSenhaUsr.setBorder(javax.swing.BorderFactory.createTitledBorder("SENHA"));
+
+        tblUsr.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
@@ -133,95 +128,38 @@ public class UsuarioCadastro extends javax.swing.JInternalFrame {
                 return canEdit [columnIndex];
             }
         });
-        tabelaAtendentes.addMouseListener(new java.awt.event.MouseAdapter() {
+        tblUsr.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                tabelaAtendentesMouseClicked(evt);
+                tblUsrMouseClicked(evt);
             }
         });
-        jScrollPane1.setViewportView(tabelaAtendentes);
+        jScrollPane1.setViewportView(tblUsr);
 
-        excluir.setText("EXCLUIR");
-        excluir.addActionListener(new java.awt.event.ActionListener() {
+        btnEditar.setText("EDITAR");
+        btnEditar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                excluirActionPerformed(evt);
+                btnEditarActionPerformed(evt);
             }
         });
 
-        jPanel2.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
-
-        jLabel6.setText("PESQUISA POR:");
-
-        pesquisaCombo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "SELECIONE...", "NOME ATENDENTE", "CÓDIGO ATENDENTE", "LOGIN ATENDENTE", "TIPO ATENDENTE", "ACESSO PRODUÇÃO", "ACESSO ORÇAMENTAÇÃO" }));
-        pesquisaCombo.addItemListener(new java.awt.event.ItemListener() {
-            public void itemStateChanged(java.awt.event.ItemEvent evt) {
-                pesquisaComboItemStateChanged(evt);
-            }
-        });
-
-        pesquisaComboAux.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "SELECIONE..." }));
-
-        pesquisar.setText("PESQUISAR");
-        pesquisar.addActionListener(new java.awt.event.ActionListener() {
+        btnDesativar.setText("DESATIVAR");
+        btnDesativar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                pesquisarActionPerformed(evt);
+                btnDesativarActionPerformed(evt);
             }
         });
 
-        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
-        jPanel2.setLayout(jPanel2Layout);
-        jPanel2Layout.setHorizontalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jLabel6)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(pesquisaCombo, javax.swing.GroupLayout.PREFERRED_SIZE, 131, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(pesquisaComboAux, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(pesquisaTexto, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(pesquisar)
-                .addGap(140, 140, 140))
-        );
-        jPanel2Layout.setVerticalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
-                    .addComponent(jLabel6)
-                    .addComponent(pesquisaCombo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(pesquisaComboAux, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(pesquisaTexto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(pesquisar))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-
-        editar.setText("EDITAR");
-        editar.addActionListener(new java.awt.event.ActionListener() {
+        btnAtivar.setText("ATIVAR");
+        btnAtivar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                editarActionPerformed(evt);
+                btnAtivarActionPerformed(evt);
             }
         });
 
-        desativar.setText("DESATIVAR");
-        desativar.addActionListener(new java.awt.event.ActionListener() {
+        btnResetarSenha.setText("RESETAR SENHA");
+        btnResetarSenha.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                desativarActionPerformed(evt);
-            }
-        });
-
-        ativar.setText("ATIVAR");
-        ativar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                ativarActionPerformed(evt);
-            }
-        });
-
-        resetarSenha.setText("RESETAR SENHA");
-        resetarSenha.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                resetarSenhaActionPerformed(evt);
+                btnResetarSenhaActionPerformed(evt);
             }
         });
 
@@ -252,75 +190,54 @@ public class UsuarioCadastro extends javax.swing.JInternalFrame {
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel1)
-                            .addComponent(nomeAtendente, javax.swing.GroupLayout.PREFERRED_SIZE, 339, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel2)
-                            .addComponent(codigoAtendente, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(jtfNomeUsr, javax.swing.GroupLayout.PREFERRED_SIZE, 339, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jftfCodigoUsr, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jtfLoginUsr, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 12, Short.MAX_VALUE)
+                        .addComponent(jpfSenhaUsr, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(novoLogin, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel3))
-                        .addGap(18, 18, 18)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel4)
-                            .addComponent(novaSenha, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(18, 18, 18)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel5)
-                            .addComponent(tipoAtendente, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addComponent(jPanel2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jcbTipoUsr, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(resetarSenha)
+                        .addComponent(btnResetarSenha)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(ativar)
+                        .addComponent(btnAtivar)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(desativar)
+                        .addComponent(btnDesativar)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(excluir)
+                        .addComponent(btnEditar)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(editar)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(cadastrar))
+                        .addComponent(btnCadastrar))
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jScrollPane2))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(26, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel1)
-                    .addComponent(jLabel2)
-                    .addComponent(jLabel3)
-                    .addComponent(jLabel4)
-                    .addComponent(jLabel5))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(nomeAtendente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(novoLogin, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(tipoAtendente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(codigoAtendente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(novaSenha, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jcbTipoUsr, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jpfSenhaUsr, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jtfLoginUsr, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jftfCodigoUsr, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jtfNomeUsr, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 265, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 327, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(cadastrar)
-                    .addComponent(excluir)
-                    .addComponent(editar)
-                    .addComponent(desativar)
-                    .addComponent(ativar)
-                    .addComponent(resetarSenha))
+                    .addComponent(btnCadastrar)
+                    .addComponent(btnEditar)
+                    .addComponent(btnDesativar)
+                    .addComponent(btnAtivar)
+                    .addComponent(btnResetarSenha))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
+
+        jPanel1Layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {jcbTipoUsr, jftfCodigoUsr, jpfSenhaUsr, jtfLoginUsr, jtfNomeUsr});
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -342,191 +259,320 @@ public class UsuarioCadastro extends javax.swing.JInternalFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void tipoAtendenteItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_tipoAtendenteItemStateChanged
+    private void jcbTipoUsrItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_jcbTipoUsrItemStateChanged
 
-    }//GEN-LAST:event_tipoAtendenteItemStateChanged
+    }//GEN-LAST:event_jcbTipoUsrItemStateChanged
 
-    private void tipoAtendenteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tipoAtendenteActionPerformed
+    private void jcbTipoUsrActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jcbTipoUsrActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_tipoAtendenteActionPerformed
+    }//GEN-LAST:event_jcbTipoUsrActionPerformed
 
-    private void cadastrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cadastrarActionPerformed
+    private void btnCadastrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCadastrarActionPerformed
+        try {
+            UsuarioBEAN novoUsr = new UsuarioBEAN();
 
-    }//GEN-LAST:event_cadastrarActionPerformed
+            /**
+             * Verifica se todos os campos foram preenchidos corretamente
+             */
+            if (jtfNomeUsr.getText().isEmpty()) {
+                JOptionPane.showMessageDialog(
+                        null,
+                        "INSIRA O NOME DO USUÁRIO",
+                        "ERRO",
+                        0
+                );
+                return;
+            }
+            if (jftfCodigoUsr.getText().isEmpty()) {
+                JOptionPane.showMessageDialog(
+                        null,
+                        "INSIRA O CÓDIGO DO USUÁRIO",
+                        "ERRO",
+                        0
+                );
+                return;
+            }
+            if (jtfLoginUsr.getText().isEmpty()) {
+                JOptionPane.showMessageDialog(
+                        null,
+                        "INSIRA O LOGIN DO USUÁRIO",
+                        "ERRO",
+                        0
+                );
+                return;
+            }
+            if (jcbTipoUsr.getSelectedIndex() == 0) {
+                JOptionPane.showMessageDialog(
+                        null,
+                        "SELECIONE O TIPO DO USUÁRIO",
+                        "ERRO",
+                        0
+                );
+                return;
+            }
 
-    private void tabelaAtendentesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tabelaAtendentesMouseClicked
-        UsuarioBEAN usuarioSel = model.getValueAt(tabelaAtendentes.getSelectedRow());
-        
-        nomeAtendente.setText(usuarioSel.getNome());
-        codigoAtendente.setText(usuarioSel.getCodigo());
-        novoLogin.setText(usuarioSel.getLogin());
-        tipoAtendente.setSelectedItem(usuarioSel.getTipo());
-        
-        resetarSenha.setEnabled(true);
-        editar.setEnabled(true);
-        ativar.setEnabled(true);
-        desativar.setEnabled(true);
-        
-        if(usuarioSel.getAcessoOrc() == 1){
-            if(usuarioSel.getAcessoOrcAdm() == 1){
+            /**
+             * Preenche as informações do usuário
+             */
+            novoUsr.setNome(jtfNomeUsr.getText().toUpperCase());
+            novoUsr.setCodigo(jftfCodigoUsr.getText().toUpperCase());
+            novoUsr.setLogin(jtfLoginUsr.getText().toUpperCase());
+            if (jpfSenhaUsr.getText().isEmpty()) {
+                novoUsr.setSenha(jtfLoginUsr.getText().toLowerCase());
+            } else {
+                novoUsr.setSenha(jpfSenhaUsr.getText());
+            }
+            novoUsr.setUltMudSenha(new Date());
+            switch(jcbTipoUsr.getSelectedIndex()){
+                case 1:
+                    novoUsr.setTipo(jcbTipoUsr.getSelectedItem().toString());
+                    break;
+                case 2:
+                    novoUsr.setTipo(jcbTipoUsr.getSelectedItem().toString());
+                    break;
+            }
+
+            /**
+             * Preenche as informações de acessos do usuário
+             */
+            novoUsr.setAcessoOrc(Boolean.valueOf(tblAcessos.getValueAt(0, 1).toString()) == true | 
+                    Boolean.valueOf(tblAcessos.getValueAt(1, 1).toString()) == true ? (byte) 1 : (byte) 0);
+            novoUsr.setAcessoOrcAdm((Boolean) tblAcessos.getValueAt(1, 1) ? (byte) 1 : (byte) 0);
+            novoUsr.setAcessoProd((Boolean) tblAcessos.getValueAt(0, 2) | 
+                    (Boolean) tblAcessos.getValueAt(1, 2) ? (byte) 1 : (byte) 0);
+            novoUsr.setAcessoProdAdm((Boolean) tblAcessos.getValueAt(1, 2) ? (byte) 1 : (byte) 0);
+            novoUsr.setAcessoExp((Boolean) tblAcessos.getValueAt(0, 3) | 
+                    (Boolean) tblAcessos.getValueAt(1, 3) ? (byte) 1 : (byte) 0);
+            novoUsr.setAcessoExpAdm((Boolean) tblAcessos.getValueAt(1, 3) ? (byte) 1 : (byte) 0);
+            novoUsr.setAcessoFin((Boolean) tblAcessos.getValueAt(0, 4) | 
+                    (Boolean) tblAcessos.getValueAt(1, 4) ? (byte) 1 : (byte) 0);
+            novoUsr.setAcessoFinAdm((Boolean) tblAcessos.getValueAt(1, 4)  ? (byte) 1 : (byte) 0);
+            novoUsr.setAcessoEst((Boolean) tblAcessos.getValueAt(0, 5) | 
+                    (Boolean) tblAcessos.getValueAt(1, 5) ? (byte) 1 : (byte) 0);
+            novoUsr.setAcessoOrd((Boolean) tblAcessos.getValueAt(0, 6) |
+                    (Boolean) tblAcessos.getValueAt(1, 6) ? (byte) 1 : (byte) 0);
+
+            /**
+             * Insere o usuário no banco de dados
+             */
+            UsuarioDAO.cria(novoUsr);
+
+            /**
+             * Exibe mensagem para o usuário
+             */
+            JOptionPane.showMessageDialog(
+                    null,
+                    "O USUÁRIO FOI CADASTRADO COM SUCESSO",
+                    "CONFIRMAÇÃO",
+                    1
+            );
+            limpa();
+            carregaLista(null, null, null);
+        } catch (SQLException ex) {
+            EnvioExcecao envioExcecao = new EnvioExcecao(Controle.getDefaultGj(), ex);
+            EnvioExcecao.envio();
+        }
+    }//GEN-LAST:event_btnCadastrarActionPerformed
+
+    private void tblUsrMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblUsrMouseClicked
+        UsuarioBEAN usuarioSel = model.getValueAt(tblUsr.getSelectedRow());
+        resetaAcessos();
+
+        jtfNomeUsr.setText(usuarioSel.getNome());
+        jftfCodigoUsr.setText(usuarioSel.getCodigo());
+        jtfLoginUsr.setText(usuarioSel.getLogin());
+        jcbTipoUsr.setSelectedItem(usuarioSel.getTipo());
+
+        btnResetarSenha.setEnabled(true);
+        btnEditar.setEnabled(true);
+        btnAtivar.setEnabled(true);
+        btnDesativar.setEnabled(true);
+
+        if (usuarioSel.getAcessoOrc() == 1) {
+            if (usuarioSel.getAcessoOrcAdm() == 1) {
                 tblAcessos.setValueAt(true, 1, 1);
-            }else{
+            } else {
                 tblAcessos.setValueAt(true, 0, 1);
             }
-        }if(usuarioSel.getAcessoProd() == 1){
-            if(usuarioSel.getAcessoProdAdm() == 1){
+        }
+        if (usuarioSel.getAcessoProd() == 1) {
+            if (usuarioSel.getAcessoProdAdm() == 1) {
                 tblAcessos.setValueAt(true, 1, 2);
-            }else{
+            } else {
                 tblAcessos.setValueAt(true, 0, 2);
             }
-        }if(usuarioSel.getAcessoExp() == 1){
-            if(usuarioSel.getAcessoExpAdm() == 1){
+        }
+        if (usuarioSel.getAcessoExp() == 1) {
+            if (usuarioSel.getAcessoExpAdm() == 1) {
                 tblAcessos.setValueAt(true, 1, 3);
-            }else{
+            } else {
                 tblAcessos.setValueAt(true, 0, 3);
             }
-        }if(usuarioSel.getAcessoFin() == 1){
-            if(usuarioSel.getAcessoFinAdm() == 1){
+        }
+        if (usuarioSel.getAcessoFin() == 1) {
+            if (usuarioSel.getAcessoFinAdm() == 1) {
                 tblAcessos.setValueAt(true, 1, 4);
-            }else{
+            } else {
                 tblAcessos.setValueAt(true, 0, 4);
             }
-        }if(usuarioSel.getAcessoEst() == 1){
+        }
+        if (usuarioSel.getAcessoEst() == 1) {
             tblAcessos.setValueAt(true, 0, 5);
-        }if(usuarioSel.getAcessoOrd() == 1){
+        }
+        if (usuarioSel.getAcessoOrd() == 1) {
             tblAcessos.setValueAt(true, 0, 6);
         }
-    }//GEN-LAST:event_tabelaAtendentesMouseClicked
+    }//GEN-LAST:event_tblUsrMouseClicked
 
-    private void excluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_excluirActionPerformed
-        
-    }//GEN-LAST:event_excluirActionPerformed
+    private void btnEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarActionPerformed
 
-    private void pesquisaComboItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_pesquisaComboItemStateChanged
-        
-    }//GEN-LAST:event_pesquisaComboItemStateChanged
+    }//GEN-LAST:event_btnEditarActionPerformed
 
-    private void pesquisarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_pesquisarActionPerformed
-        
-    }//GEN-LAST:event_pesquisarActionPerformed
-
-    private void editarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editarActionPerformed
-
-    }//GEN-LAST:event_editarActionPerformed
-
-    private void desativarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_desativarActionPerformed
+    private void btnDesativarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDesativarActionPerformed
         try {
-            UsuarioDAO.desativaAtivaFuncionario(0, (String) tabelaAtendentes.getValueAt(tabelaAtendentes.getSelectedRow(), 1));
+            UsuarioDAO.desativaAtivaFuncionario(0, (String) tblUsr.getValueAt(tblUsr.getSelectedRow(), 1));
             JOptionPane.showMessageDialog(null, "ATENDENTE DESATIVADO COM SUCESSO", "CONFIRMAÇÃO", JOptionPane.INFORMATION_MESSAGE);
             carregaLista(null, null, null);
         } catch (SQLException ex) {
             EnvioExcecao envioExcecao = new EnvioExcecao(Controle.getDefaultGj(), ex);
             EnvioExcecao.envio();
         }
-    }//GEN-LAST:event_desativarActionPerformed
+    }//GEN-LAST:event_btnDesativarActionPerformed
 
-    private void ativarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ativarActionPerformed
+    private void btnAtivarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAtivarActionPerformed
         try {
-            UsuarioDAO.desativaAtivaFuncionario(1, (String) tabelaAtendentes.getValueAt(tabelaAtendentes.getSelectedRow(), 1));
+            UsuarioDAO.desativaAtivaFuncionario(1, (String) tblUsr.getValueAt(tblUsr.getSelectedRow(), 1));
             JOptionPane.showMessageDialog(null, "ATENDENTE ATIVADO COM SUCESSO", "CONFIRMAÇÃO", JOptionPane.INFORMATION_MESSAGE);
             carregaLista(null, null, null);
         } catch (SQLException ex) {
             EnvioExcecao envioExcecao = new EnvioExcecao(Controle.getDefaultGj(), ex);
             EnvioExcecao.envio();
         }
-    }//GEN-LAST:event_ativarActionPerformed
+    }//GEN-LAST:event_btnAtivarActionPerformed
 
-    private void resetarSenhaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_resetarSenhaActionPerformed
+    private void btnResetarSenhaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnResetarSenhaActionPerformed
         int dialogButton = JOptionPane.YES_NO_OPTION;
         int dialogResult = JOptionPane.showConfirmDialog(this, "A SENHA SERÁ O LOGIN DO ATENDENTE COM LETRAS MINÚSCULAS", "ATENÇÃO!", dialogButton);
         if (dialogResult != 0) {
             return;
         } else {
-            if (tabelaAtendentes.getValueAt(tabelaAtendentes.getSelectedRow(), 2).toString().equals("")
-                    | tabelaAtendentes.getValueAt(tabelaAtendentes.getSelectedRow(), 2) == null) {
+            if (tblUsr.getValueAt(tblUsr.getSelectedRow(), 2).toString().equals("")
+                    | tblUsr.getValueAt(tblUsr.getSelectedRow(), 2) == null) {
                 JOptionPane.showMessageDialog(null, "SELECIONE UM ATENDENTE PARA CONTINUAR", "ERRO", JOptionPane.ERROR_MESSAGE);
                 return;
             }
             try {
-                UsuarioDAO.resetaSenha(tabelaAtendentes.getValueAt(tabelaAtendentes.getSelectedRow(), 2).toString().toLowerCase());
+                UsuarioDAO.resetaSenha(tblUsr.getValueAt(tblUsr.getSelectedRow(), 2).toString().toLowerCase());
                 JOptionPane.showMessageDialog(null, "SENHA RESETADA COM SUCESSO", "CONFIRMAÇÃO", JOptionPane.INFORMATION_MESSAGE);
             } catch (SQLException ex) {
                 EnvioExcecao envioExcecao = new EnvioExcecao(Controle.getDefaultGj(), ex);
                 EnvioExcecao.envio();
             }
         }
-    }//GEN-LAST:event_resetarSenhaActionPerformed
+    }//GEN-LAST:event_btnResetarSenhaActionPerformed
+
+    private void jftfCodigoUsrFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jftfCodigoUsrFocusLost
+        try {
+            if (UsuarioDAO.verificaCodEx(jftfCodigoUsr.getText())) {
+                JOptionPane.showMessageDialog(
+                        null,
+                        "O CÓDIGO DIGITADO JÁ EXISTE",
+                        "ERRO",
+                        0);
+                jftfCodigoUsr.setText("");
+                jftfCodigoUsr.requestFocus();
+            }
+        } catch (SQLException ex) {
+            EnvioExcecao envioExcecao = new EnvioExcecao(Controle.getDefaultGj(), ex);
+            EnvioExcecao.envio();
+        }
+    }//GEN-LAST:event_jftfCodigoUsrFocusLost
+
+    private void jtfLoginUsrFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jtfLoginUsrFocusLost
+        try {
+            if (UsuarioDAO.verificaLoginEx(jtfLoginUsr.getText())) {
+                JOptionPane.showMessageDialog(
+                        null,
+                        "O LOGIN DIGITADO JÁ EXISTE",
+                        "ERRO",
+                        0);
+                jtfLoginUsr.setText("");
+                jtfLoginUsr.requestFocus();
+            }
+        } catch (SQLException ex) {
+            EnvioExcecao envioExcecao = new EnvioExcecao(Controle.getDefaultGj(), ex);
+            EnvioExcecao.envio();
+        }
+    }//GEN-LAST:event_jtfLoginUsrFocusLost
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton ativar;
-    private javax.swing.JButton cadastrar;
-    public static javax.swing.JFormattedTextField codigoAtendente;
-    private javax.swing.JButton desativar;
-    private javax.swing.JButton editar;
-    private javax.swing.JButton excluir;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
-    private javax.swing.JLabel jLabel6;
+    private javax.swing.JButton btnAtivar;
+    private javax.swing.JButton btnCadastrar;
+    private javax.swing.JButton btnDesativar;
+    private javax.swing.JButton btnEditar;
+    private javax.swing.JButton btnResetarSenha;
     public static javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
-    public static javax.swing.JTextField nomeAtendente;
-    public static javax.swing.JPasswordField novaSenha;
-    public static javax.swing.JTextField novoLogin;
-    private javax.swing.JComboBox<String> pesquisaCombo;
-    private javax.swing.JComboBox<String> pesquisaComboAux;
-    private javax.swing.JTextField pesquisaTexto;
-    private javax.swing.JButton pesquisar;
-    private javax.swing.JButton resetarSenha;
-    private javax.swing.JTable tabelaAtendentes;
+    public static javax.swing.JComboBox<String> jcbTipoUsr;
+    public static javax.swing.JFormattedTextField jftfCodigoUsr;
+    public static javax.swing.JPasswordField jpfSenhaUsr;
+    public static javax.swing.JTextField jtfLoginUsr;
+    public static javax.swing.JTextField jtfNomeUsr;
     private javax.swing.JTable tblAcessos;
-    public static javax.swing.JComboBox<String> tipoAtendente;
+    private javax.swing.JTable tblUsr;
     // End of variables declaration//GEN-END:variables
  public void limpa() {
-        nomeAtendente.setText("");
-        novaSenha.setText("");
-        codigoAtendente.setText("");
-        novoLogin.setText("");
-        tipoAtendente.setSelectedIndex(0);
+        jtfNomeUsr.setText("");
+        jpfSenhaUsr.setText("");
+        jftfCodigoUsr.setText("");
+        jtfLoginUsr.setText("");
+        jcbTipoUsr.setSelectedIndex(0);
+        resetaAcessos();
     }
 
     public void carregaLista(String tipo, String tipoAux, String texto) {
         try {
-            DefaultTableModel modeloAtendentes = (DefaultTableModel) tabelaAtendentes.getModel();
-            modeloAtendentes.setNumRows(0);
+            model.setNumRows(0);
 
             if (tipo == null && tipoAux == null && texto == null) {
                 for (UsuarioBEAN usuario : UsuarioDAO.carregaLista()) {
                     model.addRow(usuario);
                 }
             } else {
-                for (UsuarioBEAN cadastroFuncionariosBEAN : 
-                        UsuarioDAO.retornaPesquisa(tipo, tipoAux, texto)) {
-
-                    modeloAtendentes.addRow(new Object[]{
-                        cadastroFuncionariosBEAN.getNome(),
-                        cadastroFuncionariosBEAN.getCodigo(),
-                        cadastroFuncionariosBEAN.getLogin(),
-                        cadastroFuncionariosBEAN.getTipo(),
-                        cadastroFuncionariosBEAN.getAcessoOrc() == 1 ? "SIM" : "NÃO",
-                        cadastroFuncionariosBEAN.getAcessoProd() == 1 ? "SIM" : "NÃO",
-                        cadastroFuncionariosBEAN.getAcessoExp() == 1 ? "SIM" : "NÃO",
-                        cadastroFuncionariosBEAN.getAcessoFin() == 1 ? "SIM" : "NÃO",
-                        cadastroFuncionariosBEAN.getAcessoEst() == 1 ? "SIM" : "NÃO",
-                        cadastroFuncionariosBEAN.getAtivo() == 1 ? "SIM" : "NÃO"
-
-                    });
+                for (UsuarioBEAN usuario
+                        : UsuarioDAO.retornaPesquisa(tipo, tipoAux, texto)) {
+                    model.addRow(usuario);
                 }
             }
         } catch (SQLException ex) {
             EnvioExcecao envioExcecao = new EnvioExcecao(Controle.getDefaultGj(), ex);
             EnvioExcecao.envio();
         }
+    }
+
+    private void resetaAcessos() {
+        DefaultTableModel modeloAcessos = (DefaultTableModel) tblAcessos.getModel();
+        modeloAcessos.setNumRows(0);
+        modeloAcessos.addRow(new Object[]{
+            "USUÁRIO",
+            false,
+            false,
+            false,
+            false,
+            false,
+            false
+        });
+        modeloAcessos.addRow(new Object[]{
+            "ADMIN",
+            false,
+            false,
+            false,
+            false,
+            false,
+            false
+        });
     }
 
 }

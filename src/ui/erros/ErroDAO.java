@@ -30,7 +30,7 @@ public class ErroDAO {
         PreparedStatement stmt = null;
 
         try {
-            stmt = con.prepareStatement("INSERT INTO ERROS(DESCRICAO, STATUS, USUARIO) "
+            stmt = con.prepareStatement("INSERT INTO erros(DESCRICAO, STATUS, USUARIO) "
                     + "VALUES(?,?,?)");
             stmt.setString(1, erro.getDescricao());
             stmt.setString(2, erro.getSts());
@@ -58,7 +58,7 @@ public class ErroDAO {
 
         try {
             stmt = con.prepareStatement("SELECT * "
-                    + "FROM ERROS "
+                    + "FROM erros "
                     + "ORDER BY ID "
                     + "DESC");
             rs = stmt.executeQuery();
@@ -87,7 +87,7 @@ public class ErroDAO {
         PreparedStatement stmt = null;
 
         try {
-            stmt = con.prepareStatement("DELETE FROM ERROS "
+            stmt = con.prepareStatement("DELETE FROM erros "
                     + "WHERE ID = ?");
             stmt.setInt(1, codErr);
             stmt.executeUpdate();
@@ -108,7 +108,7 @@ public class ErroDAO {
         PreparedStatement stmt = null;
 
         try {
-            stmt = con.prepareStatement("UPDATE ERROS "
+            stmt = con.prepareStatement("UPDATE erros "
                     + "SET STATUS = ? "
                     + "WHERE ID = ?");
             stmt.setString(1, erro.getSts());

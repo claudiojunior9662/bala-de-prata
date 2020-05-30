@@ -35,9 +35,9 @@ public class Controle {
      * Define o tipo de acessos de acordo com o estado da aplicação
      *
      * @param tipoVersao 1 - produção 2 - desenvolvimento rede 3 -
-     * desenvolvimento local
+     * desenvolvimento local 4 - peixoto
      */
-    private static byte tipoVersao = 3;
+    private static byte tipoVersao = 4;
 
     public static byte getTipoVersao() {
         return tipoVersao;
@@ -94,6 +94,9 @@ public class Controle {
     public static String urlTempUnix = System.getProperty("java.io.tmpdir") + "/";
     
     public static List<StsOrcamento> stsOrcamento;
+    
+    //MENSAGENS PADRÃO
+    public static String naoAdm = "VOCÊ PRECISA SER UM ADMINISTRADOR DESTE MÓDULO PARA ACESSAR ESTA FUNÇÃO";
     
     /**
      * Gerente de janelas
@@ -389,7 +392,7 @@ public class Controle {
         
         try{
             stmt = con.prepareStatement("SELECT CODIGO, ATUALIZACAO "
-                    + "FROM VERSAO "
+                    + "FROM versao "
                     + "WHERE CODIGO != ? OR ATUALIZACAO != ?");
             stmt.setString(1, codigo);
             stmt.setString(2, atualizacao);

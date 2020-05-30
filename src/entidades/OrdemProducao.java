@@ -813,7 +813,7 @@ public class OrdemProducao {
                 /**
                  * Procura as informações do produto
                  */
-                ProdutoBEAN produto = ProdutoDAO.retornaInfoProd(op.getCodProduto(), (byte) 1);
+                ProdutoBEAN produto = ProdutoDAO.retornaInfoProd(op.getCodProduto(), op.getTipoProduto());
 
                 /**
                  * Preenche as informações do produto

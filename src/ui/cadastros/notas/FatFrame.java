@@ -113,7 +113,7 @@ public class FatFrame extends javax.swing.JInternalFrame {
 
         listaCancelamento.add(2018);
         listaCancelamento.add(2019);
-        
+
         avisoAnoFin.setVisible(false);
     }
 
@@ -1105,7 +1105,6 @@ public class FatFrame extends javax.swing.JInternalFrame {
     private void botaoEditarNotaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botaoEditarNotaActionPerformed
         estadoEditar();
         valorAntigo = Float.valueOf(vlrTotalNota.getValue().toString());
-        System.out.println(valorAntigo);
     }//GEN-LAST:event_botaoEditarNotaActionPerformed
 
     private void botaoExcluirNotaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botaoExcluirNotaActionPerformed
@@ -1553,8 +1552,7 @@ public class FatFrame extends javax.swing.JInternalFrame {
 //            }
 //        }.start();
 //    }
-
-    //ESTADOS DA UI--------1-----------------------------------------------------
+    //ESTADOS DA UI-------------------------------------------------------------
     public void estadoInicial() {
         EDITAR = false;
         INCLUIR = false;
@@ -1631,8 +1629,17 @@ public class FatFrame extends javax.swing.JInternalFrame {
         //BOTOES PRINCIPAIS-----------------------------------------------------
         botaoPesquisarNota.setEnabled(false);
         botaoIncluirNota.setEnabled(false);
-        botaoEditarNota.setEnabled(true);
-        botaoExcluirNota.setEnabled(true);
+
+        if (TelaAutenticacao.getUsrLogado().getAcessoExpAdm() == 1) {
+            botaoEditarNota.setEnabled(true);
+            botaoExcluirNota.setEnabled(true);
+        } else {
+            botaoEditarNota.setEnabled(false);
+            botaoExcluirNota.setEnabled(false);
+            botaoEditarNota.setToolTipText(Controle.naoAdm);
+            botaoExcluirNota.setToolTipText(Controle.naoAdm);
+        }
+
         botaoGravarNota.setEnabled(false);
         botaoCancelarNota.setEnabled(true);
         botaoGerarArquivo.setEnabled(true);
@@ -2095,12 +2102,12 @@ public class FatFrame extends javax.swing.JInternalFrame {
         try {
             double vlrTotal = 0d;
             if (!listaCancelamento.contains(OrdemProducaoDAO.retornaAnoOp(Integer.valueOf(codOp.getText())))) {
-                vlrTotal += (int) qtdSerEntregue.getValue() * 
-                        Double.valueOf(valorUnitario.getText().replace(",", ".").replace("R$ ", ""));
+                vlrTotal += (int) qtdSerEntregue.getValue()
+                        * Double.valueOf(valorUnitario.getText().replace(",", ".").replace("R$ ", ""));
                 vlrTotal += faturarServicos.isSelected() ? Double.valueOf(valorServicos.getText().replace(",", ".").replace("R$ ", "")) : 0d;
                 vlrTotal += faturarFrete.isSelected() ? Double.valueOf(valorFrete.getText().replace(",", ".").replace("R$ ", "")) : 0d;
                 valorTotalEntregue.setValue(vlrTotal);
-            }else{
+            } else {
                 avisoAnoFin.setVisible(true);
             }
             if (EDITAR | INCLUIR) {
@@ -2234,23 +2241,13 @@ public class FatFrame extends javax.swing.JInternalFrame {
              * Excluir notas
              */
             if (EDITAR) {
-                JLabel label = new JLabel("DIGITE A SENHA");
-                JPasswordField jpf = new JPasswordField();
-                int retorno = JOptionPane.showConfirmDialog(null, new Object[]{label, jpf}, "SENHA MESTRA:", JOptionPane.OK_CANCEL_OPTION);
-                String resposta = String.valueOf(jpf.getPassword());
-                if (retorno != 0 || !resposta.matches("Financeiro77910@")) {
-                    JOptionPane.showMessageDialog(null, "SENHA INCORRETA!");
-                    loading.setVisible(false);
-                    return;
-                } else {
-                    ClienteDAO.corrigeCredito((int) codigoCliente.getValue(),
-                            tipoCliente.getText().contains("FÍSICA") ? (byte) 1 : (byte) 2,
-                            valorAntigo, (byte) 1);
-                    STATUS_FATURAMENTO = 0;
-                    NotaDAO.excluiVolumes(FAT.getCod());
-                    NotaDAO.excluiTransportes(FAT.getCod());
-                    NotaDAO.removeFat(FAT.getCod());
-                }
+                ClienteDAO.corrigeCredito((int) codigoCliente.getValue(),
+                        tipoCliente.getText().contains("FÍSICA") ? (byte) 1 : (byte) 2,
+                        valorAntigo, (byte) 1);
+                STATUS_FATURAMENTO = 0;
+                NotaDAO.excluiVolumes(FAT.getCod());
+                NotaDAO.excluiTransportes(FAT.getCod());
+                NotaDAO.removeFat(FAT.getCod());
             } else {
                 FAT.setCod(NotaDAO.retornaUltFat() + 1);
             }

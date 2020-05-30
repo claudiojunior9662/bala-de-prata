@@ -361,10 +361,7 @@ public class TelaAutenticacao extends javax.swing.JFrame {
                     mInt.setVisible(true);
                     this.setVisible(false);
 
-                    JOptionPane.showMessageDialog(null, "CORREÇÕES E ATUALIZAÇÕES DA v.2.3.3 Alfa (10-05-2020)\n"
-                            + "- Implementação da inserção de informações sobre o pagamento de empenhos via\n"
-                            + "SIGA/SIAFI e GRU ao lançar as notas de crédito para os clientes;\n"
-                            + "CORREÇÕES E ATUALIZAÇÕES DA v.2.3.3 Bravo (11-05-2020)\n"
+                    JOptionPane.showMessageDialog(null, "CORREÇÕES E ATUALIZAÇÕES DA v.2.3.3 Bravo (11-05-2020)\n"
                             + "- Correção ao gerar pdf de OP sem acabamento;\n"
                             + "CORREÇÕES E ATUALIZAÇÕES DA v.2.3.3 Echo (15-05-2020)\n"
                             + "- Adicionada a opção de acrescentar motivo do cancelamento da OP;\n"
@@ -388,6 +385,8 @@ public class TelaAutenticacao extends javax.swing.JFrame {
                             + "- Remoção da limitação para adicionar produtos para pronta entrega na proposta de orçamento;\n"
                             + "CORREÇÕES E ATUALIZAÇÕES DA v.2.3.4 Delta (29-05-2020)\n"
                             + "- Correção do cadastro de produtos a pronta entrega;\n"
+                            + "CORREÇÕES E ATUALIZAÇÕES DA v.2.3.5 Alfa (30-05-2020)\n"
+                            + "- Redefinição dos acessos de usuários;\n"
                             + "AVISOS:\n"
                             + "- Todas as sugestões de melhoria de usabilidade do programa serão estudadas, mas não há previsão de implementação;\n"
                             + "- Qualquer problema nas correções acima expostas deverão ser informados o mais rápido possível à SPD;\n"
@@ -400,6 +399,7 @@ public class TelaAutenticacao extends javax.swing.JFrame {
                 lblEntrar.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
             }
         } catch (SQLException ex) {
+            System.out.println(ex);
             EnvioExcecao envioExcecao = new EnvioExcecao(Controle.getDefaultGj(), ex);
             EnvioExcecao.envio();
         }catch(UsuarioSenhaIncorretosException | UsuarioNaoAtivoException ex){

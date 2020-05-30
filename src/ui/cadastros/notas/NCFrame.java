@@ -47,7 +47,7 @@ public class NCFrame extends javax.swing.JInternalFrame {
         initComponents();
         this.loading = loading;
         this.gj = gj;
-        estado1();
+        estadoInicial();
     }
 
     /**
@@ -997,29 +997,19 @@ public class NCFrame extends javax.swing.JInternalFrame {
                      * Grava no banco
                      */
                     if (editar == true) {
-                        JLabel label = new JLabel("DIGITE A SENHA");
-                        JPasswordField jpf = new JPasswordField();
-                        int retorno = JOptionPane.showConfirmDialog(null, new Object[]{label, jpf}, "SENHA MESTRA:", JOptionPane.OK_CANCEL_OPTION);
-                        String resposta = String.valueOf(jpf.getPassword());
-                        if (retorno != 0 || resposta.matches("Financeiro00915@") == false) {
-                            JOptionPane.showMessageDialog(null, "SENHA INCORRETA!");
-                            loading.setVisible(false);
-                            return;
+                        float valor = Float.valueOf(valorNota.getText().replace(",", "."));
+                        int tipoPessoa = 0;
+                        if (tipoCliente.getText().equals("PESSOA FÍSICA")) {
+                            tipoPessoa = 1;
                         } else {
-                            float valor = Float.valueOf(valorNota.getText().replace(",", "."));
-                            int tipoPessoa = 0;
-                            if (tipoCliente.getText().equals("PESSOA FÍSICA")) {
-                                tipoPessoa = 1;
-                            } else {
-                                tipoPessoa = 2;
-                            }
-                            CODIGO_NOTA = Integer.valueOf(numeroNota.getValue().toString());
-                            ClienteDAO.corrigeCredito((int) codigoCliente.getValue(),
-                                    (byte) tipoPessoa,
-                                    valorAntigo,
-                                    (byte) 2);
-                            NotaDAO.atualizaNC(nota);
+                            tipoPessoa = 2;
                         }
+                        CODIGO_NOTA = Integer.valueOf(numeroNota.getValue().toString());
+                        ClienteDAO.corrigeCredito((int) codigoCliente.getValue(),
+                                (byte) tipoPessoa,
+                                valorAntigo,
+                                (byte) 2);
+                        NotaDAO.atualizaNC(nota);
                     } else {
                         NotaDAO.gravaNotaCredito(nota);
                     }
@@ -1251,7 +1241,7 @@ public class NCFrame extends javax.swing.JInternalFrame {
     // End of variables declaration//GEN-END:variables
 
     //ESTADOS DA UI-------------------------------------------------------------
-    public void estado1() {
+    public void estadoInicial() {
         //BOTOES PRINCIPAIS-----------------------------------------------------
         botaoPesquisarNota.setEnabled(true);
         botaoIncluirNota.setEnabled(true);
@@ -1291,8 +1281,17 @@ public class NCFrame extends javax.swing.JInternalFrame {
         //BOTOES PRINCIPAIS-----------------------------------------------------
         botaoPesquisarNota.setEnabled(false);
         botaoIncluirNota.setEnabled(false);
-        botaoEditarNota.setEnabled(true);
-        botaoExcluirNota.setEnabled(true);
+
+        if (TelaAutenticacao.getUsrLogado().getAcessoExpAdm() == 1) {
+            botaoEditarNota.setEnabled(true);
+            botaoExcluirNota.setEnabled(true);
+        } else {
+            botaoEditarNota.setEnabled(false);
+            botaoExcluirNota.setEnabled(false);
+            botaoEditarNota.setToolTipText(Controle.naoAdm);
+            botaoExcluirNota.setToolTipText(Controle.naoAdm);
+        }
+
         botaoGravarNota.setEnabled(false);
         botaoCancelarNota.setEnabled(true);
         botaoGerarArquivo.setEnabled(true);
@@ -1377,7 +1376,7 @@ public class NCFrame extends javax.swing.JInternalFrame {
         jftfUg.setEditable(true);
         jdcDataLancamento.setEnabled(true);
         jftfHoraLancamento.setEditable(true);
-        
+
         jftfCpfUsrGru.setEditable(true);
         jtfNomeUsrGru.setEditable(true);
         jftfCodRecGru.setEditable(true);
@@ -1426,7 +1425,7 @@ public class NCFrame extends javax.swing.JInternalFrame {
         jftfUg.setEditable(true);
         jdcDataLancamento.setEnabled(true);
         jftfHoraLancamento.setEditable(true);
-        
+
         jftfCpfUsrGru.setEditable(true);
         jtfNomeUsrGru.setEditable(true);
         jftfCodRecGru.setEditable(true);

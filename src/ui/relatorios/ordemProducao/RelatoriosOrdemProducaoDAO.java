@@ -154,10 +154,10 @@ public class RelatoriosOrdemProducaoDAO {
         }
         if (descricaoProduto) {
             if (primeiro == 0) {
-                comando = comando + " PRODUTOS.DESCRICAO";
+                comando = comando + " produtos.DESCRICAO";
                 primeiro += 1;
             } else {
-                comando = comando + " , PRODUTOS.DESCRICAO";
+                comando = comando + " , produtos.DESCRICAO";
             }
         }
 
@@ -247,15 +247,15 @@ public class RelatoriosOrdemProducaoDAO {
                 break;
             case 3:
                 if (descricaoProduto) {
-                    comando = comando + " INNER JOIN PRODUTOS ON PRODUTOS.CODIGO = tabela_ordens_producao.cod_produto ";
-                    comando = comando + " AND PRODUTOS.TIPO = '" + produto.getTipo() + "' ";
+                    comando = comando + " INNER JOIN produtos ON produtos.CODIGO = tabela_ordens_producao.cod_produto ";
+                    comando = comando + " AND produtos.TIPO = '" + produto.getTipo() + "' ";
                 }else{
-                    comando = comando + " INNER JOIN PRODUTOS ON PRODUTOS.CODIGO = tabela_ordens_producao.cod_produto AND PRODUTOS.TIPO = '" + produto.getTipo() + "'";
+                    comando = comando + " INNER JOIN produtos ON produtos.CODIGO = tabela_ordens_producao.cod_produto AND produtos.TIPO = '" + produto.getTipo() + "'";
                 }
                 break;
             case 4:
                 if (descricaoProduto) {
-                    comando = comando + " INNER JOIN PRODUTOS ON PRODUTOS.CODIGO = tabela_ordens_producao.cod_produto ";
+                    comando = comando + " INNER JOIN produtos ON produtos.CODIGO = tabela_ordens_producao.cod_produto ";
                 }
                 break;
         }

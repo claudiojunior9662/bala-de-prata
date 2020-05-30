@@ -49,8 +49,30 @@ public class UsuarioTableModel extends AbstractTableModel{
     }
 
     @Override
-    public Object getValueAt(int rowIndex, int columnIndex) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public Object getValueAt(int linha, int coluna) {
+        switch(coluna){
+            case 0:
+                return dados.get(linha).getNome();
+            case 1:
+                return dados.get(linha).getCodigo();
+            case 2: 
+                return dados.get(linha).getLogin();
+            case 3:
+                return dados.get(linha).getTipo();
+            case 4:
+                return dados.get(linha).getAcessoOrc();
+            case 5:
+                return dados.get(linha).getAcessoProd();
+            case 6:
+                return dados.get(linha).getAcessoExp();
+            case 7:
+                return dados.get(linha).getAcessoFin();
+            case 8:
+                return dados.get(linha).getAcessoEst();
+            case 9:
+                return dados.get(linha).getAtivo();
+        }
+        return null;
     }
     
 }

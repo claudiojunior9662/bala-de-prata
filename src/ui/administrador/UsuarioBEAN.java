@@ -5,6 +5,8 @@
  */
 package ui.administrador;
 
+import java.util.Date;
+
 /**
  *
  * @author spd3
@@ -16,6 +18,7 @@ public class UsuarioBEAN {
     private String nomeAtendente;
     private String senhaAtendente;
     private String tipoAtendente;
+    private Date ultMudSenha;
     private byte acessoOrc;
     private byte acessoOrcAdm;
     private byte acessoProd;
@@ -75,6 +78,18 @@ public class UsuarioBEAN {
         this.nomeAtendente = nomeAtendente;
     }
 
+    public UsuarioBEAN() {
+
+    }
+
+    public Date getUltMudSenha() {
+        return ultMudSenha;
+    }
+
+    public void setUltMudSenha(Date ultMudSenha) {
+        this.ultMudSenha = ultMudSenha;
+    }
+
     public byte getAcessoOrcAdm() {
         return acessoOrcAdm;
     }
@@ -113,10 +128,6 @@ public class UsuarioBEAN {
 
     public void setAcessoOrd(byte acessoOrd) {
         this.acessoOrd = acessoOrd;
-    }
-
-    public UsuarioBEAN() {
-
     }
 
     public byte getAcessoOrc() {
@@ -171,7 +182,7 @@ public class UsuarioBEAN {
         return codigoAtendente;
     }
 
-    public void setCodigoAtendente(String codigo_atendente) {
+    public void setCodigo(String codigo_atendente) {
         this.codigoAtendente = codigo_atendente;
     }
 
@@ -179,7 +190,7 @@ public class UsuarioBEAN {
         return loginAtendente;
     }
 
-    public void setLogin_atendente(String login_atendente) {
+    public void setLogin(String login_atendente) {
         this.loginAtendente = login_atendente;
     }
 
@@ -187,7 +198,7 @@ public class UsuarioBEAN {
         return nomeAtendente;
     }
 
-    public void setNomeAtendente(String nome_atendente) {
+    public void setNome(String nome_atendente) {
         this.nomeAtendente = nome_atendente;
     }
 
@@ -195,7 +206,7 @@ public class UsuarioBEAN {
         return senhaAtendente;
     }
 
-    public void setSenha_atendente(String senha_atendente) {
+    public void setSenha(String senha_atendente) {
         this.senhaAtendente = senha_atendente;
     }
 
@@ -203,7 +214,7 @@ public class UsuarioBEAN {
         return tipoAtendente;
     }
 
-    public void setTipoAtendente(String tipo_atendente) {
+    public void setTipo(String tipo_atendente) {
         this.tipoAtendente = tipo_atendente;
     }
 

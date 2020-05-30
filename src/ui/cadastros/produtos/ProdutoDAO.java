@@ -35,7 +35,7 @@ public class ProdutoDAO {
         PreparedStatement stmt = null;
 
         try {
-            stmt = con.prepareStatement("INSERT INTO PRODUTOS(CODIGO, DESCRICAO, LARGURA, ALTURA, QTD_PAGINAS, TIPO, VENDAS) "
+            stmt = con.prepareStatement("INSERT INTO produtos(CODIGO, DESCRICAO, LARGURA, ALTURA, QTD_PAGINAS, TIPO, VENDAS) "
                     + "VALUES(?,?,?,?,?,?,?)");
             stmt.setInt(1, produto.getCodigo());
             stmt.setString(2, produto.getDescricao());
@@ -63,7 +63,7 @@ public class ProdutoDAO {
         PreparedStatement stmt = null;
 
         try {
-            stmt = con.prepareStatement("UPDATE PRODUTOS SET "
+            stmt = con.prepareStatement("UPDATE produtos SET "
                     + "DESCRICAO = ?,"
                     + "LARGURA = ?,"
                     + "ALTURA = ?,"
@@ -91,7 +91,7 @@ public class ProdutoDAO {
         ResultSet rs = null;
 
         try {
-            stmt = con.prepareStatement("SELECT DESCRICAO FROM PRODUTOS WHERE DESCRICAO = ?");
+            stmt = con.prepareStatement("SELECT DESCRICAO FROM produtos WHERE DESCRICAO = ?");
             stmt.setString(1, descricao);
             rs = stmt.executeQuery();
             if (rs.next()) {
@@ -111,7 +111,7 @@ public class ProdutoDAO {
         ResultSet rs = null;
 
         try {
-            stmt = con.prepareStatement("SELECT CODIGO FROM PRODUTOS ORDER BY CODIGO DESC LIMIT 1");
+            stmt = con.prepareStatement("SELECT CODIGO FROM produtos ORDER BY CODIGO DESC LIMIT 1");
             rs = stmt.executeQuery();
             while (rs.next()) {
                 return rs.getInt("CODIGO");
@@ -133,11 +133,11 @@ public class ProdutoDAO {
 
         try {
             if (tipo.equals("CÓDIGO")) {
-                stmt = con.prepareStatement("SELECT CODIGO, DESCRICAO FROM PRODUTOS WHERE CODIGO = ?");
+                stmt = con.prepareStatement("SELECT CODIGO, DESCRICAO FROM produtos WHERE CODIGO = ?");
                 stmt.setInt(1, Integer.valueOf(texto));
             } else if (tipo.equals("DESCRIÇÃO")) {
                 stmt = con.prepareStatement("SELECT CODIGO, DESCRICAO FROM "
-                        + "PRODUTOS WHERE DESCRICAO LIKE " + "'%" + texto + "%' ORDER BY CODIGO DESC LIMIT 45");
+                        + "produtos WHERE DESCRICAO LIKE " + "'%" + texto + "%' ORDER BY CODIGO DESC LIMIT 45");
             }
 
             rs = stmt.executeQuery();
@@ -164,7 +164,7 @@ public class ProdutoDAO {
         List<ProdutoBEAN> cadastrolc = new ArrayList();
 
         try {
-            stmt = con.prepareStatement("SELECT CODIGO, DESCRICAO FROM PRODUTOS ORDER BY CODIGO DESC LIMIT 45");
+            stmt = con.prepareStatement("SELECT CODIGO, DESCRICAO FROM produtos ORDER BY CODIGO DESC LIMIT 45");
             rs = stmt.executeQuery();
             while (rs.next()) {
                 ProdutoBEAN lpBEAN = new ProdutoBEAN();
@@ -185,7 +185,7 @@ public class ProdutoDAO {
         PreparedStatement stmt = null;
 
         try {
-            stmt = con.prepareStatement("DELETE FROM PRODUTOS WHERE CODIGO = ?");
+            stmt = con.prepareStatement("DELETE FROM produtos WHERE CODIGO = ?");
             stmt.setInt(1, cod);
             stmt.executeUpdate();
         } catch (SQLException ex) {
@@ -253,13 +253,13 @@ public class ProdutoDAO {
             switch (tipoProduto) {
                 case 1:
                     stmt = con.prepareStatement("SELECT * "
-                            + "FROM PRODUTOS "
+                            + "FROM produtos "
                             + "WHERE CODIGO = ?");
                     stmt.setInt(1, codProduto);
                     break;
                 case 2:
                     stmt = con.prepareStatement("SELECT * "
-                            + "FROM PRODUTOS_PR_ENT "
+                            + "FROM produtos_pr_ent "
                             + "WHERE CODIGO = ?");
                     stmt.setInt(1, codProduto);
                     break;
@@ -429,7 +429,7 @@ public class ProdutoDAO {
         ResultSet rs = null;
 
         try {
-            stmt = con.prepareStatement("SELECT TIPO FROM PRODUTOS WHERE CODIGO = ?");
+            stmt = con.prepareStatement("SELECT TIPO FROM produtos WHERE CODIGO = ?");
             stmt.setInt(1, codProduto);
             rs = stmt.executeQuery();
             while (rs.next()) {
@@ -523,13 +523,13 @@ public class ProdutoDAO {
             switch (tipoProduto) {
                 case 1:
                     stmt = con.prepareStatement("SELECT DESCRICAO "
-                            + "FROM PRODUTOS "
+                            + "FROM produtos "
                             + "WHERE CODIGO = ?");
                     stmt.setInt(1, codProduto);
                     break;
                 case 2:
                     stmt = con.prepareStatement("SELECT DESCRICAO "
-                            + "FROM PRODUTOS_PR_ENT "
+                            + "FROM produtos_pr_ent "
                             + "WHERE CODIGO = ?");
                     stmt.setInt(1, codProduto);
                     break;
@@ -558,7 +558,7 @@ public class ProdutoDAO {
         retorno.clear();
 
         try {
-            stmt = con.prepareStatement("SELECT DESCRICAO FROM PRODUTOS WHERE DESCRICAO LIKE '%"
+            stmt = con.prepareStatement("SELECT DESCRICAO FROM produtos WHERE DESCRICAO LIKE '%"
                     + descricaoProduto + "%' ORDER BY DESCRICAO DESC LIMIT 5");
             rs = stmt.executeQuery();
             while (rs.next()) {
@@ -580,7 +580,7 @@ public class ProdutoDAO {
         Produto retorno = null;
 
         try {
-            stmt = con.prepareStatement("SELECT CODIGO, DESCRICAO, TIPO FROM PRODUTOS WHERE DESCRICAO = ?");
+            stmt = con.prepareStatement("SELECT CODIGO, DESCRICAO, TIPO FROM produtos WHERE DESCRICAO = ?");
             stmt.setString(1, descricaoProduto);
             rs = stmt.executeQuery();
             if (rs.next()) {
@@ -610,7 +610,7 @@ public class ProdutoDAO {
         List retorno = new ArrayList();
 
         try {
-            stmt = con.prepareStatement("SELECT DISTINCT CODIGO FROM PRODUTOS WHERE DESCRICAO LIKE '%" + descricaoProduto + "%'");
+            stmt = con.prepareStatement("SELECT DISTINCT CODIGO FROM produtos WHERE DESCRICAO LIKE '%" + descricaoProduto + "%'");
             rs = stmt.executeQuery();
             while (rs.next()) {
                 retorno.add(rs.getInt("CODIGO"));
@@ -637,13 +637,13 @@ public class ProdutoDAO {
             switch (tipoProduto) {
                 case 1:
                     stmt = con.prepareStatement("SELECT LARGURA "
-                            + "FROM PRODUTOS "
+                            + "FROM produtos "
                             + "WHERE CODIGO = ?");
                     stmt.setInt(1, Integer.valueOf(codProduto));
                     break;
                 case 2:
                     stmt = con.prepareStatement("SELECT LARGURA "
-                            + "FROM PRODUTOS_PR_ENT "
+                            + "FROM produtos_pr_ent "
                             + "WHERE CODIGO = ?");
                     stmt.setInt(1, codProduto);
                     break;
@@ -677,13 +677,13 @@ public class ProdutoDAO {
             switch (tipoProduto) {
                 case 1:
                     stmt = con.prepareStatement("SELECT ALTURA "
-                            + "FROM PRODUTOS "
+                            + "FROM produtos "
                             + "WHERE CODIGO = ?");
                     stmt.setInt(1, Integer.valueOf(codProduto));
                     break;
                 case 2:
                     stmt = con.prepareStatement("SELECT ALTURA "
-                            + "FROM PRODUTOS_PR_ENT "
+                            + "FROM produtos_pr_ent "
                             + "WHERE CODIGO = ?");
                     stmt.setInt(1, codProduto);
                     break;
@@ -717,13 +717,13 @@ public class ProdutoDAO {
             switch (tipoProduto) {
                 case 1:
                     stmt = con.prepareStatement("SELECT QTD_PAGINAS "
-                            + "FROM PRODUTOS "
+                            + "FROM produtos "
                             + "WHERE CODIGO = ?");
                     stmt.setInt(1, Integer.valueOf(codProduto));
                     break;
                 case 2:
                     stmt = con.prepareStatement("SELECT QTD_PAGINAS "
-                            + "FROM PRODUTOS_PR_ENT "
+                            + "FROM produtos_pr_ent "
                             + "WHERE CODIGO = ?");
                     stmt.setInt(1, codProduto);
                     break;
@@ -757,7 +757,7 @@ public class ProdutoDAO {
 
         try {
             stmt = con.prepareStatement("SELECT ALTURA, LARGURA "
-                    + "FROM PRODUTOS "
+                    + "FROM produtos "
                     + "WHERE CODIGO = ?");
             stmt.setInt(1, codProduto);
             rs = stmt.executeQuery();
@@ -773,7 +773,7 @@ public class ProdutoDAO {
     }
     //-----------------------------------------------------------------------------------------------------------
 
-    //PRODUTOS PRONTA ENTREGA------------------------------------------------------------------------------------
+    //produtos PRONTA ENTREGA------------------------------------------------------------------------------------
     /**
      * Insere produto pr ent
      *
@@ -786,7 +786,7 @@ public class ProdutoDAO {
         PreparedStatement stmt = null;
 
         try {
-            stmt = con.prepareStatement("INSERT INTO PRODUTOS_PR_ENT(CODIGO, DESCRICAO, LARGURA,"
+            stmt = con.prepareStatement("INSERT INTO produtos_pr_ent(CODIGO, DESCRICAO, LARGURA,"
                     + "ALTURA, ESPESSURA, PESO, VENDAS, PRE_VENDA, PROM, VLR_PROM, INICIO_PROM,"
                     + "FIM_PROM, QTD_PAGINAS, ESTOQUE, AVISO_ESTOQUE, AVISO_ESTOQUE_UN, TIPO,"
                     + "VLR_UNIT, ULT_MOV, PD_QTD_MIN, PD_MAX, PD_QTD_MAX) "
@@ -893,7 +893,7 @@ public class ProdutoDAO {
                 case 1:
                     stmt = con.prepareStatement("SELECT CODIGO, DESCRICAO, VLR_UNIT, ESTOQUE, PRE_VENDA, PROM,"
                             + "AVISO_ESTOQUE, INICIO_PROM, FIM_PROM, VLR_PROM "
-                            + " FROM PRODUTOS_PR_ENT"
+                            + " FROM produtos_pr_ent"
                             + " WHERE CODIGO = ? "
                             + "ORDER BY CODIGO DESC");
                     stmt.setString(1, pesquisa);
@@ -901,14 +901,14 @@ public class ProdutoDAO {
                 case 2:
                     stmt = con.prepareStatement("SELECT CODIGO, DESCRICAO, VLR_UNIT, ESTOQUE, PRE_VENDA, PROM,"
                             + "AVISO_ESTOQUE, INICIO_PROM, FIM_PROM, VLR_PROM "
-                            + " FROM PRODUTOS_PR_ENT"
+                            + " FROM produtos_pr_ent"
                             + " WHERE DESCRICAO LIKE '%" + pesquisa + "%' "
                             + "ORDER BY CODIGO DESC");
                     break;
                 case 3:
                     stmt = con.prepareStatement("SELECT CODIGO, DESCRICAO, VLR_UNIT, ESTOQUE, PRE_VENDA, PROM,"
                             + "AVISO_ESTOQUE, INICIO_PROM, FIM_PROM, VLR_PROM "
-                            + "FROM PRODUTOS_PR_ENT "
+                            + "FROM produtos_pr_ent "
                             + "ORDER BY CODIGO DESC");
                     break;
                 default:
@@ -958,7 +958,7 @@ public class ProdutoDAO {
 
         try {
             stmt = con.prepareStatement("SELECT CODIGO "
-                    + "FROM PRODUTOS_PR_ENT "
+                    + "FROM produtos_pr_ent "
                     + "ORDER BY CODIGO DESC "
                     + "LIMIT 1");
             rs = stmt.executeQuery();
@@ -987,7 +987,7 @@ public class ProdutoDAO {
 
         try {
             stmt = con.prepareStatement("SELECT * "
-                    + "FROM PRODUTOS_PR_ENT "
+                    + "FROM produtos_pr_ent "
                     + "WHERE CODIGO = ?");
             stmt.setInt(1, codPe);
             rs = stmt.executeQuery();
@@ -1041,7 +1041,7 @@ public class ProdutoDAO {
         try {
             stmt = con.prepareStatement("SELECT CODIGO, DESCRICAO, ALTURA, LARGURA, QTD_PAGINAS,"
                     + "ESTOQUE, VLR_UNIT, PROM, VLR_PROM, INICIO_PROM, FIM_PROM "
-                    + "FROM PRODUTOS_PR_ENT "
+                    + "FROM produtos_pr_ent "
                     + "WHERE CODIGO = ?");
             stmt.setInt(1, codPe);
             rs = stmt.executeQuery();
@@ -1087,7 +1087,7 @@ public class ProdutoDAO {
 
         try {
             stmt = con.prepareStatement("SELECT VLR_UNIT, PROM, VLR_PROM, INICIO_PROM, FIM_PROM "
-                    + "FROM PRODUTOS_PR_ENT "
+                    + "FROM produtos_pr_ent "
                     + "WHERE CODIGO = ?");
             stmt.setInt(1, codProd);
             rs = stmt.executeQuery();
@@ -1123,7 +1123,7 @@ public class ProdutoDAO {
 
         try {
             stmt = con.prepareStatement("SELECT ESTOQUE "
-                    + "FROM PRODUTOS_PR_ENT "
+                    + "FROM produtos_pr_ent "
                     + "WHERE CODIGO = ?");
             stmt.setInt(1, codProdPe);
             rs = stmt.executeQuery();
@@ -1157,7 +1157,7 @@ public class ProdutoDAO {
         try {
             switch (operacao) {
                 case 1:
-                    stmt = con.prepareStatement("UPDATE PRODUTOS_PR_ENT "
+                    stmt = con.prepareStatement("UPDATE produtos_pr_ent "
                             + "SET ESTOQUE = ESTOQUE - ?, ULT_MOV = ? "
                             + "WHERE CODIGO = ?");
                     stmt.setInt(1, qtdMov);
@@ -1165,7 +1165,7 @@ public class ProdutoDAO {
                     stmt.setInt(3, codProdPe);
                     break;
                 case 2:
-                    stmt = con.prepareStatement("UPDATE PRODUTOS_PR_ENT "
+                    stmt = con.prepareStatement("UPDATE produtos_pr_ent "
                             + "SET ESTOQUE = ESTOQUE + ?, ULT_MOV = ? "
                             + "WHERE CODIGO = ?");
                     stmt.setInt(1, qtdMov);
@@ -1197,7 +1197,7 @@ public class ProdutoDAO {
 
         try {
             stmt = con.prepareStatement("SELECT CODIGO, DESCRICAO, ESTOQUE "
-                    + "FROM PRODUTOS_PR_ENT "
+                    + "FROM produtos_pr_ent "
                     + "WHERE AVISO_ESTOQUE = 1 AND ESTOQUE <= AVISO_ESTOQUE_UN");
             rs = stmt.executeQuery();
             while (rs.next()) {
@@ -1257,7 +1257,7 @@ public class ProdutoDAO {
 
         try {
             stmt = con.prepareStatement("SELECT DESCRICAO "
-                    + "FROM PRODUTOS_PR_ENT "
+                    + "FROM produtos_pr_ent "
                     + "WHERE DESCRICAO = ?");
             stmt.setString(1, descricaoProd);
             rs = stmt.executeQuery();
@@ -1283,7 +1283,7 @@ public class ProdutoDAO {
 
         try {
             stmt = con.prepareStatement("SELECT DESCRICAO "
-                    + "FROM PRODUTOS_PR_ENT "
+                    + "FROM produtos_pr_ent "
                     + "WHERE CODIGO = ?");
             stmt.setString(1, codProd);
             rs = stmt.executeQuery();
@@ -1304,7 +1304,7 @@ public class ProdutoDAO {
         ResultSet rs = null;
 
         try {
-            stmt = con.prepareStatement("UPDATE PRODUTOS_PR_ENT "
+            stmt = con.prepareStatement("UPDATE produtos_pr_ent "
                     + "SET ESTOQUE = ?, AVISO_ESTOQUE = ?, AVISO_ESTOQUE_UN = ?, ULT_MOV = ? "
                     + "WHERE CODIGO = ?");
             stmt.setInt(1, produto.getEstoque());
@@ -1335,7 +1335,7 @@ public class ProdutoDAO {
 
         try {
             stmt = con.prepareStatement("SELECT ALTURA, LARGURA, ESPESSURA, PESO "
-                    + "FROM PRODUTOS_PR_ENT "
+                    + "FROM produtos_pr_ent "
                     + "WHERE CODIGO = ?");
             stmt.setInt(1, codProduto);
             rs = stmt.executeQuery();

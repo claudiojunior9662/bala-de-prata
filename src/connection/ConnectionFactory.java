@@ -82,6 +82,12 @@ public class ConnectionFactory {
                 USER = "root";
                 PASS = "";
                 break;
+            case 4:
+                DRIVER_SQL = "com.mysql.jdbc.Driver";
+                URL = "jdbc:mysql://92.249.44.36:3306/u132943906_ppx";
+                USER = "u132943906_paulinho438";
+                PASS = "amigos10";
+                break;
         }
     }
 

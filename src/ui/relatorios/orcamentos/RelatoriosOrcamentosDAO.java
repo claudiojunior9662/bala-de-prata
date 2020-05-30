@@ -150,10 +150,10 @@ public class RelatoriosOrcamentosDAO {
         }
         if (descricaoProduto) {
             if (primeiro == 0) {
-                comando = comando + " PRODUTOS.DESCRICAO";
+                comando = comando + " produtos.DESCRICAO";
                 primeiro += 1;
             } else {
-                comando = comando + " , PRODUTOS.DESCRICAO";
+                comando = comando + " , produtos.DESCRICAO";
             }
         }
 
@@ -259,7 +259,7 @@ public class RelatoriosOrcamentosDAO {
 //4 - todos
         switch (condicaoProduto) {
             case 1:
-                comando = comando + " INNER JOIN PRODUTOS ON PRODUTOS.CODIGO = tabela_produtos_orcamento.cod_produto ";
+                comando = comando + " INNER JOIN produtos ON produtos.CODIGO = tabela_produtos_orcamento.cod_produto ";
                 if (primeiro != 0) {
                     comando = comando + " AND";
                 } else {
@@ -269,7 +269,7 @@ public class RelatoriosOrcamentosDAO {
                 comando = comando + " tabela_produtos_orcamento.cod_produto = " + produto.getCodigo();
                 break;
             case 2:
-                comando = comando + " INNER JOIN PRODUTOS ON PRODUTOS.CODIGO = tabela_produtos_orcamento.cod_produto ";
+                comando = comando + " INNER JOIN produtos ON produtos.CODIGO = tabela_produtos_orcamento.cod_produto ";
                 if (primeiro != 0) {
                     comando = comando + " AND";
                 } else {
@@ -280,15 +280,15 @@ public class RelatoriosOrcamentosDAO {
                 break;
             case 3:
                 if (descricaoProduto) {
-                    comando = comando + " INNER JOIN PRODUTOS ON PRODUTOS.CODIGO = tabela_produtos_orcamento.cod_produto ";
-                    comando = comando + " AND PRODUTOS.tipo = '" + produto.getTipo() + "' ";
+                    comando = comando + " INNER JOIN produtos ON produtos.CODIGO = tabela_produtos_orcamento.cod_produto ";
+                    comando = comando + " AND produtos.tipo = '" + produto.getTipo() + "' ";
                 } else {
-                    comando = comando + " INNER JOIN PRODUTOS ON PRODUTOS.CODIGO = tabela_produtos_orcamento.cod_produto AND PRODUTOS.TIPO = '" + produto.getTipo() + "'";
+                    comando = comando + " INNER JOIN produtos ON produtos.CODIGO = tabela_produtos_orcamento.cod_produto AND produtos.TIPO = '" + produto.getTipo() + "'";
                 }
                 break;
             case 4:
                 if (descricaoProduto) {
-                    comando = comando + " INNER JOIN PRODUTOS ON PRODUTOS.CODIGO = tabela_produtos_orcamento.cod_produto ";
+                    comando = comando + " INNER JOIN produtos ON produtos.CODIGO = tabela_produtos_orcamento.cod_produto ";
                 }
                 break;
         }
@@ -504,7 +504,7 @@ public class RelatoriosOrcamentosDAO {
                     orcamento.setCodProduto(rs.getInt("tabela_produtos_orcamento.cod_produto"));
                 }
                 if (descricaoProduto) {
-                    orcamento.setDescricaoProduto(rs.getString("PRODUTOS.DESCRICAO"));
+                    orcamento.setDescricaoProduto(rs.getString("produtos.DESCRICAO"));
                 }
                 if (tipoPessoa | nomeCliente) {
                     orcamento.setTipo_pessoa(rs.getInt("tabela_orcamentos.tipo_cliente"));

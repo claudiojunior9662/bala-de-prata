@@ -67,15 +67,15 @@ public class NewMain {
 //                    credito += rs2.getFloat("valor");
 //                }
 
-                stmt = con.prepareStatement("SELECT FATURAMENTOS.VLR_FAT "
-                        + "FROM FATURAMENTOS "
-                        + "INNER JOIN tabela_ordens_producao ON tabela_ordens_producao.cod = FATURAMENTOS.CODIGO_OP "
-                        + "WHERE FATURAMENTOS.DT_FAT BETWEEN '2020-05-01' AND '2020-05-26' AND "
+                stmt = con.prepareStatement("SELECT faturamentos.VLR_FAT "
+                        + "FROM faturamentos "
+                        + "INNER JOIN tabela_ordens_producao ON tabela_ordens_producao.cod = faturamentos.CODIGO_OP "
+                        + "WHERE faturamentos.DT_FAT BETWEEN '2020-05-01' AND '2020-05-26' AND "
                         + "tabela_ordens_producao.cod_cliente = ? AND tabela_ordens_producao.tipo_cliente = 1");
                 stmt.setInt(1, rs.getInt("cod"));
                 rs2 = stmt.executeQuery();
                 while (rs2.next()) {
-                    credito -= rs2.getFloat("FATURAMENTOS.VLR_FAT");
+                    credito -= rs2.getFloat("faturamentos.VLR_FAT");
                 }
 
 //                if(credito != 0d){
@@ -194,10 +194,10 @@ public class NewMain {
                     + "tabela_ordens_producao.cod_cliente, "
                     + "tabela_ordens_producao.orcamento_base,"
                     + "tabela_ordens_producao.cod_produto,"
-                    + "PRODUTOS.DESCRICAO "
+                    + "produtos.DESCRICAO "
                     + "FROM tabela_ordens_producao "
                     + "INNER JOIN tabela_orcamentos ON tabela_orcamentos.cod = tabela_ordens_producao.orcamento_base "
-                    + "INNER JOIN PRODUTOS ON PRODUTOS.CODIGO = tabela_ordens_producao.cod_produto "
+                    + "INNER JOIN produtos ON produtos.CODIGO = tabela_ordens_producao.cod_produto "
                     + "WHERE tabela_ordens_producao.status != 'CANCELADA' "
                     + "AND tabela_ordens_producao.data_emissao BETWEEN '2018-01-01' AND '2020-05-22' "
                     + "AND tabela_ordens_producao.tipo_cliente = 2 "
@@ -210,10 +210,10 @@ public class NewMain {
                     stmt = con.prepareStatement("SELECT tabela_ordens_producao.cod, "
                             + "tabela_ordens_producao.orcamento_base,"
                             + "tabela_ordens_producao.cod_produto,"
-                            + "PRODUTOS.DESCRICAO  "
+                            + "produtos.DESCRICAO  "
                             + "FROM tabela_ordens_producao "
                             + "INNER JOIN tabela_orcamentos ON tabela_orcamentos.cod = tabela_ordens_producao.orcamento_base "
-                            + "INNER JOIN PRODUTOS ON PRODUTOS.CODIGO = tabela_ordens_producao.cod_produto "
+                            + "INNER JOIN produtos ON produtos.CODIGO = tabela_ordens_producao.cod_produto "
                             + "WHERE tabela_ordens_producao.status != 'CANCELADA' "
                             + "AND tabela_ordens_producao.cod_cliente = ? "
                             + "AND tabela_ordens_producao.tipo_cliente = 2 "
@@ -233,7 +233,7 @@ public class NewMain {
                             qtdProdutos += rs3.getInt("quantidade");
                         }
                         System.out.println(rs2.getInt("tabela_ordens_producao.cod_produto") + "#"
-                                + rs2.getString("PRODUTOS.DESCRICAO") + "#"
+                                + rs2.getString("produtos.DESCRICAO") + "#"
                                 + qtdProdutos);
                     }
                 }

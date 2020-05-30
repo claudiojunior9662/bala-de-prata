@@ -1312,7 +1312,7 @@ public class OrcamentoDAO {
         List<StsOrcamento> retorno = new ArrayList();
 
         try {
-            stmt = con.prepareStatement("SELECT * FROM STS_ORCAMENTO");
+            stmt = con.prepareStatement("SELECT * FROM sts_orcamento");
             rs = stmt.executeQuery();
             while (rs.next()) {
                 retorno.add(new StsOrcamento(rs.getInt("CODIGO"), rs.getString("STS_DESCRICAO")));

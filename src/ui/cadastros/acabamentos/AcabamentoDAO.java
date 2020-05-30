@@ -26,7 +26,7 @@ public class AcabamentoDAO {
         PreparedStatement stmt = null;
 
         try {
-            stmt = con.prepareStatement("INSERT INTO ACABAMENTOS(MAQUINA, ATIVA, CUSTO_HORA) "
+            stmt = con.prepareStatement("INSERT INTO acabamentos(MAQUINA, ATIVA, CUSTO_HORA) "
                     + "VALUES(?,?,?)");
             stmt.setString(1, acabamentosBEAN.getNomeMaquina());
             stmt.setInt(2, acabamentosBEAN.getMaquinaAtiva());
@@ -44,7 +44,7 @@ public class AcabamentoDAO {
         PreparedStatement stmt = null;
 
         try {
-            stmt = con.prepareStatement("UPDATE ACABAMENTOS SET MAQUINA = ?, CUSTO_HORA = ? "
+            stmt = con.prepareStatement("UPDATE acabamentos SET MAQUINA = ?, CUSTO_HORA = ? "
                     + "WHERE CODIGO = ?");
             stmt.setString(1, acabamentosBEAN.getNomeMaquina());
             stmt.setFloat(2, acabamentosBEAN.getCustoHora());
@@ -66,7 +66,7 @@ public class AcabamentoDAO {
 
         try {
             stmt = con.prepareStatement("SELECT * "
-                    + "FROM ACABAMENTOS "
+                    + "FROM acabamentos "
                     + "ORDER BY CODIGO "
                     + "DESC");
 
@@ -105,14 +105,14 @@ public class AcabamentoDAO {
 
             switch (tipo) {
                 case 1:
-                    stmt = con.prepareStatement("SELECT * FROM ACABAMENTOS WHERE CODIGO = ?");
+                    stmt = con.prepareStatement("SELECT * FROM acabamentos WHERE CODIGO = ?");
                     stmt.setInt(1, Integer.valueOf(texto));
                     break;
                 case 2:
-                    stmt = con.prepareStatement("SELECT * FROM ACABAMENTOS WHERE MAQUINA LIKE '%" + texto + "%'");
+                    stmt = con.prepareStatement("SELECT * FROM acabamentos WHERE MAQUINA LIKE '%" + texto + "%'");
                     break;
                 case 3:
-                    stmt = con.prepareStatement("SELECT * FROM ACABAMENTOS WHERE ATIVA = ?");
+                    stmt = con.prepareStatement("SELECT * FROM acabamentos WHERE ATIVA = ?");
                     stmt.setByte(1, Byte.valueOf(texto));
                     break;
             }
@@ -143,7 +143,7 @@ public class AcabamentoDAO {
         List<AcabamentoBEAN> cadastroab = new ArrayList();
 
         try {
-            stmt = con.prepareStatement("SELECT * FROM ACABAMENTOS WHERE CODIGO = ?");
+            stmt = con.prepareStatement("SELECT * FROM acabamentos WHERE CODIGO = ?");
             stmt.setInt(1, CODIGO);
 
             rs = stmt.executeQuery();
@@ -172,7 +172,7 @@ public class AcabamentoDAO {
         List<AcabamentoBEAN> cadastroab = new ArrayList();
 
         try {
-            stmt = con.prepareStatement("SELECT * FROM ACABAMENTOS WHERE CODIGO = " + CODIGO);
+            stmt = con.prepareStatement("SELECT * FROM acabamentos WHERE CODIGO = " + CODIGO);
             rs = stmt.executeQuery();
             while (rs.next()) {
                 AcabamentoBEAN aBEAN = new AcabamentoBEAN();
@@ -193,7 +193,7 @@ public class AcabamentoDAO {
         PreparedStatement stmt = null;
 
         try {
-            stmt = con.prepareStatement("UPDATE ACABAMENTOS SET ATIVA = 0 WHERE CODIGO = ?");
+            stmt = con.prepareStatement("UPDATE acabamentos SET ATIVA = 0 WHERE CODIGO = ?");
             stmt.setInt(1, CODIGO);
             stmt.executeUpdate();
         } catch (SQLException ex) {
@@ -208,7 +208,7 @@ public class AcabamentoDAO {
         PreparedStatement stmt = null;
 
         try {
-            stmt = con.prepareStatement("UPDATE ACABAMENTOS SET ATIVA = 1 WHERE CODIGO = ?");
+            stmt = con.prepareStatement("UPDATE acabamentos SET ATIVA = 1 WHERE CODIGO = ?");
             stmt.setInt(1, CODIGO);
             stmt.executeUpdate();
         } catch (SQLException ex) {
@@ -226,7 +226,7 @@ public class AcabamentoDAO {
         float retorno = 0;
 
         try {
-            stmt = con.prepareStatement("SELECT CUSTO_HORA FROM ACABAMENTOS WHERE CODIGO = ?");
+            stmt = con.prepareStatement("SELECT CUSTO_HORA FROM acabamentos WHERE CODIGO = ?");
             stmt.setInt(1, CODIGOigoAcabamento);
             rs = stmt.executeQuery();
             if (rs.next()) {
@@ -247,7 +247,7 @@ public class AcabamentoDAO {
         ResultSet rs = null;
 
         try {
-            stmt = con.prepareStatement("SELECT MAQUINA FROM ACABAMENTOS WHERE CODIGO = ?");
+            stmt = con.prepareStatement("SELECT MAQUINA FROM acabamentos WHERE CODIGO = ?");
             stmt.setInt(1, CODIGO);
             rs = stmt.executeQuery();
             while (rs.next()) {

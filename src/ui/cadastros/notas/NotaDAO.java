@@ -401,7 +401,7 @@ public class NotaDAO {
 
         try {
             stmt = con.prepareStatement("SELECT QTD_ENTREGUE "
-                    + "FROM FATURAMENTOS "
+                    + "FROM faturamentos "
                     + "WHERE CODIGO_OP = ?");
             stmt.setInt(1, codOp);
             rs = stmt.executeQuery();
@@ -756,7 +756,7 @@ public class NotaDAO {
         PreparedStatement stmt = null;
 
         try {
-            stmt = con.prepareStatement("INSERT INTO FATURAMENTOS "
+            stmt = con.prepareStatement("INSERT INTO faturamentos "
                     + "VALUES(?,?,?,?,?,?,?,?,?,?)");
             stmt.setInt(1, fat.getCod());
             stmt.setInt(2, fat.getCodOrc());
@@ -787,7 +787,7 @@ public class NotaDAO {
         PreparedStatement stmt = null;
 
         try {
-            stmt = con.prepareStatement("DELETE FROM FATURAMENTOS "
+            stmt = con.prepareStatement("DELETE FROM faturamentos "
                     + "WHERE CODIGO = ?");
             stmt.setInt(1, codFat);
             stmt.executeUpdate();
@@ -809,7 +809,7 @@ public class NotaDAO {
         PreparedStatement stmt = null;
 
         try {
-            stmt = con.prepareStatement("UPDATE FATURAMENTOS "
+            stmt = con.prepareStatement("UPDATE faturamentos "
                     + "SET EMISSOR = ?, QTD_ENTREGUE = ?, VLR_FAT = ?, DT_FAT = ?,"
                     + "FRETE_FAT = ?, SERVICOS_FAT = ?, OBSERVACOES = ? "
                     + "WHERE CODIGO = ?");
@@ -842,7 +842,7 @@ public class NotaDAO {
 
         try {
             stmt = con.prepareStatement("SELECT * "
-                    + "FROM FATURAMENTOS "
+                    + "FROM faturamentos "
                     + "WHERE CODIGO = ?");
             stmt.setInt(1, codFat);
             rs = stmt.executeQuery();
@@ -881,7 +881,7 @@ public class NotaDAO {
 
         try {
             stmt = con.prepareStatement("SELECT CODIGO "
-                    + "FROM FATURAMENTOS "
+                    + "FROM faturamentos "
                     + "ORDER BY CODIGO "
                     + "DESC "
                     + "LIMIT 1");
@@ -918,38 +918,38 @@ public class NotaDAO {
             switch (p1) {
                 case 1:
                     stmt = con.prepareStatement("SELECT * "
-                            + "FROM FATURAMENTOS "
+                            + "FROM faturamentos "
                             + "WHERE CODIGO = ?");
                     stmt.setInt(1, Integer.valueOf(vlrTxt.toString()));
                     break;
                 case 2:
                     stmt = con.prepareStatement("SELECT * "
-                            + "FROM FATURAMENTOS "
+                            + "FROM faturamentos "
                             + "WHERE CODIGO_ORC = ?");
                     stmt.setInt(1, Integer.valueOf(vlrTxt.toString()));
                     break;
                 case 3:
                 case 5:
                     stmt = con.prepareStatement("SELECT * "
-                            + "FROM FATURAMENTOS "
+                            + "FROM faturamentos "
                             + "WHERE CODIGO_OP = ?");
                     stmt.setInt(1, Integer.valueOf(vlrTxt.toString()));
                     break;
                 case 4:
                     stmt = con.prepareStatement("SELECT * "
-                            + "FROM FATURAMENTOS "
+                            + "FROM faturamentos "
                             + "WHERE DT_FAT = ?");
                     stmt.setDate(1, new java.sql.Date(vlrDate.getTime()));
                     break;
                 case 6:
                     stmt = con.prepareStatement("SELECT * "
-                            + "FROM FATURAMENTOS "
+                            + "FROM faturamentos "
                             + "WHERE EMISSOR = ?");
                     stmt.setString(1, vlrTxt);
                     break;
                 case 7:
                     stmt = con.prepareStatement("SELECT * "
-                            + "FROM FATURAMENTOS "
+                            + "FROM faturamentos "
                             + "ORDER BY CODIGO DESC LIMIT 45");
                     break;
             }
@@ -993,7 +993,7 @@ public class NotaDAO {
 
         try {
             stmt = con.prepareStatement("SELECT * "
-                    + "FROM FATURAMENTOS "
+                    + "FROM faturamentos "
                     + "WHERE CODIGO != ? "
                     + "AND CODIGO_ORC = ? "
                     + "AND CODIGO_OP = ? "
@@ -1043,7 +1043,7 @@ public class NotaDAO {
         PreparedStatement stmt = null;
 
         try {
-            stmt = con.prepareStatement("DELETE FROM NT_CREDITO_LANC_SIAFI "
+            stmt = con.prepareStatement("DELETE FROM nt_credito_lanc_siafi "
                     + "WHERE NT_CREDITO_CODIGO = ?");
             stmt.setInt(1, codNota);
             stmt.executeUpdate();
@@ -1065,7 +1065,7 @@ public class NotaDAO {
         PreparedStatement stmt = null;
 
         try {
-            stmt = con.prepareStatement("INSERT INTO NT_CREDITO_LANC_SIAFI(NT_CREDITO_CODIGO,"
+            stmt = con.prepareStatement("INSERT INTO nt_credito_lanc_siafi(NT_CREDITO_CODIGO,"
                     + "CPF_USR, NOME_USR, UG, DATA_HORA) "
                     + "VALUES(?,?,?,?,?)");
             stmt.setInt(1, lanc.getCodNota());
@@ -1092,7 +1092,7 @@ public class NotaDAO {
         PreparedStatement stmt = null;
 
         try {
-            stmt = con.prepareStatement("UPDATE NT_CREDITO_LANC_SIAFI "
+            stmt = con.prepareStatement("UPDATE nt_credito_lanc_siafi "
                     + "SET CPF_USR = ?, NOME_USR = ?, UG = ?, DATA_HORA = ? "
                     + "WHERE NT_CREDITO_CODIGO = ?");
             stmt.setString(1, lanc.getCpfUsr());
@@ -1122,7 +1122,7 @@ public class NotaDAO {
 
         try {
             stmt = con.prepareStatement("SELECT * "
-                    + "FROM NT_CREDITO_LANC_SIAFI "
+                    + "FROM nt_credito_lanc_siafi "
                     + "WHERE NT_CREDITO_CODIGO = ?");
             stmt.setInt(1, codNota);
             rs = stmt.executeQuery();
@@ -1155,7 +1155,7 @@ public class NotaDAO {
 
         try {
             stmt = con.prepareStatement("SELECT NT_CREDITO_CODIGO "
-                    + "FROM NT_CREDITO_LANC_SIAFI "
+                    + "FROM nt_credito_lanc_siafi "
                     + "WHERE NT_CREDITO_CODIGO = ?");
             stmt.setInt(1, codNota);
             rs = stmt.executeQuery();
@@ -1181,7 +1181,7 @@ public class NotaDAO {
 
         try {
             stmt = con.prepareStatement("SELECT NT_CREDITO_CODIGO "
-                    + "FROM NT_CREDITO_LANC_SIAFI "
+                    + "FROM nt_credito_lanc_siafi "
                     + "WHERE CPF_USR = ? AND NOME_USR = ? AND UG = ? AND DATA_HORA = ?");
             stmt.setString(1, lanc.getCpfUsr());
             stmt.setString(2, lanc.getNomeUsr());
@@ -1212,7 +1212,7 @@ public class NotaDAO {
         PreparedStatement stmt = null;
 
         try {
-            stmt = con.prepareStatement("DELETE FROM NT_CREDITO_LANC_GRU "
+            stmt = con.prepareStatement("DELETE FROM nt_credito_lanc_gru "
                     + "WHERE NT_CREDITO_CODIGO = ?");
             stmt.setInt(1, codNota);
             stmt.executeUpdate();
@@ -1234,7 +1234,7 @@ public class NotaDAO {
         PreparedStatement stmt = null;
 
         try {
-            stmt = con.prepareStatement("INSERT INTO NT_CREDITO_LANC_GRU(NT_CREDITO_CODIGO,"
+            stmt = con.prepareStatement("INSERT INTO nt_credito_lanc_gru(NT_CREDITO_CODIGO,"
                     + "CPF_USR, NOME_USR, CODIGO_REC, DATA_HORA) "
                     + "VALUES(?,?,?,?,?)");
             stmt.setInt(1, lanc.getCodNota());
@@ -1261,7 +1261,7 @@ public class NotaDAO {
         PreparedStatement stmt = null;
 
         try {
-            stmt = con.prepareStatement("UPDATE NT_CREDITO_LANC_GRU "
+            stmt = con.prepareStatement("UPDATE nt_credito_lanc_gru "
                     + "SET CPF_USR = ?, NOME_USR = ?, CODIGO_REC = ?, DATA_HORA = ? "
                     + "WHERE NT_CREDITO_CODIGO = ?");
             stmt.setString(1, lanc.getCpfUsr());
@@ -1291,7 +1291,7 @@ public class NotaDAO {
 
         try {
             stmt = con.prepareStatement("SELECT * "
-                    + "FROM NT_CREDITO_LANC_GRU "
+                    + "FROM nt_credito_lanc_gru "
                     + "WHERE NT_CREDITO_CODIGO = ?");
             stmt.setInt(1, codNota);
             rs = stmt.executeQuery();
@@ -1324,7 +1324,7 @@ public class NotaDAO {
 
         try {
             stmt = con.prepareStatement("SELECT NT_CREDITO_CODIGO "
-                    + "FROM NT_CREDITO_LANC_GRU "
+                    + "FROM nt_credito_lanc_gru "
                     + "WHERE NT_CREDITO_CODIGO = ?");
             stmt.setInt(1, codNota);
             rs = stmt.executeQuery();
@@ -1350,7 +1350,7 @@ public class NotaDAO {
 
         try {
             stmt = con.prepareStatement("SELECT NT_CREDITO_CODIGO "
-                    + "FROM NT_CREDITO_LANC_GRU "
+                    + "FROM nt_credito_lanc_gru "
                     + "WHERE CPF_USR = ? AND NOME_USR = ? AND CODIGO_REC = ? AND DATA_HORA = ?");
             stmt.setString(1, lanc.getCpfUsr());
             stmt.setString(2, lanc.getNomeUsr());
