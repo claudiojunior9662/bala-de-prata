@@ -39,11 +39,11 @@ public class UsuarioDAO {
                         + "mudanca_senha,"
                         + "ativo) "
                         + "VALUES(?,?,?,md5(?),?,?,?,?,?,?,?,1)");
-                stmt.setString(1, cadastroFuncionariosBEAN.getCodigoAtendente());
-                stmt.setString(2, cadastroFuncionariosBEAN.getLoginAtendente());
-                stmt.setString(3, cadastroFuncionariosBEAN.getNomeAtendente());
+                stmt.setString(1, cadastroFuncionariosBEAN.getCodigo());
+                stmt.setString(2, cadastroFuncionariosBEAN.getLogin());
+                stmt.setString(3, cadastroFuncionariosBEAN.getNome());
                 stmt.setString(4, cadastroFuncionariosBEAN.getSenhaAtendente());
-                stmt.setString(5, cadastroFuncionariosBEAN.getTipoAtendente());
+                stmt.setString(5, cadastroFuncionariosBEAN.getTipo());
                 stmt.setByte(6, cadastroFuncionariosBEAN.getAcessoProd());
                 stmt.setByte(7, cadastroFuncionariosBEAN.getAcessoOrc());
                 stmt.setByte(8, cadastroFuncionariosBEAN.getAcessoExp());
@@ -63,10 +63,10 @@ public class UsuarioDAO {
                         + "acesso_estoque,"
                         + "ativo) "
                         + "VALUES(?,?,?,?,?,?,?,?,?,?,1)");
-                stmt.setString(1, cadastroFuncionariosBEAN.getCodigoAtendente());
-                stmt.setString(2, cadastroFuncionariosBEAN.getLoginAtendente());
-                stmt.setString(3, cadastroFuncionariosBEAN.getNomeAtendente());
-                stmt.setString(5, cadastroFuncionariosBEAN.getTipoAtendente());
+                stmt.setString(1, cadastroFuncionariosBEAN.getCodigo());
+                stmt.setString(2, cadastroFuncionariosBEAN.getLogin());
+                stmt.setString(3, cadastroFuncionariosBEAN.getNome());
+                stmt.setString(5, cadastroFuncionariosBEAN.getTipo());
                 stmt.setByte(6, cadastroFuncionariosBEAN.getAcessoProd());
                 stmt.setByte(7, cadastroFuncionariosBEAN.getAcessoOrc());
                 stmt.setByte(8, cadastroFuncionariosBEAN.getAcessoExp());

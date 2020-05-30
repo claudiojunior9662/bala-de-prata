@@ -207,7 +207,7 @@ public class ErroFrame extends javax.swing.JInternalFrame {
             ErroBEAN bean = new ErroBEAN(taEx.getText()
                     + "\n\n" + taErro.getText().toUpperCase(),
                     "EM ANÁLISE",
-                    TelaAutenticacao.codAtendente);
+                    TelaAutenticacao.getUsrLogado().getCodigo());
             ErroDAO.insereErro(bean);
             estado1();
             atualizaTabela();

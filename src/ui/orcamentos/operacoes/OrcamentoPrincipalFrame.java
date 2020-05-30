@@ -2595,7 +2595,7 @@ public class OrcamentoPrincipalFrame extends javax.swing.JInternalFrame {
         p2.setSelectedIndex(3);
         p1.setEnabled(false);
         p2.setEnabled(false);
-        p3Texto.setText(TelaAutenticacao.loginAtendente);
+        p3Texto.setText(TelaAutenticacao.getUsrLogado().getLogin());
         p3Texto.setEnabled(false);
         rdOdCliente.setSelected(true);
         rdOdCliente.setEnabled(false);
@@ -3669,7 +3669,7 @@ public class OrcamentoPrincipalFrame extends javax.swing.JInternalFrame {
                 return;
             }
 
-            if (TelaAutenticacao.codAtendente == null) {
+            if (TelaAutenticacao.getUsrLogado() == null) {
                 JOptionPane.showMessageDialog(null, "É NECESSÁRIO FAZER LOGIN PARA SALVAR O ORÇAMENTO", "ERRO", JOptionPane.ERROR_MESSAGE);
                 loading.setVisible(false);
                 return;
@@ -3682,7 +3682,7 @@ public class OrcamentoPrincipalFrame extends javax.swing.JInternalFrame {
             }
 
             //FIM DA VERIFICAÇÃO DE ERROS-------------------------------------------
-            orcamento.setCodEmissor(TelaAutenticacao.codAtendente);
+            orcamento.setCodEmissor(TelaAutenticacao.getUsrLogado().getCodigo());
 
             if (EDITANDO) {
                 CODIGO_ORCAMENTO = (int) codigoOrcamento.getValue();

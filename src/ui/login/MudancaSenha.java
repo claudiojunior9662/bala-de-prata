@@ -151,9 +151,9 @@ public class MudancaSenha extends javax.swing.JFrame {
     private void atualizarSenhaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_atualizarSenhaActionPerformed
         if (!senhaAnterior.equals("") && !novaSenha.equals("") && !confirmarSenha.equals("")) {
             try {
-                LoginDAO.atualizaSenha(confirmarSenha.getText(), TelaAutenticacao.codAtendente);
+                LoginDAO.atualizaSenha(confirmarSenha.getText(), TelaAutenticacao.getUsrLogado().getCodigo());
                 JOptionPane.showMessageDialog(null, "FAÇA O LOGIN UTILIZANDO A NOVA SENHA", "SENHA ATUALIZADA", JOptionPane.PLAIN_MESSAGE);
-                TelaAutenticacao.campoUsuario.setText(TelaAutenticacao.loginAtendente);
+                TelaAutenticacao.campoUsuario.setText(TelaAutenticacao.getUsrLogado().getLogin());
                 TelaAutenticacao.campoSenha.setText("");
                 this.dispose();
             } catch (AtualizaSenhaException ex) {
@@ -165,7 +165,7 @@ public class MudancaSenha extends javax.swing.JFrame {
 
     private void senhaAnteriorFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_senhaAnteriorFocusLost
         try {
-            if (!LoginDAO.verificaSenhaAntiga(senhaAnterior.getText(), TelaAutenticacao.codAtendente)) {
+            if (!LoginDAO.verificaSenhaAntiga(senhaAnterior.getText(), TelaAutenticacao.getUsrLogado().getCodigo())) {
                 avisos.setText("SENHA ANTIGA NÃO CONFERE");
                 senhaAnterior.setText("");
                 senhaAnterior.setBorder(Controle.bordaLinhaVermelha);

@@ -96,8 +96,8 @@ public class ClienteCadastro extends javax.swing.JInternalFrame {
         this.gj = gj;
         this.CLASSE_PAI = CLASSE_PAI;
         estado1();
-        codigoAtendente.setText(TelaAutenticacao.codAtendente);
-        nomeAtendente.setText(TelaAutenticacao.nomeAtendente);
+        codigoAtendente.setText(TelaAutenticacao.getUsrLogado().getCodigo());
+        nomeAtendente.setText(TelaAutenticacao.getUsrLogado().getNome());
     }
 
     /**

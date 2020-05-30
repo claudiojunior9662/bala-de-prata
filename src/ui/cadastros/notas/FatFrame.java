@@ -108,7 +108,7 @@ public class FatFrame extends javax.swing.JInternalFrame {
         initComponents();
         this.loading = loading;
         this.gj = gj;
-        emissor.setText(TelaAutenticacao.nomeAtendente);
+        emissor.setText(TelaAutenticacao.getUsrLogado().getNome());
         estadoInicial();
 
         listaCancelamento.add(2018);
@@ -1716,7 +1716,7 @@ public class FatFrame extends javax.swing.JInternalFrame {
         //DADOS DA NOTA---------------------------------------------------------
         serieNota.setEnabled(false);
         numeroNota.setEditable(false);
-        if (TelaAutenticacao.tipoAtendente.equals("ADMINISTRADOR")) {
+        if (TelaAutenticacao.getUsrLogado().getTipo().equals("ADMINISTRADOR")) {
             dataEntrega.setEnabled(true);
         }
         descricaoNota.setEnabled(true);
@@ -1801,7 +1801,7 @@ public class FatFrame extends javax.swing.JInternalFrame {
         serieNota.setEnabled(true);
         numeroNota.setEditable(false);
         numeroNota.setText("");
-        if (TelaAutenticacao.tipoAtendente.equals("ADMINISTRADOR")) {
+        if (TelaAutenticacao.getUsrLogado().getTipo().equals("ADMINISTRADOR")) {
             dataEntrega.setEnabled(true);
         }
         dataEntrega.setDate(new Date());
@@ -2264,7 +2264,7 @@ public class FatFrame extends javax.swing.JInternalFrame {
              * Gravar nota
              */
             if (EDITAR) {
-                FAT.setEmissor(TelaAutenticacao.codAtendente);
+                FAT.setEmissor(TelaAutenticacao.getUsrLogado().getCodigo());
                 FAT.setQtdEntregue(Integer.valueOf(qtdSerEntregue.getValue().toString()));
                 FAT.setVlrFat(Double.valueOf(vlrTotalNota.getValue().toString()));
                 FAT.setDtFat(dataEntrega.getDate());
@@ -2274,7 +2274,7 @@ public class FatFrame extends javax.swing.JInternalFrame {
             } else {
                 FAT.setCodOrc(Integer.valueOf(codOrc.getText()));
                 FAT.setCodOp(Integer.valueOf(codOp.getText()));
-                FAT.setEmissor(TelaAutenticacao.codAtendente);
+                FAT.setEmissor(TelaAutenticacao.getUsrLogado().getCodigo());
                 FAT.setQtdEntregue(Integer.valueOf(qtdSerEntregue.getValue().toString()));
                 FAT.setVlrFat(Double.valueOf(valorTotalEntregue.getValue().toString()));
                 FAT.setDtFat(dataEntrega.getDate());

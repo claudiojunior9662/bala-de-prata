@@ -542,8 +542,8 @@ public class RelatorioFin extends javax.swing.JInternalFrame {
 
                     document.open();
 
-                    document.addAuthor(TelaAutenticacao.nomeAtendente);
-                    document.addCreator(TelaAutenticacao.nomeAtendente);
+                    document.addAuthor(TelaAutenticacao.getUsrLogado().getNome());
+                    document.addCreator(TelaAutenticacao.getUsrLogado().getNome());
 
                     document.add(new Paragraph(new Phrase("RELATÓRIO DE ORDEM DE PRODUÇÃO - "
                             + "DATA E HORA DE EMISSÃO: "

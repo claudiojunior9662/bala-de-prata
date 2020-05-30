@@ -975,7 +975,7 @@ public class NCFrame extends javax.swing.JInternalFrame {
                     auxS = auxS.substring(0, 1);
                     nota.setTipo(Integer.valueOf(auxS));
                     nota.setFormaPagamento(jcbFormaPgto.getSelectedIndex());
-                    nota.setCodEmissor(TelaAutenticacao.codAtendente);
+                    nota.setCodEmissor(TelaAutenticacao.getUsrLogado().getCodigo());
                     nota.setCodigoCliente((int) codigoCliente.getValue());
                     nota.setCodEndereco(Integer.valueOf(codigosEnderecos.getSelectedItem().toString()));
                     nota.setCodContato(Integer.valueOf(codigosContatos.getSelectedItem().toString()));
@@ -1349,7 +1349,7 @@ public class NCFrame extends javax.swing.JInternalFrame {
         //DADOS DA NOTA---------------------------------------------------------
         serieNota.setEditable(false);
         numeroNota.setEditable(false);
-        if (TelaAutenticacao.tipoAtendente.equals("ADMINISTRADOR")) {
+        if (TelaAutenticacao.getUsrLogado().getTipo().equals("ADMINISTRADOR")) {
             data.setEnabled(true);
         }
         descricaoNota.setEditable(true);
@@ -1399,7 +1399,7 @@ public class NCFrame extends javax.swing.JInternalFrame {
         //DADOS DA NOTA---------------------------------------------------------
         serieNota.setEnabled(false);
         numeroNota.setEditable(false);
-        if (TelaAutenticacao.tipoAtendente.equals("ADMINISTRADOR")) {
+        if (TelaAutenticacao.getUsrLogado().getTipo().equals("ADMINISTRADOR")) {
             data.setEnabled(true);
         }
         data.setDate(new Date());

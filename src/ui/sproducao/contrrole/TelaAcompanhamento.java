@@ -1372,7 +1372,7 @@ public class TelaAcompanhamento extends javax.swing.JInternalFrame {
                     operadorSecao.addItem("SELECIONE...");
 
                     for (UsuarioBEAN funcionario : UsuarioDAO.retornaAtendentes((byte) 0)) {
-                        operadorSecao.addItem(funcionario.getNomeAtendente());
+                        operadorSecao.addItem(funcionario.getNome());
                     }
                     if (op.getOpSecao() != null) {
                         operadorSecao.setSelectedItem(op.getOpSecao());

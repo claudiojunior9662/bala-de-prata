@@ -15,7 +15,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.DateFormat;
 import java.util.Date;
-import ui.administrador.UsuarioBEAN;
 import ui.controle.Controle;
 
 /**
@@ -55,8 +54,8 @@ public class LoginDAO extends RuntimeException {
                         throw new UsuarioSenhaIncorretosException();
                     }
             }
-        } catch (SQLException e) {
-            throw new SQLException(e);
+        } catch (SQLException ex) {
+            throw new SQLException(ex);
         } finally {
             ConnectionFactory.closeConnection(con, stmt, rs);
         }

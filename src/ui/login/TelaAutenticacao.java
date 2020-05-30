@@ -6,6 +6,7 @@
 package ui.login;
 
 import exception.EnvioExcecao;
+import exception.UsuarioNaoAtivoException;
 import exception.UsuarioSenhaIncorretosException;
 import java.awt.Cursor;
 import java.awt.Image;
@@ -32,7 +33,7 @@ public class TelaAutenticacao extends javax.swing.JFrame {
     private static final String update = "Delta";
     private static UsuarioBEAN atendenteLogado;
 
-    public static UsuarioBEAN getAtendenteLogado() {
+    public static UsuarioBEAN getUsrLogado() {
         return atendenteLogado;
     }
 
@@ -343,7 +344,7 @@ public class TelaAutenticacao extends javax.swing.JFrame {
 
             } else if (loginDAO.verificaNome(campoUsuario.getText().toUpperCase(), campoSenha.getText())) {
                 atendenteLogado = UsuarioDAO.retornaInfoUsr(campoUsuario.getText().toUpperCase(), campoSenha.getText());
-                if (loginDAO.verificaExpiracaoSenha(atendenteLogado.getCodigoAtendente())
+                if (loginDAO.verificaExpiracaoSenha(atendenteLogado.getCodigo())
                         && !campoUsuario.getText().equals("admin")) {
                     JOptionPane.showMessageDialog(null, "SUA SENHA EXPIROU.\nO SR(A) SERÁ REDIRECIONADO PARA A MUDANÇA DE SENHA.");
                     MudancaSenha md = new MudancaSenha();
@@ -395,10 +396,19 @@ public class TelaAutenticacao extends javax.swing.JFrame {
                 } else {
                     this.dispose();
                 }
+            }else{
+                lblEntrar.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
             }
         } catch (SQLException ex) {
             EnvioExcecao envioExcecao = new EnvioExcecao(Controle.getDefaultGj(), ex);
             EnvioExcecao.envio();
+        }catch(UsuarioSenhaIncorretosException | UsuarioNaoAtivoException ex){
+            JOptionPane.showMessageDialog(
+                    null, 
+                    ex.getMessage(),
+                    "ERRO DE AUTENTICAÇÃO",
+                    0
+            );
         }
         lblEntrar.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
     }//GEN-LAST:event_lblEntrarMouseClicked

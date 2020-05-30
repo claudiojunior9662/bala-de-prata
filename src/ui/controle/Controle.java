@@ -68,14 +68,14 @@ public class Controle {
         ta.setDefaultCloseOperation(EXIT_ON_CLOSE);
         ta.setLocationRelativeTo(null);
         ta.setVisible(true);
-        ta.campoUsuario.setText(TelaAutenticacao.getAtendenteLogado().getLoginAtendente());
+        ta.campoUsuario.setText(TelaAutenticacao.getUsrLogado().getLogin());
         frame.dispose();
     }
 
     public static void defineStatus(JTextPane status) {
         status.setEditable(false);
         status.setText("GRÁFICA DO EXÉRCITO | USUÁRIO: "
-                + TelaAutenticacao.getAtendenteLogado().getNomeAtendente()
+                + TelaAutenticacao.getUsrLogado().getNome()
                 + " | BASE DE DADOS: "
                 + Controle.getSelBanco()
                 + " | " + Controle.dataPadrao.format(new Date()));

@@ -167,7 +167,7 @@ public class UsuarioBEAN {
         this.ativo = ativo;
     }
 
-    public String getCodigoAtendente() {
+    public String getCodigo() {
         return codigoAtendente;
     }
 
@@ -175,7 +175,7 @@ public class UsuarioBEAN {
         this.codigoAtendente = codigo_atendente;
     }
 
-    public String getLoginAtendente() {
+    public String getLogin() {
         return loginAtendente;
     }
 
@@ -183,7 +183,7 @@ public class UsuarioBEAN {
         this.loginAtendente = login_atendente;
     }
 
-    public String getNomeAtendente() {
+    public String getNome() {
         return nomeAtendente;
     }
 
@@ -199,7 +199,7 @@ public class UsuarioBEAN {
         this.senhaAtendente = senha_atendente;
     }
 
-    public String getTipoAtendente() {
+    public String getTipo() {
         return tipoAtendente;
     }
 

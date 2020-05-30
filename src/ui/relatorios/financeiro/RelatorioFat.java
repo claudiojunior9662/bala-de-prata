@@ -59,8 +59,8 @@ public class RelatorioFat extends javax.swing.JInternalFrame {
             comboEmissores.removeAllItems();
             for (UsuarioBEAN cadastroFuncionariosBEAN
                     : UsuarioDAO.retornaAtendentes((byte) 3)) {
-                comboEmissores.addItem(cadastroFuncionariosBEAN.getCodigoAtendente() + " - "
-                        + cadastroFuncionariosBEAN.getNomeAtendente());
+                comboEmissores.addItem(cadastroFuncionariosBEAN.getCodigo() + " - "
+                        + cadastroFuncionariosBEAN.getNome());
             }
 
             estadoInicial();

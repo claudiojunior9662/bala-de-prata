@@ -69,8 +69,8 @@ public class RelatorioOrcamentos extends javax.swing.JInternalFrame {
             }
             for (UsuarioBEAN cadastroFuncionariosBEAN
                     : UsuarioDAO.retornaAtendentes((byte) 2)) {
-                comboEmissores.addItem(cadastroFuncionariosBEAN.getCodigoAtendente() + " - "
-                        + cadastroFuncionariosBEAN.getNomeAtendente());
+                comboEmissores.addItem(cadastroFuncionariosBEAN.getCodigo() + " - "
+                        + cadastroFuncionariosBEAN.getNome());
             }
         } catch (SQLException ex) {
             EnvioExcecao envioExcecao = new EnvioExcecao(Controle.getDefaultGj(), ex);

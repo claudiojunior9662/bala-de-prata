@@ -629,7 +629,7 @@ public class OrdemProducao {
                     + op.getOrcBase()
                     + "\n"
                     + "EMISSOR: "
-                    + TelaAutenticacao.getAtendenteLogado().getCodigoAtendente()
+                    + TelaAutenticacao.getUsrLogado().getCodigo()
                     + "\n"
                     + "EMISSÃO: "
                     + Controle.dataPadrao.format(op.getDataEmissao()),
@@ -721,9 +721,9 @@ public class OrdemProducao {
                     tblCliente.addCell(cell1);
                     tblCliente.addCell(cell2);
                     cell1 = new PdfPCell(new Phrase("EMISSOR: "
-                            + TelaAutenticacao.getAtendenteLogado().getNomeAtendente()
+                            + TelaAutenticacao.getUsrLogado().getNome()
                             + " - "
-                            + TelaAutenticacao.getAtendenteLogado().getCodigoAtendente(),
+                            + TelaAutenticacao.getUsrLogado().getCodigo(),
                             FontFactory.getFont("arial.ttf", 9)));
                     cell1.setBorder(0);
                     cell1.setColspan(3);
@@ -1386,7 +1386,7 @@ public class OrdemProducao {
                 p = new Paragraph("_________________________________________");
                 p.setAlignment(1);
                 document.add(p);
-                p = new Paragraph(TelaAutenticacao.getAtendenteLogado().getNomeAtendente(),
+                p = new Paragraph(TelaAutenticacao.getUsrLogado().getNome(),
                         FontFactory.getFont("arial.ttf", 9));
                 p.setAlignment(1);
                 document.add(p);

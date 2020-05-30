@@ -9,8 +9,9 @@ package exception;
  *
  * @author 1113778771
  */
-public class UsuarioSenhaIncorretosException extends RuntimeException{
-    public UsuarioSenhaIncorretosException(){
+public class UsuarioSenhaIncorretosException extends RuntimeException {
+
+    public UsuarioSenhaIncorretosException() {
         super("USUÁRIO E/OU SENHA INCORRETOS.");
     }
 }

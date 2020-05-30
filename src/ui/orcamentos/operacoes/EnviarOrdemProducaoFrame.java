@@ -542,7 +542,7 @@ public class EnviarOrdemProducaoFrame extends javax.swing.JInternalFrame {
                     return;
                 }
                 op.setDescricao(observacoesOrdemProducao.getText());
-                op.setCodEmissor(TelaAutenticacao.codAtendente);
+                op.setCodEmissor(TelaAutenticacao.getUsrLogado().getCodigo());
                 op.setCodProduto(codProd);
                 op.setCodContato(COD_CONTATO);
                 op.setCodEndereco(COD_ENDERECO);

@@ -22,7 +22,6 @@ import entidades.ProdOrcamento;
 import exception.EnvioExcecao;
 import java.awt.Font;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.sql.SQLException;
@@ -837,7 +836,7 @@ public class NotaBEAN {
                     p = new Paragraph("_________________________________________");
                     p.setAlignment(1);
                     document.add(p);
-                    p = new Paragraph(OrcamentoDAO.carregaNomeVendedor(TelaAutenticacao.codAtendente),
+                    p = new Paragraph(OrcamentoDAO.carregaNomeVendedor(TelaAutenticacao.getUsrLogado().getCodigo()),
                             FontFactory.getFont("arial.ttf", 9));
                     p.setAlignment(1);
                     document.add(p);

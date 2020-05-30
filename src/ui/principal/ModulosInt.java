@@ -7,65 +7,66 @@ import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
-import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JInternalFrame;
 import javax.swing.JOptionPane;
 import ui.login.TelaAutenticacao;
-import ui.administrador.UsuarioBEAN;
-import ui.administrador.UsuarioDAO;
 
 public class ModulosInt extends javax.swing.JFrame {
 
     private GerenteJanelas gerenteJanelas;
 
     public ModulosInt() {
-        try {
-            initComponents();
+        initComponents();
 
-            URL url = this.getClass().getResource("/ui/login/logo.png");
-            Image imagemLogo = Toolkit.getDefaultToolkit().getImage(url);
-            this.setIconImage(imagemLogo);
+        URL url = this.getClass().getResource("/ui/login/logo.png");
+        Image imagemLogo = Toolkit.getDefaultToolkit().getImage(url);
+        this.setIconImage(imagemLogo);
 
-            orcamento.setEnabled(false);
-            estoque.setEnabled(false);
-            producao.setEnabled(false);
-            expedicao.setEnabled(false);
-            financeiro.setEnabled(false);
-            ordenador.setEnabled(false);
-            tutoriais.setEnabled(true);
-            for (UsuarioBEAN cadastroFuncionariosBEAN
-                    : UsuarioDAO.retornaAcessos(loginAtendente)) {
-                if (cadastroFuncionariosBEAN.getAcessoOrc() == 1 | loginAtendente.equals("admin")) {
-                    orcamento.setEnabled(true);
-                }
-                if (cadastroFuncionariosBEAN.getAcessoProd() == 1 | loginAtendente.equals("admin")) {
-                    producao.setEnabled(true);
-                }
-                if (cadastroFuncionariosBEAN.getAcessoExp() == 1 | loginAtendente.equals("admin")) {
-                    expedicao.setEnabled(true);
-                }
-                if (cadastroFuncionariosBEAN.getAcessoFin() == 1 | loginAtendente.equals("admin")) {
-                    financeiro.setEnabled(true);
-                }
-                if (cadastroFuncionariosBEAN.getAcessoEst() == 1 | loginAtendente.equals("admin")) {
-                    estoque.setEnabled(true);
-                }
-                if (cadastroFuncionariosBEAN.getAcessoOrd() == 1 | loginAtendente.equals("admin")) {
-                    ordenador.setEnabled(true);
-                }
-            }
-            this.setDefaultCloseOperation(ModulosInt.EXIT_ON_CLOSE);
-            if (TelaAutenticacao.tipoAtendente.equals("ADMINISTRADOR") | loginAtendente.equals("admin")) {
-                painelAdministrador.setEnabled(true);
-            } else {
-                painelAdministrador.setEnabled(false);
-            }
-        } catch (SQLException ex) {
-            Logger.getLogger(ModulosInt.class.getName()).log(Level.SEVERE, null, ex);
+        orcamento.setEnabled(false);
+        estoque.setEnabled(false);
+        producao.setEnabled(false);
+        expedicao.setEnabled(false);
+        financeiro.setEnabled(false);
+        ordenador.setEnabled(false);
+        tutoriais.setEnabled(true);
+
+        if (TelaAutenticacao.getUsrLogado().getAcessoOrc() == 1
+                | TelaAutenticacao.getUsrLogado().getLogin().equals("admin")) {
+            orcamento.setEnabled(true);
+        }
+        if (TelaAutenticacao.getUsrLogado().getAcessoProd() == 1
+                | TelaAutenticacao.getUsrLogado().getLogin().equals("admin")) {
+            producao.setEnabled(true);
+        }
+        if (TelaAutenticacao.getUsrLogado().getAcessoExp() == 1
+                | TelaAutenticacao.getUsrLogado().getLogin().equals("admin")) {
+            expedicao.setEnabled(true);
+        }
+        if (TelaAutenticacao.getUsrLogado().getAcessoFin() == 1
+                | TelaAutenticacao.getUsrLogado().getLogin().equals("admin")) {
+            financeiro.setEnabled(true);
+        }
+        if (TelaAutenticacao.getUsrLogado().getAcessoEst() == 1
+                | TelaAutenticacao.getUsrLogado().getLogin().equals("admin")) {
+            estoque.setEnabled(true);
+        }
+        if (TelaAutenticacao.getUsrLogado().getAcessoOrd() == 1
+                | TelaAutenticacao.getUsrLogado().getLogin().equals("admin")) {
+            ordenador.setEnabled(true);
+        }
+
+        this.setDefaultCloseOperation(ModulosInt.EXIT_ON_CLOSE);
+
+        if (TelaAutenticacao.getUsrLogado().getTipo().equals("ADMINISTRADOR")
+                | TelaAutenticacao.getUsrLogado().getLogin().equals("admin")) {
+            painelAdministrador.setEnabled(true);
+        } else {
+            painelAdministrador.setEnabled(false);
         }
     }
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {

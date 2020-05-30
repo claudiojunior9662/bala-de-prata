@@ -78,7 +78,7 @@ public class UsuarioCadastro extends javax.swing.JInternalFrame {
         ativar = new javax.swing.JButton();
         resetarSenha = new javax.swing.JButton();
         jScrollPane2 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        tblAcessos = new javax.swing.JTable();
 
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "CADASTRO DE ATENDENTES", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 12))); // NOI18N
 
@@ -225,10 +225,10 @@ public class UsuarioCadastro extends javax.swing.JInternalFrame {
             }
         });
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        tblAcessos.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {"USUÁRIO", null, null, null, null, null, null},
-                {"ADMIN", null, null, null, null, null, null}
+                {"ADMIN", null, null, null, null,  new Boolean(false), null}
             },
             new String [] {
                 "TIPO ACESSO", "ORÇAMENTO", "PRODUÇÃO", "EXPEDIÇÃO", "FINANCEIRO", "ESTOQUE", "ORD DESPESAS"
@@ -242,7 +242,7 @@ public class UsuarioCadastro extends javax.swing.JInternalFrame {
                 return types [columnIndex];
             }
         });
-        jScrollPane2.setViewportView(jTable1);
+        jScrollPane2.setViewportView(tblAcessos);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -254,8 +254,8 @@ public class UsuarioCadastro extends javax.swing.JInternalFrame {
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel1)
-                            .addComponent(nomeAtendente, javax.swing.GroupLayout.PREFERRED_SIZE, 246, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 22, Short.MAX_VALUE)
+                            .addComponent(nomeAtendente, javax.swing.GroupLayout.PREFERRED_SIZE, 339, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel2)
                             .addComponent(codigoAtendente, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -328,8 +328,8 @@ public class UsuarioCadastro extends javax.swing.JInternalFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -351,151 +351,67 @@ public class UsuarioCadastro extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_tipoAtendenteActionPerformed
 
     private void cadastrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cadastrarActionPerformed
-        cadastraEdita(1);
+
     }//GEN-LAST:event_cadastrarActionPerformed
 
     private void tabelaAtendentesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tabelaAtendentesMouseClicked
-        nomeAtendente.setText(tabelaAtendentes.getValueAt(tabelaAtendentes.getSelectedRow(), 0).toString());
-        codigoAtendente.setText(tabelaAtendentes.getValueAt(tabelaAtendentes.getSelectedRow(), 1).toString());
-        novoLogin.setText(tabelaAtendentes.getValueAt(tabelaAtendentes.getSelectedRow(), 2).toString());
-        tipoAtendente.setSelectedItem(tabelaAtendentes.getValueAt(tabelaAtendentes.getSelectedRow(), 3));
-        acessoOrcamentacao.setSelected(false);
-        acessoProducao.setSelected(false);
-        acessoExpedicao.setSelected(false);
-        acessoFinanceiro.setSelected(false);
-        acessoEstoque.setSelected(false);
+        UsuarioBEAN usuarioSel = model.getValueAt(tabelaAtendentes.getSelectedRow());
+        
+        nomeAtendente.setText(usuarioSel.getNome());
+        codigoAtendente.setText(usuarioSel.getCodigo());
+        novoLogin.setText(usuarioSel.getLogin());
+        tipoAtendente.setSelectedItem(usuarioSel.getTipo());
+        
         resetarSenha.setEnabled(true);
         editar.setEnabled(true);
         ativar.setEnabled(true);
         desativar.setEnabled(true);
-        if (tabelaAtendentes.getValueAt(tabelaAtendentes.getSelectedRow(), 4).toString().equals("SIM")) {
-            acessoOrcamentacao.setSelected(true);
-        }
-        if (tabelaAtendentes.getValueAt(tabelaAtendentes.getSelectedRow(), 5).toString().equals("SIM")) {
-            acessoProducao.setSelected(true);
-        }
-        if (tabelaAtendentes.getValueAt(tabelaAtendentes.getSelectedRow(), 6).toString().equals("SIM")) {
-            acessoExpedicao.setSelected(true);
-        }
-        if (tabelaAtendentes.getValueAt(tabelaAtendentes.getSelectedRow(), 7).toString().equals("SIM")) {
-            acessoFinanceiro.setSelected(true);
-        }
-        if (tabelaAtendentes.getValueAt(tabelaAtendentes.getSelectedRow(), 8).toString().equals("SIM")) {
-            acessoEstoque.setSelected(true);
+        
+        if(usuarioSel.getAcessoOrc() == 1){
+            if(usuarioSel.getAcessoOrcAdm() == 1){
+                tblAcessos.setValueAt(true, 1, 1);
+            }else{
+                tblAcessos.setValueAt(true, 0, 1);
+            }
+        }if(usuarioSel.getAcessoProd() == 1){
+            if(usuarioSel.getAcessoProdAdm() == 1){
+                tblAcessos.setValueAt(true, 1, 2);
+            }else{
+                tblAcessos.setValueAt(true, 0, 2);
+            }
+        }if(usuarioSel.getAcessoExp() == 1){
+            if(usuarioSel.getAcessoExpAdm() == 1){
+                tblAcessos.setValueAt(true, 1, 3);
+            }else{
+                tblAcessos.setValueAt(true, 0, 3);
+            }
+        }if(usuarioSel.getAcessoFin() == 1){
+            if(usuarioSel.getAcessoFinAdm() == 1){
+                tblAcessos.setValueAt(true, 1, 4);
+            }else{
+                tblAcessos.setValueAt(true, 0, 4);
+            }
+        }if(usuarioSel.getAcessoEst() == 1){
+            tblAcessos.setValueAt(true, 0, 5);
+        }if(usuarioSel.getAcessoOrd() == 1){
+            tblAcessos.setValueAt(true, 0, 6);
         }
     }//GEN-LAST:event_tabelaAtendentesMouseClicked
 
     private void excluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_excluirActionPerformed
-        String codAtendente = (String) tabelaAtendentes.getValueAt(tabelaAtendentes.getSelectedRow(), 1);
-        int dialogButton = JOptionPane.YES_NO_OPTION;
-        int dialogResult = JOptionPane.showConfirmDialog(this, "Excluir cliente nº " + codAtendente + "?", "Confirmação de exclusão", dialogButton);
-        if (dialogResult == 0) {
-            try {
-                UsuarioDAO.excluiFuncionario(codAtendente);
-                DefaultTableModel modeloAtendentes = (DefaultTableModel) tabelaAtendentes.getModel();
-                modeloAtendentes.setNumRows(0);
-                for (UsuarioBEAN cfBEAN : UsuarioDAO.carregaLista()) {
-                    modeloAtendentes.addRow(new Object[]{
-                        cfBEAN.getNomeAtendente(),
-                        cfBEAN.getCodigoAtendente(),
-                        cfBEAN.getLoginAtendente(),
-                        cfBEAN.getSenhaAtendente(),
-                        cfBEAN.getTipoAtendente(),
-                        cfBEAN.getAcessoOrc(),
-                        cfBEAN.getAcessoProd()
-                    });
-                }
-            } catch (SQLException ex) {
-                EnvioExcecao envioExcecao = new EnvioExcecao(Controle.getDefaultGj(), ex);
-                EnvioExcecao.envio();
-            }
-        } else {
-            return;
-        }
-        excluir.setEnabled(false);
+        
     }//GEN-LAST:event_excluirActionPerformed
 
     private void pesquisaComboItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_pesquisaComboItemStateChanged
-        //        SELECIONE...
-        //        NOME ATENDENTE
-        //        CÓDIGO ATENDENTE
-        //        LOGIN ATENDENTE
-        //        TIPO ATENDENTE
-        //        ACESSO PRODUÇÃO
-        //        ACESSO ORÇAMENTAÇÃO
-        if (pesquisaCombo.getSelectedItem().toString().equals("TIPO ATENDENTE")) {
-            pesquisaComboAux.removeAllItems();
-            pesquisaComboAux.addItem("ADMINISTRADOR");
-            pesquisaComboAux.addItem("USUÁRIO");
-            pesquisaTexto.setEnabled(false);
-            pesquisaComboAux.setEnabled(true);
-        } else if (pesquisaCombo.getSelectedItem().toString().equals("ACESSO PRODUÇÃO")) {
-            pesquisaComboAux.removeAllItems();
-            pesquisaComboAux.addItem("SIM");
-            pesquisaComboAux.addItem("NÃO");
-            pesquisaTexto.setEnabled(false);
-            pesquisaComboAux.setEnabled(true);
-        } else if (pesquisaCombo.getSelectedItem().toString().equals("ACESSO ORÇAMENTAÇÃO")) {
-            pesquisaComboAux.removeAllItems();
-            pesquisaComboAux.addItem("SIM");
-            pesquisaComboAux.addItem("NÃO");
-            pesquisaTexto.setEnabled(false);
-            pesquisaComboAux.setEnabled(true);
-        } else {
-            pesquisaTexto.setEnabled(true);
-            pesquisaComboAux.setEnabled(false);
-        }
+        
     }//GEN-LAST:event_pesquisaComboItemStateChanged
 
     private void pesquisarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_pesquisarActionPerformed
-        //        SELECIONE...
-        //        NOME ATENDENTE
-        //        CÓDIGO ATENDENTE
-        //        LOGIN ATENDENTE
-        //        TIPO ATENDENTE
-        //        ACESSO PRODUÇÃO
-        //        ACESSO ORÇAMENTAÇÃO
-        if (pesquisaCombo.getSelectedItem().toString().equals("NOME ATENDENTE")) {
-            if (pesquisaTexto.getText().equals("")) {
-                JOptionPane.showMessageDialog(null, "INSIRA UM NOME DE ATENDENTE NO CAMPO DE TEXTO");
-                return;
-            } else {
-                carregaLista(pesquisaCombo.getSelectedItem().toString(), null, pesquisaTexto.getText());
-            }
-        }
-        if (pesquisaCombo.getSelectedItem().toString().equals("CÓDIGO ATENDENTE")) {
-            if (pesquisaTexto.getText().equals("")) {
-                JOptionPane.showMessageDialog(null, "INSIRA O CÓDIGO DO ATENDENTE NO CAMPO DE TEXTO");
-                return;
-            } else {
-                carregaLista(pesquisaCombo.getSelectedItem().toString(), null, pesquisaTexto.getText());
-            }
-        }
-        if (pesquisaCombo.getSelectedItem().toString().equals("LOGIN ATENDENTE")) {
-            if (pesquisaTexto.getText().equals("")) {
-                JOptionPane.showMessageDialog(null, "INSIRA O LOGIN DO ATENDENTE NO CAMPO DE TEXTO");
-                return;
-            } else {
-                carregaLista(pesquisaCombo.getSelectedItem().toString(), null, pesquisaTexto.getText());
-            }
-        }
-        if (pesquisaCombo.getSelectedItem().toString().equals("TIPO ATENDENTE")) {
-            carregaLista(pesquisaCombo.getSelectedItem().toString(), pesquisaComboAux.getSelectedItem().toString(), null);
-        }
-        if (pesquisaCombo.getSelectedItem().toString().equals("ACESSO PRODUÇÃO")) {
-            carregaLista(pesquisaCombo.getSelectedItem().toString(), pesquisaComboAux.getSelectedItem().toString(), null);
-        }
-        if (pesquisaCombo.getSelectedItem().toString().equals("ACESSO ORÇAMENTAÇÃO")) {
-            carregaLista(pesquisaCombo.getSelectedItem().toString(), pesquisaComboAux.getSelectedItem().toString(), null);
-        }
-        pesquisaTexto.setEnabled(false);
-        pesquisaComboAux.removeAllItems();
-        pesquisaComboAux.addItem("SELECIONE...");
-        pesquisaComboAux.setEnabled(false);
+        
     }//GEN-LAST:event_pesquisarActionPerformed
 
     private void editarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editarActionPerformed
-        cadastraEdita(2);
+
     }//GEN-LAST:event_editarActionPerformed
 
     private void desativarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_desativarActionPerformed
@@ -559,7 +475,6 @@ public class UsuarioCadastro extends javax.swing.JInternalFrame {
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JTable jTable1;
     public static javax.swing.JTextField nomeAtendente;
     public static javax.swing.JPasswordField novaSenha;
     public static javax.swing.JTextField novoLogin;
@@ -569,6 +484,7 @@ public class UsuarioCadastro extends javax.swing.JInternalFrame {
     private javax.swing.JButton pesquisar;
     private javax.swing.JButton resetarSenha;
     private javax.swing.JTable tabelaAtendentes;
+    private javax.swing.JTable tblAcessos;
     public static javax.swing.JComboBox<String> tipoAtendente;
     // End of variables declaration//GEN-END:variables
  public void limpa() {
@@ -593,10 +509,10 @@ public class UsuarioCadastro extends javax.swing.JInternalFrame {
                         UsuarioDAO.retornaPesquisa(tipo, tipoAux, texto)) {
 
                     modeloAtendentes.addRow(new Object[]{
-                        cadastroFuncionariosBEAN.getNomeAtendente(),
-                        cadastroFuncionariosBEAN.getCodigoAtendente(),
-                        cadastroFuncionariosBEAN.getLoginAtendente(),
-                        cadastroFuncionariosBEAN.getTipoAtendente(),
+                        cadastroFuncionariosBEAN.getNome(),
+                        cadastroFuncionariosBEAN.getCodigo(),
+                        cadastroFuncionariosBEAN.getLogin(),
+                        cadastroFuncionariosBEAN.getTipo(),
                         cadastroFuncionariosBEAN.getAcessoOrc() == 1 ? "SIM" : "NÃO",
                         cadastroFuncionariosBEAN.getAcessoProd() == 1 ? "SIM" : "NÃO",
                         cadastroFuncionariosBEAN.getAcessoExp() == 1 ? "SIM" : "NÃO",
@@ -611,98 +527,6 @@ public class UsuarioCadastro extends javax.swing.JInternalFrame {
             EnvioExcecao envioExcecao = new EnvioExcecao(Controle.getDefaultGj(), ex);
             EnvioExcecao.envio();
         }
-    }
-
-    public void cadastraEdita(Integer funcao) {
-        UsuarioBEAN cadastroFuncionariosBEAN = new UsuarioBEAN();
-
-        try {
-            if (nomeAtendente.getText().equals(null)) {
-                JOptionPane.showMessageDialog(null, "O CAMPO NOME DEVE SER PREENCHIDO.");
-                return;
-            } else {
-                cadastroFuncionariosBEAN.setNomeAtendente(nomeAtendente.getText().toUpperCase());
-            }
-
-            if (novaSenha.getText().equals(null)) {
-                JOptionPane.showMessageDialog(null, "O CAMPO SENHA DEVE SER PREENCHIDO.");
-                return;
-            } else {
-                cadastroFuncionariosBEAN.setSenha_atendente(novaSenha.getText());
-            }
-
-            if (novoLogin.getText().equals(null)) {
-                JOptionPane.showMessageDialog(null, "O CAMPO LOGIN DEVE SER PREENCHIDO.");
-                return;
-            }
-
-            cadastroFuncionariosBEAN.setLogin_atendente(novoLogin.getText().toUpperCase());
-
-            if (codigoAtendente.getText().equals(null)) {
-                JOptionPane.showMessageDialog(null, "O CAMPO CÓDIGO DEVE SER PREENCHIDO.");
-                return;
-            }
-            if (UsuarioDAO.verificaCodigo(codigoAtendente.getText()) && funcao != 2) {
-                JOptionPane.showMessageDialog(null, "O CÓDIGO DIGITADO JÁ EXISTE.");
-                return;
-            } else {
-                cadastroFuncionariosBEAN.setCodigoAtendente(codigoAtendente.getText().toUpperCase());
-            }
-
-            if (tipoAtendente.getSelectedItem().equals("SELECIONE...")) {
-                JOptionPane.showMessageDialog(null, "SELECIONE UM TIPO DE ATENDENTE.");
-                return;
-            } else {
-                cadastroFuncionariosBEAN.setTipoAtendente((String) tipoAtendente.getSelectedItem());
-            }
-
-            if (acessoOrcamentacao.isSelected()) {
-                cadastroFuncionariosBEAN.setAcessoOrc((byte) 1);
-            } else {
-                cadastroFuncionariosBEAN.setAcessoOrc((byte) 0);
-            }
-
-            if (acessoProducao.isSelected()) {
-                cadastroFuncionariosBEAN.setAcessoProd((byte) 1);
-            } else {
-                cadastroFuncionariosBEAN.setAcessoProd((byte) 0);
-            }
-
-            if (acessoExpedicao.isSelected()) {
-                cadastroFuncionariosBEAN.setAcessoExp((byte) 1);
-            } else {
-                cadastroFuncionariosBEAN.setAcessoExp((byte) 0);
-            }
-
-            if (acessoFinanceiro.isSelected()) {
-                cadastroFuncionariosBEAN.setAcessoFin((byte) 1);
-            } else {
-                cadastroFuncionariosBEAN.setAcessoFin((byte) 0);
-            }
-
-            if (acessoEstoque.isSelected()) {
-                cadastroFuncionariosBEAN.setAcessoEst((byte) 1);
-            } else {
-                cadastroFuncionariosBEAN.setAcessoEst((byte) 0);
-            }
-
-            if (funcao == 1) {
-                UsuarioDAO.create(cadastroFuncionariosBEAN);
-                JOptionPane.showMessageDialog(null, "USUÁRIO CRIADO COM SUCESSO.", "MENSAGEM", JOptionPane.INFORMATION_MESSAGE);
-            } else {
-                UsuarioDAO.excluiFuncionario(cadastroFuncionariosBEAN.getCodigoAtendente());
-                UsuarioDAO.create(cadastroFuncionariosBEAN);
-                JOptionPane.showMessageDialog(null, "USUÁRIO EDITADO COM SUCESSO.", "MENSAGEM", JOptionPane.INFORMATION_MESSAGE);
-            }
-
-            TelaAutenticacao.campoUsuario.setText(novoLogin.getText());
-            carregaLista(null, null, null);
-        } catch (SQLException ex) {
-            EnvioExcecao envioExcecao = new EnvioExcecao(Controle.getDefaultGj(), ex);
-            EnvioExcecao.envio();
-        }
-
-        limpa();
     }
 
 }

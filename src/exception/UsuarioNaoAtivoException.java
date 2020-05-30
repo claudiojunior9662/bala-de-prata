@@ -11,6 +11,6 @@ package exception;
  */
 public class UsuarioNaoAtivoException extends RuntimeException{
     public UsuarioNaoAtivoException(){
-        super("O USUÁRIO NÃO ESTÁ ATIVO NO MOMENTO. ENTRE EM CONTATO COM O ADMINISTRADOR.");
+        super("O USUÁRIO ESTÁ DESATIVADO. PROCURE O ADMINISTRADOR DO SISTEMA.");
     }
 }

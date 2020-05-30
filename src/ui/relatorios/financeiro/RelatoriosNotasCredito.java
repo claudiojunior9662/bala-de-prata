@@ -61,8 +61,8 @@ public class RelatoriosNotasCredito extends javax.swing.JInternalFrame {
             comboEmissores.removeAllItems();
             for (UsuarioBEAN cadastroFuncionariosBEAN
                     : UsuarioDAO.retornaAtendentes((byte) 4)) {
-                comboEmissores.addItem(cadastroFuncionariosBEAN.getCodigoAtendente() + " - "
-                        + cadastroFuncionariosBEAN.getNomeAtendente());
+                comboEmissores.addItem(cadastroFuncionariosBEAN.getCodigo() + " - "
+                        + cadastroFuncionariosBEAN.getNome());
             }
         } catch (SQLException ex) {
             EnvioExcecao envioExcecao = new EnvioExcecao(Controle.getDefaultGj(), ex);

@@ -69,8 +69,8 @@ public class RelatoriosOrdemProducao extends javax.swing.JInternalFrame {
             comboEmissores.removeAllItems();
             for (UsuarioBEAN cadastroFuncionariosBEAN
                     : UsuarioDAO.retornaAtendentes((byte) 2)) {
-                comboEmissores.addItem(cadastroFuncionariosBEAN.getCodigoAtendente() + " - "
-                        + cadastroFuncionariosBEAN.getNomeAtendente());
+                comboEmissores.addItem(cadastroFuncionariosBEAN.getCodigo() + " - "
+                        + cadastroFuncionariosBEAN.getNome());
             }
         } catch (SQLException ex) {
             EnvioExcecao envioExcecao = new EnvioExcecao(Controle.getDefaultGj(), ex);
@@ -2790,8 +2790,8 @@ public class RelatoriosOrdemProducao extends javax.swing.JInternalFrame {
                     }
 
                     document.open();
-                    document.addAuthor(TelaAutenticacao.nomeAtendente);
-                    document.addCreator(TelaAutenticacao.nomeAtendente);
+                    document.addAuthor(TelaAutenticacao.getUsrLogado().getNome());
+                    document.addCreator(TelaAutenticacao.getUsrLogado().getNome());
 
                     document.add(new Paragraph(new Phrase("RELATÓRIO DE ORDEM DE PRODUÇÃO - "
                             + "DATA E HORA DE EMISSÃO: "
