@@ -29,8 +29,8 @@ import ui.principal.ModulosExt;
  */
 public class TelaAutenticacao extends javax.swing.JFrame {
     
-    private static final String codVersao = "2.3.4";
-    private static final String update = "Delta";
+    private static final String codVersao = "2.3.5";
+    private static final String update = "Alfa";
     private static UsuarioBEAN atendenteLogado;
 
     public static UsuarioBEAN getUsrLogado() {

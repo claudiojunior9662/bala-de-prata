@@ -19,6 +19,7 @@ import java.util.List;
  */
 public class UsuarioDAO {
 
+    //CRUD----------------------------------------------------------------------
     /**
      * Cria um novo usuário
      * @param usuario novo usuário
@@ -75,6 +76,86 @@ public class UsuarioDAO {
             ConnectionFactory.closeConnection(con, stmt);
         }
     }
+    
+    /**
+     * Atualiza um usuário
+     * @param usuario usuário a ser atualizado
+     * @throws SQLException 
+     */
+    public static void atualiza(UsuarioBEAN usuario) throws SQLException{
+        Connection con = ConnectionFactory.getConnection();
+        PreparedStatement stmt = null;
+
+        try {
+            /**
+             * Insere as informações do usuário na tabela atendentes
+             */
+            stmt = con.prepareStatement("UPDATE tabela_atendentes "
+                    + "SET nome_atendente = ?, login_atendente = ?, senha_atendente = md5(?),"
+                    + "tipo_atendente = ?, mudanca_senha = ?, ativo = ? "
+                    + "WHERE codigo_atendente = ?");
+            
+            stmt.setString(1, usuario.getNome());
+            stmt.setString(2, usuario.getLogin());
+            stmt.setString(3, usuario.getSenhaAtendente());
+            stmt.setString(4, usuario.getTipo());
+            stmt.setDate(5, new java.sql.Date(usuario.getUltMudSenha().getTime()));
+            stmt.setByte(6, (byte) 1);
+            stmt.setString(7, usuario.getCodigo());
+            stmt.executeUpdate();
+            
+            /**
+             * Insere os acessos do usuário na tabela usuario acessos
+             */
+            stmt = con.prepareStatement("UPDATE usuario_acessos "
+                    + "SET ORC = ?, ORC_ADM = ?, PROD = ?, PROD_ADM = ?, EXP = ?, EXP_ADM = ?,"
+                    + "FIN = ?, FIN_ADM = ?, EST = ?, ORD = ? "
+                    + "WHERE CODIGO_USR = ?");
+            
+            stmt.setByte(1, usuario.getAcessoOrc());
+            stmt.setByte(2, usuario.getAcessoOrcAdm());
+            stmt.setByte(3, usuario.getAcessoProd());
+            stmt.setByte(4, usuario.getAcessoProdAdm());
+            stmt.setByte(5, usuario.getAcessoExp());
+            stmt.setByte(6, usuario.getAcessoExpAdm());
+            stmt.setByte(7, usuario.getAcessoFin());
+            stmt.setByte(8, usuario.getAcessoFinAdm());
+            stmt.setByte(9, usuario.getAcessoEst());
+            stmt.setByte(10, usuario.getAcessoOrd());
+            stmt.setString(11, usuario.getCodigo());
+            stmt.executeUpdate();
+        } catch (SQLException ex) {
+            throw new SQLException(ex);
+        } finally {
+            ConnectionFactory.closeConnection(con, stmt);
+        }
+    }
+    
+    /**
+     * Desativa um usuário
+     * @param estado estado 1 - ativo, 0 - desativo
+     * @param codigoAtendente código do usuário
+     * @throws SQLException 
+     */
+    public static void ativaDesativa(Integer estado, String codigoAtendente) throws SQLException {
+        Connection con = ConnectionFactory.getConnection();
+        PreparedStatement stmt = null;
+
+        try {
+            stmt = con.prepareStatement("UPDATE tabela_atendentes "
+                    + "SET ativo = ? "
+                    + "WHERE codigo_atendente = ?");
+            stmt.setInt(1, estado);
+            stmt.setString(2, codigoAtendente);
+            stmt.executeUpdate();
+        } catch (SQLException ex) {
+            throw new SQLException(ex);
+        } finally {
+            ConnectionFactory.closeConnection(con, stmt);
+        }
+
+    }
+    //--------------------------------------------------------------------------
 
     public boolean verificaLogin(String login) throws SQLException {
         boolean retorno = false;
@@ -369,22 +450,7 @@ public class UsuarioDAO {
         return retorno;
     }
 
-    public static void desativaAtivaFuncionario(Integer estado, String codigoAtendente) throws SQLException {
-        Connection con = ConnectionFactory.getConnection();
-        PreparedStatement stmt = null;
-
-        try {
-            stmt = con.prepareStatement("UPDATE tabela_atendentes SET ativo = ? WHERE codigo_atendente = ?");
-            stmt.setInt(1, estado);
-            stmt.setString(2, codigoAtendente);
-            stmt.executeUpdate();
-        } catch (SQLException ex) {
-            throw new SQLException();
-        } finally {
-            ConnectionFactory.closeConnection(con, stmt);
-        }
-
-    }
+    
 
     public static void resetaSenha(String loginAtendente) throws SQLException {
         Connection con = ConnectionFactory.getConnection();

@@ -20,6 +20,8 @@ import ui.controle.Controle;
 public class UsuarioCadastro extends javax.swing.JInternalFrame {
 
     private static UsuarioCadastro usuarioCadastro;
+    UsuarioBEAN usuario;
+    byte editando = 0;
     UsuarioTableModel model = new UsuarioTableModel();
 
     public static UsuarioCadastro getInstancia() {
@@ -37,6 +39,7 @@ public class UsuarioCadastro extends javax.swing.JInternalFrame {
         btnDesativar.setEnabled(false);
 
         carregaLista(null, null, null);
+        resetaAcessos();
         tblUsr.setModel(model);
     }
 
@@ -269,7 +272,7 @@ public class UsuarioCadastro extends javax.swing.JInternalFrame {
 
     private void btnCadastrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCadastrarActionPerformed
         try {
-            UsuarioBEAN novoUsr = new UsuarioBEAN();
+            usuario = new UsuarioBEAN();
 
             /**
              * Verifica se todos os campos foram preenchidos corretamente
@@ -314,48 +317,51 @@ public class UsuarioCadastro extends javax.swing.JInternalFrame {
             /**
              * Preenche as informações do usuário
              */
-            novoUsr.setNome(jtfNomeUsr.getText().toUpperCase());
-            novoUsr.setCodigo(jftfCodigoUsr.getText().toUpperCase());
-            novoUsr.setLogin(jtfLoginUsr.getText().toUpperCase());
+            usuario.setNome(jtfNomeUsr.getText().toUpperCase());
+            usuario.setCodigo(jftfCodigoUsr.getText().toUpperCase());
+            usuario.setLogin(jtfLoginUsr.getText().toUpperCase());
             if (jpfSenhaUsr.getText().isEmpty()) {
-                novoUsr.setSenha(jtfLoginUsr.getText().toLowerCase());
+                usuario.setSenha(jtfLoginUsr.getText().toLowerCase());
             } else {
-                novoUsr.setSenha(jpfSenhaUsr.getText());
+                usuario.setSenha(jpfSenhaUsr.getText());
             }
-            novoUsr.setUltMudSenha(new Date());
-            switch(jcbTipoUsr.getSelectedIndex()){
+            usuario.setUltMudSenha(new Date());
+            switch (jcbTipoUsr.getSelectedIndex()) {
                 case 1:
-                    novoUsr.setTipo(jcbTipoUsr.getSelectedItem().toString());
+                    usuario.setTipo(jcbTipoUsr.getSelectedItem().toString());
                     break;
                 case 2:
-                    novoUsr.setTipo(jcbTipoUsr.getSelectedItem().toString());
+                    usuario.setTipo(jcbTipoUsr.getSelectedItem().toString());
                     break;
             }
 
             /**
              * Preenche as informações de acessos do usuário
              */
-            novoUsr.setAcessoOrc(Boolean.valueOf(tblAcessos.getValueAt(0, 1).toString()) == true | 
-                    Boolean.valueOf(tblAcessos.getValueAt(1, 1).toString()) == true ? (byte) 1 : (byte) 0);
-            novoUsr.setAcessoOrcAdm((Boolean) tblAcessos.getValueAt(1, 1) ? (byte) 1 : (byte) 0);
-            novoUsr.setAcessoProd((Boolean) tblAcessos.getValueAt(0, 2) | 
-                    (Boolean) tblAcessos.getValueAt(1, 2) ? (byte) 1 : (byte) 0);
-            novoUsr.setAcessoProdAdm((Boolean) tblAcessos.getValueAt(1, 2) ? (byte) 1 : (byte) 0);
-            novoUsr.setAcessoExp((Boolean) tblAcessos.getValueAt(0, 3) | 
-                    (Boolean) tblAcessos.getValueAt(1, 3) ? (byte) 1 : (byte) 0);
-            novoUsr.setAcessoExpAdm((Boolean) tblAcessos.getValueAt(1, 3) ? (byte) 1 : (byte) 0);
-            novoUsr.setAcessoFin((Boolean) tblAcessos.getValueAt(0, 4) | 
-                    (Boolean) tblAcessos.getValueAt(1, 4) ? (byte) 1 : (byte) 0);
-            novoUsr.setAcessoFinAdm((Boolean) tblAcessos.getValueAt(1, 4)  ? (byte) 1 : (byte) 0);
-            novoUsr.setAcessoEst((Boolean) tblAcessos.getValueAt(0, 5) | 
-                    (Boolean) tblAcessos.getValueAt(1, 5) ? (byte) 1 : (byte) 0);
-            novoUsr.setAcessoOrd((Boolean) tblAcessos.getValueAt(0, 6) |
-                    (Boolean) tblAcessos.getValueAt(1, 6) ? (byte) 1 : (byte) 0);
+            System.out.println(Boolean.valueOf(tblAcessos.getValueAt(0, 1).toString()));
+            System.out.println(Boolean.valueOf(tblAcessos.getValueAt(1, 1).toString()));
+
+            usuario.setAcessoOrc(Boolean.valueOf(tblAcessos.getValueAt(0, 1).toString())
+                    | Boolean.valueOf(tblAcessos.getValueAt(1, 1).toString()) ? (byte) 1 : (byte) 0);
+            usuario.setAcessoOrcAdm(Boolean.valueOf(tblAcessos.getValueAt(1, 1).toString()) ? (byte) 1 : (byte) 0);
+            usuario.setAcessoProd(Boolean.valueOf(tblAcessos.getValueAt(0, 2).toString())
+                    | Boolean.valueOf(tblAcessos.getValueAt(1, 2).toString()) ? (byte) 1 : (byte) 0);
+            usuario.setAcessoProdAdm(Boolean.valueOf(tblAcessos.getValueAt(1, 2).toString()) ? (byte) 1 : (byte) 0);
+            usuario.setAcessoExp(Boolean.valueOf(tblAcessos.getValueAt(0, 3).toString())
+                    | Boolean.valueOf(tblAcessos.getValueAt(1, 3).toString()) ? (byte) 1 : (byte) 0);
+            usuario.setAcessoExpAdm(Boolean.valueOf(tblAcessos.getValueAt(1, 3).toString()) ? (byte) 1 : (byte) 0);
+            usuario.setAcessoFin(Boolean.valueOf(tblAcessos.getValueAt(0, 4).toString())
+                    | Boolean.valueOf(tblAcessos.getValueAt(1, 4).toString()) ? (byte) 1 : (byte) 0);
+            usuario.setAcessoFinAdm(Boolean.valueOf(tblAcessos.getValueAt(1, 4).toString()) ? (byte) 1 : (byte) 0);
+            usuario.setAcessoEst(Boolean.valueOf(tblAcessos.getValueAt(0, 5).toString())
+                    | Boolean.valueOf(tblAcessos.getValueAt(1, 5).toString()) ? (byte) 1 : (byte) 0);
+            usuario.setAcessoOrd(Boolean.valueOf(tblAcessos.getValueAt(0, 6).toString())
+                    | Boolean.valueOf(tblAcessos.getValueAt(1, 6).toString()) ? (byte) 1 : (byte) 0);
 
             /**
              * Insere o usuário no banco de dados
              */
-            UsuarioDAO.cria(novoUsr);
+            UsuarioDAO.cria(usuario);
 
             /**
              * Exibe mensagem para o usuário
@@ -375,63 +381,172 @@ public class UsuarioCadastro extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_btnCadastrarActionPerformed
 
     private void tblUsrMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblUsrMouseClicked
-        UsuarioBEAN usuarioSel = model.getValueAt(tblUsr.getSelectedRow());
+        usuario = model.getValueAt(tblUsr.getSelectedRow());
         resetaAcessos();
+        editando = 1;
 
-        jtfNomeUsr.setText(usuarioSel.getNome());
-        jftfCodigoUsr.setText(usuarioSel.getCodigo());
-        jtfLoginUsr.setText(usuarioSel.getLogin());
-        jcbTipoUsr.setSelectedItem(usuarioSel.getTipo());
+        jtfNomeUsr.setText(usuario.getNome());
+        jftfCodigoUsr.setText(usuario.getCodigo());
+        jtfLoginUsr.setText(usuario.getLogin());
+        jcbTipoUsr.setSelectedItem(usuario.getTipo());
 
         btnResetarSenha.setEnabled(true);
         btnEditar.setEnabled(true);
         btnAtivar.setEnabled(true);
         btnDesativar.setEnabled(true);
 
-        if (usuarioSel.getAcessoOrc() == 1) {
-            if (usuarioSel.getAcessoOrcAdm() == 1) {
+        if (usuario.getAcessoOrc() == 1) {
+            if (usuario.getAcessoOrcAdm() == 1) {
                 tblAcessos.setValueAt(true, 1, 1);
             } else {
                 tblAcessos.setValueAt(true, 0, 1);
             }
         }
-        if (usuarioSel.getAcessoProd() == 1) {
-            if (usuarioSel.getAcessoProdAdm() == 1) {
+        if (usuario.getAcessoProd() == 1) {
+            if (usuario.getAcessoProdAdm() == 1) {
                 tblAcessos.setValueAt(true, 1, 2);
             } else {
                 tblAcessos.setValueAt(true, 0, 2);
             }
         }
-        if (usuarioSel.getAcessoExp() == 1) {
-            if (usuarioSel.getAcessoExpAdm() == 1) {
+        if (usuario.getAcessoExp() == 1) {
+            if (usuario.getAcessoExpAdm() == 1) {
                 tblAcessos.setValueAt(true, 1, 3);
             } else {
                 tblAcessos.setValueAt(true, 0, 3);
             }
         }
-        if (usuarioSel.getAcessoFin() == 1) {
-            if (usuarioSel.getAcessoFinAdm() == 1) {
+        if (usuario.getAcessoFin() == 1) {
+            if (usuario.getAcessoFinAdm() == 1) {
                 tblAcessos.setValueAt(true, 1, 4);
             } else {
                 tblAcessos.setValueAt(true, 0, 4);
             }
         }
-        if (usuarioSel.getAcessoEst() == 1) {
+        if (usuario.getAcessoEst() == 1) {
             tblAcessos.setValueAt(true, 0, 5);
         }
-        if (usuarioSel.getAcessoOrd() == 1) {
+        if (usuario.getAcessoOrd() == 1) {
             tblAcessos.setValueAt(true, 0, 6);
         }
     }//GEN-LAST:event_tblUsrMouseClicked
 
     private void btnEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarActionPerformed
+        try {
+            
+            /**
+             * Verifica se todos os campos foram preenchidos corretamente
+             */
+            if (jtfNomeUsr.getText().isEmpty()) {
+                JOptionPane.showMessageDialog(
+                        null,
+                        "INSIRA O NOME DO USUÁRIO",
+                        "ERRO",
+                        0
+                );
+                return;
+            }
+            if (jftfCodigoUsr.getText().isEmpty()) {
+                JOptionPane.showMessageDialog(
+                        null,
+                        "INSIRA O CÓDIGO DO USUÁRIO",
+                        "ERRO",
+                        0
+                );
+                return;
+            }
+            if (jtfLoginUsr.getText().isEmpty()) {
+                JOptionPane.showMessageDialog(
+                        null,
+                        "INSIRA O LOGIN DO USUÁRIO",
+                        "ERRO",
+                        0
+                );
+                return;
+            }
+            if (jcbTipoUsr.getSelectedIndex() == 0) {
+                JOptionPane.showMessageDialog(
+                        null,
+                        "SELECIONE O TIPO DO USUÁRIO",
+                        "ERRO",
+                        0
+                );
+                return;
+            }
 
+            /**
+             * Preenche as informações do usuário
+             */
+            usuario.setNome(jtfNomeUsr.getText().toUpperCase());
+            usuario.setCodigo(jftfCodigoUsr.getText().toUpperCase());
+            usuario.setLogin(jtfLoginUsr.getText().toUpperCase());
+            if (jpfSenhaUsr.getText().isEmpty()) {
+                usuario.setSenha(jtfLoginUsr.getText().toLowerCase());
+            } else {
+                usuario.setSenha(jpfSenhaUsr.getText());
+            }
+            usuario.setUltMudSenha(new Date());
+            switch (jcbTipoUsr.getSelectedIndex()) {
+                case 1:
+                    usuario.setTipo(jcbTipoUsr.getSelectedItem().toString());
+                    break;
+                case 2:
+                    usuario.setTipo(jcbTipoUsr.getSelectedItem().toString());
+                    break;
+            }
+
+            /**
+             * Preenche as informações de acessos do usuário
+             */
+
+            usuario.setAcessoOrc(Boolean.valueOf(tblAcessos.getValueAt(0, 1).toString())
+                    | Boolean.valueOf(tblAcessos.getValueAt(1, 1).toString()) ? (byte) 1 : (byte) 0);
+            usuario.setAcessoOrcAdm(Boolean.valueOf(tblAcessos.getValueAt(1, 1).toString()) ? (byte) 1 : (byte) 0);
+            usuario.setAcessoProd(Boolean.valueOf(tblAcessos.getValueAt(0, 2).toString())
+                    | Boolean.valueOf(tblAcessos.getValueAt(1, 2).toString()) ? (byte) 1 : (byte) 0);
+            usuario.setAcessoProdAdm(Boolean.valueOf(tblAcessos.getValueAt(1, 2).toString()) ? (byte) 1 : (byte) 0);
+            usuario.setAcessoExp(Boolean.valueOf(tblAcessos.getValueAt(0, 3).toString())
+                    | Boolean.valueOf(tblAcessos.getValueAt(1, 3).toString()) ? (byte) 1 : (byte) 0);
+            usuario.setAcessoExpAdm(Boolean.valueOf(tblAcessos.getValueAt(1, 3).toString()) ? (byte) 1 : (byte) 0);
+            usuario.setAcessoFin(Boolean.valueOf(tblAcessos.getValueAt(0, 4).toString())
+                    | Boolean.valueOf(tblAcessos.getValueAt(1, 4).toString()) ? (byte) 1 : (byte) 0);
+            usuario.setAcessoFinAdm(Boolean.valueOf(tblAcessos.getValueAt(1, 4).toString()) ? (byte) 1 : (byte) 0);
+            usuario.setAcessoEst(Boolean.valueOf(tblAcessos.getValueAt(0, 5).toString())
+                    | Boolean.valueOf(tblAcessos.getValueAt(1, 5).toString()) ? (byte) 1 : (byte) 0);
+            usuario.setAcessoOrd(Boolean.valueOf(tblAcessos.getValueAt(0, 6).toString())
+                    | Boolean.valueOf(tblAcessos.getValueAt(1, 6).toString()) ? (byte) 1 : (byte) 0);
+
+            /**
+             * Insere o usuário no banco de dados
+             */
+            UsuarioDAO.atualiza(usuario);
+
+            /**
+             * Exibe mensagem para o usuário
+             */
+            JOptionPane.showMessageDialog(
+                    null,
+                    "O USUÁRIO FOI ATUALIZADO COM SUCESSO",
+                    "CONFIRMAÇÃO",
+                    1
+            );
+            limpa();
+            carregaLista(null, null, null);
+        } catch (SQLException ex) {
+            EnvioExcecao envioExcecao = new EnvioExcecao(Controle.getDefaultGj(), ex);
+            EnvioExcecao.envio();
+        }
     }//GEN-LAST:event_btnEditarActionPerformed
 
     private void btnDesativarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDesativarActionPerformed
         try {
-            UsuarioDAO.desativaAtivaFuncionario(0, (String) tblUsr.getValueAt(tblUsr.getSelectedRow(), 1));
-            JOptionPane.showMessageDialog(null, "ATENDENTE DESATIVADO COM SUCESSO", "CONFIRMAÇÃO", JOptionPane.INFORMATION_MESSAGE);
+            UsuarioDAO.ativaDesativa(0, (String) tblUsr.getValueAt(tblUsr.getSelectedRow(), 1));
+            JOptionPane.showMessageDialog(
+                    null,
+                    "ATENDENTE DESATIVADO COM SUCESSO",
+                    "CONFIRMAÇÃO",
+                    JOptionPane.INFORMATION_MESSAGE
+            );
             carregaLista(null, null, null);
         } catch (SQLException ex) {
             EnvioExcecao envioExcecao = new EnvioExcecao(Controle.getDefaultGj(), ex);
@@ -441,8 +556,13 @@ public class UsuarioCadastro extends javax.swing.JInternalFrame {
 
     private void btnAtivarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAtivarActionPerformed
         try {
-            UsuarioDAO.desativaAtivaFuncionario(1, (String) tblUsr.getValueAt(tblUsr.getSelectedRow(), 1));
-            JOptionPane.showMessageDialog(null, "ATENDENTE ATIVADO COM SUCESSO", "CONFIRMAÇÃO", JOptionPane.INFORMATION_MESSAGE);
+            UsuarioDAO.ativaDesativa(1, (String) tblUsr.getValueAt(tblUsr.getSelectedRow(), 1));
+            JOptionPane.showMessageDialog(
+                    null,
+                    "ATENDENTE ATIVADO COM SUCESSO",
+                    "CONFIRMAÇÃO",
+                    JOptionPane.INFORMATION_MESSAGE
+            );
             carregaLista(null, null, null);
         } catch (SQLException ex) {
             EnvioExcecao envioExcecao = new EnvioExcecao(Controle.getDefaultGj(), ex);
@@ -473,7 +593,7 @@ public class UsuarioCadastro extends javax.swing.JInternalFrame {
 
     private void jftfCodigoUsrFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jftfCodigoUsrFocusLost
         try {
-            if (UsuarioDAO.verificaCodEx(jftfCodigoUsr.getText())) {
+            if (UsuarioDAO.verificaCodEx(jftfCodigoUsr.getText()) & editando == 0) {
                 JOptionPane.showMessageDialog(
                         null,
                         "O CÓDIGO DIGITADO JÁ EXISTE",
@@ -490,7 +610,7 @@ public class UsuarioCadastro extends javax.swing.JInternalFrame {
 
     private void jtfLoginUsrFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jtfLoginUsrFocusLost
         try {
-            if (UsuarioDAO.verificaLoginEx(jtfLoginUsr.getText())) {
+            if (UsuarioDAO.verificaLoginEx(jtfLoginUsr.getText()) & editando == 0) {
                 JOptionPane.showMessageDialog(
                         null,
                         "O LOGIN DIGITADO JÁ EXISTE",
@@ -530,6 +650,7 @@ public class UsuarioCadastro extends javax.swing.JInternalFrame {
         jtfLoginUsr.setText("");
         jcbTipoUsr.setSelectedIndex(0);
         resetaAcessos();
+        editando = 0;
     }
 
     public void carregaLista(String tipo, String tipoAux, String texto) {
@@ -573,6 +694,20 @@ public class UsuarioCadastro extends javax.swing.JInternalFrame {
             false,
             false
         });
+
+        modeloAcessos.setValueAt(false, 0, 1);
+        modeloAcessos.setValueAt(false, 0, 2);
+        modeloAcessos.setValueAt(false, 0, 3);
+        modeloAcessos.setValueAt(false, 0, 4);
+        modeloAcessos.setValueAt(false, 0, 5);
+        modeloAcessos.setValueAt(false, 0, 6);
+
+        modeloAcessos.setValueAt(false, 1, 1);
+        modeloAcessos.setValueAt(false, 1, 2);
+        modeloAcessos.setValueAt(false, 1, 3);
+        modeloAcessos.setValueAt(false, 1, 4);
+        modeloAcessos.setValueAt(false, 1, 5);
+        modeloAcessos.setValueAt(false, 1, 6);
     }
 
 }
