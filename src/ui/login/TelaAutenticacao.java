@@ -30,7 +30,7 @@ import ui.principal.ModulosExt;
 public class TelaAutenticacao extends javax.swing.JFrame {
     
     private static final String codVersao = "2.3.5";
-    private static final String update = "Alfa";
+    private static final String update = "Bravo";
     private static UsuarioBEAN atendenteLogado;
 
     public static UsuarioBEAN getUsrLogado() {
@@ -361,9 +361,7 @@ public class TelaAutenticacao extends javax.swing.JFrame {
                     mInt.setVisible(true);
                     this.setVisible(false);
 
-                    JOptionPane.showMessageDialog(null, "CORREÇÕES E ATUALIZAÇÕES DA v.2.3.3 Bravo (11-05-2020)\n"
-                            + "- Correção ao gerar pdf de OP sem acabamento;\n"
-                            + "CORREÇÕES E ATUALIZAÇÕES DA v.2.3.3 Echo (15-05-2020)\n"
+                    JOptionPane.showMessageDialog(null, "CORREÇÕES E ATUALIZAÇÕES DA v.2.3.3 Echo (15-05-2020)\n"
                             + "- Adicionada a opção de acrescentar motivo do cancelamento da OP;\n"
                             + "CORREÇÕES E ATUALIZAÇÕES DA v.2.3.3 Foxtrot (15-05-2020)\n"
                             + "- Correção de erros enviados (7-9 e 11-20);\n"
@@ -387,6 +385,9 @@ public class TelaAutenticacao extends javax.swing.JFrame {
                             + "- Correção do cadastro de produtos a pronta entrega;\n"
                             + "CORREÇÕES E ATUALIZAÇÕES DA v.2.3.5 Alfa (30-05-2020)\n"
                             + "- Redefinição dos acessos de usuários;\n"
+                            + "CORREÇÕES E ATUALIZAÇÕES DA v.2.3.5 Bravo (01-06-2020)\n"
+                            + "- Correção ao remover produtos do orçamento;\n"
+                            + "- Correção da mudança de status do orçamento ao enviar o pedido de venda para expedição;\n"
                             + "AVISOS:\n"
                             + "- Todas as sugestões de melhoria de usabilidade do programa serão estudadas, mas não há previsão de implementação;\n"
                             + "- Qualquer problema nas correções acima expostas deverão ser informados o mais rápido possível à SPD;\n"

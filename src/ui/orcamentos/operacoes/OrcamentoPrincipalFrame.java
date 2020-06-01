@@ -1344,7 +1344,7 @@ public class OrcamentoPrincipalFrame extends javax.swing.JInternalFrame {
         if (TIPO_ORCAMENTO == 2) {
             DefaultTableModel modeloPapeis = (DefaultTableModel) tabelaPapeis.getModel();
             for (int i = 0; i < tabelaPapeis.getRowCount(); i++) {
-                if (tabelaPapeis.getValueAt(i, 0).toString().equals(CODIGO_PRODUTO)) {
+                if (Integer.valueOf(tabelaPapeis.getValueAt(i, 0).toString()) == CODIGO_PRODUTO) {
                     excluirPapeis.add(i);
                 }
             }
@@ -1358,7 +1358,7 @@ public class OrcamentoPrincipalFrame extends javax.swing.JInternalFrame {
         //REMOVE OS ACABAMENTOS DA TABELA ACABAMENTOS---------------------------
         if (TIPO_ORCAMENTO == 2) {
             for (int i = 0; i < tabelaAcabamentos.getRowCount(); i++) {
-                if (tabelaAcabamentos.getValueAt(i, 0).toString().equals(CODIGO_PRODUTO)) {
+                if (Integer.valueOf(tabelaAcabamentos.getValueAt(i, 0).toString()) == CODIGO_PRODUTO) {
                     excluirAcabamentos.add(i);
                 }
             }
@@ -1373,7 +1373,7 @@ public class OrcamentoPrincipalFrame extends javax.swing.JInternalFrame {
         //REMOVE AS QUANTIDADES DA TABELA QUANTIDADES---------------------------
         DefaultTableModel modeloQuantidades = (DefaultTableModel) tabelaTiragens.getModel();
         for (int i = 0; i < tabelaTiragens.getRowCount(); i++) {
-            if (tabelaTiragens.getValueAt(i, 0).toString().equals(CODIGO_PRODUTO)) {
+            if (Integer.valueOf(tabelaTiragens.getValueAt(i, 0).toString()) == CODIGO_PRODUTO) {
                 excluirQuantidades.add(i);
             }
         }

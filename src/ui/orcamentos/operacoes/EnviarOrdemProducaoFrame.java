@@ -562,7 +562,14 @@ public class EnviarOrdemProducaoFrame extends javax.swing.JInternalFrame {
                     }
                 }
 
-                OrcamentoDAO.alteraStatus(ORC_BASE, 2);
+                switch(getTIPO_PROD()){
+                    case 1:
+                        OrcamentoDAO.alteraStatus(ORC_BASE, 2);
+                        break;
+                    case 2:
+                        OrcamentoDAO.alteraStatus(ORC_BASE, 7);
+                        break;
+                }
                 listaOps.add(codOp);
 
                 /**
