@@ -762,37 +762,29 @@ public class NCFrame extends javax.swing.JInternalFrame {
         /**
          * Solicita a senha, corrige o crédito e exclui a nota
          */
-        JLabel label = new JLabel("DIGITE A SENHA");
-        JPasswordField jpf = new JPasswordField();
-        int retorno = JOptionPane.showConfirmDialog(null, new Object[]{label, jpf}, "SENHA MESTRA:", JOptionPane.OK_CANCEL_OPTION);
-        if (retorno != 0 || !String.valueOf(jpf.getPassword()).matches("Financeiro00915@")) {
-            JOptionPane.showMessageDialog(null, "SENHA INCORRETA!");
-            return;
-        } else {
-            try {
-                valorAntigo = Float.valueOf(valorNota.getText().replace(",", "."));
-                CODIGO_NOTA = Integer.valueOf(numeroNota.getValue().toString());
-                ClienteDAO.corrigeCredito((int) codigoCliente.getValue(),
-                        tipoCliente.getText().equals("PESSOA FÍSICA") ? (byte) 1 : (byte) 2,
-                        valorAntigo,
-                        (byte) 2);
+        try {
+            valorAntigo = Float.valueOf(valorNota.getText().replace(",", "."));
+            CODIGO_NOTA = Integer.valueOf(numeroNota.getValue().toString());
+            ClienteDAO.corrigeCredito((int) codigoCliente.getValue(),
+                    tipoCliente.getText().equals("PESSOA FÍSICA") ? (byte) 1 : (byte) 2,
+                    valorAntigo,
+                    (byte) 2);
 
-                switch (jcbFormaPgto.getSelectedIndex()) {
-                    case 1:
-                        NotaDAO.excluiLanc(CODIGO_NOTA);
-                        break;
-                    case 4:
-                        NotaDAO.excluiLancGru(CODIGO_NOTA);
-                        break;
-                }
-                NotaDAO.excluiNota(CODIGO_NOTA);
-                JOptionPane.showMessageDialog(null, "A NOTA DE CRÉDITO " + CODIGO_NOTA + " FOI EXCLUÍDA COM SUCESSO."
-                        + "\nO VALOR DE R$ " + valorAntigo + " FOI DESCONTADO DO CRÉDITO DO CLIENTE.");
-                estadoPosExcluir();
-            } catch (SQLException ex) {
-                EnvioExcecao envioExcecao = new EnvioExcecao(Controle.getDefaultGj(), ex);
-                EnvioExcecao.envio();
+            switch (jcbFormaPgto.getSelectedIndex()) {
+                case 1:
+                    NotaDAO.excluiLanc(CODIGO_NOTA);
+                    break;
+                case 4:
+                    NotaDAO.excluiLancGru(CODIGO_NOTA);
+                    break;
             }
+            NotaDAO.excluiNota(CODIGO_NOTA);
+            JOptionPane.showMessageDialog(null, "A NOTA DE CRÉDITO " + CODIGO_NOTA + " FOI EXCLUÍDA COM SUCESSO."
+                    + "\nO VALOR DE R$ " + valorAntigo + " FOI DESCONTADO DO CRÉDITO DO CLIENTE.");
+            estadoPosExcluir();
+        } catch (SQLException ex) {
+            EnvioExcecao envioExcecao = new EnvioExcecao(Controle.getDefaultGj(), ex);
+            EnvioExcecao.envio();
         }
     }//GEN-LAST:event_botaoExcluirNotaActionPerformed
 
