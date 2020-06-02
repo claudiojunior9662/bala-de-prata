@@ -84,9 +84,9 @@ public class ConnectionFactory {
                 break;
             case 4:
                 DRIVER_SQL = "com.mysql.jdbc.Driver";
-                URL = "jdbc:mysql://10.166.128.91:3306/bala_dev_correto";
-                USER = "root";
-                PASS = "Super@2018";
+                URL = "jdbc:mysql://10.67.32.252:3306/bala_dev_TESTE";
+                USER = "remoto";
+                PASS = "ALLAH@366";
                 break;
         }
     }
