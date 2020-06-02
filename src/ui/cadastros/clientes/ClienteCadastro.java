@@ -44,7 +44,10 @@ public class ClienteCadastro extends javax.swing.JInternalFrame {
     public static byte TIPO_PESSOA = 0;
     private final JLabel loading;
     private final GerenteJanelas gj;
-    private final byte CLASSE_PAI;
+    /**
+     * 1 - Orçamento, 3 - Nota de crédito
+     */
+    private static byte CLASSE_PAI;
     /**
      * Define a linha de edição selecionada na tabela de endereços
      */
@@ -1834,7 +1837,7 @@ public class ClienteCadastro extends javax.swing.JInternalFrame {
 
     private void botaoPesquisarClientesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botaoPesquisarClientesActionPerformed
         gj.abrirJanelas(ClientePesquisa.getInstancia(), "PESQUISA DE CLIENTES");
-        ClientePesquisa.tela = "CADASTRO-CLIENTES";
+        ClientePesquisa.setTela((byte) 1);
     }//GEN-LAST:event_botaoPesquisarClientesActionPerformed
 
     private void botaoIncluirClientesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botaoIncluirClientesActionPerformed
@@ -2754,7 +2757,16 @@ public void estado1() {
         botaoDesativarClientes.setEnabled(true);
         botaoGravarClientes.setEnabled(false);
         botaoCancelarClientes.setEnabled(true);
-        botaoSelecionarOrcamento.setEnabled(true);
+        switch(CLASSE_PAI){
+            case 1:
+            case 2:
+                botaoSelecionarOrcamento.setEnabled(true);
+                break;
+            default:
+                botaoSelecionarOrcamento.setEnabled(false);
+                break;
+        }
+        
         //BOTOES ORCAMENTOS-----------------------------------------------------
         radioMesAnoOrcamentos.setEnabled(true);
         radioMesAnoOrcamentos.setSelected(true);

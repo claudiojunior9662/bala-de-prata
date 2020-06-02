@@ -1122,7 +1122,14 @@ public class OrdemProducao {
             /**
              * Preenche as informações sobre a ordem de produção
              */
-            cell1 = new PdfPCell(new Phrase(" OBSERVAÇÕES DA ORDEM DE PRODUÇÃO", FontFactory.getFont("arial.ttf", 12, Font.BOLD)));
+            if (prodOrc.getTipoProduto() == 2) {
+                cell1 = new PdfPCell(new Phrase(" OBSERVAÇÕES DO PEDIDO DE VENDA", 
+                        FontFactory.getFont("arial.ttf", 12, Font.BOLD)));
+            } else {
+                cell1 = new PdfPCell(new Phrase(" OBSERVAÇÕES DA ORDEM DE PRODUÇÃO", 
+                        FontFactory.getFont("arial.ttf", 12, Font.BOLD)));
+            }
+
             cell1.setBackgroundColor(Controle.fundoDestaque);
             cell1.setBorder(0);
             cell1.setHorizontalAlignment(0);

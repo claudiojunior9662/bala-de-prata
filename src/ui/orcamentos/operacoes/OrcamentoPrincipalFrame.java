@@ -143,7 +143,7 @@ public class OrcamentoPrincipalFrame extends javax.swing.JInternalFrame {
         dataValidade = new com.toedter.calendar.JCalendar();
         jPanel2 = new javax.swing.JPanel();
         nomeCliente = new javax.swing.JTextField();
-        pesquisar_cliente = new javax.swing.JButton();
+        pesquisarCliente = new javax.swing.JButton();
         nomeContatoCliente = new javax.swing.JTextField();
         cidadeCliente = new javax.swing.JTextField();
         telefoneContatoCliente = new javax.swing.JTextField();
@@ -238,11 +238,11 @@ public class OrcamentoPrincipalFrame extends javax.swing.JInternalFrame {
         nomeCliente.setEditable(false);
         nomeCliente.setBorder(javax.swing.BorderFactory.createTitledBorder("NOME DO CLIENTE"));
 
-        pesquisar_cliente.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icones/pesquisar.png"))); // NOI18N
-        pesquisar_cliente.setText("PESQUISAR");
-        pesquisar_cliente.addActionListener(new java.awt.event.ActionListener() {
+        pesquisarCliente.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icones/pesquisar.png"))); // NOI18N
+        pesquisarCliente.setText("PESQUISAR");
+        pesquisarCliente.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                pesquisar_clienteActionPerformed(evt);
+                pesquisarClienteActionPerformed(evt);
             }
         });
 
@@ -306,7 +306,7 @@ public class OrcamentoPrincipalFrame extends javax.swing.JInternalFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(credito, javax.swing.GroupLayout.PREFERRED_SIZE, 185, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(pesquisar_cliente, javax.swing.GroupLayout.PREFERRED_SIZE, 162, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(pesquisarCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 162, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(0, 0, 0))
         );
         jPanel2Layout.setVerticalGroup(
@@ -326,13 +326,13 @@ public class OrcamentoPrincipalFrame extends javax.swing.JInternalFrame {
                         .addComponent(nomeContatoCliente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(telefoneContatoCliente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(cidadeCliente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(pesquisar_cliente, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(pesquisarCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(credito, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(ufCliente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        jPanel2Layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {credito, pesquisar_cliente});
+        jPanel2Layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {credito, pesquisarCliente});
 
         jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED), "INFORMAÇÕES SOBRE O ORÇAMENTO", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Arial", 1, 12))); // NOI18N
 
@@ -1285,12 +1285,12 @@ public class OrcamentoPrincipalFrame extends javax.swing.JInternalFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void pesquisar_clienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_pesquisar_clienteActionPerformed
+    private void pesquisarClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_pesquisarClienteActionPerformed
         gj.abrirJanelas(ClienteCadastro.getInstancia(loading, gj, (byte) 1), "PESQUISA DE CLIENTES");
         ClienteCadastro.tipoSelecionar = "ORCAMENTO";
         ClienteCadastro.orcamentoSelecionar = true;
         ClienteCadastro.orcamentoEditarSelecionar = false;
-    }//GEN-LAST:event_pesquisar_clienteActionPerformed
+    }//GEN-LAST:event_pesquisarClienteActionPerformed
 
     private void tabelaProdutosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tabelaProdutosMouseClicked
         switch (tabelaProdutos.getRowCount()) {
@@ -1563,10 +1563,13 @@ public class OrcamentoPrincipalFrame extends javax.swing.JInternalFrame {
                                         enviarProducao.setEnabled(true);
                                         enviarExpedicao.setEnabled(false);
                                     }
-                                    excluir.setEnabled(true);
+                                    if (TelaAutenticacao.getUsrLogado().getAcessoOrcAdm() == 1) {
+                                        excluir.setEnabled(true);
+                                    } else {
+                                        excluir.setEnabled(false);
+                                    }
                                     editar.setEnabled(true);
                                     naoAprovadoCliente.setEnabled(true);
-
                                     break;
                                 case 2:
                                 case 3:
@@ -1588,7 +1591,9 @@ public class OrcamentoPrincipalFrame extends javax.swing.JInternalFrame {
                                         enviarProducao.setEnabled(true);
                                         enviarExpedicao.setEnabled(false);
                                     }
-                                    excluir.setEnabled(true);
+                                    if (TelaAutenticacao.getUsrLogado().getAcessoOrcAdm() == 1) {
+                                        excluir.setEnabled(true);
+                                    }
                                     editar.setEnabled(true);
                                     naoAprovadoCliente.setEnabled(true);
                                     break;
@@ -1620,7 +1625,9 @@ public class OrcamentoPrincipalFrame extends javax.swing.JInternalFrame {
                                         enviarProducao.setEnabled(true);
                                         enviarExpedicao.setEnabled(false);
                                     }
-                                    excluir.setEnabled(true);
+                                    if (TelaAutenticacao.getUsrLogado().getAcessoOrcAdm() == 1) {
+                                        excluir.setEnabled(true);
+                                    }
                                     editar.setEnabled(true);
                                     naoAprovadoCliente.setEnabled(true);
                                     //enviarEmailAnexo.setEnabled(true);
@@ -1679,29 +1686,12 @@ public class OrcamentoPrincipalFrame extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_editarActionPerformed
 
     private void excluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_excluirActionPerformed
-        try {
-            this.CODIGO_ORCAMENTO = (int) tabelaConsulta.getValueAt(tabelaConsulta.getSelectedRow(), 0);
-
-            int dialogButton = JOptionPane.YES_NO_OPTION;
-            int dialogResult = JOptionPane.showConfirmDialog(this, "EXCLUIR ORÇAMENTO Nº " + this.CODIGO_ORCAMENTO + " ?", "CONFIRMAÇÃO DE EXCLUSÃO", dialogButton);
-            if (dialogResult == 0) {
-                OrcamentoDAO.excluiProdOrc(this.CODIGO_ORCAMENTO);
-                ServicoDAO.desassociaSvOrcamento(this.CODIGO_ORCAMENTO);
-                OrcamentoDAO.excluiOrcamento(this.CODIGO_ORCAMENTO);
-                OrcamentoDAO.excluiCalculosProposta(this.CODIGO_ORCAMENTO);
-                mostraTodos();
-            } else {
-                return;
+        new Thread("Excluir orçamento") {
+            @Override
+            public void run() {
+                exclui();
             }
-
-            excluir.setEnabled(false);
-            editar.setEnabled(false);
-            gerarPdf.setEnabled(false);
-            enviarProducao.setEnabled(false);
-        } catch (SQLException ex) {
-            EnvioExcecao envioExcecao = new EnvioExcecao(Controle.getDefaultGj(), ex);
-            EnvioExcecao.envio();
-        }
+        }.start();
     }//GEN-LAST:event_excluirActionPerformed
 
     private void p1ItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_p1ItemStateChanged
@@ -2388,7 +2378,7 @@ public class OrcamentoPrincipalFrame extends javax.swing.JInternalFrame {
                             "-"});
                         //------------------------------------------------------
                     }
-                    
+
                     //INFORMA O TIPO DE PRODUTO---------------------------------
                     EnviarOrdemProducaoFrame.setTIPO_PROD(produtos.getTipoProduto());
                     //----------------------------------------------------------
@@ -2490,7 +2480,7 @@ public class OrcamentoPrincipalFrame extends javax.swing.JInternalFrame {
     public static javax.swing.JFormattedTextField p3Formatado;
     public static javax.swing.JTextField p3Texto;
     public static javax.swing.JFormattedTextField pagAtual;
-    private javax.swing.JButton pesquisar_cliente;
+    private javax.swing.JButton pesquisarCliente;
     private javax.swing.JLabel proxPag;
     public static javax.swing.JRadioButton rdOdCliente;
     public static javax.swing.JRadioButton rdOdGrafica;
@@ -3107,7 +3097,11 @@ public class OrcamentoPrincipalFrame extends javax.swing.JInternalFrame {
         }
     }
 
-    //MÉTODOS DE CÁLCULO
+    //Cálculo-------------------------------------------------------------------
+    
+    /**
+     * Calcula a quantidade de papéis a serem gastos
+     */
     private synchronized static void calculaPapeis() {
         int quantidadePaginas = 0;
         int tiragem = 0;
@@ -3208,7 +3202,10 @@ public class OrcamentoPrincipalFrame extends javax.swing.JInternalFrame {
             }
         }
     }
-
+    
+    /**
+     * Calcula a quantidade de chapas a serem gastas
+     */
     private synchronized static void calculaChapas() {
         int codigoProduto = 0;
         int tiragem = 0;
@@ -3318,6 +3315,9 @@ public class OrcamentoPrincipalFrame extends javax.swing.JInternalFrame {
         }
     }
 
+    /**
+     * Calcula os valores unitários
+     */
     private synchronized void calculaValoresUnitarios() {
         double valorPapeis;
         double valorAcabamentos;
@@ -3393,6 +3393,9 @@ public class OrcamentoPrincipalFrame extends javax.swing.JInternalFrame {
         }
     }
 
+    /**
+     * Calcula o valor total
+     */
     private synchronized void calculaValorTotal() {
         boolean semProduto = tabelaProdutos.getRowCount() == 0 ? true : false;
         double valorTotal = 0d;
@@ -3639,7 +3642,128 @@ public class OrcamentoPrincipalFrame extends javax.swing.JInternalFrame {
 
         }
     }
+    
+    /**
+     * Ação do botão calcular
+     */
+    private void btnCalcularAction() {
 
+        //CARREGA IMAGEM CALCULANDO---------------------------------------------
+        loading.setVisible(true);
+        loading.setText("CALCULANDO...");
+        //----------------------------------------------------------------------
+
+        //VERIFICA O ESTOQUE PARA PRODUTOS PR ENT-------------------------------
+        if (TIPO_ORCAMENTO == 1) {
+            try {
+                if (ProdutoDAO.verificaEstoque(
+                        Integer.valueOf(tabelaTiragens.getValueAt(0, 0).toString()),
+                        Integer.valueOf(tabelaTiragens.getValueAt(0, 1).toString()))) {
+                    JOptionPane.showMessageDialog(null,
+                            "NÃO HÁ ESTOQUE DISPONÍVEL PARA A QUANTIDADE SOLICITADA",
+                            "ATENÇÃO",
+                            JOptionPane.INFORMATION_MESSAGE);
+                    loading.setVisible(false);
+                    return;
+                }
+            } catch (SQLException ex) {
+                EnvioExcecao envioExcecao = new EnvioExcecao(Controle.getDefaultGj(), ex);
+                EnvioExcecao.envio();
+                loading.setVisible(false);
+                return;
+            }
+        }
+        //----------------------------------------------------------------------
+
+        //VERIFICA ERROS--------------------------------------------------------
+        if (TIPO_ORCAMENTO != 1) {
+            for (int i = 0; i < tabelaPapeis.getRowCount(); i++) {
+                if (Integer.valueOf(tabelaPapeis.getValueAt(i, 6).toString()) == 0) {
+                    JOptionPane.showMessageDialog(null, "DIGITE O FORMATO DE IMPRESSÃO DO PRODUTO!", "INFO", JOptionPane.INFORMATION_MESSAGE);
+                    loading.setVisible(false);
+                    return;
+                }
+            }
+
+            for (int i = 0; i < tabelaTiragens.getRowCount(); i++) {
+                try {
+                    if (ProdutoDAO.retornaTipoProduto(Integer.valueOf(tabelaTiragens.getValueAt(i, 0).toString())).equals("BLOCO")
+                            & Integer.valueOf(tabelaTiragens.getValueAt(i, 1).toString()) == 0) {
+                        JOptionPane.showMessageDialog(null, "DIGITE O NÚMERO DE JOGOS DO PRODUTO", "INFO", JOptionPane.INFORMATION_MESSAGE);
+                        loading.setVisible(false);
+                        return;
+                    }
+                } catch (SQLException ex) {
+                    EnvioExcecao envioExcecao = new EnvioExcecao(Controle.getDefaultGj(), ex);
+                    EnvioExcecao.envio();
+                    loading.setVisible(false);
+                    return;
+                }
+            }
+
+            for (int i = 0; i < tabelaProdutos.getRowCount(); i++) {
+                int codigoProduto = Integer.valueOf(tabelaProdutos.getValueAt(i, 0).toString());
+                if (tabelaTiragens.getValueAt(i, 2).equals(true) & tabelaTiragens.getValueAt(i, 3).equals(false)) {
+                    if (Double.valueOf(tabelaTiragens.getValueAt(i, 4).toString()) == 0d) {
+                        JOptionPane.showMessageDialog(null, "DIGITE O VALOR DA IMPRESSÃO DIGITAL DO PRODUTO " + codigoProduto + "!", "INFO", JOptionPane.INFORMATION_MESSAGE);
+                        loading.setVisible(false);
+                        return;
+                    }
+                } else if ((tabelaTiragens.getValueAt(i, 2).equals(true) && tabelaTiragens.getValueAt(i, 3).equals(true))) {
+                    JOptionPane.showMessageDialog(null, "SELECIONE SOMENTE UMA MÁQUINA DE IMPRESSÃO.", "ERRO", JOptionPane.ERROR_MESSAGE);
+                    OrcamentoFrame.loadingHide();
+                    return;
+                } else if ((tabelaTiragens.getValueAt(i, 2).equals(false) && tabelaTiragens.getValueAt(i, 3).equals(false))) {
+                    JOptionPane.showMessageDialog(null, "SELECIONE UMA MÁQUINA DE IMPRESSÃO.", "ERRO", JOptionPane.ERROR_MESSAGE);
+                    loading.setVisible(false);
+                    return;
+                }
+            }
+        }
+
+        if (tabelaProdutos.getRowCount() == 0) {
+            for (int i = 0; i < tabelaProdutos.getRowCount(); i++) {
+                String codigoProdutoAux = tabelaProdutos.getValueAt(i, 0).toString();
+                for (int j = 0; j < tabelaProdutos.getRowCount(); j++) {
+                    if (j != i
+                            & (codigoProdutoAux == tabelaProdutos.getValueAt(j, 0).toString()
+                            & (tabelaProdutos.getValueAt(j, 5).toString().equals(tabelaProdutos.getValueAt(j, 5).toString())))) {
+                        JOptionPane.showMessageDialog(null, "PRODUTOS COM MESMO CÓDIGO E MESMA OBSERVAÇÃO", "ERRO", JOptionPane.ERROR_MESSAGE);
+                        loading.setVisible(false);
+                        return;
+                    }
+                }
+            }
+        }
+        //----------------------------------------------------------------------
+
+        //CÁLCULOS--------------------------------------------------------------
+        if (TIPO_ORCAMENTO != 1) {
+            calculaPapeis();
+            calculaChapas();
+        }
+
+        if (!valoresManuais.isSelected()) {
+            calculaValoresUnitarios();
+        }
+
+        calculaValorTotal();
+        //----------------------------------------------------------------------
+
+        //HABILITA O SALVAMENTO-------------------------------------------------        
+        salvarOrcamento.setEnabled(true);
+        //----------------------------------------------------------------------
+
+        //FECHA A O STATUS CARREGANDO-------------------------------------------
+        loading.setVisible(false);
+        //----------------------------------------------------------------------
+    }
+
+    //Crud----------------------------------------------------------------------
+    
+    /**
+     * Salva o orçamento
+     */
     private synchronized void salvar() {
         try {
 
@@ -3811,31 +3935,38 @@ public class OrcamentoPrincipalFrame extends javax.swing.JInternalFrame {
         }
     }
 
-    private synchronized String retornaTelefoneFormatado(String telefone) {
+    /**
+     * Exclui o orçamento
+     */
+    private synchronized void exclui() {
         try {
-            String formatar = telefone;
-            formatar = formatar.replace("(", "");
-            formatar = formatar.replace(")", "");
-            formatar = formatar.replace(" ", "");
-            formatar = formatar.replace("-", "");
-            MaskFormatter formatoTelefone = null;
-            if (formatar.length() == 10) {
-                formatoTelefone = new MaskFormatter("(##) ####-####");
-                formatoTelefone.setValueContainsLiteralCharacters(false);
-                formatar = formatoTelefone.valueToString(formatar);
-            }
-            if (formatar.length() == 11) {
-                formatoTelefone = new MaskFormatter("(##) # ####-####");
-                formatoTelefone.setValueContainsLiteralCharacters(false);
-                formatar = formatoTelefone.valueToString(formatar);
+            CODIGO_ORCAMENTO
+                    = Integer.valueOf(tabelaConsulta.getValueAt(tabelaConsulta.getSelectedRow(), 0).toString());
 
+            int dialogButton = JOptionPane.YES_NO_OPTION;
+            int dialogResult = JOptionPane.showConfirmDialog(
+                    this,
+                    "EXCLUIR ORÇAMENTO Nº " + CODIGO_ORCAMENTO + " ?",
+                    "CONFIRMAÇÃO DE EXCLUSÃO",
+                    dialogButton
+            );
+            if (dialogResult == 0) {
+                OrcamentoDAO.excluiProdOrc(CODIGO_ORCAMENTO);
+                ServicoDAO.desassociaSvOrcamento(CODIGO_ORCAMENTO);
+                OrcamentoDAO.excluiOrcamento(CODIGO_ORCAMENTO);
+                OrcamentoDAO.excluiCalculosProposta(CODIGO_ORCAMENTO);
+                mostraTodos();
+            } else {
+                return;
             }
-            return formatar;
 
-        } catch (ParseException ex) {
+            excluir.setEnabled(false);
+            editar.setEnabled(false);
+            gerarPdf.setEnabled(false);
+            enviarProducao.setEnabled(false);
+        } catch (SQLException ex) {
             EnvioExcecao envioExcecao = new EnvioExcecao(Controle.getDefaultGj(), ex);
             EnvioExcecao.envio();
-            return null;
         }
     }
 
@@ -3852,116 +3983,5 @@ public class OrcamentoPrincipalFrame extends javax.swing.JInternalFrame {
         return codProd;
     }
 
-    private void btnCalcularAction() {
-
-        //CARREGA IMAGEM CALCULANDO---------------------------------------------
-        loading.setVisible(true);
-        loading.setText("CALCULANDO...");
-        //----------------------------------------------------------------------
-
-        //VERIFICA O ESTOQUE PARA PRODUTOS PR ENT-------------------------------
-        if (TIPO_ORCAMENTO == 1) {
-            try {
-                if (ProdutoDAO.verificaEstoque(
-                        Integer.valueOf(tabelaTiragens.getValueAt(0, 0).toString()),
-                        Integer.valueOf(tabelaTiragens.getValueAt(0, 1).toString()))) {
-                    JOptionPane.showMessageDialog(null,
-                            "NÃO HÁ ESTOQUE DISPONÍVEL PARA A QUANTIDADE SOLICITADA",
-                            "ATENÇÃO",
-                            JOptionPane.INFORMATION_MESSAGE);
-                    loading.setVisible(false);
-                    return;
-                }
-            } catch (SQLException ex) {
-                EnvioExcecao envioExcecao = new EnvioExcecao(Controle.getDefaultGj(), ex);
-                EnvioExcecao.envio();
-                loading.setVisible(false);
-                return;
-            }
-        }
-        //----------------------------------------------------------------------
-
-        //VERIFICA ERROS--------------------------------------------------------
-        if (TIPO_ORCAMENTO != 1) {
-            for (int i = 0; i < tabelaPapeis.getRowCount(); i++) {
-                if (Integer.valueOf(tabelaPapeis.getValueAt(i, 6).toString()) == 0) {
-                    JOptionPane.showMessageDialog(null, "DIGITE O FORMATO DE IMPRESSÃO DO PRODUTO!", "INFO", JOptionPane.INFORMATION_MESSAGE);
-                    loading.setVisible(false);
-                    return;
-                }
-            }
-
-            for (int i = 0; i < tabelaTiragens.getRowCount(); i++) {
-                try {
-                    if (ProdutoDAO.retornaTipoProduto(Integer.valueOf(tabelaTiragens.getValueAt(i, 0).toString())).equals("BLOCO")
-                            & Integer.valueOf(tabelaTiragens.getValueAt(i, 1).toString()) == 0) {
-                        JOptionPane.showMessageDialog(null, "DIGITE O NÚMERO DE JOGOS DO PRODUTO", "INFO", JOptionPane.INFORMATION_MESSAGE);
-                        loading.setVisible(false);
-                        return;
-                    }
-                } catch (SQLException ex) {
-                    EnvioExcecao envioExcecao = new EnvioExcecao(Controle.getDefaultGj(), ex);
-                    EnvioExcecao.envio();
-                    loading.setVisible(false);
-                    return;
-                }
-            }
-
-            for (int i = 0; i < tabelaProdutos.getRowCount(); i++) {
-                int codigoProduto = Integer.valueOf(tabelaProdutos.getValueAt(i, 0).toString());
-                if (tabelaTiragens.getValueAt(i, 2).equals(true) & tabelaTiragens.getValueAt(i, 3).equals(false)) {
-                    if (Double.valueOf(tabelaTiragens.getValueAt(i, 4).toString()) == 0d) {
-                        JOptionPane.showMessageDialog(null, "DIGITE O VALOR DA IMPRESSÃO DIGITAL DO PRODUTO " + codigoProduto + "!", "INFO", JOptionPane.INFORMATION_MESSAGE);
-                        loading.setVisible(false);
-                        return;
-                    }
-                } else if ((tabelaTiragens.getValueAt(i, 2).equals(true) && tabelaTiragens.getValueAt(i, 3).equals(true))) {
-                    JOptionPane.showMessageDialog(null, "SELECIONE SOMENTE UMA MÁQUINA DE IMPRESSÃO.", "ERRO", JOptionPane.ERROR_MESSAGE);
-                    OrcamentoFrame.loadingHide();
-                    return;
-                } else if ((tabelaTiragens.getValueAt(i, 2).equals(false) && tabelaTiragens.getValueAt(i, 3).equals(false))) {
-                    JOptionPane.showMessageDialog(null, "SELECIONE UMA MÁQUINA DE IMPRESSÃO.", "ERRO", JOptionPane.ERROR_MESSAGE);
-                    loading.setVisible(false);
-                    return;
-                }
-            }
-        }
-
-        if (tabelaProdutos.getRowCount() == 0) {
-            for (int i = 0; i < tabelaProdutos.getRowCount(); i++) {
-                String codigoProdutoAux = tabelaProdutos.getValueAt(i, 0).toString();
-                for (int j = 0; j < tabelaProdutos.getRowCount(); j++) {
-                    if (j != i
-                            & (codigoProdutoAux == tabelaProdutos.getValueAt(j, 0).toString()
-                            & (tabelaProdutos.getValueAt(j, 5).toString().equals(tabelaProdutos.getValueAt(j, 5).toString())))) {
-                        JOptionPane.showMessageDialog(null, "PRODUTOS COM MESMO CÓDIGO E MESMA OBSERVAÇÃO", "ERRO", JOptionPane.ERROR_MESSAGE);
-                        loading.setVisible(false);
-                        return;
-                    }
-                }
-            }
-        }
-        //----------------------------------------------------------------------
-
-        //CÁLCULOS--------------------------------------------------------------
-        if (TIPO_ORCAMENTO != 1) {
-            calculaPapeis();
-            calculaChapas();
-        }
-
-        if (!valoresManuais.isSelected()) {
-            calculaValoresUnitarios();
-        }
-
-        calculaValorTotal();
-        //----------------------------------------------------------------------
-
-        //HABILITA O SALVAMENTO-------------------------------------------------        
-        salvarOrcamento.setEnabled(true);
-        //----------------------------------------------------------------------
-
-        //FECHA A O STATUS CARREGANDO-------------------------------------------
-        loading.setVisible(false);
-        //----------------------------------------------------------------------
-    }
+    
 }

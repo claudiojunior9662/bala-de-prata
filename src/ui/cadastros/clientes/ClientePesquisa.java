@@ -25,7 +25,19 @@ import ui.controle.Controle;
  */
 public class ClientePesquisa extends javax.swing.JInternalFrame {
 
-    public static String tela = null;
+    /**
+     * 1 - CADASTRO DE CLIENTES, 2 - NOTA DE CRÉDITO
+     */
+    private static byte tela = 0;
+    private ClienteBEAN clienteSel = null;
+
+    public static byte getTela() {
+        return tela;
+    }
+
+    public static void setTela(byte tela) {
+        ClientePesquisa.tela = tela;
+    }
 
     private static ClientePesquisa cadastroClientes2PesquisaNovo;
 
@@ -203,7 +215,8 @@ public class ClientePesquisa extends javax.swing.JInternalFrame {
 
     private void botaoSelecionarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botaoSelecionarActionPerformed
         try {
-            ClienteCadastro.CODIGO_CLIENTE = (int) tabelaPesquisa.getValueAt(tabelaPesquisa.getSelectedRow(), 0);
+            ClienteCadastro.CODIGO_CLIENTE
+                    = Integer.valueOf(tabelaPesquisa.getValueAt(tabelaPesquisa.getSelectedRow(), 0).toString());
 
             switch (p1.getSelectedIndex()) {
                 case 1:
@@ -213,134 +226,140 @@ public class ClientePesquisa extends javax.swing.JInternalFrame {
                     ClienteCadastro.TIPO_PESSOA = 2;
                     break;
                 default:
-                    JOptionPane.showMessageDialog(null, "SELECIONE UMA OPÇÃO NO PRIMEIRO CAMPO E TENTE NOVAMENTE", "ERRO", JOptionPane.INFORMATION_MESSAGE);
+                    JOptionPane.showMessageDialog(
+                            null,
+                            "SELECIONE UMA OPÇÃO NO PRIMEIRO CAMPO E TENTE NOVAMENTE",
+                            "ERRO",
+                            JOptionPane.INFORMATION_MESSAGE
+                    );
                     return;
             }
 
-            if (tela.equals("CADASTRO-CLIENTES")) {
-                //INFORMAÇÕES CLIENTE---------------------------------------------------
-                ClienteBEAN cliente = ClienteDAO.selecionaInformacoes(ClienteCadastro.TIPO_PESSOA,
-                        ClienteCadastro.CODIGO_CLIENTE);
+            switch (getTela()) {
+                case 1:
+                    //INFORMAÇÕES CLIENTE---------------------------------------
+                    clienteSel = ClienteDAO.selecionaInformacoes(ClienteCadastro.TIPO_PESSOA,
+                            ClienteCadastro.CODIGO_CLIENTE);
 
-                switch (ClienteCadastro.TIPO_PESSOA) {
-                    case 1:
-                        ClienteCadastro.pessoaFisica.setSelected(true);
-                        ClienteCadastro.pessoaJuridica.setSelected(false);
-                        ClienteCadastro.codigo.setText(String.valueOf(ClienteCadastro.CODIGO_CLIENTE));
-                        ClienteCadastro.nomeCliente.setText(cliente.getNome());
-                        ClienteCadastro.cpf.setText(cliente.getCpf().replace(".", "").replace("-", ""));
-                        ClienteCadastro.atividade.setText(cliente.getAtividade());
-                        ClienteCadastro.codigoAtendente.setText(cliente.getCodAtendente());
-                        ClienteCadastro.nomeAtendente.setText(cliente.getNomeAtendente());
-                        ClienteCadastro.observacoes.setText(cliente.getObservacoes());
-                        ClienteCadastro.creditoDisponivel.setValue(cliente.getCredito());
-                        break;
-                    case 2:
-                        ClienteCadastro.pessoaJuridica.setSelected(true);
-                        ClienteCadastro.pessoaFisica.setSelected(false);
-                        ClienteCadastro.codigo.setText(String.valueOf(ClienteCadastro.CODIGO_CLIENTE));
-                        ClienteCadastro.nomeCliente.setText(cliente.getNome());
-                        ClienteCadastro.nomeFantasia.setText(cliente.getNomeFantasia());
-                        ClienteCadastro.cnpj.setText(cliente.getCnpj().replace(".", "").replace("-", "").replace("/", ""));
-                        ClienteCadastro.atividade.setText(cliente.getAtividade());
-                        ClienteCadastro.filialColigada.setText(cliente.getFilialColigada());
-                        ClienteCadastro.codigoAtendente.setText(cliente.getCodAtendente());
-                        ClienteCadastro.nomeAtendente.setText(cliente.getNomeAtendente());
-                        ClienteCadastro.observacoes.setText(cliente.getObservacoes());
-                        ClienteCadastro.creditoDisponivel.setValue(cliente.getCredito());
-                        break;
-                    default:
-                        throw new TipoPessoaIncorretoException();
-                }
-
-                //ENDERECOS-------------------------------------------------------------
-                DefaultTableModel modeloEnderecos = (DefaultTableModel) ClienteCadastro.tabelaEnderecos.getModel();
-                modeloEnderecos.setNumRows(0);
-                List retorno = ClienteDAO.selecionaEnderecos(ClienteCadastro.TIPO_PESSOA,
-                        ClienteCadastro.CODIGO_CLIENTE);
-                for (EnderecoBEAN cadastroClientes2EnderecosBEAN : ClienteDAO.retornaDescricaoEnderecos(retorno)) {
-                    String cep = null;
-                    try {
-                        MaskFormatter mascaraCep = new MaskFormatter("##.###-###");
-                        mascaraCep.setValueContainsLiteralCharacters(false);
-                        cep = mascaraCep.valueToString(cadastroClientes2EnderecosBEAN.getCep().replace(".", "").replace("-", ""));
-                    } catch (ParseException ex) {
-                        EnvioExcecao envioExcecao = new EnvioExcecao(Controle.getDefaultGj(), ex);
-                        EnvioExcecao.envio();
-                        return;
+                    switch (ClienteCadastro.TIPO_PESSOA) {
+                        case 1:
+                            ClienteCadastro.pessoaFisica.setSelected(true);
+                            ClienteCadastro.pessoaJuridica.setSelected(false);
+                            ClienteCadastro.codigo.setText(String.valueOf(ClienteCadastro.CODIGO_CLIENTE));
+                            ClienteCadastro.nomeCliente.setText(clienteSel.getNome());
+                            ClienteCadastro.cpf.setText(clienteSel.getCpf().replace(".", "").replace("-", ""));
+                            ClienteCadastro.atividade.setText(clienteSel.getAtividade());
+                            ClienteCadastro.codigoAtendente.setText(clienteSel.getCodAtendente());
+                            ClienteCadastro.nomeAtendente.setText(clienteSel.getNomeAtendente());
+                            ClienteCadastro.observacoes.setText(clienteSel.getObservacoes());
+                            ClienteCadastro.creditoDisponivel.setValue(clienteSel.getCredito());
+                            break;
+                        case 2:
+                            ClienteCadastro.pessoaJuridica.setSelected(true);
+                            ClienteCadastro.pessoaFisica.setSelected(false);
+                            ClienteCadastro.codigo.setText(String.valueOf(ClienteCadastro.CODIGO_CLIENTE));
+                            ClienteCadastro.nomeCliente.setText(clienteSel.getNome());
+                            ClienteCadastro.nomeFantasia.setText(clienteSel.getNomeFantasia());
+                            ClienteCadastro.cnpj.setText(clienteSel.getCnpj().replace(".", "").replace("-", "").replace("/", ""));
+                            ClienteCadastro.atividade.setText(clienteSel.getAtividade());
+                            ClienteCadastro.filialColigada.setText(clienteSel.getFilialColigada());
+                            ClienteCadastro.codigoAtendente.setText(clienteSel.getCodAtendente());
+                            ClienteCadastro.nomeAtendente.setText(clienteSel.getNomeAtendente());
+                            ClienteCadastro.observacoes.setText(clienteSel.getObservacoes());
+                            ClienteCadastro.creditoDisponivel.setValue(clienteSel.getCredito());
+                            break;
+                        default:
+                            throw new TipoPessoaIncorretoException();
                     }
 
-                    modeloEnderecos.addRow(new Object[]{
-                        cadastroClientes2EnderecosBEAN.getCodigo(),
-                        cadastroClientes2EnderecosBEAN.getTipoEndereco(),
-                        cep,
-                        cadastroClientes2EnderecosBEAN.getLogadouro(),
-                        cadastroClientes2EnderecosBEAN.getCidade(),
-                        cadastroClientes2EnderecosBEAN.getBairro(),
-                        cadastroClientes2EnderecosBEAN.getUf(),
-                        cadastroClientes2EnderecosBEAN.getComplemento()
-                    });
-                }
+                    //ENDERECOS-------------------------------------------------
+                    DefaultTableModel modeloEnderecos = (DefaultTableModel) ClienteCadastro.tabelaEnderecos.getModel();
+                    modeloEnderecos.setNumRows(0);
+                    List retorno = ClienteDAO.selecionaEnderecos(ClienteCadastro.TIPO_PESSOA,
+                            ClienteCadastro.CODIGO_CLIENTE);
+                    for (EnderecoBEAN cadastroClientes2EnderecosBEAN : ClienteDAO.retornaDescricaoEnderecos(retorno)) {
+                        String cep = null;
+                        try {
+                            MaskFormatter mascaraCep = new MaskFormatter("##.###-###");
+                            mascaraCep.setValueContainsLiteralCharacters(false);
+                            cep = mascaraCep.valueToString(cadastroClientes2EnderecosBEAN.getCep().replace(".", "").replace("-", ""));
+                        } catch (ParseException ex) {
+                            EnvioExcecao envioExcecao = new EnvioExcecao(Controle.getDefaultGj(), ex);
+                            EnvioExcecao.envio();
+                            return;
+                        }
 
-                //CONTATOS--------------------------------------------------------------
-                DefaultTableModel modeloContatos = (DefaultTableModel) ClienteCadastro.tabelaContatos.getModel();
-                modeloContatos.setNumRows(0);
-                retorno = ClienteDAO.selecionaContatos(ClienteCadastro.TIPO_PESSOA, ClienteCadastro.CODIGO_CLIENTE);
-                for (ContatoBEAN auxBEAN : ClienteDAO.retornaDescricaoContatos(retorno)) {
-                    modeloContatos.addRow(new Object[]{
-                        auxBEAN.getCod(),
-                        auxBEAN.getNomeContato(),
-                        auxBEAN.getEmail(),
-                        auxBEAN.getTelefone(),
-                        auxBEAN.getRamal(),
-                        auxBEAN.getTelefone2(),
-                        auxBEAN.getRamal2(),
-                        auxBEAN.getDepartamento()
-                    });
-                }
-                ClienteCadastro.estadoPosPesquisar();
-                ClienteCadastro.CODIGO_CLIENTE = ClienteCadastro.CODIGO_CLIENTE;
-                ClienteCadastro.tabelaContatos.setEnabled(true);
-                ClienteCadastro.tabelaEnderecos.setEnabled(true);
-
-                //CARREGA ORÇAMENTOS------------------------------------------------
-            } else if (tela.equals("NOTA-FISCAL")) {
-                //INFORMAÇÕES CLIENTE-----------------------------------------------
-                Cliente cliente = ClienteDAO.selInfoNota(ClienteCadastro.TIPO_PESSOA,
-                        ClienteCadastro.CODIGO_CLIENTE);
-                if (ClienteCadastro.TIPO_PESSOA == 1) {
-                    FatFrame.tipoCliente.setText("PESSOA FÍSICA");
-                    FatFrame.cnpjCpf.setText(cliente.getCpf());
-                }
-                if (ClienteCadastro.TIPO_PESSOA == 2) {
-                    FatFrame.tipoCliente.setText("PESSOA JURÍDICA");
-                    FatFrame.cnpjCpf.setText(cliente.getCnpj());
-                }
-                FatFrame.codigoCliente.setValue(cliente.getCodigo());
-                FatFrame.nomeCliente.setText(cliente.getNome());
-
-                //ENDEREÇOS--------------------------------------------------
-                List retorno = ClienteDAO.selecionaEnderecos(ClienteCadastro.TIPO_PESSOA, ClienteCadastro.CODIGO_CLIENTE);
-                for (EnderecoBEAN auxBEAN : ClienteDAO.retornaDescricaoEnderecos(retorno)) {
-                    String cep = null;
-                    try {
-                        MaskFormatter mascaraCep = new MaskFormatter("##.###-###");
-                        mascaraCep.setValueContainsLiteralCharacters(false);
-                        cep = mascaraCep.valueToString(auxBEAN.getCep());
-                    } catch (ParseException ex) {
-                        EnvioExcecao envioExcecao = new EnvioExcecao(Controle.getDefaultGj(), ex);
-                        EnvioExcecao.envio();
+                        modeloEnderecos.addRow(new Object[]{
+                            cadastroClientes2EnderecosBEAN.getCodigo(),
+                            cadastroClientes2EnderecosBEAN.getTipoEndereco(),
+                            cep,
+                            cadastroClientes2EnderecosBEAN.getLogadouro(),
+                            cadastroClientes2EnderecosBEAN.getCidade(),
+                            cadastroClientes2EnderecosBEAN.getBairro(),
+                            cadastroClientes2EnderecosBEAN.getUf(),
+                            cadastroClientes2EnderecosBEAN.getComplemento()
+                        });
                     }
-                    FatFrame.bairroCliente.setText(auxBEAN.getBairro());
-                    FatFrame.cidadeCliente.setText(auxBEAN.getCidade());
-                    FatFrame.ufCliente.setText(auxBEAN.getUf());
-                    FatFrame.complementoCliente.setText(auxBEAN.getComplemento());
-                    FatFrame.logadouroCliente.setText(auxBEAN.getLogadouro());
-                    FatFrame.cepCliente.setText(cep);
-                    FatFrame.tipoEndereco.setText(auxBEAN.getTipoEndereco());
-                }
+
+                    //CONTATOS--------------------------------------------------
+                    DefaultTableModel modeloContatos = (DefaultTableModel) ClienteCadastro.tabelaContatos.getModel();
+                    modeloContatos.setNumRows(0);
+                    retorno = ClienteDAO.selecionaContatos(ClienteCadastro.TIPO_PESSOA, ClienteCadastro.CODIGO_CLIENTE);
+                    for (ContatoBEAN auxBEAN : ClienteDAO.retornaDescricaoContatos(retorno)) {
+                        modeloContatos.addRow(new Object[]{
+                            auxBEAN.getCod(),
+                            auxBEAN.getNomeContato(),
+                            auxBEAN.getEmail(),
+                            auxBEAN.getTelefone(),
+                            auxBEAN.getRamal(),
+                            auxBEAN.getTelefone2(),
+                            auxBEAN.getRamal2(),
+                            auxBEAN.getDepartamento()
+                        });
+                    }
+                    ClienteCadastro.estadoPosPesquisar();
+                    ClienteCadastro.tabelaContatos.setEnabled(true);
+                    ClienteCadastro.tabelaEnderecos.setEnabled(true);
+
+                    //CARREGA ORÇAMENTOS----------------------------------------
+                    break;
+                case 2:
+                    //INFORMAÇÕES CLIENTE-----------------------------------------------
+                    Cliente cliente = ClienteDAO.selInfoNota(ClienteCadastro.TIPO_PESSOA,
+                            ClienteCadastro.CODIGO_CLIENTE);
+                    if (ClienteCadastro.TIPO_PESSOA == 1) {
+                        FatFrame.tipoCliente.setText("PESSOA FÍSICA");
+                        FatFrame.cnpjCpf.setText(cliente.getCpf());
+                    }
+                    if (ClienteCadastro.TIPO_PESSOA == 2) {
+                        FatFrame.tipoCliente.setText("PESSOA JURÍDICA");
+                        FatFrame.cnpjCpf.setText(cliente.getCnpj());
+                    }
+                    FatFrame.codigoCliente.setValue(cliente.getCodigo());
+                    FatFrame.nomeCliente.setText(cliente.getNome());
+
+                    //ENDEREÇOS--------------------------------------------------
+                    retorno = ClienteDAO.selecionaEnderecos(ClienteCadastro.TIPO_PESSOA, ClienteCadastro.CODIGO_CLIENTE);
+                    for (EnderecoBEAN auxBEAN : ClienteDAO.retornaDescricaoEnderecos(retorno)) {
+                        String cep = null;
+                        try {
+                            MaskFormatter mascaraCep = new MaskFormatter("##.###-###");
+                            mascaraCep.setValueContainsLiteralCharacters(false);
+                            cep = mascaraCep.valueToString(auxBEAN.getCep());
+                        } catch (ParseException ex) {
+                            EnvioExcecao envioExcecao = new EnvioExcecao(Controle.getDefaultGj(), ex);
+                            EnvioExcecao.envio();
+                        }
+                        FatFrame.bairroCliente.setText(auxBEAN.getBairro());
+                        FatFrame.cidadeCliente.setText(auxBEAN.getCidade());
+                        FatFrame.ufCliente.setText(auxBEAN.getUf());
+                        FatFrame.complementoCliente.setText(auxBEAN.getComplemento());
+                        FatFrame.logadouroCliente.setText(auxBEAN.getLogadouro());
+                        FatFrame.cepCliente.setText(cep);
+                        FatFrame.tipoEndereco.setText(auxBEAN.getTipoEndereco());
+                    }
+                    break;
             }
-
         } catch (SQLException | TipoPessoaIncorretoException ex) {
             EnvioExcecao envioExcecao = new EnvioExcecao(Controle.getDefaultGj(), ex);
             EnvioExcecao.envio();
@@ -415,7 +434,8 @@ public class ClientePesquisa extends javax.swing.JInternalFrame {
                         EnvioExcecao envioExcecao = new EnvioExcecao(Controle.getDefaultGj(), ex);
                         EnvioExcecao.envio();
                         return;
-                    }   break;
+                    }
+                    break;
                 case "CNPJ":
                     try {
                         p3Txt = mascaraCnpj.valueToString(p3.getText().replace("/", "")
@@ -425,7 +445,8 @@ public class ClientePesquisa extends javax.swing.JInternalFrame {
                         EnvioExcecao envioExcecao = new EnvioExcecao(Controle.getDefaultGj(), ex);
                         EnvioExcecao.envio();
                         return;
-                    }   break;
+                    }
+                    break;
                 default:
                     p3Txt = p3.getText();
                     break;

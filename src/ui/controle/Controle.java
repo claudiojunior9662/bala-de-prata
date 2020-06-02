@@ -8,11 +8,13 @@ package ui.controle;
 import com.itextpdf.text.BaseColor;
 import connection.ConnectionFactory;
 import entidades.StsOrcamento;
+import exception.EnvioExcecao;
 import java.awt.Color;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -22,6 +24,7 @@ import javax.swing.JFrame;
 import javax.swing.JTextPane;
 import static javax.swing.WindowConstants.EXIT_ON_CLOSE;
 import javax.swing.border.Border;
+import javax.swing.text.MaskFormatter;
 import ui.login.TelaAutenticacao;
 import ui.principal.GerenteJanelas;
 
@@ -37,7 +40,7 @@ public class Controle {
      * @param tipoVersao 1 - produção 2 - desenvolvimento rede 3 -
      * desenvolvimento local 4 - peixoto
      */
-    private static byte tipoVersao = 1;
+    private static byte tipoVersao = 3;
 
     public static byte getTipoVersao() {
         return tipoVersao;
@@ -365,6 +368,11 @@ public class Controle {
         }
     }
     
+    /**
+     * Atualiza os avisos para os módulos
+     * @param avisos lista de avisos
+     * @throws SQLException 
+     */
     public static void atualizaAvisos(List<String> avisos) throws SQLException{
         Connection con = ConnectionFactory.getConnection();
         PreparedStatement stmt = null;
@@ -385,6 +393,13 @@ public class Controle {
         }
     }
     
+    /**
+     * Verifica a versão atual do sistema
+     * @param codigo código da versão
+     * @param atualizacao atualização da versão
+     * @return
+     * @throws SQLException 
+     */
     public static boolean verificaVersao(String codigo, String atualizacao) throws SQLException{
         Connection con = ConnectionFactory.getConnection();
         PreparedStatement stmt = null;
@@ -405,7 +420,12 @@ public class Controle {
         }
     }
 
-    //STATUS
+    //status--------------------------------------------------------------------    
+    /**
+     * Retorna a descrição do status do orçamento pelo código do status informado
+     * @param codStatus código do status
+     * @return 
+     */
     public static String getStatusByCod(int codStatus) {
         for (StsOrcamento status : stsOrcamento) {
             if (status.getCod() == codStatus) {
@@ -415,6 +435,7 @@ public class Controle {
         return null;
     }
 
+    //banco selecionado---------------------------------------------------------
     /**
      * Banco de dados
      *
@@ -428,8 +449,45 @@ public class Controle {
                 return "DEV REDE";
             case 3:
                 return "DEV LOCAL";
+            case 4:
+                return "TESTE PEIXOTO";
             default:
                 return null;
+        }
+    }
+    
+    //funções de formatação de string-------------------------------------------
+    
+    /**
+     * Retorna o telefone formatado
+     * @param telefone número de telefone
+     * @return 
+     */
+    public static synchronized String retornaTelefoneFormatado(String telefone) {
+        try {
+            String formatar = telefone;
+            formatar = formatar.replace("(", "");
+            formatar = formatar.replace(")", "");
+            formatar = formatar.replace(" ", "");
+            formatar = formatar.replace("-", "");
+            MaskFormatter formatoTelefone = null;
+            if (formatar.length() == 10) {
+                formatoTelefone = new MaskFormatter("(##) ####-####");
+                formatoTelefone.setValueContainsLiteralCharacters(false);
+                formatar = formatoTelefone.valueToString(formatar);
+            }
+            if (formatar.length() == 11) {
+                formatoTelefone = new MaskFormatter("(##) # ####-####");
+                formatoTelefone.setValueContainsLiteralCharacters(false);
+                formatar = formatoTelefone.valueToString(formatar);
+
+            }
+            return formatar;
+
+        } catch (ParseException ex) {
+            EnvioExcecao envioExcecao = new EnvioExcecao(Controle.getDefaultGj(), ex);
+            EnvioExcecao.envio();
+            return null;
         }
     }
 

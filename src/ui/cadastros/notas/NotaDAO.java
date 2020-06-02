@@ -496,7 +496,7 @@ public class NotaDAO {
             stmt.setString(12, nota.getObservacoes());
             stmt.executeUpdate();
         } catch (SQLException ex) {
-            throw new SQLException();
+            throw new SQLException(ex);
         } finally {
             ConnectionFactory.closeConnection(con, stmt, rs);
         }

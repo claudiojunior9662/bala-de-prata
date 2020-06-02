@@ -167,7 +167,7 @@
                                   <EmptySpace max="-2" attributes="0"/>
                                   <Component id="credito" min="-2" pref="185" max="-2" attributes="0"/>
                                   <EmptySpace max="-2" attributes="0"/>
-                                  <Component id="pesquisar_cliente" min="-2" pref="162" max="-2" attributes="0"/>
+                                  <Component id="pesquisarCliente" min="-2" pref="162" max="-2" attributes="0"/>
                               </Group>
                           </Group>
                           <EmptySpace min="-2" pref="0" max="-2" attributes="0"/>
@@ -195,7 +195,7 @@
                                   <Component id="telefoneContatoCliente" alignment="3" min="-2" max="-2" attributes="0"/>
                               </Group>
                               <Component id="cidadeCliente" alignment="0" min="-2" max="-2" attributes="0"/>
-                              <Component id="pesquisar_cliente" linkSize="10" alignment="0" min="-2" pref="39" max="-2" attributes="0"/>
+                              <Component id="pesquisarCliente" linkSize="10" alignment="0" min="-2" pref="39" max="-2" attributes="0"/>
                               <Component id="credito" linkSize="10" alignment="0" min="-2" max="-2" attributes="0"/>
                               <Component id="ufCliente" min="-2" max="-2" attributes="0"/>
                           </Group>
@@ -218,7 +218,7 @@
                     <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="9"/>
                   </AuxValues>
                 </Component>
-                <Component class="javax.swing.JButton" name="pesquisar_cliente">
+                <Component class="javax.swing.JButton" name="pesquisarCliente">
                   <Properties>
                     <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
                       <Image iconType="3" name="/icones/pesquisar.png"/>
@@ -226,7 +226,7 @@
                     <Property name="text" type="java.lang.String" value="PESQUISAR"/>
                   </Properties>
                   <Events>
-                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="pesquisar_clienteActionPerformed"/>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="pesquisarClienteActionPerformed"/>
                   </Events>
                 </Component>
                 <Component class="javax.swing.JTextField" name="nomeContatoCliente">
