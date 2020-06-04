@@ -1367,7 +1367,7 @@ public class ProdutoFrame extends javax.swing.JInternalFrame {
                             return;
                         }
                     }
-                    if (Integer.valueOf(jftfEstoqueFisico.getText().replace(",", ".")) == 0) {
+                    if (Integer.valueOf(jftfEstoqueFisico.getText().replace(".", "")) == 0) {
                         JOptionPane.showMessageDialog(null, "O ESTOQUE FÍSICO DO PRODUTO NÃO PODE SER IGUAL À ZERO", "ERRO",
                                 JOptionPane.ERROR_MESSAGE);
                         loading.setVisible(false);

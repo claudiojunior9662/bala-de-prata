@@ -30,7 +30,7 @@ import ui.principal.ModulosExt;
 public class TelaAutenticacao extends javax.swing.JFrame {
     
     private static final String codVersao = "2.3.5";
-    private static final String update = "Charlie";
+    private static final String update = "Delta";
     private static UsuarioBEAN atendenteLogado;
 
     public static UsuarioBEAN getUsrLogado() {
@@ -361,9 +361,7 @@ public class TelaAutenticacao extends javax.swing.JFrame {
                     mInt.setVisible(true);
                     this.setVisible(false);
 
-                    JOptionPane.showMessageDialog(null, "CORREÇÕES E ATUALIZAÇÕES DA v.2.3.3 Foxtrot (15-05-2020)\n"
-                            + "- Correção de erros enviados (7-9 e 11-20);\n"
-                            + "CORREÇÕES E ATUALIZAÇÕES DA v.2.3.3 Golf (19-05-2020)\n"
+                    JOptionPane.showMessageDialog(null, "CORREÇÕES E ATUALIZAÇÕES DA v.2.3.3 Golf (19-05-2020)\n"
                             + "- Correção de erros enviados (22-24);\n"
                             + "CORREÇÕES E ATUALIZAÇÕES DA v.2.3.3 Hotel (19-05-2020)\n"
                             + "- Implantação dos valores dos produtos na OP, solicitado pelo Diretor;\n"
@@ -389,6 +387,8 @@ public class TelaAutenticacao extends javax.swing.JFrame {
                             + "CORREÇÕES E ATUALIZAÇÕES DA v.2.3.5 Charlie (02-06-2020)\n"
                             + "- Análise ao selecionar o cliente para o orçamento - código zero;\n"
                             + "- Correção no documento de recibo de entrega para pedido de venda;\n"
+                            + "CORREÇÕES E ATUALIZAÇÕES DA v.2.3.5 Delta (04-06-2020)\n"
+                            + "- Correção do erro salvar o produto para pronta entrega;\n"
                             + "AVISOS:\n"
                             + "- Todas as sugestões de melhoria de usabilidade do programa serão estudadas, mas não há previsão de implementação;\n"
                             + "- Qualquer problema nas correções acima expostas deverão ser informados o mais rápido possível à SPD;\n"

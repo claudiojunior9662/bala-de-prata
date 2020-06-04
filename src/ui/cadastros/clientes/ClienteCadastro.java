@@ -2757,15 +2757,17 @@ public void estado1() {
         botaoDesativarClientes.setEnabled(true);
         botaoGravarClientes.setEnabled(false);
         botaoCancelarClientes.setEnabled(true);
-        switch(CLASSE_PAI){
-            case 1:
-            case 2:
-                botaoSelecionarOrcamento.setEnabled(true);
-                break;
-            default:
-                botaoSelecionarOrcamento.setEnabled(false);
-                break;
-        }
+        botaoSelecionarOrcamento.setEnabled(true);
+        
+//        switch(CLASSE_PAI){
+//            case 1:
+//            case 2:
+//                
+//                break;
+//            default:
+//                botaoSelecionarOrcamento.setEnabled(false);
+//                break;
+//        }
         
         //BOTOES ORCAMENTOS-----------------------------------------------------
         radioMesAnoOrcamentos.setEnabled(true);
