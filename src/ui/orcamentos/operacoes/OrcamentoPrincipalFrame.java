@@ -1680,7 +1680,211 @@ public class OrcamentoPrincipalFrame extends javax.swing.JInternalFrame {
         new Thread() {
             @Override
             public void run() {
-                carregaEdicao();
+                /**
+                 * Limpa a tela de orçamento
+                 */
+                limpa();
+
+                /**
+                 * Mostra a mensagem de carregamento
+                 */
+                loading.setVisible(true);
+                loading.setText("CARREGANDO EDIÇÃO...");
+
+                /**
+                 * Estado de edição
+                 */
+                EDITANDO = true;
+
+                try {
+                    /**
+                     * Recebe o código do orçamento
+                     */
+                    CODIGO_ORCAMENTO = Integer.valueOf(tabelaConsulta.getValueAt(
+                            tabelaConsulta.getSelectedRow(), 0).toString());
+
+                    /**
+                     * Carrega as informações do orçamento
+                     */
+                    Orcamento orcamento = OrcamentoDAO.carregaEdicaoOrcamento(CODIGO_ORCAMENTO);
+
+                    /**
+                     * Carrega as informações do cliente
+                     */
+                    Cliente cliente = ClienteDAO.selInfoNota(
+                            (byte) orcamento.getTipoPessoa(), orcamento.getCodCliente());
+
+                    /**
+                     * Carrega as informações do contato do cliente
+                     */
+                    ContatoBEAN contato = ClienteDAO.selInfoContato(orcamento.getCodContato());
+                    CODIGO_CONTATO = orcamento.getCodContato();
+
+                    /**
+                     * Carrega as informações do endereço do cliente
+                     */
+                    EnderecoBEAN endereco = ClienteDAO.selInfoEndereco(orcamento.getCodEndereco());
+                    CODIGO_ENDERECO = orcamento.getCodEndereco();
+
+                    /**
+                     * Preenche as informações do orçamento
+                     */
+                    codigoOrcamento.setValue(CODIGO_ORCAMENTO);
+                    dataValidade.setDate(Controle.dataPadrao.parse(tabelaConsulta.getValueAt(
+                            tabelaConsulta.getSelectedRow(), 4).toString()));
+                    STATUS = orcamento.getStatus();
+                    switch (orcamento.getTipoPessoa()) {
+                        case 1:
+                            tipoPessoa.setText("PESSOA FÍSICA");
+                            docCliente.setText(cliente.getCpf());
+                            break;
+                        case 2:
+                            tipoPessoa.setText("PESSOA JURÍDICA");
+                            docCliente.setText(cliente.getCnpj());
+                            break;
+                    }
+                    codigoCliente.setValue(orcamento.getCodCliente());
+                    nomeCliente.setText(cliente.getNome());
+                    nomeContatoCliente.setText(contato.getNomeContato());
+                    telefoneContatoCliente.setText(contato.getTelefone());
+                    cidadeCliente.setText(endereco.getCidade());
+                    ufCliente.setText(endereco.getUf());
+                    desconto.setValue((int) orcamento.getDesconto());
+                    cif.setValue((int) orcamento.getCif());
+                    observacoesOrcamento.setText(orcamento.getDescricao());
+                    valoresManuais.setSelected((orcamento.getPrecosManuais() == 1));
+                    if (orcamento.getFrete() != 0d) {
+                        haFrete.setSelected(true);
+                        frete.setEnabled(true);
+                        frete.setValue(orcamento.getFrete());
+                    } else {
+                        haFrete.setSelected(false);
+                        frete.setEnabled(false);
+                        frete.setValue(0d);
+                    }
+                    vlrTotal.setValue(orcamento.getValorTotal());
+
+                    /**
+                     * Carrega os produtos do orçamento
+                     */
+                    for (ProdOrcamento prodOrc : ProdutoDAO.carregaProdutosOrcamento(
+                            (int) codigoOrcamento.getValue())) {
+                        TIPO_ORCAMENTO = prodOrc.getTipoProduto() == 1 ? (byte) 2 : (byte) 1;
+                        CODIGO_PRODUTO = prodOrc.getCodProduto();
+
+                        switch (prodOrc.getTipoProduto()) {
+                            case 1:
+                                ProdutoBEAN produto = ProdutoDAO.retornaInfoProd(CODIGO_PRODUTO, (byte) 1);
+                                DefaultTableModel modeloProdutos = (DefaultTableModel) tabelaProdutos.getModel();
+                                modeloProdutos.addRow(new Object[]{
+                                    CODIGO_PRODUTO,
+                                    produto.getDescricao(),
+                                    produto.getLargura(),
+                                    produto.getAltura(),
+                                    produto.getQuantidadeFolhas(),
+                                    prodOrc.getObservacaoProduto()});
+
+                                for (PapelBEAN papel : PapelDAO.carregaPapeisProd(CODIGO_PRODUTO)) {
+                                    CalculosOpBEAN calculosBEAN = OrcamentoDAO.retornaCalculosProposta((int) codigoOrcamento.getValue(),
+                                            Integer.valueOf(CODIGO_PRODUTO),
+                                            prodOrc.getTipoProduto(),
+                                            papel.getCodigo(),
+                                            papel.getTipoPapel());
+                                    DefaultTableModel modeloPapeis = (DefaultTableModel) tabelaPapeis.getModel();
+                                    modeloPapeis.addRow(new Object[]{
+                                        CODIGO_PRODUTO,
+                                        papel.getCodigo(),
+                                        ProdutoDAO.retornaDescricaoPapel(papel.getCodigo()),
+                                        papel.getTipoPapel(),
+                                        papel.getCorFrente(),
+                                        papel.getCorVerso(),
+                                        calculosBEAN.getFormato(),
+                                        calculosBEAN.getPerca(),
+                                        calculosBEAN.getQtdFolhasTotal(),
+                                        ProdutoDAO.retornaPrecoPapel(papel.getCodigo()),
+                                        calculosBEAN.getQtdChapas(),
+                                        ProdutoDAO.retornaPrecoChapa(317)});
+                                }
+                                try {
+                                    for (AcabamentoProdBEAN cadastroProdutosComponentesBEAN
+                                            : AcabamentoDAO.retornaAcabamentosProduto(CODIGO_PRODUTO)) {
+                                        DefaultTableModel modeloAcabamentos = (DefaultTableModel) tabelaAcabamentos.getModel();
+                                        modeloAcabamentos.addRow(new Object[]{
+                                            CODIGO_PRODUTO,
+                                            cadastroProdutosComponentesBEAN.getCodigoAcabamento(),
+                                            AcabamentoDAO.retornaDescricaoAcabamentos(cadastroProdutosComponentesBEAN.getCodigoAcabamento())});
+                                    }
+                                } catch (SemAcabamentoException ex) {
+                                    //NENHUMA AÇÃO
+                                }
+                                break;
+                            case 2:
+                                ProdutoPrEntBEAN produtoPrEnt = ProdutoDAO.retornaInfoPe(CODIGO_PRODUTO);
+                                DefaultTableModel modeloProdutosPrEnt = (DefaultTableModel) tabelaProdutos.getModel();
+                                modeloProdutosPrEnt.addRow(new Object[]{
+                                    CODIGO_PRODUTO,
+                                    produtoPrEnt.getDescricao(),
+                                    produtoPrEnt.getLargura(),
+                                    produtoPrEnt.getAltura(),
+                                    produtoPrEnt.getQtdPaginas(),
+                                    prodOrc.getObservacaoProduto()});
+                                break;
+                            case 3:
+                                return;
+                        }
+
+                        DefaultTableModel modeloQuantidades = (DefaultTableModel) tabelaTiragens.getModel();
+                        modeloQuantidades.addRow(new Object[]{
+                            CODIGO_PRODUTO,
+                            prodOrc.getQuantidade(),
+                            TIPO_ORCAMENTO == 2 ? (prodOrc.getMaquina() == 1) : false,
+                            TIPO_ORCAMENTO == 2 ? (prodOrc.getMaquina() == 2) : false,
+                            prodOrc.getValorDigital(),
+                            prodOrc.getPrecoUnitario()});
+                    }
+
+                    /**
+                     * Carrega os serviços do orçamento
+                     */
+                    for (Servicos servicos : ServicoDAO.carregaServicosOrcamento((int) codigoOrcamento.getValue())) {
+                        DefaultTableModel modeloServicos = (DefaultTableModel) tabelaServicos.getModel();
+                        modeloServicos.addRow(new Object[]{
+                            servicos.getCod(),
+                            ServicoDAO.carregaDescricaoServicos(servicos.getCod()),
+                            ServicoDAO.retornaVlrSrvOrcNExistente(servicos.getCod())
+                        });
+                    }
+
+                    /**
+                     * Reseta o estado da tela de consultas
+                     */
+                    excluir.setEnabled(false);
+                    editar.setEnabled(false);
+                    gerarPdf.setEnabled(false);
+                    enviarProducao.setEnabled(false);
+
+                    /**
+                     * Vai para a aba inicial do orçamento
+                     */
+                    tabsOrcamento.setSelectedIndex(0);
+                    tabsInformacoes.setSelectedIndex(0);
+
+                    /**
+                     * Verifica se é orçamento para produção ou orçamento para
+                     * pronta entrega
+                     */
+                    tabsInformacoes.setEnabledAt(2, (TIPO_ORCAMENTO != 1));
+                    tabsInformacoes.setEnabledAt(3, (TIPO_ORCAMENTO != 1));
+
+                    /**
+                     * Verifica se existe produtos
+                     */
+                    estadoProdSv(tabelaProdutos.getRowCount() == 0 ? (byte) 2 : (byte) 1);
+                } catch (SQLException | ParseException ex) {
+                    EnvioExcecao envioExcecao = new EnvioExcecao(Controle.getDefaultGj(), ex);
+                    EnvioExcecao.envio();
+                }
+                loading.setVisible(false);
             }
         }.start();
     }//GEN-LAST:event_editarActionPerformed
@@ -2758,215 +2962,6 @@ public class OrcamentoPrincipalFrame extends javax.swing.JInternalFrame {
         loading.setVisible(false);
     }
 
-    private synchronized void carregaEdicao() {
-
-        /**
-         * Limpa a tela de orçamento
-         */
-        limpa();
-
-        /**
-         * Mostra a mensagem de carregamento
-         */
-        loading.setVisible(true);
-        loading.setText("CARREGANDO EDIÇÃO...");
-
-        /**
-         * Estado de edição
-         */
-        EDITANDO = true;
-
-        try {
-            /**
-             * Recebe o código do orçamento
-             */
-            CODIGO_ORCAMENTO = Integer.valueOf(tabelaConsulta.getValueAt(
-                    tabelaConsulta.getSelectedRow(), 0).toString());
-
-            /**
-             * Carrega as informações do orçamento
-             */
-            Orcamento orcamento = OrcamentoDAO.carregaEdicaoOrcamento(CODIGO_ORCAMENTO);
-
-            /**
-             * Carrega as informações do cliente
-             */
-            Cliente cliente = ClienteDAO.selInfoNota(
-                    (byte) orcamento.getTipoPessoa(), orcamento.getCodCliente());
-
-            /**
-             * Carrega as informações do contato do cliente
-             */
-            ContatoBEAN contato = ClienteDAO.selInfoContato(orcamento.getCodContato());
-            CODIGO_CONTATO = orcamento.getCodContato();
-
-            /**
-             * Carrega as informações do endereço do cliente
-             */
-            EnderecoBEAN endereco = ClienteDAO.selInfoEndereco(orcamento.getCodEndereco());
-            CODIGO_ENDERECO = orcamento.getCodEndereco();
-
-            /**
-             * Preenche as informações do orçamento
-             */
-            codigoOrcamento.setValue(CODIGO_ORCAMENTO);
-            dataValidade.setDate(Controle.dataPadrao.parse(tabelaConsulta.getValueAt(
-                    tabelaConsulta.getSelectedRow(), 4).toString()));
-            STATUS = orcamento.getStatus();
-            switch (orcamento.getTipoPessoa()) {
-                case 1:
-                    tipoPessoa.setText("PESSOA FÍSICA");
-                    docCliente.setText(cliente.getCpf());
-                    break;
-                case 2:
-                    tipoPessoa.setText("PESSOA JURÍDICA");
-                    docCliente.setText(cliente.getCnpj());
-                    break;
-            }
-            codigoCliente.setValue(orcamento.getCodCliente());
-            nomeCliente.setText(cliente.getNome());
-            nomeContatoCliente.setText(contato.getNomeContato());
-            telefoneContatoCliente.setText(contato.getTelefone());
-            cidadeCliente.setText(endereco.getCidade());
-            ufCliente.setText(endereco.getUf());
-            desconto.setValue((int) orcamento.getDesconto());
-            cif.setValue((int) orcamento.getCif());
-            observacoesOrcamento.setText(orcamento.getDescricao());
-            valoresManuais.setSelected((orcamento.getPrecosManuais() == 1));
-            if (orcamento.getFrete() != 0d) {
-                haFrete.setSelected(true);
-                frete.setEnabled(true);
-                frete.setValue(orcamento.getFrete());
-            } else {
-                haFrete.setSelected(false);
-                frete.setEnabled(false);
-                frete.setValue(0d);
-            }
-            vlrTotal.setValue(orcamento.getValorTotal());
-
-            /**
-             * Carrega os produtos do orçamento
-             */
-            for (ProdOrcamento prodOrc : ProdutoDAO.carregaProdutosOrcamento(
-                    (int) codigoOrcamento.getValue())) {
-                TIPO_ORCAMENTO = prodOrc.getTipoProduto() == 1 ? (byte) 2 : (byte) 1;
-                CODIGO_PRODUTO = prodOrc.getCodProduto();
-
-                switch (prodOrc.getTipoProduto()) {
-                    case 1:
-                        ProdutoBEAN produto = ProdutoDAO.retornaInfoProd(CODIGO_PRODUTO, (byte) 1);
-                        DefaultTableModel modeloProdutos = (DefaultTableModel) tabelaProdutos.getModel();
-                        modeloProdutos.addRow(new Object[]{
-                            CODIGO_PRODUTO,
-                            produto.getDescricao(),
-                            produto.getLargura(),
-                            produto.getAltura(),
-                            produto.getQuantidadeFolhas(),
-                            prodOrc.getObservacaoProduto()});
-
-                        for (PapelBEAN papel : PapelDAO.carregaPapeisProd(CODIGO_PRODUTO)) {
-                            CalculosOpBEAN calculosBEAN = OrcamentoDAO.retornaCalculosProposta((int) codigoOrcamento.getValue(),
-                                    Integer.valueOf(CODIGO_PRODUTO),
-                                    prodOrc.getTipoProduto(),
-                                    papel.getCodigo(),
-                                    papel.getTipoPapel());
-                            DefaultTableModel modeloPapeis = (DefaultTableModel) tabelaPapeis.getModel();
-                            modeloPapeis.addRow(new Object[]{
-                                CODIGO_PRODUTO,
-                                papel.getCodigo(),
-                                ProdutoDAO.retornaDescricaoPapel(papel.getCodigo()),
-                                papel.getTipoPapel(),
-                                papel.getCorFrente(),
-                                papel.getCorVerso(),
-                                calculosBEAN.getFormato(),
-                                calculosBEAN.getPerca(),
-                                calculosBEAN.getQtdFolhasTotal(),
-                                ProdutoDAO.retornaPrecoPapel(papel.getCodigo()),
-                                calculosBEAN.getQtdChapas(),
-                                ProdutoDAO.retornaPrecoChapa(317)});
-                        }
-                        try {
-                            for (AcabamentoProdBEAN cadastroProdutosComponentesBEAN
-                                    : AcabamentoDAO.retornaAcabamentosProduto(CODIGO_PRODUTO)) {
-                                DefaultTableModel modeloAcabamentos = (DefaultTableModel) tabelaAcabamentos.getModel();
-                                modeloAcabamentos.addRow(new Object[]{
-                                    CODIGO_PRODUTO,
-                                    cadastroProdutosComponentesBEAN.getCodigoAcabamento(),
-                                    AcabamentoDAO.retornaDescricaoAcabamentos(cadastroProdutosComponentesBEAN.getCodigoAcabamento())});
-                            }
-                        } catch (SemAcabamentoException ex) {
-                            //NENHUMA AÇÃO
-                        }
-                        break;
-                    case 2:
-                        ProdutoPrEntBEAN produtoPrEnt = ProdutoDAO.retornaInfoPe(CODIGO_PRODUTO);
-                        DefaultTableModel modeloProdutosPrEnt = (DefaultTableModel) tabelaProdutos.getModel();
-                        modeloProdutosPrEnt.addRow(new Object[]{
-                            CODIGO_PRODUTO,
-                            produtoPrEnt.getDescricao(),
-                            produtoPrEnt.getLargura(),
-                            produtoPrEnt.getAltura(),
-                            produtoPrEnt.getQtdPaginas(),
-                            prodOrc.getObservacaoProduto()});
-                        break;
-                    case 3:
-                        return;
-                }
-
-                DefaultTableModel modeloQuantidades = (DefaultTableModel) tabelaTiragens.getModel();
-                modeloQuantidades.addRow(new Object[]{
-                    CODIGO_PRODUTO,
-                    prodOrc.getQuantidade(),
-                    TIPO_ORCAMENTO == 2 ? (prodOrc.getMaquina() == 1) : false,
-                    TIPO_ORCAMENTO == 2 ? (prodOrc.getMaquina() == 2) : false,
-                    prodOrc.getValorDigital(),
-                    prodOrc.getPrecoUnitario()});
-            }
-
-            /**
-             * Carrega os serviços do orçamento
-             */
-            for (Servicos servicos : ServicoDAO.carregaServicosOrcamento((int) codigoOrcamento.getValue())) {
-                DefaultTableModel modeloServicos = (DefaultTableModel) tabelaServicos.getModel();
-                modeloServicos.addRow(new Object[]{
-                    servicos.getCod(),
-                    ServicoDAO.carregaDescricaoServicos(servicos.getCod()),
-                    ServicoDAO.retornaVlrSrvOrcNExistente(servicos.getCod())
-                });
-            }
-
-            /**
-             * Reseta o estado da tela de consultas
-             */
-            excluir.setEnabled(false);
-            editar.setEnabled(false);
-            gerarPdf.setEnabled(false);
-            enviarProducao.setEnabled(false);
-
-            /**
-             * Vai para a aba inicial do orçamento
-             */
-            tabsOrcamento.setSelectedIndex(0);
-            tabsInformacoes.setSelectedIndex(0);
-
-            /**
-             * Verifica se é orçamento para produção ou orçamento para pronta
-             * entrega
-             */
-            tabsInformacoes.setEnabledAt(2, (TIPO_ORCAMENTO != 1));
-            tabsInformacoes.setEnabledAt(3, (TIPO_ORCAMENTO != 1));
-
-            /**
-             * Verifica se existe produtos
-             */
-            estadoProdSv(tabelaProdutos.getRowCount() == 0 ? (byte) 2 : (byte) 1);
-        } catch (SQLException | ParseException ex) {
-            EnvioExcecao envioExcecao = new EnvioExcecao(Controle.getDefaultGj(), ex);
-            EnvioExcecao.envio();
-        }
-        loading.setVisible(false);
-    }
-
     private synchronized void geraFrame(java.awt.event.MouseEvent evt) {
         try {
             modeloFrame.setNumRows(0);
@@ -3098,7 +3093,6 @@ public class OrcamentoPrincipalFrame extends javax.swing.JInternalFrame {
     }
 
     //Cálculo-------------------------------------------------------------------
-    
     /**
      * Calcula a quantidade de papéis a serem gastos
      */
@@ -3202,7 +3196,7 @@ public class OrcamentoPrincipalFrame extends javax.swing.JInternalFrame {
             }
         }
     }
-    
+
     /**
      * Calcula a quantidade de chapas a serem gastas
      */
@@ -3324,7 +3318,7 @@ public class OrcamentoPrincipalFrame extends javax.swing.JInternalFrame {
         double valorChapas;
         double valorImpressao;
         double valorUnitario;
-        String codigoProduto;
+        Integer codigoProduto;
         double cifDividido = Double.valueOf(cif.getText().replace(",", ".")) / (double) tabelaTiragens.getRowCount();
         double descontoDividido = Double.valueOf(desconto.getText().replace(",", ".")) / (double) tabelaTiragens.getRowCount();
         /*
@@ -3339,15 +3333,17 @@ public class OrcamentoPrincipalFrame extends javax.swing.JInternalFrame {
             valorChapas = 0d;
             valorImpressao = 0d;
             valorUnitario = 0d;
-            codigoProduto = tabelaTiragens.getValueAt(i, 0).toString();
+            codigoProduto = Integer.valueOf(tabelaTiragens.getValueAt(i, 0).toString());
             tipoMaquina = (Boolean) tabelaTiragens.getValueAt(i, 2) ? (byte) 1 : (byte) 2;
 
             try {
 
                 if (TIPO_ORCAMENTO != 1) {
                     for (int j = 0; j < tabelaPapeis.getRowCount(); j++) {
+                        System.out.println("entrou for");
                         if (codigoProduto
-                                == tabelaPapeis.getValueAt(j, 0).toString()) {
+                                == (int) tabelaPapeis.getValueAt(j, 0)) {
+                            System.out.println("entrou if");
                             valorPapeis += Double.valueOf(tabelaPapeis.getValueAt(j, 8).toString())
                                     * Double.valueOf(tabelaPapeis.getValueAt(j, 9).toString());
 
@@ -3642,7 +3638,7 @@ public class OrcamentoPrincipalFrame extends javax.swing.JInternalFrame {
 
         }
     }
-    
+
     /**
      * Ação do botão calcular
      */
@@ -3760,7 +3756,6 @@ public class OrcamentoPrincipalFrame extends javax.swing.JInternalFrame {
     }
 
     //Crud----------------------------------------------------------------------
-    
     /**
      * Salva o orçamento
      */
@@ -3983,5 +3978,4 @@ public class OrcamentoPrincipalFrame extends javax.swing.JInternalFrame {
         return codProd;
     }
 
-    
 }
