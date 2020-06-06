@@ -70,6 +70,7 @@ public class Orcamento {
     private int precosManuais;
     private String nomeCliente;
     private Double frete;
+    private Double arte;
     private String descricaoProduto;
     private int codigoOp;
 
@@ -77,11 +78,13 @@ public class Orcamento {
             int codContato,
             int codEndereco,
             Double frete,
+            Double arte,
             int tipoPessoa) {
         this.codigoCliente = codigoCliente;
         this.codContato = codContato;
         this.codEndereco = codEndereco;
         this.frete = frete;
+        this.arte = arte;
         this.tipoPessoa = tipoPessoa;
     }
 
@@ -99,7 +102,8 @@ public class Orcamento {
             int codContato,
             int codEndereco,
             int precosManuais,
-            Double frete) {
+            Double frete,
+            Double arte) {
         this.codigo = codigo;
         this.codigoCliente = codigoCliente;
         this.codigoEmissor = codigoEmissor;
@@ -115,6 +119,7 @@ public class Orcamento {
         this.codEndereco = codEndereco;
         this.precosManuais = precosManuais;
         this.frete = frete;
+        this.arte = arte;
     }
 
     public Orcamento(int codigo,
@@ -126,6 +131,14 @@ public class Orcamento {
     }
 
     public Orcamento() {
+    }
+
+    public Double getArte() {
+        return arte;
+    }
+
+    public void setArte(Double arte) {
+        this.arte = arte;
     }
 
     public int getCodigoOp() {
@@ -366,8 +379,8 @@ public class Orcamento {
                     tabelaCabecalho.setWidthPercentage(100);
                     PdfPCell celulaCabecalho = null;
 
-                    List<ProdOrcamento> produtos = 
-                            OrcamentoDAO.carregaProdOrc(codOrc);
+                    List<ProdOrcamento> produtos
+                            = OrcamentoDAO.carregaProdOrc(codOrc);
 
                     if (consulta == true) {
                         if (status == 1) {
@@ -388,14 +401,14 @@ public class Orcamento {
                         }
                     } else {
                         if (produtos.get(0).getTipoProduto() == 2) {
-                                celulaCabecalho = new PdfPCell(new Phrase("PROPOSTA DE PEDIDO DE VENDA Nº "
-                                        + codOrc,
-                                        FontFactory.getFont("arial.ttf", 12, Font.BOLD)));
-                            } else {
-                                celulaCabecalho = new PdfPCell(new Phrase("PROPOSTA DE ORÇAMENTO Nº "
-                                        + codOrc,
-                                        FontFactory.getFont("arial.ttf", 12, Font.BOLD)));
-                            }
+                            celulaCabecalho = new PdfPCell(new Phrase("PROPOSTA DE PEDIDO DE VENDA Nº "
+                                    + codOrc,
+                                    FontFactory.getFont("arial.ttf", 12, Font.BOLD)));
+                        } else {
+                            celulaCabecalho = new PdfPCell(new Phrase("PROPOSTA DE ORÇAMENTO Nº "
+                                    + codOrc,
+                                    FontFactory.getFont("arial.ttf", 12, Font.BOLD)));
+                        }
                     }
                     celulaCabecalho.setHorizontalAlignment(1);
                     celulaCabecalho.setBorder(0);
@@ -454,11 +467,11 @@ public class Orcamento {
                         document.add(p2);
                         p2 = new Paragraph(produto.getDescricaoProduto().toUpperCase()
                                 + "    QUANTIDADE: " + produto.getQuantidade()
-                                + "    TAMANHO: " + ProdutoDAO.carregaAlturaProduto(produto.getCodProduto(), 
+                                + "    TAMANHO: " + ProdutoDAO.carregaAlturaProduto(produto.getCodProduto(),
                                         produto.getTipoProduto())
-                                + " X " + ProdutoDAO.carregaLarguraProduto(produto.getCodProduto(), 
+                                + " X " + ProdutoDAO.carregaLarguraProduto(produto.getCodProduto(),
                                         produto.getTipoProduto())
-                                + "    PÁGINAS: " + ProdutoDAO.retornaQuantidadePaginas(produto.getCodProduto(), 
+                                + "    PÁGINAS: " + ProdutoDAO.retornaQuantidadePaginas(produto.getCodProduto(),
                                         produto.getTipoProduto()),
                                 FontFactory.getFont("arial.ttf", 9));
                         document.add(p2);

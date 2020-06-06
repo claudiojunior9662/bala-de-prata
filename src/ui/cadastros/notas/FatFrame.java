@@ -129,7 +129,7 @@ public class FatFrame extends javax.swing.JInternalFrame {
         tabsNV = new javax.swing.JTabbedPane();
         jPanel5 = new javax.swing.JPanel();
         jPanel6 = new javax.swing.JPanel();
-        origem = new javax.swing.JComboBox<String>();
+        origem = new javax.swing.JComboBox<>();
         codOp = new javax.swing.JTextField();
         pesquisarOrigem = new javax.swing.JButton();
         descricao = new javax.swing.JTextField();
@@ -144,15 +144,17 @@ public class FatFrame extends javax.swing.JInternalFrame {
         qtdSolicitada = new javax.swing.JFormattedTextField();
         vlrTotalNota = new javax.swing.JFormattedTextField();
         codOrc = new javax.swing.JTextField();
+        faturarFrete1 = new javax.swing.JCheckBox();
+        valorFrete1 = new javax.swing.JFormattedTextField();
         jPanel7 = new javax.swing.JPanel();
         avisoAnoFin = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
         numeroNota = new javax.swing.JFormattedTextField();
         dataEntrega = new com.toedter.calendar.JDateChooser();
-        serieNota = new javax.swing.JComboBox<String>();
+        serieNota = new javax.swing.JComboBox<>();
         jPanel3 = new javax.swing.JPanel();
-        descricaoNota = new javax.swing.JComboBox<String>();
+        descricaoNota = new javax.swing.JComboBox<>();
         jLabel11 = new javax.swing.JLabel();
         emissor = new javax.swing.JLabel();
         jPanel4 = new javax.swing.JPanel();
@@ -173,7 +175,7 @@ public class FatFrame extends javax.swing.JInternalFrame {
         emailCliente = new javax.swing.JTextField();
         jPanel8 = new javax.swing.JPanel();
         jPanel9 = new javax.swing.JPanel();
-        modalidadeFrete = new javax.swing.JComboBox<String>();
+        modalidadeFrete = new javax.swing.JComboBox<>();
         jPanel10 = new javax.swing.JPanel();
         nomeTransportador = new javax.swing.JTextField();
         jPanel11 = new javax.swing.JPanel();
@@ -216,7 +218,7 @@ public class FatFrame extends javax.swing.JInternalFrame {
 
         jPanel6.setBorder(javax.swing.BorderFactory.createTitledBorder("PRODUTO/SERVIÇO"));
 
-        origem.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "1 - ORDEM DE PRODUÇÃO" }));
+        origem.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "1 - ORDEM DE PRODUÇÃO" }));
         origem.setBorder(javax.swing.BorderFactory.createTitledBorder("ORIGEM"));
 
         codOp.setBorder(javax.swing.BorderFactory.createTitledBorder("CÓDIGO OP"));
@@ -294,6 +296,16 @@ public class FatFrame extends javax.swing.JInternalFrame {
             }
         });
 
+        faturarFrete1.setText("FATURAR ARTE");
+        faturarFrete1.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                faturarFrete1ItemStateChanged(evt);
+            }
+        });
+
+        valorFrete1.setBorder(javax.swing.BorderFactory.createTitledBorder("VALOR ARTE"));
+        valorFrete1.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(java.text.NumberFormat.getCurrencyInstance())));
+
         javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
         jPanel6.setLayout(jPanel6Layout);
         jPanel6Layout.setHorizontalGroup(
@@ -320,7 +332,7 @@ public class FatFrame extends javax.swing.JInternalFrame {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(codOrc, javax.swing.GroupLayout.PREFERRED_SIZE, 167, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(descricao, javax.swing.GroupLayout.DEFAULT_SIZE, 485, Short.MAX_VALUE))
+                                .addComponent(descricao, javax.swing.GroupLayout.DEFAULT_SIZE, 533, Short.MAX_VALUE))
                             .addGroup(jPanel6Layout.createSequentialGroup()
                                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(valorTotalEntregue, javax.swing.GroupLayout.PREFERRED_SIZE, 161, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -328,18 +340,25 @@ public class FatFrame extends javax.swing.JInternalFrame {
                                 .addGap(43, 43, 43)
                                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addGroup(jPanel6Layout.createSequentialGroup()
-                                        .addComponent(faturarFrete)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(valorFrete, javax.swing.GroupLayout.PREFERRED_SIZE, 128, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addGroup(jPanel6Layout.createSequentialGroup()
                                         .addComponent(faturarServicos)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(valorServicos, javax.swing.GroupLayout.PREFERRED_SIZE, 133, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                                        .addComponent(valorServicos, javax.swing.GroupLayout.PREFERRED_SIZE, 133, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                        .addGroup(jPanel6Layout.createSequentialGroup()
+                                            .addComponent(faturarFrete1)
+                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                            .addComponent(valorFrete1, javax.swing.GroupLayout.PREFERRED_SIZE, 128, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addGroup(jPanel6Layout.createSequentialGroup()
+                                            .addComponent(faturarFrete)
+                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                            .addComponent(valorFrete, javax.swing.GroupLayout.PREFERRED_SIZE, 128, javax.swing.GroupLayout.PREFERRED_SIZE))))))
                         .addGap(26, 26, 26)))
                 .addContainerGap())
         );
 
         jPanel6Layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {valorTotalEntregue, valorUnitario});
+
+        jPanel6Layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {faturarFrete, faturarFrete1});
 
         jPanel6Layout.setVerticalGroup(
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -358,7 +377,7 @@ public class FatFrame extends javax.swing.JInternalFrame {
                             .addComponent(origem, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel6Layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 12, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(qtdSolicitada, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(valorUnitario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -366,7 +385,7 @@ public class FatFrame extends javax.swing.JInternalFrame {
                         .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(qtdEntregue)
                             .addComponent(valorTotalEntregue))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 12, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(qtdSerEntregue, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(27, 27, 27))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel6Layout.createSequentialGroup()
@@ -379,13 +398,18 @@ public class FatFrame extends javax.swing.JInternalFrame {
                             .addComponent(faturarFrete, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(valorFrete))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(vlrTotalNota, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel6Layout.createSequentialGroup()
+                                .addComponent(vlrTotalNota)
+                                .addGap(5, 5, 5))
+                            .addComponent(valorFrete1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(faturarFrete1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addContainerGap())))
         );
 
         jPanel6Layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {codOp, codOrc, descricao, origem, pesquisarOrigem});
 
-        jPanel6Layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {faturarFrete, faturarServicos, valorFrete, valorServicos, valorTotalEntregue, vlrTotalNota});
+        jPanel6Layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {faturarFrete, faturarFrete1, faturarServicos, valorFrete, valorFrete1, valorServicos, valorTotalEntregue, vlrTotalNota});
 
         jPanel6Layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {qtdSolicitada, valorUnitario});
 
@@ -393,7 +417,7 @@ public class FatFrame extends javax.swing.JInternalFrame {
         jPanel7.setLayout(jPanel7Layout);
         jPanel7Layout.setHorizontalGroup(
             jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1, Short.MAX_VALUE)
+            .addGap(0, 0, Short.MAX_VALUE)
         );
         jPanel7Layout.setVerticalGroup(
             jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -434,7 +458,7 @@ public class FatFrame extends javax.swing.JInternalFrame {
                         .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(avisoAnoFin, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(192, Short.MAX_VALUE))
+                .addContainerGap(195, Short.MAX_VALUE))
         );
 
         tabsNV.addTab("PRODUTOS E SERVIÇOS", new javax.swing.ImageIcon(getClass().getResource("/icones/produto.png")), jPanel5); // NOI18N
@@ -446,7 +470,7 @@ public class FatFrame extends javax.swing.JInternalFrame {
 
         dataEntrega.setBorder(javax.swing.BorderFactory.createTitledBorder("DATA DE ENTREGA"));
 
-        serieNota.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "1" }));
+        serieNota.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "1" }));
         serieNota.setBorder(javax.swing.BorderFactory.createTitledBorder("SÉRIE"));
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
@@ -476,7 +500,7 @@ public class FatFrame extends javax.swing.JInternalFrame {
 
         jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder("TIPO DE DOCUMENTO"));
 
-        descricaoNota.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "2 - FATURAMENTO DE ORDEM DE PRODUÇÃO" }));
+        descricaoNota.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "2 - FATURAMENTO DE ORDEM DE PRODUÇÃO" }));
         descricaoNota.setBorder(javax.swing.BorderFactory.createTitledBorder("DESCRIÇÃO"));
 
         jLabel11.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -641,7 +665,7 @@ public class FatFrame extends javax.swing.JInternalFrame {
 
         jPanel9.setBorder(javax.swing.BorderFactory.createTitledBorder("MODALIDADE DO FRETE"));
 
-        modalidadeFrete.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "EMC - ENTREGUE EM MÃOS AO CLIENTE", "COR - CORREIOS" }));
+        modalidadeFrete.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "EMC - ENTREGUE EM MÃOS AO CLIENTE", "COR - CORREIOS" }));
         modalidadeFrete.addItemListener(new java.awt.event.ItemListener() {
             public void itemStateChanged(java.awt.event.ItemEvent evt) {
                 modalidadeFreteItemStateChanged(evt);
@@ -1216,6 +1240,10 @@ public class FatFrame extends javax.swing.JInternalFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_codOrcKeyPressed
 
+    private void faturarFrete1ItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_faturarFrete1ItemStateChanged
+        // TODO add your handling code here:
+    }//GEN-LAST:event_faturarFrete1ItemStateChanged
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     public static javax.swing.JFormattedTextField alturaProduto;
@@ -1246,6 +1274,7 @@ public class FatFrame extends javax.swing.JInternalFrame {
     public static javax.swing.JLabel emissor;
     public static javax.swing.JFormattedTextField espessuraProduto;
     public static javax.swing.JCheckBox faturarFrete;
+    public static javax.swing.JCheckBox faturarFrete1;
     public static javax.swing.JCheckBox faturarServicos;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel34;
@@ -1295,6 +1324,7 @@ public class FatFrame extends javax.swing.JInternalFrame {
     public static javax.swing.JTextField tipoEndereco;
     public static javax.swing.JTextField ufCliente;
     public static javax.swing.JFormattedTextField valorFrete;
+    public static javax.swing.JFormattedTextField valorFrete1;
     public static javax.swing.JFormattedTextField valorServicos;
     public static javax.swing.JFormattedTextField valorTotalEntregue;
     public static javax.swing.JFormattedTextField valorUnitario;

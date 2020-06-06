@@ -38,7 +38,11 @@ public class OrcamentoDAO {
         int retorno = 0;
 
         try {
-            stmt = con.prepareStatement("SELECT cod FROM tabela_orcamentos ORDER BY cod DESC LIMIT 1");
+            stmt = con.prepareStatement("SELECT cod "
+                    + "FROM tabela_orcamentos "
+                    + "ORDER BY cod "
+                    + "DESC "
+                    + "LIMIT 1");
             rs = stmt.executeQuery();
             if (rs.next()) {
                 retorno = rs.getInt("cod");
@@ -58,8 +62,24 @@ public class OrcamentoDAO {
         PreparedStatement stmt = null;
 
         try {
-            stmt = con.prepareStatement("INSERT INTO tabela_orcamentos(cod, cod_cliente,  data_validade, data_emissao, valor_unitario, sif, valor_total,"
-                    + "status, descricao, tipo_cliente, cod_emissor, desconto, cod_contato, cod_endereco, precos_manuais, frete) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
+            stmt = con.prepareStatement("INSERT INTO tabela_orcamentos(cod, "
+                    + "cod_cliente,  "
+                    + "data_validade, "
+                    + "data_emissao, "
+                    + "valor_unitario, "
+                    + "sif, "
+                    + "valor_total,"
+                    + "status, "
+                    + "descricao, "
+                    + "tipo_cliente, "
+                    + "cod_emissor, "
+                    + "desconto, "
+                    + "cod_contato, "
+                    + "cod_endereco, "
+                    + "precos_manuais, "
+                    + "frete, "
+                    + "ARTE) "
+                    + "VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
             stmt.setInt(1, orcamento.getCod());
             stmt.setInt(2, orcamento.getCodCliente());
             stmt.setDate(3, new java.sql.Date(orcamento.getDataValidade().getTime()));
@@ -76,6 +96,7 @@ public class OrcamentoDAO {
             stmt.setInt(14, orcamento.getCodEndereco());
             stmt.setInt(15, orcamento.getPrecosManuais());
             stmt.setFloat(16, Float.valueOf(orcamento.getFrete().toString()));
+            stmt.setFloat(17, Float.valueOf(orcamento.getArte().toString()));
             stmt.executeUpdate();
         } catch (SQLException ex) {
             throw new SQLException(ex);
@@ -182,7 +203,7 @@ public class OrcamentoDAO {
             stmt = con.prepareStatement("SELECT cod, cod_cliente, cod_emissor, data_validade,"
                     + "data_emissao, sif, status, descricao, tipo_cliente, desconto,"
                     + "valor_total, cod_contato, cod_endereco, precos_manuais,"
-                    + "frete "
+                    + "frete, ARTE "
                     + "FROM tabela_orcamentos "
                     + "WHERE cod = ?");
             stmt.setInt(1, codOrc);
@@ -203,7 +224,8 @@ public class OrcamentoDAO {
                         rs.getInt("cod_contato"),
                         rs.getInt("cod_endereco"),
                         rs.getInt("precos_manuais"),
-                        rs.getDouble("frete")
+                        rs.getDouble("frete"),
+                        rs.getDouble("ARTE")
                 );
             }
             return null;
@@ -1337,7 +1359,8 @@ public class OrcamentoDAO {
         ResultSet rs = null;
 
         try {
-            stmt = con.prepareStatement("SELECT cod_cliente, cod_contato, cod_endereco, frete, tipo_cliente "
+            stmt = con.prepareStatement("SELECT cod_cliente, cod_contato, cod_endereco, frete, ARTE, "
+                    + "tipo_cliente "
                     + "FROM tabela_orcamentos "
                     + "WHERE cod = ?");
             stmt.setInt(1, codOrc);
@@ -1347,7 +1370,9 @@ public class OrcamentoDAO {
                         rs.getInt("cod_contato"),
                         rs.getInt("cod_endereco"),
                         rs.getDouble("frete"),
-                        rs.getInt("tipo_cliente"));
+                        rs.getDouble("ARTE"),
+                        rs.getInt("tipo_cliente")
+                );
             }
             return null;
         } catch (SQLException ex) {

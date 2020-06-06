@@ -192,6 +192,9 @@ public class OrcamentoPrincipalFrame extends javax.swing.JInternalFrame {
         limpar = new javax.swing.JButton();
         downloadEstoque = new javax.swing.JButton();
         limpar1 = new javax.swing.JButton();
+        jckbArte = new javax.swing.JCheckBox();
+        jLabel21 = new javax.swing.JLabel();
+        jftfArte = new javax.swing.JFormattedTextField();
         jLabel14 = new javax.swing.JLabel();
         jLabel30 = new javax.swing.JLabel();
         codigoOrcamento = new javax.swing.JFormattedTextField();
@@ -686,6 +689,7 @@ public class OrcamentoPrincipalFrame extends javax.swing.JInternalFrame {
 
         frete.setEditable(false);
         frete.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#0.00"))));
+        frete.setEnabled(false);
         frete.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
             public void propertyChange(java.beans.PropertyChangeEvent evt) {
                 fretePropertyChange(evt);
@@ -763,6 +767,36 @@ public class OrcamentoPrincipalFrame extends javax.swing.JInternalFrame {
             }
         });
 
+        jckbArte.setEnabled(false);
+        jckbArte.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                jckbArteItemStateChanged(evt);
+            }
+        });
+        jckbArte.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jckbArteMouseClicked(evt);
+            }
+        });
+        jckbArte.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jckbArteActionPerformed(evt);
+            }
+        });
+
+        jLabel21.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
+        jLabel21.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        jLabel21.setText("ARTE (R$):");
+
+        jftfArte.setEditable(false);
+        jftfArte.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#0.00"))));
+        jftfArte.setEnabled(false);
+        jftfArte.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
+            public void propertyChange(java.beans.PropertyChangeEvent evt) {
+                jftfArtePropertyChange(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
@@ -771,13 +805,19 @@ public class OrcamentoPrincipalFrame extends javax.swing.JInternalFrame {
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(tabsInformacoes)
                     .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addGap(256, 256, 256)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jckbArte)
+                        .addGap(3, 3, 3)
+                        .addComponent(jLabel21)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jftfArte, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
                         .addComponent(haFrete)
                         .addGap(3, 3, 3)
                         .addComponent(jLabel20)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(frete, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGap(18, 18, 18)
                         .addComponent(jLabel19)
                         .addGap(18, 18, 18)
                         .addComponent(desconto, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -809,16 +849,18 @@ public class OrcamentoPrincipalFrame extends javax.swing.JInternalFrame {
                 .addComponent(tabsInformacoes, javax.swing.GroupLayout.PREFERRED_SIZE, 225, Short.MAX_VALUE)
                 .addGap(18, 18, 18)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jckbArte)
+                    .addComponent(jLabel21)
+                    .addComponent(jftfArte, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel20)
                     .addComponent(haFrete)
-                    .addComponent(jLabel13)
-                    .addComponent(vlrTotal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(frete, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel19)
+                    .addComponent(desconto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel18)
-                    .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(jLabel19)
-                        .addComponent(frete, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(cif, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(desconto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jLabel13)
+                    .addComponent(vlrTotal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(salvarOrcamento, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -828,7 +870,7 @@ public class OrcamentoPrincipalFrame extends javax.swing.JInternalFrame {
                     .addComponent(limpar, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)))
         );
 
-        jPanel3Layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {cif, desconto, frete, haFrete, jLabel13, jLabel18, jLabel19, jLabel20, vlrTotal});
+        jPanel3Layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {cif, desconto, frete, haFrete, jLabel13, jLabel18, jLabel19, jLabel20, jLabel21, jckbArte, jftfArte, vlrTotal});
 
         jLabel14.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
         jLabel14.setText("DATA DE VALIDADE:");
@@ -1762,6 +1804,17 @@ public class OrcamentoPrincipalFrame extends javax.swing.JInternalFrame {
                         frete.setEnabled(false);
                         frete.setValue(0d);
                     }
+                    
+                    if(orcamento.getArte() != 0d){
+                        jckbArte.setSelected(true);
+                        jftfArte.setEnabled(true);
+                        jftfArte.setValue(orcamento.getArte());
+                    }else{
+                        jckbArte.setSelected(false);
+                        jftfArte.setEnabled(false);
+                        jftfArte.setValue(0d);
+                    }
+                    
                     vlrTotal.setValue(orcamento.getValorTotal());
 
                     /**
@@ -1785,8 +1838,7 @@ public class OrcamentoPrincipalFrame extends javax.swing.JInternalFrame {
                                     prodOrc.getObservacaoProduto()});
 
                                 for (PapelBEAN papel : PapelDAO.carregaPapeisProd(CODIGO_PRODUTO)) {
-                                    CalculosOpBEAN calculosBEAN = OrcamentoDAO.retornaCalculosProposta((int) codigoOrcamento.getValue(),
-                                            Integer.valueOf(CODIGO_PRODUTO),
+                                    CalculosOpBEAN calculosBEAN = OrcamentoDAO.retornaCalculosProposta((int) codigoOrcamento.getValue(), CODIGO_PRODUTO,
                                             prodOrc.getTipoProduto(),
                                             papel.getCodigo(),
                                             papel.getTipoPapel());
@@ -2614,6 +2666,22 @@ public class OrcamentoPrincipalFrame extends javax.swing.JInternalFrame {
         }
     }//GEN-LAST:event_enviarExpedicaoActionPerformed
 
+    private void jckbArteItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_jckbArteItemStateChanged
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jckbArteItemStateChanged
+
+    private void jckbArteMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jckbArteMouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jckbArteMouseClicked
+
+    private void jckbArteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jckbArteActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jckbArteActionPerformed
+
+    private void jftfArtePropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_jftfArtePropertyChange
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jftfArtePropertyChange
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton adicionarProduto;
@@ -2647,6 +2715,7 @@ public class OrcamentoPrincipalFrame extends javax.swing.JInternalFrame {
     private javax.swing.JLabel jLabel18;
     private javax.swing.JLabel jLabel19;
     private javax.swing.JLabel jLabel20;
+    private javax.swing.JLabel jLabel21;
     private javax.swing.JLabel jLabel30;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel10;
@@ -2669,6 +2738,8 @@ public class OrcamentoPrincipalFrame extends javax.swing.JInternalFrame {
     private javax.swing.JScrollPane jScrollPane7;
     private javax.swing.JScrollPane jScrollPane8;
     private javax.swing.JScrollPane jScrollPane9;
+    public static javax.swing.JCheckBox jckbArte;
+    public static javax.swing.JFormattedTextField jftfArte;
     private javax.swing.JButton limpar;
     private javax.swing.JButton limpar1;
     public static javax.swing.JButton mostrarTodos;
@@ -3407,6 +3478,10 @@ public class OrcamentoPrincipalFrame extends javax.swing.JInternalFrame {
         if (haFrete.isSelected()) {
             valorTotal += Double.valueOf(frete.getText().replace(",", "."));
         }
+        
+        if(jckbArte.isSelected()){
+            valorTotal += Double.valueOf(jftfArte.getText().replace(",", "."));
+        }
 
         for (int i = 0; i < tabelaServicos.getRowCount(); i++) {
             try {
@@ -3801,6 +3876,7 @@ public class OrcamentoPrincipalFrame extends javax.swing.JInternalFrame {
             }
 
             //FIM DA VERIFICAÇÃO DE ERROS-------------------------------------------
+            
             orcamento.setCodEmissor(TelaAutenticacao.getUsrLogado().getCodigo());
 
             if (EDITANDO) {
@@ -3822,6 +3898,7 @@ public class OrcamentoPrincipalFrame extends javax.swing.JInternalFrame {
             orcamento.setCif(Float.valueOf(cif.getText().replace(",", ".")));
             orcamento.setDesconto(Float.valueOf(desconto.getText().replace(",", ".")));
             orcamento.setFrete(Double.valueOf(frete.getText().replace(",", ".")));
+            orcamento.setArte(Double.valueOf(jftfArte.getText().replace(",", ".")));
             orcamento.setValorTotal(Float.valueOf(vlrTotal.getText().replace(",", ".")));
             orcamento.setDescricao(observacoesOrcamento.getText().toUpperCase());
             orcamento.setNomeContato(nomeContatoCliente.getText());
