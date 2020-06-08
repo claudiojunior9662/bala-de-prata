@@ -2829,6 +2829,7 @@ public class OrcamentoPrincipalFrame extends javax.swing.JInternalFrame {
         desconto.setValue(0);
         cif.setValue(0);
         frete.setValue(0d);
+        jftfArte.setValue(0d);
         enviarEmailAnexo.setEnabled(false);
 
         frame.setSize(400, 200);
