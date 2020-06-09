@@ -55,8 +55,8 @@ public class NewMain {
 //                stmt = con.prepareStatement("SELECT valor "
 //                        + "FROM tabela_notas "
 //                        + "WHERE DATE_FORMAT(STR_TO_DATE(`data`, '%d/%m/%Y'), '%Y-%m-%d') BETWEEN "
-//                        + "DATE_FORMAT(STR_TO_DATE('01/05/2020', '%d/%m/%Y'), '%Y-%m-%d') AND "
-//                        + "DATE_FORMAT(STR_TO_DATE('31/05/2020', '%d/%m/%Y'), '%Y-%m-%d') AND "
+//                        + "DATE_FORMAT(STR_TO_DATE('01/06/2020', '%d/%m/%Y'), '%Y-%m-%d') AND "
+//                        + "DATE_FORMAT(STR_TO_DATE('08/06/2020', '%d/%m/%Y'), '%Y-%m-%d') AND "
 //                        + "cod_cliente = ? AND tipo_pessoa = 2");
 //                stmt.setInt(1, rs.getInt("cod"));
 //                rs2 = stmt.executeQuery();
@@ -67,7 +67,7 @@ public class NewMain {
                 stmt = con.prepareStatement("SELECT faturamentos.VLR_FAT "
                         + "FROM faturamentos "
                         + "INNER JOIN tabela_ordens_producao ON tabela_ordens_producao.cod = faturamentos.CODIGO_OP "
-                        + "WHERE faturamentos.DT_FAT BETWEEN '2020-05-01' AND '2020-05-31' AND "
+                        + "WHERE faturamentos.DT_FAT BETWEEN '2020-06-01' AND '2020-06-08' AND "
                         + "tabela_ordens_producao.cod_cliente = ? AND tabela_ordens_producao.tipo_cliente = 2");
                 stmt.setInt(1, rs.getInt("cod"));
                 rs2 = stmt.executeQuery();
@@ -76,9 +76,9 @@ public class NewMain {
                 }
 
 //                if(credito != 0d){
-                //System.out.println(rs.getString("nome") + "#" + df.format(credito));
-                //System.out.println(df.format(credito));
-                System.out.println(rs.getInt("cod"));
+                //System.out.println(rs.getInt("cod") + "#" +  rs.getString("nome") + "#" + df.format(credito));
+                System.out.println(df.format(credito));
+                //System.out.println(rs.getInt("cod"));
 //                }
             }
         } catch (SQLException ex) {
@@ -106,7 +106,7 @@ public class NewMain {
                     + "AND tabela_ordens_producao.status != 'ENTREGUE PARCIALMENTE' "
                     + "AND tabela_ordens_producao.status != 'CANCELADA'"
                     + "AND tabela_ordens_producao.tipo_cliente = 2 "
-                    + "AND tabela_ordens_producao.data_emissao BETWEEN '2020-01-01' AND '2020-06-01' "
+                    + "AND tabela_ordens_producao.data_emissao BETWEEN '2020-01-01' AND '2020-06-08' "
                     + "ORDER BY tabela_ordens_producao.cod_cliente ASC");
             rs = stmt.executeQuery();
             while (rs.next()) {
@@ -121,7 +121,7 @@ public class NewMain {
                             + "AND tabela_ordens_producao.status != 'CANCELADA'"
                             + "AND tabela_ordens_producao.tipo_cliente = 2 "
                             + "AND tabela_ordens_producao.cod_cliente = ? "
-                            + "AND tabela_ordens_producao.data_emissao BETWEEN '2020-01-01' AND '2020-06-01' "
+                            + "AND tabela_ordens_producao.data_emissao BETWEEN '2020-01-01' AND '2020-06-08' "
                             + "ORDER BY tabela_ordens_producao.cod_cliente ASC");
                     stmt.setInt(1, rs.getInt("tabela_ordens_producao.cod_cliente"));
                     rs2 = stmt.executeQuery();
@@ -137,7 +137,7 @@ public class NewMain {
                         }
                     }
                     codigosProcessados.add(rs.getInt("tabela_ordens_producao.cod_cliente"));
-                    System.out.println(rs.getInt("tabela_ordens_producao.cod_cliente") + ";" + df.format(valor));
+                    System.out.println(rs.getInt("tabela_ordens_producao.cod_cliente") + ";" + df.format(valor*(-1)));
                 }
             }
         } catch (SQLException ex) {
