@@ -15,6 +15,19 @@ public class DtEntregaProdutoFrame extends javax.swing.JFrame {
 
     public static int nLinha;
 
+    /**
+     * @param TIPO 1 - Data de entrega do produto 2 - Data de entrega da prova do produto
+     */
+    private static byte TIPO = 0;
+
+    public static byte getTIPO() {
+        return TIPO;
+    }
+
+    public static void setTIPO(byte TIPO) {
+        DtEntregaProdutoFrame.TIPO = TIPO;
+    }
+
     public DtEntregaProdutoFrame() {
         initComponents();
 
@@ -70,9 +83,20 @@ public class DtEntregaProdutoFrame extends javax.swing.JFrame {
     private void selecionarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_selecionarActionPerformed
         String data = null;
 
-        data = Controle.dataPadrao.format(calendario.getDate());
-        EnviarOrdemProducaoFrame.tabelaProdutos.setValueAt(data, nLinha, 5);
-        EnviarOrdemProducaoFrame.selecionarDataEntrega.setEnabled(false);
+        switch (getTIPO()) {
+            case 1:
+                data = Controle.dataPadrao.format(calendario.getDate());
+                EnviarOrdemProducaoFrame.tabelaProdutos.setValueAt(data, nLinha, 5);
+                
+                break;
+            case 2:
+                data = Controle.dataPadrao.format(calendario.getDate());
+                EnviarOrdemProducaoFrame.tabelaProdutos.setValueAt(data, nLinha, 6);
+                break;
+        }
+
+        EnviarOrdemProducaoFrame.jbtnSelDtEntgProd.setEnabled(false);
+        EnviarOrdemProducaoFrame.jbtnSelDtEntgProva.setEnabled(false);
         this.dispose();
     }//GEN-LAST:event_selecionarActionPerformed
 

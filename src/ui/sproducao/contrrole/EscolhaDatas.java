@@ -84,6 +84,12 @@ public class EscolhaDatas extends javax.swing.JInternalFrame {
                 calendario.setDate(data);
                 texto_info.setText("A DATA PODE SER REDEFINIDA.");
             }
+            
+            if (TelaAcompanhamento.botao.equals("entrada_digital") & (opBEAN.getDataEntDigital() != null)) {
+                data = opBEAN.getDataEntDigital();
+                calendario.setDate(data);
+                texto_info.setText("A DATA PODE SER REDEFINIDA.");
+            }
 
             if (TelaAcompanhamento.botao.equals("entrada_offset") & (opBEAN.getDataEntOffset() != null)) {
                 data = opBEAN.getDataEntOffset();
@@ -196,6 +202,7 @@ private List<OrdemProducao> verificar_data() {
                 opBEAN.setDataEntFinal(rs.getDate("data_ent_final"));
                 opBEAN.setDataImpDir(rs.getDate("data_imp_dir"));
                 opBEAN.setDataEntOffset(rs.getDate("data_ent_offset"));
+                opBEAN.setDataEntDigital(rs.getDate("DT_ENT_DIGITAL"));
                 opBEAN.setDataEntTipografia(rs.getDate("data_ent_tipografia"));
                 opBEAN.setDataEntAcabamento(rs.getDate("data_ent_acabamento"));
                 opBEAN.setDataEnvioDivCmcl(rs.getDate("data_envio_div_cmcl"));

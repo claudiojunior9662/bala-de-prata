@@ -30,27 +30,30 @@ import ui.principal.Producao;
  *
  * @author claud
  */
-public class TelaAcompanhamento extends javax.swing.JInternalFrame {
-
+public final class TelaAcompanhamento extends javax.swing.JInternalFrame {
+    
     public static String botao = null;
     public static int numOp = 0;
     public static boolean realTime = true;
-
+    
     private static JLabel loading;
-    private GerenteJanelas gj;
-
+    private final GerenteJanelas gj;
+    
     private static TelaAcompanhamento telaAcompanhamentoNovo;
-
+    
     public static TelaAcompanhamento getInstancia(JLabel loading, GerenteJanelas gj) {
         return new TelaAcompanhamento(loading, gj);
     }
 
     /**
      * Creates new form TelaAcompanhamentoNovo
+     *
+     * @param loading
+     * @param gj
      */
     public TelaAcompanhamento(JLabel loading, GerenteJanelas gj) {
         initComponents();
-        this.loading = loading;
+        TelaAcompanhamento.loading = loading;
         this.gj = gj;
         estado1();
         System.setProperty("vermelho1", "#FF0000");
@@ -132,6 +135,8 @@ public class TelaAcompanhamento extends javax.swing.JInternalFrame {
         entradaOffset = new javax.swing.JLabel();
         entradaTipografia = new javax.swing.JLabel();
         entradaAcabamento = new javax.swing.JLabel();
+        jlblDtEntDigital = new javax.swing.JLabel();
+        jbtnDtEntDigital = new javax.swing.JButton();
         orcamentoBase = new javax.swing.JFormattedTextField();
         operadorSecao = new javax.swing.JComboBox<>();
         statusOrdemProducao = new javax.swing.JComboBox<>();
@@ -293,7 +298,7 @@ public class TelaAcompanhamento extends javax.swing.JInternalFrame {
                 .addGap(10, 10, 10)
                 .addComponent(jLabel10)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addComponent(jScrollPane1)
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 450, Short.MAX_VALUE)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -623,25 +628,46 @@ public class TelaAcompanhamento extends javax.swing.JInternalFrame {
         entradaAcabamento.setFont(new java.awt.Font("Tahoma", 3, 11)); // NOI18N
         entradaAcabamento.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
 
+        jlblDtEntDigital.setFont(new java.awt.Font("Tahoma", 3, 11)); // NOI18N
+        jlblDtEntDigital.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+
+        jbtnDtEntDigital.setText("ENTRADA NA DIGITAL");
+        jbtnDtEntDigital.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbtnDtEntDigitalActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel7Layout = new javax.swing.GroupLayout(jPanel7);
         jPanel7.setLayout(jPanel7Layout);
         jPanel7Layout.setHorizontalGroup(
             jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel7Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(entradaTipografia, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(entradaAcabamento, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(entradaOffset, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(entrada_acabamento, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(entrada_tipografia, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(entrada_offset, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addGap(20, 20, 20))
+                .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel7Layout.createSequentialGroup()
+                        .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(entradaTipografia, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(entradaAcabamento, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(entradaOffset, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(entrada_acabamento, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(entrada_tipografia, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(entrada_offset, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGap(20, 20, 20))
+                    .addGroup(jPanel7Layout.createSequentialGroup()
+                        .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addComponent(jlblDtEntDigital, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jbtnDtEntDigital, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 191, Short.MAX_VALUE))
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
         );
         jPanel7Layout.setVerticalGroup(
             jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel7Layout.createSequentialGroup()
-                .addContainerGap()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel7Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jbtnDtEntDigital)
+                .addGap(4, 4, 4)
+                .addComponent(jlblDtEntDigital, javax.swing.GroupLayout.PREFERRED_SIZE, 11, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(entrada_offset)
                 .addGap(4, 4, 4)
                 .addComponent(entradaOffset, javax.swing.GroupLayout.PREFERRED_SIZE, 11, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -653,7 +679,7 @@ public class TelaAcompanhamento extends javax.swing.JInternalFrame {
                 .addComponent(entrada_acabamento)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(entradaAcabamento, javax.swing.GroupLayout.PREFERRED_SIZE, 11, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(48, 48, 48))
         );
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
@@ -709,7 +735,7 @@ public class TelaAcompanhamento extends javax.swing.JInternalFrame {
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addContainerGap()
+                .addGap(15, 15, 15)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(statusAlteracoes, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jPanel3, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -724,7 +750,7 @@ public class TelaAcompanhamento extends javax.swing.JInternalFrame {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(cliente, javax.swing.GroupLayout.PREFERRED_SIZE, 270, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(dataEntrada, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(dataEntrada, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(dataPrevEntrega, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                             .addGroup(jPanel2Layout.createSequentialGroup()
@@ -734,7 +760,7 @@ public class TelaAcompanhamento extends javax.swing.JInternalFrame {
                     .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel2Layout.createSequentialGroup()
                         .addComponent(operadorSecao, javax.swing.GroupLayout.PREFERRED_SIZE, 221, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(tipoTrabalho, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(tipoTrabalho, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(statusOrdemProducao, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -842,7 +868,6 @@ public class TelaAcompanhamento extends javax.swing.JInternalFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void tabelaConsultaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tabelaConsultaMouseClicked
-
         limpa();
         numOp = (int) tabelaConsulta.getValueAt(tabelaConsulta.getSelectedRow(), 0);
         atualiza();
@@ -906,10 +931,10 @@ public class TelaAcompanhamento extends javax.swing.JInternalFrame {
         new Thread("Aplicar filtro op") {
             @Override
             public void run() {
-
+                
                 loading.setText("CARREGANDO...");
                 loading.setVisible(true);
-
+                
                 try {
                     DefaultTableModel modeloTabela = (DefaultTableModel) tabelaConsulta.getModel();
                     modeloTabela.setNumRows(0);
@@ -958,14 +983,14 @@ public class TelaAcompanhamento extends javax.swing.JInternalFrame {
                                 null,
                                 null,
                                 null)) {
-
+                            
                             modeloTabela.addRow(new Object[]{
                                 op.getCodigo(),
                                 Controle.dataPadrao.format(op.getDataEntrega()),
                                 op.getStatus(),
                                 ProdutoDAO.retornaDescricaoProduto(op.getCodProduto(), op.getTipoProduto())
                             });
-
+                            
                         }
                     } else if (mesEntrega.isSelected()) {
                         for (OrdemProducao op : TelaAcompanhamentoDAO.retornaFiltro(0l,
@@ -976,14 +1001,14 @@ public class TelaAcompanhamento extends javax.swing.JInternalFrame {
                                 Integer.toString(anoEntregaSelecionar.getYear()),
                                 null,
                                 null)) {
-
+                            
                             modeloTabela.addRow(new Object[]{
                                 op.getCodigo(),
                                 Controle.dataPadrao.format(op.getDataEntrega()),
                                 op.getStatus(),
                                 ProdutoDAO.retornaDescricaoProduto(op.getCodProduto(), op.getTipoProduto())
                             });
-
+                            
                         }
                     } else if (dataEntrega.isSelected()) {
                         for (OrdemProducao op : TelaAcompanhamentoDAO.retornaFiltro(0l, dataEntregaTexto.getDate(),
@@ -1138,13 +1163,13 @@ public class TelaAcompanhamento extends javax.swing.JInternalFrame {
             public void run() {
                 loading.setVisible(true);
                 loading.setText("GERANDO PDF...");
-
+                
                 OrdemProducao.gerarPdfOp(Integer.parseInt(numeroOp.getValue().toString()),
                         Integer.parseInt(orcamentoBase.getValue().toString()),
                         (byte) 1,
                         null);
                 Producao.loadingHide();
-
+                
                 loading.setVisible(false);
             }
         }.start();
@@ -1164,13 +1189,18 @@ public class TelaAcompanhamento extends javax.swing.JInternalFrame {
             public void run() {
                 loading.setVisible(true);
                 loading.setText("SALVANDO...");
-
+                
                 salvaAlteracoes();
-
+                
                 loading.setVisible(false);
             }
         }.start();
     }//GEN-LAST:event_btnGravarActionPerformed
+
+    private void jbtnDtEntDigitalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnDtEntDigitalActionPerformed
+        botao = "entrada_digital";
+        gj.abrirJanelas(EscolhaDatas.getInstancia(), "DEFINIR DATA DE ENTRADA NA DIGITAL");
+    }//GEN-LAST:event_jbtnDtEntDigitalActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -1212,6 +1242,8 @@ public class TelaAcompanhamento extends javax.swing.JInternalFrame {
     private javax.swing.JPanel jPanel7;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
+    public static javax.swing.JButton jbtnDtEntDigital;
+    public static javax.swing.JLabel jlblDtEntDigital;
     private javax.swing.JRadioButton mesEmissao;
     private com.toedter.calendar.JMonthChooser mesEmissaoSelecionar;
     private javax.swing.JRadioButton mesEntrega;
@@ -1261,6 +1293,7 @@ public class TelaAcompanhamento extends javax.swing.JInternalFrame {
         entrega_final.setEnabled(false);
         imposta_dir.setEnabled(false);
         entrada_offset.setEnabled(false);
+        jbtnDtEntDigital.setEnabled(false);
         entrada_tipografia.setEnabled(false);
         entrada_acabamento.setEnabled(false);
         envioDivisaoComercial.setEnabled(false);
@@ -1271,7 +1304,7 @@ public class TelaAcompanhamento extends javax.swing.JInternalFrame {
         descricaoProduto.setEditable(false);
         statusAlteracoes.setText("");
     }
-
+    
     public static void estado2() {
         dataPrevEntrega.setEnabled(true);
         tipoTrabalho.setEnabled(true);
@@ -1284,6 +1317,7 @@ public class TelaAcompanhamento extends javax.swing.JInternalFrame {
         entrega_final.setEnabled(true);
         imposta_dir.setEnabled(true);
         entrada_offset.setEnabled(true);
+        jbtnDtEntDigital.setEnabled(true);
         entrada_tipografia.setEnabled(true);
         entrada_acabamento.setEnabled(true);
         envioDivisaoComercial.setEnabled(true);
@@ -1291,7 +1325,7 @@ public class TelaAcompanhamento extends javax.swing.JInternalFrame {
         visualizarOrdemProducao.setEnabled(true);
         statusOrdemProducao.setEnabled(true);
     }
-
+    
     private static void atualiza() {
         new Thread("Atualiza OP") {
             @Override
@@ -1311,6 +1345,10 @@ public class TelaAcompanhamento extends javax.swing.JInternalFrame {
                             (byte) op.getTipoPessoa()));
                     dataEntrada.setText(Controle.dataPadrao.format(op.getDataEmissao()));
                     dataPrevEntrega.setDate(op.getDataEntrega());
+                    op.setDescricao(op.getDescricao().concat("\nDATA DE ENTREGA DA PROVA: " 
+                            + (op.getDataEntgProva() != null
+                            ? op.getDataEntgProva()
+                            : "NÃO DEFINIDA")));
                     observacoesOrcamento.setText(op.getDescricao());
                     codigoProduto.setText(String.valueOf(op.getCodProduto()));
 
@@ -1320,47 +1358,51 @@ public class TelaAcompanhamento extends javax.swing.JInternalFrame {
                     if (op.getData1aProva() != null) {
                         primeiraProva.setText(Controle.dataPadrao.format(op.getData1aProva()));
                     }
-
+                    
                     if (op.getData2aProva() != null) {
                         segundaProva.setText(Controle.dataPadrao.format(op.getData2aProva()));
                     }
-
+                    
                     if (op.getData3aProva() != null) {
                         terceiraProva.setText(Controle.dataPadrao.format(op.getData3aProva()));
                     }
-
+                    
                     if (op.getData4aProva() != null) {
                         quartaProva.setText(Controle.dataPadrao.format(op.getData4aProva()));
                     }
-
+                    
                     if (op.getData5aProva() != null) {
                         quintaProva.setText(Controle.dataPadrao.format(op.getData5aProva()));
                     }
-
+                    
                     if (op.getDataAprCliente() != null) {
                         aprovacaoCliente.setText(Controle.dataPadrao.format(op.getDataAprCliente()));
                     }
-
+                    
                     if (op.getDataEntFinal() != null) {
                         entregaFinal.setText(Controle.dataPadrao.format(op.getDataEntFinal()));
                     }
-
+                    
                     if (op.getDataImpDir() != null) {
                         impostaDirecao.setText(Controle.dataPadrao.format(op.getDataImpDir()));
                     }
-
+                    
                     if (op.getDataEntOffset() != null) {
                         entradaOffset.setText(Controle.dataPadrao.format(op.getDataEntOffset()));
                     }
-
+                    
+                    if (op.getDataEntDigital() != null) {
+                        jlblDtEntDigital.setText(Controle.dataPadrao.format(op.getDataEntDigital()));
+                    }
+                    
                     if (op.getDataEntTipografia() != null) {
                         entradaTipografia.setText(Controle.dataPadrao.format(op.getDataEntTipografia()));
                     }
-
+                    
                     if (op.getDataEntAcabamento() != null) {
                         entradaAcabamento.setText(Controle.dataPadrao.format(op.getDataEntAcabamento()));
                     }
-
+                    
                     if (op.getDataEnvioDivCmcl() != null) {
                         envioDivCmcl.setText(Controle.dataPadrao.format(op.getDataEnvioDivCmcl()));
                     }
@@ -1370,8 +1412,8 @@ public class TelaAcompanhamento extends javax.swing.JInternalFrame {
                      */
                     operadorSecao.removeAllItems();
                     operadorSecao.addItem("SELECIONE...");
-
-                    for (UsuarioBEAN funcionario : UsuarioDAO.retornaAtendentes((byte) 0)) {
+                    
+                    for (UsuarioBEAN funcionario : UsuarioDAO.retornaAtendentes((byte) 1)) {
                         operadorSecao.addItem(funcionario.getNome());
                     }
                     if (op.getOpSecao() != null) {
@@ -1383,7 +1425,7 @@ public class TelaAcompanhamento extends javax.swing.JInternalFrame {
                     /**
                      * Define o estado da ordem de produção
                      */
-                    if (op.getStatus().toString().equals("CANCELADA")) {
+                    if (op.getStatus().equals("CANCELADA")) {
                         statusOrdemProducao.addItem("CANCELADA");
                     } else {
                         statusOrdemProducao.removeItem("CANCELADA");
@@ -1428,7 +1470,7 @@ public class TelaAcompanhamento extends javax.swing.JInternalFrame {
             }
         }.start();
     }
-
+    
     public static void limpa() {
         numeroOp.setText("");
         cliente.setText("");
@@ -1448,9 +1490,9 @@ public class TelaAcompanhamento extends javax.swing.JInternalFrame {
         entradaOffset.setText("");
         entradaTipografia.setText("");
         entradaAcabamento.setText("");
-
+        
     }
-
+    
     private static void atualizaTabela() {
         try {
             /**
@@ -1479,7 +1521,7 @@ public class TelaAcompanhamento extends javax.swing.JInternalFrame {
             EnvioExcecao.envio();
         }
     }
-
+    
     public void refresh() {
         DefaultTableModel modeloAcompanhamento = (DefaultTableModel) tabelaConsulta.getModel();
         new Thread("Refresh tela acompanhamento") {
@@ -1501,15 +1543,15 @@ public class TelaAcompanhamento extends javax.swing.JInternalFrame {
                         EnvioExcecao envioExcecao = new EnvioExcecao(Controle.getDefaultGj(), ex);
                         EnvioExcecao.envio();
                     }
-
+                    
                 }
             }
         }.start();
     }
-
+    
     public static void calculaDias(Date data1, Date data2) {
         Controle.dataPadrao.setLenient(false);
-
+        
         if (statusOrdemProducao.getSelectedItem().toString().equals("ENCAMINHADO PARA EXPEDIÇÃO")) {
             qtdDiasOp.setBackground(Color.GREEN);
             qtdDiasOp.setForeground(Color.black);
@@ -1528,36 +1570,36 @@ public class TelaAcompanhamento extends javax.swing.JInternalFrame {
             }
         }
     }
-
+    
     public static void salvaAlteracoes() {
         try {
-
+            
             OrdemProducao op = new OrdemProducao();
-
+            
             op.setCodigo((int) numeroOp.getValue());
             op.setDataEntrega(dataPrevEntrega.getDate());
-
+            
             op.setIndEntPrazo(0);
             op.setIndEntErro(0);
-
+            
             if (tipoTrabalho.getSelectedIndex() == 0) {
                 JOptionPane.showMessageDialog(null, "SELECIONE O TIPO DE TRABALHO!");
                 return;
             } else {
                 op.setTipoTrabalho(tipoTrabalho.getSelectedItem().toString());
             }
-
+            
             if (operadorSecao.getSelectedItem().equals("SELECIONE...")) {
                 JOptionPane.showMessageDialog(null, "SELECIONE O OPERADOR/SEÇÃO!");
                 return;
             } else {
                 op.setOpSecao(operadorSecao.getSelectedItem().toString());
             }
-
+            
             op.setStatus(statusOrdemProducao.getSelectedItem().toString());
-
+            
             TelaAcompanhamentoDAO.atualizaDadosOp(op);
-
+            
             if (botao != null) {
                 Connection con = ConnectionFactory.getConnection();
                 PreparedStatement stmt = null;
@@ -1604,8 +1646,17 @@ public class TelaAcompanhamento extends javax.swing.JInternalFrame {
                         stmt.setDate(1, new java.sql.Date(EscolhaDatas.calendario.getDate().getTime()));
                         stmt.setInt(2, (int) TelaAcompanhamento.numeroOp.getValue());
                     }
+                    if (TelaAcompanhamento.botao.equals("entrada_digital")) {
+                        stmt = con.prepareStatement("UPDATE tabela_ordens_producao "
+                                + "SET DT_ENT_DIGITAL = ? "
+                                + "WHERE cod = ?");
+                        stmt.setDate(1, new java.sql.Date(EscolhaDatas.calendario.getDate().getTime()));
+                        stmt.setInt(2, (int) TelaAcompanhamento.numeroOp.getValue());
+                    }
                     if (TelaAcompanhamento.botao.equals("entrada_offset")) {
-                        stmt = con.prepareStatement("UPDATE tabela_ordens_producao SET data_ent_offset = ? WHERE cod = ?");
+                        stmt = con.prepareStatement("UPDATE tabela_ordens_producao "
+                                + "SET data_ent_offset = ? "
+                                + "WHERE cod = ?");
                         stmt.setDate(1, new java.sql.Date(EscolhaDatas.calendario.getDate().getTime()));
                         stmt.setInt(2, (int) TelaAcompanhamento.numeroOp.getValue());
                     }
@@ -1636,7 +1687,7 @@ public class TelaAcompanhamento extends javax.swing.JInternalFrame {
                 atualiza();
                 atualizaTabela();
             }
-
+            
             statusAlteracoes.setText("SALVO PELA ÚLTIMA VEZ ÀS "
                     + Controle.horaPadrao.format(new Date()));
         } catch (SQLException ex) {

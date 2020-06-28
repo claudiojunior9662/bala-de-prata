@@ -37,10 +37,7 @@ import javax.swing.text.DefaultFormatterFactory;
 import javax.swing.text.MaskFormatter;
 import entidades.ProdOrcamento;
 import exception.EnvioExcecao;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.ImageIcon;
-import org.apache.commons.mail.EmailException;
 import ui.cadastros.acabamentos.AcabamentoDAO;
 import ui.cadastros.clientes.ClienteBEAN;
 import ui.cadastros.clientes.ClienteDAO;
@@ -77,6 +74,11 @@ public class OrcamentoPrincipalFrame extends javax.swing.JInternalFrame {
      * @param TIPO_ORCAMENTO 1 - PRONTA ENTREGA (PE) 2 - PRODUÇÃO
      */
     private static byte TIPO_ORCAMENTO = 0;
+
+    public static byte getTIPO_ORCAMENTO() {
+        return TIPO_ORCAMENTO;
+    }
+    
     private static double VLR_ANT;
     public static int CODIGO_CONTATO = 0;
     public static int CODIGO_ENDERECO = 0;
@@ -2178,6 +2180,7 @@ public class OrcamentoPrincipalFrame extends javax.swing.JInternalFrame {
                                 produto.getAltura(),
                                 produto.getQtdPaginas(),
                                 "",
+                                "",
                                 produtos.getObservacaoProduto()});
                         } else if (TIPO_ORCAMENTO == 2) {
                             ProdutoBEAN produto = ProdutoDAO.retornaInfoProd(CODIGO_PRODUTO, (byte) 1);
@@ -2187,6 +2190,7 @@ public class OrcamentoPrincipalFrame extends javax.swing.JInternalFrame {
                                 produto.getLargura(),
                                 produto.getAltura(),
                                 produto.getQuantidadeFolhas(),
+                                "",
                                 "",
                                 produtos.getObservacaoProduto()});
                         }

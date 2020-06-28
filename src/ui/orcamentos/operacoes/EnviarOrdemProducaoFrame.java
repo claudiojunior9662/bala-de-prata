@@ -97,7 +97,7 @@ public class EnviarOrdemProducaoFrame extends javax.swing.JInternalFrame {
         cidade.setEnabled(false);
         uf.setEnabled(false);
         observacoesOrdemProducao.setLineWrap(true);
-        selecionarDataEntrega.setEnabled(false);
+        jbtnSelDtEntgProd.setEnabled(false);
     }
 
     /**
@@ -129,7 +129,8 @@ public class EnviarOrdemProducaoFrame extends javax.swing.JInternalFrame {
         jPanel1 = new javax.swing.JPanel();
         jScrollPane3 = new javax.swing.JScrollPane();
         tabelaProdutos = new javax.swing.JTable();
-        selecionarDataEntrega = new javax.swing.JButton();
+        jbtnSelDtEntgProd = new javax.swing.JButton();
+        jbtnSelDtEntgProva = new javax.swing.JButton();
         jPanel4 = new javax.swing.JPanel();
         jScrollPane8 = new javax.swing.JScrollPane();
         tabelaQuantidades = new javax.swing.JTable();
@@ -254,14 +255,14 @@ public class EnviarOrdemProducaoFrame extends javax.swing.JInternalFrame {
 
             },
             new String [] {
-                "CÓDIGO", "DESCRIÇÃO", "LARGURA", "ALTURA", "QTD. FOLHAS", "DATA DE ENTREGA", "OBSERVAÇÕES"
+                "CÓDIGO", "DESCRIÇÃO", "LARGURA", "ALTURA", "QTD. FOLHAS", "DT ENTG PROD", "DT ENTG PROVA", "OBSERVAÇÕES"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Integer.class, java.lang.String.class, java.lang.String.class
+                java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
             };
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false, false
+                false, false, false, false, false, false, false, false
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -288,12 +289,31 @@ public class EnviarOrdemProducaoFrame extends javax.swing.JInternalFrame {
             }
         });
         jScrollPane3.setViewportView(tabelaProdutos);
+        if (tabelaProdutos.getColumnModel().getColumnCount() > 0) {
+            tabelaProdutos.getColumnModel().getColumn(0).setPreferredWidth(5);
+            tabelaProdutos.getColumnModel().getColumn(1).setPreferredWidth(450);
+            tabelaProdutos.getColumnModel().getColumn(2).setPreferredWidth(10);
+            tabelaProdutos.getColumnModel().getColumn(3).setPreferredWidth(10);
+            tabelaProdutos.getColumnModel().getColumn(4).setPreferredWidth(30);
+            tabelaProdutos.getColumnModel().getColumn(5).setPreferredWidth(50);
+            tabelaProdutos.getColumnModel().getColumn(6).setPreferredWidth(50);
+            tabelaProdutos.getColumnModel().getColumn(7).setPreferredWidth(200);
+        }
 
-        selecionarDataEntrega.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icones/periodo.png"))); // NOI18N
-        selecionarDataEntrega.setText("SELECIONAR DATA DE ENTREGA");
-        selecionarDataEntrega.addActionListener(new java.awt.event.ActionListener() {
+        jbtnSelDtEntgProd.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icones/periodo.png"))); // NOI18N
+        jbtnSelDtEntgProd.setText("SELECIONAR DT ENTG PRODUTO");
+        jbtnSelDtEntgProd.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                selecionarDataEntregaActionPerformed(evt);
+                jbtnSelDtEntgProdActionPerformed(evt);
+            }
+        });
+
+        jbtnSelDtEntgProva.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icones/periodo.png"))); // NOI18N
+        jbtnSelDtEntgProva.setText("SELECIONAR DT ENTG PROVA");
+        jbtnSelDtEntgProva.setEnabled(false);
+        jbtnSelDtEntgProva.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbtnSelDtEntgProvaActionPerformed(evt);
             }
         });
 
@@ -301,18 +321,22 @@ public class EnviarOrdemProducaoFrame extends javax.swing.JInternalFrame {
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(0, 1006, Short.MAX_VALUE)
-                .addComponent(selecionarDataEntrega)
+            .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 1259, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jbtnSelDtEntgProd)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jbtnSelDtEntgProva)
                 .addContainerGap())
-            .addComponent(jScrollPane3)
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 125, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(selecionarDataEntrega)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jbtnSelDtEntgProd)
+                    .addComponent(jbtnSelDtEntgProva))
                 .addContainerGap())
         );
 
@@ -536,6 +560,13 @@ public class EnviarOrdemProducaoFrame extends javax.swing.JInternalFrame {
                         : "EM AVALIAÇÃO PELA SEÇ TÉCNICA");
                 try {
                     op.setDataEntrega(Controle.dataPadrao.parse(tabelaProdutos.getValueAt(i, 5).toString()));
+                    
+                    if(tabelaProdutos.getValueAt(i, 6).toString() != ""){
+                        op.setDataEntgProva(Controle.dataPadrao.parse(tabelaProdutos.getValueAt(i, 6).toString()));
+                    }else{
+                        op.setDataEntgProva(null);
+                    }
+                    
                 } catch (ParseException ex) {
                     EnvioExcecao envioExcecao = new EnvioExcecao(Controle.getDefaultGj(), ex);
                     EnvioExcecao.envio();
@@ -628,7 +659,10 @@ public class EnviarOrdemProducaoFrame extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_confirmarEnvioActionPerformed
 
     private void tabelaProdutosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tabelaProdutosMouseClicked
-        selecionarDataEntrega.setEnabled(true);
+        jbtnSelDtEntgProd.setEnabled(true);
+        if(OrcamentoPrincipalFrame.getTIPO_ORCAMENTO() == 2){
+            jbtnSelDtEntgProva.setEnabled(true);
+        }
     }//GEN-LAST:event_tabelaProdutosMouseClicked
 
     private void tabelaProdutosPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_tabelaProdutosPropertyChange
@@ -639,14 +673,25 @@ public class EnviarOrdemProducaoFrame extends javax.swing.JInternalFrame {
 
     }//GEN-LAST:event_tabelaProdutosVetoableChange
 
-    private void selecionarDataEntregaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_selecionarDataEntregaActionPerformed
+    private void jbtnSelDtEntgProdActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnSelDtEntgProdActionPerformed
         DtEntregaProdutoFrame sdep = new DtEntregaProdutoFrame();
         sdep.setLocationRelativeTo(null);
         sdep.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         sdep.setTitle("DATA DE ENTREGA PRODUTO CÓD " + tabelaProdutos.getValueAt(tabelaProdutos.getSelectedRow(), 0));
         DtEntregaProdutoFrame.nLinha = tabelaProdutos.getSelectedRow();
+        DtEntregaProdutoFrame.setTIPO((byte) 1);
         sdep.setVisible(true);
-    }//GEN-LAST:event_selecionarDataEntregaActionPerformed
+    }//GEN-LAST:event_jbtnSelDtEntgProdActionPerformed
+
+    private void jbtnSelDtEntgProvaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnSelDtEntgProvaActionPerformed
+        DtEntregaProdutoFrame sdep = new DtEntregaProdutoFrame();
+        sdep.setLocationRelativeTo(null);
+        sdep.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+        sdep.setTitle("DATA DE ENTREGA DA PROVA DO PRODUTO CÓD " + tabelaProdutos.getValueAt(tabelaProdutos.getSelectedRow(), 0));
+        DtEntregaProdutoFrame.nLinha = tabelaProdutos.getSelectedRow();
+        DtEntregaProdutoFrame.setTIPO((byte) 2);
+        sdep.setVisible(true);
+    }//GEN-LAST:event_jbtnSelDtEntgProvaActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -670,10 +715,11 @@ public class EnviarOrdemProducaoFrame extends javax.swing.JInternalFrame {
     private javax.swing.JScrollPane jScrollPane6;
     private javax.swing.JScrollPane jScrollPane7;
     private javax.swing.JScrollPane jScrollPane8;
+    public static javax.swing.JButton jbtnSelDtEntgProd;
+    public static javax.swing.JButton jbtnSelDtEntgProva;
     public static javax.swing.JTextField nomeCliente;
     public static javax.swing.JTextField nomeContato;
     public static javax.swing.JTextArea observacoesOrdemProducao;
-    public static javax.swing.JButton selecionarDataEntrega;
     public static javax.swing.JTabbedPane tabPane;
     public static javax.swing.JTable tabelaAcabamentos;
     public static javax.swing.JTable tabelaPapeis;

@@ -84,13 +84,15 @@ public class OrdemProducao {
     private Date dataAprCliente;
     private Date dataEntFinal;
     private Date dataImpDir;
-    private Date dataEntOffset;
-    private Date dataEntTipografia;
-    private Date dataEntAcabamento;
+    private Date dataEntdOffset;
+    private Date dataEntDigital;
+    private Date dataEntdTipografia;
+    private Date dataEntdAcabamento;
     private Date dataEnvioDivCmcl;
     private Date dataCancelamento;
-    private int indEntPrazo;
-    private int indEntErro;
+    private Date dataEntgProva;
+    private int indEntgPrazo;
+    private int indEntgErro;
     private String tipoTrabalho;
     private String opSecao;
 
@@ -166,6 +168,7 @@ public class OrdemProducao {
             byte tipoProduto,
             Date dataEntrega,
             Date dataEmissao,
+            Date dataEntgProva,
             byte tipoPessoa,
             String codEmissor,
             Date dataCancelamento) {
@@ -181,6 +184,7 @@ public class OrdemProducao {
         this.dataCancelamento = dataCancelamento;
         this.codProduto = codProduto;
         this.tipoProduto = tipoProduto;
+        this.dataEntgProva = dataEntgProva;
     }
 
     public OrdemProducao(int cod,
@@ -201,6 +205,7 @@ public class OrdemProducao {
             Date dataEntFinal,
             Date dataImpDir,
             Date dataEntOffset,
+            Date dataEntDigital,
             Date dataEntTipografia,
             Date dataEntAcabamento,
             Date dataEnvioDivCmcl,
@@ -230,12 +235,13 @@ public class OrdemProducao {
         this.dataAprCliente = dataAprCliente;
         this.dataEntFinal = dataEntFinal;
         this.dataImpDir = dataImpDir;
-        this.dataEntOffset = dataEntOffset;
-        this.dataEntTipografia = dataEntTipografia;
-        this.dataEntAcabamento = dataEntAcabamento;
+        this.dataEntdOffset = dataEntOffset;
+        this.dataEntDigital = dataEntDigital;
+        this.dataEntdTipografia = dataEntTipografia;
+        this.dataEntdAcabamento = dataEntAcabamento;
         this.dataEnvioDivCmcl = dataEnvioDivCmcl;
-        this.indEntPrazo = indEntPrazo;
-        this.indEntErro = indEntErro;
+        this.indEntgPrazo = indEntPrazo;
+        this.indEntgErro = indEntErro;
         this.codProduto = codProduto;
         this.orcBase = orcamentoBase;
         this.codContato = codContato;
@@ -243,6 +249,24 @@ public class OrdemProducao {
         this.dataCancelamento = dataCancelamento;
         this.tipoTrabalho = tipoTrabalho;
         this.tipoProduto = tipoProduto;
+    }
+
+    public Date getDataEntDigital() {
+        return dataEntDigital;
+    }
+
+    public void setDataEntDigital(Date dataEntDigital) {
+        this.dataEntDigital = dataEntDigital;
+    }
+    
+    
+
+    public Date getDataEntgProva() {
+        return dataEntgProva;
+    }
+
+    public void setDataEntgProva(Date dataEntgProva) {
+        this.dataEntgProva = dataEntgProva;
     }
 
     public int getQuantidade() {
@@ -438,27 +462,27 @@ public class OrdemProducao {
     }
 
     public Date getDataEntOffset() {
-        return dataEntOffset;
+        return dataEntdOffset;
     }
 
     public void setDataEntOffset(Date dataEntOffset) {
-        this.dataEntOffset = dataEntOffset;
+        this.dataEntdOffset = dataEntOffset;
     }
 
     public Date getDataEntTipografia() {
-        return dataEntTipografia;
+        return dataEntdTipografia;
     }
 
     public void setDataEntTipografia(Date dataEntTipografia) {
-        this.dataEntTipografia = dataEntTipografia;
+        this.dataEntdTipografia = dataEntTipografia;
     }
 
     public Date getDataEntAcabamento() {
-        return dataEntAcabamento;
+        return dataEntdAcabamento;
     }
 
     public void setDataEntAcabamento(Date dataEntAcabamento) {
-        this.dataEntAcabamento = dataEntAcabamento;
+        this.dataEntdAcabamento = dataEntAcabamento;
     }
 
     public Date getDataEnvioDivCmcl() {
@@ -470,19 +494,19 @@ public class OrdemProducao {
     }
 
     public int getIndEntPrazo() {
-        return indEntPrazo;
+        return indEntgPrazo;
     }
 
     public void setIndEntPrazo(int indEntPrazo) {
-        this.indEntPrazo = indEntPrazo;
+        this.indEntgPrazo = indEntPrazo;
     }
 
     public int getIndEntErro() {
-        return indEntErro;
+        return indEntgErro;
     }
 
     public void setIndEntErro(int indEntErro) {
-        this.indEntErro = indEntErro;
+        this.indEntgErro = indEntErro;
     }
 
     public String getTipoTrabalho() {
@@ -634,6 +658,8 @@ public class OrdemProducao {
                     + "EMISSÃO: "
                     + Controle.dataPadrao.format(op.getDataEmissao()),
                     FontFactory.getFont("arial.ttf", 9)));
+            cell1.setRowspan(2);
+            cell1.setVerticalAlignment(Rectangle.ALIGN_CENTER);
             if (tipo == 2) {
                 if (prodOrc.getTipoProduto() == 2) {
                     cell2 = new PdfPCell(new Phrase("PEDIDO DE VENDA nº " + op.getCodigo() + "\nRECIBO DE ENTREGA nº " + fat.getCod(),
@@ -652,31 +678,37 @@ public class OrdemProducao {
                     cell2 = new PdfPCell(new Phrase("PEDIDO DE VENDA\n" + op.getCodigo(),
                             FontFactory.getFont("arial.ttf", 15, Font.BOLD)));
                     cell2.setHorizontalAlignment(1);
-                    cell2.setVerticalAlignment(1);
                 } else {
                     cell2 = new PdfPCell(new Phrase("ORDEM DE PRODUÇÃO\n" + op.getCodigo(),
                             FontFactory.getFont("arial.ttf", 15, Font.BOLD)));
                     cell2.setHorizontalAlignment(1);
-                    cell2.setVerticalAlignment(1);
                 }
             }
+            cell2.setRowspan(2);
+            cell2.setVerticalAlignment(1);
 
             if (prodOrc.getTipoProduto() == 2) {
                 cell3 = new PdfPCell(new Phrase(op.getDataCancelamento() == null
                         ? "DATA DE ENTREGA:\n" + Controle.dataPadrao.format(op.getDataEntrega())
                         : "DATA DE CANCELAMENTO:\n" + Controle.dataPadrao.format(op.getDataCancelamento()), FontFactory.getFont("arial.ttf", 10, Font.BOLD)));
+                cell4 = new PdfPCell(new Phrase("DATA DE ENTREGA DA PROVA: NÃO É O CASO", FontFactory.getFont("arial.ttf", 10, Font.BOLD)));
             } else {
                 cell3 = new PdfPCell(new Phrase(op.getDataCancelamento() == null
                         ? "DATA PROVÁVEL DE ENTREGA:\n" + Controle.dataPadrao.format(op.getDataEntrega())
                         : "DATA DE CANCELAMENTO:\n" + Controle.dataPadrao.format(op.getDataCancelamento()), FontFactory.getFont("arial.ttf", 10, Font.BOLD)));
+                cell4 = new PdfPCell(new Phrase(op.getDataEntgProva() == null
+                        ? "DATA DE ENTREGA DA PROVA: NÃO DEFINIDA"
+                        : "DATA DE ENTREGA DA PROVA: " + Controle.dataPadrao.format(op.getDataEntgProva()), FontFactory.getFont("arial.ttf", 10, Font.BOLD)));
             }
-
             cell3.setHorizontalAlignment(1);
             cell3.setVerticalAlignment(1);
+            cell4.setHorizontalAlignment(1);
+            cell4.setVerticalAlignment(1);
             cell3.setBackgroundColor(op.getDataCancelamento() == null ? BaseColor.WHITE : Controle.fundoDestaque);
             tblCabecalho.addCell(cell1);
             tblCabecalho.addCell(cell2);
             tblCabecalho.addCell(cell3);
+            tblCabecalho.addCell(cell4);
             document.add(tblCabecalho);
             document.add(new Paragraph("\n"));
 
@@ -1123,10 +1155,10 @@ public class OrdemProducao {
              * Preenche as informações sobre a ordem de produção
              */
             if (prodOrc.getTipoProduto() == 2) {
-                cell1 = new PdfPCell(new Phrase(" OBSERVAÇÕES DO PEDIDO DE VENDA", 
+                cell1 = new PdfPCell(new Phrase(" OBSERVAÇÕES DO PEDIDO DE VENDA",
                         FontFactory.getFont("arial.ttf", 12, Font.BOLD)));
             } else {
-                cell1 = new PdfPCell(new Phrase(" OBSERVAÇÕES DA ORDEM DE PRODUÇÃO", 
+                cell1 = new PdfPCell(new Phrase(" OBSERVAÇÕES DA ORDEM DE PRODUÇÃO",
                         FontFactory.getFont("arial.ttf", 12, Font.BOLD)));
             }
 

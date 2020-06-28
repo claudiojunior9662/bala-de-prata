@@ -29,8 +29,8 @@ import ui.principal.ModulosExt;
  */
 public class TelaAutenticacao extends javax.swing.JFrame {
     
-    private static final String codVersao = "2.3.5";
-    private static final String update = "Echo";
+    private static final String codVersao = "2.3.6";
+    private static final String update = "Alfa";
     private static UsuarioBEAN atendenteLogado;
 
     public static UsuarioBEAN getUsrLogado() {
@@ -361,11 +361,7 @@ public class TelaAutenticacao extends javax.swing.JFrame {
                     mInt.setVisible(true);
                     this.setVisible(false);
 
-                    JOptionPane.showMessageDialog(null, "CORREÇÕES E ATUALIZAÇÕES DA v.2.3.3 Hotel (19-05-2020)\n"
-                            + "- Implantação dos valores dos produtos na OP, solicitado pelo Diretor;\n"
-                            + "CORREÇÕES E ATUALIZAÇÕES DA v.2.3.3 India (20-05-2020)\n"
-                            + "- Correção de erros enviados (25);\n"
-                            + "CORREÇÕES E ATUALIZAÇÕES DA v.2.3.4 Alfa (24-05-2020)\n"
+                    JOptionPane.showMessageDialog(null, "CORREÇÕES E ATUALIZAÇÕES DA v.2.3.4 Alfa (24-05-2020)\n"
                             + "- Correção de erros enviados (26-62);\n"
                             + "- Implementação dos campos necessários para o e-commerce, assim como para\n"
                             + "venda dos produtos para pronta entrega;\n"
@@ -387,8 +383,14 @@ public class TelaAutenticacao extends javax.swing.JFrame {
                             + "- Correção no documento de recibo de entrega para pedido de venda;\n"
                             + "CORREÇÕES E ATUALIZAÇÕES DA v.2.3.5 Delta (04-06-2020)\n"
                             + "- Correção do erro salvar o produto para pronta entrega;\n"
-                             + "CORREÇÕES E ATUALIZAÇÕES DA v.2.3.5 Echo (04-06-2020)\n"
+                            + "CORREÇÕES E ATUALIZAÇÕES DA v.2.3.5 Echo (04-06-2020)\n"
                             + "- Correção da inconsistência ao calcular o preço unitário dos produtos;\n"
+                            + "CORREÇÕES E ATUALIZAÇÕES DA v.2.3.6 Alfa (28-06-2020)\n"
+                            + "- Implementação da seleção de data de entrega de prova pela orçamentação;\n"
+                            + "- Implementação da seleção de data de entrada na digital pela produção;\n"
+                            + "- Correção da tela de controle da produção;\n"
+                            + "- Reorganização dos nomes dos usuários do sistema;\n"
+                            + "- Correção de erros enviados;\n"
                             + "AVISOS:\n"
                             + "- Todas as sugestões de melhoria de usabilidade do programa serão estudadas, mas não há previsão de implementação;\n"
                             + "- Qualquer problema nas correções acima expostas deverão ser informados o mais rápido possível à SPD;\n"

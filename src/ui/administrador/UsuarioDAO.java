@@ -486,37 +486,43 @@ public class UsuarioDAO {
             switch (acesso) {
                 case 0:
                     stmt = con.prepareStatement("SELECT codigo_atendente, nome_atendente "
-                            + "FROM tabela_atendentes");
+                            + "FROM tabela_atendentes"
+                            + "ORDER BY nome_atendente ASC");
                     break;
                 case 1:
                     stmt = con.prepareStatement("SELECT codigo_atendente, nome_atendente "
                             + "FROM tabela_atendentes "
                             + "INNER JOIN usuario_acessos ON usuario_acessos.CODIGO_USR = tabela_atendentes.codigo_atendente "
-                            + "WHERE usuario_acessos.PROD = 1");
+                            + "WHERE usuario_acessos.PROD = 1 "
+                            + "ORDER BY nome_atendente ASC");
                     break;
                 case 2:
                     stmt = con.prepareStatement("SELECT codigo_atendente, nome_atendente "
                             + "FROM tabela_atendentes "
                             + "INNER JOIN usuario_acessos ON usuario_acessos.CODIGO_USR = tabela_atendentes.codigo_atendente "
-                            + "WHERE usuario_acessos.ORC = 1");
+                            + "WHERE usuario_acessos.ORC = 1"
+                            + "ORDER BY nome_atendente ASC");
                     break;
                 case 3:
                     stmt = con.prepareStatement("SELECT codigo_atendente, nome_atendente "
                             + "FROM tabela_atendentes "
                             + "INNER JOIN usuario_acessos ON usuario_acessos.CODIGO_USR = tabela_atendentes.codigo_atendente "
-                            + "WHERE usuario_acessos.EXP = 1");
+                            + "WHERE usuario_acessos.EXP = 1"
+                            + "ORDER BY nome_atendente ASC");
                     break;
                 case 4:
                     stmt = con.prepareStatement("SELECT codigo_atendente, nome_atendente "
                             + "FROM tabela_atendentes "
                             + "INNER JOIN usuario_acessos ON usuario_acessos.CODIGO_USR = tabela_atendentes.codigo_atendente "
-                            + "WHERE usuario_acessos.FIN = 1");
+                            + "WHERE usuario_acessos.FIN = 1"
+                            + "ORDER BY nome_atendente ASC");
                     break;
                 case 5:
                     stmt = con.prepareStatement("SELECT codigo_atendente, nome_atendente "
                             + "FROM tabela_atendentes "
                             + "INNER JOIN usuario_acessos ON usuario_acessos.CODIGO_USR = tabela_atendentes.codigo_atendente "
-                            + "WHERE usuario_acessos.EST = 1");
+                            + "WHERE usuario_acessos.EST = 1"
+                            + "ORDER BY nome_atendente ASC");
                     break;
             }
             rs = stmt.executeQuery();

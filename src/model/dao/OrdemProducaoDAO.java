@@ -62,6 +62,7 @@ public class OrdemProducaoDAO {
                         rs.getDate("data_ent_final"),
                         rs.getDate("data_imp_dir"),
                         rs.getDate("data_ent_offset"),
+                        rs.getDate("DT_ENT_DIGITAL"),
                         rs.getDate("data_ent_tipografia"),
                         rs.getDate("data_ent_acabamento"),
                         rs.getDate("data_envio_div_cmcl"),
@@ -138,10 +139,21 @@ public class OrdemProducaoDAO {
         PreparedStatement stmt = null;
 
         try {
-            stmt = con.prepareStatement("INSERT INTO tabela_ordens_producao(cod, orcamento_base, cod_cliente, tipo_cliente,"
-                    + "data_emissao, data_entrega, status, descricao, cod_emissor, cod_produto, tipo_produto, cod_contato, "
-                    + "cod_endereco) "
-                    + "VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)");
+            stmt = con.prepareStatement("INSERT INTO tabela_ordens_producao(cod, "
+                    + "orcamento_base, "
+                    + "cod_cliente, "
+                    + "tipo_cliente,"
+                    + "data_emissao, "
+                    + "data_entrega, "
+                    + "status, "
+                    + "descricao, "
+                    + "cod_emissor, "
+                    + "cod_produto, "
+                    + "tipo_produto, "
+                    + "cod_contato, "
+                    + "cod_endereco,"
+                    + "DT_ENTG_PROVA) "
+                    + "VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
             stmt.setInt(1, op.getCodigo());
             stmt.setInt(2, op.getOrcBase());
             stmt.setInt(3, op.getCodCliente());
@@ -155,6 +167,9 @@ public class OrdemProducaoDAO {
             stmt.setByte(11, op.getTipoProduto());
             stmt.setInt(12, op.getCodContato());
             stmt.setInt(13, op.getCodEndereco());
+            stmt.setDate(14, op.getDataEntgProva() != null 
+                    ? new java.sql.Date(op.getDataEntgProva().getTime()) 
+                    : null);
             stmt.executeUpdate();
         } catch (SQLException ex) {
             throw new SQLException(ex);
@@ -227,6 +242,7 @@ public class OrdemProducaoDAO {
                         rs.getByte("tipo_produto"),
                         rs.getDate("data_entrega"),
                         rs.getDate("data_emissao"),
+                        rs.getDate("DT_ENTG_PROVA"),
                         rs.getByte("tipo_cliente"),
                         rs.getString("cod_emissor"),
                         rs.getDate("DT_CANCELAMENTO")
