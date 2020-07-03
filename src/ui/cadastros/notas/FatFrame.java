@@ -1144,53 +1144,48 @@ public class FatFrame extends javax.swing.JInternalFrame {
             JPasswordField jpf = new JPasswordField();
             int retorno = JOptionPane.showConfirmDialog(null, new Object[]{label, jpf}, "SENHA MESTRA:", JOptionPane.OK_CANCEL_OPTION);
             String resposta = String.valueOf(jpf.getPassword());
-            if (retorno != 0 || resposta.matches("Financeiro77910@") == false) {
-                JOptionPane.showMessageDialog(null, "SENHA INCORRETA!");
-                return;
-            } else {
-                try {
-                    double valor = Double.valueOf(vlrTotalNota.getValue().toString());
+            try {
+                double valor = Double.valueOf(vlrTotalNota.getValue().toString());
 
-                    int tipoPessoa = 0;
-                    if (tipoCliente.getText().equals("PESSOA FÍSICA")) {
-                        tipoPessoa = 1;
-                    } else {
-                        tipoPessoa = 2;
-                    }
-
-                    if (FAT_FRETE == 1 & FAT_SERVICOS == 1) {
-                        OrcamentoDAO.atualizaStatusFaturamento(OrdemProducaoDAO.retornaOrcamentoBase(
-                                Integer.valueOf(codOp.getText())),
-                                (byte) 1);
-                    } else if (FAT_FRETE == 1 & STATUS_FATURAMENTO == 3) {
-                        OrcamentoDAO.atualizaStatusFaturamento(OrdemProducaoDAO.retornaOrcamentoBase(
-                                Integer.valueOf(codOp.getText())),
-                                (byte) 3);
-                    } else if (FAT_SERVICOS == 1 & STATUS_FATURAMENTO == 3) {
-                        OrcamentoDAO.atualizaStatusFaturamento(OrdemProducaoDAO.retornaOrcamentoBase(
-                                Integer.valueOf(codOp.getText())),
-                                (byte) 2);
-                    } else if ((FAT_FRETE == 1 & STATUS_FATURAMENTO == 1)
-                            | (FAT_SERVICOS == 1 & STATUS_FATURAMENTO == 2)) {
-                        OrcamentoDAO.atualizaStatusFaturamento(OrdemProducaoDAO.retornaOrcamentoBase(
-                                Integer.valueOf(codOp.getText())),
-                                (byte) 1);
-                    }
-                    ClienteDAO.corrigeCredito((int) codigoCliente.getValue(),
-                            (byte) tipoPessoa,
-                            Float.valueOf(vlrTotalNota.getValue().toString()),
-                            (byte) 1);
-                    CODIGO_FAT = Integer.valueOf(numeroNota.getValue().toString());
-                    NotaDAO.excluiVolumes(CODIGO_FAT);
-                    NotaDAO.excluiTransportes(CODIGO_FAT);
-                    NotaDAO.removeFat(CODIGO_FAT);
-                    OrdemProducaoDAO.alteraStatusOp(Integer.valueOf(codOp.getText()),
-                            "ENCAMINHADO PARA EXPEDIÇÃO");
-                } catch (SQLException ex) {
-                    EnvioExcecao envioExcecao = new EnvioExcecao(Controle.getDefaultGj(), ex);
-                    EnvioExcecao.envio();
-                    return;
+                int tipoPessoa = 0;
+                if (tipoCliente.getText().equals("PESSOA FÍSICA")) {
+                    tipoPessoa = 1;
+                } else {
+                    tipoPessoa = 2;
                 }
+
+                if (FAT_FRETE == 1 & FAT_SERVICOS == 1) {
+                    OrcamentoDAO.atualizaStatusFaturamento(OrdemProducaoDAO.retornaOrcamentoBase(
+                            Integer.valueOf(codOp.getText())),
+                            (byte) 1);
+                } else if (FAT_FRETE == 1 & STATUS_FATURAMENTO == 3) {
+                    OrcamentoDAO.atualizaStatusFaturamento(OrdemProducaoDAO.retornaOrcamentoBase(
+                            Integer.valueOf(codOp.getText())),
+                            (byte) 3);
+                } else if (FAT_SERVICOS == 1 & STATUS_FATURAMENTO == 3) {
+                    OrcamentoDAO.atualizaStatusFaturamento(OrdemProducaoDAO.retornaOrcamentoBase(
+                            Integer.valueOf(codOp.getText())),
+                            (byte) 2);
+                } else if ((FAT_FRETE == 1 & STATUS_FATURAMENTO == 1)
+                        | (FAT_SERVICOS == 1 & STATUS_FATURAMENTO == 2)) {
+                    OrcamentoDAO.atualizaStatusFaturamento(OrdemProducaoDAO.retornaOrcamentoBase(
+                            Integer.valueOf(codOp.getText())),
+                            (byte) 1);
+                }
+                ClienteDAO.corrigeCredito((int) codigoCliente.getValue(),
+                        (byte) tipoPessoa,
+                        Float.valueOf(vlrTotalNota.getValue().toString()),
+                        (byte) 1);
+                CODIGO_FAT = Integer.valueOf(numeroNota.getValue().toString());
+                NotaDAO.excluiVolumes(CODIGO_FAT);
+                NotaDAO.excluiTransportes(CODIGO_FAT);
+                NotaDAO.removeFat(CODIGO_FAT);
+                OrdemProducaoDAO.alteraStatusOp(Integer.valueOf(codOp.getText()),
+                        "ENCAMINHADO PARA EXPEDIÇÃO");
+            } catch (SQLException ex) {
+                EnvioExcecao envioExcecao = new EnvioExcecao(Controle.getDefaultGj(), ex);
+                EnvioExcecao.envio();
+                return;
             }
             JOptionPane.showMessageDialog(null, "A NOTA DE VENDA " + CODIGO_FAT + " FOI EXCLUÍDA COM SUCESSO."
                     + "\nO CRÉDITO DO CLIENTE FOI RESTAURADO.");

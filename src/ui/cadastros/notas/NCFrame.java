@@ -889,7 +889,7 @@ public class NCFrame extends javax.swing.JInternalFrame {
                                 Integer.valueOf(jftfUg.getText()),
                                 data);
                         int retorno = NotaDAO.verificaLancRep(lanc);
-                        if (retorno != 0) {
+                        if (retorno != 0 & !editar) {
                             JOptionPane.showMessageDialog(null,
                                     "A NOTA Nº " + retorno + " JÁ FOI LANÇADA PARA ESTE EMPENHO.",
                                     "ATENÇÃO",
@@ -949,7 +949,7 @@ public class NCFrame extends javax.swing.JInternalFrame {
                                 Integer.valueOf(jftfCodRecGru.getText().replace("-", "")),
                                 data);
                         int retorno = NotaDAO.verificaLancRepGru(lancGru);
-                        if (retorno != 0) {
+                        if (retorno != 0 & !editar) {
                             JOptionPane.showMessageDialog(null,
                                     "A NOTA Nº " + retorno + " JÁ FOI LANÇADA PARA ESTA GRU.",
                                     "ATENÇÃO",
