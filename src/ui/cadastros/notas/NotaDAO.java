@@ -181,6 +181,11 @@ public class NotaDAO {
         return retorno;
     }
 
+    /**
+     * Retorna atendentes com acesso ao módulo Expedição
+     * @return
+     * @throws SQLException 
+     */
     public static List retornaEmissores() throws SQLException {
         Connection con = ConnectionFactory.getConnection();
         PreparedStatement stmt = null;
@@ -189,13 +194,15 @@ public class NotaDAO {
         List retorno = new ArrayList();
 
         try {
-            stmt = con.prepareStatement("SELECT codigo_atendente FROM tabela_atendentes WHERE acesso_exp = 1");
+            stmt = con.prepareStatement("SELECT codigo_atendente "
+                    + "FROM tabela_atendentes "
+                    + "WHERE acesso_exp = 1");
             rs = stmt.executeQuery();
             while (rs.next()) {
                 retorno.add(rs.getString("codigo_atendente"));
             }
         } catch (SQLException ex) {
-            throw new SQLException();
+            throw new SQLException(ex);
         } finally {
             ConnectionFactory.closeConnection(con, stmt, rs);
         }
