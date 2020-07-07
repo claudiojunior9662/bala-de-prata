@@ -710,6 +710,16 @@ public class Orcamento {
                     document.add(tabelaRodape);
 
                     document.add(new Paragraph("\n"));
+                    
+                    tabelaRodape.deleteBodyRows();
+                    celulaRodape = new PdfPCell(new Phrase("AUTORIZO A INSERÇÃO DO QR CODE DA GRÁFICA DO EXÉRCITO NA 4ª CAPA (  ) SIM (  ) NÃO", FontFactory.getFont("arial.ttf", 10, Font.BOLD)));
+                    celulaRodape.setBackgroundColor(Controle.fundoDestaque);
+                    celulaRodape.setBorder(0);
+                    celulaRodape.setHorizontalAlignment(1);
+                    tabelaRodape.addCell(celulaRodape);
+                    document.add(tabelaRodape);
+
+                    document.add(new Paragraph("\n"));
 
                     p2 = new Paragraph("BRASÍLIA-DF, "
                             + Controle.dataPadrao.format(new Date())

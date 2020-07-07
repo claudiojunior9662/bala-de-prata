@@ -30,7 +30,7 @@ import ui.principal.ModulosExt;
 public class TelaAutenticacao extends javax.swing.JFrame {
     
     private static final String codVersao = "2.3.6";
-    private static final String update = "Alfa";
+    private static final String update = "Bravo";
     private static UsuarioBEAN atendenteLogado;
 
     public static UsuarioBEAN getUsrLogado() {
@@ -361,13 +361,7 @@ public class TelaAutenticacao extends javax.swing.JFrame {
                     mInt.setVisible(true);
                     this.setVisible(false);
 
-                    JOptionPane.showMessageDialog(null, "CORREÇÕES E ATUALIZAÇÕES DA v.2.3.4 Alfa (24-05-2020)\n"
-                            + "- Correção de erros enviados (26-62);\n"
-                            + "- Implementação dos campos necessários para o e-commerce, assim como para\n"
-                            + "venda dos produtos para pronta entrega;\n"
-                            + "- Adição da tabela de corte de papel na tela de orçamentos;\n"
-                            + "- Atualizações e correções diversas para fins de estabilidade e otimização;\n"
-                            + "CORREÇÕES E ATUALIZAÇÕES DA v.2.3.4 Bravo (26-05-2020)\n"
+                    JOptionPane.showMessageDialog(null, "CORREÇÕES E ATUALIZAÇÕES DA v.2.3.4 Bravo (26-05-2020)\n"
                             + "- Correção de erros diversos e faturamento;\n"
                             + "CORREÇÕES E ATUALIZAÇÕES DA v.2.3.4 Charlie (27-05-2020)\n"
                             + "- Remoção da limitação para adicionar produtos para pronta entrega na proposta de orçamento;\n"
@@ -391,6 +385,8 @@ public class TelaAutenticacao extends javax.swing.JFrame {
                             + "- Correção da tela de controle da produção;\n"
                             + "- Reorganização dos nomes dos usuários do sistema;\n"
                             + "- Correção de erros enviados;\n"
+                            + "CORREÇÕES E ATUALIZAÇÕES DA v.2.3.6 Bravo (06-07-2020)\n"
+                            + "- Solução ao DIEx nº 545-DIV CMCL/GRÁFICA;\n"
                             + "AVISOS:\n"
                             + "- Todas as sugestões de melhoria de usabilidade do programa serão estudadas, mas não há previsão de implementação;\n"
                             + "- Qualquer problema nas correções acima expostas deverão ser informados o mais rápido possível à SPD;\n"
