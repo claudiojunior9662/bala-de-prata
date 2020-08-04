@@ -3416,10 +3416,8 @@ public class OrcamentoPrincipalFrame extends javax.swing.JInternalFrame {
 
                 if (TIPO_ORCAMENTO != 1) {
                     for (int j = 0; j < tabelaPapeis.getRowCount(); j++) {
-                        System.out.println("entrou for");
                         if (codigoProduto
                                 == (int) tabelaPapeis.getValueAt(j, 0)) {
-                            System.out.println("entrou if");
                             valorPapeis += Double.valueOf(tabelaPapeis.getValueAt(j, 8).toString())
                                     * Double.valueOf(tabelaPapeis.getValueAt(j, 9).toString());
 

@@ -1140,10 +1140,6 @@ public class FatFrame extends javax.swing.JInternalFrame {
         if (dialogResult != 0) {
             return;
         } else {
-            JLabel label = new JLabel("DIGITE A SENHA");
-            JPasswordField jpf = new JPasswordField();
-            int retorno = JOptionPane.showConfirmDialog(null, new Object[]{label, jpf}, "SENHA MESTRA:", JOptionPane.OK_CANCEL_OPTION);
-            String resposta = String.valueOf(jpf.getPassword());
             try {
                 double valor = Double.valueOf(vlrTotalNota.getValue().toString());
 

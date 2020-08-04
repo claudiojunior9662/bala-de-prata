@@ -258,8 +258,6 @@ public class OrdemProducao {
     public void setDataEntDigital(Date dataEntDigital) {
         this.dataEntDigital = dataEntDigital;
     }
-    
-    
 
     public Date getDataEntgProva() {
         return dataEntgProva;
@@ -1324,9 +1322,25 @@ public class OrdemProducao {
                 cell4 = new PdfPCell(new Phrase("VALOR SERVIÇOS\n\nR$ " + (fat.getFreteFat() == 1
                         ? df.format(vlrSv)
                         : "0,00"), FontFactory.getFont("arial.ttf", 9)));
-                cell5 = new PdfPCell(new Phrase("VALOR TOTAL FATURADO\n\nR$ "
-                        + df.format((vlrUnit * prodOrc.getQuantidade()) + vlrFrete + vlrSv),
-                        FontFactory.getFont("arial.ttf", 9, BaseColor.WHITE)));
+
+                if (fat.getFreteFat() == 1 && fat.getServicosFat() == 1) {
+                    cell5 = new PdfPCell(new Phrase("VALOR TOTAL FATURADO\n\nR$ "
+                            + df.format((vlrUnit * prodOrc.getQuantidade()) + vlrFrete + vlrSv),
+                            FontFactory.getFont("arial.ttf", 9, BaseColor.WHITE)));
+                }else if(fat.getFreteFat() == 1 && fat.getServicosFat() == 0){
+                    cell5 = new PdfPCell(new Phrase("VALOR TOTAL FATURADO\n\nR$ "
+                            + df.format((vlrUnit * prodOrc.getQuantidade()) + vlrFrete),
+                            FontFactory.getFont("arial.ttf", 9, BaseColor.WHITE)));
+                }else if(fat.getFreteFat() == 0 && fat.getServicosFat() == 1){
+                    cell5 = new PdfPCell(new Phrase("VALOR TOTAL FATURADO\n\nR$ "
+                            + df.format((vlrUnit * prodOrc.getQuantidade()) + vlrSv),
+                            FontFactory.getFont("arial.ttf", 9, BaseColor.WHITE)));
+                }else if(fat.getFreteFat() == 0 && fat.getServicosFat() == 0){
+                    cell5 = new PdfPCell(new Phrase("VALOR TOTAL FATURADO\n\nR$ "
+                            + df.format((vlrUnit * prodOrc.getQuantidade())),
+                            FontFactory.getFont("arial.ttf", 9, BaseColor.WHITE)));
+                }
+
                 cell5.setBackgroundColor(BaseColor.GRAY);
                 tblValores.addCell(cell1);
                 tblValores.addCell(cell2);
