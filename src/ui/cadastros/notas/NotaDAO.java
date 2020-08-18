@@ -92,7 +92,7 @@ public class NotaDAO {
                 retorno.add(aux2);
             }
         } catch (SQLException ex) {
-            throw new SQLException();
+            throw new SQLException(ex);
         } finally {
             ConnectionFactory.closeConnection(con, stmt, rs);
         }
@@ -110,14 +110,14 @@ public class NotaDAO {
             if (p1.equals("PESSOA FÍSICA - NOME")) {
                 stmt = con.prepareStatement("SELECT cod,nome FROM tabela_clientes_fisicos WHERE nome LIKE " + "'%" + texto + "%' ORDER BY cod ASC");
             } else if (p1.equals("PESSOA FÍSICA - CPF (SOMENTE NÚMEROS)")) {
-                stmt = con.prepareStatement("SELECT cod,nome FROM tabela_clientes_fisicos WHERE cpf = ? ORDER BY cod ASC");
+                stmt = con.prepareStatement("SELECT cod, nome FROM tabela_clientes_fisicos WHERE cpf = ? ORDER BY cod ASC");
                 stmt.setString(1, texto);
             } else if (p1.equals("PESSOA JURÍDICA - NOME")) {
-                stmt = con.prepareStatement("SELECT cod,nome FROM tabela_clientes_juridicos WHERE nome LIKE " + "'%" + texto + "%' ORDER BY cod ASC");
+                stmt = con.prepareStatement("SELECT cod, nome FROM tabela_clientes_juridicos WHERE nome LIKE " + "'%" + texto + "%' ORDER BY cod ASC");
             } else if (p1.equals("PESSOA JURÍDICA - NOME FANTASIA")) {
-                stmt = con.prepareStatement("SELECT cod,nome FROM tabela_clientes_juridicos WHERE nome_fantasia LIKE " + "'%" + texto + "%' ORDER BY cod ASC");
+                stmt = con.prepareStatement("SELECT cod, nome FROM tabela_clientes_juridicos WHERE nome_fantasia LIKE " + "'%" + texto + "%' ORDER BY cod ASC");
             } else if (p1.equals("PESSOA JURÍDICA - CNPJ (SOMENTE NÚMEROS)")) {
-                stmt = con.prepareStatement("SELECT cod,nome FROM tabela_clientes_juridicos WHERE cnpj = ? ORDER BY cod ASC");
+                stmt = con.prepareStatement("SELECT cod, nome FROM tabela_clientes_juridicos WHERE cnpj = ? ORDER BY cod ASC");
                 stmt.setString(1, texto);
             } else {
                 if (Integer.valueOf(p1) == 1) {
@@ -134,7 +134,7 @@ public class NotaDAO {
                 retorno.add(rs.getString("nome"));
             }
         } catch (SQLException ex) {
-            throw new SQLException();
+            throw new SQLException(ex);
         } finally {
             ConnectionFactory.closeConnection(con, stmt, rs);
         }
@@ -174,7 +174,7 @@ public class NotaDAO {
                 retorno.add(aux2);
             }
         } catch (SQLException ex) {
-            throw new SQLException();
+            throw new SQLException(ex);
         } finally {
             ConnectionFactory.closeConnection(con, stmt, rs);
         }
@@ -195,7 +195,7 @@ public class NotaDAO {
                 retorno.add(rs.getString("codigo_atendente"));
             }
         } catch (SQLException ex) {
-            throw new SQLException();
+            throw new SQLException(ex);
         } finally {
             ConnectionFactory.closeConnection(con, stmt, rs);
         }
@@ -245,7 +245,7 @@ public class NotaDAO {
             }
             return null;
         } catch (SQLException ex) {
-            throw new SQLException();
+            throw new SQLException(ex);
         } finally {
             ConnectionFactory.closeConnection(con, stmt, rs);
         }
@@ -279,7 +279,7 @@ public class NotaDAO {
                 retorno.add(aux);
             }
         } catch (SQLException ex) {
-            throw new SQLException();
+            throw new SQLException(ex);
         } finally {
             ConnectionFactory.closeConnection(con, stmt, rs);
         }
@@ -316,7 +316,7 @@ public class NotaDAO {
                 }
             }
         } catch (SQLException ex) {
-            throw new SQLException();
+            throw new SQLException(ex);
         } finally {
             ConnectionFactory.closeConnection(con, stmt, rs);
         }
@@ -349,7 +349,7 @@ public class NotaDAO {
             }
             return null;
         } catch (SQLException ex) {
-            throw new SQLException();
+            throw new SQLException(ex);
         } finally {
             ConnectionFactory.closeConnection(con, stmt, rs);
         }
@@ -377,7 +377,7 @@ public class NotaDAO {
                 retorno.add(aux);
             }
         } catch (SQLException ex) {
-            throw new SQLException();
+            throw new SQLException(ex);
         } finally {
             ConnectionFactory.closeConnection(con, stmt, rs);
         }
@@ -430,7 +430,7 @@ public class NotaDAO {
                 retorno = rs.getInt("cod");
             }
         } catch (SQLException ex) {
-            throw new SQLException();
+            throw new SQLException(ex);
         } finally {
             ConnectionFactory.closeConnection(con, stmt, rs);
         }
