@@ -34,7 +34,7 @@ public class NewMain {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        mostraValorProducao();
+        ranking();
     }
 
     //--------------------------------------------------------------------------
@@ -106,7 +106,7 @@ public class NewMain {
                     + "AND tabela_ordens_producao.status != 'ENTREGUE PARCIALMENTE' "
                     + "AND tabela_ordens_producao.status != 'CANCELADA'"
                     + "AND tabela_ordens_producao.tipo_cliente = 1 "
-                    + "AND tabela_ordens_producao.data_emissao BETWEEN '2020-01-01' AND '2020-07-24' "
+                    + "AND tabela_ordens_producao.data_emissao BETWEEN '2020-01-01' AND '2020-07-31' "
                     + "ORDER BY tabela_ordens_producao.cod_cliente ASC");
             rs = stmt.executeQuery();
             while (rs.next()) {
@@ -121,7 +121,7 @@ public class NewMain {
                             + "AND tabela_ordens_producao.status != 'CANCELADA'"
                             + "AND tabela_ordens_producao.tipo_cliente = 1 "
                             + "AND tabela_ordens_producao.cod_cliente = ? "
-                            + "AND tabela_ordens_producao.data_emissao BETWEEN '2020-01-01' AND '2020-07-24' "
+                            + "AND tabela_ordens_producao.data_emissao BETWEEN '2020-01-01' AND '2020-07-31' "
                             + "ORDER BY tabela_ordens_producao.cod_cliente ASC");
                     stmt.setInt(1, rs.getInt("tabela_ordens_producao.cod_cliente"));
                     rs2 = stmt.executeQuery();
@@ -197,7 +197,7 @@ public class NewMain {
                     + "INNER JOIN tabela_orcamentos ON tabela_orcamentos.cod = tabela_ordens_producao.orcamento_base "
                     + "INNER JOIN produtos ON produtos.CODIGO = tabela_ordens_producao.cod_produto "
                     + "WHERE tabela_ordens_producao.status != 'CANCELADA' "
-                    + "AND tabela_ordens_producao.data_emissao BETWEEN '2018-01-01' AND '2020-05-22' "
+                    + "AND tabela_ordens_producao.data_emissao BETWEEN '2018-01-01' AND '2020-08-13' "
                     + "AND tabela_ordens_producao.tipo_cliente = 2 "
                     + "AND tabela_orcamentos.FAT_TOTALMENTE > 1");
             rs = stmt.executeQuery();
@@ -215,7 +215,7 @@ public class NewMain {
                             + "WHERE tabela_ordens_producao.status != 'CANCELADA' "
                             + "AND tabela_ordens_producao.cod_cliente = ? "
                             + "AND tabela_ordens_producao.tipo_cliente = 2 "
-                            + "AND tabela_ordens_producao.data_emissao BETWEEN '2018-01-01' AND '2020-05-22'"
+                            + "AND tabela_ordens_producao.data_emissao BETWEEN '2018-01-01' AND '2020-08-13'"
                             + "AND tabela_orcamentos.FAT_TOTALMENTE > 1");
                     stmt.setInt(1, rs.getInt("cod_cliente"));
                     rs2 = stmt.executeQuery();
@@ -265,6 +265,64 @@ public class NewMain {
                 stmt.setByte(10, rs.getByte("acesso_estoque"));
                 stmt.setByte(11, rs.getByte("acesso_ord"));
                 stmt.executeUpdate();
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(NewMain.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    private static void quantidadeProduzida() {
+        Connection con = ConnectionFactory.getConnection();
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+        ResultSet rs2 = null;
+        ResultSet rs3 = null;
+        List<Integer> produtosLidos = new ArrayList();
+        int qtdProdutos = 0;
+        List<String> ranking = new ArrayList();
+
+        try {
+            stmt = con.prepareStatement("SELECT tabela_produtos_orcamento.cod_produto,"
+                    + "produtos.DESCRICAO, tabela_produtos_orcamento.quantidade "
+                    + "FROM tabela_produtos_orcamento "
+                    + "INNER JOIN produtos ON produtos.CODIGO = tabela_produtos_orcamento.cod_produto "
+                    + "INNER JOIN tabela_orcamentos ON tabela_orcamentos.cod = tabela_produtos_orcamento.cod_orcamento "
+                    + "WHERE ");
+            rs = stmt.executeQuery();
+            while (rs.next()) {
+
+                if (!opsLidas.contains(rs.getInt("tabela_ordens_producao.cod"))) {
+                    qtdProdutos = 0;
+                    stmt = con.prepareStatement("SELECT tabela_ordens_producao.cod, "
+                            + "tabela_ordens_producao.orcamento_base,"
+                            + "tabela_ordens_producao.cod_produto,"
+                            + "produtos.DESCRICAO  "
+                            + "FROM tabela_ordens_producao "
+                            + "INNER JOIN tabela_orcamentos ON tabela_orcamentos.cod = tabela_ordens_producao.orcamento_base "
+                            + "INNER JOIN produtos ON produtos.CODIGO = tabela_ordens_producao.cod_produto "
+                            + "WHERE tabela_ordens_producao.status != 'CANCELADA' "
+                            + "AND tabela_ordens_producao.cod_cliente = ? "
+                            + "AND tabela_ordens_producao.tipo_cliente = 2 "
+                            + "AND tabela_ordens_producao.data_emissao BETWEEN '2018-01-01' AND '2020-08-13'"
+                            + "AND tabela_orcamentos.FAT_TOTALMENTE > 1");
+                    stmt.setInt(1, rs.getInt("cod_cliente"));
+                    rs2 = stmt.executeQuery();
+                    while (rs2.next()) {
+                        opsLidas.add(rs2.getInt("tabela_ordens_producao.cod"));
+                        stmt = con.prepareStatement("SELECT quantidade "
+                                + "FROM tabela_produtos_orcamento "
+                                + "WHERE cod_orcamento = ? AND cod_produto = ?");
+                        stmt.setInt(1, rs2.getInt("tabela_ordens_producao.orcamento_base"));
+                        stmt.setInt(2, rs2.getInt("tabela_ordens_producao.cod_produto"));
+                        rs3 = stmt.executeQuery();
+                        if (rs3.next()) {
+                            qtdProdutos += rs3.getInt("quantidade");
+                        }
+                        System.out.println(rs2.getInt("tabela_ordens_producao.cod_produto") + "#"
+                                + rs2.getString("produtos.DESCRICAO") + "#"
+                                + qtdProdutos);
+                    }
+                }
             }
         } catch (SQLException ex) {
             Logger.getLogger(NewMain.class.getName()).log(Level.SEVERE, null, ex);
