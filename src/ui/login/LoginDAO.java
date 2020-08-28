@@ -142,7 +142,7 @@ public class LoginDAO extends RuntimeException {
 
         try {
             stmt = con.prepareStatement("UPDATE tabela_atendentes "
-                    + "SET senha_atendente = md5(?), mudanca_senha = ?"
+                    + "SET senha_atendente = md5(?), mudanca_senha = ? "
                     + "WHERE codigo_atendente = ?");
             stmt.setString(1, senha);
             stmt.setDate(2, new java.sql.Date(new Date().getTime()));
