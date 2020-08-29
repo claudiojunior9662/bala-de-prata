@@ -29,8 +29,8 @@ import ui.principal.ModulosExt;
  */
 public class TelaAutenticacao extends javax.swing.JFrame {
     
-    private static final String codVersao = "2.3.6";
-    private static final String update = "5";
+    private static final String codVersao = "2.3.7";
+    private static final String update = "1";
     private static UsuarioBEAN atendenteLogado;
 
     public static UsuarioBEAN getUsrLogado() {
@@ -344,16 +344,16 @@ public class TelaAutenticacao extends javax.swing.JFrame {
 
             } else if (loginDAO.verificaNome(campoUsuario.getText().toUpperCase(), campoSenha.getText())) {
                 atendenteLogado = UsuarioDAO.retornaInfoUsr(campoUsuario.getText().toUpperCase(), campoSenha.getText());
-                if (loginDAO.verificaExpiracaoSenha(atendenteLogado.getCodigo())
-                        && !campoUsuario.getText().equals("admin")) {
-                    JOptionPane.showMessageDialog(null, "SUA SENHA EXPIROU.\nO SR(A) SERÁ REDIRECIONADO PARA A MUDANÇA DE SENHA.");
-                    MudancaSenha md = new MudancaSenha();
-                    md.setLocationRelativeTo(null);
-                    md.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-                    md.setTitle("MUDANÇA DE SENHA");
-                    MudancaSenha.SENHA = senha;
-                    md.setVisible(true);
-                } else if (Controle.getTipoLogin() == 1) {
+//                if (loginDAO.verificaExpiracaoSenha(atendenteLogado.getCodigo())
+//                        && !campoUsuario.getText().equals("admin")) {
+//                    JOptionPane.showMessageDialog(null, "SUA SENHA EXPIROU.\nO SR(A) SERÁ REDIRECIONADO PARA A MUDANÇA DE SENHA.");
+//                    MudancaSenha md = new MudancaSenha();
+//                    md.setLocationRelativeTo(null);
+//                    md.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+//                    md.setTitle("MUDANÇA DE SENHA");
+//                    MudancaSenha.SENHA = senha;
+//                    md.setVisible(true);
+                if (Controle.getTipoLogin() == 1) {
                     mInt = new ModulosInt();
                     mInt.setLocationRelativeTo(null);
                     mInt.setDefaultCloseOperation(ModulosInt.EXIT_ON_CLOSE);
@@ -361,9 +361,7 @@ public class TelaAutenticacao extends javax.swing.JFrame {
                     mInt.setVisible(true);
                     this.setVisible(false);
 
-                    JOptionPane.showMessageDialog(null, "CORREÇÕES E ATUALIZAÇÕES DA v.2.3.5 Alfa (30-05-2020)\n"
-                            + "- Redefinição dos acessos de usuários;\n"
-                            + "CORREÇÕES E ATUALIZAÇÕES DA v.2.3.5 Bravo (01-06-2020)\n"
+                    JOptionPane.showMessageDialog(null, "CORREÇÕES E ATUALIZAÇÕES DA v.2.3.5 Bravo (01-06-2020)\n"
                             + "- Correção ao remover produtos do orçamento;\n"
                             + "- Correção da mudança de status do orçamento ao enviar o pedido de venda para expedição;\n"
                             + "CORREÇÕES E ATUALIZAÇÕES DA v.2.3.5 Charlie (02-06-2020)\n"
@@ -387,6 +385,9 @@ public class TelaAutenticacao extends javax.swing.JFrame {
                             + "- Correção ao gerar PDF dos faturamentos (o valor do frete estava sendo somado incorretamente.);\n"
                             + "CORREÇÕES E ATUALIZAÇÕES DA v.2.3.6 5 (18-08-2020)\n"
                             + "- Correção de erros diversos;\n"
+                            + "CORREÇÕES E ATUALIZAÇÕES DA v.2.3.7 1 (28-08-2020)\n"
+                            + "- Implementação do lançamento de observações das OP;\n"
+                            + "- Suspensão temporária da verificação de expiração de senha;\n"
                             + "AVISOS:\n"
                             + "- Todas as sugestões de melhoria de usabilidade do programa serão estudadas, mas não há previsão de implementação;\n"
                             + "- Qualquer problema nas correções acima expostas deverão ser informados o mais rápido possível à SPD;\n"

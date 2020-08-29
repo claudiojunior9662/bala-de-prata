@@ -25,6 +25,7 @@ import ui.cadastros.produtos.ProdutoDAO;
 import ui.controle.Controle;
 import ui.principal.GerenteJanelas;
 import ui.principal.Producao;
+import ui.sproducao.contrrole.observacoes.ObservacaoOp;
 
 /**
  *
@@ -148,6 +149,7 @@ public final class TelaAcompanhamento extends javax.swing.JInternalFrame {
         btnGravar = new javax.swing.JButton();
         qtdDiasOp = new javax.swing.JFormattedTextField();
         jLabel11 = new javax.swing.JLabel();
+        btnObservacoes = new javax.swing.JButton();
 
         setTitle("TELA DE ACOMPANHAMENTO DE ORDEM DE PRODUÇÃO");
         setFrameIcon(new javax.swing.ImageIcon(getClass().getResource("/icones/producao.png"))); // NOI18N
@@ -825,6 +827,15 @@ public final class TelaAcompanhamento extends javax.swing.JInternalFrame {
         jLabel11.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         jLabel11.setText("QUANTIDADE DE DIAS PARA ENTREGA PREVISTA:");
 
+        btnObservacoes.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icones/editar.png"))); // NOI18N
+        btnObservacoes.setText("OBSERVAÇÕES");
+        btnObservacoes.setToolTipText("GRAVAR ALTERAÇÕES");
+        btnObservacoes.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnObservacoesActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -838,6 +849,8 @@ public final class TelaAcompanhamento extends javax.swing.JInternalFrame {
                         .addGap(13, 13, 13)
                         .addComponent(qtdDiasOp, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btnObservacoes)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(visualizarOrdemProducao)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btnGravar))
@@ -855,14 +868,14 @@ public final class TelaAcompanhamento extends javax.swing.JInternalFrame {
                             .addComponent(visualizarOrdemProducao, javax.swing.GroupLayout.DEFAULT_SIZE, 44, Short.MAX_VALUE)
                             .addComponent(btnGravar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(qtdDiasOp, javax.swing.GroupLayout.DEFAULT_SIZE, 42, Short.MAX_VALUE)
-                            .addComponent(jLabel11, javax.swing.GroupLayout.DEFAULT_SIZE, 44, Short.MAX_VALUE))
-                        .addGap(8, 8, 8)
-                        .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, 590, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                            .addComponent(jLabel11, javax.swing.GroupLayout.DEFAULT_SIZE, 44, Short.MAX_VALUE)
+                            .addComponent(btnObservacoes, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, 590, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {btnGravar, jLabel11, qtdDiasOp, visualizarOrdemProducao});
+        layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {btnGravar, btnObservacoes, jLabel11, qtdDiasOp, visualizarOrdemProducao});
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -1202,6 +1215,10 @@ public final class TelaAcompanhamento extends javax.swing.JInternalFrame {
         gj.abrirJanelas(EscolhaDatas.getInstancia(), "DEFINIR DATA DE ENTRADA NA DIGITAL");
     }//GEN-LAST:event_jbtnDtEntDigitalActionPerformed
 
+    private void btnObservacoesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnObservacoesActionPerformed
+        gj.abrirJanelas(ObservacaoOp.getInstancia(loading, numOp), "OBSERVAÇÕES OP " + numOp);
+    }//GEN-LAST:event_btnObservacoesActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private com.toedter.calendar.JYearChooser anoEmissaoSelecionar;
@@ -1209,7 +1226,8 @@ public final class TelaAcompanhamento extends javax.swing.JInternalFrame {
     private javax.swing.JButton aplicarTexto;
     public static javax.swing.JLabel aprovacaoCliente;
     public static javax.swing.JButton aprovacao_cliente;
-    private javax.swing.JButton btnGravar;
+    private static javax.swing.JButton btnGravar;
+    private static javax.swing.JButton btnObservacoes;
     private javax.swing.ButtonGroup buttonGroup1;
     public static javax.swing.JTextField cliente;
     private javax.swing.JRadioButton codOpFiltro;
@@ -1303,6 +1321,8 @@ public final class TelaAcompanhamento extends javax.swing.JInternalFrame {
         codigoProduto.setEditable(false);
         descricaoProduto.setEditable(false);
         statusAlteracoes.setText("");
+        btnObservacoes.setEnabled(false);
+        btnGravar.setEnabled(false);
     }
     
     public static void estado2() {
@@ -1324,6 +1344,8 @@ public final class TelaAcompanhamento extends javax.swing.JInternalFrame {
         operadorSecao.setEnabled(true);
         visualizarOrdemProducao.setEnabled(true);
         statusOrdemProducao.setEnabled(true);
+        btnGravar.setEnabled(true);
+        btnObservacoes.setEnabled(true);
     }
     
     private static void atualiza() {
