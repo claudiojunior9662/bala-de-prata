@@ -67,7 +67,7 @@ public class NewMain {
                 stmt = con.prepareStatement("SELECT faturamentos.VLR_FAT "
                         + "FROM faturamentos "
                         + "INNER JOIN tabela_ordens_producao ON tabela_ordens_producao.cod = faturamentos.CODIGO_OP "
-                        + "WHERE faturamentos.DT_FAT BETWEEN '2020-08-01' AND '2020-08-30' AND "
+                        + "WHERE faturamentos.DT_FAT BETWEEN '2020-08-01' AND '2020-08-31' AND "
                         + "tabela_ordens_producao.cod_cliente = ? AND tabela_ordens_producao.tipo_cliente = 1");
                 stmt.setInt(1, rs.getInt("cod"));
                 rs2 = stmt.executeQuery();
