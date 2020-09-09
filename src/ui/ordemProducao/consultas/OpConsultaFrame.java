@@ -33,6 +33,7 @@ import ui.cadastros.produtos.ProdutoDAO;
 import ui.cadastros.produtos.ProdutoPrEntBEAN;
 import ui.cadastros.servicos.ServicoDAO;
 import ui.controle.Controle;
+import ui.login.TelaAutenticacao;
 
 /**
  *
@@ -208,6 +209,7 @@ public class OpConsultaFrame extends javax.swing.JInternalFrame {
 
         botaoCancelarOp.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icones/cancelar.png"))); // NOI18N
         botaoCancelarOp.setText("CANCELAR");
+        botaoCancelarOp.setEnabled(false);
         botaoCancelarOp.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 botaoCancelarOpActionPerformed(evt);
@@ -413,7 +415,9 @@ public class OpConsultaFrame extends javax.swing.JInternalFrame {
                 break;
             default:
                 faturar.setEnabled(SEL_NOTA);
-                botaoCancelarOp.setEnabled(true);
+                if (TelaAutenticacao.getUsrLogado().getAcessoOrcAdm() == 1) {
+                    botaoCancelarOp.setEnabled(true);
+                }
                 break;
         }
         botaoGerarPdf.setEnabled(true);
@@ -426,34 +430,27 @@ public class OpConsultaFrame extends javax.swing.JInternalFrame {
 
     private void botaoCancelarOpActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botaoCancelarOpActionPerformed
         //INSTANCIA AS FUNÇÕES E VARIÁVEIS A SEREM UTILIZADAS-------------------
-        //ALTERA O STATUS DA OP-------------------------------------------------
-        JLabel label = new JLabel("DIGITE A SENHA");
-        JPasswordField jpf = new JPasswordField();
-        int retorno = JOptionPane.showConfirmDialog(null, new Object[]{label, jpf}, "SENHA MESTRA:", JOptionPane.OK_CANCEL_OPTION);
-        String resposta = String.valueOf(jpf.getPassword());
-        if (retorno != 0 || resposta.matches("Orcamento65231@") == false) {
-            JOptionPane.showMessageDialog(null, "SENHA INCORRETA!");
-            return;
-        } else {
-            try {
+        //ALTERA O STATUS DA OP-------------------------------------------------        
+        try {
 
-                JLabel lbl2 = new JLabel("DIGITE O MOTIVO DO CANCELAMENTO");
-                JTextArea motivo = new JTextArea();
-                motivo.setPreferredSize(new Dimension(400, 200));
-                motivo.setLineWrap(true);
-                int retorno2 = JOptionPane.showConfirmDialog(null,
-                        new Object[]{lbl2, motivo},
-                        "MOTIVO DO CANCELAMENTO",
-                        JOptionPane.OK_CANCEL_OPTION);
-                String txtMotivo = "Motivo do cancelamento: " + motivo.getText();
-                if (retorno != 0 | txtMotivo.isEmpty()) {
+            JLabel lbl2 = new JLabel("DIGITE O MOTIVO DO CANCELAMENTO");
+            JTextArea motivo = new JTextArea();
+            motivo.setPreferredSize(new Dimension(400, 200));
+            motivo.setLineWrap(true);
+            int retorno2 = JOptionPane.showConfirmDialog(null,
+                    new Object[]{lbl2, motivo},
+                    "MOTIVO DO CANCELAMENTO",
+                    JOptionPane.OK_CANCEL_OPTION);
+            if (retorno2 != JOptionPane.CANCEL_OPTION) {
+                String txtMotivo = "Motivo do cancelamento: " + motivo.getText()
+                        + ". Usuário que fez o cancelamento: " + TelaAutenticacao.getUsrLogado().getCodigo() + ".\n";
+                if (txtMotivo.isEmpty()) {
                     JOptionPane.showMessageDialog(null,
                             "INSIRA UM MOTIVO PARA O CANCELAMENTO DA OP",
                             "ERRO",
                             JOptionPane.ERROR_MESSAGE);
                     return;
                 }
-
                 CODIGO_OP = Integer.valueOf(tabelaConsulta.getValueAt(tabelaConsulta.getSelectedRow(), 0).toString());
                 CODIGO_ORCAMENTO_BASE = Integer.valueOf(tabelaConsulta.getValueAt(tabelaConsulta.getSelectedRow(), 1).toString());
                 txtMotivo += "\n\n" + OrdemProducaoDAO.retornaObsOp(CODIGO_OP);
@@ -512,10 +509,11 @@ public class OpConsultaFrame extends javax.swing.JInternalFrame {
                 }
 
                 JOptionPane.showMessageDialog(null, "A OP " + CODIGO_OP + " FOI CANCELADA COM SUCESSO.");
-            } catch (SQLException ex) {
-                EnvioExcecao envioExcecao = new EnvioExcecao(Controle.getDefaultGj(), ex);
-                EnvioExcecao.envio();
             }
+
+        } catch (SQLException ex) {
+            EnvioExcecao envioExcecao = new EnvioExcecao(Controle.getDefaultGj(), ex);
+            EnvioExcecao.envio();
         }
     }//GEN-LAST:event_botaoCancelarOpActionPerformed
 

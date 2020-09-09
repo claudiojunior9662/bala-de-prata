@@ -84,7 +84,9 @@ public class LoginDAO extends RuntimeException {
         Boolean retorno = false;
 
         try {
-            stmt = con.prepareStatement("SELECT mudanca_senha FROM tabela_atendentes WHERE codigo_atendente = ?");
+            stmt = con.prepareStatement("SELECT mudanca_senha "
+                    + "FROM tabela_atendentes "
+                    + "WHERE codigo_atendente = ?");
             stmt.setString(1, codAtendente);
             rs = stmt.executeQuery();
             while (rs.next()) {
