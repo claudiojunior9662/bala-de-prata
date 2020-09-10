@@ -3515,18 +3515,12 @@ public class RelatorioOrcamentos extends javax.swing.JInternalFrame {
 
             document.open();
 
-            Image imagem = Image.getInstance(getClass().getResource("/ui/orcamentos/operacoes/cabecalhoPropostaPng.png"));
-            imagem.setAlignment(1);
-            imagem.scaleToFit(500, 1000);
-            document.add(imagem);
-
-            document.add(new Paragraph("\n"));
-
-            Paragraph p = new Paragraph("RELATÓRIO DE ORÇAMENTOS", FontFactory.getFont("arial.ttf", 12, Font.BOLD));
-            p.setAlignment(1);
-            document.add(p);
-
-            document.add(new Paragraph("\n"));
+            document.add(new Paragraph(new Phrase("RELATÓRIO DE ORÇAMENTOS - "
+                            + "DATA E HORA DE EMISSÃO: "
+                            + data
+                            + " "
+                            + hora
+                            + " - SISTEMA BALA DE PRATA\n\n", FontFactory.getFont("arial.ttf", 9))));
 
             PdfPTable tabelaPrincipal = retornaTabelaCConteudo();
             document.add(tabelaPrincipal);
