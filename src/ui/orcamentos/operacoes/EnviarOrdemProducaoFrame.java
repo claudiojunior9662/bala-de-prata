@@ -143,6 +143,9 @@ public class EnviarOrdemProducaoFrame extends javax.swing.JInternalFrame {
         jPanel8 = new javax.swing.JPanel();
         jScrollPane7 = new javax.swing.JScrollPane();
         tabelaServicos = new javax.swing.JTable();
+        jPanel6 = new javax.swing.JPanel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        txtObsFrete = new javax.swing.JTextArea();
 
         setTitle("ENVIAR ORDEM DE PRODUÇÃO");
         setFrameIcon(new javax.swing.ImageIcon(getClass().getResource("/icones/producao.png"))); // NOI18N
@@ -473,6 +476,24 @@ public class EnviarOrdemProducaoFrame extends javax.swing.JInternalFrame {
 
         tabPane.addTab("SERVIÇOS", new javax.swing.ImageIcon(getClass().getResource("/icones/servicos_orcamento.png")), jPanel8); // NOI18N
 
+        txtObsFrete.setColumns(20);
+        txtObsFrete.setLineWrap(true);
+        txtObsFrete.setRows(5);
+        jScrollPane1.setViewportView(txtObsFrete);
+
+        javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
+        jPanel6.setLayout(jPanel6Layout);
+        jPanel6Layout.setHorizontalGroup(
+            jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 1259, Short.MAX_VALUE)
+        );
+        jPanel6Layout.setVerticalGroup(
+            jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 175, Short.MAX_VALUE)
+        );
+
+        tabPane.addTab("OBSERVAÇÕES DO FRETE", new javax.swing.ImageIcon(getClass().getResource("/icones/transporte.png")), jPanel6); // NOI18N
+
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
@@ -578,6 +599,7 @@ public class EnviarOrdemProducaoFrame extends javax.swing.JInternalFrame {
                 op.setCodContato(COD_CONTATO);
                 op.setCodEndereco(COD_ENDERECO);
                 op.setTipoProduto(getTIPO_PROD());
+                op.setObsFrete(txtObsFrete.getText().toUpperCase());
                 OrdemProducaoDAO.createOp(op);
 
                 if (codProd != 0) {
@@ -707,8 +729,10 @@ public class EnviarOrdemProducaoFrame extends javax.swing.JInternalFrame {
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
+    private javax.swing.JPanel jPanel6;
     private javax.swing.JPanel jPanel7;
     private javax.swing.JPanel jPanel8;
+    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JScrollPane jScrollPane5;
@@ -728,6 +752,7 @@ public class EnviarOrdemProducaoFrame extends javax.swing.JInternalFrame {
     public static javax.swing.JTable tabelaServicos;
     public static javax.swing.JTextField telefoneContato;
     public static javax.swing.JTextField tipoPessoa;
+    private javax.swing.JTextArea txtObsFrete;
     public static javax.swing.JTextField uf;
     // End of variables declaration//GEN-END:variables
 

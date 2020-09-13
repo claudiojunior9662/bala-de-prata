@@ -47,6 +47,7 @@ import ui.cadastros.acabamentos.AcabamentoDAO;
 import ui.cadastros.clientes.ClienteBEAN;
 import ui.cadastros.clientes.ClienteDAO;
 import ui.cadastros.enderecos.EnderecoBEAN;
+import ui.cadastros.enderecos.EnderecoDAO;
 import ui.cadastros.notas.NotaDAO;
 import ui.cadastros.notas.TransporteBEAN;
 import ui.cadastros.notas.VolumeBEAN;
@@ -95,6 +96,7 @@ public class OrdemProducao {
     private int indEntgErro;
     private String tipoTrabalho;
     private String opSecao;
+    private String obsFrete;
 
     private int quantidade;
     private float valorParcial;
@@ -171,7 +173,8 @@ public class OrdemProducao {
             Date dataEntgProva,
             byte tipoPessoa,
             String codEmissor,
-            Date dataCancelamento) {
+            Date dataCancelamento,
+            String obsFrete) {
         this.cod = cod;
         this.orcBase = orcamentoBase;
         this.codCliente = codCliente;
@@ -185,6 +188,7 @@ public class OrdemProducao {
         this.codProduto = codProduto;
         this.tipoProduto = tipoProduto;
         this.dataEntgProva = dataEntgProva;
+        this.obsFrete = obsFrete;
     }
 
     public OrdemProducao(int cod,
@@ -249,6 +253,14 @@ public class OrdemProducao {
         this.dataCancelamento = dataCancelamento;
         this.tipoTrabalho = tipoTrabalho;
         this.tipoProduto = tipoProduto;
+    }
+
+    public String getObsFrete() {
+        return obsFrete;
+    }
+
+    public void setObsFrete(String obsFrete) {
+        this.obsFrete = obsFrete;
     }
 
     public Date getDataEntDigital() {
@@ -607,6 +619,8 @@ public class OrdemProducao {
             tblTransporte.setWidthPercentage(100);
             PdfPTable tblValor = new PdfPTable(new float[]{5f, 5f, 5f});
             tblValor.setWidthPercentage(100);
+            PdfPTable tblPostagem = new PdfPTable(new float[]{5f, 5f});
+            tblPostagem.setWidthPercentage(100);
 
             /**
              * Define o formato de número
@@ -1327,15 +1341,15 @@ public class OrdemProducao {
                     cell5 = new PdfPCell(new Phrase("VALOR TOTAL FATURADO\n\nR$ "
                             + df.format((vlrUnit * prodOrc.getQuantidade()) + vlrFrete + vlrSv),
                             FontFactory.getFont("arial.ttf", 9, BaseColor.WHITE)));
-                }else if(fat.getFreteFat() == 1 && fat.getServicosFat() == 0){
+                } else if (fat.getFreteFat() == 1 && fat.getServicosFat() == 0) {
                     cell5 = new PdfPCell(new Phrase("VALOR TOTAL FATURADO\n\nR$ "
                             + df.format((vlrUnit * prodOrc.getQuantidade()) + vlrFrete),
                             FontFactory.getFont("arial.ttf", 9, BaseColor.WHITE)));
-                }else if(fat.getFreteFat() == 0 && fat.getServicosFat() == 1){
+                } else if (fat.getFreteFat() == 0 && fat.getServicosFat() == 1) {
                     cell5 = new PdfPCell(new Phrase("VALOR TOTAL FATURADO\n\nR$ "
                             + df.format((vlrUnit * prodOrc.getQuantidade()) + vlrSv),
                             FontFactory.getFont("arial.ttf", 9, BaseColor.WHITE)));
-                }else if(fat.getFreteFat() == 0 && fat.getServicosFat() == 0){
+                } else if (fat.getFreteFat() == 0 && fat.getServicosFat() == 0) {
                     cell5 = new PdfPCell(new Phrase("VALOR TOTAL FATURADO\n\nR$ "
                             + df.format((vlrUnit * prodOrc.getQuantidade())),
                             FontFactory.getFont("arial.ttf", 9, BaseColor.WHITE)));
@@ -1465,9 +1479,37 @@ public class OrdemProducao {
 
             } /**
              * Se não for para faturamento, acrescenta o valor unitário dos
-             * produtos
+             * produtos e os dados de postagem do produto
              */
             else {
+                cell1 = new PdfPCell(new Phrase("DADOS DE POSTAGEM",
+                        FontFactory.getFont("arial.ttf", 12, Font.BOLD)));
+                cell1.setBackgroundColor(Controle.fundoDestaque);
+                cell1.setBorder(0);
+                cell1.setHorizontalAlignment(0);
+                cell1.setColspan(2);
+                tblPostagem.addCell(cell1);
+                cell1 = new PdfPCell(new Phrase("ENDEREÇO DE ENTREGA",
+                        FontFactory.getFont("arial.ttf", 9, Font.BOLD)));
+                cell2 = new PdfPCell(new Phrase(EnderecoDAO.retornaEndereço(op.getCodEndereco()),
+                        FontFactory.getFont("arial.ttf", 9)));
+                tblPostagem.addCell(cell1);
+                tblPostagem.addCell(cell2);
+                cell1 = new PdfPCell(new Phrase("OP ASSOCIADAS A PROPOSTA",
+                        FontFactory.getFont("arial.ttf", 9, Font.BOLD)));
+                cell2 = new PdfPCell(new Phrase(OrdemProducaoDAO.retornaOpsAssociadas(op.getOrcBase()),
+                        FontFactory.getFont("arial.ttf", 9)));
+                tblPostagem.addCell(cell1);
+                tblPostagem.addCell(cell2);
+                cell1 = new PdfPCell(new Phrase("OBSERVAÇÕES DO FRETE",
+                        FontFactory.getFont("arial.ttf", 9, Font.BOLD)));
+                cell2 = new PdfPCell(new Phrase(op.getObsFrete(),
+                        FontFactory.getFont("arial.ttf", 9)));
+                tblPostagem.addCell(cell1);
+                tblPostagem.addCell(cell2);
+                document.add(tblPostagem);
+                
+
                 cell1 = new PdfPCell(new Phrase("QUANTIDADE", FontFactory.getFont("arial.ttf", 9, Font.BOLD)));
                 cell2 = new PdfPCell(new Phrase("VALOR UNITÁRIO", FontFactory.getFont("arial.ttf", 9, Font.BOLD)));
                 cell3 = new PdfPCell(new Phrase("VALOR TOTAL", FontFactory.getFont("arial.ttf", 9, Font.BOLD)));

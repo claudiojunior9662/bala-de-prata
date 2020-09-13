@@ -1363,7 +1363,13 @@ public class ClienteDAO {
         ResultSet rs = null;
 
         try {
-            stmt = con.prepareStatement("SELECT nome_contato, telefone, telefone2, email FROM tabela_contatos WHERE cod = ?");
+            stmt = con.prepareStatement("SELECT "
+                    + "nome_contato, "
+                    + "telefone, "
+                    + "telefone2, "
+                    + "email "
+                    + "FROM tabela_contatos "
+                    + "WHERE cod = ?");
             stmt.setInt(1, codContato);
             rs = stmt.executeQuery();
             if (rs.next()) {

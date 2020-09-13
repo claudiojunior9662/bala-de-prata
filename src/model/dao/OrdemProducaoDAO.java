@@ -152,8 +152,9 @@ public class OrdemProducaoDAO {
                     + "tipo_produto, "
                     + "cod_contato, "
                     + "cod_endereco,"
-                    + "DT_ENTG_PROVA) "
-                    + "VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
+                    + "DT_ENTG_PROVA,"
+                    + "OBS_FRETE) "
+                    + "VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
             stmt.setInt(1, op.getCodigo());
             stmt.setInt(2, op.getOrcBase());
             stmt.setInt(3, op.getCodCliente());
@@ -170,6 +171,7 @@ public class OrdemProducaoDAO {
             stmt.setDate(14, op.getDataEntgProva() != null 
                     ? new java.sql.Date(op.getDataEntgProva().getTime()) 
                     : null);
+            stmt.setString(15, op.getObsFrete());
             stmt.executeUpdate();
         } catch (SQLException ex) {
             throw new SQLException(ex);
@@ -245,7 +247,8 @@ public class OrdemProducaoDAO {
                         rs.getDate("DT_ENTG_PROVA"),
                         rs.getByte("tipo_cliente"),
                         rs.getString("cod_emissor"),
-                        rs.getDate("DT_CANCELAMENTO")
+                        rs.getDate("DT_CANCELAMENTO"),
+                        rs.getString("OBS_FRETE")
                 );
             }
             return null;
@@ -1158,6 +1161,37 @@ public class OrdemProducaoDAO {
                 return rs.getByte("tabela_ordens_producao.tipo_produto");
             }
             return 0;
+        } catch (SQLException ex) {
+            throw new SQLException(ex);
+        }finally{
+            ConnectionFactory.closeConnection(con, stmt, rs);
+        }
+    }
+    
+    /**
+     * Retorna as OP associadas a proposta de orçamento
+     * @param codProp código da proposta
+     * @return
+     * @throws SQLException 
+     */
+    public static String retornaOpsAssociadas(int codProp) throws SQLException{
+        Connection con = ConnectionFactory.getConnection();
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+        
+        StringBuilder retorno = new StringBuilder();
+        
+        try{
+            stmt = con.prepareStatement("SELECT tabela_ordens_producao.cod "
+                    + "FROM tabela_ordens_producao "
+                    + "WHERE tabela_ordens_producao.orcamento_base = ?");
+            stmt.setInt(1, codProp);
+            rs = stmt.executeQuery();
+            while(rs.next()){
+                retorno.append(rs.getString("tabela_ordens_producao.cod"));
+                retorno.append("\n");
+            }
+            return retorno.toString();
         } catch (SQLException ex) {
             throw new SQLException(ex);
         }finally{
