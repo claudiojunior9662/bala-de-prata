@@ -5,6 +5,7 @@
  */
 package ui.orcamentos.operacoes;
 
+import ui.ordemProducao.enviar.EnviarOrdemProducaoFrame;
 import entidades.Cliente;
 import ui.cadastros.contatos.ContatoBEAN;
 import ui.cadastros.enderecos.EnderecoBEAN;
@@ -1824,6 +1825,11 @@ public class OrcamentoPrincipalFrame extends javax.swing.JInternalFrame {
                      */
                     for (ProdOrcamento prodOrc : ProdutoDAO.carregaProdutosOrcamento(
                             (int) codigoOrcamento.getValue())) {
+                        /**
+                         * TIPO_ORCAMENTO
+                         * 1 - PRONTA ENTREGA
+                         * 2 - PRODUÇÃO
+                         */
                         TIPO_ORCAMENTO = prodOrc.getTipoProduto() == 1 ? (byte) 2 : (byte) 1;
                         CODIGO_PRODUTO = prodOrc.getCodProduto();
 

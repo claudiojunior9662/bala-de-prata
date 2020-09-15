@@ -3,8 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package ui.orcamentos.operacoes;
+package ui.ordemProducao.enviar;
 
+import ui.ordemProducao.enviar.EnviarOrdemProducaoFrame;
 import ui.controle.Controle;
 
 /**

@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package ui.orcamentos.operacoes;
+package ui.ordemProducao.enviar;
 
 import ui.login.TelaAutenticacao;
 import java.util.ArrayList;
@@ -21,6 +21,7 @@ import model.dao.OrdemProducaoDAO;
 import ui.cadastros.clientes.ClienteDAO;
 import ui.cadastros.produtos.ProdutoDAO;
 import ui.controle.Controle;
+import ui.orcamentos.operacoes.OrcamentoPrincipalFrame;
 import ui.principal.GerenteJanelas;
 
 /**
