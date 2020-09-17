@@ -440,7 +440,8 @@ public class ClientePesquisa extends javax.swing.JInternalFrame {
                     try {
                         p3Txt = mascaraCnpj.valueToString(p3.getText().replace("/", "")
                                 .replace(".", "")
-                                .replace("-", ""));
+                                .replace("-", "")
+                                .replace(" ", ""));
                     } catch (ParseException ex) {
                         EnvioExcecao envioExcecao = new EnvioExcecao(Controle.getDefaultGj(), ex);
                         EnvioExcecao.envio();

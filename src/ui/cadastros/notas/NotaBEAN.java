@@ -27,6 +27,7 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.text.DecimalFormat;
 import java.util.Date;
+import javax.swing.JOptionPane;
 import model.dao.OrcamentoDAO;
 import model.dao.OrdemProducaoDAO;
 import ui.cadastros.clientes.ClienteBEAN;
@@ -512,9 +513,14 @@ public class NotaBEAN {
                     java.awt.Desktop.getDesktop().open(new File(System.getProperty("java.io.tmpdir")
                             + "/notaCredito" + numeroNota + ".pdf"));
 
-                } catch (IOException | DocumentException | SQLException ex) {
+                } catch (DocumentException | SQLException ex) {
                     EnvioExcecao envioExcecao = new EnvioExcecao(Controle.getDefaultGj(), ex);
                     EnvioExcecao.envio();
+                } catch (IOException ex) {
+                    JOptionPane.showMessageDialog(null,
+                            "O ARQUIVO ESTÁ SENDO UTILIZADO POR OUTRO PROCESSO.\nVERIFIQUE E TENTE NOVAMENTE",
+                            "ARQUIVO ABERTO",
+                            JOptionPane.ERROR_MESSAGE);
                 }
             }
         }.start();
