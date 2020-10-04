@@ -945,7 +945,7 @@ public class RelatoriosNotasCredito extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_campoFormaPagamentoItemStateChanged
 
     private void botaoGeraRelatorioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botaoGeraRelatorioActionPerformed
-        // TODO add your handling code here:
+        geraRelatorio();
     }//GEN-LAST:event_botaoGeraRelatorioActionPerformed
 
 
@@ -1078,16 +1078,12 @@ public class RelatoriosNotasCredito extends javax.swing.JInternalFrame {
 
                     document.open();
 
-                    Image imagem = Image.getInstance(getClass().getResource("/ui/orcamentos/operacoes/cabecalhoPropostaPng.png"));
-                    imagem.setAlignment(0);
-                    imagem.scaleToFit(500, 1000);
-                    document.add(imagem);
-
-                    document.add(new Paragraph("\n"));
-
-                    Paragraph p = new Paragraph("RELATÓRIO DE NOTAS DE CRÉDITO", FontFactory.getFont("arial.ttf", 12, Font.BOLD));
-                    p.setAlignment(1);
-                    document.add(p);
+                    document.add(new Paragraph(new Phrase("RELATÓRIO DE NOTAS DE CRÉDITO - "
+                            + "DATA E HORA DE EMISSÃO: "
+                            + data
+                            + " "
+                            + hora
+                            + " - SISTEMA BALA DE PRATA\n\n", FontFactory.getFont("arial.ttf", 9))));
 
                     document.add(new Paragraph("\n"));
 
