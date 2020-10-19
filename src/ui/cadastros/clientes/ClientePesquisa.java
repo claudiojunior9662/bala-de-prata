@@ -429,7 +429,10 @@ public class ClientePesquisa extends javax.swing.JInternalFrame {
             switch (p2.getSelectedItem().toString()) {
                 case "CPF":
                     try {
-                        p3Txt = mascaraCpf.valueToString(p3.getText().replace(".", ""));
+                        p3Txt = mascaraCpf.valueToString(p3.getText()
+                                .replace(".", "")
+                                .replace(" ", "")
+                                .replace("-", ""));
                     } catch (ParseException ex) {
                         EnvioExcecao envioExcecao = new EnvioExcecao(Controle.getDefaultGj(), ex);
                         EnvioExcecao.envio();
