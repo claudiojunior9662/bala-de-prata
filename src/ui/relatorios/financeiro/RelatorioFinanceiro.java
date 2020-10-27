@@ -5,17 +5,52 @@
  */
 package ui.relatorios.financeiro;
 
+import com.itextpdf.text.DocumentException;
+import com.itextpdf.text.Font;
+import com.itextpdf.text.FontFactory;
+import com.itextpdf.text.PageSize;
+import com.itextpdf.text.Paragraph;
+import com.itextpdf.text.Phrase;
+import com.itextpdf.text.pdf.PdfPCell;
+import com.itextpdf.text.pdf.PdfPTable;
+import com.itextpdf.text.pdf.PdfWriter;
+import connection.ConnectionFactory;
+import exception.EnvioExcecao;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.text.DecimalFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JLabel;
+import test.NewMain;
+import ui.controle.Controle;
+
 /**
  *
  * @author 1113778771
  */
 public class RelatorioFinanceiro extends javax.swing.JInternalFrame {
 
-    /**
-     * Creates new form RelatorioFinanceiro
-     */
-    public RelatorioFinanceiro() {
+    JLabel loading;
+    List<Cliente> consulta;
+    byte tipoPessoa;
+
+    public static RelatorioFinanceiro getInstancia(JLabel loading) {
+        return new RelatorioFinanceiro(loading);
+    }
+
+    public RelatorioFinanceiro(JLabel loading) {
         initComponents();
+        this.loading = loading;
     }
 
     /**
@@ -27,9 +62,23 @@ public class RelatorioFinanceiro extends javax.swing.JInternalFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        btngTipoPessoa = new javax.swing.ButtonGroup();
         selMes = new com.toedter.calendar.JMonthChooser();
         selAno = new com.toedter.calendar.JYearChooser();
         gerarRelatorio = new javax.swing.JButton();
+        jLabel1 = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
+        rbtnPessoaFisica = new javax.swing.JRadioButton();
+        rbtnPessoaJuridica = new javax.swing.JRadioButton();
+        jckbAnoInteiro = new javax.swing.JCheckBox();
+        jckbOrdenarSaldoCrescente = new javax.swing.JCheckBox();
+        jckbPaisagem = new javax.swing.JCheckBox();
+
+        setClosable(true);
+        setIconifiable(true);
+        setTitle("RELATÓRIO FINANCEIRO");
+        setFrameIcon(new javax.swing.ImageIcon(getClass().getResource("/icones/financeiro.png"))); // NOI18N
 
         gerarRelatorio.setText("GERAR RELATÓRIO");
         gerarRelatorio.addActionListener(new java.awt.event.ActionListener() {
@@ -38,6 +87,35 @@ public class RelatorioFinanceiro extends javax.swing.JInternalFrame {
             }
         });
 
+        jLabel1.setText("Mês");
+
+        jLabel2.setText("Ano");
+
+        jLabel3.setText("Tipo de pessoa");
+
+        btngTipoPessoa.add(rbtnPessoaFisica);
+        rbtnPessoaFisica.setSelected(true);
+        rbtnPessoaFisica.setText("Pessoa física");
+
+        btngTipoPessoa.add(rbtnPessoaJuridica);
+        rbtnPessoaJuridica.setText("Pessoa jurídica");
+
+        jckbAnoInteiro.setText("Ano inteiro");
+        jckbAnoInteiro.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                jckbAnoInteiroItemStateChanged(evt);
+            }
+        });
+        jckbAnoInteiro.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jckbAnoInteiroActionPerformed(evt);
+            }
+        });
+
+        jckbOrdenarSaldoCrescente.setText("Ordenar saldo crescente");
+
+        jckbPaisagem.setText("Orientação paisagem");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -45,37 +123,472 @@ public class RelatorioFinanceiro extends javax.swing.JInternalFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(gerarRelatorio, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(gerarRelatorio, javax.swing.GroupLayout.DEFAULT_SIZE, 668, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(selMes, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(selAno, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 512, Short.MAX_VALUE)))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(jLabel1)
+                                    .addComponent(jLabel2))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(selMes, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(selAno, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(2, 2, 2)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(jLabel3)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(rbtnPessoaFisica)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(rbtnPessoaJuridica))
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(jckbAnoInteiro)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(jckbOrdenarSaldoCrescente)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(jckbPaisagem)))))
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
+
+        layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {selAno, selMes});
+
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(20, 20, 20)
+                .addContainerGap()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(selMes, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel1))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(selAno, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(selMes, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 192, Short.MAX_VALUE)
+                    .addComponent(jLabel2))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel3)
+                    .addComponent(rbtnPessoaFisica)
+                    .addComponent(rbtnPessoaJuridica))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jckbAnoInteiro)
+                    .addComponent(jckbOrdenarSaldoCrescente)
+                    .addComponent(jckbPaisagem))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 15, Short.MAX_VALUE)
                 .addComponent(gerarRelatorio)
                 .addContainerGap())
         );
+
+        layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {jLabel1, jLabel2, jckbAnoInteiro, selAno, selMes});
+
+        layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {jLabel3, rbtnPessoaFisica, rbtnPessoaJuridica});
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void gerarRelatorioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_gerarRelatorioActionPerformed
-        
+        consulta = new ArrayList();
+        tipoPessoa = rbtnPessoaFisica.isSelected() ? (byte) 1 : (byte) 2;
+        retornaCreditosDebitos();
+        retornaEmAberto();
+        calculaSaldoAcumulado();
+        geraRelatorio();
     }//GEN-LAST:event_gerarRelatorioActionPerformed
+
+    private void jckbAnoInteiroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jckbAnoInteiroActionPerformed
+
+    }//GEN-LAST:event_jckbAnoInteiroActionPerformed
+
+    private void jckbAnoInteiroItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_jckbAnoInteiroItemStateChanged
+        if (jckbAnoInteiro.isSelected()) {
+            selMes.setEnabled(false);
+        } else {
+            selMes.setEnabled(true);
+        }
+    }//GEN-LAST:event_jckbAnoInteiroItemStateChanged
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.ButtonGroup btngTipoPessoa;
     private javax.swing.JButton gerarRelatorio;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JCheckBox jckbAnoInteiro;
+    private javax.swing.JCheckBox jckbOrdenarSaldoCrescente;
+    private javax.swing.JCheckBox jckbPaisagem;
+    private javax.swing.JRadioButton rbtnPessoaFisica;
+    private javax.swing.JRadioButton rbtnPessoaJuridica;
     private com.toedter.calendar.JYearChooser selAno;
     private com.toedter.calendar.JMonthChooser selMes;
     // End of variables declaration//GEN-END:variables
+        public void geraRelatorio() {
+
+        com.itextpdf.text.Document document = new com.itextpdf.text.Document(PageSize.A4, 30, 20, 20, 30);
+
+        String valor = null;
+
+        new Thread() {
+            @Override
+            public void run() {
+
+                DecimalFormat df = new DecimalFormat("###,##0.00");
+
+                loading.setVisible(true);
+                loading.setText("GERANDO RELATÓRIO...");
+
+                String hora = Controle.horaPadraoDiretorio.format(new Date());
+                String data = Controle.dataPadraoDiretorio.format(new Date());
+
+                Double somaSaldoAcumuladoAnterior = 0d;
+                Double somaCredito = 0d;
+                Double somaDebito = 0d;
+                Double somaEmAberto = 0d;
+                Double somaSaldoAcumuladoAtual = 0d;
+
+                try {
+                    if (System.getProperty("os.name").toLowerCase().contains("windows")) {
+                        PdfWriter.getInstance(document, new FileOutputStream(Controle.urlTempWindows + data + hora + ".pdf"));
+                    } else {
+                        PdfWriter.getInstance(document, new FileOutputStream(Controle.urlTempUnix + data + hora + ".pdf"));
+                    }
+
+                    document.setMargins(20, 20, 20, 20);
+
+                    if (jckbPaisagem.isSelected()) {
+                        document.setPageSize(PageSize.A4.rotate());
+                    } else {
+                        document.setPageSize(PageSize.A4);
+                    }
+
+                    document.open();
+
+//                    if(jckbAnoInteiro.isSelected()){
+//                        p = new Paragraph(selAno.getValue() + " - " + (selMes.getMonth() + 1), FontFactory.getFont("arial.ttf", 10, Font.BOLD));
+//                    }else{
+//                        p = new Paragraph("" + selAno.getValue(), FontFactory.getFont("arial.ttf", 10, Font.BOLD));
+//                    }
+                    
+                    Paragraph p = new Paragraph("RELATÓRIO FINANCEIRO", FontFactory.getFont("arial.ttf", 12, Font.BOLD));
+                    p.setAlignment(1);
+                    document.add(p);
+                    p = new Paragraph(selAno.getValue() + (jckbAnoInteiro.isSelected() ? "" : " - " + (selMes.getMonth() + 1)), FontFactory.getFont("arial.ttf", 12, Font.BOLD));
+                    p.setAlignment(1);
+                    document.add(p);
+
+                    document.add(new Paragraph("\n"));
+
+                    PdfPTable retorno = new PdfPTable(new float[]{1.5f, 5f, 3f, 2f, 2f, 2f, 3f});
+                    retorno.setWidthPercentage(100);
+
+                    PdfPCell cell1 = new PdfPCell(new Phrase("CÓDIGO", FontFactory.getFont("arial.ttf", 10, Font.BOLD)));
+                    cell1.setHorizontalAlignment(1);
+                    retorno.addCell(cell1);
+                    cell1 = new PdfPCell(new Phrase("NOME", FontFactory.getFont("arial.ttf", 10, Font.BOLD)));
+                    cell1.setHorizontalAlignment(1);
+                    retorno.addCell(cell1);
+                    cell1 = new PdfPCell(new Phrase("SALDO ACUMULADO " + (selAno.getValue() - 1), FontFactory.getFont("arial.ttf", 10, Font.BOLD)));
+                    cell1.setHorizontalAlignment(1);
+                    retorno.addCell(cell1);
+                    cell1 = new PdfPCell(new Phrase("CRÉDITO", FontFactory.getFont("arial.ttf", 10, Font.BOLD)));
+                    cell1.setHorizontalAlignment(1);
+                    retorno.addCell(cell1);
+                    cell1 = new PdfPCell(new Phrase("DÉBITO", FontFactory.getFont("arial.ttf", 10, Font.BOLD)));
+                    cell1.setHorizontalAlignment(1);
+                    retorno.addCell(cell1);
+                    cell1 = new PdfPCell(new Phrase("EM ABERTO", FontFactory.getFont("arial.ttf", 10, Font.BOLD)));
+                    cell1.setHorizontalAlignment(1);
+                    retorno.addCell(cell1);
+                    cell1 = new PdfPCell(new Phrase("SALDO ACUMULADO " + selAno.getValue(), FontFactory.getFont("arial.ttf", 10, Font.BOLD)));
+                    cell1.setHorizontalAlignment(1);
+                    retorno.addCell(cell1);
+
+                    for (Cliente c : consulta) {
+                        cell1 = new PdfPCell(new Phrase("" + c.getCodigo(), FontFactory.getFont("arial.ttf", 8)));
+                        cell1.setHorizontalAlignment(1);
+                        retorno.addCell(cell1);
+                        cell1 = new PdfPCell(new Phrase(c.getNome(), FontFactory.getFont("arial.ttf", 8)));
+                        retorno.addCell(cell1);
+                        cell1 = new PdfPCell(new Phrase("R$ " + df.format(c.getSaldoAcumuladoAnterior()), FontFactory.getFont("arial.ttf", 8)));
+                        retorno.addCell(cell1);
+                        cell1 = new PdfPCell(new Phrase("R$ " + df.format(c.getCredito()), FontFactory.getFont("arial.ttf", 8)));
+                        retorno.addCell(cell1);
+                        cell1 = new PdfPCell(new Phrase("R$ " + df.format(c.getDebito()), FontFactory.getFont("arial.ttf", 8)));
+                        retorno.addCell(cell1);
+                        cell1 = new PdfPCell(new Phrase("R$ " + df.format(c.getEmAberto()), FontFactory.getFont("arial.ttf", 8)));
+                        retorno.addCell(cell1);
+                        cell1 = new PdfPCell(new Phrase("R$ " + df.format(c.getSaldoAcumuladoAtual()), FontFactory.getFont("arial.ttf", 8)));
+                        retorno.addCell(cell1);
+
+                        somaSaldoAcumuladoAnterior += c.getSaldoAcumuladoAnterior();
+                        somaCredito += c.getCredito();
+                        somaDebito += c.getDebito();
+                        somaEmAberto += c.getEmAberto();
+                        somaSaldoAcumuladoAtual += c.getSaldoAcumuladoAtual();
+                    }
+
+                    cell1 = new PdfPCell(new Phrase("TOTAL", FontFactory.getFont("arial.ttf", 10, Font.BOLD)));
+                    cell1.setColspan(2);
+                    cell1.setHorizontalAlignment(1);
+                    retorno.addCell(cell1);
+                    cell1 = new PdfPCell(new Phrase("R$ " + df.format(somaSaldoAcumuladoAnterior), FontFactory.getFont("arial.ttf", 10, Font.BOLD)));
+                    retorno.addCell(cell1);
+                    cell1 = new PdfPCell(new Phrase("R$ " + df.format(somaCredito), FontFactory.getFont("arial.ttf", 10, Font.BOLD)));
+                    retorno.addCell(cell1);
+                    cell1 = new PdfPCell(new Phrase("R$ " + df.format(somaDebito), FontFactory.getFont("arial.ttf", 10, Font.BOLD)));
+                    retorno.addCell(cell1);
+                    cell1 = new PdfPCell(new Phrase("R$ " + df.format(somaEmAberto), FontFactory.getFont("arial.ttf", 10, Font.BOLD)));
+                    retorno.addCell(cell1);
+                    cell1 = new PdfPCell(new Phrase("R$ " + df.format(somaSaldoAcumuladoAtual), FontFactory.getFont("arial.ttf", 10, Font.BOLD)));
+                    retorno.addCell(cell1);
+                    
+
+                    document.add(retorno);
+                    document.close();
+                } catch (FileNotFoundException ex) {
+                    EnvioExcecao envioExcecao = new EnvioExcecao(Controle.getDefaultGj(), ex);
+                    EnvioExcecao.envio();
+                } catch (DocumentException | IOException ex) {
+                    EnvioExcecao envioExcecao = new EnvioExcecao(Controle.getDefaultGj(), ex);
+                    EnvioExcecao.envio();
+                }
+
+                try {
+                    if (System.getProperty("os.name").toLowerCase().contains("windows")) {
+                        java.awt.Desktop.getDesktop().open(new File(Controle.urlTempWindows + data + hora + ".pdf"));
+                    } else {
+                        java.awt.Desktop.getDesktop().open(new File(Controle.urlTempUnix + data + hora + ".pdf"));
+                    }
+                } catch (IOException ex) {
+                    EnvioExcecao envioExcecao = new EnvioExcecao(Controle.getDefaultGj(), ex);
+                    EnvioExcecao.envio();
+                }
+
+                loading.setVisible(false);
+            }
+        }.start();
+    }
+
+    private void retornaCreditosDebitos() {
+        Connection con = ConnectionFactory.getConnection();
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+        ResultSet rs2 = null;
+
+        double credito;
+        double debito;
+        double saldoAcumulado;
+
+        DecimalFormat df = new DecimalFormat("###,##0.00");
+
+        try {
+            switch (tipoPessoa) {
+                case 1:
+                    stmt = con.prepareStatement("SELECT cod, nome "
+                            + "FROM tabela_clientes_fisicos ");
+                    break;
+                case 2:
+                    stmt = con.prepareStatement("SELECT cod, nome "
+                            + "FROM tabela_clientes_juridicos ");
+                    break;
+            }
+            rs = stmt.executeQuery();
+            while (rs.next()) {
+                credito = 0d;
+                debito = 0d;
+                if (jckbAnoInteiro.isSelected()) {
+                    stmt = con.prepareStatement("SELECT valor "
+                            + "FROM tabela_notas "
+                            + "WHERE DATE_FORMAT(STR_TO_DATE(`data`, '%d/%m/%Y'), '%Y-%m-%d') BETWEEN "
+                            + "DATE_FORMAT(STR_TO_DATE('01/01/" + selAno.getValue() + "', '%d/%m/%Y'), '%Y-%m-%d') AND "
+                            + "DATE_FORMAT(STR_TO_DATE('31/12/" + selAno.getValue() + "', '%d/%m/%Y'), '%Y-%m-%d') AND "
+                            + "cod_cliente = ? AND tipo_pessoa = " + tipoPessoa);
+                } else {
+                    stmt = con.prepareStatement("SELECT valor "
+                            + "FROM tabela_notas "
+                            + "WHERE DATE_FORMAT(STR_TO_DATE(`data`, '%d/%m/%Y'), '%Y-%m-%d') BETWEEN "
+                            + "DATE_FORMAT(STR_TO_DATE('01/" + (selMes.getMonth() + 1) + "/" + selAno.getValue() + "', '%d/%m/%Y'), '%Y-%m-%d') AND "
+                            + "DATE_FORMAT(STR_TO_DATE('31/" + (selMes.getMonth() + 1) + "/" + selAno.getValue() + "', '%d/%m/%Y'), '%Y-%m-%d') AND "
+                            + "cod_cliente = ? AND tipo_pessoa = " + tipoPessoa);
+                }
+                stmt.setInt(1, rs.getInt("cod"));
+                rs2 = stmt.executeQuery();
+                while (rs2.next()) {
+                    credito += rs2.getFloat("valor");
+
+                }
+
+                if (jckbAnoInteiro.isSelected()) {
+                    stmt = con.prepareStatement("SELECT faturamentos.VLR_FAT "
+                            + "FROM faturamentos "
+                            + "INNER JOIN tabela_ordens_producao ON tabela_ordens_producao.cod = faturamentos.CODIGO_OP "
+                            + "WHERE faturamentos.DT_FAT BETWEEN '" + selAno.getValue() + "-01-01' AND '" + selAno.getValue() + "-12-31' AND "
+                            + "tabela_ordens_producao.cod_cliente = ? AND tabela_ordens_producao.tipo_cliente = " + tipoPessoa);
+                } else {
+                    stmt = con.prepareStatement("SELECT faturamentos.VLR_FAT "
+                            + "FROM faturamentos "
+                            + "INNER JOIN tabela_ordens_producao ON tabela_ordens_producao.cod = faturamentos.CODIGO_OP "
+                            + "WHERE faturamentos.DT_FAT BETWEEN '" + selAno.getValue() + "-" + (selMes.getMonth() + 1) + "-01' AND '" + selAno.getValue() + "-" + (selMes.getMonth() + 1) + "-31' AND "
+                            + "tabela_ordens_producao.cod_cliente = ? AND tabela_ordens_producao.tipo_cliente = " + tipoPessoa);
+                }
+
+                stmt.setInt(1, rs.getInt("cod"));
+                rs2 = stmt.executeQuery();
+                while (rs2.next()) {
+                    debito += rs2.getFloat("faturamentos.VLR_FAT");
+                }
+
+                Cliente cliente = new Cliente(
+                        rs.getInt("cod"),
+                        rs.getString("nome"),
+                        credito,
+                        debito * (-1),
+                        0d,
+                        0d,
+                        0d
+                );
+
+                consulta.add(cliente);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(NewMain.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    private void retornaEmAberto() {
+        Connection con = ConnectionFactory.getConnection();
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+        ResultSet rs2 = null;
+        ResultSet rs3 = null;
+        double valor;
+        DecimalFormat df = new DecimalFormat("###,##0.00");
+        List<Integer> codigosProcessados = new ArrayList();
+
+        try {
+            stmt = con.prepareStatement("SELECT tabela_ordens_producao.cod_cliente, "
+                    + "tabela_ordens_producao.orcamento_base, "
+                    + "tabela_ordens_producao.cod_produto "
+                    + "FROM tabela_ordens_producao "
+                    + "INNER JOIN tabela_orcamentos ON tabela_orcamentos.cod = tabela_ordens_producao.orcamento_base "
+                    + "WHERE tabela_ordens_producao.status != 'ENTREGUE' "
+                    + "AND tabela_ordens_producao.status != 'ENTREGUE PARCIALMENTE' "
+                    + "AND tabela_ordens_producao.status != 'CANCELADA'"
+                    + "AND tabela_ordens_producao.tipo_cliente = " + tipoPessoa + " "
+                    + "AND tabela_ordens_producao.data_emissao BETWEEN '2020-01-01' AND '" + selAno.getValue() + "-" + (selMes.getMonth() + 1) + "-31' "
+                    + "ORDER BY tabela_ordens_producao.cod_cliente ASC");
+            rs = stmt.executeQuery();
+            while (rs.next()) {
+                if (!codigosProcessados.contains(rs.getInt("tabela_ordens_producao.cod_cliente"))) {
+                    valor = 0d;
+                    stmt = con.prepareStatement("SELECT tabela_ordens_producao.orcamento_base, "
+                            + "tabela_ordens_producao.cod_produto "
+                            + "FROM tabela_ordens_producao "
+                            + "INNER JOIN tabela_orcamentos ON tabela_orcamentos.cod = tabela_ordens_producao.orcamento_base "
+                            + "WHERE tabela_ordens_producao.status != 'ENTREGUE' "
+                            + "AND tabela_ordens_producao.status != 'ENTREGUE PARCIALMENTE' "
+                            + "AND tabela_ordens_producao.status != 'CANCELADA'"
+                            + "AND tabela_ordens_producao.tipo_cliente = " + tipoPessoa + " "
+                            + "AND tabela_ordens_producao.cod_cliente = ? "
+                            + "AND tabela_ordens_producao.data_emissao BETWEEN '2020-01-01' AND '" + selAno.getValue() + "-" + (selMes.getMonth() + 1) + "-31' "
+                            + "ORDER BY tabela_ordens_producao.cod_cliente ASC");
+                    stmt.setInt(1, rs.getInt("tabela_ordens_producao.cod_cliente"));
+                    rs2 = stmt.executeQuery();
+                    while (rs2.next()) {
+                        stmt = con.prepareStatement("SELECT (quantidade * preco_unitario) AS valor "
+                                + "FROM tabela_produtos_orcamento "
+                                + "WHERE cod_orcamento = ? AND cod_produto = ?");
+                        stmt.setInt(1, rs2.getInt("tabela_ordens_producao.orcamento_base"));
+                        stmt.setInt(2, rs2.getInt("tabela_ordens_producao.cod_produto"));
+                        rs3 = stmt.executeQuery();
+                        if (rs3.next()) {
+                            valor += rs3.getDouble("valor");
+                        }
+                    }
+                    codigosProcessados.add(rs.getInt("tabela_ordens_producao.cod_cliente"));
+
+                    for (Cliente c : consulta) {
+                        if (c.getCodigo() == rs.getInt("tabela_ordens_producao.cod_cliente")) {
+                            c.setEmAberto(valor * (-1));
+                        }
+                    }
+                }
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(NewMain.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    private void calculaSaldoAcumulado() {
+        for (Cliente c : consulta) {
+            Connection con = ConnectionFactory.getConnection();
+            PreparedStatement stmt = null;
+            ResultSet rs = null;
+            ResultSet rs2 = null;
+
+            double saldoAcumuladoAtual;
+            double saldoAcumuladoAnterior;
+
+            DecimalFormat df = new DecimalFormat("###,##0.00");
+
+            try {
+                saldoAcumuladoAtual = 0d;
+                stmt = con.prepareStatement("SELECT valor "
+                        + "FROM tabela_notas "
+                        + "WHERE DATE_FORMAT(STR_TO_DATE(`data`, '%d/%m/%Y'), '%Y-%m-%d') BETWEEN "
+                        + "DATE_FORMAT(STR_TO_DATE('01/01/2019', '%d/%m/%Y'), '%Y-%m-%d') AND "
+                        + "DATE_FORMAT(STR_TO_DATE('31/" + (selMes.getMonth() + 1) + "/" + selAno.getValue() + "', '%d/%m/%Y'), '%Y-%m-%d') AND "
+                        + "cod_cliente = ? AND tipo_pessoa = " + tipoPessoa);
+                stmt.setInt(1, c.getCodigo());
+                rs2 = stmt.executeQuery();
+                while (rs2.next()) {
+                    saldoAcumuladoAtual += rs2.getFloat("valor");
+
+                }
+
+                stmt = con.prepareStatement("SELECT faturamentos.VLR_FAT "
+                        + "FROM faturamentos "
+                        + "INNER JOIN tabela_ordens_producao ON tabela_ordens_producao.cod = faturamentos.CODIGO_OP "
+                        + "WHERE faturamentos.DT_FAT BETWEEN '2019-01-01' AND '" + selAno.getValue() + "-" + (selMes.getMonth() + 1) + "-31' AND "
+                        + "tabela_ordens_producao.cod_cliente = ? AND tabela_ordens_producao.tipo_cliente = " + tipoPessoa);
+                stmt.setInt(1, c.getCodigo());
+                rs2 = stmt.executeQuery();
+                while (rs2.next()) {
+                    saldoAcumuladoAtual -= rs2.getFloat("faturamentos.VLR_FAT");
+                }
+                saldoAcumuladoAtual += c.getEmAberto();
+                c.setSaldoAcumuladoAtual(saldoAcumuladoAtual);
+
+                //SALDO ACUMULADO ANTERIOR--------------------------------------
+                saldoAcumuladoAnterior = 0d;
+                stmt = con.prepareStatement("SELECT valor "
+                        + "FROM tabela_notas "
+                        + "WHERE DATE_FORMAT(STR_TO_DATE(`data`, '%d/%m/%Y'), '%Y-%m-%d') BETWEEN "
+                        + "DATE_FORMAT(STR_TO_DATE('01/01/" + (selAno.getValue() - 1) + "', '%d/%m/%Y'), '%Y-%m-%d') AND "
+                        + "DATE_FORMAT(STR_TO_DATE('31/12/" + (selAno.getValue() - 1) + "', '%d/%m/%Y'), '%Y-%m-%d') AND "
+                        + "cod_cliente = ? AND tipo_pessoa = " + tipoPessoa);
+                stmt.setInt(1, c.getCodigo());
+                rs2 = stmt.executeQuery();
+                while (rs2.next()) {
+                    saldoAcumuladoAnterior += rs2.getFloat("valor");
+                }
+
+                stmt = con.prepareStatement("SELECT faturamentos.VLR_FAT "
+                        + "FROM faturamentos "
+                        + "INNER JOIN tabela_ordens_producao ON tabela_ordens_producao.cod = faturamentos.CODIGO_OP "
+                        + "WHERE faturamentos.DT_FAT BETWEEN '" + (selAno.getValue() - 1) + "-01-01' AND '" + (selAno.getValue() - 1) + "-12-31' AND "
+                        + "tabela_ordens_producao.cod_cliente = ? AND tabela_ordens_producao.tipo_cliente = " + tipoPessoa);
+                stmt.setInt(1, c.getCodigo());
+                rs2 = stmt.executeQuery();
+                while (rs2.next()) {
+                    saldoAcumuladoAnterior -= rs2.getFloat("faturamentos.VLR_FAT");
+                }
+                c.setSaldoAcumuladoAnterior(saldoAcumuladoAnterior);
+            } catch (SQLException ex) {
+                Logger.getLogger(NewMain.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+    }
 }

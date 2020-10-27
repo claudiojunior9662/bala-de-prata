@@ -23,6 +23,7 @@ import ui.cadastros.notas.NCFrame;
 import ui.controle.Controle;
 import ui.login.TelaAutenticacao;
 import ui.relatorios.financeiro.RelatorioFat;
+import ui.relatorios.financeiro.RelatorioFinanceiro;
 import ui.relatorios.financeiro.RelatoriosNotasCredito;
 
 /**
@@ -125,6 +126,7 @@ public class Financeiro extends javax.swing.JFrame {
         relatoriosNotaCredito = new javax.swing.JMenuItem();
         relatoriosNotaVenda = new javax.swing.JMenuItem();
         jMenuItem1 = new javax.swing.JMenuItem();
+        jMenuItem2 = new javax.swing.JMenuItem();
         menuModulos = new javax.swing.JMenu();
         menuSair = new javax.swing.JMenu();
 
@@ -148,8 +150,6 @@ public class Financeiro extends javax.swing.JFrame {
         taAvisos.setDragEnabled(true);
         jScrollPane2.setViewportView(taAvisos);
 
-        areaDeTrabalho.setLayer(jScrollPane2, javax.swing.JLayeredPane.DEFAULT_LAYER);
-
         javax.swing.GroupLayout areaDeTrabalhoLayout = new javax.swing.GroupLayout(areaDeTrabalho);
         areaDeTrabalho.setLayout(areaDeTrabalhoLayout);
         areaDeTrabalhoLayout.setHorizontalGroup(
@@ -166,6 +166,7 @@ public class Financeiro extends javax.swing.JFrame {
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 448, Short.MAX_VALUE)
                 .addContainerGap())
         );
+        areaDeTrabalho.setLayer(jScrollPane2, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
         atualizacao.setBackground(new java.awt.Color(255, 102, 102));
         atualizacao.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -247,6 +248,14 @@ public class Financeiro extends javax.swing.JFrame {
             }
         });
         menuRelatorios.add(jMenuItem1);
+
+        jMenuItem2.setText("RELATÓRIO FINANCEIRO");
+        jMenuItem2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem2ActionPerformed(evt);
+            }
+        });
+        menuRelatorios.add(jMenuItem2);
 
         jMenuBar1.add(menuRelatorios);
 
@@ -376,6 +385,10 @@ public class Financeiro extends javax.swing.JFrame {
         Controle.getDefaultGj().abrirJanelas(RelatorioContabilidade.getInstancia(loading), "RELATÓRIOS - CRÉDITO DE CLIENTES");
     }//GEN-LAST:event_jMenuItem1ActionPerformed
 
+    private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
+        Controle.getDefaultGj().abrirJanelas(RelatorioFinanceiro.getInstancia(loading), "RELATÓRIOS - FINANCEIRO");
+    }//GEN-LAST:event_jMenuItem2ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -417,6 +430,7 @@ public class Financeiro extends javax.swing.JFrame {
     public static javax.swing.JLabel atualizacao;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem jMenuItem1;
+    private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     public static javax.swing.JLabel loading;

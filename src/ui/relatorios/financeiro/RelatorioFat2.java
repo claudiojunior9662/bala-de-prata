@@ -27,7 +27,7 @@ import ui.login.TelaAutenticacao;
  *
  * @author spd3
  */
-public class RelatorioFin extends javax.swing.JInternalFrame {
+public class RelatorioFat2 extends javax.swing.JInternalFrame {
 
     DefaultListModel model = new DefaultListModel();
     int qtdSelecionada = 0;
@@ -35,13 +35,13 @@ public class RelatorioFin extends javax.swing.JInternalFrame {
 
     JLabel loading;
 
-    private static RelatorioFin relatoriosNotaVenda;
+    private static RelatorioFat2 relatoriosNotaVenda;
 
-    public static RelatorioFin getInstancia(JLabel loading) {
-        return new RelatorioFin(loading);
+    public static RelatorioFat2 getInstancia(JLabel loading) {
+        return new RelatorioFat2(loading);
     }
 
-    public RelatorioFin(JLabel loading) {
+    public RelatorioFat2(JLabel loading) {
             initComponents();
             
     }

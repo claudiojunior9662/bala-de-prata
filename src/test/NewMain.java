@@ -16,6 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import ui.relatorios.financeiro.Cliente;
 
 /**
  *
@@ -29,12 +30,18 @@ public class NewMain {
     static String PORTA = "3050";
     static String USUARIO = "sysdba";
     static String SENHA = "masterkey";
+    
+    static List<Cliente> teste;
 
     /**
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        mostraCredito();
+        retornaCreditosDebitos();
+        for(Cliente c : teste){
+            System.out.println(c);
+    }
+        System.out.println(teste);
     }
 
     //--------------------------------------------------------------------------
@@ -76,7 +83,7 @@ public class NewMain {
                 }
 
 //                if(credito != 0d){
-//                System.out.println(rs.getInt("cod") + "#" +  rs.getString("nome") + "#" + df.format(credito));
+                System.out.println(rs.getInt("cod") + "#" +  rs.getString("nome") + "#" + df.format(credito));
                 System.out.println(df.format(credito));
                 //System.out.println(rs.getInt("cod"));
 //                }
@@ -265,6 +272,48 @@ public class NewMain {
                 stmt.setByte(10, rs.getByte("acesso_estoque"));
                 stmt.setByte(11, rs.getByte("acesso_ord"));
                 stmt.executeUpdate();
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(NewMain.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    private static void retornaCreditosDebitos() {
+        teste = new ArrayList();
+        
+        Connection con = ConnectionFactory.getConnection();
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+        ResultSet rs2 = null;
+        double credito;
+        DecimalFormat df = new DecimalFormat("###,##0.00");
+
+        try {
+            stmt = con.prepareStatement("SELECT cod, nome "
+                    + "FROM tabela_clientes_fisicos ");
+            rs = stmt.executeQuery();
+            while (rs.next()) {
+                credito = 0d;
+                stmt = con.prepareStatement("SELECT valor "
+                        + "FROM tabela_notas "
+                        + "WHERE DATE_FORMAT(STR_TO_DATE(`data`, '%d/%m/%Y'), '%Y-%m-%d') BETWEEN "
+                        + "DATE_FORMAT(STR_TO_DATE('01/01/2019', '%d/%m/%Y'), '%Y-%m-%d') AND "
+                        + "DATE_FORMAT(STR_TO_DATE('31/12/2019', '%d/%m/%Y'), '%Y-%m-%d') AND "
+                        + "cod_cliente = ? AND tipo_pessoa = 1");
+                stmt.setInt(1, rs.getInt("cod"));
+                rs2 = stmt.executeQuery();
+                while (rs2.next()) {
+                    credito += rs2.getFloat("valor");
+                    
+                }
+                
+                Cliente cliente = new Cliente(
+                        rs.getInt("cod"),
+                        rs.getString("nome"),
+                        credito
+                );
+                
+                teste.add(cliente);
             }
         } catch (SQLException ex) {
             Logger.getLogger(NewMain.class.getName()).log(Level.SEVERE, null, ex);
