@@ -189,12 +189,12 @@ public class RelatorioFinanceiro extends javax.swing.JInternalFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void gerarRelatorioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_gerarRelatorioActionPerformed
-        consulta = new ArrayList();
-        tipoPessoa = rbtnPessoaFisica.isSelected() ? (byte) 1 : (byte) 2;
-        retornaCreditosDebitos();
-        retornaEmAberto();
-        calculaSaldoAcumulado();
-        geraRelatorio();
+        new Thread() {
+            @Override
+            public void run() {
+                geraRelatorio();
+            }
+        }.start();
     }//GEN-LAST:event_gerarRelatorioActionPerformed
 
     private void jckbAnoInteiroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jckbAnoInteiroActionPerformed
@@ -225,14 +225,19 @@ public class RelatorioFinanceiro extends javax.swing.JInternalFrame {
     private com.toedter.calendar.JMonthChooser selMes;
     // End of variables declaration//GEN-END:variables
         public void geraRelatorio() {
-
-        com.itextpdf.text.Document document = new com.itextpdf.text.Document(PageSize.A4, 30, 20, 20, 30);
-
-        String valor = null;
-
         new Thread() {
             @Override
             public void run() {
+
+                consulta = new ArrayList();
+                tipoPessoa = rbtnPessoaFisica.isSelected() ? (byte) 1 : (byte) 2;
+                retornaCreditosDebitos();
+                retornaEmAberto();
+                calculaSaldoAcumulado();
+
+                com.itextpdf.text.Document document = new com.itextpdf.text.Document(PageSize.A4, 30, 20, 20, 30);
+
+                String valor = null;
 
                 DecimalFormat df = new DecimalFormat("###,##0.00");
 
@@ -270,11 +275,10 @@ public class RelatorioFinanceiro extends javax.swing.JInternalFrame {
 //                    }else{
 //                        p = new Paragraph("" + selAno.getValue(), FontFactory.getFont("arial.ttf", 10, Font.BOLD));
 //                    }
-                    
                     Paragraph p = new Paragraph("RELATÓRIO FINANCEIRO", FontFactory.getFont("arial.ttf", 12, Font.BOLD));
                     p.setAlignment(1);
                     document.add(p);
-                    p = new Paragraph(selAno.getValue() + (jckbAnoInteiro.isSelected() ? "" : " - " + (selMes.getMonth() + 1)), FontFactory.getFont("arial.ttf", 12, Font.BOLD));
+                    p = new Paragraph(jckbAnoInteiro.isSelected() ? "" + selAno.getValue() : (selMes.getMonth() + 1) + "/" + selAno.getValue(), FontFactory.getFont("arial.ttf", 12, Font.BOLD));
                     p.setAlignment(1);
                     document.add(p);
 
@@ -343,7 +347,6 @@ public class RelatorioFinanceiro extends javax.swing.JInternalFrame {
                     retorno.addCell(cell1);
                     cell1 = new PdfPCell(new Phrase("R$ " + df.format(somaSaldoAcumuladoAtual), FontFactory.getFont("arial.ttf", 10, Font.BOLD)));
                     retorno.addCell(cell1);
-                    
 
                     document.add(retorno);
                     document.close();
@@ -369,6 +372,7 @@ public class RelatorioFinanceiro extends javax.swing.JInternalFrame {
                 loading.setVisible(false);
             }
         }.start();
+
     }
 
     private void retornaCreditosDebitos() {
