@@ -628,10 +628,10 @@ public class RelatoriosFinanceiroDAO {
             
             if(produto){
                  if (primeiro == 0) {
-                    comando = comando + " tabela_ordens_producao.cod_produto";
+                    comando = comando + " tabela_ordens_producao.cod_produto, tabela_ordens_producao.tipo_produto";
                     primeiro += 1;
                 } else {
-                    comando = comando + ", tabela_ordens_producao.cod_produto";
+                    comando = comando + ", tabela_ordens_producao.cod_produto, tabela_ordens_producao.tipo_produto";
                 }
             }
 

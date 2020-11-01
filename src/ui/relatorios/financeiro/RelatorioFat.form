@@ -20,7 +20,7 @@
     </Component>
   </NonVisualComponents>
   <Properties>
-    <Property name="title" type="java.lang.String" value="RELAT&#xd3;RIO DE FATURAMENTOS"/>
+    <Property name="title" type="java.lang.String" value="RELAT&#xd3;RIOS - FATURAMENTOS"/>
     <Property name="frameIcon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
       <Image iconType="3" name="/icones/faturamento.png"/>
     </Property>

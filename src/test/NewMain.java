@@ -16,7 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import ui.relatorios.financeiro.Cliente;
+import ui.relatorios.financeiro.ClienteRelFin;
 
 /**
  *
@@ -31,14 +31,14 @@ public class NewMain {
     static String USUARIO = "sysdba";
     static String SENHA = "masterkey";
     
-    static List<Cliente> teste;
+    static List<ClienteRelFin> teste;
 
     /**
      * @param args the command line arguments
      */
     public static void main(String[] args) {
         retornaCreditosDebitos();
-        for(Cliente c : teste){
+        for(ClienteRelFin c : teste){
             System.out.println(c);
     }
         System.out.println(teste);
@@ -307,7 +307,7 @@ public class NewMain {
                     
                 }
                 
-                Cliente cliente = new Cliente(
+                ClienteRelFin cliente = new ClienteRelFin(
                         rs.getInt("cod"),
                         rs.getString("nome"),
                         credito

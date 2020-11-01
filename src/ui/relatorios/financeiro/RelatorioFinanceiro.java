@@ -26,6 +26,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
@@ -41,7 +42,7 @@ import ui.controle.Controle;
 public class RelatorioFinanceiro extends javax.swing.JInternalFrame {
 
     JLabel loading;
-    List<Cliente> consulta;
+    List<ClienteRelFin> consulta;
     byte tipoPessoa;
 
     public static RelatorioFinanceiro getInstancia(JLabel loading) {
@@ -77,7 +78,7 @@ public class RelatorioFinanceiro extends javax.swing.JInternalFrame {
 
         setClosable(true);
         setIconifiable(true);
-        setTitle("RELATÓRIO FINANCEIRO");
+        setTitle("RELATÓRIOS - FINANCEIRO");
         setFrameIcon(new javax.swing.ImageIcon(getClass().getResource("/icones/financeiro.png"))); // NOI18N
 
         gerarRelatorio.setText("GERAR RELATÓRIO");
@@ -228,6 +229,9 @@ public class RelatorioFinanceiro extends javax.swing.JInternalFrame {
         new Thread() {
             @Override
             public void run() {
+                
+                loading.setVisible(true);
+                loading.setText("GERANDO RELATÓRIO...");
 
                 consulta = new ArrayList();
                 tipoPessoa = rbtnPessoaFisica.isSelected() ? (byte) 1 : (byte) 2;
@@ -235,14 +239,15 @@ public class RelatorioFinanceiro extends javax.swing.JInternalFrame {
                 retornaEmAberto();
                 calculaSaldoAcumulado();
 
+                if (jckbOrdenarSaldoCrescente.isSelected()) {
+                    Collections.sort(consulta);
+                }
+
                 com.itextpdf.text.Document document = new com.itextpdf.text.Document(PageSize.A4, 30, 20, 20, 30);
 
                 String valor = null;
 
                 DecimalFormat df = new DecimalFormat("###,##0.00");
-
-                loading.setVisible(true);
-                loading.setText("GERANDO RELATÓRIO...");
 
                 String hora = Controle.horaPadraoDiretorio.format(new Date());
                 String data = Controle.dataPadraoDiretorio.format(new Date());
@@ -270,15 +275,19 @@ public class RelatorioFinanceiro extends javax.swing.JInternalFrame {
 
                     document.open();
 
-//                    if(jckbAnoInteiro.isSelected()){
-//                        p = new Paragraph(selAno.getValue() + " - " + (selMes.getMonth() + 1), FontFactory.getFont("arial.ttf", 10, Font.BOLD));
-//                    }else{
-//                        p = new Paragraph("" + selAno.getValue(), FontFactory.getFont("arial.ttf", 10, Font.BOLD));
-//                    }
+                    document.add(new Paragraph(new Phrase("RELATÓRIO FINANCEIRO - "
+                            + "DATA E HORA DE EMISSÃO: "
+                            + data
+                            + " "
+                            + hora
+                            + " - SISTEMA BALA DE PRATA\n\n", FontFactory.getFont("arial.ttf", 9))));
+
                     Paragraph p = new Paragraph("RELATÓRIO FINANCEIRO", FontFactory.getFont("arial.ttf", 12, Font.BOLD));
                     p.setAlignment(1);
                     document.add(p);
-                    p = new Paragraph(jckbAnoInteiro.isSelected() ? "" + selAno.getValue() : (selMes.getMonth() + 1) + "/" + selAno.getValue(), FontFactory.getFont("arial.ttf", 12, Font.BOLD));
+                    p = new Paragraph((jckbAnoInteiro.isSelected() ? "" 
+                            + selAno.getValue() : (selMes.getMonth() + 1) + "/" + selAno.getValue())
+                            + (rbtnPessoaFisica.isSelected() ? " - PESSOAS FÍSICAS" : " - PESSOAS JURÍDICAS"), FontFactory.getFont("arial.ttf", 12, Font.BOLD));
                     p.setAlignment(1);
                     document.add(p);
 
@@ -309,7 +318,7 @@ public class RelatorioFinanceiro extends javax.swing.JInternalFrame {
                     cell1.setHorizontalAlignment(1);
                     retorno.addCell(cell1);
 
-                    for (Cliente c : consulta) {
+                    for (ClienteRelFin c : consulta) {
                         cell1 = new PdfPCell(new Phrase("" + c.getCodigo(), FontFactory.getFont("arial.ttf", 8)));
                         cell1.setHorizontalAlignment(1);
                         retorno.addCell(cell1);
@@ -444,7 +453,7 @@ public class RelatorioFinanceiro extends javax.swing.JInternalFrame {
                     debito += rs2.getFloat("faturamentos.VLR_FAT");
                 }
 
-                Cliente cliente = new Cliente(
+                ClienteRelFin cliente = new ClienteRelFin(
                         rs.getInt("cod"),
                         rs.getString("nome"),
                         credito,
@@ -513,7 +522,7 @@ public class RelatorioFinanceiro extends javax.swing.JInternalFrame {
                     }
                     codigosProcessados.add(rs.getInt("tabela_ordens_producao.cod_cliente"));
 
-                    for (Cliente c : consulta) {
+                    for (ClienteRelFin c : consulta) {
                         if (c.getCodigo() == rs.getInt("tabela_ordens_producao.cod_cliente")) {
                             c.setEmAberto(valor * (-1));
                         }
@@ -526,7 +535,7 @@ public class RelatorioFinanceiro extends javax.swing.JInternalFrame {
     }
 
     private void calculaSaldoAcumulado() {
-        for (Cliente c : consulta) {
+        for (ClienteRelFin c : consulta) {
             Connection con = ConnectionFactory.getConnection();
             PreparedStatement stmt = null;
             ResultSet rs = null;
@@ -570,7 +579,7 @@ public class RelatorioFinanceiro extends javax.swing.JInternalFrame {
                 stmt = con.prepareStatement("SELECT valor "
                         + "FROM tabela_notas "
                         + "WHERE DATE_FORMAT(STR_TO_DATE(`data`, '%d/%m/%Y'), '%Y-%m-%d') BETWEEN "
-                        + "DATE_FORMAT(STR_TO_DATE('01/01/" + (selAno.getValue() - 1) + "', '%d/%m/%Y'), '%Y-%m-%d') AND "
+                        + "DATE_FORMAT(STR_TO_DATE('01/01/2019', '%d/%m/%Y'), '%Y-%m-%d') AND "
                         + "DATE_FORMAT(STR_TO_DATE('31/12/" + (selAno.getValue() - 1) + "', '%d/%m/%Y'), '%Y-%m-%d') AND "
                         + "cod_cliente = ? AND tipo_pessoa = " + tipoPessoa);
                 stmt.setInt(1, c.getCodigo());
@@ -582,7 +591,7 @@ public class RelatorioFinanceiro extends javax.swing.JInternalFrame {
                 stmt = con.prepareStatement("SELECT faturamentos.VLR_FAT "
                         + "FROM faturamentos "
                         + "INNER JOIN tabela_ordens_producao ON tabela_ordens_producao.cod = faturamentos.CODIGO_OP "
-                        + "WHERE faturamentos.DT_FAT BETWEEN '" + (selAno.getValue() - 1) + "-01-01' AND '" + (selAno.getValue() - 1) + "-12-31' AND "
+                        + "WHERE faturamentos.DT_FAT BETWEEN '2019-01-01' AND '" + (selAno.getValue() - 1) + "-12-31' AND "
                         + "tabela_ordens_producao.cod_cliente = ? AND tabela_ordens_producao.tipo_cliente = " + tipoPessoa);
                 stmt.setInt(1, c.getCodigo());
                 rs2 = stmt.executeQuery();

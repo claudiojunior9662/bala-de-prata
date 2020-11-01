@@ -9,7 +9,7 @@ package ui.relatorios.financeiro;
  *
  * @author 1113778771
  */
-public class Cliente {
+public class ClienteRelFin implements Comparable<ClienteRelFin>{
 
     private int codigo;
     private String nome;
@@ -75,7 +75,7 @@ public class Cliente {
         this.saldoAcumuladoAnterior = saldoAcumuladoAnterior;
     }
 
-    public Cliente(int codigo, String nome, Double credito, Double debito, Double emAberto, Double saldoAcumuladoAtual, Double saldoAcumuladoAnterior) {
+    public ClienteRelFin(int codigo, String nome, Double credito, Double debito, Double emAberto, Double saldoAcumuladoAtual, Double saldoAcumuladoAnterior) {
         this.codigo = codigo;
         this.nome = nome;
         this.credito = credito;
@@ -85,10 +85,19 @@ public class Cliente {
         this.saldoAcumuladoAnterior = 0d;
     }
 
-    public Cliente(int codigo, String nome, Double credito) {
+    public ClienteRelFin(int codigo, String nome, Double credito) {
         this.codigo = codigo;
         this.nome = nome;
         this.credito = credito;
+    }
+    
+    @Override public int compareTo(ClienteRelFin outroCliente){
+        if(this.saldoAcumuladoAtual > outroCliente.getSaldoAcumuladoAtual()){
+            return -1;
+        }if(this.saldoAcumuladoAtual < outroCliente.getSaldoAcumuladoAtual()){
+            return 1;
+        }
+        return 0;
     }
 
 }

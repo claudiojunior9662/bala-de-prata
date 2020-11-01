@@ -249,6 +249,7 @@ public class Financeiro extends javax.swing.JFrame {
         });
         menuRelatorios.add(jMenuItem1);
 
+        jMenuItem2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icones/financeiro.png"))); // NOI18N
         jMenuItem2.setText("RELATÓRIO FINANCEIRO");
         jMenuItem2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {

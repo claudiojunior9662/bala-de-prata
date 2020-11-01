@@ -533,9 +533,6 @@ public class ProdutoDAO {
                             + "WHERE CODIGO = ?");
                     stmt.setInt(1, codProduto);
                     break;
-                case 3:
-
-                    break;
             }
             rs = stmt.executeQuery();
             if (rs.next()) {

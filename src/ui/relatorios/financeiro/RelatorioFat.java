@@ -93,12 +93,12 @@ public class RelatorioFat extends javax.swing.JInternalFrame {
         codigoCliente = new javax.swing.JFormattedTextField();
         porNome = new javax.swing.JRadioButton();
         nomeCliente = new javax.swing.JTextField();
-        listaPesquisaCliente = new javax.swing.JList<>();
+        listaPesquisaCliente = new javax.swing.JList<String>();
         porTipoPessoa = new javax.swing.JRadioButton();
         pessoaJuridica = new javax.swing.JRadioButton();
         pessoaFisica = new javax.swing.JRadioButton();
         porTodosClientes = new javax.swing.JRadioButton();
-        comboTipoPessoa = new javax.swing.JComboBox<>();
+        comboTipoPessoa = new javax.swing.JComboBox<String>();
         jPanel7 = new javax.swing.JPanel();
         porOrdemProducao = new javax.swing.JRadioButton();
         textoOrdemProducao = new javax.swing.JFormattedTextField();
@@ -107,7 +107,7 @@ public class RelatorioFat extends javax.swing.JInternalFrame {
         porTodosOpOrcamento = new javax.swing.JRadioButton();
         jPanel2 = new javax.swing.JPanel();
         porEmissor = new javax.swing.JRadioButton();
-        comboEmissores = new javax.swing.JComboBox<>();
+        comboEmissores = new javax.swing.JComboBox<String>();
         porTodosEmissores = new javax.swing.JRadioButton();
         jPanel3 = new javax.swing.JPanel();
         periodoFim = new com.toedter.calendar.JDateChooser();
@@ -120,7 +120,7 @@ public class RelatorioFat extends javax.swing.JInternalFrame {
         jLabel2 = new javax.swing.JLabel();
         jPanel4 = new javax.swing.JPanel();
         porModalidadeFrete = new javax.swing.JRadioButton();
-        comboModalidadeFrete = new javax.swing.JComboBox<>();
+        comboModalidadeFrete = new javax.swing.JComboBox<String>();
         porNomeTransportador = new javax.swing.JRadioButton();
         textoTransportador = new javax.swing.JTextField();
         porTodosTransporte = new javax.swing.JRadioButton();
@@ -157,7 +157,7 @@ public class RelatorioFat extends javax.swing.JInternalFrame {
         rBtnRetrato = new javax.swing.JRadioButton();
         rBtnPaisagem = new javax.swing.JRadioButton();
 
-        setTitle("RELATÓRIO DE FATURAMENTOS");
+        setTitle("RELATÓRIOS - FATURAMENTOS");
         setFrameIcon(new javax.swing.ImageIcon(getClass().getResource("/icones/faturamento.png"))); // NOI18N
         setPreferredSize(new java.awt.Dimension(900, 340));
 
@@ -220,7 +220,7 @@ public class RelatorioFat extends javax.swing.JInternalFrame {
             }
         });
 
-        comboTipoPessoa.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "1 - PESSOA FÍSICA (PF)", "2 - PESSOA JURÍDICA (PJ)" }));
+        comboTipoPessoa.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "1 - PESSOA FÍSICA (PF)", "2 - PESSOA JURÍDICA (PJ)" }));
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -495,7 +495,7 @@ public class RelatorioFat extends javax.swing.JInternalFrame {
             }
         });
 
-        comboModalidadeFrete.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "EMC - ENTREGUE EM MÃOS AO CLIENTE", "COR - CORREIOS" }));
+        comboModalidadeFrete.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "EMC - ENTREGUE EM MÃOS AO CLIENTE", "COR - CORREIOS" }));
 
         grupoTransporte.add(porNomeTransportador);
         porNomeTransportador.setText("POR NOME DO TRANSPORTADOR");
@@ -1306,6 +1306,7 @@ public class RelatorioFat extends javax.swing.JInternalFrame {
     private javax.swing.JTextField textoTransportador;
     // End of variables declaration//GEN-END:variables
     //ESTADOS DA UI-------------------------------------------------------------
+
     public void estadoInicial() {
         //CLIENTES
         porTodosClientes.setSelected(true);
@@ -1371,12 +1372,12 @@ public class RelatorioFat extends javax.swing.JInternalFrame {
 
                     document.open();
 
-                    Image imagem = Image.getInstance(getClass().getResource("/ui/orcamentos/operacoes/cabecalhoPropostaPng.png"));
-                    imagem.setAlignment(1);
-                    imagem.scaleToFit(500, 1000);
-                    document.add(imagem);
-
-                    document.add(new Paragraph("\n"));
+                    document.add(new Paragraph(new Phrase("RELATÓRIO DE FATURAMENTOS - "
+                            + "DATA E HORA DE EMISSÃO: "
+                            + data
+                            + " "
+                            + hora
+                            + " - SISTEMA BALA DE PRATA\n\n", FontFactory.getFont("arial.ttf", 9))));
 
                     Paragraph p = new Paragraph("RELATÓRIO DE FATURAMENTOS", FontFactory.getFont("arial.ttf", 12, Font.BOLD));
                     p.setAlignment(1);
@@ -2404,6 +2405,7 @@ public class RelatorioFat extends javax.swing.JInternalFrame {
             } else if (porNome.isSelected() == true) {
                 tipoCondicaoCliente = "POR NOME";
             } else if (porTipoPessoa.isSelected() == true) {
+                cliente = new Cliente();
                 tipoCondicaoCliente = "POR TIPO PESSOA";
                 cliente.setTipoPessoa(pessoaFisica.isSelected() ? (byte) 1 : (byte) 2);
             } else {

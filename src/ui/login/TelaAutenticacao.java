@@ -29,8 +29,8 @@ import ui.principal.ModulosExt;
  */
 public class TelaAutenticacao extends javax.swing.JFrame {
     
-    private static final String codVersao = "2.3.7";
-    private static final String update = "5";
+    private static final String codVersao = "2.3.8";
+    private static final String update = "1";
     private static UsuarioBEAN atendenteLogado;
 
     public static UsuarioBEAN getUsrLogado() {
@@ -361,13 +361,7 @@ public class TelaAutenticacao extends javax.swing.JFrame {
                     mInt.setVisible(true);
                     this.setVisible(false);
 
-                    JOptionPane.showMessageDialog(null, "CORREÇÕES E ATUALIZAÇÕES DA v.2.3.6 Alfa (28-06-2020)\n"
-                            + "- Implementação da seleção de data de entrega de prova pela orçamentação;\n"
-                            + "- Implementação da seleção de data de entrada na digital pela produção;\n"
-                            + "- Correção da tela de controle da produção;\n"
-                            + "- Reorganização dos nomes dos usuários do sistema;\n"
-                            + "- Correção de erros enviados;\n"
-                            + "CORREÇÕES E ATUALIZAÇÕES DA v.2.3.6 Bravo (06-07-2020)\n"
+                    JOptionPane.showMessageDialog(null, "CORREÇÕES E ATUALIZAÇÕES DA v.2.3.6 Bravo (06-07-2020)\n"
                             + "- Solução ao DIEx nº 545-DIV CMCL/GRÁFICA;\n"
                             + "CORREÇÕES E ATUALIZAÇÕES DA v.2.3.6 Charlie (23-07-2020)\n"
                             + "- Adição do status 'ENTREGUE' para selecionar na tela de acompanhamento de OP;\n"
@@ -387,6 +381,10 @@ public class TelaAutenticacao extends javax.swing.JFrame {
                             + "- Correção ao gerar o relatório de notas de crédito;\n"
                             + "CORREÇÕES E ATUALIZAÇÕES DA v.2.3.7 5 (19-10-2020)\n"
                             + "- Correções na pesquisa de clientes;\n"
+                            + "CORREÇÕES E ATUALIZAÇÕES DA v.2.3.8 1 (01-11-2020)\n"
+                            + "- Implementação do relatório financeiro;\n"
+                            + "- Correção de erros na geração do relatório de faturamentos;\n"
+                            + "- Correção de lançamentos incorretos de notas de crédito;\n"
                             + "AVISOS:\n"
                             + "- Todas as sugestões de melhoria de usabilidade do programa serão estudadas, mas não há previsão de implementação;\n"
                             + "- Qualquer problema nas correções acima expostas deverão ser informados o mais rápido possível à SPD;\n"
