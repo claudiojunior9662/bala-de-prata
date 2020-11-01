@@ -3219,18 +3219,25 @@ public class OrcamentoPrincipalFrame extends javax.swing.JInternalFrame {
                 byte tipoPapel = 0;
                 String tipoPapelAux = tabelaPapeis.getValueAt(i, 3).toString();
 
-                if (tipoPapelAux.equals("FOLHA")) {
-                    tipoPapel = 1;
-                } else if (tipoPapelAux.equals("CAPA")) {
-                    tipoPapel = 2;
-                } else if (tipoPapelAux.equals("MIOLO")) {
-                    tipoPapel = 3;
-                } else if (tipoPapelAux.equals("1ª VIA")) {
-                    tipoPapel = 4;
-                } else if (tipoPapelAux.equals("2ª VIA")) {
-                    tipoPapel = 5;
-                } else if (tipoPapelAux.equals("3ª VIA")) {
-                    tipoPapel = 6;
+                switch(tipoPapelAux){
+                    case "FOLHA":
+                        tipoPapel = 1;
+                        break;
+                    case "CAPA":
+                        tipoPapel = 2;
+                        break;
+                    case "MIOLO":
+                        tipoPapel = 3;
+                        break;
+                    case "1ª VIA":
+                        tipoPapel = 4;
+                        break;
+                    case "2ª VIA":
+                        tipoPapel = 5;
+                        break;
+                    case "3ª VIA":
+                        tipoPapel = 6;
+                        break;
                 }
 
                 if (tipoProduto == 3) {

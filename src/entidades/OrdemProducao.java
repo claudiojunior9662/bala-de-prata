@@ -1010,7 +1010,14 @@ public class OrdemProducao {
                             cell1.setPaddingBottom(20);
                             tblPapel.addCell(cell2);
                             cell2 = new PdfPCell(new Phrase("CORES VERSO: " + papel.getCorVerso(), FontFactory.getFont("arial.ttf", 9, Font.BOLD)));
-                            cell2.setBorder(Rectangle.RIGHT | Rectangle.LEFT);
+                            cell2.setBorder(Rectangle.RIGHT | Rectangle.LEFT | Rectangle.BOTTOM);
+                            cell1.setPaddingBottom(5);
+                            tblPapel.addCell(cell2);
+                            document.add(tblPapel);
+                            tblPapel.deleteBodyRows();
+                            cell2 = new PdfPCell(new Phrase("PERCA: " + df.format(calculo.getPerca()) + "%", FontFactory.getFont("arial.ttf", 9, Font.BOLD)));
+                            cell2.setBorder(Rectangle.RIGHT | Rectangle.LEFT | Rectangle.BOTTOM);
+                            cell2.setColspan(3);
                             cell1.setPaddingBottom(5);
                             tblPapel.addCell(cell2);
                             document.add(tblPapel);

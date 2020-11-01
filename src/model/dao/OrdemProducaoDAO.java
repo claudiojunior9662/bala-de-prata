@@ -321,6 +321,7 @@ public class OrdemProducaoDAO {
                 calculo.setQtdFolhasTotal(rs.getInt("qtd_folhas_total"));
                 calculo.setMontagem(rs.getInt("montagem"));
                 calculo.setFormato(rs.getInt("formato"));
+                calculo.setPerca(rs.getFloat("perca"));
                 retorno.add(calculo);
             }
             return retorno;
