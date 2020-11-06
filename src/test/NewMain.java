@@ -30,18 +30,14 @@ public class NewMain {
     static String PORTA = "3050";
     static String USUARIO = "sysdba";
     static String SENHA = "masterkey";
-    
+
     static List<ClienteRelFin> teste;
 
     /**
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        retornaCreditosDebitos();
-        for(ClienteRelFin c : teste){
-            System.out.println(c);
-    }
-        System.out.println(teste);
+        mostraValorProducao();
     }
 
     //--------------------------------------------------------------------------
@@ -59,22 +55,22 @@ public class NewMain {
             rs = stmt.executeQuery();
             while (rs.next()) {
                 credito = 0d;
-                stmt = con.prepareStatement("SELECT valor "
-                        + "FROM tabela_notas "
-                        + "WHERE DATE_FORMAT(STR_TO_DATE(`data`, '%d/%m/%Y'), '%Y-%m-%d') BETWEEN "
-                        + "DATE_FORMAT(STR_TO_DATE('01/01/2019', '%d/%m/%Y'), '%Y-%m-%d') AND "
-                        + "DATE_FORMAT(STR_TO_DATE('31/12/2019', '%d/%m/%Y'), '%Y-%m-%d') AND "
-                        + "cod_cliente = ? AND tipo_pessoa = 1");
-                stmt.setInt(1, rs.getInt("cod"));
-                rs2 = stmt.executeQuery();
-                while (rs2.next()) {
-                    credito += rs2.getFloat("valor");
-                }
+//                stmt = con.prepareStatement("SELECT valor "
+//                        + "FROM tabela_notas "
+//                        + "WHERE DATE_FORMAT(STR_TO_DATE(`data`, '%d/%m/%Y'), '%Y-%m-%d') BETWEEN "
+//                        + "DATE_FORMAT(STR_TO_DATE('01/10/2020', '%d/%m/%Y'), '%Y-%m-%d') AND "
+//                        + "DATE_FORMAT(STR_TO_DATE('31/10/2020', '%d/%m/%Y'), '%Y-%m-%d') AND "
+//                        + "cod_cliente = ? AND tipo_pessoa = 1");
+//                stmt.setInt(1, rs.getInt("cod"));
+//                rs2 = stmt.executeQuery();
+//                while (rs2.next()) {
+//                    credito += rs2.getFloat("valor");
+//                }
 
                 stmt = con.prepareStatement("SELECT faturamentos.VLR_FAT "
                         + "FROM faturamentos "
                         + "INNER JOIN tabela_ordens_producao ON tabela_ordens_producao.cod = faturamentos.CODIGO_OP "
-                        + "WHERE faturamentos.DT_FAT BETWEEN '2019-01-01' AND '2019-12-31' AND "
+                        + "WHERE faturamentos.DT_FAT BETWEEN '2020-10-01' AND '2020-10-31' AND "
                         + "tabela_ordens_producao.cod_cliente = ? AND tabela_ordens_producao.tipo_cliente = 1");
                 stmt.setInt(1, rs.getInt("cod"));
                 rs2 = stmt.executeQuery();
@@ -83,7 +79,7 @@ public class NewMain {
                 }
 
 //                if(credito != 0d){
-                System.out.println(rs.getInt("cod") + "#" +  rs.getString("nome") + "#" + df.format(credito));
+                //System.out.println(rs.getInt("cod") + "#" + rs.getString("nome") + "#" + df.format(credito));
                 System.out.println(df.format(credito));
                 //System.out.println(rs.getInt("cod"));
 //                }
@@ -112,8 +108,8 @@ public class NewMain {
                     + "WHERE tabela_ordens_producao.status != 'ENTREGUE' "
                     + "AND tabela_ordens_producao.status != 'ENTREGUE PARCIALMENTE' "
                     + "AND tabela_ordens_producao.status != 'CANCELADA'"
-                    + "AND tabela_ordens_producao.tipo_cliente = 1 "
-                    + "AND tabela_ordens_producao.data_emissao BETWEEN '2020-01-01' AND '2020-10-31' "
+                    + "AND tabela_ordens_producao.tipo_cliente = 2 "
+                    + "AND tabela_ordens_producao.data_emissao BETWEEN '2020-01-01' AND '2020-11-06' "
                     + "ORDER BY tabela_ordens_producao.cod_cliente ASC");
             rs = stmt.executeQuery();
             while (rs.next()) {
@@ -126,9 +122,9 @@ public class NewMain {
                             + "WHERE tabela_ordens_producao.status != 'ENTREGUE' "
                             + "AND tabela_ordens_producao.status != 'ENTREGUE PARCIALMENTE' "
                             + "AND tabela_ordens_producao.status != 'CANCELADA'"
-                            + "AND tabela_ordens_producao.tipo_cliente = 1 "
+                            + "AND tabela_ordens_producao.tipo_cliente = 2 "
                             + "AND tabela_ordens_producao.cod_cliente = ? "
-                            + "AND tabela_ordens_producao.data_emissao BETWEEN '2020-01-01' AND '2020-10-31' "
+                            + "AND tabela_ordens_producao.data_emissao BETWEEN '2020-01-01' AND '2020-11-06' "
                             + "ORDER BY tabela_ordens_producao.cod_cliente ASC");
                     stmt.setInt(1, rs.getInt("tabela_ordens_producao.cod_cliente"));
                     rs2 = stmt.executeQuery();
@@ -144,7 +140,7 @@ public class NewMain {
                         }
                     }
                     codigosProcessados.add(rs.getInt("tabela_ordens_producao.cod_cliente"));
-                    System.out.println(rs.getInt("tabela_ordens_producao.cod_cliente") + ";" + df.format(valor*(-1)));
+                    System.out.println(rs.getInt("tabela_ordens_producao.cod_cliente") + ";" + df.format(valor * (-1)));
                 }
             }
         } catch (SQLException ex) {
@@ -183,7 +179,6 @@ public class NewMain {
 //            Logger.getLogger(NewMain.class.getName()).log(Level.SEVERE, null, ex);
 //        }
 //    }
-
     private static void ranking() {
         Connection con = ConnectionFactory.getConnection();
         PreparedStatement stmt = null;
@@ -247,18 +242,18 @@ public class NewMain {
             Logger.getLogger(NewMain.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
-    private static void preencheAcessoUsr(){
+
+    private static void preencheAcessoUsr() {
         Connection con = ConnectionFactory.getConnection();
         PreparedStatement stmt = null;
         ResultSet rs = null;
         System.out.println(con);
-        
-        try{
+
+        try {
             stmt = con.prepareStatement("SELECT * "
                     + "FROM tabela_atendentes");
             rs = stmt.executeQuery();
-            while(rs.next()){
+            while (rs.next()) {
                 stmt = con.prepareStatement("INSERT INTO usuario_acessos VALUES(?,?,?,?,?,?,?,?,?,?,?)");
                 stmt.setString(1, rs.getString("codigo_atendente"));
                 stmt.setByte(2, rs.getByte("acesso_orc"));
@@ -277,10 +272,10 @@ public class NewMain {
             Logger.getLogger(NewMain.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
+
     private static void retornaCreditosDebitos() {
         teste = new ArrayList();
-        
+
         Connection con = ConnectionFactory.getConnection();
         PreparedStatement stmt = null;
         ResultSet rs = null;
@@ -304,15 +299,15 @@ public class NewMain {
                 rs2 = stmt.executeQuery();
                 while (rs2.next()) {
                     credito += rs2.getFloat("valor");
-                    
+
                 }
-                
+
                 ClienteRelFin cliente = new ClienteRelFin(
                         rs.getInt("cod"),
                         rs.getString("nome"),
                         credito
                 );
-                
+
                 teste.add(cliente);
             }
         } catch (SQLException ex) {
