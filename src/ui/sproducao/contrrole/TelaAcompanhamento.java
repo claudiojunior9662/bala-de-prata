@@ -1526,7 +1526,7 @@ public final class TelaAcompanhamento extends javax.swing.JInternalFrame {
             /**
              * Atualiza a tabela
              */
-            for (TelaAcompanhamentoBEAN acompanhamento : TelaAcompanhamentoDAO.refreshTabela()) {
+            for (TelaAcompanhamentoBEAN acompanhamento : TelaAcompanhamentoDAO.refreshTabela(45)) {
                 mdlAcompanhamento.addRow(new Object[]{
                     acompanhamento.getNumero(),
                     Controle.dataPadrao.format(acompanhamento.getDataEntrega()),
@@ -1552,7 +1552,7 @@ public final class TelaAcompanhamento extends javax.swing.JInternalFrame {
                 while (realTime) {
                     try {
                         modeloAcompanhamento.setNumRows(0);
-                        for (TelaAcompanhamentoBEAN telaAcompanhamentoBEAN : TelaAcompanhamentoDAO.refreshTabela()) {
+                        for (TelaAcompanhamentoBEAN telaAcompanhamentoBEAN : TelaAcompanhamentoDAO.refreshTabela(45)) {
                             modeloAcompanhamento.addRow(new Object[]{
                                 telaAcompanhamentoBEAN.getNumero(),
                                 Controle.dataPadrao.format(telaAcompanhamentoBEAN.getDataEntrega()),

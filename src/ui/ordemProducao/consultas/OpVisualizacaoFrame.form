@@ -1,0 +1,311 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<Form version="1.3" maxVersion="1.9" type="org.netbeans.modules.form.forminfo.JInternalFrameFormInfo">
+  <SyntheticProperties>
+    <SyntheticProperty name="formSizePolicy" type="int" value="1"/>
+  </SyntheticProperties>
+  <AuxValues>
+    <AuxValue name="FormSettings_autoResourcing" type="java.lang.Integer" value="0"/>
+    <AuxValue name="FormSettings_autoSetComponentName" type="java.lang.Boolean" value="false"/>
+    <AuxValue name="FormSettings_generateFQN" type="java.lang.Boolean" value="true"/>
+    <AuxValue name="FormSettings_generateMnemonicsCode" type="java.lang.Boolean" value="false"/>
+    <AuxValue name="FormSettings_i18nAutoMode" type="java.lang.Boolean" value="false"/>
+    <AuxValue name="FormSettings_layoutCodeTarget" type="java.lang.Integer" value="1"/>
+    <AuxValue name="FormSettings_listenerGenerationStyle" type="java.lang.Integer" value="0"/>
+    <AuxValue name="FormSettings_variablesLocal" type="java.lang.Boolean" value="false"/>
+    <AuxValue name="FormSettings_variablesModifier" type="java.lang.Integer" value="2"/>
+  </AuxValues>
+
+  <Layout>
+    <DimensionLayout dim="0">
+      <Group type="103" groupAlignment="0" attributes="0">
+          <Component id="jTabbedPane1" alignment="0" max="32767" attributes="0"/>
+      </Group>
+    </DimensionLayout>
+    <DimensionLayout dim="1">
+      <Group type="103" groupAlignment="0" attributes="0">
+          <Component id="jTabbedPane1" alignment="0" max="32767" attributes="0"/>
+      </Group>
+    </DimensionLayout>
+  </Layout>
+  <SubComponents>
+    <Container class="javax.swing.JTabbedPane" name="jTabbedPane1">
+
+      <Layout class="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout"/>
+      <SubComponents>
+        <Container class="javax.swing.JPanel" name="jPanel1">
+          <Constraints>
+            <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout" value="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout$JTabbedPaneConstraintsDescription">
+              <JTabbedPaneConstraints tabName="FILTROS">
+                <Property name="tabTitle" type="java.lang.String" value="FILTROS"/>
+              </JTabbedPaneConstraints>
+            </Constraint>
+          </Constraints>
+
+          <Layout>
+            <DimensionLayout dim="0">
+              <Group type="103" groupAlignment="0" attributes="0">
+                  <Group type="102" alignment="0" attributes="0">
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Component id="produto" alignment="0" min="-2" max="-2" attributes="0"/>
+                          <Component id="status" alignment="0" min="-2" max="-2" attributes="0"/>
+                          <Component id="dataEntrega" alignment="0" min="-2" max="-2" attributes="0"/>
+                          <Component id="codOpFiltro" alignment="0" min="-2" max="-2" attributes="0"/>
+                          <Component id="mesEntrega" alignment="0" min="-2" max="-2" attributes="0"/>
+                          <Component id="mesEmissao" alignment="0" min="-2" max="-2" attributes="0"/>
+                      </Group>
+                      <EmptySpace type="separate" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Component id="statusTexto" alignment="0" pref="854" max="32767" attributes="0"/>
+                          <Component id="produtoTexto" alignment="0" max="32767" attributes="0"/>
+                          <Component id="dataEntregaTexto" alignment="0" max="32767" attributes="0"/>
+                          <Component id="codOpTexto" alignment="0" max="32767" attributes="0"/>
+                          <Group type="102" alignment="0" attributes="0">
+                              <Group type="103" groupAlignment="0" attributes="0">
+                                  <Component id="mesEmissaoSelecionar" alignment="0" min="-2" max="-2" attributes="0"/>
+                                  <Component id="mesEntregaSelecionar" alignment="0" min="-2" max="-2" attributes="0"/>
+                              </Group>
+                              <EmptySpace max="-2" attributes="0"/>
+                              <Group type="103" groupAlignment="0" attributes="0">
+                                  <Component id="anoEntregaSelecionar" alignment="0" min="-2" pref="76" max="-2" attributes="0"/>
+                                  <Component id="anoEmissaoSelecionar" alignment="0" min="-2" pref="76" max="-2" attributes="0"/>
+                              </Group>
+                              <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                          </Group>
+                      </Group>
+                  </Group>
+                  <Group type="102" alignment="1" attributes="0">
+                      <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                      <Component id="tempoReal" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="aplicarTexto" min="-2" max="-2" attributes="0"/>
+                  </Group>
+              </Group>
+            </DimensionLayout>
+            <DimensionLayout dim="1">
+              <Group type="103" groupAlignment="0" attributes="0">
+                  <Group type="102" alignment="0" attributes="0">
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Component id="codOpFiltro" alignment="0" min="-2" max="-2" attributes="0"/>
+                          <Component id="codOpTexto" alignment="0" min="-2" max="-2" attributes="0"/>
+                      </Group>
+                      <EmptySpace min="-2" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Component id="dataEntregaTexto" alignment="0" min="-2" max="-2" attributes="0"/>
+                          <Component id="dataEntrega" alignment="0" min="-2" max="-2" attributes="0"/>
+                      </Group>
+                      <EmptySpace min="-2" pref="13" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Component id="mesEmissao" alignment="0" min="-2" max="-2" attributes="0"/>
+                          <Component id="mesEmissaoSelecionar" alignment="0" min="-2" max="-2" attributes="0"/>
+                          <Component id="anoEmissaoSelecionar" alignment="0" min="-2" max="-2" attributes="0"/>
+                      </Group>
+                      <EmptySpace min="9" pref="9" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Component id="mesEntrega" alignment="0" min="-2" max="-2" attributes="0"/>
+                          <Component id="mesEntregaSelecionar" alignment="0" min="-2" max="-2" attributes="0"/>
+                          <Component id="anoEntregaSelecionar" alignment="0" min="-2" max="-2" attributes="0"/>
+                      </Group>
+                      <EmptySpace type="unrelated" min="-2" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Component id="status" alignment="0" min="-2" max="-2" attributes="0"/>
+                          <Component id="statusTexto" alignment="0" min="-2" max="-2" attributes="0"/>
+                      </Group>
+                      <EmptySpace type="unrelated" min="-2" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Component id="produto" alignment="0" min="-2" max="-2" attributes="0"/>
+                          <Component id="produtoTexto" alignment="0" min="-2" max="-2" attributes="0"/>
+                      </Group>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="3" attributes="0">
+                          <Component id="aplicarTexto" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="tempoReal" alignment="3" min="-2" max="-2" attributes="0"/>
+                      </Group>
+                      <EmptySpace pref="334" max="32767" attributes="0"/>
+                  </Group>
+              </Group>
+            </DimensionLayout>
+          </Layout>
+          <SubComponents>
+            <Component class="javax.swing.JRadioButton" name="mesEmissao">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="M&#xca;S DE EMISS&#xc3;O"/>
+              </Properties>
+              <Events>
+                <EventHandler event="itemStateChanged" listener="java.awt.event.ItemListener" parameters="java.awt.event.ItemEvent" handler="mesEmissaoItemStateChanged"/>
+                <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="mesEmissaoMouseClicked"/>
+              </Events>
+            </Component>
+            <Component class="com.toedter.calendar.JYearChooser" name="anoEmissaoSelecionar">
+            </Component>
+            <Component class="javax.swing.JRadioButton" name="status">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="STATUS"/>
+              </Properties>
+              <Events>
+                <EventHandler event="itemStateChanged" listener="java.awt.event.ItemListener" parameters="java.awt.event.ItemEvent" handler="statusItemStateChanged"/>
+                <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="statusMouseClicked"/>
+              </Events>
+            </Component>
+            <Component class="com.toedter.calendar.JMonthChooser" name="mesEntregaSelecionar">
+            </Component>
+            <Component class="javax.swing.JFormattedTextField" name="codOpTexto">
+              <Properties>
+                <Property name="formatterFactory" type="javax.swing.JFormattedTextField$AbstractFormatterFactory" editor="org.netbeans.modules.form.editors.AbstractFormatterFactoryEditor">
+                  <Format format="#0" subtype="-1" type="0"/>
+                </Property>
+              </Properties>
+            </Component>
+            <Component class="javax.swing.JRadioButton" name="mesEntrega">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="M&#xca;S DE ENTREGA"/>
+              </Properties>
+              <Events>
+                <EventHandler event="itemStateChanged" listener="java.awt.event.ItemListener" parameters="java.awt.event.ItemEvent" handler="mesEntregaItemStateChanged"/>
+                <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="mesEntregaMouseClicked"/>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="mesEntregaActionPerformed"/>
+              </Events>
+            </Component>
+            <Component class="com.toedter.calendar.JDateChooser" name="dataEntregaTexto">
+              <Events>
+                <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="dataEntregaTextoMouseClicked"/>
+              </Events>
+            </Component>
+            <Component class="com.toedter.calendar.JYearChooser" name="anoEntregaSelecionar">
+            </Component>
+            <Component class="javax.swing.JComboBox" name="statusTexto">
+              <Properties>
+                <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
+                  <StringArray count="10">
+                    <StringItem index="0" value="EM AVALIA&#xc7;&#xc3;O PELA SE&#xc7; T&#xc9;CNICA"/>
+                    <StringItem index="1" value="ENCAMINHADO PARA PR&#xc9; IMP"/>
+                    <StringItem index="2" value="DIAGRAMA&#xc7;&#xc3;O"/>
+                    <StringItem index="3" value="PRODUZINDO PROVA"/>
+                    <StringItem index="4" value="AGUARDANDO APR CLIENTE"/>
+                    <StringItem index="5" value="ENCAMINHADO PARA OFFSET"/>
+                    <StringItem index="6" value="ENCAMINHADO PARA TIPOGRAFIA"/>
+                    <StringItem index="7" value="ENCAMINHADO PARA ACABAMENTO"/>
+                    <StringItem index="8" value="EM FINALIZA&#xc7;&#xc3;O"/>
+                    <StringItem index="9" value="ENCAMINHADO PARA EXPEDI&#xc7;&#xc3;O"/>
+                  </StringArray>
+                </Property>
+              </Properties>
+              <AuxValues>
+                <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
+              </AuxValues>
+            </Component>
+            <Component class="javax.swing.JButton" name="aplicarTexto">
+              <Properties>
+                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                  <Image iconType="3" name="/icones/confirma.png"/>
+                </Property>
+                <Property name="text" type="java.lang.String" value="APLICAR"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="aplicarTextoActionPerformed"/>
+              </Events>
+            </Component>
+            <Component class="javax.swing.JRadioButton" name="produto">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="PRODUTO"/>
+              </Properties>
+              <Events>
+                <EventHandler event="itemStateChanged" listener="java.awt.event.ItemListener" parameters="java.awt.event.ItemEvent" handler="produtoItemStateChanged"/>
+                <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="produtoMouseClicked"/>
+              </Events>
+            </Component>
+            <Component class="javax.swing.JTextField" name="produtoTexto">
+            </Component>
+            <Component class="javax.swing.JRadioButton" name="codOpFiltro">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="C&#xd3;DIGO OP"/>
+              </Properties>
+              <Events>
+                <EventHandler event="itemStateChanged" listener="java.awt.event.ItemListener" parameters="java.awt.event.ItemEvent" handler="codOpFiltroItemStateChanged"/>
+                <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="codOpFiltroMouseClicked"/>
+              </Events>
+            </Component>
+            <Component class="javax.swing.JRadioButton" name="dataEntrega">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="DATA DE ENTREGA"/>
+              </Properties>
+              <Events>
+                <EventHandler event="itemStateChanged" listener="java.awt.event.ItemListener" parameters="java.awt.event.ItemEvent" handler="dataEntregaItemStateChanged"/>
+                <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="dataEntregaMouseClicked"/>
+              </Events>
+            </Component>
+            <Component class="com.toedter.calendar.JMonthChooser" name="mesEmissaoSelecionar">
+            </Component>
+            <Component class="javax.swing.JButton" name="tempoReal">
+              <Properties>
+                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                  <Image iconType="3" name="/icones/atualizar.png"/>
+                </Property>
+                <Property name="text" type="java.lang.String" value="TEMPO REAL (M&#xc1;XIMO 45 OP)"/>
+                <Property name="toolTipText" type="java.lang.String" value="ATUALIZA A TABELA A CADA 1 MINUTO"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="tempoRealActionPerformed"/>
+              </Events>
+            </Component>
+          </SubComponents>
+        </Container>
+        <Container class="javax.swing.JPanel" name="jPanel2">
+          <Constraints>
+            <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout" value="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout$JTabbedPaneConstraintsDescription">
+              <JTabbedPaneConstraints tabName="TABELA">
+                <Property name="tabTitle" type="java.lang.String" value="TABELA"/>
+              </JTabbedPaneConstraints>
+            </Constraint>
+          </Constraints>
+
+          <Layout>
+            <DimensionLayout dim="0">
+              <Group type="103" groupAlignment="0" attributes="0">
+                  <Component id="jScrollPane1" alignment="0" pref="1002" max="32767" attributes="0"/>
+              </Group>
+            </DimensionLayout>
+            <DimensionLayout dim="1">
+              <Group type="103" groupAlignment="0" attributes="0">
+                  <Component id="jScrollPane1" alignment="0" pref="569" max="32767" attributes="0"/>
+              </Group>
+            </DimensionLayout>
+          </Layout>
+          <SubComponents>
+            <Container class="javax.swing.JScrollPane" name="jScrollPane1">
+              <AuxValues>
+                <AuxValue name="autoScrollPane" type="java.lang.Boolean" value="true"/>
+              </AuxValues>
+
+              <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
+              <SubComponents>
+                <Component class="javax.swing.JTable" name="tabelaConsulta">
+                  <Properties>
+                    <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
+                      <Table columnCount="4" rowCount="0">
+                        <Column editable="false" title="N&#xba;" type="java.lang.Object"/>
+                        <Column editable="false" title="DATA ENTREGA" type="java.lang.Object"/>
+                        <Column editable="false" title="STATUS" type="java.lang.Object"/>
+                        <Column editable="false" title="PRODUTO" type="java.lang.Object"/>
+                      </Table>
+                    </Property>
+                    <Property name="tableHeader" type="javax.swing.table.JTableHeader" editor="org.netbeans.modules.form.editors2.JTableHeaderEditor">
+                      <TableHeader reorderingAllowed="true" resizingAllowed="true"/>
+                    </Property>
+                  </Properties>
+                  <Events>
+                    <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="tabelaConsultaMouseClicked"/>
+                  </Events>
+                  <AuxValues>
+                    <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="9"/>
+                  </AuxValues>
+                </Component>
+              </SubComponents>
+            </Container>
+          </SubComponents>
+        </Container>
+      </SubComponents>
+    </Container>
+  </SubComponents>
+</Form>

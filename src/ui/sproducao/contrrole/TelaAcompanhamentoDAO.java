@@ -30,7 +30,7 @@ public class TelaAcompanhamentoDAO {
      * @return
      * @throws SQLException
      */
-    public static List<TelaAcompanhamentoBEAN> refreshTabela() throws SQLException {
+    public static List<TelaAcompanhamentoBEAN> refreshTabela(int limite) throws SQLException {
         Connection con = ConnectionFactory.getConnection();
         PreparedStatement stmt = null;
         ResultSet rs = null;
@@ -41,7 +41,7 @@ public class TelaAcompanhamentoDAO {
             stmt = con.prepareStatement("SELECT cod, data_entrega, status, cod_produto, tipo_produto "
                     + "FROM tabela_ordens_producao "
                     + "ORDER BY tabela_ordens_producao.cod "
-                    + "DESC LIMIT 45");
+                    + "DESC LIMIT " + limite);
             rs = stmt.executeQuery();
             while (rs.next()) {
                 TelaAcompanhamentoBEAN telaAcompanhamentoBEAN = new TelaAcompanhamentoBEAN();

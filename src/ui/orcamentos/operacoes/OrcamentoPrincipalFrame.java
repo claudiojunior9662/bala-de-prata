@@ -39,6 +39,8 @@ import javax.swing.text.MaskFormatter;
 import entidades.ProdOrcamento;
 import exception.EnvioExcecao;
 import javax.swing.ImageIcon;
+import model.tabelas.OrcamentoExtTableModel;
+import model.tabelas.OrcamentoIntTableModel;
 import ui.cadastros.acabamentos.AcabamentoDAO;
 import ui.cadastros.clientes.ClienteBEAN;
 import ui.cadastros.clientes.ClienteDAO;
@@ -75,11 +77,13 @@ public class OrcamentoPrincipalFrame extends javax.swing.JInternalFrame {
      * @param TIPO_ORCAMENTO 1 - PRONTA ENTREGA (PE) 2 - PRODUÇÃO
      */
     private static byte TIPO_ORCAMENTO = 0;
+    private static OrcamentoExtTableModel modelExt = new OrcamentoExtTableModel();
+    private static OrcamentoIntTableModel modelInt = new OrcamentoIntTableModel();
 
     public static byte getTIPO_ORCAMENTO() {
         return TIPO_ORCAMENTO;
     }
-    
+
     private static double VLR_ANT;
     public static int CODIGO_CONTATO = 0;
     public static int CODIGO_ENDERECO = 0;
@@ -129,6 +133,16 @@ public class OrcamentoPrincipalFrame extends javax.swing.JInternalFrame {
         this.gj = gj;
         this.CLASSE_PAI = CLASSE_PAI;
         estadoInicial();
+
+        switch (CLASSE_PAI) {
+            case 1:
+            case 2:
+                tabelaConsulta.setModel(modelInt);
+                break;
+            case 3:
+                tabelaConsulta.setModel(modelExt);
+                break;
+        }
     }
 
     /**
@@ -206,11 +220,11 @@ public class OrcamentoPrincipalFrame extends javax.swing.JInternalFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         tabelaConsulta = new javax.swing.JTable();
         jLabel16 = new javax.swing.JLabel();
-        p1 = new javax.swing.JComboBox<>();
+        p1 = new javax.swing.JComboBox<String>();
         p3Texto = new javax.swing.JTextField();
         botaoPesquisar = new javax.swing.JButton();
         mostrarTodos = new javax.swing.JButton();
-        p2 = new javax.swing.JComboBox<>();
+        p2 = new javax.swing.JComboBox<String>();
         p3Data = new com.toedter.calendar.JDateChooser();
         gerarPdf = new javax.swing.JButton();
         p3Formatado = new javax.swing.JFormattedTextField();
@@ -938,17 +952,9 @@ public class OrcamentoPrincipalFrame extends javax.swing.JInternalFrame {
 
             },
             new String [] {
-                "CÓDIGO", "CLIENTE", "TIPO PESSOA", "DATA EMISSÃO", "DATA VALIDADE", "VALOR TOTAL", "STATUS"
-            }
-        ) {
-            boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false, false
-            };
 
-            public boolean isCellEditable(int rowIndex, int columnIndex) {
-                return canEdit [columnIndex];
             }
-        });
+        ));
         tabelaConsulta.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 tabelaConsultaMouseClicked(evt);
@@ -969,7 +975,7 @@ public class OrcamentoPrincipalFrame extends javax.swing.JInternalFrame {
 
         jLabel16.setText("PESQUISAR POR:");
 
-        p1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "SELECIONE...", "CÓDIGO", "CLIENTE", "DATA EMISSÃO", "DATA VALIDADE", "STATUS" }));
+        p1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "SELECIONE...", "CÓDIGO", "CLIENTE", "DATA EMISSÃO", "DATA VALIDADE", "STATUS" }));
         p1.addItemListener(new java.awt.event.ItemListener() {
             public void itemStateChanged(java.awt.event.ItemEvent evt) {
                 p1ItemStateChanged(evt);
@@ -997,7 +1003,7 @@ public class OrcamentoPrincipalFrame extends javax.swing.JInternalFrame {
             }
         });
 
-        p2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "SELECIONE..." }));
+        p2.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "SELECIONE..." }));
         p2.addItemListener(new java.awt.event.ItemListener() {
             public void itemStateChanged(java.awt.event.ItemEvent evt) {
                 p2ItemStateChanged(evt);
@@ -1807,17 +1813,17 @@ public class OrcamentoPrincipalFrame extends javax.swing.JInternalFrame {
                         frete.setEnabled(false);
                         frete.setValue(0d);
                     }
-                    
-                    if(orcamento.getArte() != 0d){
+
+                    if (orcamento.getArte() != 0d) {
                         jckbArte.setSelected(true);
                         jftfArte.setEnabled(true);
                         jftfArte.setValue(orcamento.getArte());
-                    }else{
+                    } else {
                         jckbArte.setSelected(false);
                         jftfArte.setEnabled(false);
                         jftfArte.setValue(0d);
                     }
-                    
+
                     vlrTotal.setValue(orcamento.getValorTotal());
 
                     /**
@@ -1826,9 +1832,7 @@ public class OrcamentoPrincipalFrame extends javax.swing.JInternalFrame {
                     for (ProdOrcamento prodOrc : ProdutoDAO.carregaProdutosOrcamento(
                             (int) codigoOrcamento.getValue())) {
                         /**
-                         * TIPO_ORCAMENTO
-                         * 1 - PRONTA ENTREGA
-                         * 2 - PRODUÇÃO
+                         * TIPO_ORCAMENTO 1 - PRONTA ENTREGA 2 - PRODUÇÃO
                          */
                         TIPO_ORCAMENTO = prodOrc.getTipoProduto() == 1 ? (byte) 2 : (byte) 1;
                         CODIGO_PRODUTO = prodOrc.getCodProduto();
@@ -2909,17 +2913,40 @@ public class OrcamentoPrincipalFrame extends javax.swing.JInternalFrame {
         loading.setText("CARREGANDO...");
 
         try {
-            DefaultTableModel modeloConsulta = (DefaultTableModel) tabelaConsulta.getModel();
-            modeloConsulta.setNumRows(0);
+            switch (CLASSE_PAI) {
+                case 1:
+                case 2:
+                    modelInt.setNumRows(0);
+                    break;
+                case 3:
+                    modelExt.setNumRows(0);
+                    break;
+            }
+
             for (Orcamento orcamento : OrcamentoDAO.mostraTodos()) {
-                modeloConsulta.addRow(new Object[]{
-                    orcamento.getCod(),
-                    OrcamentoDAO.carregaNomeCliente(orcamento.getTipoPessoa(), orcamento.getCodCliente()),
-                    orcamento.getTipoPessoa() == 1 ? "PESSOA FÍSICA" : "PESSOA JURÍDICA",
-                    Controle.dataPadrao.format(orcamento.getDataEmissao()),
-                    Controle.dataPadrao.format(orcamento.getDataValidade()),
-                    orcamento.getValorTotal(),
-                    Controle.stsOrcamento.get(orcamento.getStatus() - 1).toString()});
+                switch (CLASSE_PAI) {
+                    case 1:
+                    case 2:
+                        modelInt.addRow(new Orcamento(
+                                orcamento.getCod(),
+                                OrcamentoDAO.carregaNomeCliente(orcamento.getTipoPessoa(), orcamento.getCodCliente()),
+                                orcamento.getTipoPessoa() == 1 ? "PESSOA FÍSICA" : "PESSOA JURÍDICA",
+                                Controle.dataPadrao.format(orcamento.getDataEmissao()),
+                                Controle.dataPadrao.format(orcamento.getDataValidade()),
+                                orcamento.getValorTotal(),
+                                Controle.stsOrcamento.get(orcamento.getStatus() - 1).toString()
+                        ));
+                        break;
+                    case 3:
+                        modelExt.addRow(new Orcamento(
+                                orcamento.getCod(),
+                                Controle.dataPadrao.format(orcamento.getDataEmissao()),
+                                Controle.dataPadrao.format(orcamento.getDataValidade()),
+                                orcamento.getValorTotal(),
+                                Controle.stsOrcamento.get(orcamento.getStatus() - 1).toString()
+                        ));
+                        break;
+                }
 
             }
         } catch (SQLException ex) {
@@ -2933,11 +2960,17 @@ public class OrcamentoPrincipalFrame extends javax.swing.JInternalFrame {
         try {
             loading.setVisible(true);
             loading.setText("CARREGANDO...");
-            /**
-             * Instancia as funções necessárias
-             */
-            DefaultTableModel modeloConsulta = (DefaultTableModel) tabelaConsulta.getModel();
-            modeloConsulta.setNumRows(0);
+
+            switch (CLASSE_PAI) {
+                case 1:
+                case 2:
+                    modelInt.setNumRows(0);
+                    break;
+                case 3:
+                    modelExt.setNumRows(0);
+                    break;
+            }
+
             /**
              * Executa a pesquisa no banco de dados
              */
@@ -2953,15 +2986,30 @@ public class OrcamentoPrincipalFrame extends javax.swing.JInternalFrame {
                             null,
                             p3Texto.getText(),
                             1)) {
-                        modeloConsulta.addRow(new Object[]{
-                            orcamento.getCod(),
-                            orcamento.getNomeCliente(),
-                            orcamento.getTipoPessoa() == 1 ? "PESSOA FÍSICA" : "PESSOA JURÍDICA",
-                            Controle.dataPadrao.format(orcamento.getDataEmissao()),
-                            Controle.dataPadrao.format(orcamento.getDataValidade()),
-                            orcamento.getValorTotal(),
-                            Controle.stsOrcamento.get(orcamento.getStatus() - 1).toString()
-                        });
+                        switch (CLASSE_PAI) {
+                            case 1:
+                            case 2:
+                                modelInt.addRow(new Orcamento(
+                                        orcamento.getCod(),
+                                        orcamento.getNomeCliente(),
+                                        orcamento.getTipoPessoa() == 1 ? "PESSOA FÍSICA" : "PESSOA JURÍDICA",
+                                        Controle.dataPadrao.format(orcamento.getDataEmissao()),
+                                        Controle.dataPadrao.format(orcamento.getDataValidade()),
+                                        orcamento.getValorTotal(),
+                                        Controle.stsOrcamento.get(orcamento.getStatus() - 1).toString()
+                                ));
+                                break;
+                            case 3:
+                                modelExt.addRow(new Orcamento(
+                                        orcamento.getCod(),
+                                        Controle.dataPadrao.format(orcamento.getDataEmissao()),
+                                        Controle.dataPadrao.format(orcamento.getDataValidade()),
+                                        orcamento.getValorTotal(),
+                                        Controle.stsOrcamento.get(orcamento.getStatus() - 1).toString()
+                                ));
+                                break;
+                        }
+
                     }
                     break;
                 case 2:
@@ -2975,14 +3023,29 @@ public class OrcamentoPrincipalFrame extends javax.swing.JInternalFrame {
                                     p2.getSelectedItem().toString(),
                                     p3Texto.getText(),
                                     1)) {
-                                modeloConsulta.addRow(new Object[]{
-                                    orcamento.getCod(),
-                                    orcamento.getNomeCliente(),
-                                    orcamento.getTipoPessoa() == 1 ? "PESSOA FÍSICA" : "PESSOA JURÍDICA",
-                                    Controle.dataPadrao.format(orcamento.getDataEmissao()),
-                                    Controle.dataPadrao.format(orcamento.getDataValidade()),
-                                    orcamento.getValorTotal(),
-                                    Controle.stsOrcamento.get(orcamento.getStatus() - 1).toString()});
+                                switch (CLASSE_PAI) {
+                                    case 1:
+                                    case 2:
+                                        modelInt.addRow(new Orcamento(
+                                                orcamento.getCod(),
+                                                orcamento.getNomeCliente(),
+                                                orcamento.getTipoPessoa() == 1 ? "PESSOA FÍSICA" : "PESSOA JURÍDICA",
+                                                Controle.dataPadrao.format(orcamento.getDataEmissao()),
+                                                Controle.dataPadrao.format(orcamento.getDataValidade()),
+                                                orcamento.getValorTotal(),
+                                                Controle.stsOrcamento.get(orcamento.getStatus() - 1).toString()
+                                        ));
+                                        break;
+                                    case 3:
+                                        modelExt.addRow(new Orcamento(
+                                                orcamento.getCod(),
+                                                Controle.dataPadrao.format(orcamento.getDataEmissao()),
+                                                Controle.dataPadrao.format(orcamento.getDataValidade()),
+                                                orcamento.getValorTotal(),
+                                                Controle.stsOrcamento.get(orcamento.getStatus() - 1).toString()
+                                        ));
+                                        break;
+                                }
                             }
                             break;
                         default:
@@ -2990,14 +3053,29 @@ public class OrcamentoPrincipalFrame extends javax.swing.JInternalFrame {
                                     p2.getSelectedItem().toString(),
                                     p3Formatado.getText(),
                                     1)) {
-                                modeloConsulta.addRow(new Object[]{
-                                    orcamento.getCod(),
-                                    orcamento.getNomeCliente(),
-                                    orcamento.getTipoPessoa() == 1 ? "PESSOA FÍSICA" : "PESSOA JURÍDICA",
-                                    Controle.dataPadrao.format(orcamento.getDataEmissao()),
-                                    Controle.dataPadrao.format(orcamento.getDataValidade()),
-                                    orcamento.getValorTotal(),
-                                    Controle.stsOrcamento.get(orcamento.getStatus() - 1).toString()});
+                                switch (CLASSE_PAI) {
+                                    case 1:
+                                    case 2:
+                                        modelInt.addRow(new Orcamento(
+                                                orcamento.getCod(),
+                                                orcamento.getNomeCliente(),
+                                                orcamento.getTipoPessoa() == 1 ? "PESSOA FÍSICA" : "PESSOA JURÍDICA",
+                                                Controle.dataPadrao.format(orcamento.getDataEmissao()),
+                                                Controle.dataPadrao.format(orcamento.getDataValidade()),
+                                                orcamento.getValorTotal(),
+                                                Controle.stsOrcamento.get(orcamento.getStatus() - 1).toString()
+                                        ));
+                                        break;
+                                    case 3:
+                                        modelExt.addRow(new Orcamento(
+                                                orcamento.getCod(),
+                                                Controle.dataPadrao.format(orcamento.getDataEmissao()),
+                                                Controle.dataPadrao.format(orcamento.getDataValidade()),
+                                                orcamento.getValorTotal(),
+                                                Controle.stsOrcamento.get(orcamento.getStatus() - 1).toString()
+                                        ));
+                                        break;
+                                }
                             }
                             break;
                     }
@@ -3008,14 +3086,29 @@ public class OrcamentoPrincipalFrame extends javax.swing.JInternalFrame {
                             null,
                             Controle.dataPadrao.format(p3Data.getDate()),
                             1)) {
-                        modeloConsulta.addRow(new Object[]{
-                            orcamento.getCod(),
-                            orcamento.getNomeCliente(),
-                            orcamento.getTipoPessoa() == 1 ? "PESSOA FÍSICA" : "PESSOA JURÍDICA",
-                            Controle.dataPadrao.format(orcamento.getDataEmissao()),
-                            Controle.dataPadrao.format(orcamento.getDataValidade()),
-                            orcamento.getValorTotal(),
-                            Controle.stsOrcamento.get(orcamento.getStatus() - 1).toString()});
+                        switch (CLASSE_PAI) {
+                            case 1:
+                            case 2:
+                                modelInt.addRow(new Orcamento(
+                                        orcamento.getCod(),
+                                        orcamento.getNomeCliente(),
+                                        orcamento.getTipoPessoa() == 1 ? "PESSOA FÍSICA" : "PESSOA JURÍDICA",
+                                        Controle.dataPadrao.format(orcamento.getDataEmissao()),
+                                        Controle.dataPadrao.format(orcamento.getDataValidade()),
+                                        orcamento.getValorTotal(),
+                                        Controle.stsOrcamento.get(orcamento.getStatus() - 1).toString()
+                                ));
+                                break;
+                            case 3:
+                                modelExt.addRow(new Orcamento(
+                                        orcamento.getCod(),
+                                        Controle.dataPadrao.format(orcamento.getDataEmissao()),
+                                        Controle.dataPadrao.format(orcamento.getDataValidade()),
+                                        orcamento.getValorTotal(),
+                                        Controle.stsOrcamento.get(orcamento.getStatus() - 1).toString()
+                                ));
+                                break;
+                        }
                     }
                     break;
                 case 5:
@@ -3023,14 +3116,29 @@ public class OrcamentoPrincipalFrame extends javax.swing.JInternalFrame {
                             String.valueOf(p2.getSelectedIndex() + 1),
                             null,
                             1)) {
-                        modeloConsulta.addRow(new Object[]{
-                            orcamento.getCod(),
-                            orcamento.getNomeCliente(),
-                            orcamento.getTipoPessoa() == 1 ? "PESSOA FÍSICA" : "PESSOA JURÍDICA",
-                            Controle.dataPadrao.format(orcamento.getDataEmissao()),
-                            Controle.dataPadrao.format(orcamento.getDataValidade()),
-                            orcamento.getValorTotal(),
-                            Controle.stsOrcamento.get(orcamento.getStatus() - 1).toString()});
+                        switch (CLASSE_PAI) {
+                            case 1:
+                            case 2:
+                                modelInt.addRow(new Orcamento(
+                                        orcamento.getCod(),
+                                        orcamento.getNomeCliente(),
+                                        orcamento.getTipoPessoa() == 1 ? "PESSOA FÍSICA" : "PESSOA JURÍDICA",
+                                        Controle.dataPadrao.format(orcamento.getDataEmissao()),
+                                        Controle.dataPadrao.format(orcamento.getDataValidade()),
+                                        orcamento.getValorTotal(),
+                                        Controle.stsOrcamento.get(orcamento.getStatus() - 1).toString()
+                                ));
+                                break;
+                            case 3:
+                                modelExt.addRow(new Orcamento(
+                                        orcamento.getCod(),
+                                        Controle.dataPadrao.format(orcamento.getDataEmissao()),
+                                        Controle.dataPadrao.format(orcamento.getDataValidade()),
+                                        orcamento.getValorTotal(),
+                                        Controle.stsOrcamento.get(orcamento.getStatus() - 1).toString()
+                                ));
+                                break;
+                        }
 
                     }
                     break;
@@ -3070,8 +3178,16 @@ public class OrcamentoPrincipalFrame extends javax.swing.JInternalFrame {
             loading.setText("CARREGANDO...");
             //INSTANCIA AS FUNÇÕES E VARIÁVEIS NECESSÁRIAS----------------------
             String tipoPessoa = null;
-            DefaultTableModel modeloConsulta = (DefaultTableModel) tabelaConsulta.getModel();
-            modeloConsulta.setNumRows(0);
+
+            switch (CLASSE_PAI) {
+                case 1:
+                case 2:
+                    modelInt.setNumRows(0);
+                    break;
+                case 3:
+                    modelExt.setNumRows(0);
+                    break;
+            }
             //FAZ A CONSULTA----------------------------------------------------
             switch (p1.getSelectedIndex()) {
                 case 0:
@@ -3085,15 +3201,29 @@ public class OrcamentoPrincipalFrame extends javax.swing.JInternalFrame {
                             null,
                             p3Texto.getText(),
                             (int) pagAtual.getValue())) {
-                        modeloConsulta.addRow(new Object[]{
-                            orcamento.getCod(),
-                            orcamento.getNomeCliente(),
-                            orcamento.getTipoPessoa() == 1 ? "PESSOA FÍSICA" : "PESSOA JURÍDICA",
-                            Controle.dataPadrao.format(orcamento.getDataEmissao()),
-                            Controle.dataPadrao.format(orcamento.getDataValidade()),
-                            orcamento.getValorTotal(),
-                            Controle.stsOrcamento.get(orcamento.getStatus() - 1).toString()
-                        });
+                        switch (CLASSE_PAI) {
+                            case 1:
+                            case 2:
+                                modelInt.addRow(new Orcamento(
+                                        orcamento.getCod(),
+                                        orcamento.getNomeCliente(),
+                                        orcamento.getTipoPessoa() == 1 ? "PESSOA FÍSICA" : "PESSOA JURÍDICA",
+                                        Controle.dataPadrao.format(orcamento.getDataEmissao()),
+                                        Controle.dataPadrao.format(orcamento.getDataValidade()),
+                                        orcamento.getValorTotal(),
+                                        Controle.stsOrcamento.get(orcamento.getStatus() - 1).toString()
+                                ));
+                                break;
+                            case 3:
+                                modelExt.addRow(new Orcamento(
+                                        orcamento.getCod(),
+                                        Controle.dataPadrao.format(orcamento.getDataEmissao()),
+                                        Controle.dataPadrao.format(orcamento.getDataValidade()),
+                                        orcamento.getValorTotal(),
+                                        Controle.stsOrcamento.get(orcamento.getStatus() - 1).toString()
+                                ));
+                                break;
+                        }
                     }
                     break;
                 case 2:
@@ -3107,14 +3237,29 @@ public class OrcamentoPrincipalFrame extends javax.swing.JInternalFrame {
                                     p2.getSelectedItem().toString(),
                                     p3Texto.getText(),
                                     (int) pagAtual.getValue())) {
-                                modeloConsulta.addRow(new Object[]{
-                                    orcamento.getCod(),
-                                    orcamento.getNomeCliente(),
-                                    orcamento.getTipoPessoa() == 1 ? "PESSOA FÍSICA" : "PESSOA JURÍDICA",
-                                    Controle.dataPadrao.format(orcamento.getDataEmissao()),
-                                    Controle.dataPadrao.format(orcamento.getDataValidade()),
-                                    orcamento.getValorTotal(),
-                                    Controle.stsOrcamento.get(orcamento.getStatus() - 1).toString()});
+                                switch (CLASSE_PAI) {
+                                    case 1:
+                                    case 2:
+                                        modelInt.addRow(new Orcamento(
+                                                orcamento.getCod(),
+                                                orcamento.getNomeCliente(),
+                                                orcamento.getTipoPessoa() == 1 ? "PESSOA FÍSICA" : "PESSOA JURÍDICA",
+                                                Controle.dataPadrao.format(orcamento.getDataEmissao()),
+                                                Controle.dataPadrao.format(orcamento.getDataValidade()),
+                                                orcamento.getValorTotal(),
+                                                Controle.stsOrcamento.get(orcamento.getStatus() - 1).toString()
+                                        ));
+                                        break;
+                                    case 3:
+                                        modelExt.addRow(new Orcamento(
+                                                orcamento.getCod(),
+                                                Controle.dataPadrao.format(orcamento.getDataEmissao()),
+                                                Controle.dataPadrao.format(orcamento.getDataValidade()),
+                                                orcamento.getValorTotal(),
+                                                Controle.stsOrcamento.get(orcamento.getStatus() - 1).toString()
+                                        ));
+                                        break;
+                                }
                             }
                             break;
                         default:
@@ -3122,14 +3267,29 @@ public class OrcamentoPrincipalFrame extends javax.swing.JInternalFrame {
                                     p2.getSelectedItem().toString(),
                                     p3Formatado.getText(),
                                     (int) pagAtual.getValue())) {
-                                modeloConsulta.addRow(new Object[]{
-                                    orcamento.getCod(),
-                                    orcamento.getNomeCliente(),
-                                    orcamento.getTipoPessoa() == 1 ? "PESSOA FÍSICA" : "PESSOA JURÍDICA",
-                                    Controle.dataPadrao.format(orcamento.getDataEmissao()),
-                                    Controle.dataPadrao.format(orcamento.getDataValidade()),
-                                    orcamento.getValorTotal(),
-                                    Controle.stsOrcamento.get(orcamento.getStatus() - 1).toString()});
+                                switch (CLASSE_PAI) {
+                                    case 1:
+                                    case 2:
+                                        modelInt.addRow(new Orcamento(
+                                                orcamento.getCod(),
+                                                orcamento.getNomeCliente(),
+                                                orcamento.getTipoPessoa() == 1 ? "PESSOA FÍSICA" : "PESSOA JURÍDICA",
+                                                Controle.dataPadrao.format(orcamento.getDataEmissao()),
+                                                Controle.dataPadrao.format(orcamento.getDataValidade()),
+                                                orcamento.getValorTotal(),
+                                                Controle.stsOrcamento.get(orcamento.getStatus() - 1).toString()
+                                        ));
+                                        break;
+                                    case 3:
+                                        modelExt.addRow(new Orcamento(
+                                                orcamento.getCod(),
+                                                Controle.dataPadrao.format(orcamento.getDataEmissao()),
+                                                Controle.dataPadrao.format(orcamento.getDataValidade()),
+                                                orcamento.getValorTotal(),
+                                                Controle.stsOrcamento.get(orcamento.getStatus() - 1).toString()
+                                        ));
+                                        break;
+                                }
                             }
                             break;
                     }
@@ -3140,14 +3300,29 @@ public class OrcamentoPrincipalFrame extends javax.swing.JInternalFrame {
                             null,
                             Controle.dataPadrao.format(p3Data.getDate()),
                             (int) pagAtual.getValue())) {
-                        modeloConsulta.addRow(new Object[]{
-                            orcamento.getCod(),
-                            orcamento.getNomeCliente(),
-                            orcamento.getTipoPessoa() == 1 ? "PESSOA FÍSICA" : "PESSOA JURÍDICA",
-                            Controle.dataPadrao.format(orcamento.getDataEmissao()),
-                            Controle.dataPadrao.format(orcamento.getDataValidade()),
-                            orcamento.getValorTotal(),
-                            Controle.stsOrcamento.get(orcamento.getStatus() - 1).toString()});
+                        switch (CLASSE_PAI) {
+                            case 1:
+                            case 2:
+                                modelInt.addRow(new Orcamento(
+                                        orcamento.getCod(),
+                                        orcamento.getNomeCliente(),
+                                        orcamento.getTipoPessoa() == 1 ? "PESSOA FÍSICA" : "PESSOA JURÍDICA",
+                                        Controle.dataPadrao.format(orcamento.getDataEmissao()),
+                                        Controle.dataPadrao.format(orcamento.getDataValidade()),
+                                        orcamento.getValorTotal(),
+                                        Controle.stsOrcamento.get(orcamento.getStatus() - 1).toString()
+                                ));
+                                break;
+                            case 3:
+                                modelExt.addRow(new Orcamento(
+                                        orcamento.getCod(),
+                                        Controle.dataPadrao.format(orcamento.getDataEmissao()),
+                                        Controle.dataPadrao.format(orcamento.getDataValidade()),
+                                        orcamento.getValorTotal(),
+                                        Controle.stsOrcamento.get(orcamento.getStatus() - 1).toString()
+                                ));
+                                break;
+                        }
                     }
                     break;
                 case 5:
@@ -3155,14 +3330,29 @@ public class OrcamentoPrincipalFrame extends javax.swing.JInternalFrame {
                             p2.getSelectedItem().toString().substring(0, 1),
                             null,
                             (int) pagAtual.getValue())) {
-                        modeloConsulta.addRow(new Object[]{
-                            orcamento.getCod(),
-                            orcamento.getNomeCliente(),
-                            orcamento.getTipoPessoa() == 1 ? "PESSOA FÍSICA" : "PESSOA JURÍDICA",
-                            Controle.dataPadrao.format(orcamento.getDataEmissao()),
-                            Controle.dataPadrao.format(orcamento.getDataValidade()),
-                            orcamento.getValorTotal(),
-                            Controle.stsOrcamento.get(orcamento.getStatus() - 1).toString()});
+                        switch (CLASSE_PAI) {
+                            case 1:
+                            case 2:
+                                modelInt.addRow(new Orcamento(
+                                        orcamento.getCod(),
+                                        orcamento.getNomeCliente(),
+                                        orcamento.getTipoPessoa() == 1 ? "PESSOA FÍSICA" : "PESSOA JURÍDICA",
+                                        Controle.dataPadrao.format(orcamento.getDataEmissao()),
+                                        Controle.dataPadrao.format(orcamento.getDataValidade()),
+                                        orcamento.getValorTotal(),
+                                        Controle.stsOrcamento.get(orcamento.getStatus() - 1).toString()
+                                ));
+                                break;
+                            case 3:
+                                modelExt.addRow(new Orcamento(
+                                        orcamento.getCod(),
+                                        Controle.dataPadrao.format(orcamento.getDataEmissao()),
+                                        Controle.dataPadrao.format(orcamento.getDataValidade()),
+                                        orcamento.getValorTotal(),
+                                        Controle.stsOrcamento.get(orcamento.getStatus() - 1).toString()
+                                ));
+                                break;
+                        }
 
                     }
                     break;
@@ -3219,7 +3409,7 @@ public class OrcamentoPrincipalFrame extends javax.swing.JInternalFrame {
                 byte tipoPapel = 0;
                 String tipoPapelAux = tabelaPapeis.getValueAt(i, 3).toString();
 
-                switch(tipoPapelAux){
+                switch (tipoPapelAux) {
                     case "FOLHA":
                         tipoPapel = 1;
                         break;
@@ -3494,8 +3684,8 @@ public class OrcamentoPrincipalFrame extends javax.swing.JInternalFrame {
         if (haFrete.isSelected()) {
             valorTotal += Double.valueOf(frete.getText().replace(",", "."));
         }
-        
-        if(jckbArte.isSelected()){
+
+        if (jckbArte.isSelected()) {
             valorTotal += Double.valueOf(jftfArte.getText().replace(",", "."));
         }
 
@@ -3892,7 +4082,6 @@ public class OrcamentoPrincipalFrame extends javax.swing.JInternalFrame {
             }
 
             //FIM DA VERIFICAÇÃO DE ERROS-------------------------------------------
-            
             orcamento.setCodEmissor(TelaAutenticacao.getUsrLogado().getCodigo());
 
             if (EDITANDO) {

@@ -16,6 +16,8 @@ import java.util.logging.Logger;
 import javax.swing.ImageIcon;
 import ui.controle.Controle;
 import ui.login.TelaAutenticacao;
+import ui.orcamentos.operacoes.VisualizadorProdutosFrame;
+import ui.ordemProducao.consultas.OpVisualizacaoFrame;
 import ui.relatorios.ordemProducao.RelatoriosOrdemProducao;
 import ui.sproducao.contrrole.TelaAcompanhamento;
 
@@ -97,6 +99,7 @@ public class Producao extends javax.swing.JFrame {
         jMenuBar1 = new javax.swing.JMenuBar();
         menuPrincipal = new javax.swing.JMenu();
         menuConsultaSimatex = new javax.swing.JMenuItem();
+        menuVisualizacao = new javax.swing.JMenuItem();
         menuRelatorios = new javax.swing.JMenu();
         relatoriosOrdemProducao = new javax.swing.JMenuItem();
         menuModulos = new javax.swing.JMenu();
@@ -122,8 +125,6 @@ public class Producao extends javax.swing.JFrame {
         taAvisos.setDragEnabled(true);
         jScrollPane2.setViewportView(taAvisos);
 
-        areaDeTrabalho.setLayer(jScrollPane2, javax.swing.JLayeredPane.DEFAULT_LAYER);
-
         javax.swing.GroupLayout areaDeTrabalhoLayout = new javax.swing.GroupLayout(areaDeTrabalho);
         areaDeTrabalho.setLayout(areaDeTrabalhoLayout);
         areaDeTrabalhoLayout.setHorizontalGroup(
@@ -140,6 +141,7 @@ public class Producao extends javax.swing.JFrame {
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 410, Short.MAX_VALUE)
                 .addContainerGap())
         );
+        areaDeTrabalho.setLayer(jScrollPane2, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
         loading.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         loading.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ui/orcamentos/operacoes/carregando.gif"))); // NOI18N
@@ -165,6 +167,14 @@ public class Producao extends javax.swing.JFrame {
             }
         });
         menuPrincipal.add(menuConsultaSimatex);
+
+        menuVisualizacao.setText("VISUALIZAÇÃO");
+        menuVisualizacao.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                menuVisualizacaoActionPerformed(evt);
+            }
+        });
+        menuPrincipal.add(menuVisualizacao);
 
         jMenuBar1.add(menuPrincipal);
 
@@ -293,6 +303,10 @@ public class Producao extends javax.swing.JFrame {
         Controle.getDefaultGj().abrirJanelas(TelaAcompanhamento.getInstancia(loading, Controle.getDefaultGj()), "TELA DE ACOMPANHAMENTO DE ORDEM DE PRODUÇÃO");
     }//GEN-LAST:event_menuConsultaSimatexActionPerformed
 
+    private void menuVisualizacaoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuVisualizacaoActionPerformed
+        Controle.getDefaultGj().abrirJanelas(OpVisualizacaoFrame.getInstancia(loading, Controle.getDefaultGj()), "TELA DE VISUALIZAÇÃO DE OP");
+    }//GEN-LAST:event_menuVisualizacaoActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -341,6 +355,7 @@ public class Producao extends javax.swing.JFrame {
     private javax.swing.JMenu menuPrincipal;
     private javax.swing.JMenu menuRelatorios;
     private javax.swing.JMenu menuSair;
+    private javax.swing.JMenuItem menuVisualizacao;
     private javax.swing.JMenuItem relatoriosOrdemProducao;
     private javax.swing.JTextPane statusPane;
     private javax.swing.JTextArea taAvisos;

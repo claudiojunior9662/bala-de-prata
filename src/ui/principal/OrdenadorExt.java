@@ -243,7 +243,7 @@ public class OrdenadorExt extends javax.swing.JFrame {
     }//GEN-LAST:event_orcamentosMouseClicked
 
     private void orcamentosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_orcamentosActionPerformed
-        Controle.getDefaultGj().abrirJanelas(OrcamentoPrincipalFrame.getInstancia(loading, Controle.getDefaultGj(), (byte) 2), "ORÇAMENTOS");
+        Controle.getDefaultGj().abrirJanelas(OrcamentoPrincipalFrame.getInstancia(loading, Controle.getDefaultGj(), (byte) 3), "ORÇAMENTOS");
         OrcamentoPrincipalFrame.estadoOdExt();
         
         new Thread("Pesquisa orçamentos ordenador externo") {

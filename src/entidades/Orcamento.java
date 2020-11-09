@@ -73,6 +73,12 @@ public class Orcamento {
     private Double arte;
     private String descricaoProduto;
     private int codigoOp;
+    
+    //TABELA CONSULTA
+    private String tipoPessoaString;
+    private String dataEmissaoString;
+    private String dataValidadeString;
+    private String statusString;
 
     public Orcamento(int codigoCliente,
             int codContato,
@@ -121,6 +127,26 @@ public class Orcamento {
         this.frete = frete;
         this.arte = arte;
     }
+
+    public Orcamento(int codigo, String dataEmissao, String dataValidade, float valorTotal, String status) {
+        this.codigo = codigo;
+        this.dataValidadeString = dataValidade;
+        this.dataEmissaoString = dataEmissao;
+        this.statusString = status;
+        this.valorTotal = valorTotal;
+    }
+
+    public Orcamento(int codigo, String nomeCliente, String tipoPessoa, String dataEmissao, String dataValidade, float valorTotal, String status) {
+        this.codigo = codigo;
+        this.dataValidadeString = dataValidade;
+        this.dataEmissaoString = dataEmissao;
+        this.statusString = status;
+        this.tipoPessoaString = tipoPessoa;
+        this.nomeCliente = nomeCliente;
+        this.valorTotal = valorTotal;
+    }
+    
+        
 
     public Orcamento(int codigo,
             int codCliente,
@@ -175,6 +201,30 @@ public class Orcamento {
 
     public Double getFrete() {
         return frete;
+    }
+
+    public String getDataEmissaoString() {
+        return dataEmissaoString;
+    }
+
+    public void setDataEmissaoString(String dataEmissaoString) {
+        this.dataEmissaoString = dataEmissaoString;
+    }
+
+    public String getDataValidadeString() {
+        return dataValidadeString;
+    }
+
+    public void setDataValidadeString(String dataValidadeString) {
+        this.dataValidadeString = dataValidadeString;
+    }
+
+    public String getStatusString() {
+        return statusString;
+    }
+
+    public void setStatusString(String statusString) {
+        this.statusString = statusString;
     }
 
     public void setFrete(Double frete) {
@@ -332,6 +382,16 @@ public class Orcamento {
     public void setDescricao(String descricao) {
         this.descricao = descricao;
     }
+
+    public String getTipoPessoaString() {
+        return tipoPessoaString;
+    }
+
+    public void setTipoPessoaString(String tipoPessoaString) {
+        this.tipoPessoaString = tipoPessoaString;
+    }
+    
+    
 
     /**
      * Gera o Pdf do orçamento
