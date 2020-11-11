@@ -361,9 +361,7 @@ public class TelaAutenticacao extends javax.swing.JFrame {
                     mInt.setVisible(true);
                     this.setVisible(false);
 
-                    JOptionPane.showMessageDialog(null, "CORREÇÕES E ATUALIZAÇÕES DA v.2.3.6 Bravo (06-07-2020)\n"
-                            + "- Solução ao DIEx nº 545-DIV CMCL/GRÁFICA;\n"
-                            + "CORREÇÕES E ATUALIZAÇÕES DA v.2.3.6 Charlie (23-07-2020)\n"
+                    JOptionPane.showMessageDialog(null, "CORREÇÕES E ATUALIZAÇÕES DA v.2.3.6 Charlie (23-07-2020)\n"
                             + "- Adição do status 'ENTREGUE' para selecionar na tela de acompanhamento de OP;\n"
                             + "CORREÇÕES E ATUALIZAÇÕES DA v.2.3.6 Delta (03-08-2020)\n"
                             + "- Correção ao gerar PDF dos faturamentos (o valor do frete estava sendo somado incorretamente.);\n"
@@ -385,6 +383,9 @@ public class TelaAutenticacao extends javax.swing.JFrame {
                             + "- Implementação do relatório financeiro;\n"
                             + "- Correção de erros na geração do relatório de faturamentos;\n"
                             + "- Correção de lançamentos incorretos de notas de crédito;\n"
+                            + "CORREÇÕES E ATUALIZAÇÕES DA v.2.3.8 2 (10-11-2020)\n"
+                            + "- Correção da tela de visualização do OD externo;\n"
+                            + ""
                             + "AVISOS:\n"
                             + "- Todas as sugestões de melhoria de usabilidade do programa serão estudadas, mas não há previsão de implementação;\n"
                             + "- Qualquer problema nas correções acima expostas deverão ser informados o mais rápido possível à SPD;\n"
