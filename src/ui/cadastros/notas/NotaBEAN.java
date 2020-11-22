@@ -774,8 +774,8 @@ public class NotaBEAN {
 
                     cell3 = new PdfPCell(new Phrase("VALOR FRETE\n\n"
                             + "R$ " + (fat.getFreteFat() == 1
-                            ? df.format(OrcamentoDAO.retornaValorFrete(fat.getCodOrc()))
-                            : "0,00"),
+                                    ? df.format(OrcamentoDAO.retornaValorFrete(fat.getCodOrc()))
+                                    : "0,00"),
                             FontFactory.getFont("arial.ttf", 9)));
                     cell4 = new PdfPCell(new Phrase("VALOR SERVIÇOS\n\nR$ " + (fat.getServicosFat() == 1
                             ? df.format(ServicoDAO.retornaVlrSvOrcExistente(fat.getCodOrc()))
@@ -853,6 +853,9 @@ public class NotaBEAN {
                      * Campo de assinatura do cliente
                      */
                     p = new Paragraph("_________________________________________");
+                    p.setAlignment(1);
+                    document.add(p);
+                    p = new Paragraph("NOME: ______________ DOCUMENTO: ______________ EMISSOR: ________", FontFactory.getFont("arial.ttf", 9));
                     p.setAlignment(1);
                     document.add(p);
                     p = new Paragraph(cliente.getTipoCliente() == 1

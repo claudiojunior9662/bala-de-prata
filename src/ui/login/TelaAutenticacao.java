@@ -30,7 +30,7 @@ import ui.principal.ModulosExt;
 public class TelaAutenticacao extends javax.swing.JFrame {
     
     private static final String codVersao = "2.3.8";
-    private static final String update = "1";
+    private static final String update = "3";
     private static UsuarioBEAN atendenteLogado;
 
     public static UsuarioBEAN getUsrLogado() {
@@ -361,9 +361,7 @@ public class TelaAutenticacao extends javax.swing.JFrame {
                     mInt.setVisible(true);
                     this.setVisible(false);
 
-                    JOptionPane.showMessageDialog(null, "CORREÇÕES E ATUALIZAÇÕES DA v.2.3.6 Charlie (23-07-2020)\n"
-                            + "- Adição do status 'ENTREGUE' para selecionar na tela de acompanhamento de OP;\n"
-                            + "CORREÇÕES E ATUALIZAÇÕES DA v.2.3.6 Delta (03-08-2020)\n"
+                    JOptionPane.showMessageDialog(null, "CORREÇÕES E ATUALIZAÇÕES DA v.2.3.6 Delta (03-08-2020)\n"
                             + "- Correção ao gerar PDF dos faturamentos (o valor do frete estava sendo somado incorretamente.);\n"
                             + "CORREÇÕES E ATUALIZAÇÕES DA v.2.3.6 5 (18-08-2020)\n"
                             + "- Correção de erros diversos;\n"
@@ -385,7 +383,8 @@ public class TelaAutenticacao extends javax.swing.JFrame {
                             + "- Correção de lançamentos incorretos de notas de crédito;\n"
                             + "CORREÇÕES E ATUALIZAÇÕES DA v.2.3.8 2 (10-11-2020)\n"
                             + "- Correção da tela de visualização do OD externo;\n"
-                            + ""
+                            + "CORREÇÕES E ATUALIZAÇÕES DA v.2.3.8 3 (22-11-2020)\n"
+                            + "- Implementação dos campos de inseção de identificação nos faturamentos;"
                             + "AVISOS:\n"
                             + "- Todas as sugestões de melhoria de usabilidade do programa serão estudadas, mas não há previsão de implementação;\n"
                             + "- Qualquer problema nas correções acima expostas deverão ser informados o mais rápido possível à SPD;\n"
@@ -398,7 +397,6 @@ public class TelaAutenticacao extends javax.swing.JFrame {
                 lblEntrar.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
             }
         } catch (SQLException ex) {
-            System.out.println(ex);
             EnvioExcecao envioExcecao = new EnvioExcecao(Controle.getDefaultGj(), ex);
             EnvioExcecao.envio();
         }catch(UsuarioSenhaIncorretosException | UsuarioNaoAtivoException ex){

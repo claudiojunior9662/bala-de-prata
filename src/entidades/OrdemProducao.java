@@ -1477,6 +1477,9 @@ public class OrdemProducao {
                 p = new Paragraph("_________________________________________");
                 p.setAlignment(1);
                 document.add(p);
+                p = new Paragraph("NOME: ______________ DOCUMENTO: ______________ EMISSOR: ________", FontFactory.getFont("arial.ttf", 9));
+                p.setAlignment(1);
+                document.add(p);
                 p = new Paragraph(cliente.getTipoCliente() == 1
                         ? cliente.getNome()
                         : (cliente.getNome() + " - " + cliente.getNomeFantasia()),
