@@ -30,7 +30,7 @@ import ui.principal.ModulosExt;
 public class TelaAutenticacao extends javax.swing.JFrame {
     
     private static final String codVersao = "2.3.8";
-    private static final String update = "3";
+    private static final String update = "4";
     private static UsuarioBEAN atendenteLogado;
 
     public static UsuarioBEAN getUsrLogado() {
@@ -361,9 +361,7 @@ public class TelaAutenticacao extends javax.swing.JFrame {
                     mInt.setVisible(true);
                     this.setVisible(false);
 
-                    JOptionPane.showMessageDialog(null, "CORREÇÕES E ATUALIZAÇÕES DA v.2.3.6 Delta (03-08-2020)\n"
-                            + "- Correção ao gerar PDF dos faturamentos (o valor do frete estava sendo somado incorretamente.);\n"
-                            + "CORREÇÕES E ATUALIZAÇÕES DA v.2.3.6 5 (18-08-2020)\n"
+                    JOptionPane.showMessageDialog(null, "CORREÇÕES E ATUALIZAÇÕES DA v.2.3.6 5 (18-08-2020)\n"
                             + "- Correção de erros diversos;\n"
                             + "CORREÇÕES E ATUALIZAÇÕES DA v.2.3.7 1 (28-08-2020)\n"
                             + "- Implementação do lançamento de observações das OP;\n"
@@ -385,6 +383,8 @@ public class TelaAutenticacao extends javax.swing.JFrame {
                             + "- Correção da tela de visualização do OD externo;\n"
                             + "CORREÇÕES E ATUALIZAÇÕES DA v.2.3.8 3 (22-11-2020)\n"
                             + "- Implementação dos campos de inseção de identificação nos faturamentos;"
+                            + "CORREÇÕES E ATUALIZAÇÕES DA v.2.3.8 4 (24-11-2020)\n"
+                            + "- Correção de erros enviados (335 e 334);"
                             + "AVISOS:\n"
                             + "- Todas as sugestões de melhoria de usabilidade do programa serão estudadas, mas não há previsão de implementação;\n"
                             + "- Qualquer problema nas correções acima expostas deverão ser informados o mais rápido possível à SPD;\n"
