@@ -1128,11 +1128,15 @@ public class ProdutoFrame extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_tipoPapelItemStateChanged
 
     private void concluirPapelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_concluirPapelActionPerformed
-        if (tipoPapel.getSelectedItem().toString().equals("CAPA")) {
-
-        } else {
+        if (!tipoPapel.getSelectedItem().toString().equals("CAPA")) {
             orelha.setValue(0);
         }
+        
+        if(tipoProduto.getSelectedIndex() > 1 && tipoPapel.getSelectedIndex() == 0){
+            JOptionPane.showMessageDialog(null, "SELECIONE UM TIPO DE PAPEL!");
+            return;
+        }
+        
         DefaultTableModel modelo_papel = (DefaultTableModel) tabelaPapel.getModel();
         modelo_papel.addRow(new Object[]{
             codigoPapel.getValue(),
@@ -2233,7 +2237,7 @@ public class ProdutoFrame extends javax.swing.JInternalFrame {
             JOptionPane.showMessageDialog(null, "SELECIONE UM TIPO DE PESQUISA!");
         } else {
             try {
-                for (ProdutoBEAN produto : ProdutoDAO.pesquisaRegistro((String) tipoPesquisa.getSelectedItem(), 
+                for (ProdutoBEAN produto : ProdutoDAO.pesquisaRegistro((String) tipoPesquisa.getSelectedItem(),
                         textoPesquisa.getText())) {
                     adicionaTblConsultaPp(modeloConsulta, produto);
                 }
