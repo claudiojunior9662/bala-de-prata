@@ -7,6 +7,7 @@
 package test;
 
 import connection.ConnectionFactory;
+import entidades.Valores;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -48,41 +49,42 @@ public class NewMain {
         ResultSet rs2 = null;
         double credito;
         DecimalFormat df = new DecimalFormat("###,##0.00");
+        int contador = 0;
 
         try {
             stmt = con.prepareStatement("SELECT cod, nome "
-                    + "FROM tabela_clientes_juridico ");
+                    + "FROM tabela_clientes_fisicos ");
             rs = stmt.executeQuery();
             while (rs.next()) {
                 credito = 0d;
-                
+
                 //CRÉDITO-------------------------------------------------------
                 stmt = con.prepareStatement("SELECT valor "
                         + "FROM tabela_notas "
                         + "WHERE DATE_FORMAT(STR_TO_DATE(`data`, '%d/%m/%Y'), '%Y-%m-%d') BETWEEN "
                         + "DATE_FORMAT(STR_TO_DATE('01/01/2019', '%d/%m/%Y'), '%Y-%m-%d') AND "
                         + "DATE_FORMAT(STR_TO_DATE('31/12/2019', '%d/%m/%Y'), '%Y-%m-%d') AND "
-                        + "cod_cliente = ? AND tipo_pessoa = 2");
+                        + "cod_cliente = ? AND tipo_pessoa = 1");
                 stmt.setInt(1, rs.getInt("cod"));
                 rs2 = stmt.executeQuery();
                 while (rs2.next()) {
                     credito += rs2.getFloat("valor");
                 }
-
-                //DÉBITO--------------------------------------------------------
-                stmt = con.prepareStatement("SELECT faturamentos.VLR_FAT "
-                        + "FROM faturamentos "
-                        + "INNER JOIN tabela_ordens_producao ON tabela_ordens_producao.cod = faturamentos.CODIGO_OP "
-                        + "WHERE faturamentos.DT_FAT BETWEEN '2019-01-01' AND '2019-12-31' AND "
-                        + "tabela_ordens_producao.cod_cliente = ? AND tabela_ordens_producao.tipo_cliente = 2");
-                stmt.setInt(1, rs.getInt("cod"));
-                rs2 = stmt.executeQuery();
-                while (rs2.next()) {
-                    credito -= rs2.getFloat("faturamentos.VLR_FAT");
-                }
                 
-                System.out.println(rs.getInt("cod") + "#" + rs.getString("nome") + "#" + df.format(credito));
-//                System.out.println(df.format(credito));
+                //DÉBITO--------------------------------------------------------
+//                stmt = con.prepareStatement("SELECT faturamentos.VLR_FAT "
+//                        + "FROM faturamentos "
+//                        + "INNER JOIN tabela_ordens_producao ON tabela_ordens_producao.cod = faturamentos.CODIGO_OP "
+//                        + "WHERE faturamentos.DT_FAT BETWEEN '2019-01-01' AND '2019-12-31' AND "
+//                        + "tabela_ordens_producao.cod_cliente = ? AND tabela_ordens_producao.tipo_cliente = 1");
+//                stmt.setInt(1, rs.getInt("cod"));
+//                rs2 = stmt.executeQuery();
+//                while (rs2.next()) {
+//                    credito -= rs2.getFloat("faturamentos.VLR_FAT");
+//                }
+
+//                System.out.println(rs.getInt("cod") + "#" + rs.getString("nome") + "#" + df.format(credito));
+                System.out.println(df.format(credito));
             }
         } catch (SQLException ex) {
             Logger.getLogger(NewMain.class.getName()).log(Level.SEVERE, null, ex);
@@ -95,11 +97,28 @@ public class NewMain {
         ResultSet rs = null;
         ResultSet rs2 = null;
         ResultSet rs3 = null;
+        ResultSet count = null;
         double valor;
         DecimalFormat df = new DecimalFormat("###,##0.00");
         List<Integer> codigosProcessados = new ArrayList();
+        List<Integer> clientes = new ArrayList();
+        List<Valores> teste = new ArrayList();
+        List<Valores> teste2 = new ArrayList();
+        int cont = 0;
 
         try {
+            stmt = con.prepareStatement("SELECT cod, nome "
+                    + "FROM tabela_clientes_juridicos ");
+            count = stmt.executeQuery();
+            while (count.next()) {
+                clientes.add(count.getInt("cod"));
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(NewMain.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        try {
+
             stmt = con.prepareStatement("SELECT tabela_ordens_producao.cod_cliente, "
                     + "tabela_ordens_producao.orcamento_base, "
                     + "tabela_ordens_producao.cod_produto "
@@ -108,8 +127,8 @@ public class NewMain {
                     + "WHERE tabela_ordens_producao.status != 'ENTREGUE' "
                     + "AND tabela_ordens_producao.status != 'ENTREGUE PARCIALMENTE' "
                     + "AND tabela_ordens_producao.status != 'CANCELADA'"
-                    + "AND tabela_ordens_producao.tipo_cliente = 1 "
-                    + "AND tabela_ordens_producao.data_emissao BETWEEN '2020-01-01' AND '2020-12-01' "
+                    + "AND tabela_ordens_producao.tipo_cliente = 2 "
+                    + "AND tabela_ordens_producao.data_emissao BETWEEN '2020-01-01' AND '2020-12-04' "
                     + "ORDER BY tabela_ordens_producao.cod_cliente ASC");
             rs = stmt.executeQuery();
             while (rs.next()) {
@@ -122,9 +141,9 @@ public class NewMain {
                             + "WHERE tabela_ordens_producao.status != 'ENTREGUE' "
                             + "AND tabela_ordens_producao.status != 'ENTREGUE PARCIALMENTE' "
                             + "AND tabela_ordens_producao.status != 'CANCELADA'"
-                            + "AND tabela_ordens_producao.tipo_cliente = 1 "
+                            + "AND tabela_ordens_producao.tipo_cliente = 2 "
                             + "AND tabela_ordens_producao.cod_cliente = ? "
-                            + "AND tabela_ordens_producao.data_emissao BETWEEN '2020-01-01' AND '2020-12-01' "
+                            + "AND tabela_ordens_producao.data_emissao BETWEEN '2020-01-01' AND '2020-12-04' "
                             + "ORDER BY tabela_ordens_producao.cod_cliente ASC");
                     stmt.setInt(1, rs.getInt("tabela_ordens_producao.cod_cliente"));
                     rs2 = stmt.executeQuery();
@@ -140,11 +159,31 @@ public class NewMain {
                         }
                     }
                     codigosProcessados.add(rs.getInt("tabela_ordens_producao.cod_cliente"));
-                    System.out.println(rs.getInt("tabela_ordens_producao.cod_cliente") + ";" + df.format(valor * (-1)));
+                    teste.add(new Valores(rs.getInt("tabela_ordens_producao.cod_cliente"), valor * (-1)));
+
+                    //System.out.println(rs.getInt("tabela_ordens_producao.cod_cliente") + ";" + df.format(valor * (-1)));
                 }
             }
+
         } catch (SQLException ex) {
             Logger.getLogger(NewMain.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        for (int i : clientes) {
+            boolean add = false;
+            for (Valores val : teste) {
+                if (val.getCodigo() == i) {
+                    teste2.add(new Valores(i, val.getValor()));
+                    add = true;
+                }
+            }
+            if(!add){
+                teste2.add(new Valores(i, 0));
+            }
+        }
+
+        for (Valores val : teste2) {
+            System.out.println(df.format(val.getValor()));
         }
     }
 
