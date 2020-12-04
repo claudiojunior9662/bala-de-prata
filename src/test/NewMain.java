@@ -51,7 +51,7 @@ public class NewMain {
 
         try {
             stmt = con.prepareStatement("SELECT cod, nome "
-                    + "FROM tabela_clientes_fisicos ");
+                    + "FROM tabela_clientes_juridico ");
             rs = stmt.executeQuery();
             while (rs.next()) {
                 credito = 0d;
@@ -60,9 +60,9 @@ public class NewMain {
                 stmt = con.prepareStatement("SELECT valor "
                         + "FROM tabela_notas "
                         + "WHERE DATE_FORMAT(STR_TO_DATE(`data`, '%d/%m/%Y'), '%Y-%m-%d') BETWEEN "
-                        + "DATE_FORMAT(STR_TO_DATE('01/04/2020', '%d/%m/%Y'), '%Y-%m-%d') AND "
-                        + "DATE_FORMAT(STR_TO_DATE('31/04/2020', '%d/%m/%Y'), '%Y-%m-%d') AND "
-                        + "cod_cliente = ? AND tipo_pessoa = 1");
+                        + "DATE_FORMAT(STR_TO_DATE('01/01/2019', '%d/%m/%Y'), '%Y-%m-%d') AND "
+                        + "DATE_FORMAT(STR_TO_DATE('31/12/2019', '%d/%m/%Y'), '%Y-%m-%d') AND "
+                        + "cod_cliente = ? AND tipo_pessoa = 2");
                 stmt.setInt(1, rs.getInt("cod"));
                 rs2 = stmt.executeQuery();
                 while (rs2.next()) {
@@ -70,16 +70,16 @@ public class NewMain {
                 }
 
                 //DÉBITO--------------------------------------------------------
-//                stmt = con.prepareStatement("SELECT faturamentos.VLR_FAT "
-//                        + "FROM faturamentos "
-//                        + "INNER JOIN tabela_ordens_producao ON tabela_ordens_producao.cod = faturamentos.CODIGO_OP "
-//                        + "WHERE faturamentos.DT_FAT BETWEEN '2020-11-01' AND '2020-11-31' AND "
-//                        + "tabela_ordens_producao.cod_cliente = ? AND tabela_ordens_producao.tipo_cliente = 1");
-//                stmt.setInt(1, rs.getInt("cod"));
-//                rs2 = stmt.executeQuery();
-//                while (rs2.next()) {
-//                    credito -= rs2.getFloat("faturamentos.VLR_FAT");
-//                }
+                stmt = con.prepareStatement("SELECT faturamentos.VLR_FAT "
+                        + "FROM faturamentos "
+                        + "INNER JOIN tabela_ordens_producao ON tabela_ordens_producao.cod = faturamentos.CODIGO_OP "
+                        + "WHERE faturamentos.DT_FAT BETWEEN '2019-01-01' AND '2019-12-31' AND "
+                        + "tabela_ordens_producao.cod_cliente = ? AND tabela_ordens_producao.tipo_cliente = 2");
+                stmt.setInt(1, rs.getInt("cod"));
+                rs2 = stmt.executeQuery();
+                while (rs2.next()) {
+                    credito -= rs2.getFloat("faturamentos.VLR_FAT");
+                }
                 
                 System.out.println(rs.getInt("cod") + "#" + rs.getString("nome") + "#" + df.format(credito));
 //                System.out.println(df.format(credito));
