@@ -6,6 +6,7 @@
 package ui.sproducao.contrrole;
 
 import connection.ConnectionFactory;
+import entidades.AlteraData;
 import javax.swing.table.DefaultTableModel;
 import entidades.OrdemProducao;
 import exception.EnvioExcecao;
@@ -15,6 +16,7 @@ import java.awt.Color;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.util.Date;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -23,6 +25,7 @@ import ui.administrador.UsuarioDAO;
 import ui.cadastros.clientes.ClienteDAO;
 import ui.cadastros.produtos.ProdutoDAO;
 import ui.controle.Controle;
+import ui.login.TelaAutenticacao;
 import ui.principal.GerenteJanelas;
 import ui.principal.Producao;
 import ui.sproducao.contrrole.observacoes.ObservacaoOp;
@@ -36,6 +39,7 @@ public final class TelaAcompanhamento extends javax.swing.JInternalFrame {
     public static String botao = null;
     public static int numOp = 0;
     public static boolean realTime = true;
+    public static boolean dataAlterada = false;
     
     private static JLabel loading;
     private final GerenteJanelas gj;
@@ -1103,7 +1107,7 @@ public final class TelaAcompanhamento extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_dataPrevEntregaMouseClicked
 
     private void dataPrevEntregaPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_dataPrevEntregaPropertyChange
-
+        dataAlterada = true;
     }//GEN-LAST:event_dataPrevEntregaPropertyChange
 
     private void tipoTrabalhoItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_tipoTrabalhoItemStateChanged
@@ -1599,7 +1603,19 @@ public final class TelaAcompanhamento extends javax.swing.JInternalFrame {
             OrdemProducao op = new OrdemProducao();
             
             op.setCodigo((int) numeroOp.getValue());
-            op.setDataEntrega(dataPrevEntrega.getDate());
+            
+            if(dataAlterada){
+                AlteraData alteraData = new AlteraData(
+                        (int) numeroOp.getValue(),
+                        new Timestamp(new Date().getTime()),
+                        OrdemProducaoDAO.retornaDataEntregaOp(numOp),
+                        TelaAutenticacao.getUsrLogado().getCodigo()
+                );
+                OrdemProducaoDAO.salvaAlteracaoData(alteraData);
+                op.setDataEntrega(dataPrevEntrega.getDate());
+            }else{
+                op.setDataEntrega(dataPrevEntrega.getDate());
+            }
             
             op.setIndEntPrazo(0);
             op.setIndEntErro(0);
@@ -1709,6 +1725,8 @@ public final class TelaAcompanhamento extends javax.swing.JInternalFrame {
                 atualiza();
                 atualizaTabela();
             }
+            
+            dataAlterada = false;
             
             statusAlteracoes.setText("SALVO PELA ÚLTIMA VEZ ÀS "
                     + Controle.horaPadrao.format(new Date()));

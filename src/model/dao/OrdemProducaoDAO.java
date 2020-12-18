@@ -6,6 +6,7 @@
 package model.dao;
 
 import connection.ConnectionFactory;
+import entidades.AlteraData;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -16,6 +17,8 @@ import entidades.OrdemProducao;
 import entidades.CalculosOpBEAN;
 import entidades.Servicos;
 import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import static model.dao.OrdemProducaoDAO.alteraDtCancelamento;
 import static model.dao.OrdemProducaoDAO.alteraStatusOp;
 import static model.dao.OrdemProducaoDAO.consultaOp;
@@ -1193,6 +1196,57 @@ public class OrdemProducaoDAO {
                 retorno.append("\n");
             }
             return retorno.toString();
+        } catch (SQLException ex) {
+            throw new SQLException(ex);
+        }finally{
+            ConnectionFactory.closeConnection(con, stmt, rs);
+        }
+    }
+    
+    /**
+     * Retorna a data de entrega da ordem de produção
+     * @param codOp
+     * @return 
+     */
+    public static Date retornaDataEntregaOp(int codOp) throws SQLException{
+        Connection con = ConnectionFactory.getConnection();
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+        
+        try{
+            stmt = con.prepareStatement("SELECT tabela_ordens_producao.data_entrega "
+                    + "FROM tabela_ordens_producao "
+                    + "WHERE tabela_ordens_producao.cod = ?");
+            stmt.setInt(1, codOp);
+            rs = stmt.executeQuery();
+            while(rs.next()){
+                return rs.getDate("tabela_ordens_producao.data_entrega");
+            }
+            return null;            
+        } catch (SQLException ex) {
+            throw new SQLException(ex);
+        }finally{
+            ConnectionFactory.closeConnection(con, stmt, rs);
+        }
+    }
+    
+    /**
+     * Salva a alteração de data da OP
+     * @param alteraData 
+     */
+    public static void salvaAlteracaoData (AlteraData alteraData) throws SQLException{
+        Connection con = ConnectionFactory.getConnection();
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+        
+        try{
+            stmt = con.prepareStatement("INSERT INTO alteracoes_ordem_producao(OP, ALTERACAO, DATA ANTERIOR, USUARIO) "
+                    + "VALUES(?,?,?,?)");
+            stmt.setInt(1, alteraData.getCodigoOp());
+            stmt.setTimestamp(2, alteraData.getAlteracao());
+            stmt.setDate(3, new java.sql.Date(alteraData.getDataAnterior().getTime()));
+            stmt.setString(4, alteraData.getUsuario());
+            stmt.executeUpdate();
         } catch (SQLException ex) {
             throw new SQLException(ex);
         }finally{
