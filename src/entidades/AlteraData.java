@@ -7,7 +7,6 @@ package entidades;
 
 import java.sql.Timestamp;
 import java.util.Date;
-import sun.security.krb5.JavaxSecurityAuthKerberosAccess;
 
 /**
  *
@@ -19,6 +18,7 @@ public class AlteraData {
     private Timestamp alteracao;
     private Date dataAnterior;
     private String usuario;
+    private String motivo;
 
     public int getCodigo() {
         return codigo;
@@ -60,11 +60,22 @@ public class AlteraData {
         this.usuario = usuario;
     }
 
-    public AlteraData(int codigoOp, Timestamp alteracao, Date dataAnterior, String usuario) {
+    public String getMotivo() {
+        return motivo;
+    }
+
+    public void setMotivo(String motivo) {
+        this.motivo = motivo;
+    }
+    
+    
+
+    public AlteraData(int codigoOp, Timestamp alteracao, Date dataAnterior, String usuario, String motivo) {
         this.codigoOp = codigoOp;
         this.alteracao = alteracao;
         this.dataAnterior = dataAnterior;
         this.usuario = usuario;
+        this.motivo = motivo;
     }
     
     

@@ -1240,12 +1240,13 @@ public class OrdemProducaoDAO {
         ResultSet rs = null;
         
         try{
-            stmt = con.prepareStatement("INSERT INTO alteracoes_ordem_producao(OP, ALTERACAO, DATA ANTERIOR, USUARIO) "
-                    + "VALUES(?,?,?,?)");
+            stmt = con.prepareStatement("INSERT INTO alteracoes_ordem_producao(OP, ALTERACAO, DATA_ANTERIOR, USUARIO, MOTIVO) "
+                    + "VALUES(?,?,?,?,?)");
             stmt.setInt(1, alteraData.getCodigoOp());
             stmt.setTimestamp(2, alteraData.getAlteracao());
             stmt.setDate(3, new java.sql.Date(alteraData.getDataAnterior().getTime()));
             stmt.setString(4, alteraData.getUsuario());
+            stmt.setString(5, alteraData.getMotivo());
             stmt.executeUpdate();
         } catch (SQLException ex) {
             throw new SQLException(ex);

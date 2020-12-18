@@ -13,6 +13,7 @@ import exception.EnvioExcecao;
 import model.bean.TelaAcompanhamentoBEAN;
 import model.dao.OrdemProducaoDAO;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
@@ -20,9 +21,11 @@ import java.sql.Timestamp;
 import java.util.Date;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.JTextArea;
 import ui.administrador.UsuarioBEAN;
 import ui.administrador.UsuarioDAO;
 import ui.cadastros.clientes.ClienteDAO;
+import ui.cadastros.notas.FatFrame;
 import ui.cadastros.produtos.ProdutoDAO;
 import ui.controle.Controle;
 import ui.login.TelaAutenticacao;
@@ -35,17 +38,18 @@ import ui.sproducao.contrrole.observacoes.ObservacaoOp;
  * @author claud
  */
 public final class TelaAcompanhamento extends javax.swing.JInternalFrame {
-    
+
     public static String botao = null;
     public static int numOp = 0;
     public static boolean realTime = true;
     public static boolean dataAlterada = false;
-    
+    private static Date dataPrevEntregaBkp;
+
     private static JLabel loading;
     private final GerenteJanelas gj;
-    
+
     private static TelaAcompanhamento telaAcompanhamentoNovo;
-    
+
     public static TelaAcompanhamento getInstancia(JLabel loading, GerenteJanelas gj) {
         return new TelaAcompanhamento(loading, gj);
     }
@@ -948,10 +952,10 @@ public final class TelaAcompanhamento extends javax.swing.JInternalFrame {
         new Thread("Aplicar filtro op") {
             @Override
             public void run() {
-                
+
                 loading.setText("CARREGANDO...");
                 loading.setVisible(true);
-                
+
                 try {
                     DefaultTableModel modeloTabela = (DefaultTableModel) tabelaConsulta.getModel();
                     modeloTabela.setNumRows(0);
@@ -1000,14 +1004,14 @@ public final class TelaAcompanhamento extends javax.swing.JInternalFrame {
                                 null,
                                 null,
                                 null)) {
-                            
+
                             modeloTabela.addRow(new Object[]{
                                 op.getCodigo(),
                                 Controle.dataPadrao.format(op.getDataEntrega()),
                                 op.getStatus(),
                                 ProdutoDAO.retornaDescricaoProduto(op.getCodProduto(), op.getTipoProduto())
                             });
-                            
+
                         }
                     } else if (mesEntrega.isSelected()) {
                         for (OrdemProducao op : TelaAcompanhamentoDAO.retornaFiltro(0l,
@@ -1018,14 +1022,14 @@ public final class TelaAcompanhamento extends javax.swing.JInternalFrame {
                                 Integer.toString(anoEntregaSelecionar.getYear()),
                                 null,
                                 null)) {
-                            
+
                             modeloTabela.addRow(new Object[]{
                                 op.getCodigo(),
                                 Controle.dataPadrao.format(op.getDataEntrega()),
                                 op.getStatus(),
                                 ProdutoDAO.retornaDescricaoProduto(op.getCodProduto(), op.getTipoProduto())
                             });
-                            
+
                         }
                     } else if (dataEntrega.isSelected()) {
                         for (OrdemProducao op : TelaAcompanhamentoDAO.retornaFiltro(0l, dataEntregaTexto.getDate(),
@@ -1107,7 +1111,7 @@ public final class TelaAcompanhamento extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_dataPrevEntregaMouseClicked
 
     private void dataPrevEntregaPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_dataPrevEntregaPropertyChange
-        dataAlterada = true;
+        
     }//GEN-LAST:event_dataPrevEntregaPropertyChange
 
     private void tipoTrabalhoItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_tipoTrabalhoItemStateChanged
@@ -1180,13 +1184,13 @@ public final class TelaAcompanhamento extends javax.swing.JInternalFrame {
             public void run() {
                 loading.setVisible(true);
                 loading.setText("GERANDO PDF...");
-                
+
                 OrdemProducao.gerarPdfOp(Integer.parseInt(numeroOp.getValue().toString()),
                         Integer.parseInt(orcamentoBase.getValue().toString()),
                         (byte) 1,
                         null);
                 Producao.loadingHide();
-                
+
                 loading.setVisible(false);
             }
         }.start();
@@ -1206,9 +1210,9 @@ public final class TelaAcompanhamento extends javax.swing.JInternalFrame {
             public void run() {
                 loading.setVisible(true);
                 loading.setText("SALVANDO...");
-                
+
                 salvaAlteracoes();
-                
+
                 loading.setVisible(false);
             }
         }.start();
@@ -1328,7 +1332,7 @@ public final class TelaAcompanhamento extends javax.swing.JInternalFrame {
         btnObservacoes.setEnabled(false);
         btnGravar.setEnabled(false);
     }
-    
+
     public static void estado2() {
         dataPrevEntrega.setEnabled(true);
         tipoTrabalho.setEnabled(true);
@@ -1351,8 +1355,8 @@ public final class TelaAcompanhamento extends javax.swing.JInternalFrame {
         btnGravar.setEnabled(true);
         btnObservacoes.setEnabled(true);
     }
-    
-    private static void atualiza() {
+
+    private synchronized static void atualiza() {
         new Thread("Atualiza OP") {
             @Override
             public void run() {
@@ -1371,10 +1375,11 @@ public final class TelaAcompanhamento extends javax.swing.JInternalFrame {
                             (byte) op.getTipoPessoa()));
                     dataEntrada.setText(Controle.dataPadrao.format(op.getDataEmissao()));
                     dataPrevEntrega.setDate(op.getDataEntrega());
-                    op.setDescricao(op.getDescricao().concat("\nDATA DE ENTREGA DA PROVA: " 
+                    dataPrevEntregaBkp = op.getDataEntrega();
+                    op.setDescricao(op.getDescricao().concat("\nDATA DE ENTREGA DA PROVA: "
                             + (op.getDataEntgProva() != null
-                            ? op.getDataEntgProva()
-                            : "NÃO DEFINIDA")));
+                                    ? op.getDataEntgProva()
+                                    : "NÃO DEFINIDA")));
                     observacoesOrcamento.setText(op.getDescricao());
                     codigoProduto.setText(String.valueOf(op.getCodProduto()));
 
@@ -1384,51 +1389,51 @@ public final class TelaAcompanhamento extends javax.swing.JInternalFrame {
                     if (op.getData1aProva() != null) {
                         primeiraProva.setText(Controle.dataPadrao.format(op.getData1aProva()));
                     }
-                    
+
                     if (op.getData2aProva() != null) {
                         segundaProva.setText(Controle.dataPadrao.format(op.getData2aProva()));
                     }
-                    
+
                     if (op.getData3aProva() != null) {
                         terceiraProva.setText(Controle.dataPadrao.format(op.getData3aProva()));
                     }
-                    
+
                     if (op.getData4aProva() != null) {
                         quartaProva.setText(Controle.dataPadrao.format(op.getData4aProva()));
                     }
-                    
+
                     if (op.getData5aProva() != null) {
                         quintaProva.setText(Controle.dataPadrao.format(op.getData5aProva()));
                     }
-                    
+
                     if (op.getDataAprCliente() != null) {
                         aprovacaoCliente.setText(Controle.dataPadrao.format(op.getDataAprCliente()));
                     }
-                    
+
                     if (op.getDataEntFinal() != null) {
                         entregaFinal.setText(Controle.dataPadrao.format(op.getDataEntFinal()));
                     }
-                    
+
                     if (op.getDataImpDir() != null) {
                         impostaDirecao.setText(Controle.dataPadrao.format(op.getDataImpDir()));
                     }
-                    
+
                     if (op.getDataEntOffset() != null) {
                         entradaOffset.setText(Controle.dataPadrao.format(op.getDataEntOffset()));
                     }
-                    
+
                     if (op.getDataEntDigital() != null) {
                         jlblDtEntDigital.setText(Controle.dataPadrao.format(op.getDataEntDigital()));
                     }
-                    
+
                     if (op.getDataEntTipografia() != null) {
                         entradaTipografia.setText(Controle.dataPadrao.format(op.getDataEntTipografia()));
                     }
-                    
+
                     if (op.getDataEntAcabamento() != null) {
                         entradaAcabamento.setText(Controle.dataPadrao.format(op.getDataEntAcabamento()));
                     }
-                    
+
                     if (op.getDataEnvioDivCmcl() != null) {
                         envioDivCmcl.setText(Controle.dataPadrao.format(op.getDataEnvioDivCmcl()));
                     }
@@ -1438,7 +1443,7 @@ public final class TelaAcompanhamento extends javax.swing.JInternalFrame {
                      */
                     operadorSecao.removeAllItems();
                     operadorSecao.addItem("SELECIONE...");
-                    
+
                     for (UsuarioBEAN funcionario : UsuarioDAO.retornaAtendentes((byte) 1)) {
                         operadorSecao.addItem(funcionario.getNome());
                     }
@@ -1496,7 +1501,7 @@ public final class TelaAcompanhamento extends javax.swing.JInternalFrame {
             }
         }.start();
     }
-    
+
     public static void limpa() {
         numeroOp.setText("");
         cliente.setText("");
@@ -1516,9 +1521,9 @@ public final class TelaAcompanhamento extends javax.swing.JInternalFrame {
         entradaOffset.setText("");
         entradaTipografia.setText("");
         entradaAcabamento.setText("");
-        
+
     }
-    
+
     private static void atualizaTabela() {
         try {
             /**
@@ -1547,7 +1552,7 @@ public final class TelaAcompanhamento extends javax.swing.JInternalFrame {
             EnvioExcecao.envio();
         }
     }
-    
+
     public void refresh() {
         DefaultTableModel modeloAcompanhamento = (DefaultTableModel) tabelaConsulta.getModel();
         new Thread("Refresh tela acompanhamento") {
@@ -1569,15 +1574,15 @@ public final class TelaAcompanhamento extends javax.swing.JInternalFrame {
                         EnvioExcecao envioExcecao = new EnvioExcecao(Controle.getDefaultGj(), ex);
                         EnvioExcecao.envio();
                     }
-                    
+
                 }
             }
         }.start();
     }
-    
+
     public static void calculaDias(Date data1, Date data2) {
         Controle.dataPadrao.setLenient(false);
-        
+
         if (statusOrdemProducao.getSelectedItem().toString().equals("ENCAMINHADO PARA EXPEDIÇÃO")) {
             qtdDiasOp.setBackground(Color.GREEN);
             qtdDiasOp.setForeground(Color.black);
@@ -1596,48 +1601,87 @@ public final class TelaAcompanhamento extends javax.swing.JInternalFrame {
             }
         }
     }
-    
+
     public static void salvaAlteracoes() {
         try {
-            
+            /**
+             * Cria a ordem de produção
+             */
             OrdemProducao op = new OrdemProducao();
-            
-            op.setCodigo((int) numeroOp.getValue());
-            
-            if(dataAlterada){
-                AlteraData alteraData = new AlteraData(
-                        (int) numeroOp.getValue(),
-                        new Timestamp(new Date().getTime()),
-                        OrdemProducaoDAO.retornaDataEntregaOp(numOp),
-                        TelaAutenticacao.getUsrLogado().getCodigo()
-                );
-                OrdemProducaoDAO.salvaAlteracaoData(alteraData);
-                op.setDataEntrega(dataPrevEntrega.getDate());
-            }else{
-                op.setDataEntrega(dataPrevEntrega.getDate());
-            }
-            
-            op.setIndEntPrazo(0);
-            op.setIndEntErro(0);
-            
+            /**
+             * Verifica casos de erro
+             */
             if (tipoTrabalho.getSelectedIndex() == 0) {
                 JOptionPane.showMessageDialog(null, "SELECIONE O TIPO DE TRABALHO!");
                 return;
             } else {
                 op.setTipoTrabalho(tipoTrabalho.getSelectedItem().toString());
             }
-            
+
             if (operadorSecao.getSelectedItem().equals("SELECIONE...")) {
                 JOptionPane.showMessageDialog(null, "SELECIONE O OPERADOR/SEÇÃO!");
                 return;
             } else {
                 op.setOpSecao(operadorSecao.getSelectedItem().toString());
             }
-            
+            if(dataPrevEntrega.getDate().compareTo(dataPrevEntregaBkp) != 0){
+                dataAlterada = true;
+            }else{
+                dataAlterada = false;
+            }
+            System.out.println(OrdemProducaoDAO.retornaDataEntregaOp(numOp) + "data anterior");
+            System.out.println(dataPrevEntregaBkp + "data atual");
+            /**
+             * Salva as informações
+             */
+            op.setCodigo((int) numeroOp.getValue());
+
+            if (dataAlterada) {
+                /**
+                 * Solicita o motivo de alteração
+                 */
+                JLabel lbl2 = new JLabel("DIGITE O MOTIVO DO ALTERAÇÃO DE DATA DE ENTREGA");
+                JTextArea motivo = new JTextArea();
+                motivo.setPreferredSize(new Dimension(400, 200));
+                motivo.setLineWrap(true);
+                int retorno2 = JOptionPane.showConfirmDialog(null,
+                        new Object[]{lbl2, motivo},
+                        "MOTIVO DE ALTERAÇÃO",
+                        JOptionPane.OK_CANCEL_OPTION);
+                if (retorno2 != JOptionPane.CANCEL_OPTION) {
+                    String txtMotivo = "Motivo de alteração: " + motivo.getText();
+                    if (txtMotivo.isEmpty()) {
+                        JOptionPane.showMessageDialog(null,
+                                "INSIRA UM MOTIVO PARA A ALTERAÇÃO DA DATA DE ENTREGA!",
+                                "ERRO",
+                                JOptionPane.ERROR_MESSAGE);
+                        return;
+                    }
+                }
+                
+                /**
+                 * Cria a classe altera data com os dados de alteração
+                 */
+                AlteraData alteraData = new AlteraData(
+                        (int) numeroOp.getValue(),
+                        new Timestamp(new Date().getTime()),
+                        dataPrevEntregaBkp,
+                        TelaAutenticacao.getUsrLogado().getCodigo(),
+                        motivo.getText()
+                );
+                OrdemProducaoDAO.salvaAlteracaoData(alteraData);
+                op.setDataEntrega(dataPrevEntrega.getDate());
+            } else {
+                op.setDataEntrega(dataPrevEntrega.getDate());
+            }
+
+            op.setIndEntPrazo(0);
+            op.setIndEntErro(0);
+
             op.setStatus(statusOrdemProducao.getSelectedItem().toString());
-            
+
             TelaAcompanhamentoDAO.atualizaDadosOp(op);
-            
+
             if (botao != null) {
                 Connection con = ConnectionFactory.getConnection();
                 PreparedStatement stmt = null;
@@ -1725,9 +1769,9 @@ public final class TelaAcompanhamento extends javax.swing.JInternalFrame {
                 atualiza();
                 atualizaTabela();
             }
-            
+
             dataAlterada = false;
-            
+
             statusAlteracoes.setText("SALVO PELA ÚLTIMA VEZ ÀS "
                     + Controle.horaPadrao.format(new Date()));
         } catch (SQLException ex) {
