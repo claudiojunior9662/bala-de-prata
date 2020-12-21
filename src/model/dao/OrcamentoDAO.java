@@ -6,6 +6,7 @@
 package model.dao;
 
 import connection.ConnectionFactory;
+import entidades.AlteraData;
 import entidades.Cliente;
 import ui.cadastros.contatos.ContatoBEAN;
 import ui.cadastros.enderecos.EnderecoBEAN;
@@ -23,6 +24,9 @@ import exception.OrcamentoInexistenteException;
 import exception.SemServicoException;
 import java.text.ParseException;
 import entidades.ProdOrcamento;
+import java.sql.Timestamp;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import ui.controle.Controle;
 
 /**
@@ -1639,5 +1643,43 @@ public class OrcamentoDAO {
         }
     }
     
+    /**
+     * 
+     * @return
+     * @throws SQLException 
+     */
+    public static List<AlteraData> consultarAlteracoes() throws SQLException{
+        Connection con = ConnectionFactory.getConnection();
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+        Timestamp alteracao = null;
+        List<AlteraData> listaAlteracoes = new ArrayList();
+        
+        try{
+            stmt = con.prepareStatement("SELECT alteracoes_ordem_producao.ALTERACAO FROM alteracoes_ordem_producao ORDER BY alteracoes_ordem_producao.ALTERACAO DESC LIMIT 1");
+            rs = stmt.executeQuery();
+            if(rs.next()){
+                alteracao = rs.getTimestamp("alteracoes_ordem_producao.ALTERACAO");
+            }
+            
+            stmt = con.prepareStatement("SELECT * FROM alteracoes_ordem_producao WHERE CAST(alteracoes_ordem_producao.ALTERACAO AS DATE) = ?");
+            stmt.setDate(1, new java.sql.Date(alteracao.getTime()));
+            rs = stmt.executeQuery();
+            while(rs.next()){
+                listaAlteracoes.add(new AlteraData(
+                        rs.getInt("alteracoes_ordem_producao.OP"),
+                        rs.getTimestamp("alteracoes_ordem_producao.ALTERACAO"),
+                        rs.getDate("alteracoes_ordem_producao.DATA_ANTERIOR"),
+                        rs.getString("alteracoes_ordem_producao.USUARIO"),
+                        rs.getString("alteracoes_ordem_producao.MOTIVO")
+                ));     
+            }
+            return listaAlteracoes;
+        } catch (SQLException ex) {
+            throw new SQLException(ex);
+        }finally{
+            ConnectionFactory.closeConnection(con, stmt, rs);
+        }
+    }
     
 }

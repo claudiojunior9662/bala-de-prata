@@ -5,17 +5,22 @@
  */
 package ui.principal;
 
+import entidades.AlteraData;
 import entidades.Orcamento;
+import exception.EnvioExcecao;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.Toolkit;
 import java.net.URL;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.ImageIcon;
+import javax.swing.JOptionPane;
 import model.dao.OrcamentoDAO;
+import model.dao.OrdemProducaoDAO;
 import ui.cadastros.acabamentos.AcabamentosCadastro;
 import ui.cadastros.chapas.ChapaCadastro;
 import ui.cadastros.clientes.ClienteCadastro;
@@ -45,7 +50,6 @@ public class OrcamentoFrame extends javax.swing.JFrame {
      */
     public OrcamentoFrame() {
         initComponents();
-
         atualizacao.setVisible(false);
 
         URL url = this.getClass().getResource("/ui/login/logo.png");
@@ -112,6 +116,20 @@ public class OrcamentoFrame extends javax.swing.JFrame {
 
             }
         }.start();
+
+        try {
+            SimpleDateFormat data = new SimpleDateFormat("dd/MM/yyyy");
+            StringBuilder listaAlteracoes = new StringBuilder();
+            listaAlteracoes.append("DATAS DE ENTREGA ALTERADAS!!\n\n");
+            for (AlteraData ad : OrcamentoDAO.consultarAlteracoes()) {
+                listaAlteracoes.append("OP: " + ad.getCodigoOp() + "\n" + "DATA: " + data.format(OrdemProducaoDAO.retornaDataEntregaOp(ad.getCodigoOp())) + "\n" + "MOTIVO: " + ad.getMotivo() + "\n" + "USUÁRIO: " + ad.getUsuario() + "\n\n");
+            }
+            JOptionPane.showMessageDialog(null, listaAlteracoes.toString(), "ALTERAÇÕES DE ORDEM DE PRODUÇÃO", JOptionPane.INFORMATION_MESSAGE);
+        } catch (SQLException ex) {
+            EnvioExcecao envioExcecao = new EnvioExcecao(Controle.getDefaultGj(), ex);
+            EnvioExcecao.envio();
+        }
+
     }
 
     /**
