@@ -60,8 +60,9 @@ public class TelaAcompanhamentoDAO {
 
     /**
      * Atualiza os dados da ordem de produção
+     *
      * @param op ordem de produção
-     * @throws SQLException 
+     * @throws SQLException
      */
     public static void atualizaDadosOp(OrdemProducao op) throws SQLException {
         Connection con = ConnectionFactory.getConnection();
@@ -89,26 +90,29 @@ public class TelaAcompanhamentoDAO {
     }
 
     /**
-     * Retorna lista de ordem de produção ao aplicar o filtro
-     * @param cod código da ordem de produção
-     * @param data data aplicada
-     * @param mesEmissao mês de emissão
-     * @param anoEmissao ano de emissão
-     * @param mesEntrega mês de entrega
-     * @param anoEntrega ano de entrega
-     * @param status status da op
-     * @param descProduto descrição do produto
+     *
+     * @param cod
+     * @param codOrc
+     * @param dataEntrega
+     * @param mesEmissao
+     * @param anoEmissao
+     * @param mesEntrega
+     * @param anoEntrega
+     * @param status
+     * @param tipoFiltro 0 - TUDO, 1 - CÓDIGO DA OP, 2 - CÓDIGO DO ORÇAMENTO, 3
+     * - DATA DE ENTREGA, 4 - MÊS DE EMISSÃO, 5 - MÊS DE ENTREGA, 6 - STATUS
      * @return
-     * @throws SQLException 
+     * @throws SQLException
      */
-    public static List<OrdemProducao> retornaFiltro(Long cod,
-            Date data,
+    public static List<OrdemProducao> retornaFiltro(int cod,
+            int codOrc,
+            Date dataEntrega,
             String mesEmissao,
             String anoEmissao,
             String mesEntrega,
             String anoEntrega,
             String status,
-            String descProduto) throws SQLException {
+            byte tipoFiltro) throws SQLException {
         Connection con = ConnectionFactory.getConnection();
         PreparedStatement stmt = null;
         ResultSet rs = null;
@@ -116,136 +120,144 @@ public class TelaAcompanhamentoDAO {
         List<OrdemProducao> retorno = new ArrayList();
 
         try {
-            if (cod != 0 & data == null & status == null & descProduto == null & mesEmissao == null & anoEmissao == null & mesEntrega == null & anoEntrega == null) {
-                stmt = con.prepareStatement("SELECT cod, data_entrega, status, cod_produto, tipo_produto "
-                        + "FROM tabela_ordens_producao "
-                        + "WHERE cod = ? "
-                        + "ORDER BY cod "
-                        + "DESC LIMIT 2");
-                stmt.setLong(1, cod);
-                rs = stmt.executeQuery();
-                while (rs.next()) {
-                    OrdemProducao op = new OrdemProducao();
-                    op.setCodigo(rs.getInt("cod"));
-                    op.setDataEntrega(rs.getDate("data_entrega"));
-                    op.setStatus(rs.getString("status"));
-                    op.setCodProduto(rs.getInt("cod_produto"));
-                    op.setTipoProduto(rs.getByte("tipo_produto"));
-                    retorno.add(op);
-                }
-            } else if (cod == 0 && data != null && status == null && descProduto == null & mesEmissao == null & anoEmissao == null & mesEntrega == null & anoEntrega == null) {
-                stmt = con.prepareStatement("SELECT cod, data_entrega, status, cod_produto, tipo_produto "
-                        + "FROM tabela_ordens_producao "
-                        + "WHERE data_entrega = ?");
-                stmt.setDate(1, new java.sql.Date((data).getTime()));
-                rs = stmt.executeQuery();
-                while (rs.next()) {
-                    OrdemProducao op = new OrdemProducao();
-                    op.setCodigo(rs.getInt("cod"));
-                    op.setDataEntrega(rs.getDate("data_entrega"));
-                    op.setStatus(rs.getString("status"));
-                    op.setCodProduto(rs.getInt("cod_produto"));
-                    op.setTipoProduto(rs.getByte("tipo_produto"));
-                    retorno.add(op);
-                }
-            } else if (cod == 0 && data == null && status != null && descProduto == null & mesEmissao == null & anoEmissao == null & mesEntrega == null & anoEntrega == null) {
-                stmt = con.prepareStatement("SELECT cod, data_entrega, status, cod_produto, tipo_produto "
-                        + "FROM tabela_ordens_producao "
-                        + "WHERE status = ?");
-                stmt.setString(1, status);
-                rs = stmt.executeQuery();
-                while (rs.next()) {
-                    OrdemProducao op = new OrdemProducao();
-                    op.setCodigo(rs.getInt("cod"));
-                    op.setDataEntrega(rs.getDate("data_entrega"));
-                    op.setStatus(rs.getString("status"));
-                    op.setCodProduto(rs.getInt("cod_produto"));
-                    op.setTipoProduto(rs.getByte("tipo_produto"));
-                    retorno.add(op);
-                }
-            } else if (cod == 0 && data == null && status == null && descProduto == null & mesEmissao == null & anoEmissao == null & mesEntrega == null & anoEntrega == null) {
-                stmt = con.prepareStatement("SELECT cod, data_entrega, status, cod_produto, tipo_produto "
-                        + "FROM tabela_ordens_producao");
-                rs = stmt.executeQuery();
-                while (rs.next()) {
-                    OrdemProducao op = new OrdemProducao();
-                    op.setCodigo(rs.getInt("cod"));
-                    op.setDataEntrega(rs.getDate("data_entrega"));
-                    op.setStatus(rs.getString("status"));
-                    op.setCodProduto(rs.getInt("cod_produto"));
-                    op.setTipoProduto(rs.getByte("tipo_produto"));
-                    retorno.add(op);
-                }
-            } else if (cod == 0 && data == null && status == null && descProduto != null & mesEmissao == null & anoEmissao == null & mesEntrega == null & anoEntrega == null) {
-                List aux = new ArrayList();
-                aux = ProdutoDAO.retornaCodigosProdutos(descProduto);
-                for (int i = 0; i < aux.size(); i++) {
+            switch (tipoFiltro) {
+                //TUDO
+                case 0:
                     stmt = con.prepareStatement("SELECT cod, data_entrega, status, cod_produto, tipo_produto "
-                            + "FROM tabela_ordens_producao "
-                            + "WHERE cod_produto = ? "
-                            + "ORDER BY cod "
-                            + "DESC");
-                    stmt.setInt(1, Integer.parseInt(aux.get(i).toString()));
+                            + "FROM tabela_ordens_producao");
                     rs = stmt.executeQuery();
                     while (rs.next()) {
-                        if (rs.getInt("cod") >= 364) {
-                            OrdemProducao op = new OrdemProducao();
-                            op.setCodigo(rs.getInt("cod"));
-                            op.setDataEntrega(rs.getDate("data_entrega"));
-                            op.setStatus(rs.getString("status"));
-                            op.setCodProduto(rs.getInt("cod_produto"));
-                            op.setTipoProduto(rs.getByte("tipo_produto"));
-                            retorno.add(op);
-                        }
+                        OrdemProducao op = new OrdemProducao();
+                        op.setCodigo(rs.getInt("cod"));
+                        op.setDataEntrega(rs.getDate("data_entrega"));
+                        op.setStatus(rs.getString("status"));
+                        op.setCodProduto(rs.getInt("cod_produto"));
+                        op.setTipoProduto(rs.getByte("tipo_produto"));
+                        retorno.add(op);
                     }
-                }
-            } else if (cod == 0 & data == null & status == null & descProduto == null & mesEmissao != null & anoEmissao != null & mesEntrega == null & anoEntrega == null) {
-                stmt = con.prepareStatement("SELECT cod, data_entrega, status, cod_produto, tipo_produto "
-                        + "FROM tabela_ordens_producao "
-                        + "WHERE MONTH(data_emissao) = ? "
-                        + "AND YEAR(data_emissao) = ? "
-                        + "ORDER BY cod "
-                        + "ASC");
-                stmt.setString(1, mesEmissao);
-                stmt.setString(2, anoEmissao);
-                rs = stmt.executeQuery();
-                while (rs.next()) {
-                    OrdemProducao op = new OrdemProducao();
-                    op.setCodigo(rs.getInt("cod"));
-                    op.setDataEntrega(rs.getDate("data_entrega"));
-                    op.setStatus(rs.getString("status"));
-                    op.setCodProduto(rs.getInt("cod_produto"));
-                    op.setTipoProduto(rs.getByte("tipo_produto"));
-                    retorno.add(op);
-                }
+                    break;
+                //POR CÓDIGO DA OP
+                case 1:
+                    stmt = con.prepareStatement("SELECT cod, data_entrega, status, cod_produto, tipo_produto "
+                            + "FROM tabela_ordens_producao "
+                            + "WHERE cod = ? "
+                            + "ORDER BY cod "
+                            + "DESC LIMIT 2");
+                    stmt.setLong(1, cod);
+                    rs = stmt.executeQuery();
+                    while (rs.next()) {
+                        OrdemProducao op = new OrdemProducao();
+                        op.setCodigo(rs.getInt("cod"));
+                        op.setDataEntrega(rs.getDate("data_entrega"));
+                        op.setStatus(rs.getString("status"));
+                        op.setCodProduto(rs.getInt("cod_produto"));
+                        op.setTipoProduto(rs.getByte("tipo_produto"));
+                        retorno.add(op);
+                    }
+                    break;
+                //POR CÓDIGO DO ORÇAMENTO
+                case 2:
+                    stmt = con.prepareStatement("SELECT cod, data_entrega, status, cod_produto, tipo_produto "
+                            + "FROM tabela_ordens_producao "
+                            + "WHERE cod = ? "
+                            + "ORDER BY cod "
+                            + "DESC LIMIT 2");
+                    stmt.setLong(1, cod);
+                    rs = stmt.executeQuery();
+                    while (rs.next()) {
+                        OrdemProducao op = new OrdemProducao();
+                        op.setCodigo(rs.getInt("cod"));
+                        op.setDataEntrega(rs.getDate("data_entrega"));
+                        op.setStatus(rs.getString("status"));
+                        op.setCodProduto(rs.getInt("cod_produto"));
+                        op.setTipoProduto(rs.getByte("tipo_produto"));
+                        retorno.add(op);
+                    }
+                    break;
+                //POR DATA DE ENTREGA
+                case 3:
+                    stmt = con.prepareStatement("SELECT cod, data_entrega, status, cod_produto, tipo_produto "
+                            + "FROM tabela_ordens_producao "
+                            + "WHERE data_entrega = ?");
+                    stmt.setDate(1, new java.sql.Date((dataEntrega).getTime()));
+                    rs = stmt.executeQuery();
+                    while (rs.next()) {
+                        OrdemProducao op = new OrdemProducao();
+                        op.setCodigo(rs.getInt("cod"));
+                        op.setDataEntrega(rs.getDate("data_entrega"));
+                        op.setStatus(rs.getString("status"));
+                        op.setCodProduto(rs.getInt("cod_produto"));
+                        op.setTipoProduto(rs.getByte("tipo_produto"));
+                        retorno.add(op);
+                    }
 
-            } else if (cod == 0 & data == null & status == null & descProduto == null & mesEmissao == null & anoEmissao == null & mesEntrega != null & anoEntrega != null) {
-                stmt = con.prepareStatement("SELECT cod, data_entrega, status, cod_produto, tipo_produto "
-                        + "FROM tabela_ordens_producao "
-                        + "WHERE MONTH(data_entrega) = ? "
-                        + "AND YEAR(data_entrega) = ? "
-                        + "ORDER BY cod "
-                        + "ASC");
-                stmt.setString(1, mesEntrega);
-                stmt.setString(2, anoEntrega);
-                rs = stmt.executeQuery();
-                while (rs.next()) {
-                    OrdemProducao op = new OrdemProducao();
-                    op.setCodigo(rs.getInt("cod"));
-                    op.setDataEntrega(rs.getDate("data_entrega"));
-                    op.setStatus(rs.getString("status"));
-                    op.setCodProduto(rs.getInt("cod_produto"));
-                    op.setTipoProduto(rs.getByte("tipo_produto"));
-                    retorno.add(op);
-                }
-
+                    break;
+                //POR MÊS DE EMISSÃO
+                case 4:
+                    stmt = con.prepareStatement("SELECT cod, data_entrega, status, cod_produto, tipo_produto "
+                            + "FROM tabela_ordens_producao "
+                            + "WHERE MONTH(data_emissao) = ? "
+                            + "AND YEAR(data_emissao) = ? "
+                            + "ORDER BY cod "
+                            + "ASC");
+                    stmt.setString(1, mesEmissao);
+                    stmt.setString(2, anoEmissao);
+                    rs = stmt.executeQuery();
+                    while (rs.next()) {
+                        OrdemProducao op = new OrdemProducao();
+                        op.setCodigo(rs.getInt("cod"));
+                        op.setDataEntrega(rs.getDate("data_entrega"));
+                        op.setStatus(rs.getString("status"));
+                        op.setCodProduto(rs.getInt("cod_produto"));
+                        op.setTipoProduto(rs.getByte("tipo_produto"));
+                        retorno.add(op);
+                    }
+                    break;
+                //POR MÊS DE ENTREGA
+                case 5:
+                    stmt = con.prepareStatement("SELECT cod, data_entrega, status, cod_produto, tipo_produto "
+                            + "FROM tabela_ordens_producao "
+                            + "WHERE MONTH(data_entrega) = ? "
+                            + "AND YEAR(data_entrega) = ? "
+                            + "ORDER BY cod "
+                            + "ASC");
+                    stmt.setString(1, mesEntrega);
+                    stmt.setString(2, anoEntrega);
+                    rs = stmt.executeQuery();
+                    while (rs.next()) {
+                        OrdemProducao op = new OrdemProducao();
+                        op.setCodigo(rs.getInt("cod"));
+                        op.setDataEntrega(rs.getDate("data_entrega"));
+                        op.setStatus(rs.getString("status"));
+                        op.setCodProduto(rs.getInt("cod_produto"));
+                        op.setTipoProduto(rs.getByte("tipo_produto"));
+                        retorno.add(op);
+                    }
+                    break;
+                //POR STATUS
+                case 6:
+                    stmt = con.prepareStatement("SELECT cod, data_entrega, status, cod_produto, tipo_produto "
+                            + "FROM tabela_ordens_producao "
+                            + "WHERE status = ?");
+                    stmt.setString(1, status);
+                    rs = stmt.executeQuery();
+                    while (rs.next()) {
+                        OrdemProducao op = new OrdemProducao();
+                        op.setCodigo(rs.getInt("cod"));
+                        op.setDataEntrega(rs.getDate("data_entrega"));
+                        op.setStatus(rs.getString("status"));
+                        op.setCodProduto(rs.getInt("cod_produto"));
+                        op.setTipoProduto(rs.getByte("tipo_produto"));
+                        retorno.add(op);
+                    }
+                    break;
             }
             return retorno;
         } catch (SQLException ex) {
             throw new SQLException(ex);
         } finally {
             ConnectionFactory.closeConnection(con, stmt, rs);
-        } 
+        }
     }
 
     public List<ProdOrcamento> retornaProdutos(int orcamentoBase) throws SQLException {
@@ -300,14 +312,15 @@ public class TelaAcompanhamentoDAO {
 
     /**
      * Define o tipo de trabalho
+     *
      * @param codOrc código do orçamento
      * @param codProd código do produto
      * @param tipoTrabalho tipo de trabalho
      * @return
-     * @throws SQLException 
+     * @throws SQLException
      */
-    public static int setTipoTrabalho(int codOrc, 
-            int codProd, 
+    public static int setTipoTrabalho(int codOrc,
+            int codProd,
             String tipoTrabalho) throws SQLException {
         Connection con = ConnectionFactory.getConnection();
         PreparedStatement stmt = null;

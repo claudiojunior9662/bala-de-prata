@@ -120,7 +120,7 @@ public class OrcamentoFrame extends javax.swing.JFrame {
         try {
             SimpleDateFormat data = new SimpleDateFormat("dd/MM/yyyy");
             StringBuilder listaAlteracoes = new StringBuilder();
-            listaAlteracoes.append("DATAS DE ENTREGA ALTERADAS!!\n\n");
+            listaAlteracoes.append("ALTERAÇÕES NAS DATAS DE ENTREGA DE OP!!\n\n");
             for (AlteraData ad : OrcamentoDAO.consultarAlteracoes()) {
                 listaAlteracoes.append("OP: " + ad.getCodigoOp() + "\n" + "DATA: " + data.format(OrdemProducaoDAO.retornaDataEntregaOp(ad.getCodigoOp())) + "\n" + "MOTIVO: " + ad.getMotivo() + "\n" + "USUÁRIO: " + ad.getUsuario() + "\n\n");
             }

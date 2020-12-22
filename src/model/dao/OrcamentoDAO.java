@@ -193,10 +193,10 @@ public class OrcamentoDAO {
     }
 
     /**
-    @param codOrc código do orçamento
-    @return orçamento a ser selecionado
+     * @param codOrc código do orçamento
+     * @return orçamento a ser selecionado
      * @throws java.sql.SQLException
-    @see carregaEdicaoOrcamento
+     * @see carregaEdicaoOrcamento
      */
     public static Orcamento carregaEdicaoOrcamento(int codOrc) throws SQLException {
         Connection con = ConnectionFactory.getConnection();
@@ -368,10 +368,10 @@ public class OrcamentoDAO {
     }
 
     /**
-    @param codOrcamento código do orçamento
-    @param novoStatus novo status do orçamento
+     * @param codOrcamento código do orçamento
+     * @param novoStatus novo status do orçamento
      * @throws java.sql.SQLException
-    @see mudarStatus
+     * @see mudarStatus
      */
     public static void mudarStatus(int codOrcamento, byte novoStatus) throws SQLException {
         Connection con = ConnectionFactory.getConnection();
@@ -391,8 +391,9 @@ public class OrcamentoDAO {
 
     /**
      * Cria produtos do orçamento
+     *
      * @param prodOrc lista de produtos do orçamento
-     * @throws SQLException 
+     * @throws SQLException
      */
     public static void criaProdOrc(ProdOrcamento prodOrc) throws SQLException {
         Connection con = ConnectionFactory.getConnection();
@@ -429,8 +430,9 @@ public class OrcamentoDAO {
 
     /**
      * Exclui produtos do orçamento
+     *
      * @param codOrc código do orçamento
-     * @throws SQLException 
+     * @throws SQLException
      */
     public static void excluiProdOrc(int codOrc) throws SQLException {
         Connection con = ConnectionFactory.getConnection();
@@ -451,9 +453,10 @@ public class OrcamentoDAO {
 
     /**
      * Carrega os produtos do orçamento
+     *
      * @param codOrc código do orçamento
      * @return
-     * @throws SQLException 
+     * @throws SQLException
      */
     public static List<ProdOrcamento> carregaProdOrc(int codOrc) throws SQLException {
         Connection con = ConnectionFactory.getConnection();
@@ -1119,9 +1122,9 @@ public class OrcamentoDAO {
 
     /**
      * @param codOrc
-    @return double valor do frete
+     * @return double valor do frete
      * @throws java.sql.SQLException
-    @see retornaValorFrete
+     * @see retornaValorFrete
      */
     public static Double retornaValorFrete(Integer codOrc) throws SQLException {
         Connection con = ConnectionFactory.getConnection();
@@ -1144,9 +1147,11 @@ public class OrcamentoDAO {
     }
 
     /**
-     * Cria os cálculos de papel da proposta, que serão reutilizados na ordem de produção
+     * Cria os cálculos de papel da proposta, que serão reutilizados na ordem de
+     * produção
+     *
      * @param calculosBEAN cálculos da proposta
-     * @throws SQLException 
+     * @throws SQLException
      */
     public static void createCalculosProposta(CalculosOpBEAN calculosBEAN) throws SQLException {
         Connection con = ConnectionFactory.getConnection();
@@ -1177,13 +1182,14 @@ public class OrcamentoDAO {
 
     /**
      * Retorna os cálculos de papel da proposta de orçamento
+     *
      * @param codProposta código da proposta
      * @param codProd código do produto
      * @param tipoProd tipo do produto
      * @param codPapel código do papel
      * @param tipoPapel tipo do papel
      * @return
-     * @throws SQLException 
+     * @throws SQLException
      */
     public static CalculosOpBEAN retornaCalculosProposta(int codProposta,
             int codProd,
@@ -1227,8 +1233,9 @@ public class OrcamentoDAO {
 
     /**
      * Exclui os cálculos de papéis do orçamento
+     *
      * @param codProposta código da proposta de orçamento
-     * @throws SQLException 
+     * @throws SQLException
      */
     public static void excluiCalculosProposta(int codProposta) throws SQLException {
         Connection con = ConnectionFactory.getConnection();
@@ -1249,9 +1256,10 @@ public class OrcamentoDAO {
 
     /**
      * Verifica se existe cálculos pré-cadastrados de papéis
+     *
      * @param codOrc código da proposta de orçamento
      * @return
-     * @throws SQLException 
+     * @throws SQLException
      */
     public static boolean verificaCalculos(int codOrc) throws SQLException {
         Connection con = ConnectionFactory.getConnection();
@@ -1276,10 +1284,10 @@ public class OrcamentoDAO {
     }
 
     /**
-    @param codigoOrcamento Código do orçamento
-    @return Status do faturamento para a nota de venda
+     * @param codigoOrcamento Código do orçamento
+     * @return Status do faturamento para a nota de venda
      * @throws java.sql.SQLException
-    @see retornaStatusFaturamento
+     * @see retornaStatusFaturamento
      */
     public static byte retornaStatusFaturamento(int codigoOrcamento) throws SQLException {
         Connection con = ConnectionFactory.getConnection();
@@ -1302,10 +1310,10 @@ public class OrcamentoDAO {
     }
 
     /**
-    @param codigoOrcamento Código do orçamento
-    @param statusFaturamento Status do faturamento
+     * @param codigoOrcamento Código do orçamento
+     * @param statusFaturamento Status do faturamento
      * @throws java.sql.SQLException
-    @see atualizaStatusFaturamento
+     * @see atualizaStatusFaturamento
      */
     public static void atualizaStatusFaturamento(int codigoOrcamento, byte statusFaturamento) throws SQLException {
         Connection con = ConnectionFactory.getConnection();
@@ -1326,9 +1334,9 @@ public class OrcamentoDAO {
     }
 
     /**
-    @return List<> lista de status
+     * @return List<> lista de status
      * @throws java.sql.SQLException
-    @see retornaStsOrcamento
+     * @see retornaStsOrcamento
      */
     public static List<StsOrcamento> retornaStsOrcamento() throws SQLException {
         Connection con = ConnectionFactory.getConnection();
@@ -1352,10 +1360,10 @@ public class OrcamentoDAO {
     }
 
     /**
-    @param codOrc código do orçamento
-    @return Orcamento orçamento a ser selecionado para a nota de venda
+     * @param codOrc código do orçamento
+     * @return Orcamento orçamento a ser selecionado para a nota de venda
      * @throws java.sql.SQLException
-    @see selInfoNota
+     * @see selInfoNota
      */
     public static Orcamento selecionaInformacoesNota(int codOrc) throws SQLException {
         Connection con = ConnectionFactory.getConnection();
@@ -1387,13 +1395,13 @@ public class OrcamentoDAO {
     }
 
     /**
-    @param codOrc código do orcamento
+     * @param codOrc código do orcamento
      * @param codProduto
-    @return ProdOrcamento produto do orçamento
+     * @return ProdOrcamento produto do orçamento
      * @throws java.sql.SQLException
-    @see selecionaInformacoesProduto
+     * @see selecionaInformacoesProduto
      */
-    public synchronized static ProdOrcamento selecionaInformacoesProduto(int codOrc, 
+    public synchronized static ProdOrcamento selecionaInformacoesProduto(int codOrc,
             int codProduto,
             byte tipoProduto) throws SQLException {
         Connection con = ConnectionFactory.getConnection();
@@ -1444,10 +1452,10 @@ public class OrcamentoDAO {
     }
 
     /**
-    @param codOrc código do orçamento a ser selecionado
-    @return Cliente código e tipo do cliente a ser selecionado
+     * @param codOrc código do orçamento a ser selecionado
+     * @return Cliente código e tipo do cliente a ser selecionado
      * @throws java.sql.SQLException
-    @see retornaClienteOrc
+     * @see retornaClienteOrc
      */
     public static Cliente retornaClienteOrc(int codOrc) throws SQLException {
         Connection con = ConnectionFactory.getConnection();
@@ -1609,18 +1617,19 @@ public class OrcamentoDAO {
             ConnectionFactory.closeConnection(con, stmt, rs);
         }
     }
-    
+
     /**
      * Retorna os orçamentos aprovados pelo OD
+     *
      * @return
-     * @throws SQLException 
+     * @throws SQLException
      */
-    public static List<Orcamento> retornaApOD() throws SQLException{
+    public static List<Orcamento> retornaApOD() throws SQLException {
         Connection con = ConnectionFactory.getConnection();
         PreparedStatement stmt = null;
         ResultSet rs = null;
         List<Orcamento> retorno = new ArrayList();
-        
+
         try {
             stmt = con.prepareStatement("SELECT cod, cod_cliente, tipo_cliente "
                     + "FROM tabela_orcamentos "
@@ -1628,7 +1637,7 @@ public class OrcamentoDAO {
                     + "ORDER BY cod "
                     + "DESC");
             rs = stmt.executeQuery();
-            while(rs.next()){
+            while (rs.next()) {
                 retorno.add(new Orcamento(
                         rs.getInt("cod"),
                         rs.getInt("cod_cliente"),
@@ -1642,44 +1651,43 @@ public class OrcamentoDAO {
             ConnectionFactory.closeConnection(con, stmt, rs);
         }
     }
-    
+
     /**
-     * 
-     * @return
-     * @throws SQLException 
+     *
+     * @return @throws SQLException
      */
-    public static List<AlteraData> consultarAlteracoes() throws SQLException{
+    public static List<AlteraData> consultarAlteracoes() throws SQLException {
         Connection con = ConnectionFactory.getConnection();
         PreparedStatement stmt = null;
         ResultSet rs = null;
         Timestamp alteracao = null;
         List<AlteraData> listaAlteracoes = new ArrayList();
-        
-        try{
+
+        try {
             stmt = con.prepareStatement("SELECT alteracoes_ordem_producao.ALTERACAO FROM alteracoes_ordem_producao ORDER BY alteracoes_ordem_producao.ALTERACAO DESC LIMIT 1");
             rs = stmt.executeQuery();
-            if(rs.next()){
+            if (rs.next()) {
                 alteracao = rs.getTimestamp("alteracoes_ordem_producao.ALTERACAO");
+                stmt = con.prepareStatement("SELECT * FROM alteracoes_ordem_producao WHERE CAST(alteracoes_ordem_producao.ALTERACAO AS DATE) = ?");
+                stmt.setDate(1, new java.sql.Date(alteracao.getTime()));
+                rs = stmt.executeQuery();
+                while (rs.next()) {
+                    listaAlteracoes.add(new AlteraData(
+                            rs.getInt("alteracoes_ordem_producao.OP"),
+                            rs.getTimestamp("alteracoes_ordem_producao.ALTERACAO"),
+                            rs.getDate("alteracoes_ordem_producao.DATA_ANTERIOR"),
+                            rs.getString("alteracoes_ordem_producao.USUARIO"),
+                            rs.getString("alteracoes_ordem_producao.MOTIVO")
+                    ));
+                }
             }
-            
-            stmt = con.prepareStatement("SELECT * FROM alteracoes_ordem_producao WHERE CAST(alteracoes_ordem_producao.ALTERACAO AS DATE) = ?");
-            stmt.setDate(1, new java.sql.Date(alteracao.getTime()));
-            rs = stmt.executeQuery();
-            while(rs.next()){
-                listaAlteracoes.add(new AlteraData(
-                        rs.getInt("alteracoes_ordem_producao.OP"),
-                        rs.getTimestamp("alteracoes_ordem_producao.ALTERACAO"),
-                        rs.getDate("alteracoes_ordem_producao.DATA_ANTERIOR"),
-                        rs.getString("alteracoes_ordem_producao.USUARIO"),
-                        rs.getString("alteracoes_ordem_producao.MOTIVO")
-                ));     
-            }
+
             return listaAlteracoes;
         } catch (SQLException ex) {
             throw new SQLException(ex);
-        }finally{
+        } finally {
             ConnectionFactory.closeConnection(con, stmt, rs);
         }
     }
-    
+
 }

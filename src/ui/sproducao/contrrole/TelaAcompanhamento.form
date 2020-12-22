@@ -96,18 +96,24 @@
                   <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Group type="102" attributes="0">
+                          <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                          <Component id="tempoReal" min="-2" max="-2" attributes="0"/>
+                          <EmptySpace max="-2" attributes="0"/>
+                          <Component id="aplicarTexto" min="-2" max="-2" attributes="0"/>
+                      </Group>
+                      <Group type="102" attributes="0">
                           <Group type="103" groupAlignment="0" attributes="0">
-                              <Component id="produto" alignment="0" min="-2" max="-2" attributes="0"/>
                               <Component id="status" alignment="0" min="-2" max="-2" attributes="0"/>
                               <Component id="dataEntrega" alignment="0" min="-2" max="-2" attributes="0"/>
                               <Component id="codOpFiltro" alignment="0" min="-2" max="-2" attributes="0"/>
                               <Component id="mesEntrega" alignment="0" min="-2" max="-2" attributes="0"/>
                               <Component id="mesEmissao" alignment="0" min="-2" max="-2" attributes="0"/>
+                              <Component id="codOrcamento" alignment="0" min="-2" max="-2" attributes="0"/>
                           </Group>
                           <EmptySpace type="separate" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" attributes="0">
+                              <Component id="codOrcTexto" max="32767" attributes="0"/>
                               <Component id="statusTexto" alignment="0" max="32767" attributes="0"/>
-                              <Component id="produtoTexto" alignment="0" max="32767" attributes="0"/>
                               <Component id="dataEntregaTexto" alignment="0" max="32767" attributes="0"/>
                               <Component id="codOpTexto" alignment="0" max="32767" attributes="0"/>
                               <Group type="102" attributes="0">
@@ -124,12 +130,6 @@
                               </Group>
                           </Group>
                       </Group>
-                      <Group type="102" alignment="1" attributes="0">
-                          <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
-                          <Component id="tempoReal" min="-2" max="-2" attributes="0"/>
-                          <EmptySpace max="-2" attributes="0"/>
-                          <Component id="aplicarTexto" min="-2" max="-2" attributes="0"/>
-                      </Group>
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
               </Group>
@@ -144,7 +144,12 @@
                       <Component id="codOpFiltro" linkSize="8" alignment="0" min="-2" max="-2" attributes="0"/>
                       <Component id="codOpTexto" linkSize="8" alignment="0" min="-2" max="-2" attributes="0"/>
                   </Group>
-                  <EmptySpace min="-2" max="-2" attributes="0"/>
+                  <EmptySpace min="-2" pref="8" max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="0" attributes="0">
+                      <Component id="codOrcamento" alignment="0" min="-2" max="-2" attributes="0"/>
+                      <Component id="codOrcTexto" linkSize="8" alignment="0" min="-2" max="-2" attributes="0"/>
+                  </Group>
+                  <EmptySpace type="unrelated" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Component id="dataEntregaTexto" linkSize="7" alignment="0" min="-2" max="-2" attributes="0"/>
                       <Component id="dataEntrega" linkSize="7" alignment="0" min="-2" max="-2" attributes="0"/>
@@ -166,12 +171,7 @@
                       <Component id="status" linkSize="9" alignment="0" min="-2" max="-2" attributes="0"/>
                       <Component id="statusTexto" linkSize="9" alignment="0" min="-2" max="-2" attributes="0"/>
                   </Group>
-                  <EmptySpace type="unrelated" min="-2" max="-2" attributes="0"/>
-                  <Group type="103" groupAlignment="0" attributes="0">
-                      <Component id="produto" linkSize="10" alignment="0" min="-2" max="-2" attributes="0"/>
-                      <Component id="produtoTexto" linkSize="10" alignment="0" min="-2" max="-2" attributes="0"/>
-                  </Group>
-                  <EmptySpace max="-2" attributes="0"/>
+                  <EmptySpace type="unrelated" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
                       <Component id="aplicarTexto" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="tempoReal" alignment="3" min="-2" max="-2" attributes="0"/>
@@ -313,20 +313,6 @@
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="tempoRealActionPerformed"/>
           </Events>
         </Component>
-        <Component class="javax.swing.JRadioButton" name="produto">
-          <Properties>
-            <Property name="buttonGroup" type="javax.swing.ButtonGroup" editor="org.netbeans.modules.form.RADComponent$ButtonGroupPropertyEditor">
-              <ComponentRef name="buttonGroup1"/>
-            </Property>
-            <Property name="text" type="java.lang.String" value="PRODUTO"/>
-          </Properties>
-          <Events>
-            <EventHandler event="itemStateChanged" listener="java.awt.event.ItemListener" parameters="java.awt.event.ItemEvent" handler="produtoItemStateChanged"/>
-            <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="produtoMouseClicked"/>
-          </Events>
-        </Component>
-        <Component class="javax.swing.JTextField" name="produtoTexto">
-        </Component>
         <Component class="javax.swing.JRadioButton" name="dataEntrega">
           <Properties>
             <Property name="buttonGroup" type="javax.swing.ButtonGroup" editor="org.netbeans.modules.form.RADComponent$ButtonGroupPropertyEditor">
@@ -359,6 +345,25 @@
           </Events>
         </Component>
         <Component class="com.toedter.calendar.JYearChooser" name="anoEntregaSelecionar">
+        </Component>
+        <Component class="javax.swing.JRadioButton" name="codOrcamento">
+          <Properties>
+            <Property name="buttonGroup" type="javax.swing.ButtonGroup" editor="org.netbeans.modules.form.RADComponent$ButtonGroupPropertyEditor">
+              <ComponentRef name="buttonGroup1"/>
+            </Property>
+            <Property name="text" type="java.lang.String" value="C&#xd3;DIGO OR&#xc7;AMENTO"/>
+          </Properties>
+          <Events>
+            <EventHandler event="itemStateChanged" listener="java.awt.event.ItemListener" parameters="java.awt.event.ItemEvent" handler="codOrcamentoItemStateChanged"/>
+            <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="codOrcamentoMouseClicked"/>
+          </Events>
+        </Component>
+        <Component class="javax.swing.JFormattedTextField" name="codOrcTexto">
+          <Properties>
+            <Property name="formatterFactory" type="javax.swing.JFormattedTextField$AbstractFormatterFactory" editor="org.netbeans.modules.form.editors.AbstractFormatterFactoryEditor">
+              <Format format="#0" subtype="-1" type="0"/>
+            </Property>
+          </Properties>
         </Component>
       </SubComponents>
     </Container>
