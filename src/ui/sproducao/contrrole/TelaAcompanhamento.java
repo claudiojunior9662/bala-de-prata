@@ -976,17 +976,22 @@ public final class TelaAcompanhamento extends javax.swing.JInternalFrame {
                         }
                     //POR CÓDIGO DO ORÇAMENTO -- 2
                     } else if (codOrcamento.isSelected() == true) {
-                        for (OrdemProducao op : TelaAcompanhamentoDAO.retornaFiltro(0, (int) codOrcTexto.getValue(), null, null, null, null, null, null, (byte) 1)) {
-                            modeloTabela.addRow(new Object[]{
-                                op.getCodigo(),
-                                Controle.dataPadrao.format(op.getDataEntrega()),
-                                op.getStatus(),
-                                ProdutoDAO.retornaDescricaoProduto(op.getCodProduto(), op.getTipoProduto())
-                            });
-                        }
-                    
-                    } else if (codOrcamento.isSelected() == true) {
                         if (codOrcTexto.getValue() == null) {
+                            JOptionPane.showMessageDialog(null, "DIGITE O CÓDIGO DO ORÇAMENTO.");
+                            return;
+                        } else {
+                            for (OrdemProducao op : TelaAcompanhamentoDAO.retornaFiltro(0, (int) codOrcTexto.getValue(), null, null, null, null, null, null, (byte) 1)) {
+                                modeloTabela.addRow(new Object[]{
+                                    op.getCodigo(),
+                                    Controle.dataPadrao.format(op.getDataEntrega()),
+                                    op.getStatus(),
+                                    ProdutoDAO.retornaDescricaoProduto(op.getCodProduto(), op.getTipoProduto())
+                                });
+                            }
+                        }
+                    //POR DATA DE ENTREGA
+                    } else if (dataEntrega.isSelected() == true) {
+                        if (dataEntregaTexto.getDate() == null) {
                             JOptionPane.showMessageDialog(null, "ESCREVA O CÓDIGO DO ORÇAMENTO.");
                             return;
                         } else {
