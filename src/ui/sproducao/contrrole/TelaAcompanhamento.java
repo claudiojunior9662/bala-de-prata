@@ -989,10 +989,10 @@ public final class TelaAcompanhamento extends javax.swing.JInternalFrame {
                                 });
                             }
                         }
-                    //POR DATA DE ENTREGA
+                    //POR DATA DE ENTREGA -- 3
                     } else if (dataEntrega.isSelected() == true) {
                         if (dataEntregaTexto.getDate() == null) {
-                            JOptionPane.showMessageDialog(null, "ESCREVA O CÓDIGO DO ORÇAMENTO.");
+                            JOptionPane.showMessageDialog(null, "SELECIONE A DATA DE ENTREGA.");
                             return;
                         } else {
                             for (OrdemProducao op : TelaAcompanhamentoDAO.retornaFiltro(0l, null, null, null, null, null, null, produtoTexto.getText())) {
@@ -1004,7 +1004,7 @@ public final class TelaAcompanhamento extends javax.swing.JInternalFrame {
                                 });
                             }
                         }
-
+                    
                     } else if (mesEmissao.isSelected()) {
                         for (OrdemProducao op : TelaAcompanhamentoDAO.retornaFiltro(0l,
                                 null,

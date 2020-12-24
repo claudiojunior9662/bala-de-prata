@@ -104,14 +104,8 @@ public class TelaAcompanhamentoDAO {
      * @return
      * @throws SQLException
      */
-    public static List<OrdemProducao> retornaFiltro(int cod,
-            int codOrc,
-            Date dataEntrega,
-            String mesEmissao,
-            String anoEmissao,
-            String mesEntrega,
-            String anoEntrega,
-            String status,
+    public static List<OrdemProducao> retornaFiltro(
+            Object param,
             byte tipoFiltro) throws SQLException {
         Connection con = ConnectionFactory.getConnection();
         PreparedStatement stmt = null;
