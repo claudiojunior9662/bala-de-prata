@@ -15,6 +15,7 @@ import java.util.List;
 import entidades.OrdemProducao;
 import java.util.Date;
 import entidades.ProdOrcamento;
+import java.time.Instant;
 import model.bean.TelaAcompanhamentoBEAN;
 import ui.cadastros.produtos.ProdutoDAO;
 
@@ -91,14 +92,7 @@ public class TelaAcompanhamentoDAO {
 
     /**
      *
-     * @param cod
-     * @param codOrc
-     * @param dataEntrega
-     * @param mesEmissao
-     * @param anoEmissao
-     * @param mesEntrega
-     * @param anoEntrega
-     * @param status
+     * @param param
      * @param tipoFiltro 0 - TUDO, 1 - CÓDIGO DA OP, 2 - CÓDIGO DO ORÇAMENTO, 3
      * - DATA DE ENTREGA, 4 - MÊS DE EMISSÃO, 5 - MÊS DE ENTREGA, 6 - STATUS
      * @return
@@ -112,6 +106,7 @@ public class TelaAcompanhamentoDAO {
         ResultSet rs = null;
 
         List<OrdemProducao> retorno = new ArrayList();
+        java.util.Date dataFiltro = null;
 
         try {
             switch (tipoFiltro) {
@@ -136,8 +131,8 @@ public class TelaAcompanhamentoDAO {
                             + "FROM tabela_ordens_producao "
                             + "WHERE cod = ? "
                             + "ORDER BY cod "
-                            + "DESC LIMIT 2");
-                    stmt.setLong(1, cod);
+                            + "DESC LIMIT 1");
+                    stmt.setLong(1, (Long) param);
                     rs = stmt.executeQuery();
                     while (rs.next()) {
                         OrdemProducao op = new OrdemProducao();
@@ -153,10 +148,10 @@ public class TelaAcompanhamentoDAO {
                 case 2:
                     stmt = con.prepareStatement("SELECT cod, data_entrega, status, cod_produto, tipo_produto "
                             + "FROM tabela_ordens_producao "
-                            + "WHERE cod = ? "
+                            + "WHERE orcamento_base = ? "
                             + "ORDER BY cod "
-                            + "DESC LIMIT 2");
-                    stmt.setLong(1, cod);
+                            + "DESC");
+                    stmt.setLong(1, (Long) param);
                     rs = stmt.executeQuery();
                     while (rs.next()) {
                         OrdemProducao op = new OrdemProducao();
@@ -173,7 +168,7 @@ public class TelaAcompanhamentoDAO {
                     stmt = con.prepareStatement("SELECT cod, data_entrega, status, cod_produto, tipo_produto "
                             + "FROM tabela_ordens_producao "
                             + "WHERE data_entrega = ?");
-                    stmt.setDate(1, new java.sql.Date((dataEntrega).getTime()));
+                    stmt.setDate(1, new java.sql.Date(new java.util.Date((Long) param).getTime()));
                     rs = stmt.executeQuery();
                     while (rs.next()) {
                         OrdemProducao op = new OrdemProducao();
@@ -194,8 +189,9 @@ public class TelaAcompanhamentoDAO {
                             + "AND YEAR(data_emissao) = ? "
                             + "ORDER BY cod "
                             + "ASC");
-                    stmt.setString(1, mesEmissao);
-                    stmt.setString(2, anoEmissao);
+                    dataFiltro = (Date) param;
+                    stmt.setInt(1, dataFiltro.getMonth() + 1);
+                    stmt.setInt(2, dataFiltro.getYear());
                     rs = stmt.executeQuery();
                     while (rs.next()) {
                         OrdemProducao op = new OrdemProducao();
@@ -215,8 +211,9 @@ public class TelaAcompanhamentoDAO {
                             + "AND YEAR(data_entrega) = ? "
                             + "ORDER BY cod "
                             + "ASC");
-                    stmt.setString(1, mesEntrega);
-                    stmt.setString(2, anoEntrega);
+                    dataFiltro = (Date) param;
+                    stmt.setInt(1, dataFiltro.getMonth() + 1);
+                    stmt.setInt(2, dataFiltro.getYear());
                     rs = stmt.executeQuery();
                     while (rs.next()) {
                         OrdemProducao op = new OrdemProducao();
@@ -233,7 +230,7 @@ public class TelaAcompanhamentoDAO {
                     stmt = con.prepareStatement("SELECT cod, data_entrega, status, cod_produto, tipo_produto "
                             + "FROM tabela_ordens_producao "
                             + "WHERE status = ?");
-                    stmt.setString(1, status);
+                    stmt.setString(1, param.toString());
                     rs = stmt.executeQuery();
                     while (rs.next()) {
                         OrdemProducao op = new OrdemProducao();

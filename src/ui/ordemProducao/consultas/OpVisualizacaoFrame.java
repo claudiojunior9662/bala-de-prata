@@ -70,12 +70,12 @@ public class OpVisualizacaoFrame extends javax.swing.JInternalFrame {
         anoEntregaSelecionar = new com.toedter.calendar.JYearChooser();
         statusTexto = new javax.swing.JComboBox<String>();
         aplicarTexto = new javax.swing.JButton();
-        produto = new javax.swing.JRadioButton();
-        produtoTexto = new javax.swing.JTextField();
         codOpFiltro = new javax.swing.JRadioButton();
         dataEntrega = new javax.swing.JRadioButton();
         mesEmissaoSelecionar = new com.toedter.calendar.JMonthChooser();
         tempoReal = new javax.swing.JButton();
+        codOrcamento = new javax.swing.JRadioButton();
+        codOrcTexto = new javax.swing.JFormattedTextField();
         jPanel2 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tabelaConsulta = new javax.swing.JTable();
@@ -139,18 +139,6 @@ public class OpVisualizacaoFrame extends javax.swing.JInternalFrame {
             }
         });
 
-        produto.setText("PRODUTO");
-        produto.addItemListener(new java.awt.event.ItemListener() {
-            public void itemStateChanged(java.awt.event.ItemEvent evt) {
-                produtoItemStateChanged(evt);
-            }
-        });
-        produto.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                produtoMouseClicked(evt);
-            }
-        });
-
         codOpFiltro.setText("CÓDIGO OP");
         codOpFiltro.addItemListener(new java.awt.event.ItemListener() {
             public void itemStateChanged(java.awt.event.ItemEvent evt) {
@@ -184,39 +172,65 @@ public class OpVisualizacaoFrame extends javax.swing.JInternalFrame {
             }
         });
 
+        codOrcamento.setText("CÓDIGO ORÇAMENTO");
+        codOrcamento.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                codOrcamentoItemStateChanged(evt);
+            }
+        });
+        codOrcamento.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                codOrcamentoMouseClicked(evt);
+            }
+        });
+
+        codOrcTexto.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#0"))));
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
+                .addComponent(codOpFiltro)
+                .addGap(18, 18, Short.MAX_VALUE)
+                .addComponent(codOpTexto, javax.swing.GroupLayout.PREFERRED_SIZE, 854, javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(produto)
                     .addComponent(status)
                     .addComponent(dataEntrega)
-                    .addComponent(codOpFiltro)
                     .addComponent(mesEntrega)
                     .addComponent(mesEmissao))
-                .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(statusTexto, 0, 854, Short.MAX_VALUE)
-                    .addComponent(produtoTexto)
-                    .addComponent(dataEntregaTexto, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(codOpTexto)
                     .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(18, 18, 18)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(mesEmissaoSelecionar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(mesEntregaSelecionar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(anoEntregaSelecionar, javax.swing.GroupLayout.PREFERRED_SIZE, 76, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(anoEmissaoSelecionar, javax.swing.GroupLayout.PREFERRED_SIZE, 76, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(statusTexto, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(mesEmissaoSelecionar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(mesEntregaSelecionar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(anoEntregaSelecionar, javax.swing.GroupLayout.PREFERRED_SIZE, 76, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(anoEmissaoSelecionar, javax.swing.GroupLayout.PREFERRED_SIZE, 76, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(0, 0, Short.MAX_VALUE))))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(35, 35, 35)
+                        .addComponent(dataEntregaTexto, javax.swing.GroupLayout.PREFERRED_SIZE, 854, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(0, 0, Short.MAX_VALUE))))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addGap(0, 0, Short.MAX_VALUE)
                 .addComponent(tempoReal)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(aplicarTexto))
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addComponent(codOrcamento)
+                .addGap(18, 18, 18)
+                .addComponent(codOrcTexto, javax.swing.GroupLayout.PREFERRED_SIZE, 837, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
+
+        jPanel1Layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {codOpTexto, codOrcTexto, dataEntregaTexto});
+
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
@@ -224,10 +238,14 @@ public class OpVisualizacaoFrame extends javax.swing.JInternalFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(codOpFiltro)
                     .addComponent(codOpTexto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(5, 5, 5)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(dataEntregaTexto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(dataEntrega))
+                    .addComponent(codOrcamento)
+                    .addComponent(codOrcTexto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(dataEntrega)
+                    .addComponent(dataEntregaTexto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(13, 13, 13)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(mesEmissao)
@@ -242,15 +260,11 @@ public class OpVisualizacaoFrame extends javax.swing.JInternalFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(status)
                     .addComponent(statusTexto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(produto)
-                    .addComponent(produtoTexto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(31, 31, 31)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(aplicarTexto)
                     .addComponent(tempoReal))
-                .addContainerGap(334, Short.MAX_VALUE))
+                .addContainerGap(314, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("FILTROS", jPanel1);
@@ -282,7 +296,7 @@ public class OpVisualizacaoFrame extends javax.swing.JInternalFrame {
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 1002, Short.MAX_VALUE)
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 1019, Short.MAX_VALUE)
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -317,7 +331,6 @@ public class OpVisualizacaoFrame extends javax.swing.JInternalFrame {
         mesEntregaSelecionar.setEnabled(false);
         anoEntregaSelecionar.setEnabled(false);
         statusTexto.setEnabled(false);
-        produtoTexto.setEnabled(false);
     }//GEN-LAST:event_mesEmissaoItemStateChanged
 
     private void mesEmissaoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_mesEmissaoMouseClicked
@@ -332,14 +345,12 @@ public class OpVisualizacaoFrame extends javax.swing.JInternalFrame {
         mesEntregaSelecionar.setEnabled(false);
         anoEntregaSelecionar.setEnabled(false);
         statusTexto.setEnabled(true);
-        produtoTexto.setEnabled(false);
     }//GEN-LAST:event_statusItemStateChanged
 
     private void statusMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_statusMouseClicked
         codOpTexto.setEnabled(false);
         dataEntregaTexto.setEnabled(false);
         statusTexto.setEnabled(true);
-        produtoTexto.setEnabled(false);
     }//GEN-LAST:event_statusMouseClicked
 
     private void mesEntregaItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_mesEntregaItemStateChanged
@@ -350,7 +361,6 @@ public class OpVisualizacaoFrame extends javax.swing.JInternalFrame {
         anoEmissaoSelecionar.setEnabled(false);
         mesEntregaSelecionar.setEnabled(true);
         anoEntregaSelecionar.setEnabled(true);
-        produtoTexto.setEnabled(false);
     }//GEN-LAST:event_mesEntregaItemStateChanged
 
     private void mesEntregaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_mesEntregaMouseClicked
@@ -366,6 +376,7 @@ public class OpVisualizacaoFrame extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_dataEntregaTextoMouseClicked
 
     private void aplicarTextoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_aplicarTextoActionPerformed
+        realTime = false;
         new Thread("Aplicar filtro op") {
             @Override
             public void run() {
@@ -376,12 +387,13 @@ public class OpVisualizacaoFrame extends javax.swing.JInternalFrame {
                 try {
                     DefaultTableModel modeloTabela = (DefaultTableModel) tabelaConsulta.getModel();
                     modeloTabela.setNumRows(0);
+                    //POR CÓDIGO DE OP -- 1
                     if (codOpFiltro.isSelected() == true) {
                         if (codOpTexto.getValue() == null) {
                             JOptionPane.showMessageDialog(null, "DIGITE O CÓDIGO DA ORDEM DE PRODUÇÃO.");
                             return;
                         } else {
-                            for (OrdemProducao op : TelaAcompanhamentoDAO.retornaFiltro((Long) codOpTexto.getValue(), null, null, null, null, null, null, null)) {
+                            for (OrdemProducao op : TelaAcompanhamentoDAO.retornaFiltro((int) codOpTexto.getValue(), (byte) 1)) {
                                 modeloTabela.addRow(new Object[]{
                                     op.getCodigo(),
                                     Controle.dataPadrao.format(op.getDataEntrega()),
@@ -390,38 +402,42 @@ public class OpVisualizacaoFrame extends javax.swing.JInternalFrame {
                                 });
                             }
                         }
-                    } else if (status.isSelected() == true) {
-                        for (OrdemProducao op : TelaAcompanhamentoDAO.retornaFiltro(0l, null, null, null, null, null, statusTexto.getSelectedItem().toString(), null)) {
-                            modeloTabela.addRow(new Object[]{
-                                op.getCodigo(),
-                                Controle.dataPadrao.format(op.getDataEntrega()),
-                                op.getStatus(),
-                                ProdutoDAO.retornaDescricaoProduto(op.getCodProduto(), op.getTipoProduto())
-                            });
-                        }
-                    } else if (produto.isSelected() == true) {
-                        if (produtoTexto.getText().equals("")) {
-                            JOptionPane.showMessageDialog(null, "ESCREVA O NOME DO PRODUTO.");
+                    //POR CÓDIGO DO ORÇAMENTO -- 2
+                    } else if (codOrcamento.isSelected() == true) {
+                        if (codOrcTexto.getValue() == null) {
+                            JOptionPane.showMessageDialog(null, "DIGITE O CÓDIGO DO ORÇAMENTO.");
                             return;
+                        } else {
+                            for (OrdemProducao op : TelaAcompanhamentoDAO.retornaFiltro((int) codOrcTexto.getValue(), (byte) 1)) {
+                                modeloTabela.addRow(new Object[]{
+                                    op.getCodigo(),
+                                    Controle.dataPadrao.format(op.getDataEntrega()),
+                                    op.getStatus(),
+                                    ProdutoDAO.retornaDescricaoProduto(op.getCodProduto(), op.getTipoProduto())
+                                });
+                            }
                         }
-                        for (OrdemProducao op : TelaAcompanhamentoDAO.retornaFiltro(0l, null, null, null, null, null, null, produtoTexto.getText())) {
-                            modeloTabela.addRow(new Object[]{
-                                op.getCodigo(),
-                                Controle.dataPadrao.format(op.getDataEntrega()),
-                                op.getStatus(),
-                                ProdutoDAO.retornaDescricaoProduto(op.getCodProduto(), op.getTipoProduto())
-                            });
+                    //POR DATA DE ENTREGA -- 3
+                    } else if (dataEntrega.isSelected() == true) {
+                        if (dataEntregaTexto.getDate() == null) {
+                            JOptionPane.showMessageDialog(null, "SELECIONE A DATA DE ENTREGA.");
+                            return;
+                        } else {
+                            for (OrdemProducao op : TelaAcompanhamentoDAO.retornaFiltro(dataEntregaTexto.getDate(), (byte) 3)) {
+                                modeloTabela.addRow(new Object[]{
+                                    op.getCodigo(),
+                                    Controle.dataPadrao.format(op.getDataEntrega()),
+                                    op.getStatus(),
+                                    ProdutoDAO.retornaDescricaoProduto(op.getCodProduto(), op.getTipoProduto())
+                                });
+                            }
                         }
+                    //POR MÊS DE EMISSÃO -- 4
                     } else if (mesEmissao.isSelected()) {
-                        for (OrdemProducao op : TelaAcompanhamentoDAO.retornaFiltro(0l,
-                                null,
-                                Integer.toString(mesEmissaoSelecionar.getMonth() + 1),
-                                Integer.toString(anoEmissaoSelecionar.getYear()),
-                                null,
-                                null,
-                                null,
-                                null)) {
-
+                        java.util.Date dataFiltro = null;
+                        dataFiltro.setMonth(mesEmissaoSelecionar.getMonth());
+                        dataFiltro.setYear(anoEmissaoSelecionar.getYear());
+                        for (OrdemProducao op : TelaAcompanhamentoDAO.retornaFiltro(dataFiltro, (byte) 4)) {
                             modeloTabela.addRow(new Object[]{
                                 op.getCodigo(),
                                 Controle.dataPadrao.format(op.getDataEntrega()),
@@ -430,15 +446,12 @@ public class OpVisualizacaoFrame extends javax.swing.JInternalFrame {
                             });
 
                         }
+                    //POR MÊS DE ENTREGA -- 5
                     } else if (mesEntrega.isSelected()) {
-                        for (OrdemProducao op : TelaAcompanhamentoDAO.retornaFiltro(0l,
-                                null,
-                                null,
-                                null,
-                                Integer.toString(mesEntregaSelecionar.getMonth() + 1),
-                                Integer.toString(anoEntregaSelecionar.getYear()),
-                                null,
-                                null)) {
+                        java.util.Date dataFiltro = null;
+                        dataFiltro.setMonth(mesEntregaSelecionar.getMonth());
+                        dataFiltro.setYear(anoEntregaSelecionar.getYear());
+                        for (OrdemProducao op : TelaAcompanhamentoDAO.retornaFiltro(dataFiltro, (byte) 5)) {
 
                             modeloTabela.addRow(new Object[]{
                                 op.getCodigo(),
@@ -448,9 +461,9 @@ public class OpVisualizacaoFrame extends javax.swing.JInternalFrame {
                             });
 
                         }
+                    //POR STATUS -- 6
                     } else if (dataEntrega.isSelected()) {
-                        for (OrdemProducao op : TelaAcompanhamentoDAO.retornaFiltro(0l, dataEntregaTexto.getDate(),
-                                null, null, null, null, null, null)) {
+                        for (OrdemProducao op : TelaAcompanhamentoDAO.retornaFiltro(statusTexto.getSelectedItem().toString(), (byte) 6)) {
                             modeloTabela.addRow(new Object[]{
                                 op.getCodigo(),
                                 Controle.dataPadrao.format(op.getDataEntrega()),
@@ -469,21 +482,6 @@ public class OpVisualizacaoFrame extends javax.swing.JInternalFrame {
         }.start();
     }//GEN-LAST:event_aplicarTextoActionPerformed
 
-    private void produtoItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_produtoItemStateChanged
-        statusTexto.setEnabled(false);
-        codOpTexto.setEnabled(false);
-        dataEntregaTexto.setEnabled(false);
-        mesEmissaoSelecionar.setEnabled(false);
-        anoEmissaoSelecionar.setEnabled(false);
-        mesEntregaSelecionar.setEnabled(false);
-        anoEntregaSelecionar.setEnabled(false);
-        produtoTexto.setEnabled(true);
-    }//GEN-LAST:event_produtoItemStateChanged
-
-    private void produtoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_produtoMouseClicked
-
-    }//GEN-LAST:event_produtoMouseClicked
-
     private void codOpFiltroItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_codOpFiltroItemStateChanged
         codOpTexto.setEnabled(true);
         dataEntregaTexto.setEnabled(false);
@@ -492,7 +490,6 @@ public class OpVisualizacaoFrame extends javax.swing.JInternalFrame {
         mesEntregaSelecionar.setEnabled(false);
         anoEntregaSelecionar.setEnabled(false);
         statusTexto.setEnabled(false);
-        produtoTexto.setEnabled(false);
     }//GEN-LAST:event_codOpFiltroItemStateChanged
 
     private void codOpFiltroMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_codOpFiltroMouseClicked
@@ -507,7 +504,6 @@ public class OpVisualizacaoFrame extends javax.swing.JInternalFrame {
         anoEmissaoSelecionar.setEnabled(false);
         mesEntregaSelecionar.setEnabled(false);
         anoEntregaSelecionar.setEnabled(false);
-        produtoTexto.setEnabled(false);
     }//GEN-LAST:event_dataEntregaItemStateChanged
 
     private void dataEntregaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_dataEntregaMouseClicked
@@ -519,6 +515,14 @@ public class OpVisualizacaoFrame extends javax.swing.JInternalFrame {
         refresh();
     }//GEN-LAST:event_tempoRealActionPerformed
 
+    private void codOrcamentoItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_codOrcamentoItemStateChanged
+        // TODO add your handling code here:
+    }//GEN-LAST:event_codOrcamentoItemStateChanged
+
+    private void codOrcamentoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_codOrcamentoMouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_codOrcamentoMouseClicked
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private com.toedter.calendar.JYearChooser anoEmissaoSelecionar;
@@ -526,6 +530,8 @@ public class OpVisualizacaoFrame extends javax.swing.JInternalFrame {
     private javax.swing.JButton aplicarTexto;
     private javax.swing.JRadioButton codOpFiltro;
     private javax.swing.JFormattedTextField codOpTexto;
+    private javax.swing.JFormattedTextField codOrcTexto;
+    private javax.swing.JRadioButton codOrcamento;
     private javax.swing.JRadioButton dataEntrega;
     private com.toedter.calendar.JDateChooser dataEntregaTexto;
     private javax.swing.JPanel jPanel1;
@@ -536,8 +542,6 @@ public class OpVisualizacaoFrame extends javax.swing.JInternalFrame {
     private com.toedter.calendar.JMonthChooser mesEmissaoSelecionar;
     private javax.swing.JRadioButton mesEntrega;
     private com.toedter.calendar.JMonthChooser mesEntregaSelecionar;
-    private javax.swing.JRadioButton produto;
-    private javax.swing.JTextField produtoTexto;
     private javax.swing.JRadioButton status;
     private javax.swing.JComboBox<String> statusTexto;
     public static javax.swing.JTable tabelaConsulta;
