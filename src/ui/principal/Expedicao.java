@@ -83,9 +83,9 @@ public class Expedicao extends javax.swing.JFrame {
             }
         }.start();
 
-        URL url = this.getClass().getResource("/ui/login/logo.png");
-        Image imagemLogo = Toolkit.getDefaultToolkit().getImage(url);
-        this.setIconImage(imagemLogo);
+//        URL url = this.getClass().getResource("/ui/login/logo.png");
+//        Image imagemLogo = Toolkit.getDefaultToolkit().getImage(url);
+//        this.setIconImage(imagemLogo);
     }
 
     /**
@@ -99,14 +99,14 @@ public class Expedicao extends javax.swing.JFrame {
 
         jScrollPane1 = new javax.swing.JScrollPane();
         statusPane = new javax.swing.JTextPane();
-        ImageIcon icon = new ImageIcon(getClass().getResource("/ui/principal/brasaoGraficaBala-475x288.png"));
-        Image image = icon.getImage();
+        //ImageIcon icon = new ImageIcon(getClass().getResource("/ui/principal/brasaoGraficaBala-475x288.png"));
+        //Image image = icon.getImage();
         areaDeTrabalho = new javax.swing.JDesktopPane(){
 
-            public void paintComponent(Graphics g){
-                Dimension d = areaDeTrabalho.getSize();
-                g.drawImage(image,(d.width - 475) / 2,(d.height - 288) / 2,475,288,null);
-            }
+            //    public void paintComponent(Graphics g){
+                //        Dimension d = areaDeTrabalho.getSize();
+                //        g.drawImage(image,(d.width - 475) / 2,(d.height - 288) / 2,475,288,null);
+                //    }
 
         };
         jScrollPane2 = new javax.swing.JScrollPane();
@@ -143,8 +143,6 @@ public class Expedicao extends javax.swing.JFrame {
         taAvisos.setDragEnabled(true);
         jScrollPane2.setViewportView(taAvisos);
 
-        areaDeTrabalho.setLayer(jScrollPane2, javax.swing.JLayeredPane.DEFAULT_LAYER);
-
         javax.swing.GroupLayout areaDeTrabalhoLayout = new javax.swing.GroupLayout(areaDeTrabalho);
         areaDeTrabalho.setLayout(areaDeTrabalhoLayout);
         areaDeTrabalhoLayout.setHorizontalGroup(
@@ -161,6 +159,7 @@ public class Expedicao extends javax.swing.JFrame {
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 410, Short.MAX_VALUE)
                 .addContainerGap())
         );
+        areaDeTrabalho.setLayer(jScrollPane2, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
         loading.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         loading.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ui/orcamentos/operacoes/carregando.gif"))); // NOI18N

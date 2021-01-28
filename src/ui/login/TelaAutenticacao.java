@@ -213,8 +213,7 @@ public class TelaAutenticacao extends javax.swing.JFrame {
 
         jLabel2.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ui/login/logo.png"))); // NOI18N
-        jLabel2.setText(" AUTENTICAÇÃO - PROJETO BALA DE PRATA");
+        jLabel2.setText(" AUTENTICAÇÃO - SISTEMA DE PRODUÇÃO GRÁFICA");
 
         fechar.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         fechar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icones/fechar.png"))); // NOI18N

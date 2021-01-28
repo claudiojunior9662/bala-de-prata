@@ -191,8 +191,8 @@
         </Property>
       </Properties>
       <AuxValues>
-        <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new javax.swing.JDesktopPane(){&#xa;&#xa;    public void paintComponent(Graphics g){&#xa;        Dimension d = areaDeTrabalho.getSize();&#xa;        g.drawImage(image,(d.width - 475) / 2,(d.height - 288) / 2,475,288,null);&#xa;    }&#xa;&#xa;}"/>
-        <AuxValue name="JavaCodeGenerator_CreateCodePre" type="java.lang.String" value="ImageIcon icon = new ImageIcon(getClass().getResource(&quot;/ui/principal/brasaoGraficaBala-475x288.png&quot;));&#xa;Image image = icon.getImage();"/>
+        <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new javax.swing.JDesktopPane(){&#xa;&#xa;//    public void paintComponent(Graphics g){&#xa;//        Dimension d = areaDeTrabalho.getSize();&#xa;//        g.drawImage(image,(d.width - 475) / 2,(d.height - 288) / 2,475,288,null);&#xa;//    }&#xa;&#xa;}"/>
+        <AuxValue name="JavaCodeGenerator_CreateCodePre" type="java.lang.String" value="//ImageIcon icon = new ImageIcon(getClass().getResource(&quot;/ui/principal/brasaoGraficaBala-475x288.png&quot;));&#xa;//Image image = icon.getImage();"/>
       </AuxValues>
 
       <Layout>

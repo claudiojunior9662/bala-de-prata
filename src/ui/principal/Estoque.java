@@ -64,9 +64,9 @@ public class Estoque extends javax.swing.JFrame {
         Controle.defineStatus(statusPane);
         loadingHide();
 
-        URL url = this.getClass().getResource("/ui/login/logo.png");
-        Image imagemLogo = Toolkit.getDefaultToolkit().getImage(url);
-        this.setIconImage(imagemLogo);
+//        URL url = this.getClass().getResource("/ui/login/logo.png");
+//        Image imagemLogo = Toolkit.getDefaultToolkit().getImage(url);
+//        this.setIconImage(imagemLogo);
     }
 
     /**
@@ -81,15 +81,15 @@ public class Estoque extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         statusPane = new javax.swing.JTextPane();
         loading = new javax.swing.JLabel();
-        ImageIcon icon = new ImageIcon(getClass().getResource("/ui/principal/brasaoGraficaBala-475x288.png"));
-        Image image = icon.getImage();
+        //ImageIcon icon = new ImageIcon(getClass().getResource("/ui/principal/brasaoGraficaBala-475x288.png"));
+        //Image image = icon.getImage();
         areaDeTrabalho = new javax.swing.JDesktopPane(){
-
-            public void paintComponent(Graphics g){
-                Dimension d = areaDeTrabalho.getSize();
-                g.drawImage(image,(d.width - 475) / 2,(d.height - 288) / 2,475,288,null);
-            }
-
+            //
+            //    public void paintComponent(Graphics g){
+                //        Dimension d = areaDeTrabalho.getSize();
+                //        g.drawImage(image,(d.width - 475) / 2,(d.height - 288) / 2,475,288,null);
+                //    }
+            //
         };
         atualizacao = new javax.swing.JLabel();
         jMenuBar1 = new javax.swing.JMenuBar();

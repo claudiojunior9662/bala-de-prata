@@ -58,9 +58,9 @@ public class OrdenadorExt extends javax.swing.JFrame {
             }
         }.start();
         
-        URL url = this.getClass().getResource("/ui/login/logo.png");
-        Image imagemLogo = Toolkit.getDefaultToolkit().getImage(url);
-        this.setIconImage(imagemLogo);
+//        URL url = this.getClass().getResource("/ui/login/logo.png");
+//        Image imagemLogo = Toolkit.getDefaultToolkit().getImage(url);
+//        this.setIconImage(imagemLogo);
 
         Controle.setDefaultGj(new GerenteJanelas(areaDeTrabalho));
         Controle.defineStatus(statusPane);
@@ -78,14 +78,14 @@ public class OrdenadorExt extends javax.swing.JFrame {
 
         jScrollPane1 = new javax.swing.JScrollPane();
         statusPane = new javax.swing.JTextPane();
-        ImageIcon icon = new ImageIcon(getClass().getResource("/ui/principal/brasaoGraficaBala-475x288.png"));
-        Image image = icon.getImage();
+        //ImageIcon icon = new ImageIcon(getClass().getResource("/ui/principal/brasaoGraficaBala-475x288.png"));
+        //Image image = icon.getImage();
         areaDeTrabalho = new javax.swing.JDesktopPane(){
 
-            public void paintComponent(Graphics g){
-                Dimension d = areaDeTrabalho.getSize();
-                g.drawImage(image,(d.width - 475) / 2,(d.height - 288) / 2,475,288,null);
-            }
+            //    public void paintComponent(Graphics g){
+                //        Dimension d = areaDeTrabalho.getSize();
+                //        g.drawImage(image,(d.width - 475) / 2,(d.height - 288) / 2,475,288,null);
+                //    }
 
         };
         loading = new javax.swing.JLabel();
