@@ -5,15 +5,12 @@
  */
 package ui.principal;
 
-import java.awt.Dimension;
-import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.Toolkit;
 import java.net.URL;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.swing.ImageIcon;
 import ui.administrador.AnaliseErros;
 import ui.administrador.Avisos;
 import ui.administrador.UsuarioCadastro;
@@ -79,14 +76,14 @@ public class Administrador extends javax.swing.JFrame {
         dialogSelOrigem = new javax.swing.JDialog();
         jScrollPane1 = new javax.swing.JScrollPane();
         statusPane = new javax.swing.JTextPane();
-        ImageIcon icon = new ImageIcon(getClass().getResource("/ui/principal/brasaoGraficaBala-475x288.png"));
-        Image image = icon.getImage();
+        //ImageIcon icon = new ImageIcon(getClass().getResource("/ui/principal/brasaoGraficaBala-475x288.png"));
+        //Image image = icon.getImage();
         areaDeTrabalho = new javax.swing.JDesktopPane(){
 
-            public void paintComponent(Graphics g){
-                Dimension d = areaDeTrabalho.getSize();
-                g.drawImage(image,(d.width - 475) / 2,(d.height - 288) / 2,475,288,null);
-            }
+            //    public void paintComponent(Graphics g){
+                //        Dimension d = areaDeTrabalho.getSize();
+                //        g.drawImage(image,(d.width - 475) / 2,(d.height - 288) / 2,475,288,null);
+                //    }
 
         };
         loading = new javax.swing.JLabel();

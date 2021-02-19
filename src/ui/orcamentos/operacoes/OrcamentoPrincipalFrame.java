@@ -1593,9 +1593,18 @@ public class OrcamentoPrincipalFrame extends javax.swing.JInternalFrame {
                         }
                     }
                     //----------------------------------------------------------
-
-                    STATUS = Integer.valueOf(tabelaConsulta.getValueAt(
+                    
+                    switch(CLASSE_PAI){
+                        case 2:
+                            STATUS = Integer.valueOf(tabelaConsulta.getValueAt(
                             tabelaConsulta.getSelectedRow(), 6).toString().substring(0, 1));
+                            break;
+                        case 3:
+                            STATUS = Integer.valueOf(tabelaConsulta.getValueAt(
+                            tabelaConsulta.getSelectedRow(), 4).toString().substring(0, 1));
+                            break;
+                    }
+                    
 
                     loading.setVisible(true);
                     loading.setText("CARREGANDO...");
@@ -1654,9 +1663,7 @@ public class OrcamentoPrincipalFrame extends javax.swing.JInternalFrame {
                             break;
                         case 3:
                             switch (STATUS) {
-                                case 1:
-                                case 11:
-                                case 12:
+                                case 3:
                                     autorizarProducao.setEnabled(true);
                                     negarProducao.setEnabled(true);
                                     break;
