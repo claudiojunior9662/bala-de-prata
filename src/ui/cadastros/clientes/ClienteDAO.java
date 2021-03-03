@@ -17,6 +17,8 @@ import java.util.ArrayList;
 import java.util.List;
 import entidades.Orcamento;
 import exception.ClienteNaoEncontradoException;
+import java.sql.Timestamp;
+import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -1835,6 +1837,47 @@ public class ClienteDAO {
                 ));
             }
             return creditos;
+        } catch (SQLException ex) {
+            throw new SQLException(ex);
+        }finally{
+            ConnectionFactory.closeConnection(con, stmt, rs);
+        }
+    }
+    
+    /**
+     * Atualiza os dados de acesso (contator e último acesso) dos clientes
+     * @param cod - código do cliente
+     * @throws SQLException 
+     */
+    public static void atualizaClientes(int cod) throws SQLException{
+        Connection con = ConnectionFactory.getConnection();
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+        
+        int acessos = 0;
+        Timestamp data = new Timestamp(new Date().getTime());
+        
+        try{
+            stmt = con.prepareStatement("SELECT "
+                    + "tabela_clientes_juridicos.QTD_ACESSOS "
+                    + "FROM tabela_clientes_juridicos "
+                    + "WHERE tabela_clientes_juridicos.cod = ?");
+            stmt.setInt(1, cod);
+            rs = stmt.executeQuery();
+            if(rs.next()){
+                acessos = rs.getInt("tabela_clientes_juridicos.QTD_ACESSOS");
+            }
+            
+            acessos++;
+            
+            stmt = con.prepareStatement("UPDATE tabela_clientes_juridicos "
+                    + "SET tabela_clientes_juridicos.ULTIMO_ACESSO = ?, "
+                    + "tabela_clientes_juridicos.QTD_ACESSOS = ? "
+                    + "WHERE tabela_clientes_juridicos.cod = ?");
+            stmt.setTimestamp(1, data);
+            stmt.setInt(2, acessos);
+            stmt.setInt(3, cod);
+            stmt.executeUpdate();
         } catch (SQLException ex) {
             throw new SQLException(ex);
         }finally{

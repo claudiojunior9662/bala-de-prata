@@ -63,7 +63,7 @@ public class NewMain {
 //                        + "FROM tabela_notas "
 //                        + "WHERE DATE_FORMAT(STR_TO_DATE(`data`, '%d/%m/%Y'), '%Y-%m-%d') BETWEEN "
 //                        + "DATE_FORMAT(STR_TO_DATE('01/02/2021', '%d/%m/%Y'), '%Y-%m-%d') AND "
-//                        + "DATE_FORMAT(STR_TO_DATE('31/02/2021', '%d/%m/%Y'), '%Y-%m-%d') AND "
+//                        + "DATE_FORMAT(STR_TO_DATE('28/02/2021', '%d/%m/%Y'), '%Y-%m-%d') AND "
 //                        + "cod_cliente = ? AND tipo_pessoa = 2");
 //                stmt.setInt(1, rs.getInt("cod"));
 //                rs2 = stmt.executeQuery();
@@ -75,7 +75,7 @@ public class NewMain {
                 stmt = con.prepareStatement("SELECT faturamentos.VLR_FAT "
                         + "FROM faturamentos "
                         + "INNER JOIN tabela_ordens_producao ON tabela_ordens_producao.cod = faturamentos.CODIGO_OP "
-                        + "WHERE faturamentos.DT_FAT BETWEEN '2021-02-01' AND '2021-02-31' AND "
+                        + "WHERE faturamentos.DT_FAT BETWEEN '2021-02-01' AND '2021-02-28' AND "
                         + "tabela_ordens_producao.cod_cliente = ? AND tabela_ordens_producao.tipo_cliente = 2");
                 stmt.setInt(1, rs.getInt("cod"));
                 rs2 = stmt.executeQuery();
@@ -128,7 +128,7 @@ public class NewMain {
                     + "AND tabela_ordens_producao.status != 'ENTREGUE PARCIALMENTE' "
                     + "AND tabela_ordens_producao.status != 'CANCELADA'"
                     + "AND tabela_ordens_producao.tipo_cliente = 2 "
-                    + "AND tabela_ordens_producao.data_emissao BETWEEN '2019-01-01' AND '2021-02-19' "
+                    + "AND tabela_ordens_producao.data_emissao BETWEEN '2021-01-01' AND '2021-03-01' "
                     + "ORDER BY tabela_ordens_producao.cod_cliente ASC");
             rs = stmt.executeQuery();
             while (rs.next()) {
@@ -143,7 +143,7 @@ public class NewMain {
                             + "AND tabela_ordens_producao.status != 'CANCELADA'"
                             + "AND tabela_ordens_producao.tipo_cliente = 2 "
                             + "AND tabela_ordens_producao.cod_cliente = ? "
-                            + "AND tabela_ordens_producao.data_emissao BETWEEN '2019-01-01' AND '2021-02-19' "
+                            + "AND tabela_ordens_producao.data_emissao BETWEEN '2021-01-01' AND '2021-03-01' "
                             + "ORDER BY tabela_ordens_producao.cod_cliente ASC");
                     stmt.setInt(1, rs.getInt("tabela_ordens_producao.cod_cliente"));
                     rs2 = stmt.executeQuery();

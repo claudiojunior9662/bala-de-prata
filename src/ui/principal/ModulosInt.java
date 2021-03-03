@@ -230,7 +230,7 @@ public class ModulosInt extends javax.swing.JFrame {
         );
 
         jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel3.setText("© Projeto Bala de Prata - Seção de Processamento de Dados - Gráfica do Exército (2018 - 2020)");
+        jLabel3.setText("© Projeto Bala de Prata - Seção de Processamento de Dados - Gráfica do Exército (2018 - 2021)");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);

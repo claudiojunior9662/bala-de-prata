@@ -1595,6 +1595,7 @@ public class OrcamentoPrincipalFrame extends javax.swing.JInternalFrame {
                     //----------------------------------------------------------
                     
                     switch(CLASSE_PAI){
+                        case 1:
                         case 2:
                             STATUS = Integer.valueOf(tabelaConsulta.getValueAt(
                             tabelaConsulta.getSelectedRow(), 6).toString().substring(0, 1));

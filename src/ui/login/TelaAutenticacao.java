@@ -29,7 +29,7 @@ import ui.principal.ModulosExt;
  */
 public class TelaAutenticacao extends javax.swing.JFrame {
     
-    private static final String codVersao = "2.4.1";
+    private static final String codVersao = "2.5.0";
     private static final String update = "1";
     private static UsuarioBEAN atendenteLogado;
 
@@ -330,6 +330,7 @@ public class TelaAutenticacao extends javax.swing.JFrame {
                             ClienteDAO.retornaNomeCliente(Integer.valueOf(campoUsuario.getText()), (byte) 2),
                             "USUARIO"
                     );
+                    ClienteDAO.atualizaClientes(Integer.valueOf(campoUsuario.getText()));
                     mExt = new ModulosExt();
                     mExt.setLocationRelativeTo(null);
                     mExt.setDefaultCloseOperation(ModulosInt.EXIT_ON_CLOSE);
@@ -360,14 +361,7 @@ public class TelaAutenticacao extends javax.swing.JFrame {
                     mInt.setVisible(true);
                     this.setVisible(false);
 
-                    JOptionPane.showMessageDialog(null, "CORREÇÕES E ATUALIZAÇÕES DA v.2.3.7 1 (28-08-2020)\n"
-                            + "- Implementação do lançamento de observações das OP;\n"
-                            + "- Suspensão temporária da verificação de expiração de senha;\n"
-                            + "CORREÇÕES E ATUALIZAÇÕES DA v.2.3.7 2 (09-09-2020)\n"
-                            + "- Ajuste na permissão de cancelamento de OP;\n"
-                            + "CORREÇÕES E ATUALIZAÇÕES DA v.2.3.7 3 (13-09-2020)\n"
-                            + "- Implementação dos dados de postagem na Ordem de Produção (PDF);\n"
-                            + "CORREÇÕES E ATUALIZAÇÕES DA v.2.3.7 4 (04-10-2020)\n"
+                    JOptionPane.showMessageDialog(null, "CORREÇÕES E ATUALIZAÇÕES DA v.2.3.7 4 (04-10-2020)\n"
                             + "- Atualização da mensagem de pagamento do orçamento;\n"
                             + "- Correção ao gerar o relatório de notas de crédito;\n"
                             + "CORREÇÕES E ATUALIZAÇÕES DA v.2.3.7 5 (19-10-2020)\n"
@@ -385,6 +379,10 @@ public class TelaAutenticacao extends javax.swing.JFrame {
                             + "CORREÇÕES E ATUALIZAÇÕES DA v.2.4.1 1 (25-12-2020)\n"
                             + "- Correção de código-fonte na pesquisa de filtros no controle do módulo Produção;\n"
                             + "- Implementação da pesquisa por código de orçamento no controle do módulo Produção;\n"
+                            + "CORREÇÕES E ATUALIZAÇÕES DA v.2.4.1 2 (22-02-2021)\n"
+                            + "- Correção do erro ao para abrir OP;\n"
+                            + "CORREÇÕES E ATUALIZAÇÕES DA v.2.5.0 1 (03-03-2021)\n"
+                            + "- Implementação do contator e último acesso para clientes externos;\n"
                             + "AVISOS:\n"
                             + "- Todas as sugestões de melhoria de usabilidade do programa serão estudadas, mas não há previsão de implementação;\n"
                             + "- Qualquer problema nas correções acima expostas deverão ser informados o mais rápido possível à SPD;\n"
