@@ -77,8 +77,8 @@ public class OrcamentoPrincipalFrame extends javax.swing.JInternalFrame {
      * @param TIPO_ORCAMENTO 1 - PRONTA ENTREGA (PE) 2 - PRODUÇÃO
      */
     private static byte TIPO_ORCAMENTO = 0;
-    private static OrcamentoExtTableModel modelExt = new OrcamentoExtTableModel();
-    private static OrcamentoIntTableModel modelInt = new OrcamentoIntTableModel();
+    private static final OrcamentoExtTableModel modelExt = new OrcamentoExtTableModel();
+    private static final OrcamentoIntTableModel modelInt = new OrcamentoIntTableModel();
 
     public static byte getTIPO_ORCAMENTO() {
         return TIPO_ORCAMENTO;

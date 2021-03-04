@@ -27,6 +27,8 @@ import java.awt.Dimension;
 import javax.swing.JTextArea;
 import model.dao.OrcamentoDAO;
 import model.dao.OrdemProducaoDAO;
+import model.tabelas.OpExtTableModel;
+import model.tabelas.OpIntTableModel;
 import ui.cadastros.clientes.ClienteDAO;
 import ui.cadastros.notas.FatFrame;
 import ui.cadastros.produtos.ProdutoDAO;
@@ -52,19 +54,24 @@ public class OpConsultaFrame extends javax.swing.JInternalFrame {
     }
 
     private JLabel loading;
-
     private static OpConsultaFrame ordensProducaoConsultasNovo;
-
-    public static OpConsultaFrame getInstancia(JLabel loading) {
-        return new OpConsultaFrame(loading);
+    public static OpConsultaFrame getInstancia(JLabel loading, byte CLASSE_PAI) {
+        return new OpConsultaFrame(loading, CLASSE_PAI);
     }
+    /**
+     * @param CLASSE_PAI 2 - OD GRÁFICA, 3 - OD CLIENTE
+     */
+    private static byte CLASSE_PAI;
+    private static final OpExtTableModel modelExt = new OpExtTableModel();
+    private static final OpIntTableModel modelInt = new OpIntTableModel();
 
     /**
      * Creates new form OrdensProducaoConsultasNovo
      */
-    public OpConsultaFrame(JLabel loading) {
+    public OpConsultaFrame(JLabel loading, byte CLASSE_PAI) {
         initComponents();
         this.loading = loading;
+        this.CLASSE_PAI = CLASSE_PAI;
         System.setProperty("vermelho1", "#FF0000");
         System.setProperty("vermelho2", "#FFA500");
         System.setProperty("amarelo1", "#FFD700");
@@ -77,6 +84,16 @@ public class OpConsultaFrame extends javax.swing.JInternalFrame {
         botaoGerarPdf.setEnabled(false);
         botaoCancelarOp.setEnabled(false);
         faturar.setEnabled(false);
+        
+        switch (CLASSE_PAI) {
+            case 1:
+            case 2:
+                tabelaConsulta.setModel(modelInt);
+                break;
+            case 3:
+                tabelaConsulta.setModel(modelExt);
+                break;
+        }
     }
 
     /**
@@ -985,6 +1002,10 @@ public class OpConsultaFrame extends javax.swing.JInternalFrame {
             EnvioExcecao envioExcecao = new EnvioExcecao(Controle.getDefaultGj(), ex);
             EnvioExcecao.envio();
         }
+    }
+    
+    public synchronized void estadoOdExt(){
+        
     }
 
 }
