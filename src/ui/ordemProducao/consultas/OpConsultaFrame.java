@@ -64,6 +64,10 @@ public class OpConsultaFrame extends javax.swing.JInternalFrame {
     private static byte CLASSE_PAI;
     private static final OpExtTableModel modelExt = new OpExtTableModel();
     private static final OpIntTableModel modelInt = new OpIntTableModel();
+    
+    public static void setCLASSE_PAI(byte CLASSE_PAI) {
+        OpConsultaFrame.CLASSE_PAI = CLASSE_PAI;
+    }
 
     /**
      * Creates new form OrdensProducaoConsultasNovo
@@ -1005,6 +1009,16 @@ public class OpConsultaFrame extends javax.swing.JInternalFrame {
     }
     
     public synchronized void estadoOdExt(){
+        //Pré-definir os valores dos campos
+        p1.setSelectedIndex(4);
+        p2.setSelectedIndex(3);
+        p3Texto.setText(TelaAutenticacao.getUsrLogado().getLogin());
+        //Desativar os campos
+        p1.setEnabled(false);
+        p2.setEnabled(false);
+        p3Texto.setEnabled(false);
+        mostraTodos.setEnabled(false);
+        
         
     }
 

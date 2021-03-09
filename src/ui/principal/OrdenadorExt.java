@@ -5,15 +5,9 @@
  */
 package ui.principal;
 
-import java.awt.Dimension;
-import java.awt.Graphics;
-import java.awt.Image;
-import java.awt.Toolkit;
-import java.net.URL;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.swing.ImageIcon;
 import ui.cadastros.notas.NCFrame;
 import ui.cadastros.notas.FatFrame;
 import ui.controle.Controle;
@@ -288,7 +282,7 @@ public class OrdenadorExt extends javax.swing.JFrame {
     }//GEN-LAST:event_sairMousePressed
 
     private void ordensProducaoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ordensProducaoActionPerformed
-        Controle.getDefaultGj().abrirJanelas(OpConsultaFrame.getInstancia(loading), "CONSULTA DE ORDEM DE PRODUÇÃO");
+        Controle.getDefaultGj().abrirJanelas(OpConsultaFrame.getInstancia(loading, (byte) 3), "CONSULTA DE ORDEM DE PRODUÇÃO");
     }//GEN-LAST:event_ordensProducaoActionPerformed
 
     /**

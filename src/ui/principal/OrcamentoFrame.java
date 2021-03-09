@@ -463,7 +463,7 @@ public class OrcamentoFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_menuOrcamentoActionPerformed
 
     private void menuOrdensProducaoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuOrdensProducaoActionPerformed
-        Controle.getDefaultGj().abrirJanelas(OpConsultaFrame.getInstancia(loading), "CONSULTAS DE ORDENS DE PRODUÇÃO");
+        Controle.getDefaultGj().abrirJanelas(OpConsultaFrame.getInstancia(loading, (byte) 1), "CONSULTAS DE ORDENS DE PRODUÇÃO");
     }//GEN-LAST:event_menuOrdensProducaoActionPerformed
 
     private void menuPrincipalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuPrincipalActionPerformed

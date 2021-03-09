@@ -1061,7 +1061,7 @@ public class FatFrame extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_codOpKeyPressed
 
     private void pesquisarOrigemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_pesquisarOrigemActionPerformed
-        Controle.getDefaultGj().abrirJanelas(OpConsultaFrame.getInstancia(loading), "CONSULTA DE ORDENS DE PRODUÇÃO");
+        Controle.getDefaultGj().abrirJanelas(OpConsultaFrame.getInstancia(loading, (byte) 1), "CONSULTA DE ORDENS DE PRODUÇÃO");
         OpConsultaFrame.setSEL_NOTA(true);
     }//GEN-LAST:event_pesquisarOrigemActionPerformed
 
