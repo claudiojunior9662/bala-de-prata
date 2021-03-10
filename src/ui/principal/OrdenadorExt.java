@@ -143,7 +143,6 @@ public class OrdenadorExt extends javax.swing.JFrame {
 
         ordensProducao.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icones/carrinho.png"))); // NOI18N
         ordensProducao.setText("ORDENS DE PRODUÇÃO - PRODUÇÃO");
-        ordensProducao.setEnabled(false);
         ordensProducao.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 ordensProducaoActionPerformed(evt);
@@ -283,6 +282,14 @@ public class OrdenadorExt extends javax.swing.JFrame {
 
     private void ordensProducaoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ordensProducaoActionPerformed
         Controle.getDefaultGj().abrirJanelas(OpConsultaFrame.getInstancia(loading, (byte) 3), "CONSULTA DE ORDEM DE PRODUÇÃO");
+        OpConsultaFrame.estadoOdExt();
+        
+        new Thread("Pesquisa ordem de produção ordenador externo") {
+            @Override
+            public void run() {
+                OpConsultaFrame.pesquisar();
+            }
+        }.start();
     }//GEN-LAST:event_ordensProducaoActionPerformed
 
     /**

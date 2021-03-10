@@ -53,7 +53,7 @@ public class OpConsultaFrame extends javax.swing.JInternalFrame {
         OpConsultaFrame.SEL_NOTA = SEL_NOTA;
     }
 
-    private JLabel loading;
+    private static JLabel loading;
     private static OpConsultaFrame ordensProducaoConsultasNovo;
     public static OpConsultaFrame getInstancia(JLabel loading, byte CLASSE_PAI) {
         return new OpConsultaFrame(loading, CLASSE_PAI);
@@ -109,10 +109,10 @@ public class OpConsultaFrame extends javax.swing.JInternalFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        p1 = new javax.swing.JComboBox<>();
+        p1 = new javax.swing.JComboBox<String>();
         botaoPesquisar = new javax.swing.JButton();
         mostraTodos = new javax.swing.JButton();
-        p2 = new javax.swing.JComboBox<>();
+        p2 = new javax.swing.JComboBox<String>();
         p3Data = new com.toedter.calendar.JDateChooser();
         botaoGerarPdf = new javax.swing.JButton();
         p3Formatado = new javax.swing.JFormattedTextField();
@@ -122,14 +122,14 @@ public class OpConsultaFrame extends javax.swing.JInternalFrame {
         faturar = new javax.swing.JButton();
         botaoCancelarOp = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
-        paginaAtual = new javax.swing.JComboBox<>();
+        paginaAtual = new javax.swing.JComboBox<String>();
         jLabel2 = new javax.swing.JLabel();
         paginaTotal = new javax.swing.JLabel();
 
         setTitle("CONSULTA DE ORDEM DE PRODUÇÃO");
         setFrameIcon(new javax.swing.ImageIcon(getClass().getResource("/icones/producao.png"))); // NOI18N
 
-        p1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "SELECIONE...", "CÓDIGO", "ORÇAMENTO BASE", "PRODUTO", "CLIENTE", "DATA EMISSÃO", "DATA DE ENTREGA", "STATUS" }));
+        p1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "SELECIONE...", "CÓDIGO", "ORÇAMENTO BASE", "PRODUTO", "CLIENTE", "DATA EMISSÃO", "DATA DE ENTREGA", "STATUS" }));
         p1.setBorder(javax.swing.BorderFactory.createTitledBorder("PESQUISA POR"));
         p1.addItemListener(new java.awt.event.ItemListener() {
             public void itemStateChanged(java.awt.event.ItemEvent evt) {
@@ -158,7 +158,7 @@ public class OpConsultaFrame extends javax.swing.JInternalFrame {
             }
         });
 
-        p2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "SELECIONE..." }));
+        p2.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "SELECIONE..." }));
         p2.addItemListener(new java.awt.event.ItemListener() {
             public void itemStateChanged(java.awt.event.ItemEvent evt) {
                 p2ItemStateChanged(evt);
@@ -574,19 +574,19 @@ public class OpConsultaFrame extends javax.swing.JInternalFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton botaoCancelarOp;
     private javax.swing.JButton botaoGerarPdf;
-    private javax.swing.JButton botaoPesquisar;
+    private static javax.swing.JButton botaoPesquisar;
     private javax.swing.JButton faturar;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JButton mostraTodos;
-    private javax.swing.JComboBox<String> p1;
-    private javax.swing.JComboBox<String> p2;
-    private com.toedter.calendar.JDateChooser p3Data;
-    private javax.swing.JFormattedTextField p3Formatado;
-    private javax.swing.JTextField p3Texto;
-    private javax.swing.JComboBox<String> paginaAtual;
-    private javax.swing.JLabel paginaTotal;
+    private static javax.swing.JButton mostraTodos;
+    private static javax.swing.JComboBox<String> p1;
+    private static javax.swing.JComboBox<String> p2;
+    private static com.toedter.calendar.JDateChooser p3Data;
+    private static javax.swing.JFormattedTextField p3Formatado;
+    private static javax.swing.JTextField p3Texto;
+    private static javax.swing.JComboBox<String> paginaAtual;
+    private static javax.swing.JLabel paginaTotal;
     public static javax.swing.JTable tabelaConsulta;
     // End of variables declaration//GEN-END:variables
 
@@ -843,14 +843,21 @@ public class OpConsultaFrame extends javax.swing.JInternalFrame {
         }
     }
 
-    private synchronized void pesquisar() {
+    public static synchronized void pesquisar() {
         try {
 
             loading.setVisible(true);
             loading.setText("CARREGANDO...");
-
-            DefaultTableModel modeloConsulta = (DefaultTableModel) tabelaConsulta.getModel();
-            modeloConsulta.setNumRows(0);
+            
+            switch (CLASSE_PAI) {
+                case 1:
+                case 2:
+                    modelInt.setNumRows(0);
+                    break;
+                case 3:
+                    modelExt.setNumRows(0);
+                    break;
+            }
 
             int totalRegistros = 0;
             double totalPaginas = 0d;
@@ -1008,7 +1015,7 @@ public class OpConsultaFrame extends javax.swing.JInternalFrame {
         }
     }
     
-    public synchronized void estadoOdExt(){
+    public synchronized static void estadoOdExt(){
         //Pré-definir os valores dos campos
         p1.setSelectedIndex(4);
         p2.setSelectedIndex(3);
@@ -1018,8 +1025,6 @@ public class OpConsultaFrame extends javax.swing.JInternalFrame {
         p2.setEnabled(false);
         p3Texto.setEnabled(false);
         mostraTodos.setEnabled(false);
-        
-        
     }
 
 }

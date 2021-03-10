@@ -33,7 +33,6 @@
                   <Image iconType="3" name="/icones/carrinho.png"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="ORDENS DE PRODU&#xc7;&#xc3;O - PRODU&#xc7;&#xc3;O"/>
-                <Property name="enabled" type="boolean" value="false"/>
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="ordensProducaoActionPerformed"/>
