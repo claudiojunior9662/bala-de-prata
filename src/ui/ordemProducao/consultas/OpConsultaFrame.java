@@ -55,6 +55,7 @@ public class OpConsultaFrame extends javax.swing.JInternalFrame {
 
     private static JLabel loading;
     private static OpConsultaFrame ordensProducaoConsultasNovo;
+
     public static OpConsultaFrame getInstancia(JLabel loading, byte CLASSE_PAI) {
         return new OpConsultaFrame(loading, CLASSE_PAI);
     }
@@ -64,7 +65,7 @@ public class OpConsultaFrame extends javax.swing.JInternalFrame {
     private static byte CLASSE_PAI;
     private static final OpExtTableModel modelExt = new OpExtTableModel();
     private static final OpIntTableModel modelInt = new OpIntTableModel();
-    
+
     public static void setCLASSE_PAI(byte CLASSE_PAI) {
         OpConsultaFrame.CLASSE_PAI = CLASSE_PAI;
     }
@@ -88,7 +89,7 @@ public class OpConsultaFrame extends javax.swing.JInternalFrame {
         botaoGerarPdf.setEnabled(false);
         botaoCancelarOp.setEnabled(false);
         faturar.setEnabled(false);
-        
+
         switch (CLASSE_PAI) {
             case 1:
             case 2:
@@ -848,7 +849,7 @@ public class OpConsultaFrame extends javax.swing.JInternalFrame {
 
             loading.setVisible(true);
             loading.setText("CARREGANDO...");
-            
+
             switch (CLASSE_PAI) {
                 case 1:
                 case 2:
@@ -885,15 +886,15 @@ public class OpConsultaFrame extends javax.swing.JInternalFrame {
                             null,
                             p3Texto.getText(),
                             null)) {
-                        modeloConsulta.addRow(new Object[]{
-                            op.getCodigo(),
-                            op.getOrcBase(),
-                            ProdutoDAO.retornaDescricaoProduto(op.getCodProduto(), op.getTipoProduto()).toString(),
-                            OrcamentoDAO.carregaNomeCliente(op.getTipoPessoa(), op.getCodCliente()),
-                            op.getTipoPessoa() == 1 ? "PF" : "PJ",
-                            op.getDataEmissao(),
-                            op.getDataEntrega(),
-                            op.getStatus()});
+                        switch (CLASSE_PAI) {
+                            case 1:
+                            case 2:
+                                modelInt.addRow(op);
+                                break;
+                            case 3:
+                                modelExt.addRow(op);
+                                break;
+                        }
                         totalRegistros += 1;
                     }
                     break;
@@ -902,15 +903,15 @@ public class OpConsultaFrame extends javax.swing.JInternalFrame {
                             null,
                             p3Texto.getText(),
                             null)) {
-                        modeloConsulta.addRow(new Object[]{
-                            op.getCodigo(),
-                            op.getOrcBase(),
-                            ProdutoDAO.retornaDescricaoProduto(op.getCodProduto(), op.getTipoProduto()).toString(),
-                            OrcamentoDAO.carregaNomeCliente(op.getTipoPessoa(), op.getCodCliente()),
-                            op.getTipoPessoa() == 1 ? "PF" : "PJ",
-                            op.getDataEmissao(),
-                            op.getDataEntrega(),
-                            op.getStatus()});
+                        switch (CLASSE_PAI) {
+                            case 1:
+                            case 2:
+                                modelInt.addRow(op);
+                                break;
+                            case 3:
+                                modelExt.addRow(op);
+                                break;
+                        }
                         totalRegistros += 1;
                     }
                     break;
@@ -919,15 +920,15 @@ public class OpConsultaFrame extends javax.swing.JInternalFrame {
                             null,
                             p3Texto.getText(),
                             null)) {
-                        modeloConsulta.addRow(new Object[]{
-                            op.getCodigo(),
-                            op.getOrcBase(),
-                            ProdutoDAO.retornaDescricaoProduto(op.getCodProduto(), op.getTipoProduto()).toString(),
-                            OrcamentoDAO.carregaNomeCliente(op.getTipoPessoa(), op.getCodCliente()),
-                            op.getTipoPessoa() == 1 ? "PF" : "PJ",
-                            op.getDataEmissao(),
-                            op.getDataEntrega(),
-                            op.getStatus()});
+                        switch (CLASSE_PAI) {
+                            case 1:
+                            case 2:
+                                modelInt.addRow(op);
+                                break;
+                            case 3:
+                                modelExt.addRow(op);
+                                break;
+                        }
                         totalRegistros += 1;
                     }
                     break;
@@ -938,15 +939,15 @@ public class OpConsultaFrame extends javax.swing.JInternalFrame {
                             ? p3Formatado.getText().toUpperCase()
                             : p3Texto.getText().toUpperCase(),
                             null)) {
-                        modeloConsulta.addRow(new Object[]{
-                            op.getCodigo(),
-                            op.getOrcBase(),
-                            ProdutoDAO.retornaDescricaoProduto(op.getCodProduto(), op.getTipoProduto()).toString(),
-                            OrcamentoDAO.carregaNomeCliente(op.getTipoPessoa(), op.getCodCliente()),
-                            op.getTipoPessoa() == 1 ? "PF" : "PJ",
-                            op.getDataEmissao(),
-                            op.getDataEntrega(),
-                            op.getStatus()});
+                        switch (CLASSE_PAI) {
+                            case 1:
+                            case 2:
+                                modelInt.addRow(op);
+                                break;
+                            case 3:
+                                modelExt.addRow(op);
+                                break;
+                        }
                         totalRegistros += 1;
                     }
                     break;
@@ -955,15 +956,15 @@ public class OpConsultaFrame extends javax.swing.JInternalFrame {
                             null,
                             null,
                             p3Data.getDate())) {
-                        modeloConsulta.addRow(new Object[]{
-                            op.getCodigo(),
-                            op.getOrcBase(),
-                            ProdutoDAO.retornaDescricaoProduto(op.getCodProduto(), op.getTipoProduto()).toString(),
-                            OrcamentoDAO.carregaNomeCliente(op.getTipoPessoa(), op.getCodCliente()),
-                            op.getTipoPessoa() == 1 ? "PF" : "PJ",
-                            op.getDataEmissao(),
-                            op.getDataEntrega(),
-                            op.getStatus()});
+                        switch (CLASSE_PAI) {
+                            case 1:
+                            case 2:
+                                modelInt.addRow(op);
+                                break;
+                            case 3:
+                                modelExt.addRow(op);
+                                break;
+                        }
                         totalRegistros += 1;
                     }
                     break;
@@ -972,15 +973,15 @@ public class OpConsultaFrame extends javax.swing.JInternalFrame {
                             null,
                             null,
                             p3Data.getDate())) {
-                        modeloConsulta.addRow(new Object[]{
-                            op.getCodigo(),
-                            op.getOrcBase(),
-                            ProdutoDAO.retornaDescricaoProduto(op.getCodProduto(), op.getTipoProduto()).toString(),
-                            OrcamentoDAO.carregaNomeCliente(op.getTipoPessoa(), op.getCodCliente()),
-                            op.getTipoPessoa() == 1 ? "PF" : "PJ",
-                            op.getDataEmissao(),
-                            op.getDataEntrega(),
-                            op.getStatus()});
+                        switch (CLASSE_PAI) {
+                            case 1:
+                            case 2:
+                                modelInt.addRow(op);
+                                break;
+                            case 3:
+                                modelExt.addRow(op);
+                                break;
+                        }
                         totalRegistros += 1;
                     }
                     break;
@@ -989,15 +990,15 @@ public class OpConsultaFrame extends javax.swing.JInternalFrame {
                             p2.getSelectedItem().toString(),
                             null,
                             null)) {
-                        modeloConsulta.addRow(new Object[]{
-                            op.getCodigo(),
-                            op.getOrcBase(),
-                            ProdutoDAO.retornaDescricaoProduto(op.getCodProduto(), op.getTipoProduto()).toString(),
-                            OrcamentoDAO.carregaNomeCliente(op.getTipoPessoa(), op.getCodCliente()),
-                            op.getTipoPessoa() == 1 ? "PF" : "PJ",
-                            op.getDataEmissao(),
-                            op.getDataEntrega(),
-                            op.getStatus()});
+                        switch (CLASSE_PAI) {
+                            case 1:
+                            case 2:
+                                modelInt.addRow(op);
+                                break;
+                            case 3:
+                                modelExt.addRow(op);
+                                break;
+                        }
                         totalRegistros += 1;
                     }
                     break;
@@ -1014,8 +1015,8 @@ public class OpConsultaFrame extends javax.swing.JInternalFrame {
             EnvioExcecao.envio();
         }
     }
-    
-    public synchronized static void estadoOdExt(){
+
+    public synchronized static void estadoOdExt() {
         //Pré-definir os valores dos campos
         p1.setSelectedIndex(4);
         p2.setSelectedIndex(3);
