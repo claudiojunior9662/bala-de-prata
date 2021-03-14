@@ -110,10 +110,10 @@ public class OpConsultaFrame extends javax.swing.JInternalFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        p1 = new javax.swing.JComboBox<String>();
+        p1 = new javax.swing.JComboBox<>();
         botaoPesquisar = new javax.swing.JButton();
         mostraTodos = new javax.swing.JButton();
-        p2 = new javax.swing.JComboBox<String>();
+        p2 = new javax.swing.JComboBox<>();
         p3Data = new com.toedter.calendar.JDateChooser();
         botaoGerarPdf = new javax.swing.JButton();
         p3Formatado = new javax.swing.JFormattedTextField();
@@ -123,14 +123,14 @@ public class OpConsultaFrame extends javax.swing.JInternalFrame {
         faturar = new javax.swing.JButton();
         botaoCancelarOp = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
-        paginaAtual = new javax.swing.JComboBox<String>();
+        paginaAtual = new javax.swing.JComboBox<>();
         jLabel2 = new javax.swing.JLabel();
         paginaTotal = new javax.swing.JLabel();
 
         setTitle("CONSULTA DE ORDEM DE PRODUÇÃO");
         setFrameIcon(new javax.swing.ImageIcon(getClass().getResource("/icones/producao.png"))); // NOI18N
 
-        p1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "SELECIONE...", "CÓDIGO", "ORÇAMENTO BASE", "PRODUTO", "CLIENTE", "DATA EMISSÃO", "DATA DE ENTREGA", "STATUS" }));
+        p1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "SELECIONE...", "CÓDIGO", "ORÇAMENTO BASE", "PRODUTO", "CLIENTE", "DATA EMISSÃO", "DATA DE ENTREGA", "STATUS" }));
         p1.setBorder(javax.swing.BorderFactory.createTitledBorder("PESQUISA POR"));
         p1.addItemListener(new java.awt.event.ItemListener() {
             public void itemStateChanged(java.awt.event.ItemEvent evt) {
@@ -159,7 +159,7 @@ public class OpConsultaFrame extends javax.swing.JInternalFrame {
             }
         });
 
-        p2.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "SELECIONE..." }));
+        p2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "SELECIONE..." }));
         p2.addItemListener(new java.awt.event.ItemListener() {
             public void itemStateChanged(java.awt.event.ItemEvent evt) {
                 p2ItemStateChanged(evt);
@@ -297,7 +297,7 @@ public class OpConsultaFrame extends javax.swing.JInternalFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(mostraTodos))
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                        .addComponent(p1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 43, Short.MAX_VALUE)
+                        .addComponent(p1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 43, Short.MAX_VALUE)
                         .addComponent(p2, javax.swing.GroupLayout.Alignment.LEADING)
                         .addComponent(p3Data, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(p3Formatado, javax.swing.GroupLayout.Alignment.LEADING)
@@ -429,16 +429,35 @@ public class OpConsultaFrame extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_botaoGerarPdfActionPerformed
 
     private void tabelaConsultaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tabelaConsultaMouseClicked
-        switch (tabelaConsulta.getValueAt(tabelaConsulta.getSelectedRow(), 7).toString()) {
-            case "ENTREGUE":
-            case "CANCELADA":
-                faturar.setEnabled(false);
-                botaoCancelarOp.setEnabled(false);
+        switch (CLASSE_PAI) {
+            case 2:
+                switch (tabelaConsulta.getValueAt(tabelaConsulta.getSelectedRow(), 7).toString()) {
+                    case "ENTREGUE":
+                    case "CANCELADA":
+                        faturar.setEnabled(false);
+                        botaoCancelarOp.setEnabled(false);
+                        break;
+                    default:
+                        faturar.setEnabled(SEL_NOTA);
+                        if (TelaAutenticacao.getUsrLogado().getAcessoOrcAdm() == 1) {
+                            botaoCancelarOp.setEnabled(true);
+                        }
+                        break;
+                }
                 break;
-            default:
-                faturar.setEnabled(SEL_NOTA);
-                if (TelaAutenticacao.getUsrLogado().getAcessoOrcAdm() == 1) {
-                    botaoCancelarOp.setEnabled(true);
+            case 3:
+                switch (tabelaConsulta.getValueAt(tabelaConsulta.getSelectedRow(), 4).toString()) {
+                    case "ENTREGUE":
+                    case "CANCELADA":
+                        faturar.setEnabled(false);
+                        botaoCancelarOp.setEnabled(false);
+                        break;
+                    default:
+                        faturar.setEnabled(SEL_NOTA);
+                        if (TelaAutenticacao.getUsrLogado().getAcessoOrcAdm() == 1) {
+                            botaoCancelarOp.setEnabled(true);
+                        }
+                        break;
                 }
                 break;
         }
@@ -551,18 +570,17 @@ public class OpConsultaFrame extends javax.swing.JInternalFrame {
     private void tabelaConsultaKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tabelaConsultaKeyPressed
         if (SEL_NOTA == true) {
             faturar.setEnabled(true);
+            switch (tabelaConsulta.getValueAt(tabelaConsulta.getSelectedRow(), 7).toString()) {
+                case "ENTREGUE":
+                case "CANCELADA":
+                    botaoCancelarOp.setEnabled(false);
+                    break;
+                default:
+                    botaoCancelarOp.setEnabled(true);
+                    break;
+            }
         } else {
             faturar.setEnabled(false);
-        }
-
-        switch (tabelaConsulta.getValueAt(tabelaConsulta.getSelectedRow(), 7).toString()) {
-            case "ENTREGUE":
-            case "CANCELADA":
-                botaoCancelarOp.setEnabled(false);
-                break;
-            default:
-                botaoCancelarOp.setEnabled(true);
-                break;
         }
         botaoGerarPdf.setEnabled(true);
     }//GEN-LAST:event_tabelaConsultaKeyPressed
@@ -1004,7 +1022,7 @@ public class OpConsultaFrame extends javax.swing.JInternalFrame {
                     break;
             }
 
-            OrdemProducao.corTabela(tabelaConsulta, (byte) 2);
+            OrdemProducao.corTabela(tabelaConsulta, (byte) 3);
             paginaAtual.removeAllItems();
             paginaTotal.setText("");
 

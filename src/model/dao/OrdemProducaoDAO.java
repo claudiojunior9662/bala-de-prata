@@ -846,16 +846,20 @@ public class OrdemProducaoDAO {
                     stmt = con.prepareStatement("SELECT cod, orcamento_base,"
                             + "cod_produto, tipo_produto, cod_cliente,"
                             + "tipo_cliente, data_emissao,"
-                            + "data_entrega, status"
-                            + " FROM tabela_ordens_producao WHERE cod = ?");
+                            + "data_entrega, status "
+                            + "FROM tabela_ordens_producao "
+                            + "WHERE cod = ? "
+                            + "ORDER BY cod DESC");
                     stmt.setString(1, pesquisa);
                     break;
                 case 2:
                     stmt = con.prepareStatement("SELECT cod, orcamento_base,"
                             + "cod_produto, tipo_produto, cod_cliente,"
                             + "tipo_cliente, data_emissao,"
-                            + "data_entrega, status"
-                            + " FROM tabela_ordens_producao WHERE orcamento_base =  ?");
+                            + "data_entrega, status "
+                            + "FROM tabela_ordens_producao "
+                            + "WHERE orcamento_base =  ? "
+                            + "ORDER BY cod DESC");
                     stmt.setInt(1, Integer.valueOf(pesquisa));
                     break;
                 case 3:
@@ -865,8 +869,10 @@ public class OrdemProducaoDAO {
                         stmt = con.prepareStatement("SELECT cod, orcamento_base,"
                                 + "cod_produto, tipo_produto, cod_cliente,"
                                 + "tipo_cliente, data_emissao,"
-                                + "data_entrega, status"
-                                + " FROM tabela_ordens_producao WHERE cod_produto = ? ORDER BY cod DESC");
+                                + "data_entrega, status "
+                                + "FROM tabela_ordens_producao "
+                                + "WHERE cod_produto = ? "
+                                + "ORDER BY cod DESC");
                         stmt.setInt(1, Integer.parseInt(codProd.get(i).toString()));
                         rs = stmt.executeQuery();
                         while (rs.next()) {
@@ -898,24 +904,30 @@ public class OrdemProducaoDAO {
                     stmt = con.prepareStatement("SELECT cod, orcamento_base,"
                             + "cod_produto, tipo_produto, cod_cliente,"
                             + "tipo_cliente, data_emissao,"
-                            + "data_entrega, status"
-                            + " FROM tabela_ordens_producao WHERE data_emissao =  ?");
+                            + "data_entrega, status "
+                            + "FROM tabela_ordens_producao "
+                            + "WHERE data_emissao =  ? "
+                            + "ORDER BY cod DESC");
                     stmt.setDate(1, new java.sql.Date(data.getTime()));
                     break;
                 case 6:
                     stmt = con.prepareStatement("SELECT cod, orcamento_base,"
                             + "cod_produto, tipo_produto, cod_cliente,"
                             + "tipo_cliente, data_emissao,"
-                            + "data_entrega, status"
-                            + " FROM tabela_ordens_producao WHERE data_entrega = ?");
+                            + "data_entrega, status "
+                            + "FROM tabela_ordens_producao "
+                            + "WHERE data_entrega = ? "
+                            + "ORDER BY cod DESC");
                     stmt.setDate(1, new java.sql.Date(data.getTime()));
                     break;
                 case 7:
                     stmt = con.prepareStatement("SELECT cod, orcamento_base,"
                             + "cod_produto, tipo_produto, cod_cliente,"
                             + "tipo_cliente, data_emissao,"
-                            + "data_entrega, status"
-                            + " FROM tabela_ordens_producao WHERE status = ?");
+                            + "data_entrega, status "
+                            + "FROM tabela_ordens_producao "
+                            + "WHERE status = ? "
+                            + "ORDER BY cod DESC");
                     stmt.setString(1, tipoPesqCliente);
                     break;
             }
@@ -926,16 +938,20 @@ public class OrdemProducaoDAO {
                         stmt = con.prepareStatement("SELECT cod, orcamento_base,"
                                 + "cod_produto, tipo_produto, cod_cliente,"
                                 + "tipo_cliente, data_emissao,"
-                                + "data_entrega, status"
-                                + " FROM tabela_ordens_producao WHERE cod_cliente = ? AND tipo_cliente = 1 ORDER BY cod ASC");
+                                + "data_entrega, status "
+                                + "FROM tabela_ordens_producao "
+                                + "WHERE cod_cliente = ? AND tipo_cliente = 1 "
+                                + "ORDER BY cod DESC");
                         stmt.setInt(1, Integer.valueOf(retornoCliente.get(i).toString()));
                     }
                     if (tipoPesqCliente.contains("JURÍDICA")) {
                         stmt = con.prepareStatement("SELECT cod, orcamento_base,"
                                 + "cod_produto, tipo_produto, cod_cliente,"
                                 + "tipo_cliente, data_emissao,"
-                                + "data_entrega, status"
-                                + " FROM tabela_ordens_producao WHERE cod_cliente = ? AND tipo_cliente = 2 ORDER BY cod ASC");
+                                + "data_entrega, status "
+                                + "FROM tabela_ordens_producao "
+                                + "WHERE cod_cliente = ? AND tipo_cliente = 2 "
+                                + "ORDER BY cod DESC");
                         stmt.setInt(1, Integer.valueOf(retornoCliente.get(i).toString()));
                     }
                     rs = stmt.executeQuery();

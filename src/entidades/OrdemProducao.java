@@ -1557,7 +1557,7 @@ public class OrdemProducao {
     }
 
     /**
-     * @param classTabela 1 - TELA ACOMPANHAMENTO 2 - CONSULTA ORCAMENTO
+     * @param classTabela 1 - TELA ACOMPANHAMENTO 2 - CONSULTA ORCAMENTO 3 - CONSULTA ORÇAMENTO EXTERNO
      */
     public static void corTabela(JTable jTable, byte classTabela) {
         new Thread() {
@@ -1573,10 +1573,21 @@ public class OrdemProducao {
                             //***********************
                             Color c = Color.WHITE;
                             String texto = null;
+                            
+                            switch(classTabela){
+                                case 1:
+                                    texto = table.getValueAt(row, 2).toString();
+                                    break;
+                                case 2:
+                                    texto = table.getValueAt(row, 7).toString();
+                                    break;
+                                case 3:
+                                    texto = table.getValueAt(row, 4).toString();
+                                    break;
+                            }
                             if (classTabela == 1) {
-                                texto = table.getValueAt(row, 2).toString();
                             } else if (classTabela == 2) {
-                                texto = table.getValueAt(row, 7).toString();
+                                
                             }
                             if (texto.equals("EM AVALIAÇÃO PELA SEÇ TÉCNICA")) {
                                 c = Color.getColor("vermelho1");

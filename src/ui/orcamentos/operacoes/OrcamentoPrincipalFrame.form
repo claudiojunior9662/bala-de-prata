@@ -482,7 +482,7 @@
                         </DimensionLayout>
                         <DimensionLayout dim="1">
                           <Group type="103" groupAlignment="0" attributes="0">
-                              <Component id="jScrollPane3" pref="192" max="32767" attributes="0"/>
+                              <Component id="jScrollPane3" pref="191" max="32767" attributes="0"/>
                               <Group type="102" alignment="0" attributes="0">
                                   <EmptySpace max="-2" attributes="0"/>
                                   <Component id="adicionarProduto" min="-2" max="-2" attributes="0"/>
@@ -723,6 +723,125 @@
                         </Component>
                       </SubComponents>
                     </Container>
+                    <Container class="javax.swing.JPanel" name="jPanel14">
+                      <Constraints>
+                        <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout" value="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout$JTabbedPaneConstraintsDescription">
+                          <JTabbedPaneConstraints tabName="IMPRESS&#xc3;O">
+                            <Property name="tabTitle" type="java.lang.String" value="IMPRESS&#xc3;O"/>
+                          </JTabbedPaneConstraints>
+                        </Constraint>
+                      </Constraints>
+
+                      <Layout>
+                        <DimensionLayout dim="0">
+                          <Group type="103" groupAlignment="0" attributes="0">
+                              <EmptySpace min="0" pref="1228" max="32767" attributes="0"/>
+                              <Group type="103" rootIndex="1" groupAlignment="0" attributes="0">
+                                  <Component id="JSPImpressao" alignment="0" pref="1228" max="32767" attributes="0"/>
+                              </Group>
+                          </Group>
+                        </DimensionLayout>
+                        <DimensionLayout dim="1">
+                          <Group type="103" groupAlignment="0" attributes="0">
+                              <EmptySpace min="0" pref="191" max="32767" attributes="0"/>
+                              <Group type="103" rootIndex="1" groupAlignment="0" attributes="0">
+                                  <Component id="JSPImpressao" alignment="0" pref="191" max="32767" attributes="0"/>
+                              </Group>
+                          </Group>
+                        </DimensionLayout>
+                      </Layout>
+                      <SubComponents>
+                        <Container class="javax.swing.JScrollPane" name="JSPImpressao">
+                          <AuxValues>
+                            <AuxValue name="autoScrollPane" type="java.lang.Boolean" value="true"/>
+                          </AuxValues>
+
+                          <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
+                          <SubComponents>
+                            <Component class="javax.swing.JTable" name="tblImpressao">
+                              <Properties>
+                                <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
+                                  <Table columnCount="8" rowCount="0">
+                                    <Column editable="false" title="PRODUTO" type="java.lang.String"/>
+                                    <Column editable="false" title="PAPEL" type="java.lang.String"/>
+                                    <Column editable="true" title="MODO DE IMP." type="java.lang.Object"/>
+                                    <Column editable="true" title="TIPO DE IMP." type="java.lang.Object"/>
+                                    <Column editable="true" title="PESO ESP. TINTA" type="java.lang.Object"/>
+                                    <Column editable="true" title="FORMATO IMP." type="java.lang.Integer"/>
+                                    <Column editable="true" title="% DE PERCA" type="java.lang.Float"/>
+                                    <Column editable="true" title="VLR. IMP. DIGITAL" type="java.lang.Object"/>
+                                  </Table>
+                                </Property>
+                                <Property name="columnModel" type="javax.swing.table.TableColumnModel" editor="org.netbeans.modules.form.editors2.TableColumnModelEditor">
+                                  <TableColumnModel selectionModel="2">
+                                    <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
+                                      <Title/>
+                                      <Editor/>
+                                      <Renderer/>
+                                    </Column>
+                                    <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
+                                      <Title/>
+                                      <Editor/>
+                                      <Renderer/>
+                                    </Column>
+                                    <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
+                                      <Title/>
+                                      <Editor editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+                                        <Connection code="new DefaultCellEditor(new ModoImpressao())" type="code"/>
+                                      </Editor>
+                                      <Renderer/>
+                                    </Column>
+                                    <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
+                                      <Title/>
+                                      <Editor editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+                                        <Connection code="new DefaultCellEditor(new TipoImpressao())" type="code"/>
+                                      </Editor>
+                                      <Renderer/>
+                                    </Column>
+                                    <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
+                                      <Title/>
+                                      <Editor editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+                                        <Connection code="new DefaultCellEditor(new PesoEspTinta())" type="code"/>
+                                      </Editor>
+                                      <Renderer/>
+                                    </Column>
+                                    <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
+                                      <Title/>
+                                      <Editor/>
+                                      <Renderer/>
+                                    </Column>
+                                    <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
+                                      <Title/>
+                                      <Editor/>
+                                      <Renderer/>
+                                    </Column>
+                                    <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
+                                      <Title/>
+                                      <Editor/>
+                                      <Renderer/>
+                                    </Column>
+                                  </TableColumnModel>
+                                </Property>
+                                <Property name="columnSelectionAllowed" type="boolean" value="true"/>
+                                <Property name="tableHeader" type="javax.swing.table.JTableHeader" editor="org.netbeans.modules.form.editors2.JTableHeaderEditor">
+                                  <TableHeader reorderingAllowed="true" resizingAllowed="true"/>
+                                </Property>
+                                <Property name="updateSelectionOnSort" type="boolean" value="false"/>
+                              </Properties>
+                              <Events>
+                                <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="tblImpressaoMouseClicked"/>
+                                <EventHandler event="propertyChange" listener="java.beans.PropertyChangeListener" parameters="java.beans.PropertyChangeEvent" handler="tblImpressaoPropertyChange"/>
+                                <EventHandler event="keyPressed" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="tblImpressaoKeyPressed"/>
+                              </Events>
+                              <AuxValues>
+                                <AuxValue name="JavaCodeGenerator_CreateCodePre" type="java.lang.String" value="&#xd;&#xa;"/>
+                                <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="9"/>
+                              </AuxValues>
+                            </Component>
+                          </SubComponents>
+                        </Container>
+                      </SubComponents>
+                    </Container>
                     <Container class="javax.swing.JPanel" name="jPanel7">
                       <Constraints>
                         <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout" value="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout$JTabbedPaneConstraintsDescription">
@@ -743,7 +862,7 @@
                         </DimensionLayout>
                         <DimensionLayout dim="1">
                           <Group type="103" groupAlignment="0" attributes="0">
-                              <Component id="jScrollPane9" alignment="0" pref="192" max="32767" attributes="0"/>
+                              <Component id="jScrollPane9" alignment="0" pref="191" max="32767" attributes="0"/>
                           </Group>
                         </DimensionLayout>
                       </Layout>
@@ -869,7 +988,7 @@
                         </DimensionLayout>
                         <DimensionLayout dim="1">
                           <Group type="103" groupAlignment="0" attributes="0">
-                              <Component id="jScrollPane6" alignment="0" pref="192" max="32767" attributes="0"/>
+                              <Component id="jScrollPane6" alignment="0" pref="191" max="32767" attributes="0"/>
                           </Group>
                         </DimensionLayout>
                       </Layout>
@@ -960,7 +1079,7 @@
                                   <Component id="adicionarServico" min="-2" max="-2" attributes="0"/>
                                   <EmptySpace min="7" pref="7" max="-2" attributes="0"/>
                                   <Component id="removeServico" min="-2" max="-2" attributes="0"/>
-                                  <EmptySpace pref="109" max="32767" attributes="0"/>
+                                  <EmptySpace pref="111" max="32767" attributes="0"/>
                               </Group>
                               <Component id="jScrollPane7" alignment="1" pref="0" max="32767" attributes="0"/>
                           </Group>
@@ -1054,7 +1173,7 @@
                         </DimensionLayout>
                         <DimensionLayout dim="1">
                           <Group type="103" groupAlignment="0" attributes="0">
-                              <Component id="jScrollPane5" alignment="0" pref="192" max="32767" attributes="0"/>
+                              <Component id="jScrollPane5" alignment="0" pref="191" max="32767" attributes="0"/>
                           </Group>
                         </DimensionLayout>
                       </Layout>
@@ -1638,7 +1757,7 @@
                           <Group type="102" attributes="0">
                               <Component id="naoAprovadoCliente" linkSize="8" min="-2" max="-2" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
-                              <Component id="enviarEmailAnexo" pref="225" max="32767" attributes="0"/>
+                              <Component id="enviarEmailAnexo" pref="252" max="32767" attributes="0"/>
                           </Group>
                       </Group>
                     </DimensionLayout>
@@ -1649,7 +1768,7 @@
                                   <Component id="naoAprovadoCliente" linkSize="15" alignment="3" min="-2" max="-2" attributes="0"/>
                                   <Component id="enviarEmailAnexo" linkSize="15" alignment="3" min="-2" max="-2" attributes="0"/>
                               </Group>
-                              <EmptySpace pref="8" max="32767" attributes="0"/>
+                              <EmptySpace pref="11" max="32767" attributes="0"/>
                               <Component id="excluir" linkSize="15" min="-2" max="-2" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
                               <Component id="editar" linkSize="15" min="-2" max="-2" attributes="0"/>
@@ -1743,7 +1862,7 @@
                               <Component id="enviarProducao" min="-2" max="-2" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
                               <Component id="enviarExpedicao" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace min="0" pref="40" max="32767" attributes="0"/>
+                              <EmptySpace min="0" pref="42" max="32767" attributes="0"/>
                           </Group>
                       </Group>
                     </DimensionLayout>
@@ -1814,7 +1933,7 @@
                     <DimensionLayout dim="1">
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Group type="102" alignment="1" attributes="0">
-                              <EmptySpace min="0" pref="8" max="32767" attributes="0"/>
+                              <EmptySpace min="0" pref="12" max="32767" attributes="0"/>
                               <Group type="103" groupAlignment="3" attributes="0">
                                   <Component id="rdOdGrafica" linkSize="19" alignment="3" min="-2" max="-2" attributes="0"/>
                                   <Component id="rdOdCliente" linkSize="19" alignment="3" min="-2" max="-2" attributes="0"/>

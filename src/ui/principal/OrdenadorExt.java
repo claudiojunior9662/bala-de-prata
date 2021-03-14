@@ -268,7 +268,7 @@ public class OrdenadorExt extends javax.swing.JFrame {
     }//GEN-LAST:event_notasCreditoActionPerformed
 
     private void modulosMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_modulosMousePressed
-        ModulosInt modulos = new ModulosInt();
+        ModulosExt modulos = new ModulosExt();
         modulos.setTitle("MÓDULOS");
         modulos.setLocationRelativeTo(null);
         modulos.setDefaultCloseOperation(EXIT_ON_CLOSE);

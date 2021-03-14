@@ -38,7 +38,9 @@ import javax.swing.text.DefaultFormatterFactory;
 import javax.swing.text.MaskFormatter;
 import entidades.ProdOrcamento;
 import exception.EnvioExcecao;
+import javax.swing.DefaultCellEditor;
 import javax.swing.ImageIcon;
+import javax.swing.JComboBox;
 import model.tabelas.OrcamentoExtTableModel;
 import model.tabelas.OrcamentoIntTableModel;
 import ui.cadastros.acabamentos.AcabamentoDAO;
@@ -62,6 +64,39 @@ import ui.principal.OrcamentoFrame;
  * @author claud
  */
 public class OrcamentoPrincipalFrame extends javax.swing.JInternalFrame {
+
+    private class ModoImpressao extends JComboBox {
+
+        ModoImpressao()
+
+        {
+            addItem("SELECIONE...");
+            addItem("OFFSET");
+            addItem("DIGITAL");
+            setSelectedIndex(0);
+        }
+    }
+    
+    private class TipoImpressao extends JComboBox{
+        TipoImpressao(){
+            addItem("SELECIONE..");
+            addItem("IMPRESSÃO CHAPADA");
+            addItem("RETÍCULA 70%");
+            addItem("RETÍCULA 40%");
+            addItem("RETÍCULA 30%");
+            addItem("TEXTO");
+        }
+    }
+    
+    private class PesoEspTinta extends JComboBox{
+        PesoEspTinta(){
+            addItem("SELECIONE..");
+            addItem("CORES DE ESCALA");
+            addItem("CORES TRANSPARENTES");
+            addItem("CORES OPACAS");
+            addItem("BANCO");
+        }
+    }
 
     public static int CODIGO_ORCAMENTO = 0;
     public static int CODIGO_PRODUTO = 0;
@@ -181,6 +216,10 @@ public class OrcamentoPrincipalFrame extends javax.swing.JInternalFrame {
         jScrollPane8 = new javax.swing.JScrollPane();
         tabelaTiragens = new javax.swing.JTable();
         valoresManuais = new javax.swing.JCheckBox();
+        jPanel14 = new javax.swing.JPanel();
+        JSPImpressao = new javax.swing.JScrollPane();
+
+        tblImpressao = new javax.swing.JTable();
         jPanel7 = new javax.swing.JPanel();
         jScrollPane9 = new javax.swing.JScrollPane();
         tabelaPapeis = new javax.swing.JTable();
@@ -220,11 +259,11 @@ public class OrcamentoPrincipalFrame extends javax.swing.JInternalFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         tabelaConsulta = new javax.swing.JTable();
         jLabel16 = new javax.swing.JLabel();
-        p1 = new javax.swing.JComboBox<String>();
+        p1 = new javax.swing.JComboBox<>();
         p3Texto = new javax.swing.JTextField();
         botaoPesquisar = new javax.swing.JButton();
         mostrarTodos = new javax.swing.JButton();
-        p2 = new javax.swing.JComboBox<String>();
+        p2 = new javax.swing.JComboBox<>();
         p3Data = new com.toedter.calendar.JDateChooser();
         gerarPdf = new javax.swing.JButton();
         p3Formatado = new javax.swing.JFormattedTextField();
@@ -286,7 +325,7 @@ public class OrcamentoPrincipalFrame extends javax.swing.JInternalFrame {
         codigoCliente.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#0"))));
 
         credito.setEditable(false);
-        credito.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "CRÉDITO", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Dialog", 1, 12), new java.awt.Color(255, 0, 0))); // NOI18N
+        credito.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "CRÉDITO", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 0, 11), new java.awt.Color(255, 0, 0))); // NOI18N
         credito.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(java.text.NumberFormat.getCurrencyInstance())));
         credito.setToolTipText("ESTE CRÉDITO É ATUALIZADO DE ACORDO COM OS LANÇAMENTOS DE NOTA DE VENDA E NOTA DE CRÉDITO");
         credito.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
@@ -437,7 +476,7 @@ public class OrcamentoPrincipalFrame extends javax.swing.JInternalFrame {
 
         jPanel6Layout.setVerticalGroup(
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 192, Short.MAX_VALUE)
+            .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 191, Short.MAX_VALUE)
             .addGroup(jPanel6Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(adicionarProduto)
@@ -526,6 +565,71 @@ public class OrcamentoPrincipalFrame extends javax.swing.JInternalFrame {
 
         tabsInformacoes.addTab("TIRAGENS", new javax.swing.ImageIcon(getClass().getResource("/icones/tiragens.png")), jPanel8); // NOI18N
 
+        tblImpressao.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "PRODUTO", "PAPEL", "MODO DE IMP.", "TIPO DE IMP.", "PESO ESP. TINTA", "FORMATO IMP.", "% DE PERCA", "VLR. IMP. DIGITAL"
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.String.class, java.lang.String.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Integer.class, java.lang.Float.class, java.lang.Object.class
+            };
+            boolean[] canEdit = new boolean [] {
+                false, false, true, true, true, true, true, true
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        tblImpressao.setColumnSelectionAllowed(true);
+        tblImpressao.setUpdateSelectionOnSort(false);
+        tblImpressao.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tblImpressaoMouseClicked(evt);
+            }
+        });
+        tblImpressao.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
+            public void propertyChange(java.beans.PropertyChangeEvent evt) {
+                tblImpressaoPropertyChange(evt);
+            }
+        });
+        tblImpressao.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                tblImpressaoKeyPressed(evt);
+            }
+        });
+        JSPImpressao.setViewportView(tblImpressao);
+        tblImpressao.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.SINGLE_INTERVAL_SELECTION);
+        if (tblImpressao.getColumnModel().getColumnCount() > 0) {
+            tblImpressao.getColumnModel().getColumn(2).setCellEditor(new DefaultCellEditor(new ModoImpressao()));
+            tblImpressao.getColumnModel().getColumn(3).setCellEditor(new DefaultCellEditor(new TipoImpressao()));
+            tblImpressao.getColumnModel().getColumn(4).setCellEditor(new DefaultCellEditor(new PesoEspTinta()));
+        }
+
+        javax.swing.GroupLayout jPanel14Layout = new javax.swing.GroupLayout(jPanel14);
+        jPanel14.setLayout(jPanel14Layout);
+        jPanel14Layout.setHorizontalGroup(
+            jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 1228, Short.MAX_VALUE)
+            .addGroup(jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addComponent(JSPImpressao, javax.swing.GroupLayout.DEFAULT_SIZE, 1228, Short.MAX_VALUE))
+        );
+        jPanel14Layout.setVerticalGroup(
+            jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 191, Short.MAX_VALUE)
+            .addGroup(jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addComponent(JSPImpressao, javax.swing.GroupLayout.DEFAULT_SIZE, 191, Short.MAX_VALUE))
+        );
+
+        tabsInformacoes.addTab("IMPRESSÃO", jPanel14);
+
         tabelaPapeis.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
@@ -559,7 +663,7 @@ public class OrcamentoPrincipalFrame extends javax.swing.JInternalFrame {
         );
         jPanel7Layout.setVerticalGroup(
             jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane9, javax.swing.GroupLayout.DEFAULT_SIZE, 192, Short.MAX_VALUE)
+            .addComponent(jScrollPane9, javax.swing.GroupLayout.DEFAULT_SIZE, 191, Short.MAX_VALUE)
         );
 
         tabsInformacoes.addTab("PAPEL", new javax.swing.ImageIcon(getClass().getResource("/icones/papeis.png")), jPanel7); // NOI18N
@@ -590,7 +694,7 @@ public class OrcamentoPrincipalFrame extends javax.swing.JInternalFrame {
         );
         jPanel9Layout.setVerticalGroup(
             jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane6, javax.swing.GroupLayout.DEFAULT_SIZE, 192, Short.MAX_VALUE)
+            .addComponent(jScrollPane6, javax.swing.GroupLayout.DEFAULT_SIZE, 191, Short.MAX_VALUE)
         );
 
         tabsInformacoes.addTab("ACABAMENTOS", new javax.swing.ImageIcon(getClass().getResource("/icones/acabamentos.png")), jPanel9); // NOI18N
@@ -653,7 +757,7 @@ public class OrcamentoPrincipalFrame extends javax.swing.JInternalFrame {
                 .addComponent(adicionarServico)
                 .addGap(7, 7, 7)
                 .addComponent(removeServico)
-                .addContainerGap(109, Short.MAX_VALUE))
+                .addContainerGap(111, Short.MAX_VALUE))
             .addComponent(jScrollPane7, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
         );
 
@@ -673,7 +777,7 @@ public class OrcamentoPrincipalFrame extends javax.swing.JInternalFrame {
         );
         jPanel11Layout.setVerticalGroup(
             jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane5, javax.swing.GroupLayout.DEFAULT_SIZE, 192, Short.MAX_VALUE)
+            .addComponent(jScrollPane5, javax.swing.GroupLayout.DEFAULT_SIZE, 191, Short.MAX_VALUE)
         );
 
         tabsInformacoes.addTab("OBSERVAÇÕES", new javax.swing.ImageIcon(getClass().getResource("/icones/editar.png")), jPanel11); // NOI18N
@@ -975,7 +1079,7 @@ public class OrcamentoPrincipalFrame extends javax.swing.JInternalFrame {
 
         jLabel16.setText("PESQUISAR POR:");
 
-        p1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "SELECIONE...", "CÓDIGO", "CLIENTE", "DATA EMISSÃO", "DATA VALIDADE", "STATUS" }));
+        p1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "SELECIONE...", "CÓDIGO", "CLIENTE", "DATA EMISSÃO", "DATA VALIDADE", "STATUS" }));
         p1.addItemListener(new java.awt.event.ItemListener() {
             public void itemStateChanged(java.awt.event.ItemEvent evt) {
                 p1ItemStateChanged(evt);
@@ -1003,7 +1107,7 @@ public class OrcamentoPrincipalFrame extends javax.swing.JInternalFrame {
             }
         });
 
-        p2.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "SELECIONE..." }));
+        p2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "SELECIONE..." }));
         p2.addItemListener(new java.awt.event.ItemListener() {
             public void itemStateChanged(java.awt.event.ItemEvent evt) {
                 p2ItemStateChanged(evt);
@@ -1067,7 +1171,7 @@ public class OrcamentoPrincipalFrame extends javax.swing.JInternalFrame {
             .addGroup(jPanel12Layout.createSequentialGroup()
                 .addComponent(naoAprovadoCliente)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(enviarEmailAnexo, javax.swing.GroupLayout.DEFAULT_SIZE, 225, Short.MAX_VALUE))
+                .addComponent(enviarEmailAnexo, javax.swing.GroupLayout.DEFAULT_SIZE, 252, Short.MAX_VALUE))
         );
 
         jPanel12Layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {editar, excluir, naoAprovadoCliente});
@@ -1078,7 +1182,7 @@ public class OrcamentoPrincipalFrame extends javax.swing.JInternalFrame {
                 .addGroup(jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(naoAprovadoCliente)
                     .addComponent(enviarEmailAnexo))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 8, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 11, Short.MAX_VALUE)
                 .addComponent(excluir)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(editar))
@@ -1117,7 +1221,7 @@ public class OrcamentoPrincipalFrame extends javax.swing.JInternalFrame {
                 .addComponent(enviarProducao)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(enviarExpedicao)
-                .addGap(0, 40, Short.MAX_VALUE))
+                .addGap(0, 42, Short.MAX_VALUE))
         );
 
         jPanel15.setBorder(javax.swing.BorderFactory.createTitledBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED), "ORDENADOR DE DESPESAS", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 11))); // NOI18N
@@ -1168,7 +1272,7 @@ public class OrcamentoPrincipalFrame extends javax.swing.JInternalFrame {
         jPanel15Layout.setVerticalGroup(
             jPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel15Layout.createSequentialGroup()
-                .addGap(0, 8, Short.MAX_VALUE)
+                .addGap(0, 12, Short.MAX_VALUE)
                 .addGroup(jPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(rdOdGrafica)
                     .addComponent(rdOdCliente))
@@ -1593,19 +1697,18 @@ public class OrcamentoPrincipalFrame extends javax.swing.JInternalFrame {
                         }
                     }
                     //----------------------------------------------------------
-                    
-                    switch(CLASSE_PAI){
+
+                    switch (CLASSE_PAI) {
                         case 1:
                         case 2:
                             STATUS = Integer.valueOf(tabelaConsulta.getValueAt(
-                            tabelaConsulta.getSelectedRow(), 6).toString().substring(0, 1));
+                                    tabelaConsulta.getSelectedRow(), 6).toString().substring(0, 1));
                             break;
                         case 3:
                             STATUS = Integer.valueOf(tabelaConsulta.getValueAt(
-                            tabelaConsulta.getSelectedRow(), 4).toString().substring(0, 1));
+                                    tabelaConsulta.getSelectedRow(), 4).toString().substring(0, 1));
                             break;
                     }
-                    
 
                     loading.setVisible(true);
                     loading.setText("CARREGANDO...");
@@ -2704,8 +2807,21 @@ public class OrcamentoPrincipalFrame extends javax.swing.JInternalFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_jftfArtePropertyChange
 
+    private void tblImpressaoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblImpressaoMouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_tblImpressaoMouseClicked
+
+    private void tblImpressaoPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_tblImpressaoPropertyChange
+        // TODO add your handling code here:
+    }//GEN-LAST:event_tblImpressaoPropertyChange
+
+    private void tblImpressaoKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tblImpressaoKeyPressed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_tblImpressaoKeyPressed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JScrollPane JSPImpressao;
     private javax.swing.JButton adicionarProduto;
     private javax.swing.JButton adicionarServico;
     private javax.swing.JLabel antPag;
@@ -2744,6 +2860,7 @@ public class OrcamentoPrincipalFrame extends javax.swing.JInternalFrame {
     private javax.swing.JPanel jPanel11;
     private javax.swing.JPanel jPanel12;
     private javax.swing.JPanel jPanel13;
+    private javax.swing.JPanel jPanel14;
     private javax.swing.JPanel jPanel15;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
@@ -2792,6 +2909,7 @@ public class OrcamentoPrincipalFrame extends javax.swing.JInternalFrame {
     public static javax.swing.JTable tabelaTiragens;
     public static javax.swing.JTabbedPane tabsInformacoes;
     public static javax.swing.JTabbedPane tabsOrcamento;
+    public static javax.swing.JTable tblImpressao;
     public static javax.swing.JTextField telefoneContatoCliente;
     public static javax.swing.JComboBox tipoPdf;
     public static javax.swing.JTextField tipoPessoa;
@@ -3801,7 +3919,8 @@ public class OrcamentoPrincipalFrame extends javax.swing.JInternalFrame {
                 });
                 estadoProdSv((byte) 1);
 
-            } /**
+            } 
+            /**
              * função para produtos para produção
              */
             else {
@@ -3862,11 +3981,11 @@ public class OrcamentoPrincipalFrame extends javax.swing.JInternalFrame {
                     produto.getQuantidadeFolhas(),
                     ""
                 });
-
                 /**
-                 * preenche a tabela papeis
+                 * preenche a tabela papeis e tabela impressão
                  */
                 DefaultTableModel modeloPapeis = (DefaultTableModel) tabelaPapeis.getModel();
+                DefaultTableModel modeloImpressao = (DefaultTableModel) tblImpressao.getModel();
                 for (PapelBEAN papeisCadastroBEAN : ProdutoDAO.retornaInformacoesPapel(Integer.valueOf(codProd))) {
                     modeloPapeis.addRow(new Object[]{
                         codProd,
@@ -3882,6 +4001,11 @@ public class OrcamentoPrincipalFrame extends javax.swing.JInternalFrame {
                         0,
                         0
                     });
+                    
+                    modeloImpressao.addRow(new Object[]{
+                        produto.getDescricao(),
+                        papeisCadastroBEAN.getTipoPapel(),
+                    });
                 }
 
                 /**
@@ -3896,7 +4020,7 @@ public class OrcamentoPrincipalFrame extends javax.swing.JInternalFrame {
                     1d,
                     0d
                 });
-
+                
                 /**
                  * preenche a tabela acabamentos
                  */
