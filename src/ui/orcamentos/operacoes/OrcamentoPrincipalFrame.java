@@ -259,11 +259,11 @@ public class OrcamentoPrincipalFrame extends javax.swing.JInternalFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         tabelaConsulta = new javax.swing.JTable();
         jLabel16 = new javax.swing.JLabel();
-        p1 = new javax.swing.JComboBox<>();
+        p1 = new javax.swing.JComboBox<String>();
         p3Texto = new javax.swing.JTextField();
         botaoPesquisar = new javax.swing.JButton();
         mostrarTodos = new javax.swing.JButton();
-        p2 = new javax.swing.JComboBox<>();
+        p2 = new javax.swing.JComboBox<String>();
         p3Data = new com.toedter.calendar.JDateChooser();
         gerarPdf = new javax.swing.JButton();
         p3Formatado = new javax.swing.JFormattedTextField();
@@ -325,7 +325,7 @@ public class OrcamentoPrincipalFrame extends javax.swing.JInternalFrame {
         codigoCliente.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#0"))));
 
         credito.setEditable(false);
-        credito.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "CRÉDITO", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 0, 11), new java.awt.Color(255, 0, 0))); // NOI18N
+        credito.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "CRÉDITO", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Dialog", 1, 12), new java.awt.Color(255, 0, 0))); // NOI18N
         credito.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(java.text.NumberFormat.getCurrencyInstance())));
         credito.setToolTipText("ESTE CRÉDITO É ATUALIZADO DE ACORDO COM OS LANÇAMENTOS DE NOTA DE VENDA E NOTA DE CRÉDITO");
         credito.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
@@ -574,7 +574,7 @@ public class OrcamentoPrincipalFrame extends javax.swing.JInternalFrame {
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.String.class, java.lang.String.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Integer.class, java.lang.Float.class, java.lang.Object.class
+                java.lang.String.class, java.lang.String.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Integer.class, java.lang.Float.class, java.lang.Float.class
             };
             boolean[] canEdit = new boolean [] {
                 false, false, true, true, true, true, true, true
@@ -1079,7 +1079,7 @@ public class OrcamentoPrincipalFrame extends javax.swing.JInternalFrame {
 
         jLabel16.setText("PESQUISAR POR:");
 
-        p1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "SELECIONE...", "CÓDIGO", "CLIENTE", "DATA EMISSÃO", "DATA VALIDADE", "STATUS" }));
+        p1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "SELECIONE...", "CÓDIGO", "CLIENTE", "DATA EMISSÃO", "DATA VALIDADE", "STATUS" }));
         p1.addItemListener(new java.awt.event.ItemListener() {
             public void itemStateChanged(java.awt.event.ItemEvent evt) {
                 p1ItemStateChanged(evt);
@@ -1107,7 +1107,7 @@ public class OrcamentoPrincipalFrame extends javax.swing.JInternalFrame {
             }
         });
 
-        p2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "SELECIONE..." }));
+        p2.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "SELECIONE..." }));
         p2.addItemListener(new java.awt.event.ItemListener() {
             public void itemStateChanged(java.awt.event.ItemEvent evt) {
                 p2ItemStateChanged(evt);
@@ -1171,7 +1171,7 @@ public class OrcamentoPrincipalFrame extends javax.swing.JInternalFrame {
             .addGroup(jPanel12Layout.createSequentialGroup()
                 .addComponent(naoAprovadoCliente)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(enviarEmailAnexo, javax.swing.GroupLayout.DEFAULT_SIZE, 252, Short.MAX_VALUE))
+                .addComponent(enviarEmailAnexo, javax.swing.GroupLayout.DEFAULT_SIZE, 225, Short.MAX_VALUE))
         );
 
         jPanel12Layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {editar, excluir, naoAprovadoCliente});
@@ -1182,7 +1182,7 @@ public class OrcamentoPrincipalFrame extends javax.swing.JInternalFrame {
                 .addGroup(jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(naoAprovadoCliente)
                     .addComponent(enviarEmailAnexo))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 11, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 12, Short.MAX_VALUE)
                 .addComponent(excluir)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(editar))
@@ -1221,7 +1221,7 @@ public class OrcamentoPrincipalFrame extends javax.swing.JInternalFrame {
                 .addComponent(enviarProducao)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(enviarExpedicao)
-                .addGap(0, 42, Short.MAX_VALUE))
+                .addGap(0, 44, Short.MAX_VALUE))
         );
 
         jPanel15.setBorder(javax.swing.BorderFactory.createTitledBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED), "ORDENADOR DE DESPESAS", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 11))); // NOI18N
@@ -1399,7 +1399,7 @@ public class OrcamentoPrincipalFrame extends javax.swing.JInternalFrame {
                         .addGap(29, 29, 29)
                         .addComponent(gerarPdf))
                     .addComponent(jPanel13, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jPanel12, javax.swing.GroupLayout.PREFERRED_SIZE, 133, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jPanel12, javax.swing.GroupLayout.PREFERRED_SIZE, 137, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
         );
 
