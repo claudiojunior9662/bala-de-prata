@@ -604,7 +604,7 @@
                           </Group>
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
-                      <Component id="jScrollPane1" pref="440" max="32767" attributes="0"/>
+                      <Component id="jScrollPane1" pref="487" max="32767" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
                           <Component id="botaoSelecionar" alignment="3" min="-2" max="-2" attributes="0"/>
@@ -796,9 +796,11 @@
                               <Component id="jsfQtdFolhasPe" min="-2" pref="93" max="-2" attributes="0"/>
                               <EmptySpace type="unrelated" max="-2" attributes="0"/>
                               <Component id="jcbTipoPe" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                           </Group>
                           <Component id="jPanel8" alignment="0" max="32767" attributes="0"/>
                           <Component id="jPanel9" alignment="1" max="32767" attributes="0"/>
+                          <Component id="jButton2" alignment="0" max="32767" attributes="0"/>
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
                   </Group>
@@ -806,41 +808,46 @@
             </DimensionLayout>
             <DimensionLayout dim="1">
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Group type="102" alignment="1" attributes="0">
-                      <EmptySpace max="-2" attributes="0"/>
-                      <Component id="jtfDescricaoPe" linkSize="4" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                  <Group type="102" attributes="0">
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="jLabel4" linkSize="4" alignment="0" min="-2" max="-2" attributes="0"/>
-                          <Component id="jftfLarguraPe" linkSize="4" alignment="0" min="-2" pref="46" max="-2" attributes="0"/>
-                          <Component id="jLabel6" linkSize="4" alignment="0" min="-2" max="-2" attributes="0"/>
-                          <Component id="jftfAlturaPe" linkSize="4" alignment="0" min="-2" max="-2" attributes="0"/>
-                          <Component id="jLabel5" linkSize="4" alignment="0" min="-2" max="-2" attributes="0"/>
-                          <Component id="jftfEspessuraPe" linkSize="4" alignment="0" min="-2" max="-2" attributes="0"/>
-                          <Component id="jLabel7" linkSize="4" alignment="0" min="-2" max="-2" attributes="0"/>
-                          <Component id="jftfPesoPe" linkSize="4" alignment="0" min="-2" max="-2" attributes="0"/>
+                          <Group type="102" alignment="0" attributes="0">
+                              <EmptySpace min="74" pref="74" max="-2" attributes="0"/>
+                              <Group type="103" groupAlignment="1" attributes="0">
+                                  <Component id="jsfQtdFolhasPe" linkSize="4" min="-2" max="-2" attributes="0"/>
+                                  <Component id="jcbTipoPe" linkSize="4" min="-2" max="-2" attributes="0"/>
+                              </Group>
+                          </Group>
+                          <Group type="102" alignment="0" attributes="0">
+                              <EmptySpace max="-2" attributes="0"/>
+                              <Component id="jtfDescricaoPe" linkSize="4" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                              <Group type="103" groupAlignment="0" attributes="0">
+                                  <Component id="jLabel4" linkSize="4" alignment="0" min="-2" max="-2" attributes="0"/>
+                                  <Component id="jftfLarguraPe" linkSize="4" alignment="0" min="-2" pref="46" max="-2" attributes="0"/>
+                                  <Component id="jLabel6" linkSize="4" alignment="0" min="-2" max="-2" attributes="0"/>
+                                  <Component id="jftfAlturaPe" linkSize="4" alignment="0" min="-2" max="-2" attributes="0"/>
+                                  <Component id="jLabel5" linkSize="4" alignment="0" min="-2" max="-2" attributes="0"/>
+                                  <Component id="jftfEspessuraPe" linkSize="4" alignment="0" min="-2" max="-2" attributes="0"/>
+                                  <Component id="jLabel7" linkSize="4" alignment="0" min="-2" max="-2" attributes="0"/>
+                                  <Component id="jftfPesoPe" linkSize="4" alignment="0" min="-2" max="-2" attributes="0"/>
+                              </Group>
+                              <EmptySpace max="-2" attributes="0"/>
+                              <Component id="jPanel8" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace max="-2" attributes="0"/>
+                              <Component id="jPanel7" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace max="-2" attributes="0"/>
+                              <Component id="jPanel9" min="-2" max="-2" attributes="0"/>
+                          </Group>
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
-                      <Component id="jPanel8" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace max="-2" attributes="0"/>
-                      <Component id="jPanel7" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace max="-2" attributes="0"/>
-                      <Component id="jPanel9" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace max="32767" attributes="0"/>
+                      <Component id="jButton2" linkSize="6" min="-2" pref="54" max="-2" attributes="0"/>
+                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
                           <Component id="btnSalvarPe" linkSize="6" alignment="3" min="-2" pref="45" max="-2" attributes="0"/>
                           <Component id="jckbDispVendas" linkSize="6" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="btnLimparPe" linkSize="6" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
-                      <EmptySpace max="-2" attributes="0"/>
-                  </Group>
-                  <Group type="102" attributes="0">
-                      <EmptySpace min="74" pref="74" max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="1" attributes="0">
-                          <Component id="jsfQtdFolhasPe" linkSize="4" min="-2" max="-2" attributes="0"/>
-                          <Component id="jcbTipoPe" linkSize="4" min="-2" max="-2" attributes="0"/>
-                      </Group>
-                      <EmptySpace min="426" pref="426" max="-2" attributes="0"/>
+                      <EmptySpace max="32767" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -887,6 +894,7 @@
               </Properties>
               <Events>
                 <EventHandler event="itemStateChanged" listener="java.awt.event.ItemListener" parameters="java.awt.event.ItemEvent" handler="jcbTipoPeItemStateChanged"/>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jcbTipoPeActionPerformed"/>
               </Events>
               <AuxValues>
                 <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
@@ -1324,6 +1332,14 @@
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jftfPesoPeActionPerformed"/>
               </Events>
             </Component>
+            <Component class="javax.swing.JButton" name="jButton2">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="MAIS DETALHES"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton2ActionPerformed"/>
+              </Events>
+            </Component>
           </SubComponents>
         </Container>
         <Container class="javax.swing.JPanel" name="jPanel6">
@@ -1382,7 +1398,7 @@
                           <Component id="tipoPesqPe" linkSize="11" alignment="0" min="-2" pref="41" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
-                      <Component id="jScrollPane4" pref="442" max="32767" attributes="0"/>
+                      <Component id="jScrollPane4" pref="489" max="32767" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
                           <Component id="btnSelPe" alignment="3" min="-2" max="-2" attributes="0"/>

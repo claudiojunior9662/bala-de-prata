@@ -92,7 +92,7 @@ public class ProdutoFrame extends javax.swing.JInternalFrame {
         jPanel1 = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
         tabelaPapel = new javax.swing.JTable();
-        tipoPapel = new javax.swing.JComboBox<>();
+        tipoPapel = new javax.swing.JComboBox<String>();
         coresFrente = new com.toedter.components.JSpinField();
         coresVerso = new com.toedter.components.JSpinField();
         concluirPapel = new javax.swing.JButton();
@@ -108,13 +108,13 @@ public class ProdutoFrame extends javax.swing.JInternalFrame {
         tabelaAcabamentos = new javax.swing.JTable();
         pesquisar_acabamentos = new javax.swing.JButton();
         retirarAcabamento = new javax.swing.JButton();
-        tipoProduto = new javax.swing.JComboBox<>();
+        tipoProduto = new javax.swing.JComboBox<String>();
         disponivelVendas = new javax.swing.JCheckBox();
         jButton1 = new javax.swing.JButton();
         jPanel3 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tabelaConsulta = new javax.swing.JTable();
-        tipoPesquisa = new javax.swing.JComboBox<>();
+        tipoPesquisa = new javax.swing.JComboBox<String>();
         textoPesquisa = new javax.swing.JTextField();
         botaoPesquisar = new javax.swing.JButton();
         botaoMostrarUltimos = new javax.swing.JButton();
@@ -124,7 +124,7 @@ public class ProdutoFrame extends javax.swing.JInternalFrame {
         jPanel5 = new javax.swing.JPanel();
         jtfDescricaoPe = new javax.swing.JTextField();
         btnSalvarPe = new javax.swing.JButton();
-        jcbTipoPe = new javax.swing.JComboBox<>();
+        jcbTipoPe = new javax.swing.JComboBox<String>();
         jckbDispVendas = new javax.swing.JCheckBox();
         btnLimparPe = new javax.swing.JButton();
         jftfLarguraPe = new javax.swing.JFormattedTextField();
@@ -154,6 +154,7 @@ public class ProdutoFrame extends javax.swing.JInternalFrame {
         jckbQtdMax = new javax.swing.JCheckBox();
         jLabel7 = new javax.swing.JLabel();
         jftfPesoPe = new javax.swing.JFormattedTextField();
+        jButton2 = new javax.swing.JButton();
         jPanel6 = new javax.swing.JPanel();
         textoPesqPe = new javax.swing.JTextField();
         btnPesqPe = new javax.swing.JButton();
@@ -163,7 +164,7 @@ public class ProdutoFrame extends javax.swing.JInternalFrame {
         btnClonarPe = new javax.swing.JButton();
         jScrollPane4 = new javax.swing.JScrollPane();
         tblConsultaPe = new javax.swing.JTable();
-        tipoPesqPe = new javax.swing.JComboBox<>();
+        tipoPesqPe = new javax.swing.JComboBox<String>();
         altEstoque = new javax.swing.JButton();
 
         setTitle("CADASTRO DE PRODUTOS");
@@ -218,7 +219,7 @@ public class ProdutoFrame extends javax.swing.JInternalFrame {
         });
         jScrollPane2.setViewportView(tabelaPapel);
 
-        tipoPapel.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "SELECIONE...", "CAPA", "MIOLO", "FOLHA", "1ª VIA", "2ª VIA", "3ª VIA" }));
+        tipoPapel.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "SELECIONE...", "CAPA", "MIOLO", "FOLHA", "1ª VIA", "2ª VIA", "3ª VIA" }));
         tipoPapel.setBorder(javax.swing.BorderFactory.createTitledBorder("TIPO"));
         tipoPapel.addItemListener(new java.awt.event.ItemListener() {
             public void itemStateChanged(java.awt.event.ItemEvent evt) {
@@ -400,7 +401,7 @@ public class ProdutoFrame extends javax.swing.JInternalFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        tipoProduto.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "SELECIONE...", "FOLHA", "BLOCO", "LIVRO" }));
+        tipoProduto.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "SELECIONE...", "FOLHA", "BLOCO", "LIVRO" }));
         tipoProduto.setBorder(javax.swing.BorderFactory.createTitledBorder("TIPO"));
         tipoProduto.addItemListener(new java.awt.event.ItemListener() {
             public void itemStateChanged(java.awt.event.ItemEvent evt) {
@@ -514,7 +515,7 @@ public class ProdutoFrame extends javax.swing.JInternalFrame {
             tabelaConsulta.getColumnModel().getColumn(2).setPreferredWidth(700);
         }
 
-        tipoPesquisa.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "SELECIONE...", "CÓDIGO", "DESCRIÇÃO" }));
+        tipoPesquisa.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "SELECIONE...", "CÓDIGO", "DESCRIÇÃO" }));
         tipoPesquisa.setBorder(javax.swing.BorderFactory.createTitledBorder("PESQUISAR POR"));
         tipoPesquisa.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -598,7 +599,7 @@ public class ProdutoFrame extends javax.swing.JInternalFrame {
                         .addComponent(botaoMostrarUltimos)
                         .addComponent(botaoPesquisar)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 440, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 487, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(botaoSelecionar)
@@ -626,11 +627,16 @@ public class ProdutoFrame extends javax.swing.JInternalFrame {
             }
         });
 
-        jcbTipoPe.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "SELECIONE...", "FOLHA", "BLOCO", "LIVRO" }));
+        jcbTipoPe.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "SELECIONE...", "FOLHA", "BLOCO", "LIVRO" }));
         jcbTipoPe.setBorder(javax.swing.BorderFactory.createTitledBorder("TIPO"));
         jcbTipoPe.addItemListener(new java.awt.event.ItemListener() {
             public void itemStateChanged(java.awt.event.ItemEvent evt) {
                 jcbTipoPeItemStateChanged(evt);
+            }
+        });
+        jcbTipoPe.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jcbTipoPeActionPerformed(evt);
             }
         });
 
@@ -854,6 +860,13 @@ public class ProdutoFrame extends javax.swing.JInternalFrame {
             }
         });
 
+        jButton2.setText("MAIS DETALHES");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
         jPanel5.setLayout(jPanel5Layout);
         jPanel5Layout.setHorizontalGroup(
@@ -888,9 +901,11 @@ public class ProdutoFrame extends javax.swing.JInternalFrame {
                         .addGap(16, 16, 16)
                         .addComponent(jsfQtdFolhasPe, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jcbTipoPe, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(jcbTipoPe, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE))
                     .addComponent(jPanel8, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jPanel9, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jPanel9, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
 
@@ -898,42 +913,45 @@ public class ProdutoFrame extends javax.swing.JInternalFrame {
 
         jPanel5Layout.setVerticalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel5Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jtfDescricaoPe, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+            .addGroup(jPanel5Layout.createSequentialGroup()
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel4)
-                    .addComponent(jftfLarguraPe, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel6)
-                    .addComponent(jftfAlturaPe, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel5)
-                    .addComponent(jftfEspessuraPe, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel7)
-                    .addComponent(jftfPesoPe, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel5Layout.createSequentialGroup()
+                        .addGap(74, 74, 74)
+                        .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jsfQtdFolhasPe, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jcbTipoPe, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(jPanel5Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jtfDescricaoPe, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel4)
+                            .addComponent(jftfLarguraPe, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel6)
+                            .addComponent(jftfAlturaPe, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel5)
+                            .addComponent(jftfEspessuraPe, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel7)
+                            .addComponent(jftfPesoPe, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jPanel8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jPanel7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jPanel9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnSalvarPe, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jckbDispVendas)
                     .addComponent(btnLimparPe))
-                .addContainerGap())
-            .addGroup(jPanel5Layout.createSequentialGroup()
-                .addGap(74, 74, 74)
-                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jsfQtdFolhasPe, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jcbTipoPe, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(426, 426, 426))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         jPanel5Layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {jLabel4, jLabel5, jLabel6, jLabel7, jcbTipoPe, jftfAlturaPe, jftfEspessuraPe, jftfLarguraPe, jftfPesoPe, jsfQtdFolhasPe, jtfDescricaoPe});
 
-        jPanel5Layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {btnLimparPe, btnSalvarPe, jckbDispVendas});
+        jPanel5Layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {btnLimparPe, btnSalvarPe, jButton2, jckbDispVendas});
 
         tabPane.addTab("PRONTA ENTREGA NOVO/EDITAR", new javax.swing.ImageIcon(getClass().getResource("/icones/incluir.png")), jPanel5); // NOI18N
 
@@ -1027,7 +1045,7 @@ public class ProdutoFrame extends javax.swing.JInternalFrame {
             tblConsultaPe.getColumnModel().getColumn(6).setPreferredWidth(45);
         }
 
-        tipoPesqPe.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "SELECIONE...", "CÓDIGO", "DESCRIÇÃO" }));
+        tipoPesqPe.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "SELECIONE...", "CÓDIGO", "DESCRIÇÃO" }));
         tipoPesqPe.setBorder(javax.swing.BorderFactory.createTitledBorder("PESQUISAR POR"));
 
         altEstoque.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icones/editar.png"))); // NOI18N
@@ -1077,7 +1095,7 @@ public class ProdutoFrame extends javax.swing.JInternalFrame {
                         .addComponent(btnPesqPe))
                     .addComponent(tipoPesqPe, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 442, Short.MAX_VALUE)
+                .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 489, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnSelPe)
@@ -1792,6 +1810,14 @@ public class ProdutoFrame extends javax.swing.JInternalFrame {
         }
     }//GEN-LAST:event_jckbQtdMaxItemStateChanged
 
+    private void jcbTipoPeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jcbTipoPeActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jcbTipoPeActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton2ActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton altEstoque;
@@ -1816,6 +1842,7 @@ public class ProdutoFrame extends javax.swing.JInternalFrame {
     private javax.swing.JCheckBox disponivelVendas;
     private javax.swing.JButton inserirPapel;
     private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel4;

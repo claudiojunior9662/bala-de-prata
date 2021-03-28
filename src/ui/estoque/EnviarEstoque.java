@@ -123,7 +123,7 @@ public class EnviarEstoque extends javax.swing.JInternalFrame {
                     String dirDestino = Controle.retornaDirEstoque();
                     String destino = Controle.ESTOQUE_NAME + seletorDeArquivos.getSelectedFile().getPath().substring(
                             seletorDeArquivos.getSelectedFile().getPath().indexOf("."));
-                    if (ConnectionFactory.uploadSSH(seletorDeArquivos.getSelectedFile().getPath(), destino, Controle.retornaDirEstoque())) {
+                    if (ConnectionFactory.uploadEstoqueSSH(seletorDeArquivos.getSelectedFile().getPath(), destino, Controle.retornaDirEstoque())) {
                         JOptionPane.showMessageDialog(null, "ESTOQUE ENVIADO COM SUCESSO!", "AVISO", JOptionPane.INFORMATION_MESSAGE);
                         Estoque.loadingHide();
                         return;

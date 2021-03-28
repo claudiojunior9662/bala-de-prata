@@ -255,11 +255,10 @@ public class ConnectionFactory {
         return retorno;
     }
 
-    /*
-    @param operacao
-    1 - upload
-    2 - download
-     */
+    /**
+    @param operacao 1 - upload, 2 - download
+    @param className 1 - estoque, 2 - orçamento
+     **/
     public static boolean connectSSH(byte operacao, byte className){
         try {
             String resposta = null;
@@ -320,7 +319,7 @@ public class ConnectionFactory {
         ready = false;
     }
 
-    public static boolean uploadSSH(String origem, String destino, String dirDestino){
+    public static boolean uploadEstoqueSSH(String origem, String destino, String dirDestino){
         try {
             if (connectSSH((byte) 1, (byte) 1)) {
                 Estoque.loadingVisible("CARREGANDO ARQUIVO...");
@@ -349,12 +348,10 @@ public class ConnectionFactory {
         return false;
     }
 
-    /*
-    @param className
-    1 - estoque
-    2 - orcamento
-     */
-    public static boolean downloadSSH(String dirLocal, byte className){
+    /**
+    @param className 1 - estoque, 2 - orcamento
+     **/
+    public static boolean downloadEstoqueSSH(String dirLocal, byte className){
         try {
             connectSSH((byte) 2, className);
             if (className == 1) {
@@ -498,4 +495,6 @@ public class ConnectionFactory {
         }
         return connection;
     }
+    
+    
 }

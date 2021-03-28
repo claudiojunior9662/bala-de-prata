@@ -320,7 +320,7 @@ public static void loadingVisible(String texto) {
                         OrcamentoFrame.loadingVisible("CONECTANDO AO SERVIDOR...");
                     }
 
-                    if (ConnectionFactory.downloadSSH(Controle.TEMP_DIR, className)) {
+                    if (ConnectionFactory.downloadEstoqueSSH(Controle.TEMP_DIR, className)) {
                         if (className == 1) {
                             Estoque.loadingVisible("ABRINDO O ARQUIVO...");
                         } else {

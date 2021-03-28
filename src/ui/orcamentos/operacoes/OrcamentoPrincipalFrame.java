@@ -494,7 +494,7 @@ public class OrcamentoPrincipalFrame extends javax.swing.JInternalFrame {
 
             },
             new String [] {
-                "CÓDIGO", "QUANTIDADE", "DIGITAL", "OFFSET", "VLR IMP. DIG.", "VALOR UNIT."
+                "PRODUTO", "QUANTIDADE", "DIGITAL", "OFFSET", "VLR IMP. DIG.", "VALOR UNIT."
             }
         ) {
             Class[] types = new Class [] {
@@ -635,7 +635,7 @@ public class OrcamentoPrincipalFrame extends javax.swing.JInternalFrame {
 
             },
             new String [] {
-                "CÓD PRODUTO", "CÓD PAPEL", "DESCRIÇÃO", "TIPO", "CF", "CV", "FORMATO IMP.", "PERCA (%)", "GASTO FOLHA", "PREÇO FOLHA", "QTD. CHAPAS", "PREÇO CHAPA"
+                "PRODUTO", "CÓD PAPEL", "DESCRIÇÃO", "TIPO", "CF", "CV", "FORMATO IMP.", "PERCA (%)", "GASTO FOLHA", "PREÇO FOLHA", "QTD. CHAPAS", "PREÇO CHAPA"
             }
         ) {
             Class[] types = new Class [] {
@@ -673,7 +673,7 @@ public class OrcamentoPrincipalFrame extends javax.swing.JInternalFrame {
 
             },
             new String [] {
-                "CÓD PRODUTO", "CÓD ACABAMENTO", "DESCRIÇÃO", "PREÇO ACABAMENTO"
+                "PRODUTO", "CÓD ACABAMENTO", "DESCRIÇÃO", "PREÇO ACABAMENTO"
             }
         ) {
             boolean[] canEdit = new boolean [] {

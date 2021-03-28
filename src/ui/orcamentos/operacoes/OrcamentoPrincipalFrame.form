@@ -650,7 +650,7 @@
                               <Properties>
                                 <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
                                   <Table columnCount="6" rowCount="0">
-                                    <Column editable="false" title="C&#xd3;DIGO" type="java.lang.String"/>
+                                    <Column editable="false" title="PRODUTO" type="java.lang.String"/>
                                     <Column editable="true" title="QUANTIDADE" type="java.lang.Integer"/>
                                     <Column editable="true" title="DIGITAL" type="java.lang.Boolean"/>
                                     <Column editable="true" title="OFFSET" type="java.lang.Boolean"/>
@@ -878,7 +878,7 @@
                               <Properties>
                                 <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
                                   <Table columnCount="12" rowCount="0">
-                                    <Column editable="false" title="C&#xd3;D PRODUTO" type="java.lang.Object"/>
+                                    <Column editable="false" title="PRODUTO" type="java.lang.Object"/>
                                     <Column editable="false" title="C&#xd3;D PAPEL" type="java.lang.Object"/>
                                     <Column editable="false" title="DESCRI&#xc7;&#xc3;O" type="java.lang.Object"/>
                                     <Column editable="false" title="TIPO" type="java.lang.Object"/>
@@ -1004,7 +1004,7 @@
                               <Properties>
                                 <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
                                   <Table columnCount="4" rowCount="0">
-                                    <Column editable="false" title="C&#xd3;D PRODUTO" type="java.lang.Object"/>
+                                    <Column editable="false" title="PRODUTO" type="java.lang.Object"/>
                                     <Column editable="false" title="C&#xd3;D ACABAMENTO" type="java.lang.Object"/>
                                     <Column editable="false" title="DESCRI&#xc7;&#xc3;O" type="java.lang.Object"/>
                                     <Column editable="false" title="PRE&#xc7;O ACABAMENTO" type="java.lang.Object"/>
