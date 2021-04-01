@@ -128,7 +128,7 @@ public class NewMain {
                     + "AND tabela_ordens_producao.status != 'ENTREGUE PARCIALMENTE' "
                     + "AND tabela_ordens_producao.status != 'CANCELADA'"
                     + "AND tabela_ordens_producao.tipo_cliente = 2 "
-                    + "AND tabela_ordens_producao.data_emissao BETWEEN '2019-01-01' AND '2020-12-31' "
+                    + "AND tabela_ordens_producao.data_emissao BETWEEN '2019-01-01' AND '2021-03-31' "
                     + "ORDER BY tabela_ordens_producao.cod_cliente ASC");
             rs = stmt.executeQuery();
             while (rs.next()) {
@@ -143,7 +143,7 @@ public class NewMain {
                             + "AND tabela_ordens_producao.status != 'CANCELADA'"
                             + "AND tabela_ordens_producao.tipo_cliente = 2 "
                             + "AND tabela_ordens_producao.cod_cliente = ? "
-                            + "AND tabela_ordens_producao.data_emissao BETWEEN '2019-01-01' AND '2020-12-31' "
+                            + "AND tabela_ordens_producao.data_emissao BETWEEN '2019-01-01' AND '2021-03-31' "
                             + "ORDER BY tabela_ordens_producao.cod_cliente ASC");
                     stmt.setInt(1, rs.getInt("tabela_ordens_producao.cod_cliente"));
                     rs2 = stmt.executeQuery();
