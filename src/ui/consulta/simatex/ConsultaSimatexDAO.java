@@ -6,6 +6,7 @@
 package ui.consulta.simatex;
 
 import connection.ConnectionFactory;
+import connection.IntegracaoSimatex;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -24,7 +25,7 @@ public class ConsultaSimatexDAO {
     2 - codigo material
      */
     public static List<ConsultaSimatexBEAN> consultaMaterialSimatex(String textoPesquisa, byte tipoPesquisa) throws SQLException {
-        Connection con = ConnectionFactory.conectaSimatex();
+        Connection con = IntegracaoSimatex.conectaSimatex();
         PreparedStatement stmt = null;
         ResultSet rs = null;
 
