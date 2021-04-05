@@ -74,7 +74,9 @@ public class IntegracaoLojaIntegrada {
             in.close();
 
             JSONObject obj = new JSONObject(result.toString());
-            System.out.println(obj.getJSONArray("objects").getJSONObject(0).getString("nome"));
+            for(int i = 0; i < obj.getJSONArray("objects").length(); i++){
+                System.out.println(obj.getJSONArray("objects").getJSONObject(i).getString("nome"));
+            }
             
             try {
                 
