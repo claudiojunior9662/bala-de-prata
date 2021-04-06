@@ -48,15 +48,6 @@ public class ConnectionFactory {
     private static String USER;
     private static String PASS;
 
-    //VARIÁVEIS PARA CONEXÃO COM O SERVIDOR FIREBIRD
-    final static private String DRIVER_FIREBIRD = "org.firebirdsql.jdbc.FBDriver";
-    private static String CHARSET = "?encoding=ISO8859_1";
-    private static String SERVIDOR = null;
-    private static String PORTA = null;
-    private static String USUARIO = null;
-    private static String SENHA = null;
-    private static String ENDERECO_BD = null;
-
     public static Session session;
     public static boolean ready;
     public static Channel channel;
@@ -151,7 +142,7 @@ public class ConnectionFactory {
 
         JSONObject object;
 
-        SocketAddress addr = new InetSocketAddress("10.133.253.23", 3128);
+        SocketAddress addr = new InetSocketAddress("10.166.128.179", 3128);
         Proxy proxy = new Proxy(Proxy.Type.HTTP, addr);
 
         HttpURLConnection con = null;
@@ -203,7 +194,7 @@ public class ConnectionFactory {
 
         JSONObject object;
 
-        SocketAddress addr = new InetSocketAddress("10.133.253.23", 3128);
+        SocketAddress addr = new InetSocketAddress("10.166.128.179", 3128);
         Proxy proxy = new Proxy(Proxy.Type.HTTP, addr);
 
         HttpURLConnection con = null;
@@ -457,44 +448,6 @@ public class ConnectionFactory {
         }
     }
 
-    public static void preencheDadosConexaoSimatex(){
-        Connection con = ConnectionFactory.getConnection();
-        PreparedStatement stmt = null;
-        ResultSet rs = null;
-
-        try {
-            stmt = con.prepareStatement("SELECT SRV_SIMATEX, "
-                    + "PORTA_SIMATEX, "
-                    + "USR_SIMATEX, "
-                    + "SENHA_SIMATEX, "
-                    + "END_BD_SIMATEX "
-                    + "FROM tabela_controle");
-            rs = stmt.executeQuery();
-            if (rs.next()) {
-                SERVIDOR = rs.getString("SRV_SIMATEX");
-                PORTA = String.valueOf(rs.getInt("PORTA_SIMATEX"));
-                USUARIO = rs.getString("USR_SIMATEX");
-                SENHA = rs.getString("SENHA_SIMATEX");
-                ENDERECO_BD = rs.getString("END_BD_SIMATEX");
-            }
-        } catch (SQLException ex) {
-            EnvioExcecao envioExcecao = new EnvioExcecao(Controle.getDefaultGj(), ex);
-            EnvioExcecao.envio();
-        }
-    }
-
-    public static Connection conectaSimatex(){
-        preencheDadosConexaoSimatex();
-        Connection connection = null;
-        try {
-            Class.forName(DRIVER_FIREBIRD);
-            connection = DriverManager.getConnection("jdbc:firebirdsql:" + SERVIDOR + "/" + PORTA + ":" + ENDERECO_BD + CHARSET, USUARIO, SENHA);
-        } catch (ClassNotFoundException | SQLException ex) {
-            EnvioExcecao envioExcecao = new EnvioExcecao(Controle.getDefaultGj(), ex);
-            EnvioExcecao.envio();
-        }
-        return connection;
-    }
     
     
 }
