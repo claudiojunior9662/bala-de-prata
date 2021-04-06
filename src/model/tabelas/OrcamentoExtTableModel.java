@@ -17,7 +17,7 @@ import javax.swing.table.AbstractTableModel;
 public class OrcamentoExtTableModel extends AbstractTableModel{
 
     private List<Orcamento> dados = new ArrayList<>();
-    private String[] colunas = {"CÓDIGO", "DATA EMISSÃO", "DATA VALIDADE", "VALOR TOTAL", "STATUS"};
+    private String[] colunas = {"PROPOSTA", "DATA EMISSÃO", "DATA VALIDADE", "VALOR TOTAL", "STATUS"};
     
     @Override
     public String getColumnName(int col){

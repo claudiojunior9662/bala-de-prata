@@ -17,7 +17,7 @@ import javax.swing.table.AbstractTableModel;
 public class OrcamentoIntTableModel extends AbstractTableModel{
 
     private List<Orcamento> dados = new ArrayList<>();
-    private String[] colunas = {"CÓDIGO", "CLIENTE", "TIPO PESSOA", "DATA EMISSÃO", "DATA VALIDADE", "VALOR TOTAL", "STATUS"};
+    private String[] colunas = {"PROPOSTA", "CLIENTE", "TIPO PESSOA", "DATA EMISSÃO", "DATA VALIDADE", "VALOR TOTAL", "STATUS"};
     
     @Override
     public String getColumnName(int col){
