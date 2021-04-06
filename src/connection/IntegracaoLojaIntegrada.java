@@ -9,8 +9,12 @@ import exception.EnvioExcecao;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.net.Authenticator;
 import java.net.HttpURLConnection;
+import java.net.InetSocketAddress;
 import java.net.MalformedURLException;
+import java.net.PasswordAuthentication;
+import java.net.Proxy;
 import java.net.URL;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -47,16 +51,26 @@ public class IntegracaoLojaIntegrada {
                 + CHAVE_API
                 + "&chave_aplicacao="
                 + CHAVE_APLICACAO;
-//        SocketAddress addr = new InetSocketAddress("10.166.128.179", 3128);
-//        Proxy proxy = new Proxy(Proxy.Type.HTTP, addr);
+        
+        //Define as configurações de proxy        
+        Proxy proxy = new Proxy(Proxy.Type.HTTP, new InetSocketAddress("10.166.128.179", 3128));
+        Authenticator auth = new Authenticator() {
+            @Override
+            public PasswordAuthentication getPasswordAuthentication(){
+                return (new PasswordAuthentication("spd", "spd2020".toCharArray()));
+            }
+        };
+        Authenticator.setDefault(auth);
+        
         System.out.println(queryURL);
         JSONObject object;
         HttpURLConnection con = null;
         
         try {
             URL url = new URL(queryURL);
-            //con = (HttpURLConnection) url.openConnection(proxy);
-            con = (HttpURLConnection) url.openConnection();
+            con = (HttpURLConnection) url.openConnection(proxy);
+            System.out.println(con.getResponseCode());
+            //con = (HttpURLConnection) url.openConnection();
             con.setRequestMethod("GET");
             
             StringBuilder result = new StringBuilder();
