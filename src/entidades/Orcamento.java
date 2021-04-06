@@ -73,7 +73,7 @@ public class Orcamento {
     private Double arte;
     private String descricaoProduto;
     private int codigoOp;
-    
+
     //TABELA CONSULTA
     private String tipoPessoaString;
     private String dataEmissaoString;
@@ -145,8 +145,6 @@ public class Orcamento {
         this.nomeCliente = nomeCliente;
         this.valorTotal = valorTotal;
     }
-    
-        
 
     public Orcamento(int codigo,
             int codCliente,
@@ -390,8 +388,6 @@ public class Orcamento {
     public void setTipoPessoaString(String tipoPessoaString) {
         this.tipoPessoaString = tipoPessoaString;
     }
-    
-    
 
     /**
      * Gera o Pdf do orçamento
@@ -454,10 +450,20 @@ public class Orcamento {
                                         FontFactory.getFont("arial.ttf", 12, Font.BOLD)));
                             }
                         } else {
-                            Integer nOp = OrdemProducaoDAO.retornaCodOpOrc(codOrc);
-                            celulaCabecalho = new PdfPCell(new Phrase("PROPOSTA DE ORÇAMENTO Nº "
-                                    + codOrc + " / PEDIDO DE VENDA Nº " + nOp,
-                                    FontFactory.getFont("arial.ttf", 12, Font.BOLD)));
+                            List nOp = OrdemProducaoDAO.retornaCodOpOrc(codOrc);
+                            switch (OrdemProducaoDAO.retornaTipoProduto((int) nOp.get(0))) {
+                                case 1:
+                                    celulaCabecalho = new PdfPCell(new Phrase("PROPOSTA DE ORÇAMENTO Nº "
+                                            + codOrc + " / ORDEM DE PRODUÇÃO Nº " + nOp,
+                                            FontFactory.getFont("arial.ttf", 12, Font.BOLD)));
+                                    break;
+                                case 2:
+                                    celulaCabecalho = new PdfPCell(new Phrase("PROPOSTA DE ORÇAMENTO Nº "
+                                            + codOrc + " / PEDIDO DE VENDA Nº " + nOp,
+                                            FontFactory.getFont("arial.ttf", 12, Font.BOLD)));
+                                    break;
+                            }
+
                         }
                     } else {
                         if (produtos.get(0).getTipoProduto() == 2) {
@@ -773,7 +779,7 @@ public class Orcamento {
                     document.add(tabelaRodape);
 
                     document.add(new Paragraph("\n"));
-                    
+
                     tabelaRodape.deleteBodyRows();
                     celulaRodape = new PdfPCell(new Phrase("AUTORIZO A INSERÇÃO DO QR CODE DA GRÁFICA DO EXÉRCITO NA 4ª CAPA (  ) SIM (  ) NÃO", FontFactory.getFont("arial.ttf", 10, Font.BOLD)));
                     celulaRodape.setBackgroundColor(Controle.fundoDestaque);

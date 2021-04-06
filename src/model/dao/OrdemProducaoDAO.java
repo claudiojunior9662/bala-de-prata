@@ -797,23 +797,27 @@ public class OrdemProducaoDAO {
     }
 
     /**
+     * Retorna os códigos das ordens de produção relacionadas ao orçamento
      * @param codOrc código do orçamento
      * @return int código da ordem de produção
      * @see retornaCodOpOrcProd
      */
-    public static int retornaCodOpOrc(int codOrc) throws SQLException {
+    public static List retornaCodOpOrc(int codOrc) throws SQLException {
         Connection con = ConnectionFactory.getConnection();
         PreparedStatement stmt = null;
         ResultSet rs = null;
+        List ordemProducao = new ArrayList();
 
         try {
-            stmt = con.prepareStatement("SELECT cod FROM tabela_ordens_producao WHERE orcamento_base = ?");
+            stmt = con.prepareStatement("SELECT cod "
+                    + "FROM tabela_ordens_producao "
+                    + "WHERE orcamento_base = ?");
             stmt.setInt(1, codOrc);
             rs = stmt.executeQuery();
-            if (rs.next()) {
-                return rs.getInt("cod");
+            while(rs.next()){
+                ordemProducao.add(rs.getInt("cod"));
             }
-            return 0;
+            return ordemProducao;
         } catch (Exception ex) {
             throw new SQLException(ex);
         } finally {
