@@ -641,17 +641,17 @@ public class OrdemProducaoDAO {
             }
             rs = stmt.executeQuery();
             while (rs.next()) {
-                OrdemProducao aux = new OrdemProducao();
-                aux.setCodigo(rs.getInt("cod"));
-                aux.setOrcBase(rs.getInt("orcamento_base"));
-                aux.setCodProduto(rs.getInt("cod_produto"));
-                aux.setTipoProduto(rs.getByte("tipo_produto"));
-                aux.setCodCliente(rs.getInt("cod_cliente"));
-                aux.setTipoPessoa(rs.getByte("tipo_cliente"));
-                aux.setDataEmissao(rs.getDate("data_emissao"));
-                aux.setDataEntrega(rs.getDate("data_entrega"));
-                aux.setStatus(rs.getString("status"));
-                retorno.add(aux);
+                OrdemProducao op = new OrdemProducao();
+                op.setCodigo(rs.getInt("cod"));
+                op.setOrcBase(rs.getInt("orcamento_base"));
+                op.setCodProduto(rs.getInt("cod_produto"));
+                op.setTipoProduto(rs.getByte("tipo_produto"));
+                op.setCodCliente(rs.getInt("cod_cliente"));
+                op.setTipoPessoa(rs.getByte("tipo_cliente"));
+                op.setDataEmissao(rs.getDate("data_emissao"));
+                op.setDataEntrega(rs.getDate("data_entrega"));
+                op.setStatus(rs.getString("status"));
+                retorno.add(op);
             }
         } catch (SQLException ex) {
             throw new SQLException(ex);
