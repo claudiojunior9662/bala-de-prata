@@ -16,7 +16,7 @@ import javax.swing.table.AbstractTableModel;
  */
 public class OpIntTableModel extends AbstractTableModel{
     private List<OrdemProducao> dados = new ArrayList<>();
-    private String[] colunas = {"OP", "ORÇAMENTO", "CLIENTE", "TIPO DE CLIENTE","DATA DE EMISSÃO", "DATA DE VALIDADE", "STATUS"};
+    private String[] colunas = {"OP", "ORÇAMENTO", "CLIENTE", "TIPO DE CLIENTE","DATA DE EMISSÃO", "DATA DE ENTREGA", "STATUS"};
     
     @Override
     public String getColumnName(int col){
@@ -41,10 +41,14 @@ public class OpIntTableModel extends AbstractTableModel{
             case 1:
                 return dados.get(linha).getOrcBase();
             case 2: 
-                return dados.get(linha).getDataEmissao();
+                return dados.get(linha).getCodCliente();
             case 3:
-                return dados.get(linha).getDataEntrega();
+                return dados.get(linha).getTipoPessoa();
             case 4:
+                return dados.get(linha).getDataEmissao();
+            case 5:
+                return dados.get(linha).getDataEntrega();
+            case 6:
                 return dados.get(linha).getStatus();
         }
         return null;

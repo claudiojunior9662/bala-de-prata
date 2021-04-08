@@ -65,14 +65,14 @@ public class OrdemProducao {
      * Campos do banco de dados
      */
     private int cod;
-    private int orcBase;
+    private int orcamentoBase;
     private byte tipoProduto;
     private int codProduto;
     private int codCliente;
     private int codContato;
     private int codEndereco;
     private String codEmissor;
-    private byte tipoPessoa;
+    private byte tipoCliente;
     private Date dataEmissao;
     private Date dataEntrega;
     private String status;
@@ -128,9 +128,9 @@ public class OrdemProducao {
             String status,
             String descricao) {
         this.cod = cod;
-        this.orcBase = orcamentoBase;
+        this.orcamentoBase = orcamentoBase;
         this.codCliente = codCliente;
-        this.tipoPessoa = tipoPessoa;
+        this.tipoCliente = tipoPessoa;
         this.codProduto = codProduto;
         this.tipoProduto = tipoProduto;
         this.codContato = codContato;
@@ -151,13 +151,13 @@ public class OrdemProducao {
             byte tipoPessoa,
             String codEmissor) {
         this.cod = cod;
-        this.orcBase = orcamentoBase;
+        this.orcamentoBase = orcamentoBase;
         this.codProduto = codProduto;
         this.tipoProduto = tipoProduto;
         this.codCliente = codCliente;
         this.codContato = codContato;
         this.codEndereco = codEndereco;
-        this.tipoPessoa = tipoPessoa;
+        this.tipoCliente = tipoPessoa;
         this.codEmissor = codEmissor;
     }
 
@@ -176,13 +176,13 @@ public class OrdemProducao {
             Date dataCancelamento,
             String obsFrete) {
         this.cod = cod;
-        this.orcBase = orcamentoBase;
+        this.orcamentoBase = orcamentoBase;
         this.codCliente = codCliente;
         this.codContato = codContato;
         this.codEndereco = codEndereco;
         this.dataEntrega = dataEntrega;
         this.dataEmissao = dataEmissao;
-        this.tipoPessoa = tipoPessoa;
+        this.tipoCliente = tipoPessoa;
         this.codEmissor = codEmissor;
         this.dataCancelamento = dataCancelamento;
         this.codProduto = codProduto;
@@ -224,7 +224,7 @@ public class OrdemProducao {
             String tipoTrabalho) {
         this.cod = cod;
         this.codCliente = codCliente;
-        this.tipoPessoa = tipoPessoa;
+        this.tipoCliente = tipoPessoa;
         this.dataEmissao = dataEmissao;
         this.dataEntrega = dataEntrega;
         this.status = status;
@@ -247,12 +247,32 @@ public class OrdemProducao {
         this.indEntgPrazo = indEntPrazo;
         this.indEntgErro = indEntErro;
         this.codProduto = codProduto;
-        this.orcBase = orcamentoBase;
+        this.orcamentoBase = orcamentoBase;
         this.codContato = codContato;
         this.codEndereco = codEndereco;
         this.dataCancelamento = dataCancelamento;
         this.tipoTrabalho = tipoTrabalho;
         this.tipoProduto = tipoProduto;
+    }
+    
+    public OrdemProducao(int cod, 
+            int orcamentoBase, 
+            int codProduto,
+            byte tipoProduto,
+            int codCliente,
+            byte tipoCliente,
+            Date dataEmissao,
+            Date dataEntrega,
+            String status){
+        this.cod = cod;
+        this.orcamentoBase = orcamentoBase;
+        this.codProduto = codProduto;
+        this.tipoProduto = tipoProduto;
+        this.codCliente = codCliente;
+        this.tipoCliente = tipoCliente;
+        this.dataEmissao = dataEmissao;
+        this.dataEntrega = dataEntrega;
+        this.status = status;
     }
 
     public String getObsFrete() {
@@ -336,11 +356,11 @@ public class OrdemProducao {
     }
 
     public int getOrcBase() {
-        return orcBase;
+        return orcamentoBase;
     }
 
     public void setOrcBase(int orcBase) {
-        this.orcBase = orcBase;
+        this.orcamentoBase = orcBase;
     }
 
     public int getCodigo() {
@@ -376,11 +396,11 @@ public class OrdemProducao {
     }
 
     public byte getTipoPessoa() {
-        return tipoPessoa;
+        return tipoCliente;
     }
 
     public void setTipoPessoa(byte tipoPessoa) {
-        this.tipoPessoa = tipoPessoa;
+        this.tipoCliente = tipoPessoa;
     }
 
     public String getCodEmissor() {
