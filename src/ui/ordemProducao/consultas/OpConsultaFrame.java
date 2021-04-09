@@ -94,9 +94,11 @@ public class OpConsultaFrame extends javax.swing.JInternalFrame {
             case 1:
             case 2:
                 tabelaConsulta.setModel(modelInt);
+                modelInt.setNumRows(0);
                 break;
             case 3:
                 tabelaConsulta.setModel(modelExt);
+                modelExt.setNumRows(0);
                 break;
         }
     }
