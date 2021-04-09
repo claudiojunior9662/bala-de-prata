@@ -2162,19 +2162,43 @@ public class OrcamentoPrincipalFrame extends javax.swing.JInternalFrame {
 
     private void gerarPdfActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_gerarPdfActionPerformed
         if (tipoPdf.getSelectedItem().equals("SIMPLES")) {
-            Orcamento.geraPdf((int) tabelaConsulta.getValueAt(tabelaConsulta.getSelectedRow(), 0),
+            switch(CLASSE_PAI){
+                case 2:
+                    Orcamento.geraPdf((int) tabelaConsulta.getValueAt(tabelaConsulta.getSelectedRow(), 0),
                     true,
                     false,
                     Integer.valueOf(tabelaConsulta.getValueAt(tabelaConsulta.getSelectedRow(), 6).toString().substring(0, 1)),
                     loading,
                     false);
+                    break;
+                case 3:
+                    Orcamento.geraPdf((int) tabelaConsulta.getValueAt(tabelaConsulta.getSelectedRow(), 0),
+                    true,
+                    false,
+                    Integer.valueOf(tabelaConsulta.getValueAt(tabelaConsulta.getSelectedRow(), 4).toString().substring(0, 1)),
+                    loading,
+                    false);
+                    break;
+            }
         } else {
-            Orcamento.geraPdf((int) tabelaConsulta.getValueAt(tabelaConsulta.getSelectedRow(), 0),
+            switch(CLASSE_PAI){
+                case 2:
+                    Orcamento.geraPdf((int) tabelaConsulta.getValueAt(tabelaConsulta.getSelectedRow(), 0),
                     true,
                     true,
                     Integer.valueOf(tabelaConsulta.getValueAt(tabelaConsulta.getSelectedRow(), 6).toString().substring(0, 1)),
                     loading,
                     false);
+                    break;
+                case 3:
+                    Orcamento.geraPdf((int) tabelaConsulta.getValueAt(tabelaConsulta.getSelectedRow(), 0),
+                    true,
+                    true,
+                    Integer.valueOf(tabelaConsulta.getValueAt(tabelaConsulta.getSelectedRow(), 4).toString().substring(0, 1)),
+                    loading,
+                    false);
+                    break;
+            }
         }
         excluir.setEnabled(false);
         editar.setEnabled(false);
