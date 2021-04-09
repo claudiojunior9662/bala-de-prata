@@ -40,7 +40,7 @@ public class Controle {
      * @param tipoVersao 1 - produção 2 - desenvolvimento rede 3 -
      * desenvolvimento local 4 - peixoto
      */
-    private static byte tipoVersao = 3;
+    private static byte tipoVersao = 1;
 
     public static byte getTipoVersao() {
         return tipoVersao;
@@ -489,6 +489,21 @@ public class Controle {
             EnvioExcecao.envio();
             return null;
         }
+    }
+    
+    /**
+     * Transforma tipo cliente byte em String
+     * @param tipoCliente
+     * @return 
+     */
+    public static synchronized String retornaTipoCliente(byte tipoCliente){
+        switch(tipoCliente){
+            case 1:
+                return "PESSOA FÍSICA";
+            case 2:
+                return "PESSOA JURÍDICA";
+        }
+        return null;
     }
 
 }

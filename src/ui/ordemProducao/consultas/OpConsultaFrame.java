@@ -1010,10 +1010,17 @@ public class OpConsultaFrame extends javax.swing.JInternalFrame {
                     break;
             }
 
-            OrdemProducao.corTabela(tabelaConsulta, (byte) 3);
+            switch(CLASSE_PAI){
+                case 1:
+                case 2:
+                    OrdemProducao.corTabela(tabelaConsulta, (byte) 2);
+                    break;
+                case 3:
+                    OrdemProducao.corTabela(tabelaConsulta, (byte) 3);
+                    break;
+            }
             paginaAtual.removeAllItems();
             paginaTotal.setText("");
-
             loading.setVisible(false);
 
         } catch (SQLException ex) {
