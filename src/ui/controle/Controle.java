@@ -490,5 +490,20 @@ public class Controle {
             return null;
         }
     }
+    
+    /**
+     * Transforma tipo cliente byte em String
+     * @param tipoCliente
+     * @return 
+     */
+    public static synchronized String retornaTipoCliente(byte tipoCliente){
+        switch(tipoCliente){
+            case 1:
+                return "PESSOA FÍSICA";
+            case 2:
+                return "PESSOA JURÍDICA";
+        }
+        return null;
+    }
 
 }

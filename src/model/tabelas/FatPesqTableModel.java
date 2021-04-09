@@ -17,7 +17,7 @@ import javax.swing.table.AbstractTableModel;
 public class FatPesqTableModel extends AbstractTableModel{
 
     private List<Faturamento> dados = new ArrayList<>();
-    private String[] colunas = {"CÓDIGO", "ORÇAMENTO", "OP", "DATA DE LANÇAMENTO", "EMISSOR", "VALOR"};
+    private String[] colunas = {"FATURAMENTO", "ORÇAMENTO", "OP", "DATA DE LANÇAMENTO", "EMISSOR", "VALOR"};
     
     @Override
     public String getColumnName(int col){

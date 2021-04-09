@@ -592,6 +592,13 @@ public class ClienteDAO {
         return retorno;
     }
 
+    /**
+     * Retorna o nome do cliente por extenso
+     * @param codCliente código do cliente
+     * @param tipoCliente 1 - Pessoa física, 2 - Pessoa jurídica
+     * @return
+     * @throws SQLException 
+     */
     public static String retornaNomeCliente(int codCliente, byte tipoCliente) throws SQLException {
         Connection con = ConnectionFactory.getConnection();
         PreparedStatement stmt = null;
@@ -600,10 +607,14 @@ public class ClienteDAO {
 
         try {
             if (tipoCliente == 1) {
-                stmt = con.prepareStatement("SELECT nome FROM tabela_clientes_fisicos WHERE cod = ?");
+                stmt = con.prepareStatement("SELECT nome "
+                        + "FROM tabela_clientes_fisicos "
+                        + "WHERE cod = ?");
                 stmt.setInt(1, codCliente);
             } else {
-                stmt = con.prepareStatement("SELECT nome FROM tabela_clientes_juridicos WHERE cod = ?");
+                stmt = con.prepareStatement("SELECT nome "
+                        + "FROM tabela_clientes_juridicos "
+                        + "WHERE cod = ?");
                 stmt.setInt(1, codCliente);
             }
             rs = stmt.executeQuery();

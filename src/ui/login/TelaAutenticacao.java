@@ -30,7 +30,7 @@ import ui.principal.ModulosExt;
 public class TelaAutenticacao extends javax.swing.JFrame {
     
     private static final String codVersao = "2.5.0";
-    private static final String update = "1";
+    private static final String update = "4";
     private static UsuarioBEAN atendenteLogado;
 
     public static UsuarioBEAN getUsrLogado() {
@@ -361,16 +361,7 @@ public class TelaAutenticacao extends javax.swing.JFrame {
                     mInt.setVisible(true);
                     this.setVisible(false);
 
-                    JOptionPane.showMessageDialog(null, "CORREÇÕES E ATUALIZAÇÕES DA v.2.3.7 4 (04-10-2020)\n"
-                            + "- Atualização da mensagem de pagamento do orçamento;\n"
-                            + "- Correção ao gerar o relatório de notas de crédito;\n"
-                            + "CORREÇÕES E ATUALIZAÇÕES DA v.2.3.7 5 (19-10-2020)\n"
-                            + "- Correções na pesquisa de clientes;\n"
-                            + "CORREÇÕES E ATUALIZAÇÕES DA v.2.3.8 1 (01-11-2020)\n"
-                            + "- Implementação do relatório financeiro;\n"
-                            + "- Correção de erros na geração do relatório de faturamentos;\n"
-                            + "- Correção de lançamentos incorretos de notas de crédito;\n"
-                            + "CORREÇÕES E ATUALIZAÇÕES DA v.2.3.8 2 (10-11-2020)\n"
+                    JOptionPane.showMessageDialog(null, "CORREÇÕES E ATUALIZAÇÕES DA v.2.3.8 2 (10-11-2020)\n"
                             + "- Correção da tela de visualização do OD externo;\n"
                             + "CORREÇÕES E ATUALIZAÇÕES DA v.2.3.8 3 (22-11-2020)\n"
                             + "- Implementação dos campos de inseção de identificação nos faturamentos;\n"
@@ -383,6 +374,12 @@ public class TelaAutenticacao extends javax.swing.JFrame {
                             + "- Correção do erro ao para abrir OP;\n"
                             + "CORREÇÕES E ATUALIZAÇÕES DA v.2.5.0 1 (03-03-2021)\n"
                             + "- Implementação do contator e último acesso para clientes externos;\n"
+                            + "CORREÇÕES E ATUALIZAÇÕES DA v.2.5.0 2 (06-04-2021)\n"
+                            + "- Correção no título da proposta de orçamento, quando pedido de venda ou OP;\n"
+                            + "CORREÇÕES E ATUALIZAÇÕES DA v.2.5.0 3 (06-04-2021)\n"
+                            + "- Atualização dos títulos das tabelas de consulta Orçamento, OP e Faturamento;\n"
+                            + "CORREÇÕES E ATUALIZAÇÕES DA v.2.5.0 3 (08-04-2021)\n"
+                            + "- Correção no bug ao preencher a tela de pesquisa de Ordem de produção;\n"
                             + "AVISOS:\n"
                             + "- Todas as sugestões de melhoria de usabilidade do programa serão estudadas, mas não há previsão de implementação;\n"
                             + "- Qualquer problema nas correções acima expostas deverão ser informados o mais rápido possível à SPD;\n"

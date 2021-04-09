@@ -641,17 +641,17 @@ public class OrdemProducaoDAO {
             }
             rs = stmt.executeQuery();
             while (rs.next()) {
-                OrdemProducao aux = new OrdemProducao();
-                aux.setCodigo(rs.getInt("cod"));
-                aux.setOrcBase(rs.getInt("orcamento_base"));
-                aux.setCodProduto(rs.getInt("cod_produto"));
-                aux.setTipoProduto(rs.getByte("tipo_produto"));
-                aux.setCodCliente(rs.getInt("cod_cliente"));
-                aux.setTipoPessoa(rs.getByte("tipo_cliente"));
-                aux.setDataEmissao(rs.getDate("data_emissao"));
-                aux.setDataEntrega(rs.getDate("data_entrega"));
-                aux.setStatus(rs.getString("status"));
-                retorno.add(aux);
+                retorno.add(new OrdemProducao(
+                        rs.getInt("cod"),
+                        rs.getInt("orcamento_base"),
+                        rs.getInt("cod_produto"),
+                        rs.getByte("tipo_produto"),
+                        rs.getInt("cod_cliente"),
+                        rs.getByte("tipo_cliente"),
+                        rs.getDate("data_emissao"),
+                        rs.getDate("data_entrega"),
+                        rs.getString("status")
+                ));
             }
         } catch (SQLException ex) {
             throw new SQLException(ex);
@@ -797,23 +797,27 @@ public class OrdemProducaoDAO {
     }
 
     /**
+     * Retorna os códigos das ordens de produção relacionadas ao orçamento
      * @param codOrc código do orçamento
      * @return int código da ordem de produção
      * @see retornaCodOpOrcProd
      */
-    public static int retornaCodOpOrc(int codOrc) throws SQLException {
+    public static List retornaCodOpOrc(int codOrc) throws SQLException {
         Connection con = ConnectionFactory.getConnection();
         PreparedStatement stmt = null;
         ResultSet rs = null;
+        List ordemProducao = new ArrayList();
 
         try {
-            stmt = con.prepareStatement("SELECT cod FROM tabela_ordens_producao WHERE orcamento_base = ?");
+            stmt = con.prepareStatement("SELECT cod "
+                    + "FROM tabela_ordens_producao "
+                    + "WHERE orcamento_base = ?");
             stmt.setInt(1, codOrc);
             rs = stmt.executeQuery();
-            if (rs.next()) {
-                return rs.getInt("cod");
+            while(rs.next()){
+                ordemProducao.add(rs.getInt("cod"));
             }
-            return 0;
+            return ordemProducao;
         } catch (Exception ex) {
             throw new SQLException(ex);
         } finally {

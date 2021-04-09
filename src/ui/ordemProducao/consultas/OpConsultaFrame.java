@@ -780,29 +780,23 @@ public class OpConsultaFrame extends javax.swing.JInternalFrame {
             loading.setVisible(true);
             loading.setText("CARREGANDO...");
 
+            switch (CLASSE_PAI) {
+                case 1:
+                case 2:
+                    modelInt.setNumRows(0);
+                    break;
+                case 3:
+                    modelExt.setNumRows(0);
+                    break;
+            }
+
             //INSTANCIA AS FUNÇÕES E VARIÁVEIS NECESSÁRIAS--------------------------
             String tipoPessoa = null;
-            DefaultTableModel modeloConsulta = (DefaultTableModel) tabelaConsulta.getModel();
-            modeloConsulta.setNumRows(0);
             int totalRegistros = 0;
             double totalPaginas = 0d;
             //FAZ A CONSULTA--------------------------------------------------------
             for (OrdemProducao op : OrdemProducaoDAO.consultaOpTodos(Integer.valueOf(paginaAtual.getSelectedItem().toString()))) {
-                if (op.getTipoPessoa() == 1) {
-                    tipoPessoa = "PESSOA FÍSICA";
-                } else {
-                    tipoPessoa = "PESSOA JURÍDICA";
-                }
-                modeloConsulta.addRow(new Object[]{
-                    op.getCodigo(),
-                    op.getOrcBase(),
-                    ProdutoDAO.retornaDescricaoProduto(op.getCodProduto(), op.getTipoProduto()),
-                    ClienteDAO.retornaNomeCliente(op.getCodCliente(), op.getTipoPessoa()),
-                    tipoPessoa,
-                    op.getDataEmissao(),
-                    op.getDataEntrega(),
-                    op.getStatus()
-                });
+                modelInt.addRow(op);
             }
             OrdemProducao.corTabela(tabelaConsulta, (byte) 2);
 
@@ -820,29 +814,23 @@ public class OpConsultaFrame extends javax.swing.JInternalFrame {
             loading.setVisible(true);
             loading.setText("CARREGANDO...");
 
+            switch (CLASSE_PAI) {
+                case 1:
+                case 2:
+                    modelInt.setNumRows(0);
+                    break;
+                case 3:
+                    modelExt.setNumRows(0);
+                    break;
+            }
+
             //INSTANCIA AS FUNÇÕES E VARIÁVEIS NECESSÁRIAS--------------------------
             String tipoPessoa = null;
-            DefaultTableModel modeloConsulta = (DefaultTableModel) tabelaConsulta.getModel();
-            modeloConsulta.setNumRows(0);
             int totalRegistros = 0;
             double totalPaginas = 0d;
             //FAZ A CONSULTA--------------------------------------------------------
             for (OrdemProducao op : OrdemProducaoDAO.consultaOpTodos(1)) {
-                if (op.getTipoPessoa() == 1) {
-                    tipoPessoa = "PESSOA FÍSICA";
-                } else {
-                    tipoPessoa = "PESSOA JURÍDICA";
-                }
-                modeloConsulta.addRow(new Object[]{
-                    op.getCodigo(),
-                    op.getOrcBase(),
-                    ProdutoDAO.retornaDescricaoProduto(op.getCodProduto(), op.getTipoProduto()),
-                    ClienteDAO.retornaNomeCliente(op.getCodCliente(), op.getTipoPessoa()),
-                    tipoPessoa,
-                    op.getDataEmissao(),
-                    op.getDataEntrega(),
-                    op.getStatus()
-                });
+                modelInt.addRow(op);
             }
             //CALCULA O NUMERO DE PÁGINAS-------------------------------------------
             totalRegistros = OrdemProducaoDAO.retornaUltimoRegistro();
@@ -882,15 +870,15 @@ public class OpConsultaFrame extends javax.swing.JInternalFrame {
             double totalPaginas = 0d;
 
             /*
-            @param p1
-            0 - SELECIONE...
-            1 - CÓDIGO
-            2 - ORÇAMENTO BASE
-            3 - PRODUTO
-            4 - CLIENTE
-            5 - DATA EMISSAO
-            6 - DATA ENTREGA
-            7 - STATUS
+             @param p1
+             0 - SELECIONE...
+             1 - CÓDIGO
+             2 - ORÇAMENTO BASE
+             3 - PRODUTO
+             4 - CLIENTE
+             5 - DATA EMISSAO
+             6 - DATA ENTREGA
+             7 - STATUS
              */
             switch (p1.getSelectedIndex()) {
                 case 0:
@@ -954,8 +942,8 @@ public class OpConsultaFrame extends javax.swing.JInternalFrame {
                     for (OrdemProducao op : OrdemProducaoDAO.consultaOp((byte) 4,
                             p2.getSelectedItem().toString(),
                             p2.getSelectedItem().toString().contains("NÚMEROS")
-                            ? p3Formatado.getText().toUpperCase()
-                            : p3Texto.getText().toUpperCase(),
+                                    ? p3Formatado.getText().toUpperCase()
+                                    : p3Texto.getText().toUpperCase(),
                             null)) {
                         switch (CLASSE_PAI) {
                             case 1:
@@ -1022,10 +1010,17 @@ public class OpConsultaFrame extends javax.swing.JInternalFrame {
                     break;
             }
 
-            OrdemProducao.corTabela(tabelaConsulta, (byte) 3);
+            switch(CLASSE_PAI){
+                case 1:
+                case 2:
+                    OrdemProducao.corTabela(tabelaConsulta, (byte) 2);
+                    break;
+                case 3:
+                    OrdemProducao.corTabela(tabelaConsulta, (byte) 3);
+                    break;
+            }
             paginaAtual.removeAllItems();
             paginaTotal.setText("");
-
             loading.setVisible(false);
 
         } catch (SQLException ex) {

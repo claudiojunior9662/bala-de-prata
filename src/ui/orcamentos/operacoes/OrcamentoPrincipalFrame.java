@@ -178,6 +178,8 @@ public class OrcamentoPrincipalFrame extends javax.swing.JInternalFrame {
                 tabelaConsulta.setModel(modelExt);
                 break;
         }
+        
+        tabsInformacoes.setEnabledAt(2, false);
     }
 
     /**
@@ -623,9 +625,9 @@ public class OrcamentoPrincipalFrame extends javax.swing.JInternalFrame {
         );
         jPanel14Layout.setVerticalGroup(
             jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 191, Short.MAX_VALUE)
+            .addGap(0, 194, Short.MAX_VALUE)
             .addGroup(jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addComponent(JSPImpressao, javax.swing.GroupLayout.DEFAULT_SIZE, 191, Short.MAX_VALUE))
+                .addComponent(JSPImpressao, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 194, Short.MAX_VALUE))
         );
 
         tabsInformacoes.addTab("IMPRESSÃO", jPanel14);
@@ -3884,8 +3886,8 @@ public class OrcamentoPrincipalFrame extends javax.swing.JInternalFrame {
                 /**
                  * desativa as abas que não são utilizadas
                  */
-                tabsInformacoes.setEnabledAt(2, false);
                 tabsInformacoes.setEnabledAt(3, false);
+                tabsInformacoes.setEnabledAt(4, false);
 
                 /**
                  * carrega as informações do produto
@@ -3943,8 +3945,8 @@ public class OrcamentoPrincipalFrame extends javax.swing.JInternalFrame {
                 /**
                  * ativa as abas que serão utilizadas
                  */
-                tabsInformacoes.setEnabledAt(2, true);
                 tabsInformacoes.setEnabledAt(3, true);
+                tabsInformacoes.setEnabledAt(4, true);
 
                 /**
                  * define o tipo de produto string-byte
