@@ -27,7 +27,9 @@ import org.apache.hc.client5.http.impl.classic.CloseableHttpClient;
 import org.apache.hc.client5.http.impl.classic.CloseableHttpResponse;
 import org.apache.hc.client5.http.impl.classic.HttpClients;
 import org.apache.hc.client5.http.impl.routing.DefaultProxyRoutePlanner;
+import org.apache.hc.core5.http.HttpEntity;
 import org.apache.hc.core5.http.HttpHost;
+import org.apache.hc.core5.http.HttpResponse;
 import org.apache.hc.core5.http.NameValuePair;
 import org.apache.hc.core5.http.ParseException;
 import org.apache.hc.core5.http.impl.io.DefaultBHttpClientConnection;
@@ -162,9 +164,8 @@ public class IntegracaoLojaIntegrada {
 //        Authenticator.setDefault(auth);
         
         HttpHost proxy = new HttpHost("10.166.128.179");
+        HttpClient httpClient = HttpClients.createDefault();
         HttpPost post = new HttpPost("https://api.awsli.com.br/v1/produto");
-        DefaultProxyRoutePlanner defaultProxyRoutePlanner = new DefaultProxyRoutePlanner(proxy);
-        HttpClient httpClient = HttpClients.custom().setRoutePlanner(defaultProxyRoutePlanner).build();
         List<NameValuePair> parametrosUrl = new ArrayList<>();
         
         parametrosUrl.add(new BasicNameValuePair("id_externo", null));
@@ -186,8 +187,9 @@ public class IntegracaoLojaIntegrada {
         
         post.setEntity(new UrlEncodedFormEntity(parametrosUrl));
         
-        CloseableHttpResponse response = (CloseableHttpResponse) httpClient.execute(post);
-        System.out.println(EntityUtils.toString(response.getEntity()));
+        HttpResponse httpResponse = httpClient.execute(post);
+        
+        System.out.println(httpResponse.getCode());
     }
         
 }
