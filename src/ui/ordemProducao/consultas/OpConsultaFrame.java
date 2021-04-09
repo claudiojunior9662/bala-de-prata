@@ -429,35 +429,17 @@ public class OpConsultaFrame extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_botaoGerarPdfActionPerformed
 
     private void tabelaConsultaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tabelaConsultaMouseClicked
-        switch (CLASSE_PAI) {
-            case 2:
-                switch (tabelaConsulta.getValueAt(tabelaConsulta.getSelectedRow(), 7).toString()) {
-                    case "ENTREGUE":
-                    case "CANCELADA":
-                        faturar.setEnabled(false);
-                        botaoCancelarOp.setEnabled(false);
-                        break;
-                    default:
-                        faturar.setEnabled(SEL_NOTA);
-                        if (TelaAutenticacao.getUsrLogado().getAcessoOrcAdm() == 1) {
-                            botaoCancelarOp.setEnabled(true);
-                        }
-                        break;
-                }
+        switch (tabelaConsulta.getValueAt(tabelaConsulta.getSelectedRow(), 6).toString()) {
+            case "ENTREGUE":
+            case "CANCELADA":
+            case "ENTREGUE PARCIALMENTE":
+                faturar.setEnabled(false);
+                botaoCancelarOp.setEnabled(false);
                 break;
-            case 3:
-                switch (tabelaConsulta.getValueAt(tabelaConsulta.getSelectedRow(), 4).toString()) {
-                    case "ENTREGUE":
-                    case "CANCELADA":
-                        faturar.setEnabled(false);
-                        botaoCancelarOp.setEnabled(false);
-                        break;
-                    default:
-                        faturar.setEnabled(SEL_NOTA);
-                        if (TelaAutenticacao.getUsrLogado().getAcessoOrcAdm() == 1) {
-                            botaoCancelarOp.setEnabled(true);
-                        }
-                        break;
+            default:
+                faturar.setEnabled(SEL_NOTA);
+                if (TelaAutenticacao.getUsrLogado().getAcessoOrcAdm() == 1) {
+                    botaoCancelarOp.setEnabled(true);
                 }
                 break;
         }
@@ -1010,7 +992,7 @@ public class OpConsultaFrame extends javax.swing.JInternalFrame {
                     break;
             }
 
-            switch(CLASSE_PAI){
+            switch (CLASSE_PAI) {
                 case 1:
                 case 2:
                     OrdemProducao.corTabela(tabelaConsulta, (byte) 2);
