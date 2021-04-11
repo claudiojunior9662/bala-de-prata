@@ -1757,7 +1757,7 @@
                           <Group type="102" attributes="0">
                               <Component id="naoAprovadoCliente" linkSize="8" min="-2" max="-2" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
-                              <Component id="enviarEmailAnexo" pref="225" max="32767" attributes="0"/>
+                              <Component id="enviarEmailAnexo" pref="252" max="32767" attributes="0"/>
                           </Group>
                       </Group>
                     </DimensionLayout>
@@ -1768,7 +1768,7 @@
                                   <Component id="naoAprovadoCliente" linkSize="15" alignment="3" min="-2" max="-2" attributes="0"/>
                                   <Component id="enviarEmailAnexo" linkSize="15" alignment="3" min="-2" max="-2" attributes="0"/>
                               </Group>
-                              <EmptySpace pref="12" max="32767" attributes="0"/>
+                              <EmptySpace pref="15" max="32767" attributes="0"/>
                               <Component id="excluir" linkSize="15" min="-2" max="-2" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
                               <Component id="editar" linkSize="15" min="-2" max="-2" attributes="0"/>
@@ -1862,7 +1862,7 @@
                               <Component id="enviarProducao" min="-2" max="-2" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
                               <Component id="enviarExpedicao" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace min="0" pref="44" max="32767" attributes="0"/>
+                              <EmptySpace min="0" pref="46" max="32767" attributes="0"/>
                           </Group>
                       </Group>
                     </DimensionLayout>
@@ -1933,7 +1933,7 @@
                     <DimensionLayout dim="1">
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Group type="102" alignment="1" attributes="0">
-                              <EmptySpace min="0" pref="12" max="32767" attributes="0"/>
+                              <EmptySpace min="0" pref="16" max="32767" attributes="0"/>
                               <Group type="103" groupAlignment="3" attributes="0">
                                   <Component id="rdOdGrafica" linkSize="19" alignment="3" min="-2" max="-2" attributes="0"/>
                                   <Component id="rdOdCliente" linkSize="19" alignment="3" min="-2" max="-2" attributes="0"/>

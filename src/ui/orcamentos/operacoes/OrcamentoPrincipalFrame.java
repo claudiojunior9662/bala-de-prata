@@ -105,7 +105,7 @@ public class OrcamentoPrincipalFrame extends javax.swing.JInternalFrame {
     private static JLabel loading;
     private static GerenteJanelas gj;
     /**
-     * @param CLASSE_PAI 2 - OD GRÁFICA, 3 - OD CLIENTE
+     * @param CLASSE_PAI 1- ORÇAMENTO GRÁFICA, 2 - OD GRÁFICA, 3 - OD CLIENTE
      */
     private static byte CLASSE_PAI;
     /**
@@ -2163,6 +2163,7 @@ public class OrcamentoPrincipalFrame extends javax.swing.JInternalFrame {
     private void gerarPdfActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_gerarPdfActionPerformed
         if (tipoPdf.getSelectedItem().equals("SIMPLES")) {
             switch(CLASSE_PAI){
+                case 1:
                 case 2:
                     Orcamento.geraPdf((int) tabelaConsulta.getValueAt(tabelaConsulta.getSelectedRow(), 0),
                     true,
@@ -2182,6 +2183,7 @@ public class OrcamentoPrincipalFrame extends javax.swing.JInternalFrame {
             }
         } else {
             switch(CLASSE_PAI){
+                case 1:
                 case 2:
                     Orcamento.geraPdf((int) tabelaConsulta.getValueAt(tabelaConsulta.getSelectedRow(), 0),
                     true,
