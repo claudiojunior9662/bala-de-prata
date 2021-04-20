@@ -5,6 +5,7 @@
  */
 package connection;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import exception.EnvioExcecao;
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -15,10 +16,14 @@ import java.net.InetSocketAddress;
 import java.net.MalformedURLException;
 import java.net.PasswordAuthentication;
 import java.net.Proxy;
+import java.net.URI;
 import java.net.URL;
+import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
+import java.util.HashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import org.apache.hc.core5.http.ParseException;
 import org.json.JSONException;
 import org.json.JSONObject;
 import ui.controle.Controle;
@@ -39,10 +44,10 @@ public class IntegracaoLojaIntegrada {
 
     public static void main(String[] args) {
         try {
-            realizaRequisicaoPOST("categoria");
+            realizaRequisicaoPOST("teste");
         } catch (IOException ex) {
             Logger.getLogger(IntegracaoLojaIntegrada.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (ParseException ex) {
+        } catch (InterruptedException ex) {
             Logger.getLogger(IntegracaoLojaIntegrada.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
@@ -123,21 +128,32 @@ public class IntegracaoLojaIntegrada {
         }
     }
 
-    public static void realizaRequisicaoPOST(String requisicao) throws IOException, ParseException {
-//        String queryURL = LINK_API 
-//                + SEPARADOR 
-//                + VERSAO_API 
-//                + SEPARADOR 
-//                + requisicao 
-//                + SEPARADOR 
-//                + "?format="
-//                + FORMATO_SAIDA
-//                + "&chave_api="
-//                + CHAVE_API
-//                + "&chave_aplicacao="
-//                + CHAVE_APLICACAO;
-
+    public static void realizaRequisicaoPOST(String requisicao) throws IOException, InterruptedException {
+                
+        HashMap values = new HashMap<String, String>(){{
+            put("id_externo", null);
+            put("nome", "Teste Integracao API");
+            put("descricao", "Canecas.");
+            put("categoria_pai", null);
+        }};
         
+        ObjectMapper objectMapper = new ObjectMapper();
+        String requestBody = objectMapper.writeValueAsString(values);
+        
+        HttpClient client = HttpClient.newHttpClient();
+        HttpRequest request = HttpRequest.newBuilder()
+                .uri(URI.create("https://api.awsli.com.br/v1/categoria/?" 
+                        + FORMATO_SAIDA
+                        + "&" 
+                        + "chave_api=" 
+                        + CHAVE_API
+                        + "&"
+                        + "chave_aplicacao=" 
+                        + CHAVE_APLICACAO))
+                .POST(HttpRequest.BodyPublishers.ofString(requestBody))
+                .build();
+        HttpResponse<String> response = client.send(request, 
+                HttpResponse.BodyHandlers.ofString());
     }
-
+        
 }
