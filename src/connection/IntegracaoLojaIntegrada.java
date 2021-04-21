@@ -45,9 +45,7 @@ public class IntegracaoLojaIntegrada {
     public static void main(String[] args) {
         try {
             realizaRequisicaoPOST("teste");
-        } catch (IOException ex) {
-            Logger.getLogger(IntegracaoLojaIntegrada.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (InterruptedException ex) {
+        } catch (IOException | InterruptedException ex) {
             Logger.getLogger(IntegracaoLojaIntegrada.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
