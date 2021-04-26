@@ -5,8 +5,8 @@
  */
 package ui.principal;
 
-import entidades.AlteraData;
-import entidades.Orcamento;
+import entities.sisgrafex.AlteraData;
+import entities.sisgrafex.Orcamento;
 import exception.EnvioExcecao;
 import java.awt.Dimension;
 import java.awt.Graphics;

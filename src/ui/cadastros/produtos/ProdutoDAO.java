@@ -7,7 +7,7 @@ package ui.cadastros.produtos;
 
 import ui.cadastros.papeis.PapelBEAN;
 import connection.ConnectionFactory;
-import entidades.Produto;
+import entities.sisgrafex.Produto;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -15,7 +15,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import entidades.ProdOrcamento;
+import entities.sisgrafex.ProdOrcamento;
 
 /**
  *

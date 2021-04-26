@@ -7,7 +7,7 @@ package ui.controle;
 
 import com.itextpdf.text.BaseColor;
 import connection.ConnectionFactory;
-import entidades.StsOrcamento;
+import entities.sisgrafex.StsOrcamento;
 import exception.EnvioExcecao;
 import java.awt.Color;
 import java.sql.Connection;

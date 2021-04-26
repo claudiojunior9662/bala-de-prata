@@ -6,7 +6,7 @@
 package ui.cadastros.papeis;
 
 import javax.swing.table.DefaultTableModel;
-import entidades.Papel;
+import entities.sisgrafex.Papel;
 import exception.EnvioExcecao;
 import java.sql.SQLException;
 import javax.swing.JOptionPane;
@@ -485,7 +485,7 @@ public class PapelCadastro extends javax.swing.JFrame {
                 ProdutoFrame.coresFrente.setEnabled(true);
                 ProdutoFrame.coresVerso.setEnabled(true);
                 ProdutoFrame.concluirPapel.setEnabled(true);
-                if (ProdutoFrame.tipoProduto.toString().equals("LIVRO") && ProdutoFrame.inserir == true) {
+                if (ProdutoFrame.jcbTipoProduto.toString().equals("LIVRO") && ProdutoFrame.inserir == true) {
                     ProdutoFrame.orelha.setEnabled(true);
                 }
             }

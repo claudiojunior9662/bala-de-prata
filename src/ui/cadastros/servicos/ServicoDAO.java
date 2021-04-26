@@ -6,7 +6,7 @@
 package ui.cadastros.servicos;
 
 import connection.ConnectionFactory;
-import entidades.Servicos;
+import entities.sisgrafex.Servicos;
 import exception.ErroPesquisa;
 import java.sql.Connection;
 import java.sql.PreparedStatement;

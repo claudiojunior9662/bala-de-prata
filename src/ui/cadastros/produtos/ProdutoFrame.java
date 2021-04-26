@@ -12,6 +12,8 @@ import javax.swing.table.DefaultTableModel;
 import ui.cadastros.papeis.PapelCadastro;
 import java.sql.SQLException;
 import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import ui.cadastros.acabamentos.AcabamentoDAO;
@@ -84,46 +86,69 @@ public class ProdutoFrame extends javax.swing.JInternalFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        tipoIntProduto = new javax.swing.ButtonGroup();
+        paiFilho = new javax.swing.ButtonGroup();
         tabPane = new javax.swing.JTabbedPane();
         jPanel2 = new javax.swing.JPanel();
-        descricaoProduto = new javax.swing.JTextField();
+        jftfDescricaoProduto = new javax.swing.JTextField();
         salvar = new javax.swing.JButton();
-        jPanel1 = new javax.swing.JPanel();
-        jScrollPane2 = new javax.swing.JScrollPane();
-        tabelaPapel = new javax.swing.JTable();
-        tipoPapel = new javax.swing.JComboBox<>();
-        coresFrente = new com.toedter.components.JSpinField();
-        coresVerso = new com.toedter.components.JSpinField();
-        concluirPapel = new javax.swing.JButton();
-        codigoPapel = new javax.swing.JFormattedTextField();
-        orelha = new javax.swing.JFormattedTextField();
-        inserirPapel = new javax.swing.JButton();
-        retirarPapel = new javax.swing.JButton();
         jftfLarguraProduto = new javax.swing.JFormattedTextField();
         jftfAlturaProduto = new javax.swing.JFormattedTextField();
-        quantidadeFolhas = new com.toedter.components.JSpinField();
-        jPanel4 = new javax.swing.JPanel();
-        jScrollPane3 = new javax.swing.JScrollPane();
-        tabelaAcabamentos = new javax.swing.JTable();
-        pesquisar_acabamentos = new javax.swing.JButton();
-        retirarAcabamento = new javax.swing.JButton();
-        tipoProduto = new javax.swing.JComboBox<>();
+        jsfQtdFolhasProduto = new com.toedter.components.JSpinField();
+        jcbTipoProduto = new javax.swing.JComboBox<>();
         jButton1 = new javax.swing.JButton();
         jPanel10 = new javax.swing.JPanel();
-        jRadioButton1 = new javax.swing.JRadioButton();
-        jRadioButton2 = new javax.swing.JRadioButton();
+        jrdParaProducao = new javax.swing.JRadioButton();
+        jrdParaPE = new javax.swing.JRadioButton();
+        jckbUtilizadoEcommerce = new javax.swing.JCheckBox();
+        jckbAtivo = new javax.swing.JCheckBox();
         jLabel8 = new javax.swing.JLabel();
         jLabel9 = new javax.swing.JLabel();
         jftfEspessuraProduto = new javax.swing.JFormattedTextField();
         jLabel10 = new javax.swing.JLabel();
         jLabel11 = new javax.swing.JLabel();
         jftfPesoProduto = new javax.swing.JFormattedTextField();
-        jPanel11 = new javax.swing.JPanel();
-        jftfVlrUnitPe1 = new javax.swing.JFormattedTextField();
-        jCheckBox1 = new javax.swing.JCheckBox();
-        jCheckBox2 = new javax.swing.JCheckBox();
-        jComboBox1 = new javax.swing.JComboBox<>();
-        jButton3 = new javax.swing.JButton();
+        jTabbedPane1 = new javax.swing.JTabbedPane();
+        jPanel12 = new javax.swing.JPanel();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        tabelaPapel = new javax.swing.JTable();
+        retirarPapel = new javax.swing.JButton();
+        inserirPapel = new javax.swing.JButton();
+        codigoPapel = new javax.swing.JFormattedTextField();
+        tipoPapel = new javax.swing.JComboBox<>();
+        orelha = new javax.swing.JFormattedTextField();
+        coresFrente = new com.toedter.components.JSpinField();
+        coresVerso = new com.toedter.components.JSpinField();
+        concluirPapel = new javax.swing.JButton();
+        jPanel13 = new javax.swing.JPanel();
+        retirarAcabamento = new javax.swing.JButton();
+        pesquisar_acabamentos = new javax.swing.JButton();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        tabelaAcabamentos = new javax.swing.JTable();
+        jPanel4 = new javax.swing.JPanel();
+        jdcInicioPromProduto = new com.toedter.calendar.JDateChooser();
+        jdcFimPromProduto = new com.toedter.calendar.JDateChooser();
+        jftfVlrUnitProduto = new javax.swing.JFormattedTextField();
+        jckbPromProduto = new javax.swing.JCheckBox();
+        jftfVlrPromProduto = new javax.swing.JFormattedTextField();
+        jckbProdPreVenda = new javax.swing.JCheckBox();
+        jPanel14 = new javax.swing.JPanel();
+        jftfEstoqueFisicoProduto = new javax.swing.JFormattedTextField();
+        jLabel3 = new javax.swing.JLabel();
+        jckbAvisoEstoqueProduto = new javax.swing.JCheckBox();
+        jftfAvisoEstoqueProduto = new javax.swing.JFormattedTextField();
+        jLabel12 = new javax.swing.JLabel();
+        jPanel15 = new javax.swing.JPanel();
+        jftfQtdMinProduto = new javax.swing.JFormattedTextField();
+        jckbQtdMaxProduto = new javax.swing.JCheckBox();
+        jftfQtdMaxProduto = new javax.swing.JFormattedTextField();
+        jPanel16 = new javax.swing.JPanel();
+        jrdProdutoPai = new javax.swing.JRadioButton();
+        jrdProdutoFilho = new javax.swing.JRadioButton();
+        jbtnAdicionarPai = new javax.swing.JButton();
+        jScrollPane5 = new javax.swing.JScrollPane();
+        jtblFilhos = new javax.swing.JTable();
+        lblMov = new javax.swing.JLabel();
         jPanel3 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tabelaConsulta = new javax.swing.JTable();
@@ -134,40 +159,6 @@ public class ProdutoFrame extends javax.swing.JInternalFrame {
         botaoSelecionar = new javax.swing.JButton();
         botaoEditar = new javax.swing.JButton();
         botaoClonar = new javax.swing.JButton();
-        jPanel5 = new javax.swing.JPanel();
-        jtfDescricaoPe = new javax.swing.JTextField();
-        btnSalvarPe = new javax.swing.JButton();
-        jcbTipoPe = new javax.swing.JComboBox<>();
-        jckbDispVendas = new javax.swing.JCheckBox();
-        btnLimparPe = new javax.swing.JButton();
-        jftfLarguraPe = new javax.swing.JFormattedTextField();
-        jftfAlturaPe = new javax.swing.JFormattedTextField();
-        jsfQtdFolhasPe = new com.toedter.components.JSpinField();
-        jPanel7 = new javax.swing.JPanel();
-        jftfEstoqueFisico = new javax.swing.JFormattedTextField();
-        jLabel1 = new javax.swing.JLabel();
-        jckbAvisoEstoque = new javax.swing.JCheckBox();
-        jftfAvisoEstoque = new javax.swing.JFormattedTextField();
-        jLabel2 = new javax.swing.JLabel();
-        lblMov = new javax.swing.JLabel();
-        jftfEspessuraPe = new javax.swing.JFormattedTextField();
-        jLabel4 = new javax.swing.JLabel();
-        jLabel5 = new javax.swing.JLabel();
-        jLabel6 = new javax.swing.JLabel();
-        jPanel8 = new javax.swing.JPanel();
-        jftfVlrUnitPe = new javax.swing.JFormattedTextField();
-        jckbProm = new javax.swing.JCheckBox();
-        jftfVlrProm = new javax.swing.JFormattedTextField();
-        jckbProdPreVenda = new javax.swing.JCheckBox();
-        jdcInicioProm = new com.toedter.calendar.JDateChooser();
-        jdcFimProm = new com.toedter.calendar.JDateChooser();
-        jPanel9 = new javax.swing.JPanel();
-        jftfQtdMin = new javax.swing.JFormattedTextField();
-        jftfQtdMax = new javax.swing.JFormattedTextField();
-        jckbQtdMax = new javax.swing.JCheckBox();
-        jLabel7 = new javax.swing.JLabel();
-        jftfPesoPe = new javax.swing.JFormattedTextField();
-        jButton2 = new javax.swing.JButton();
         jPanel6 = new javax.swing.JPanel();
         textoPesqPe = new javax.swing.JTextField();
         btnPesqPe = new javax.swing.JButton();
@@ -185,10 +176,10 @@ public class ProdutoFrame extends javax.swing.JInternalFrame {
 
         jPanel2.setPreferredSize(new java.awt.Dimension(798, 450));
 
-        descricaoProduto.setBorder(javax.swing.BorderFactory.createTitledBorder("DESCRIÇÃO (MÁXIMO 150 CARACTERES)"));
-        descricaoProduto.addKeyListener(new java.awt.event.KeyAdapter() {
+        jftfDescricaoProduto.setBorder(javax.swing.BorderFactory.createTitledBorder("DESCRIÇÃO (MÁXIMO 150 CARACTERES)"));
+        jftfDescricaoProduto.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
-                descricaoProdutoKeyPressed(evt);
+                jftfDescricaoProdutoKeyPressed(evt);
             }
         });
 
@@ -200,7 +191,117 @@ public class ProdutoFrame extends javax.swing.JInternalFrame {
             }
         });
 
-        jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED), "PAPEL", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Arial", 1, 12))); // NOI18N
+        jftfLarguraProduto.setBorder(javax.swing.BorderFactory.createTitledBorder("LARGURA"));
+        jftfLarguraProduto.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#0.00"))));
+
+        jftfAlturaProduto.setBorder(javax.swing.BorderFactory.createTitledBorder("ALTURA"));
+        jftfAlturaProduto.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#0.00"))));
+        jftfAlturaProduto.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jftfAlturaProdutoActionPerformed(evt);
+            }
+        });
+
+        jsfQtdFolhasProduto.setBorder(javax.swing.BorderFactory.createTitledBorder("QTD FOLHAS"));
+        jsfQtdFolhasProduto.setValue(1);
+
+        jcbTipoProduto.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "SELECIONE...", "FOLHA", "BLOCO", "LIVRO" }));
+        jcbTipoProduto.setBorder(javax.swing.BorderFactory.createTitledBorder("TIPO"));
+        jcbTipoProduto.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                jcbTipoProdutoItemStateChanged(evt);
+            }
+        });
+
+        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icones/cancelar.png"))); // NOI18N
+        jButton1.setText("LIMPAR");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
+        jPanel10.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "TIPO DE PRODUTO", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 11))); // NOI18N
+
+        tipoIntProduto.add(jrdParaProducao);
+        jrdParaProducao.setText("PRODUÇÃO (PP)");
+
+        tipoIntProduto.add(jrdParaPE);
+        jrdParaPE.setText("PRONTA ENTREGA (PE)");
+
+        jckbUtilizadoEcommerce.setText("SERÁ UTILIZADO NO E-COMMERCE");
+
+        jckbAtivo.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jckbAtivo.setText("ATIVO");
+
+        javax.swing.GroupLayout jPanel10Layout = new javax.swing.GroupLayout(jPanel10);
+        jPanel10.setLayout(jPanel10Layout);
+        jPanel10Layout.setHorizontalGroup(
+            jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel10Layout.createSequentialGroup()
+                .addGap(282, 282, 282)
+                .addComponent(jckbUtilizadoEcommerce)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jckbAtivo)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanel10Layout.createSequentialGroup()
+                    .addGap(16, 16, 16)
+                    .addComponent(jrdParaProducao)
+                    .addContainerGap(732, Short.MAX_VALUE)))
+            .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanel10Layout.createSequentialGroup()
+                    .addGap(137, 137, 137)
+                    .addComponent(jrdParaPE)
+                    .addContainerGap(585, Short.MAX_VALUE)))
+        );
+        jPanel10Layout.setVerticalGroup(
+            jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel10Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jckbUtilizadoEcommerce)
+                    .addComponent(jckbAtivo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanel10Layout.createSequentialGroup()
+                    .addContainerGap()
+                    .addComponent(jrdParaProducao)
+                    .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+            .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel10Layout.createSequentialGroup()
+                    .addContainerGap(17, Short.MAX_VALUE)
+                    .addComponent(jrdParaPE)
+                    .addContainerGap()))
+        );
+
+        jLabel8.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icones/largura.png"))); // NOI18N
+
+        jLabel9.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icones/altura.png"))); // NOI18N
+
+        jftfEspessuraProduto.setBorder(javax.swing.BorderFactory.createTitledBorder("ESPESSURA"));
+        jftfEspessuraProduto.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#0.00"))));
+        jftfEspessuraProduto.setToolTipText("EM CENTÍMETROS");
+        jftfEspessuraProduto.setValue(0);
+        jftfEspessuraProduto.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jftfEspessuraProdutoActionPerformed(evt);
+            }
+        });
+
+        jLabel10.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icones/espessura.png"))); // NOI18N
+
+        jLabel11.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icones/peso.png"))); // NOI18N
+
+        jftfPesoProduto.setBorder(javax.swing.BorderFactory.createTitledBorder("PESO"));
+        jftfPesoProduto.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#0.00"))));
+        jftfPesoProduto.setToolTipText("EM KILOGRAMAS");
+        jftfPesoProduto.setValue(0);
+        jftfPesoProduto.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jftfPesoProdutoActionPerformed(evt);
+            }
+        });
 
         tabelaPapel.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -232,11 +333,36 @@ public class ProdutoFrame extends javax.swing.JInternalFrame {
         });
         jScrollPane2.setViewportView(tabelaPapel);
 
+        retirarPapel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icones/remove.png"))); // NOI18N
+        retirarPapel.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                retirarPapelActionPerformed(evt);
+            }
+        });
+
+        inserirPapel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icones/incluir.png"))); // NOI18N
+        inserirPapel.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                inserirPapelActionPerformed(evt);
+            }
+        });
+
+        codigoPapel.setBorder(javax.swing.BorderFactory.createTitledBorder("CÓDIGO"));
+        codigoPapel.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#0"))));
+
         tipoPapel.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "SELECIONE...", "CAPA", "MIOLO", "FOLHA", "1ª VIA", "2ª VIA", "3ª VIA" }));
         tipoPapel.setBorder(javax.swing.BorderFactory.createTitledBorder("TIPO"));
         tipoPapel.addItemListener(new java.awt.event.ItemListener() {
             public void itemStateChanged(java.awt.event.ItemEvent evt) {
                 tipoPapelItemStateChanged(evt);
+            }
+        });
+
+        orelha.setBorder(javax.swing.BorderFactory.createTitledBorder("ORELHA (CM)"));
+        orelha.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#0.00"))));
+        orelha.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                orelhaActionPerformed(evt);
             }
         });
 
@@ -252,43 +378,18 @@ public class ProdutoFrame extends javax.swing.JInternalFrame {
             }
         });
 
-        codigoPapel.setBorder(javax.swing.BorderFactory.createTitledBorder("CÓDIGO"));
-        codigoPapel.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#0"))));
-
-        orelha.setBorder(javax.swing.BorderFactory.createTitledBorder("ORELHA (CM)"));
-        orelha.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#0.00"))));
-        orelha.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                orelhaActionPerformed(evt);
-            }
-        });
-
-        inserirPapel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icones/incluir.png"))); // NOI18N
-        inserirPapel.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                inserirPapelActionPerformed(evt);
-            }
-        });
-
-        retirarPapel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icones/remove.png"))); // NOI18N
-        retirarPapel.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                retirarPapelActionPerformed(evt);
-            }
-        });
-
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
+        javax.swing.GroupLayout jPanel12Layout = new javax.swing.GroupLayout(jPanel12);
+        jPanel12.setLayout(jPanel12Layout);
+        jPanel12Layout.setHorizontalGroup(
+            jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel12Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                .addGroup(jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(retirarPapel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(inserirPapel, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(12, 12, 12)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGroup(jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel12Layout.createSequentialGroup()
                         .addComponent(codigoPapel, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(tipoPapel, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -300,52 +401,54 @@ public class ProdutoFrame extends javax.swing.JInternalFrame {
                         .addComponent(coresVerso, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(concluirPapel)
-                        .addContainerGap(139, Short.MAX_VALUE))
-                    .addComponent(jScrollPane2)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 126, Short.MAX_VALUE))
+                    .addComponent(jScrollPane2))
+                .addContainerGap())
         );
 
-        jPanel1Layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {inserirPapel, retirarPapel});
+        jPanel12Layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {inserirPapel, retirarPapel});
 
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+        jPanel12Layout.setVerticalGroup(
+            jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel12Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(concluirPapel)
-                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                         .addComponent(codigoPapel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(tipoPapel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(orelha, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(coresFrente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(coresVerso, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel12Layout.createSequentialGroup()
                         .addComponent(inserirPapel)
                         .addGap(6, 6, 6)
                         .addComponent(retirarPapel))
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 110, Short.MAX_VALUE))
                 .addContainerGap())
         );
 
-        jPanel1Layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {codigoPapel, tipoPapel});
+        jPanel12Layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {codigoPapel, tipoPapel});
 
-        jPanel1Layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {concluirPapel, coresVerso});
+        jPanel12Layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {concluirPapel, coresVerso});
 
-        jftfLarguraProduto.setBorder(javax.swing.BorderFactory.createTitledBorder("LARGURA"));
-        jftfLarguraProduto.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#0.00"))));
+        jTabbedPane1.addTab("PAPÉIS", jPanel12);
 
-        jftfAlturaProduto.setBorder(javax.swing.BorderFactory.createTitledBorder("ALTURA"));
-        jftfAlturaProduto.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#0.00"))));
-        jftfAlturaProduto.addActionListener(new java.awt.event.ActionListener() {
+        retirarAcabamento.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icones/remove.png"))); // NOI18N
+        retirarAcabamento.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jftfAlturaProdutoActionPerformed(evt);
+                retirarAcabamentoActionPerformed(evt);
             }
         });
 
-        quantidadeFolhas.setBorder(javax.swing.BorderFactory.createTitledBorder("QTD FOLHAS"));
-        quantidadeFolhas.setValue(1);
-
-        jPanel4.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED), "ACABAMENTOS", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Arial", 1, 12))); // NOI18N
+        pesquisar_acabamentos.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icones/incluir.png"))); // NOI18N
+        pesquisar_acabamentos.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                pesquisar_acabamentosActionPerformed(evt);
+            }
+        });
 
         tabelaAcabamentos.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -373,182 +476,271 @@ public class ProdutoFrame extends javax.swing.JInternalFrame {
             tabelaAcabamentos.getColumnModel().getColumn(1).setPreferredWidth(500);
         }
 
-        pesquisar_acabamentos.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icones/incluir.png"))); // NOI18N
-        pesquisar_acabamentos.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                pesquisar_acabamentosActionPerformed(evt);
+        javax.swing.GroupLayout jPanel13Layout = new javax.swing.GroupLayout(jPanel13);
+        jPanel13.setLayout(jPanel13Layout);
+        jPanel13Layout.setHorizontalGroup(
+            jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel13Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(pesquisar_acabamentos, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(retirarAcabamento, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jScrollPane3)
+                .addGap(7, 7, 7))
+        );
+
+        jPanel13Layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {pesquisar_acabamentos, retirarAcabamento});
+
+        jPanel13Layout.setVerticalGroup(
+            jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel13Layout.createSequentialGroup()
+                .addGap(11, 11, 11)
+                .addGroup(jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                    .addGroup(jPanel13Layout.createSequentialGroup()
+                        .addComponent(pesquisar_acabamentos)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(retirarAcabamento)
+                        .addGap(0, 90, Short.MAX_VALUE)))
+                .addContainerGap())
+        );
+
+        jTabbedPane1.addTab("ACABAMENTOS", jPanel13);
+
+        jdcInicioPromProduto.setBorder(javax.swing.BorderFactory.createTitledBorder("INÍCIO"));
+        jdcInicioPromProduto.setEnabled(false);
+
+        jdcFimPromProduto.setBorder(javax.swing.BorderFactory.createTitledBorder("FIM"));
+        jdcFimPromProduto.setEnabled(false);
+
+        jftfVlrUnitProduto.setBorder(javax.swing.BorderFactory.createTitledBorder("VALOR UNITÁRIO (R$)"));
+        jftfVlrUnitProduto.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#0.00"))));
+        jftfVlrUnitProduto.setValue(0);
+
+        jckbPromProduto.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                jckbPromProdutoItemStateChanged(evt);
             }
         });
 
-        retirarAcabamento.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icones/remove.png"))); // NOI18N
-        retirarAcabamento.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                retirarAcabamentoActionPerformed(evt);
-            }
-        });
+        jftfVlrPromProduto.setBorder(javax.swing.BorderFactory.createTitledBorder("VALOR PROMOCIONAL (R$)"));
+        jftfVlrPromProduto.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#0.00"))));
+        jftfVlrPromProduto.setEnabled(false);
+        jftfVlrPromProduto.setValue(0);
+
+        jckbProdPreVenda.setText("PRODUTO PARA PRÉ-VENDA?");
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
         jPanel4Layout.setHorizontalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
+            .addGroup(jPanel4Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(pesquisar_acabamentos, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(retirarAcabamento, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 801, Short.MAX_VALUE))
+                .addComponent(jckbProdPreVenda)
+                .addGap(18, 18, 18)
+                .addComponent(jftfVlrUnitProduto, javax.swing.GroupLayout.PREFERRED_SIZE, 154, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(jckbPromProduto)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jftfVlrPromProduto, javax.swing.GroupLayout.PREFERRED_SIZE, 176, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jdcInicioPromProduto, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jdcFimPromProduto, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
-
-        jPanel4Layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {pesquisar_acabamentos, retirarAcabamento});
-
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel4Layout.createSequentialGroup()
-                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addComponent(jScrollPane3, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel4Layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(pesquisar_acabamentos)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(retirarAcabamento)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap()
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jdcInicioPromProduto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jdcFimPromProduto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addComponent(jftfVlrUnitProduto, javax.swing.GroupLayout.DEFAULT_SIZE, 47, Short.MAX_VALUE)
+                        .addComponent(jftfVlrPromProduto, javax.swing.GroupLayout.DEFAULT_SIZE, 47, Short.MAX_VALUE)
+                        .addComponent(jckbProdPreVenda, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jckbPromProduto, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                .addContainerGap(122, Short.MAX_VALUE))
         );
 
-        tipoProduto.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "SELECIONE...", "FOLHA", "BLOCO", "LIVRO" }));
-        tipoProduto.setBorder(javax.swing.BorderFactory.createTitledBorder("TIPO"));
-        tipoProduto.addItemListener(new java.awt.event.ItemListener() {
+        jTabbedPane1.addTab("VALORES", jPanel4);
+
+        jftfEstoqueFisicoProduto.setBorder(javax.swing.BorderFactory.createTitledBorder("ESTOQUE FÍSICO"));
+        jftfEstoqueFisicoProduto.setValue(0);
+
+        jLabel3.setText("UNIDADES");
+
+        jckbAvisoEstoqueProduto.addItemListener(new java.awt.event.ItemListener() {
             public void itemStateChanged(java.awt.event.ItemEvent evt) {
-                tipoProdutoItemStateChanged(evt);
+                jckbAvisoEstoqueProdutoItemStateChanged(evt);
             }
         });
 
-        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icones/cancelar.png"))); // NOI18N
-        jButton1.setText("LIMPAR");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
-            }
-        });
+        jftfAvisoEstoqueProduto.setBorder(javax.swing.BorderFactory.createTitledBorder("AVISO DE ESTOQUE EM"));
+        jftfAvisoEstoqueProduto.setEnabled(false);
+        jftfAvisoEstoqueProduto.setValue(0);
 
-        jPanel10.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "TIPO DE PRODUTO", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 11))); // NOI18N
+        jLabel12.setText("UNIDADES");
 
-        jRadioButton1.setText("PARA PRONTA ENTREGA (PE)");
-
-        jRadioButton2.setText("PARA PRODUÇÃO (PP)");
-
-        javax.swing.GroupLayout jPanel10Layout = new javax.swing.GroupLayout(jPanel10);
-        jPanel10.setLayout(jPanel10Layout);
-        jPanel10Layout.setHorizontalGroup(
-            jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel10Layout.createSequentialGroup()
-                .addGap(154, 154, 154)
-                .addComponent(jRadioButton1)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(jPanel10Layout.createSequentialGroup()
-                    .addGap(16, 16, 16)
-                    .addComponent(jRadioButton2)
-                    .addContainerGap(732, Short.MAX_VALUE)))
+        javax.swing.GroupLayout jPanel14Layout = new javax.swing.GroupLayout(jPanel14);
+        jPanel14.setLayout(jPanel14Layout);
+        jPanel14Layout.setHorizontalGroup(
+            jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel14Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jftfEstoqueFisicoProduto, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel3)
+                .addGap(18, 18, 18)
+                .addComponent(jckbAvisoEstoqueProduto)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jftfAvisoEstoqueProduto, javax.swing.GroupLayout.PREFERRED_SIZE, 159, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel12)
+                .addContainerGap(378, Short.MAX_VALUE))
         );
-        jPanel10Layout.setVerticalGroup(
-            jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel10Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jRadioButton1)
+        jPanel14Layout.setVerticalGroup(
+            jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel14Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jftfEstoqueFisicoProduto, javax.swing.GroupLayout.DEFAULT_SIZE, 47, Short.MAX_VALUE)
+                    .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jckbAvisoEstoqueProduto, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jftfAvisoEstoqueProduto)
+                    .addComponent(jLabel12, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(122, Short.MAX_VALUE))
+        );
+
+        jTabbedPane1.addTab("ESTOQUE", jPanel14);
+
+        jftfQtdMinProduto.setBorder(javax.swing.BorderFactory.createTitledBorder("QUANTIDADE MÍNIMA"));
+        jftfQtdMinProduto.setValue(0);
+
+        jckbQtdMaxProduto.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                jckbQtdMaxProdutoItemStateChanged(evt);
+            }
+        });
+
+        jftfQtdMaxProduto.setBorder(javax.swing.BorderFactory.createTitledBorder("QUANTIDADE MÁXIMA"));
+        jftfQtdMaxProduto.setEnabled(false);
+        jftfQtdMaxProduto.setValue(0);
+
+        javax.swing.GroupLayout jPanel15Layout = new javax.swing.GroupLayout(jPanel15);
+        jPanel15.setLayout(jPanel15Layout);
+        jPanel15Layout.setHorizontalGroup(
+            jPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel15Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jftfQtdMinProduto, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(17, 17, 17)
+                .addComponent(jckbQtdMaxProduto)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jftfQtdMaxProduto, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        jPanel15Layout.setVerticalGroup(
+            jPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel15Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jftfQtdMaxProduto, javax.swing.GroupLayout.DEFAULT_SIZE, 47, Short.MAX_VALUE)
+                    .addComponent(jftfQtdMinProduto, javax.swing.GroupLayout.DEFAULT_SIZE, 47, Short.MAX_VALUE)
+                    .addComponent(jckbQtdMaxProduto, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(19, 122, Short.MAX_VALUE))
+        );
+
+        jTabbedPane1.addTab("PEDIDOS", jPanel15);
+
+        paiFilho.add(jrdProdutoPai);
+        jrdProdutoPai.setText("PRODUTO PAI");
+
+        paiFilho.add(jrdProdutoFilho);
+        jrdProdutoFilho.setText("PRODUTO FILHO");
+
+        jbtnAdicionarPai.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icones/incluir.png"))); // NOI18N
+        jbtnAdicionarPai.setText("ADICIONAR PAI");
+
+        jtblFilhos.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "CÓDIGO FILHO", "DESCRIÇÃO FILHO"
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.Integer.class, java.lang.String.class
+            };
+            boolean[] canEdit = new boolean [] {
+                false, false
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jtblFilhos.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jtblFilhosMouseClicked(evt);
+            }
+        });
+        jScrollPane5.setViewportView(jtblFilhos);
+
+        javax.swing.GroupLayout jPanel16Layout = new javax.swing.GroupLayout(jPanel16);
+        jPanel16.setLayout(jPanel16Layout);
+        jPanel16Layout.setHorizontalGroup(
+            jPanel16Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel16Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel16Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jrdProdutoPai)
+                    .addComponent(jrdProdutoFilho))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jbtnAdicionarPai)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane5, javax.swing.GroupLayout.DEFAULT_SIZE, 600, Short.MAX_VALUE)
                 .addContainerGap())
-            .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(jPanel10Layout.createSequentialGroup()
-                    .addContainerGap()
-                    .addComponent(jRadioButton2)
-                    .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
         );
-
-        jLabel8.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icones/largura.png"))); // NOI18N
-
-        jLabel9.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icones/altura.png"))); // NOI18N
-
-        jftfEspessuraProduto.setBorder(javax.swing.BorderFactory.createTitledBorder("ESPESSURA"));
-        jftfEspessuraProduto.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#0.00"))));
-        jftfEspessuraProduto.setToolTipText("EM CENTÍMETROS");
-        jftfEspessuraProduto.setValue(0);
-        jftfEspessuraProduto.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jftfEspessuraProdutoActionPerformed(evt);
-            }
-        });
-
-        jLabel10.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icones/espessura.png"))); // NOI18N
-
-        jLabel11.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icones/peso.png"))); // NOI18N
-
-        jftfPesoProduto.setBorder(javax.swing.BorderFactory.createTitledBorder("PESO"));
-        jftfPesoProduto.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#0.00"))));
-        jftfPesoProduto.setToolTipText("EM KILOGRAMAS");
-        jftfPesoProduto.setValue(0);
-        jftfPesoProduto.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jftfPesoProdutoActionPerformed(evt);
-            }
-        });
-
-        jPanel11.setBorder(javax.swing.BorderFactory.createTitledBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED), "ATRIBUTOS", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 11))); // NOI18N
-
-        jftfVlrUnitPe1.setBorder(javax.swing.BorderFactory.createTitledBorder("VALOR UNITÁRIO (R$)"));
-        jftfVlrUnitPe1.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#0.00"))));
-        jftfVlrUnitPe1.setValue(0);
-
-        jCheckBox1.setText("ATIVO");
-
-        jCheckBox2.setText("DESTAQUE");
-
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        jComboBox1.setBorder(javax.swing.BorderFactory.createTitledBorder("CATEGORIA"));
-
-        jButton3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icones/incluir.png"))); // NOI18N
-
-        javax.swing.GroupLayout jPanel11Layout = new javax.swing.GroupLayout(jPanel11);
-        jPanel11.setLayout(jPanel11Layout);
-        jPanel11Layout.setHorizontalGroup(
-            jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel11Layout.createSequentialGroup()
+        jPanel16Layout.setVerticalGroup(
+            jPanel16Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel16Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jCheckBox1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jCheckBox2)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 121, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jftfVlrUnitPe1, javax.swing.GroupLayout.PREFERRED_SIZE, 154, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-        jPanel11Layout.setVerticalGroup(
-            jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel11Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jCheckBox1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jCheckBox2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jComboBox1, javax.swing.GroupLayout.DEFAULT_SIZE, 42, Short.MAX_VALUE)
-                    .addComponent(jftfVlrUnitPe1, javax.swing.GroupLayout.DEFAULT_SIZE, 47, Short.MAX_VALUE)
-                    .addComponent(jButton3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap(13, Short.MAX_VALUE))
+                .addGroup(jPanel16Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel16Layout.createSequentialGroup()
+                        .addGroup(jPanel16Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jbtnAdicionarPai, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addGroup(jPanel16Layout.createSequentialGroup()
+                                .addComponent(jrdProdutoPai)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jrdProdutoFilho)))
+                        .addGap(123, 123, 123))
+                    .addGroup(jPanel16Layout.createSequentialGroup()
+                        .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                        .addContainerGap())))
         );
 
-        jPanel11Layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {jCheckBox1, jCheckBox2, jComboBox1, jftfVlrUnitPe1});
+        jTabbedPane1.addTab("PAI/FILHOS", jPanel16);
+
+        lblMov.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        lblMov.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(descricaoProduto)
+                    .addComponent(jftfDescricaoProduto)
                     .addComponent(jPanel10, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addComponent(jButton1)
@@ -571,10 +763,11 @@ public class ProdutoFrame extends javax.swing.JInternalFrame {
                         .addGap(9, 9, 9)
                         .addComponent(jftfPesoProduto, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(2, 2, 2)
-                        .addComponent(quantidadeFolhas, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jsfQtdFolhasProduto, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(tipoProduto, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addComponent(jPanel11, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addComponent(jcbTipoProduto, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jTabbedPane1)
+                    .addComponent(lblMov, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
 
@@ -588,11 +781,11 @@ public class ProdutoFrame extends javax.swing.JInternalFrame {
                         .addContainerGap()
                         .addComponent(jPanel10, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(descricaoProduto, javax.swing.GroupLayout.DEFAULT_SIZE, 50, Short.MAX_VALUE)
+                        .addComponent(jftfDescricaoProduto, javax.swing.GroupLayout.DEFAULT_SIZE, 50, Short.MAX_VALUE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(tipoProduto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(quantidadeFolhas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(jcbTipoProduto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jsfQtdFolhasProduto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGap(126, 126, 126)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -605,19 +798,17 @@ public class ProdutoFrame extends javax.swing.JInternalFrame {
                             .addComponent(jLabel11)
                             .addComponent(jftfPesoProduto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel11, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 28, Short.MAX_VALUE)
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(lblMov, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(salvar, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jButton1))
-                .addContainerGap())
+                .addContainerGap(121, Short.MAX_VALUE))
         );
 
-        jPanel2Layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {descricaoProduto, jLabel8, jLabel9, jftfAlturaProduto, jftfLarguraProduto, quantidadeFolhas, tipoProduto});
+        jPanel2Layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {jLabel8, jLabel9, jcbTipoProduto, jftfAlturaProduto, jftfDescricaoProduto, jftfLarguraProduto, jsfQtdFolhasProduto});
 
         jPanel2Layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {jButton1, salvar});
 
@@ -747,7 +938,7 @@ public class ProdutoFrame extends javax.swing.JInternalFrame {
                         .addComponent(botaoMostrarUltimos)
                         .addComponent(botaoPesquisar)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 528, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 480, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(botaoSelecionar)
@@ -759,349 +950,6 @@ public class ProdutoFrame extends javax.swing.JInternalFrame {
         jPanel3Layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {botaoMostrarUltimos, botaoPesquisar, textoPesquisa, tipoPesquisa});
 
         tabPane.addTab("PRODUÇÃO CONSULTAS", new javax.swing.ImageIcon(getClass().getResource("/icones/pesquisar.png")), jPanel3); // NOI18N
-
-        jtfDescricaoPe.setBorder(javax.swing.BorderFactory.createTitledBorder("DESCRIÇÃO (MÁXIMO 150 CARACTERES)"));
-        jtfDescricaoPe.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyPressed(java.awt.event.KeyEvent evt) {
-                jtfDescricaoPeKeyPressed(evt);
-            }
-        });
-
-        btnSalvarPe.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icones/gravar.png"))); // NOI18N
-        btnSalvarPe.setText("SALVAR");
-        btnSalvarPe.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnSalvarPeActionPerformed(evt);
-            }
-        });
-
-        jcbTipoPe.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "SELECIONE...", "FOLHA", "BLOCO", "LIVRO" }));
-        jcbTipoPe.setBorder(javax.swing.BorderFactory.createTitledBorder("TIPO"));
-        jcbTipoPe.addItemListener(new java.awt.event.ItemListener() {
-            public void itemStateChanged(java.awt.event.ItemEvent evt) {
-                jcbTipoPeItemStateChanged(evt);
-            }
-        });
-        jcbTipoPe.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jcbTipoPeActionPerformed(evt);
-            }
-        });
-
-        jckbDispVendas.setText("DISPONÍVEL NO @VENDAS");
-
-        btnLimparPe.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icones/cancelar.png"))); // NOI18N
-        btnLimparPe.setText("LIMPAR");
-        btnLimparPe.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnLimparPeActionPerformed(evt);
-            }
-        });
-
-        jftfLarguraPe.setBorder(javax.swing.BorderFactory.createTitledBorder("LARGURA"));
-        jftfLarguraPe.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#0.00"))));
-        jftfLarguraPe.setToolTipText("EM CENTÍMETROS");
-        jftfLarguraPe.setValue(0);
-
-        jftfAlturaPe.setBorder(javax.swing.BorderFactory.createTitledBorder("ALTURA"));
-        jftfAlturaPe.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#0.00"))));
-        jftfAlturaPe.setToolTipText("EM CENTÍMETROS");
-        jftfAlturaPe.setValue(0);
-        jftfAlturaPe.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jftfAlturaPeActionPerformed(evt);
-            }
-        });
-
-        jsfQtdFolhasPe.setBorder(javax.swing.BorderFactory.createTitledBorder("QTD FOLHAS"));
-        jsfQtdFolhasPe.setValue(1);
-
-        jPanel7.setBorder(javax.swing.BorderFactory.createTitledBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED), "CONTROLE DE ESTOQUE", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 11))); // NOI18N
-
-        jftfEstoqueFisico.setBorder(javax.swing.BorderFactory.createTitledBorder("ESTOQUE FÍSICO"));
-        jftfEstoqueFisico.setValue(0);
-
-        jLabel1.setText("UNIDADES");
-
-        jckbAvisoEstoque.addItemListener(new java.awt.event.ItemListener() {
-            public void itemStateChanged(java.awt.event.ItemEvent evt) {
-                jckbAvisoEstoqueItemStateChanged(evt);
-            }
-        });
-
-        jftfAvisoEstoque.setBorder(javax.swing.BorderFactory.createTitledBorder("AVISO DE ESTOQUE EM"));
-        jftfAvisoEstoque.setEnabled(false);
-        jftfAvisoEstoque.setValue(0);
-
-        jLabel2.setText("UNIDADES");
-
-        lblMov.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-
-        javax.swing.GroupLayout jPanel7Layout = new javax.swing.GroupLayout(jPanel7);
-        jPanel7.setLayout(jPanel7Layout);
-        jPanel7Layout.setHorizontalGroup(
-            jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel7Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(lblMov, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(jPanel7Layout.createSequentialGroup()
-                        .addComponent(jftfEstoqueFisico, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jLabel1)
-                        .addGap(18, 18, 18)
-                        .addComponent(jckbAvisoEstoque)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jftfAvisoEstoque, javax.swing.GroupLayout.PREFERRED_SIZE, 159, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jLabel2)
-                        .addGap(0, 0, Short.MAX_VALUE)))
-                .addContainerGap())
-        );
-        jPanel7Layout.setVerticalGroup(
-            jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel7Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jftfAvisoEstoque, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel2)
-                    .addComponent(jckbAvisoEstoque)
-                    .addComponent(jLabel1)
-                    .addComponent(jftfEstoqueFisico, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(lblMov, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-
-        jPanel7Layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {jLabel1, jLabel2, jckbAvisoEstoque, jftfAvisoEstoque, jftfEstoqueFisico});
-
-        jftfEspessuraPe.setBorder(javax.swing.BorderFactory.createTitledBorder("ESPESSURA"));
-        jftfEspessuraPe.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#0.00"))));
-        jftfEspessuraPe.setToolTipText("EM CENTÍMETROS");
-        jftfEspessuraPe.setValue(0);
-        jftfEspessuraPe.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jftfEspessuraPeActionPerformed(evt);
-            }
-        });
-
-        jLabel4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icones/largura.png"))); // NOI18N
-
-        jLabel5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icones/espessura.png"))); // NOI18N
-
-        jLabel6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icones/altura.png"))); // NOI18N
-
-        jPanel8.setBorder(javax.swing.BorderFactory.createTitledBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED), "CONTROLE DE VALORES", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 11))); // NOI18N
-
-        jftfVlrUnitPe.setBorder(javax.swing.BorderFactory.createTitledBorder("VALOR UNITÁRIO (R$)"));
-        jftfVlrUnitPe.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#0.00"))));
-        jftfVlrUnitPe.setValue(0);
-
-        jckbProm.addItemListener(new java.awt.event.ItemListener() {
-            public void itemStateChanged(java.awt.event.ItemEvent evt) {
-                jckbPromItemStateChanged(evt);
-            }
-        });
-
-        jftfVlrProm.setBorder(javax.swing.BorderFactory.createTitledBorder("VALOR PROMOCIONAL (R$)"));
-        jftfVlrProm.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#0.00"))));
-        jftfVlrProm.setEnabled(false);
-        jftfVlrProm.setValue(0);
-
-        jckbProdPreVenda.setText("PRODUTO PARA PRÉ-VENDA?");
-
-        jdcInicioProm.setBorder(javax.swing.BorderFactory.createTitledBorder("INÍCIO"));
-        jdcInicioProm.setEnabled(false);
-
-        jdcFimProm.setBorder(javax.swing.BorderFactory.createTitledBorder("FIM"));
-        jdcFimProm.setEnabled(false);
-
-        javax.swing.GroupLayout jPanel8Layout = new javax.swing.GroupLayout(jPanel8);
-        jPanel8.setLayout(jPanel8Layout);
-        jPanel8Layout.setHorizontalGroup(
-            jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel8Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jckbProdPreVenda)
-                .addGap(18, 18, 18)
-                .addComponent(jftfVlrUnitPe, javax.swing.GroupLayout.PREFERRED_SIZE, 154, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(jckbProm)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jftfVlrProm, javax.swing.GroupLayout.PREFERRED_SIZE, 176, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jdcInicioProm, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jdcFimProm, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-        jPanel8Layout.setVerticalGroup(
-            jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel8Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(jdcInicioProm, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jdcFimProm, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(jckbProdPreVenda)
-                        .addComponent(jftfVlrUnitPe, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jckbProm)
-                        .addComponent(jftfVlrProm, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(13, Short.MAX_VALUE))
-        );
-
-        jPanel8Layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {jckbProdPreVenda, jckbProm, jftfVlrUnitPe});
-
-        jPanel8Layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {jdcFimProm, jdcInicioProm, jftfVlrProm});
-
-        jPanel9.setBorder(javax.swing.BorderFactory.createTitledBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED), "CONTROLE DE PEDIDOS", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 11))); // NOI18N
-
-        jftfQtdMin.setBorder(javax.swing.BorderFactory.createTitledBorder("QUANTIDADE MÍNIMA"));
-        jftfQtdMin.setValue(0);
-
-        jftfQtdMax.setBorder(javax.swing.BorderFactory.createTitledBorder("QUANTIDADE MÁXIMA"));
-        jftfQtdMax.setEnabled(false);
-        jftfQtdMax.setValue(0);
-
-        jckbQtdMax.addItemListener(new java.awt.event.ItemListener() {
-            public void itemStateChanged(java.awt.event.ItemEvent evt) {
-                jckbQtdMaxItemStateChanged(evt);
-            }
-        });
-
-        javax.swing.GroupLayout jPanel9Layout = new javax.swing.GroupLayout(jPanel9);
-        jPanel9.setLayout(jPanel9Layout);
-        jPanel9Layout.setHorizontalGroup(
-            jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel9Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jftfQtdMin, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(17, 17, 17)
-                .addComponent(jckbQtdMax)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jftfQtdMax, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-        jPanel9Layout.setVerticalGroup(
-            jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel9Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jckbQtdMax)
-                    .addComponent(jftfQtdMax, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jftfQtdMin, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-
-        jPanel9Layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {jckbQtdMax, jftfQtdMax});
-
-        jLabel7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icones/peso.png"))); // NOI18N
-
-        jftfPesoPe.setBorder(javax.swing.BorderFactory.createTitledBorder("PESO"));
-        jftfPesoPe.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#0.00"))));
-        jftfPesoPe.setToolTipText("EM KILOGRAMAS");
-        jftfPesoPe.setValue(0);
-        jftfPesoPe.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jftfPesoPeActionPerformed(evt);
-            }
-        });
-
-        jButton2.setText("MAIS DETALHES");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
-            }
-        });
-
-        javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
-        jPanel5.setLayout(jPanel5Layout);
-        jPanel5Layout.setHorizontalGroup(
-            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel5Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPanel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jtfDescricaoPe, javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(jPanel5Layout.createSequentialGroup()
-                        .addComponent(btnLimparPe)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jckbDispVendas)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btnSalvarPe))
-                    .addGroup(jPanel5Layout.createSequentialGroup()
-                        .addComponent(jLabel4)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jftfLarguraPe, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(6, 6, 6)
-                        .addComponent(jLabel6)
-                        .addGap(2, 2, 2)
-                        .addComponent(jftfAlturaPe, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jLabel5)
-                        .addGap(4, 4, 4)
-                        .addComponent(jftfEspessuraPe, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jLabel7)
-                        .addGap(9, 9, 9)
-                        .addComponent(jftfPesoPe, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(16, 16, 16)
-                        .addComponent(jsfQtdFolhasPe, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jcbTipoPe, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addComponent(jPanel8, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jPanel9, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap())
-        );
-
-        jPanel5Layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {jftfAlturaPe, jftfEspessuraPe, jftfLarguraPe, jftfPesoPe});
-
-        jPanel5Layout.setVerticalGroup(
-            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel5Layout.createSequentialGroup()
-                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel5Layout.createSequentialGroup()
-                        .addGap(74, 74, 74)
-                        .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jsfQtdFolhasPe, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jcbTipoPe, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(jPanel5Layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jtfDescricaoPe, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel4)
-                            .addComponent(jftfLarguraPe, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel6)
-                            .addComponent(jftfAlturaPe, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel5)
-                            .addComponent(jftfEspessuraPe, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel7)
-                            .addComponent(jftfPesoPe, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jPanel8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jPanel7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jPanel9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnSalvarPe, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jckbDispVendas)
-                    .addComponent(btnLimparPe))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-
-        jPanel5Layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {jLabel4, jLabel5, jLabel6, jLabel7, jcbTipoPe, jftfAlturaPe, jftfEspessuraPe, jftfLarguraPe, jftfPesoPe, jsfQtdFolhasPe, jtfDescricaoPe});
-
-        jPanel5Layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {btnLimparPe, btnSalvarPe, jButton2, jckbDispVendas});
-
-        tabPane.addTab("PRONTA ENTREGA NOVO/EDITAR", new javax.swing.ImageIcon(getClass().getResource("/icones/incluir.png")), jPanel5); // NOI18N
 
         btnPesqPe.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icones/pesquisar.png"))); // NOI18N
         btnPesqPe.setText("PESQUISAR");
@@ -1243,7 +1091,7 @@ public class ProdutoFrame extends javax.swing.JInternalFrame {
                         .addComponent(btnPesqPe))
                     .addComponent(tipoPesqPe, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 530, Short.MAX_VALUE)
+                .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 486, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnSelPe)
@@ -1271,38 +1119,360 @@ public class ProdutoFrame extends javax.swing.JInternalFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void descricaoProdutoKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_descricaoProdutoKeyPressed
+    private void altEstoqueActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_altEstoqueActionPerformed
+        new Thread() {
+            @Override
+            public void run() {
+                estadoAlterarEstoque();
+                try {
+                    loading.setText("CARREGANDO...");
+                    loading.setVisible(true);
 
-    }//GEN-LAST:event_descricaoProdutoKeyPressed
+                    COD_PROD
+                    = Integer.valueOf(tblConsultaPe.getValueAt(tblConsultaPe.getSelectedRow(), 0).toString());
 
-    private void salvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_salvarActionPerformed
-        salvarProduto();
-    }//GEN-LAST:event_salvarActionPerformed
+                    /**
+                    * Carrega mais informações sobre o produto
+                    */
+                    ProdutoPrEntBEAN produto = ProdutoDAO.retornaPeEdicao(COD_PROD);
 
-    private void tabelaPapelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tabelaPapelMouseClicked
-        retirarPapel.setEnabled(true);
-    }//GEN-LAST:event_tabelaPapelMouseClicked
+                    /**
+                    * Preenche GUI
+                    */
+                    jftfDescricaoProduto.setText(produto.getDescricao());
+                    jftfLarguraProduto.setValue(produto.getLargura());
+                    jftfAlturaProduto.setValue(produto.getAltura());
+                    jftfEspessuraProduto.setValue(produto.getEspessura());
+                    jftfPesoProduto.setValue(produto.getPeso());
+                    jsfQtdFolhasProduto.setValue(produto.getQtdPaginas());
+                    jcbTipoProduto.setSelectedItem(produto.getTipo());
+                    jckbProdPreVenda.setSelected((produto.getPreVenda() == 1));
+                    jftfVlrUnitProduto.setValue(produto.getVlrUnit());
+                    if (produto.getPromocao() == 1) {
+                        jckbPromProduto.setSelected(produto.getPromocao() == 1);
+                        jftfVlrPromProduto.setValue(produto.getVlrPromocao());
+                        jdcInicioPromProduto.setDate(produto.getInicioPromocao());
+                        jdcFimPromProduto.setDate(produto.getFimPromocao());
+                    }
+                    jftfEstoqueFisicoProduto.setValue(produto.getEstoque());
+                    if (produto.getAvisoEstoque() == 1) {
+                        jckbAvisoEstoqueProduto.setSelected(produto.getAvisoEstoque() == 1);
+                        jftfAvisoEstoqueProduto.setValue(produto.getAvisoEstoqueUn());
+                    }
+                    jftfQtdMinProduto.setValue(produto.getPdQtdMin());
+                    if (produto.getPdMax() == 1) {
+                        jckbQtdMaxProduto.setSelected(produto.getPdMax() == 1);
+                        jftfQtdMaxProduto.setValue(produto.getPdQtdMax());
+                    }
 
-    private void tipoPapelItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_tipoPapelItemStateChanged
-        if (tipoPapel.getSelectedItem() != null) {
-            if (tipoProduto.getSelectedItem().toString().equals("LIVRO") && tipoPapel.getSelectedItem().toString().equals("CAPA") && inserir == true) {
-                orelha.setEnabled(true);
-            } else {
-                orelha.setEnabled(false);
+                    /**
+                    * Seleciona a aba 2
+                    */
+                    tabPane.setSelectedIndex(0);
+
+                    /**
+                    * Define a função como alterar estoque
+                    */
+                    FUNCAO = 3;
+                } catch (SQLException ex) {
+                    EnvioExcecao envioExcecao = new EnvioExcecao(Controle.getDefaultGj(), ex);
+                    EnvioExcecao.envio();
+                }
+                loading.setVisible(false);
             }
+        }.start();
+    }//GEN-LAST:event_altEstoqueActionPerformed
+
+    private void tblConsultaPeKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tblConsultaPeKeyTyped
+
+    }//GEN-LAST:event_tblConsultaPeKeyTyped
+
+    private void tblConsultaPeKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tblConsultaPeKeyReleased
+        new Thread() {
+            @Override
+            public void run() {
+                mouseClicked();
+            }
+        }.start();
+    }//GEN-LAST:event_tblConsultaPeKeyReleased
+
+    private void tblConsultaPeMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblConsultaPeMouseClicked
+        new Thread() {
+            @Override
+            public void run() {
+                mouseClicked();
+            }
+        }.start();
+    }//GEN-LAST:event_tblConsultaPeMouseClicked
+
+    private void btnClonarPeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnClonarPeActionPerformed
+        try {
+            loading.setVisible(true);
+            loading.setText("CARREGANDO...");
+
+            COD_PROD
+            = Integer.valueOf(tblConsultaPe.getValueAt(tblConsultaPe.getSelectedRow(), 0).toString());
+
+            //CARREGA OS DADOS DO BD--------------------------------------------
+            ProdutoPrEntBEAN produto = ProdutoDAO.retornaPeEdicao(COD_PROD);
+            //------------------------------------------------------------------
+
+            //PREENCHE OS CAMPOS------------------------------------------------
+            jftfDescricaoProduto.setText(produto.getDescricao());
+            jftfLarguraProduto.setValue(produto.getLargura());
+            jftfAlturaProduto.setValue(produto.getAltura());
+            jftfEspessuraProduto.setValue(produto.getEspessura());
+            jftfPesoProduto.setValue(produto.getPeso());
+            jsfQtdFolhasProduto.setValue(produto.getQtdPaginas());
+            jcbTipoProduto.setSelectedItem(produto.getTipo());
+            jckbProdPreVenda.setSelected((produto.getPreVenda() == 1));
+            jftfVlrUnitProduto.setValue(produto.getVlrUnit());
+            if (produto.getPromocao() == 1) {
+                jckbPromProduto.setSelected(produto.getPromocao() == 1);
+                jftfVlrPromProduto.setValue(produto.getVlrPromocao());
+                jdcInicioPromProduto.setDate(produto.getInicioPromocao());
+                jdcFimPromProduto.setDate(produto.getFimPromocao());
+            }
+            jftfEstoqueFisicoProduto.setValue(produto.getEstoque());
+            if (produto.getAvisoEstoque() == 1) {
+                jckbAvisoEstoqueProduto.setSelected(produto.getAvisoEstoque() == 1);
+                jftfAvisoEstoqueProduto.setValue(produto.getAvisoEstoqueUn());
+            }
+            jftfQtdMinProduto.setValue(produto.getPdQtdMin());
+            if (produto.getPdMax() == 1) {
+                jckbQtdMaxProduto.setSelected(produto.getPdMax() == 1);
+                jftfQtdMaxProduto.setValue(produto.getPdQtdMax());
+            }
+            //------------------------------------------------------------------
+
+            //SELECIONA A ABA NOVO/EDITAR---------------------------------------
+            //------------------------------------------------------------------
+        } catch (SQLException ex) {
+            EnvioExcecao envioExcecao = new EnvioExcecao(Controle.getDefaultGj(), ex);
+            EnvioExcecao.envio();
         }
-    }//GEN-LAST:event_tipoPapelItemStateChanged
+        tabPane.setSelectedIndex(2);
+        loading.setVisible(false);
+        FUNCAO = 2;
+    }//GEN-LAST:event_btnClonarPeActionPerformed
+
+    private void btnEditarPeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarPeActionPerformed
+        estadoInicialPe();
+        new Thread() {
+            @Override
+            public void run() {
+                try {
+                    loading.setText("CARREGANDO...");
+                    loading.setVisible(true);
+
+                    COD_PROD
+                    = Integer.valueOf(tblConsultaPe.getValueAt(tblConsultaPe.getSelectedRow(), 0).toString());
+
+                    //CARREGA OS DADOS DO BD------------------------------------
+                    ProdutoPrEntBEAN produto = ProdutoDAO.retornaPeEdicao(COD_PROD);
+                    //----------------------------------------------------------
+
+                    //PREENCHE OS CAMPOS----------------------------------------
+                    jftfDescricaoProduto.setText(produto.getDescricao());
+                    jftfLarguraProduto.setValue(produto.getLargura());
+                    jftfAlturaProduto.setValue(produto.getAltura());
+                    jftfEspessuraProduto.setValue(produto.getEspessura());
+                    jftfPesoProduto.setValue(produto.getPeso());
+                    jsfQtdFolhasProduto.setValue(produto.getQtdPaginas());
+                    jcbTipoProduto.setSelectedItem(produto.getTipo());
+                    jckbProdPreVenda.setSelected((produto.getPreVenda() == 1));
+                    jftfVlrUnitProduto.setValue(produto.getVlrUnit());
+                    if (produto.getPromocao() == 1) {
+                        jckbPromProduto.setSelected(produto.getPromocao() == 1);
+                        jftfVlrPromProduto.setValue(produto.getVlrPromocao());
+                        jdcInicioPromProduto.setDate(produto.getInicioPromocao());
+                        jdcFimPromProduto.setDate(produto.getFimPromocao());
+                    }
+                    jftfEstoqueFisicoProduto.setValue(produto.getEstoque());
+                    if (produto.getAvisoEstoque() == 1) {
+                        jckbAvisoEstoqueProduto.setSelected(produto.getAvisoEstoque() == 1);
+                        jftfAvisoEstoqueProduto.setValue(produto.getAvisoEstoqueUn());
+                    }
+                    jftfQtdMinProduto.setValue(produto.getPdQtdMin());
+                    if (produto.getPdMax() == 1) {
+                        jckbQtdMaxProduto.setSelected(produto.getPdMax() == 1);
+                        jftfQtdMaxProduto.setValue(produto.getPdQtdMax());
+                    }
+                    lblMov.setText("ÚLTIMA MOVIMENTAÇÃO: " + produto.getUltMov());
+                    //----------------------------------------------------------
+
+                    //SELECIONA A ABA NOVO/EDITAR-------------------------------
+                    tabPane.setSelectedIndex(0);
+                    //----------------------------------------------------------
+
+                } catch (SQLException ex) {
+                    EnvioExcecao envioExcecao = new EnvioExcecao(Controle.getDefaultGj(), ex);
+                    EnvioExcecao.envio();
+                }
+                loading.setVisible(false);
+            }
+        }.start();
+        FUNCAO = 1;
+    }//GEN-LAST:event_btnEditarPeActionPerformed
+
+    private void btnSelPeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSelPeActionPerformed
+        COD_PROD
+        = Integer.valueOf(tblConsultaPe.getValueAt(tblConsultaPe.getSelectedRow(), 0).toString());
+        new Thread() {
+            @Override
+            public void run() {
+                OrcamentoPrincipalFrame.carregaProdutos(COD_PROD, (byte) 2);
+            }
+        }.start();
+        this.dispose();
+    }//GEN-LAST:event_btnSelPeActionPerformed
+
+    private void btnMostrarUltPeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMostrarUltPeActionPerformed
+        try {
+            DefaultTableModel modeloConsulta = (DefaultTableModel) tblConsultaPe.getModel();
+            modeloConsulta.setNumRows(0);
+            for (ProdutoPrEntBEAN produto : ProdutoDAO.pesquisaPe((byte) 3, null)) {
+                adicionaTblConsultaPe(modeloConsulta, produto);
+            }
+        } catch (SQLException ex) {
+            EnvioExcecao envioExcecao = new EnvioExcecao(Controle.getDefaultGj(), ex);
+            EnvioExcecao.envio();
+        }
+    }//GEN-LAST:event_btnMostrarUltPeActionPerformed
+
+    private void btnPesqPeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPesqPeActionPerformed
+        try {
+            DefaultTableModel modeloConsulta = (DefaultTableModel) tblConsultaPe.getModel();
+            modeloConsulta.setNumRows(0);
+            switch (tipoPesqPe.getSelectedIndex()) {
+                case 0:
+                JOptionPane.showMessageDialog(null, "SELECIONE UM TIPO DE PESQUISA", "ERRO",
+                    JOptionPane.ERROR_MESSAGE);
+                break;
+                case 1:
+                for (ProdutoPrEntBEAN produto : ProdutoDAO.pesquisaPe((byte) 1,
+                    textoPesqPe.getText())) {
+                adicionaTblConsultaPe(modeloConsulta, produto);
+            }
+            break;
+            case 2:
+            for (ProdutoPrEntBEAN produto : ProdutoDAO.pesquisaPe((byte) 2,
+                textoPesqPe.getText())) {
+            adicionaTblConsultaPe(modeloConsulta, produto);
+        }
+        break;
+        }
+        } catch (SQLException ex) {
+            EnvioExcecao envioExcecao = new EnvioExcecao(Controle.getDefaultGj(), ex);
+            EnvioExcecao.envio();
+        }
+    }//GEN-LAST:event_btnPesqPeActionPerformed
+
+    private void botaoClonarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botaoClonarActionPerformed
+        carregaClonagem();
+    }//GEN-LAST:event_botaoClonarActionPerformed
+
+    private void botaoEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botaoEditarActionPerformed
+        carregaEdicao();
+    }//GEN-LAST:event_botaoEditarActionPerformed
+
+    private void botaoSelecionarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botaoSelecionarActionPerformed
+        COD_PROD
+        = Integer.valueOf(tabelaConsulta.getValueAt(tabelaConsulta.getSelectedRow(), 0).toString());
+        new Thread() {
+            @Override
+            public void run() {
+                OrcamentoPrincipalFrame.carregaProdutos(COD_PROD, (byte) 1);
+            }
+        }.start();
+        this.dispose();
+    }//GEN-LAST:event_botaoSelecionarActionPerformed
+
+    private void botaoMostrarUltimosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botaoMostrarUltimosActionPerformed
+        new Thread() {
+            @Override
+            public void run() {
+                mostrarTodos();
+            }
+        }.start();
+    }//GEN-LAST:event_botaoMostrarUltimosActionPerformed
+
+    private void botaoPesquisarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botaoPesquisarActionPerformed
+        new Thread() {
+            @Override
+            public void run() {
+                pesquisarProduto();
+            }
+        }.start();
+    }//GEN-LAST:event_botaoPesquisarActionPerformed
+
+    private void tipoPesquisaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tipoPesquisaActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_tipoPesquisaActionPerformed
+
+    private void tabelaConsultaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tabelaConsultaMouseClicked
+        try {
+            if (orcamentoNovo | orcamentoEditar) {
+                botaoSelecionar.setEnabled(true);
+            } else {
+                botaoSelecionar.setEnabled(false);
+            }
+
+            botaoClonar.setEnabled(true);
+            COD_PROD
+            = Integer.valueOf(tabelaConsulta.getValueAt(tabelaConsulta.getSelectedRow(), 0).toString());
+            if (ProdutoDAO.retornaUsoProduto(Integer.valueOf(COD_PROD)) == 1) {
+                botaoEditar.setEnabled(false);
+            } else {
+                botaoEditar.setEnabled(true);
+            }
+        } catch (SQLException ex) {
+            EnvioExcecao envioExcecao = new EnvioExcecao(Controle.getDefaultGj(), ex);
+            EnvioExcecao.envio();
+        }
+    }//GEN-LAST:event_tabelaConsultaMouseClicked
+
+    private void jtblFilhosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jtblFilhosMouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jtblFilhosMouseClicked
+
+    private void jckbQtdMaxProdutoItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_jckbQtdMaxProdutoItemStateChanged
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jckbQtdMaxProdutoItemStateChanged
+
+    private void jckbAvisoEstoqueProdutoItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_jckbAvisoEstoqueProdutoItemStateChanged
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jckbAvisoEstoqueProdutoItemStateChanged
+
+    private void jckbPromProdutoItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_jckbPromProdutoItemStateChanged
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jckbPromProdutoItemStateChanged
+
+    private void tabelaAcabamentosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tabelaAcabamentosMouseClicked
+        retirarAcabamento.setEnabled(true);
+    }//GEN-LAST:event_tabelaAcabamentosMouseClicked
+
+    private void pesquisar_acabamentosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_pesquisar_acabamentosActionPerformed
+        gj.abrirJanelas(AcabamentosCadastro.getInstancia((byte) 2, loading),
+            "CADASTRO DE ACABAMENTOS");
+    }//GEN-LAST:event_pesquisar_acabamentosActionPerformed
+
+    private void retirarAcabamentoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_retirarAcabamentoActionPerformed
+        DefaultTableModel modeloAcabamentos = (DefaultTableModel) tabelaAcabamentos.getModel();
+        modeloAcabamentos.removeRow(tabelaAcabamentos.getSelectedRow());
+        retirarAcabamento.setEnabled(false);
+    }//GEN-LAST:event_retirarAcabamentoActionPerformed
 
     private void concluirPapelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_concluirPapelActionPerformed
         if (!tipoPapel.getSelectedItem().toString().equals("CAPA")) {
             orelha.setValue(0);
         }
-        
-        if(tipoProduto.getSelectedIndex() > 1 && tipoPapel.getSelectedIndex() == 0){
+
+        if (jcbTipoProduto.getSelectedIndex() > 1 && tipoPapel.getSelectedIndex() == 0) {
             JOptionPane.showMessageDialog(null, "SELECIONE UM TIPO DE PAPEL!");
             return;
         }
-        
+
         DefaultTableModel modelo_papel = (DefaultTableModel) tabelaPapel.getModel();
         modelo_papel.addRow(new Object[]{
             codigoPapel.getValue(),
@@ -1311,16 +1481,26 @@ public class ProdutoFrame extends javax.swing.JInternalFrame {
             orelha.getValue(),
             coresFrente.getValue(),
             coresVerso.getValue()});
-        estado1Papel();
-        inserir = false;
+    estado1Papel();
+    inserir = false;
     }//GEN-LAST:event_concluirPapelActionPerformed
 
     private void orelhaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_orelhaActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_orelhaActionPerformed
 
+    private void tipoPapelItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_tipoPapelItemStateChanged
+        if (tipoPapel.getSelectedItem() != null) {
+            if (jcbTipoProduto.getSelectedItem().toString().equals("LIVRO") && tipoPapel.getSelectedItem().toString().equals("CAPA") && inserir == true) {
+                orelha.setEnabled(true);
+            } else {
+                orelha.setEnabled(false);
+            }
+        }
+    }//GEN-LAST:event_tipoPapelItemStateChanged
+
     private void inserirPapelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_inserirPapelActionPerformed
-        if (tipoProduto.getSelectedItem().toString().equals("SELECIONE...")) {
+        if (jcbTipoProduto.getSelectedItem().toString().equals("SELECIONE...")) {
             JOptionPane.showMessageDialog(null, "SELECIONE UM TIPO DE PRODUTO!");
             return;
         } else {
@@ -1342,33 +1522,34 @@ public class ProdutoFrame extends javax.swing.JInternalFrame {
         retirarPapel.setEnabled(false);
     }//GEN-LAST:event_retirarPapelActionPerformed
 
-    private void tabelaAcabamentosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tabelaAcabamentosMouseClicked
-        retirarAcabamento.setEnabled(true);
-    }//GEN-LAST:event_tabelaAcabamentosMouseClicked
+    private void tabelaPapelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tabelaPapelMouseClicked
+        retirarPapel.setEnabled(true);
+    }//GEN-LAST:event_tabelaPapelMouseClicked
 
-    private void pesquisar_acabamentosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_pesquisar_acabamentosActionPerformed
-        gj.abrirJanelas(AcabamentosCadastro.getInstancia((byte) 2, loading),
-                "CADASTRO DE ACABAMENTOS");
-    }//GEN-LAST:event_pesquisar_acabamentosActionPerformed
+    private void jftfPesoProdutoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jftfPesoProdutoActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jftfPesoProdutoActionPerformed
 
-    private void retirarAcabamentoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_retirarAcabamentoActionPerformed
-        DefaultTableModel modeloAcabamentos = (DefaultTableModel) tabelaAcabamentos.getModel();
-        modeloAcabamentos.removeRow(tabelaAcabamentos.getSelectedRow());
-        retirarAcabamento.setEnabled(false);
-    }//GEN-LAST:event_retirarAcabamentoActionPerformed
+    private void jftfEspessuraProdutoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jftfEspessuraProdutoActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jftfEspessuraProdutoActionPerformed
 
-    private void tipoProdutoItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_tipoProdutoItemStateChanged
-        if (tipoProduto.getSelectedItem().toString().equals("FOLHA") && tipoProduto.getSelectedItem() != null) {
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        limpa();
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jcbTipoProdutoItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_jcbTipoProdutoItemStateChanged
+        if (jcbTipoProduto.getSelectedItem().toString().equals("FOLHA") && jcbTipoProduto.getSelectedItem() != null) {
             tipoPapel.removeAllItems();
             tipoPapel.addItem("FOLHA");
         }
-        if (tipoProduto.getSelectedItem().toString().equals("LIVRO") && tipoProduto.getSelectedItem() != null) {
+        if (jcbTipoProduto.getSelectedItem().toString().equals("LIVRO") && jcbTipoProduto.getSelectedItem() != null) {
             tipoPapel.removeAllItems();
             tipoPapel.addItem("SELECIONE...");
             tipoPapel.addItem("CAPA");
             tipoPapel.addItem("MIOLO");
         }
-        if (tipoProduto.getSelectedItem().toString().equals("BLOCO") && tipoProduto.getSelectedItem() != null) {
+        if (jcbTipoProduto.getSelectedItem().toString().equals("BLOCO") && jcbTipoProduto.getSelectedItem() != null) {
             tipoPapel.removeAllItems();
             tipoPapel.addItem("SELECIONE...");
             tipoPapel.addItem("CAPA");
@@ -1376,97 +1557,567 @@ public class ProdutoFrame extends javax.swing.JInternalFrame {
             tipoPapel.addItem("2ª VIA");
             tipoPapel.addItem("3ª VIA");
         }
-        if (tipoProduto.getSelectedItem().toString().equals("OUTROS") && tipoProduto.getSelectedItem() != null) {
+        if (jcbTipoProduto.getSelectedItem().toString().equals("OUTROS") && jcbTipoProduto.getSelectedItem() != null) {
             tipoPapel.removeAllItems();
             tipoPapel.addItem("FOLHA");
         }
-    }//GEN-LAST:event_tipoProdutoItemStateChanged
-
-    private void tabelaConsultaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tabelaConsultaMouseClicked
-        try {
-            if (orcamentoNovo | orcamentoEditar) {
-                botaoSelecionar.setEnabled(true);
-            } else {
-                botaoSelecionar.setEnabled(false);
-            }
-
-            botaoClonar.setEnabled(true);
-            COD_PROD
-                    = Integer.valueOf(tabelaConsulta.getValueAt(tabelaConsulta.getSelectedRow(), 0).toString());
-            if (ProdutoDAO.retornaUsoProduto(Integer.valueOf(COD_PROD)) == 1) {
-                botaoEditar.setEnabled(false);
-            } else {
-                botaoEditar.setEnabled(true);
-            }
-        } catch (SQLException ex) {
-            EnvioExcecao envioExcecao = new EnvioExcecao(Controle.getDefaultGj(), ex);
-            EnvioExcecao.envio();
-        }
-    }//GEN-LAST:event_tabelaConsultaMouseClicked
-
-    private void tipoPesquisaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tipoPesquisaActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_tipoPesquisaActionPerformed
-
-    private void botaoPesquisarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botaoPesquisarActionPerformed
-        new Thread() {
-            @Override
-            public void run() {
-                pesquisarProduto();
-            }
-        }.start();
-    }//GEN-LAST:event_botaoPesquisarActionPerformed
-
-    private void botaoMostrarUltimosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botaoMostrarUltimosActionPerformed
-        new Thread() {
-            @Override
-            public void run() {
-                mostrarTodos();
-            }
-        }.start();
-    }//GEN-LAST:event_botaoMostrarUltimosActionPerformed
-
-    private void botaoSelecionarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botaoSelecionarActionPerformed
-        COD_PROD
-                = Integer.valueOf(tabelaConsulta.getValueAt(tabelaConsulta.getSelectedRow(), 0).toString());
-        new Thread() {
-            @Override
-            public void run() {
-                OrcamentoPrincipalFrame.carregaProdutos(COD_PROD, (byte) 1);
-            }
-        }.start();
-        this.dispose();
-    }//GEN-LAST:event_botaoSelecionarActionPerformed
-
-    private void botaoEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botaoEditarActionPerformed
-        carregaEdicao();
-    }//GEN-LAST:event_botaoEditarActionPerformed
-
-    private void botaoClonarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botaoClonarActionPerformed
-        carregaClonagem();
-    }//GEN-LAST:event_botaoClonarActionPerformed
+    }//GEN-LAST:event_jcbTipoProdutoItemStateChanged
 
     private void jftfAlturaProdutoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jftfAlturaProdutoActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jftfAlturaProdutoActionPerformed
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void salvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_salvarActionPerformed
+        if (jrdParaProducao.isSelected()) {
+            salvarProduto((byte) 1);
+        } else if (jrdParaPE.isSelected()) {
+            salvarProduto((byte) 2);
+        }
+    }//GEN-LAST:event_salvarActionPerformed
+
+    private void jftfDescricaoProdutoKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jftfDescricaoProdutoKeyPressed
+
+    }//GEN-LAST:event_jftfDescricaoProdutoKeyPressed
+
+
+    // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton altEstoque;
+    private javax.swing.JButton botaoClonar;
+    private javax.swing.JButton botaoEditar;
+    private javax.swing.JButton botaoMostrarUltimos;
+    private javax.swing.JButton botaoPesquisar;
+    public static javax.swing.JButton botaoSelecionar;
+    private javax.swing.JButton btnClonarPe;
+    private javax.swing.JButton btnEditarPe;
+    private javax.swing.JButton btnMostrarUltPe;
+    private javax.swing.JButton btnPesqPe;
+    public static javax.swing.JButton btnSelPe;
+    public static javax.swing.JFormattedTextField codigoPapel;
+    public static javax.swing.JButton concluirPapel;
+    public static com.toedter.components.JSpinField coresFrente;
+    public static com.toedter.components.JSpinField coresVerso;
+    private javax.swing.JButton inserirPapel;
+    private javax.swing.JButton jButton1;
+    private javax.swing.JLabel jLabel10;
+    private javax.swing.JLabel jLabel11;
+    private javax.swing.JLabel jLabel12;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel9;
+    private javax.swing.JPanel jPanel10;
+    private javax.swing.JPanel jPanel12;
+    private javax.swing.JPanel jPanel13;
+    private javax.swing.JPanel jPanel14;
+    private javax.swing.JPanel jPanel15;
+    private javax.swing.JPanel jPanel16;
+    private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel jPanel3;
+    private javax.swing.JPanel jPanel4;
+    private javax.swing.JPanel jPanel6;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JScrollPane jScrollPane4;
+    private javax.swing.JScrollPane jScrollPane5;
+    private javax.swing.JTabbedPane jTabbedPane1;
+    private javax.swing.JButton jbtnAdicionarPai;
+    public static javax.swing.JComboBox<String> jcbTipoProduto;
+    private javax.swing.JCheckBox jckbAtivo;
+    private javax.swing.JCheckBox jckbAvisoEstoqueProduto;
+    private javax.swing.JCheckBox jckbProdPreVenda;
+    private javax.swing.JCheckBox jckbPromProduto;
+    private javax.swing.JCheckBox jckbQtdMaxProduto;
+    private javax.swing.JCheckBox jckbUtilizadoEcommerce;
+    public static com.toedter.calendar.JDateChooser jdcFimPromProduto;
+    public static com.toedter.calendar.JDateChooser jdcInicioPromProduto;
+    private javax.swing.JFormattedTextField jftfAlturaProduto;
+    private javax.swing.JFormattedTextField jftfAvisoEstoqueProduto;
+    private javax.swing.JTextField jftfDescricaoProduto;
+    private javax.swing.JFormattedTextField jftfEspessuraProduto;
+    private javax.swing.JFormattedTextField jftfEstoqueFisicoProduto;
+    private javax.swing.JFormattedTextField jftfLarguraProduto;
+    private javax.swing.JFormattedTextField jftfPesoProduto;
+    private javax.swing.JFormattedTextField jftfQtdMaxProduto;
+    private javax.swing.JFormattedTextField jftfQtdMinProduto;
+    private javax.swing.JFormattedTextField jftfVlrPromProduto;
+    private javax.swing.JFormattedTextField jftfVlrUnitProduto;
+    private javax.swing.JRadioButton jrdParaPE;
+    private javax.swing.JRadioButton jrdParaProducao;
+    private javax.swing.JRadioButton jrdProdutoFilho;
+    private javax.swing.JRadioButton jrdProdutoPai;
+    private com.toedter.components.JSpinField jsfQtdFolhasProduto;
+    public static javax.swing.JTable jtblFilhos;
+    private javax.swing.JLabel lblMov;
+    public static javax.swing.JFormattedTextField orelha;
+    private javax.swing.ButtonGroup paiFilho;
+    private javax.swing.JButton pesquisar_acabamentos;
+    private javax.swing.JButton retirarAcabamento;
+    private javax.swing.JButton retirarPapel;
+    private javax.swing.JButton salvar;
+    private javax.swing.JTabbedPane tabPane;
+    public static javax.swing.JTable tabelaAcabamentos;
+    public static javax.swing.JTable tabelaConsulta;
+    public static javax.swing.JTable tabelaPapel;
+    public static javax.swing.JTable tblConsultaPe;
+    private javax.swing.JTextField textoPesqPe;
+    private javax.swing.JTextField textoPesquisa;
+    private javax.swing.ButtonGroup tipoIntProduto;
+    public static javax.swing.JComboBox<String> tipoPapel;
+    private javax.swing.JComboBox<String> tipoPesqPe;
+    private javax.swing.JComboBox<String> tipoPesquisa;
+    // End of variables declaration//GEN-END:variables
+
+    //TABELA CONSULTA-----------------------------------------------------------
+    private void mouseClicked() {
+        try {
+            COD_PROD
+                    = Integer.valueOf(tblConsultaPe.getValueAt(tblConsultaPe.getSelectedRow(), 0).toString());
+
+            if (ProdutoDAO.verificaUsoProdPe(COD_PROD)) {
+                btnEditarPe.setEnabled(false);
+                altEstoque.setEnabled(true);
+
+            } else {
+                btnEditarPe.setEnabled(true);
+                altEstoque.setEnabled(false);
+            }
+            btnClonarPe.setEnabled(true);
+
+            if (SEL_ORC) {
+                btnSelPe.setEnabled(true);
+            }
+        } catch (SQLException ex) {
+            EnvioExcecao envioExcecao = new EnvioExcecao(Controle.getDefaultGj(), ex);
+            EnvioExcecao.envio();
+        }
+    }
+    //--------------------------------------------------------------------------
+
+    //ESTADOS-------------------------------------------------------------------
+    public void estado1Papel() {
+        codigoPapel.setEnabled(false);
+        codigoPapel.setText(null);
+        descricaoPapel = null;
+        tipoPapel.setEnabled(false);
+        coresFrente.setEnabled(false);
+        coresVerso.setEnabled(false);
+        concluirPapel.setEnabled(false);
+        coresFrente.setValue(0);
+        coresVerso.setValue(0);
+        orelha.setValue(0);
+        orelha.setEnabled(false);
+        tipoPapel.setSelectedIndex(0);
+    }
+
+    public void estado2Papel() {
+        codigoPapel.setEnabled(false);
+        tipoPapel.setEnabled(true);
+        coresFrente.setEnabled(true);
+        coresVerso.setEnabled(true);
+        concluirPapel.setEnabled(true);
+        if (jcbTipoProduto.getSelectedItem().equals("LIVRO")) {
+            orelha.setEnabled(true);
+        } else {
+            orelha.setEnabled(false);
+        }
+    }
+
+    private void estadoAlterarEstoque() {
+        jtfDescricaoPe.setEditable(false);
+        jftfLarguraPe.setEditable(false);
+        jftfAlturaPe.setEditable(false);
+        jftfEspessuraPe.setEditable(false);
+        jftfPesoPe.setEditable(false);
+        jsfQtdFolhasPe.setEnabled(false);
+        jcbTipoPe.setEnabled(false);
+        jckbProdPreVenda.setEnabled(true);
+        jftfVlrUnitPe.setEnabled(true);
+        jckbProm.setEnabled(true);
+        jftfEstoqueFisico.setEnabled(true);
+        jckbAvisoEstoque.setEnabled(true);
+        jftfQtdMin.setEnabled(true);
+        jckbQtdMax.setEnabled(true);
+        jckbDispVendas.setEnabled(true);
+    }
+
+    /**
+     * Limpa a tela de cadastro
+     */
+    public void limpa() {
+        //Variáveis estáticas---------------------------------------------------
+        COD_PROD = 0;
+        FUNCAO = 0;
+        //Buttom groups---------------------------------------------------------
+        tipoIntProduto.clearSelection();
+        paiFilho.clearSelection();
+        //Campos de texto-------------------------------------------------------
+        jftfDescricaoProduto.setText("");
+        jftfLarguraProduto.setText("");
+        jftfAlturaProduto.setText("");
+        jftfEspessuraProduto.setText("");
+        jftfPesoProduto.setText("");
+        jftfVlrUnitProduto.setText("");
+        jftfVlrPromProduto.setText("");
+        jftfEstoqueFisicoProduto.setText("");
+        jftfAvisoEstoqueProduto.setText("");
+        jftfQtdMinProduto.setText("");
+        jftfQtdMaxProduto.setText("");
+        //Spin boxes------------------------------------------------------------
+        jsfQtdFolhasProduto.setValue(1);
+        //Combo boxes-----------------------------------------------------------
+        jcbTipoProduto.setSelectedIndex(0);
+        //Tabelas---------------------------------------------------------------
+        DefaultTableModel modeloPapel = (DefaultTableModel) tabelaPapel.getModel();
+        modeloPapel.setNumRows(0);
+        estado1Papel();
+        DefaultTableModel modeloAcabamentos = (DefaultTableModel) tabelaAcabamentos.getModel();
+        modeloAcabamentos.setNumRows(0);
+        DefaultTableModel modeloFilhos = (DefaultTableModel) jtblFilhos.getModel();
+        modeloFilhos.setNumRows(0);
+        //Check boxes-----------------------------------------------------------
+        jckbUtilizadoEcommerce.setSelected(false);
+        jckbAtivo.setSelected(false);
+        jckbProdPreVenda.setSelected(false);
+        jckbPromProduto.setSelected(false);
+        jckbAvisoEstoqueProduto.setSelected(false);
+        jckbQtdMaxProduto.setSelected(false);
+        //Date Choosers---------------------------------------------------------
+        jdcInicioPromProduto.setDate(null);
+        jdcFimPromProduto.setDate(null);
+    }
+
+    public void limpaPe() {
+        jtfDescricaoPe.setText("");
+        jftfLarguraPe.setValue(0);
+        jftfAlturaPe.setValue(0);
+        jftfEspessuraPe.setValue(0);
+        jftfPesoPe.setValue(0);
+        jsfQtdFolhasPe.setValue(1);
+        jcbTipoPe.setSelectedIndex(0);
+        jckbProdPreVenda.setSelected(false);
+        jftfVlrUnitPe.setValue(0);
+        jckbProm.setSelected(false);
+        jftfVlrProm.setValue(0);
+        jdcInicioProm.setDate(null);
+        jdcFimProm.setDate(null);
+        jftfEstoqueFisico.setValue(0);
+        jckbAvisoEstoque.setSelected(false);
+        jftfAvisoEstoque.setValue(0);
+        jftfQtdMin.setValue(0);
+        jckbQtdMax.setSelected(false);
+        jftfQtdMax.setValue(0);
+        lblMov.setText("");
+        FUNCAO = 0;
+        COD_PROD = 0;
+    }
+    //--------------------------------------------------------------------------
+
+    private static int mdc(int a, int b) {
+        while (b != 0) {
+            int r = a % b;
+            a = b;
+            b = r;
+        }
+        return a;
+    }
+
+    private static int mmc(int a, int b) {
+        return a * (b / mdc(a, b));
+    }
+
+    private void carregaClonagem() {
+        try {
+            this.setTitle("CLONANDO PRODUTO " + COD_PROD);
+            loading.setVisible(true);
+            loading.setText("CARREGANDO CLONAGEM...");
+
+            limpa();
+            COD_PROD
+                    = Integer.valueOf(tabelaConsulta.getValueAt(tabelaConsulta.getSelectedRow(), 0).toString());
+            FUNCAO = 2;
+
+            ProdutoBEAN produto = ProdutoDAO.retornaInfoProd(COD_PROD, (byte) 1);
+            jftfDescricaoProduto.setText(produto.getDescricao());
+            jftfLarguraProduto.setValue(produto.getLargura());
+            jftfAlturaProduto.setValue(produto.getAltura());
+            jsfQtdFolhasProduto.setValue(produto.getQuantidadeFolhas());
+            jcbTipoProduto.setSelectedItem(produto.getTipoProduto());
+
+            DefaultTableModel modeloPapeis = (DefaultTableModel) ProdutoFrame.tabelaPapel.getModel();
+            for (PapelBEAN bean : ProdutoDAO.retornaInformacoesPapel(COD_PROD)) {
+                modeloPapeis.addRow(new Object[]{
+                    bean.getCodigo(),
+                    bean.getDescricaoPapel(),
+                    bean.getTipoPapel(),
+                    bean.getOrelha(),
+                    bean.getCorFrente(),
+                    bean.getCorVerso()
+                });
+            }
+
+            try {
+                DefaultTableModel modeloAcabamentos = (DefaultTableModel) ProdutoFrame.tabelaAcabamentos.getModel();
+                for (AcabamentoProdBEAN bean : AcabamentoDAO.retornaAcabamentosProduto(COD_PROD)) {
+                    modeloAcabamentos.addRow(new Object[]{
+                        bean.getCodigoAcabamento(),
+                        AcabamentoDAO.retornaDescricaoAcabamentos(bean.getCodigoAcabamento())
+                    });
+                }
+            } catch (SemAcabamentoException ex) {
+                //NENHUMA AÇÃO
+            }
+            tabPane.setSelectedIndex(0);
+        } catch (SQLException ex) {
+            EnvioExcecao envioExcecao = new EnvioExcecao(Controle.getDefaultGj(), ex);
+            EnvioExcecao.envio();
+        }
+
+        loading.setVisible(false);
+    }
+
+    /**
+     * Salva o cadastro dos produtos
+     *
+     * @param tipo 1 - Para produção, 2 - Para pronta entrega (PE)
+     */
+    private void salvarProduto(byte tipo) {
+        try {
+            loading.setText("SALVANDO...");
+            loading.setVisible(true);
+
+            switch (tipo) {
+                case 1:
+                    ProdutoBEAN produto = new ProdutoBEAN();
+                    PapelBEAN papeisCadastroBEAN = new PapelBEAN();
+                    AcabamentoProdBEAN produtosComponentesBEAN = new AcabamentoProdBEAN();
+
+                    verificaCasosErro(tipo);
+
+                    produto.setDescricao(jftfDescricaoProduto.getText().toUpperCase());
+                    produto.setLargura(Float.valueOf(jftfLarguraProduto.getValue().toString().replace(",", ".")));
+                    produto.setAltura(Float.valueOf(jftfAlturaProduto.getValue().toString().replace(",", ".")));
+                    produto.setQuantidadePaginas(jsfQtdFolhasProduto.getValue());
+                    produto.setTipoProduto(jcbTipoProduto.getSelectedItem().toString());
+
+                    switch (FUNCAO) {
+                        case 1:
+                            produto.setCodigo(COD_PROD);
+                            PapelDAO.exluiPapeisProduto(Integer.valueOf(COD_PROD), (byte) 1);
+                            AcabamentoDAO.excluiAcabamentosProduto(Integer.valueOf(COD_PROD), (byte) 1);
+                            ProdutoDAO.atualiza(produto);
+                            break;
+                        case 0:
+                        case 2:
+                            COD_PROD = ProdutoDAO.retornaUltimoRegistro() + 1;
+                            produto.setCodigo(COD_PROD);
+                            ProdutoDAO.cria(produto);
+                            break;
+                    }
+
+                    switch (FUNCAO) {
+                        case 0:
+                        case 1:
+                        case 2:
+                            if (tabelaPapel.getRowCount() > 0) {
+                                for (int i = 0; i < tabelaPapel.getRowCount(); i++) {
+                                    papeisCadastroBEAN.setCodProduto(COD_PROD);
+                                    papeisCadastroBEAN.setTipoProduto((byte) 1);
+                                    papeisCadastroBEAN.setCodPapel((int) tabelaPapel.getValueAt(i, 0));
+                                    papeisCadastroBEAN.setTipo_papel((String) tabelaPapel.getValueAt(i, 2));
+                                    papeisCadastroBEAN.setCor_frente((int) tabelaPapel.getValueAt(i, 4));
+                                    papeisCadastroBEAN.setCor_verso((int) tabelaPapel.getValueAt(i, 5));
+                                    papeisCadastroBEAN.setDescricaoPapel((String) tabelaPapel.getValueAt(i, 1));
+                                    papeisCadastroBEAN.setOrelha(Float.valueOf(tabelaPapel.getValueAt(i, 3).toString().replace(",", ".")));
+                                    PapelDAO.criaPplProduto(papeisCadastroBEAN);
+                                }
+                            }
+
+                            if (tabelaAcabamentos.getRowCount() > 0) {
+                                for (int i = 0; i < tabelaAcabamentos.getRowCount(); i++) {
+                                    produtosComponentesBEAN.setTipoProduto((byte) 1);
+                                    produtosComponentesBEAN.setCodigoProduto(COD_PROD);
+                                    produtosComponentesBEAN.setCodigoAcabamento((int) tabelaAcabamentos.getValueAt(i, 0));
+                                    AcabamentoDAO.criaAcabamentosProduto(produtosComponentesBEAN);
+                                }
+                            }
+                            break;
+                    }
+                    break;
+                case 2:
+                    switch (FUNCAO) {
+                        case 1:
+                            ProdutoDAO.editaPe(new ProdutoPrEntBEAN(COD_PROD,
+                                    jtfDescricaoPe.getText().toUpperCase(),
+                                    Float.valueOf(jftfLarguraPe.getText().replace(",", ".")),
+                                    Float.valueOf(jftfAlturaPe.getText().replace(",", ".")),
+                                    Float.valueOf(jftfEspessuraPe.getText().replace(",", ".")),
+                                    Float.valueOf(jftfPesoPe.getText().replace(",", ".")),
+                                    jckbDispVendas.isSelected() ? (byte) 1 : (byte) 0,
+                                    jckbProdPreVenda.isSelected() ? (byte) 1 : (byte) 0,
+                                    jckbProm.isSelected() ? (byte) 1 : (byte) 0,
+                                    Double.valueOf(jftfVlrProm.getText().replace(",", ".")),
+                                    jdcInicioProm.getDate(),
+                                    jdcFimProm.getDate(),
+                                    jsfQtdFolhasPe.getValue(),
+                                    Integer.valueOf(jftfEstoqueFisico.getValue().toString()),
+                                    jckbAvisoEstoque.isSelected() ? (byte) 1 : (byte) 0,
+                                    Integer.valueOf(jftfAvisoEstoque.getValue().toString()),
+                                    String.valueOf(jcbTipoPe.getSelectedItem()),
+                                    Double.valueOf(jftfVlrUnitPe.getValue().toString()),
+                                    new java.sql.Timestamp(new Date().getTime()),
+                                    Integer.valueOf(jftfQtdMin.getText()),
+                                    jckbQtdMax.isSelected() ? (byte) 1 : (byte) 0,
+                                    Integer.valueOf(jftfQtdMax.getText())
+                            ));
+                            //INTERAÇÃO COM O USUÁRIO---------------------------------------
+                            JOptionPane.showMessageDialog(null, "PRODUTO EDITADO COM SUCESSO COM SUCESSO. >> CÓDIGO: "
+                                    + COD_PROD, "CONFIMAÇÃO", JOptionPane.INFORMATION_MESSAGE);
+                            //--------------------------------------------------------------
+
+                            break;
+                        case 3:
+                            ProdutoDAO.atualizaEstPe(new ProdutoPrEntBEAN(
+                                    COD_PROD,
+                                    Integer.valueOf(jftfEstoqueFisico.getValue().toString()),
+                                    jckbAvisoEstoque.isSelected() ? (byte) 1 : (byte) 0,
+                                    Integer.valueOf(jftfAvisoEstoque.getText())
+                            ));
+                            JOptionPane.showMessageDialog(null, "INFORMAÇÕES ATUALIZADAS COM SUCESSO.",
+                                    "CONFIMAÇÃO", JOptionPane.INFORMATION_MESSAGE);
+                            //--------------------------------------------------------------
+                            break;
+                        default:
+                            COD_PROD = ProdutoDAO.retornaCodPe();
+                            ProdutoDAO.inserePe(new ProdutoPrEntBEAN(COD_PROD,
+                                    jtfDescricaoPe.getText().toUpperCase(),
+                                    Float.valueOf(jftfLarguraPe.getText().replace(",", ".")),
+                                    Float.valueOf(jftfAlturaPe.getText().replace(",", ".")),
+                                    Float.valueOf(jftfEspessuraPe.getText().replace(",", ".")),
+                                    Float.valueOf(jftfPesoPe.getText().replace(",", ".")),
+                                    jckbDispVendas.isSelected() ? (byte) 1 : (byte) 0,
+                                    jckbProdPreVenda.isSelected() ? (byte) 1 : (byte) 0,
+                                    jckbProm.isSelected() ? (byte) 1 : (byte) 0,
+                                    Double.valueOf(jftfVlrProm.getText().replace(",", ".")),
+                                    jdcInicioProm.getDate(),
+                                    jdcFimProm.getDate(),
+                                    jsfQtdFolhasPe.getValue(),
+                                    Integer.valueOf(jftfEstoqueFisico.getValue().toString()),
+                                    jckbAvisoEstoque.isSelected() ? (byte) 1 : (byte) 0,
+                                    Integer.valueOf(jftfAvisoEstoque.getValue().toString()),
+                                    String.valueOf(jcbTipoPe.getSelectedItem()),
+                                    Double.valueOf(jftfVlrUnitPe.getValue().toString()),
+                                    new java.sql.Timestamp(new Date().getTime()),
+                                    Integer.valueOf(jftfQtdMin.getText()),
+                                    jckbQtdMax.isSelected() ? (byte) 1 : (byte) 0,
+                                    Integer.valueOf(jftfQtdMax.getText())
+                            ));
+                            //INTERAÇÃO COM O USUÁRIO---------------------------------------
+                            JOptionPane.showMessageDialog(null, "PRODUTO SALVO COM SUCESSO COM SUCESSO. >> CÓDIGO: "
+                                    + ProdutoDAO.traduzCodProd(COD_PROD, (byte) 2), "CONFIMAÇÃO", JOptionPane.INFORMATION_MESSAGE);
+                            //--------------------------------------------------------------
+                            break;
+                    }
+                    //------------------------------------------------------------------
+
+                    //RESETA CAMPOS-----------------------------------------------------
+                    limpaPe();
+                    //------------------------------------------------------------------
+
+                    /**
+                     * Reseta a função
+                     */
+                    FUNCAO = 0;
+                    break;
+                default:
+
+                    break;
+            }
+
+            JOptionPane.showMessageDialog(null, "PRODUTO Nº " + COD_PROD + " CADASTRADO COM SUCESSO!");
+        } catch (SQLException ex) {
+            EnvioExcecao envioExcecao = new EnvioExcecao(Controle.getDefaultGj(), ex);
+            EnvioExcecao.envio();
+            loading.setVisible(false);
+            return;
+        }
+        this.setTitle("CADASTRO DE PRODUTOS");
+        loading.setVisible(false);
+
         limpa();
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }
 
-    private void jtfDescricaoPeKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtfDescricaoPeKeyPressed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jtfDescricaoPeKeyPressed
+    /**
+     * Verifica os casos de erro de inserção do usuário
+     *
+     * @param tipo 1 - Para produção, 2 - Para pronta entrega (PE)
+     */
+    private void verificaCasosErro(byte tipo) {
+        try {
+            switch (tipo) {
+                case 1:
+                    if (ProdutoDAO.verificaDescricao(jftfDescricaoProduto.getText())
+                            & FUNCAO != 1) {
+                        JOptionPane.showMessageDialog(null, "DESCRIÇÃO DE PRODUTO JÁ EXISTENTE!", "ERRO AO SALVAR", JOptionPane.ERROR_MESSAGE);
+                        loading.setVisible(false);
+                        return;
+                    } else {
+                        if (jftfDescricaoProduto.getText().isEmpty()) {
+                            JOptionPane.showMessageDialog(null, "INSIRA UM CONTEÚDO NO CAMPO DESCRIÇÃO!", "ERRO AO SALVAR", JOptionPane.ERROR_MESSAGE);
+                            loading.setVisible(false);
+                            return;
+                        }
+                        if (jftfDescricaoProduto.getText().length() >= 150) {
+                            JOptionPane.showMessageDialog(null, "O CAMPO DESCRIÇÃO DO PRODUTO EXCEDE 150 CARACTERES", "LIMITE DE CARACTERES", JOptionPane.ERROR_MESSAGE);
+                            loading.setVisible(false);
+                            return;
+                        }
+                    }
 
-    private void btnSalvarPeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalvarPeActionPerformed
-        new Thread() {
-            @Override
-            public void run() {
-                try {
-                    loading.setVisible(true);
-                    loading.setText("SALVANDO...");
+                    if (jftfLarguraProduto.getText().isEmpty()) {
+                        JOptionPane.showMessageDialog(null, "INSIRA UM CONTEÚDO NO CAMPO LARGURA", "ERRO AO SALVAR", JOptionPane.ERROR_MESSAGE);
+                        loading.setVisible(false);
+                        return;
+                    }
 
-                    //VERIFICA CONDIÇÕES------------------------------------------------
+                    if (jftfAlturaProduto.getText().isEmpty()) {
+                        JOptionPane.showMessageDialog(null, "INSIRA UM CONTEÚDO NO CAMPO ALTURA.");
+                        loading.setVisible(false);
+                        return;
+                    }
+
+                    if (tabelaPapel.getRowCount() == 0) {
+                        JOptionPane.showMessageDialog(null, "PRODUTO SEM PAPEL!", "ERRO AO SALVAR", JOptionPane.ERROR_MESSAGE);
+                        loading.setVisible(false);
+                        return;
+                    }
+
+                    if (jsfQtdFolhasProduto.getValue() == 0) {
+                        JOptionPane.showMessageDialog(null, "A QUANTIDADE DE FOLHAS NÃO PODE SER 0!", "ERRO AO SALVAR", JOptionPane.ERROR_MESSAGE);
+                        loading.setVisible(false);
+                        return;
+                    }
+
+                    int dialogButton = JOptionPane.YES_NO_OPTION;
+                    int dialogResult = JOptionPane.showConfirmDialog(this, "CONFIRMA A QUANTIDADE DE PÁGINAS DE '" + jsfQtdFolhasProduto.getValue() + "' ?\n (ISSO AFETARÁ NO CALCÚLO DE FOLHAS A SEREM UTILIZADAS)", "CONFIRMAÇÃO DE PÁGINAS", dialogButton);
+                    if (dialogResult != 0) {
+                        loading.setVisible(false);
+                        return;
+                    }
+
+                    if (jcbTipoProduto.getSelectedItem().toString().equals("SELECIONE...")) {
+                        JOptionPane.showMessageDialog(null, "SELECIONE O TIPO DO PRODUTO.");
+                        loading.setVisible(false);
+                        return;
+                    }
+
+                    dialogButton = JOptionPane.YES_NO_OPTION;
+                    dialogResult = JOptionPane.showConfirmDialog(this, "CONFIRMA O TIPO DE PRODUTO COMO '" + jcbTipoProduto.getSelectedItem().toString() + "' ?\n (ISSO AFETARÁ NO CALCÚLO DE FOLHAS A SEREM UTILIZADAS)", "CONFIRMAÇÃO DE TIPO DE PRODUTO", dialogButton);
+                    if (dialogResult != 0) {
+                        loading.setVisible(false);
+                        return;
+                    }
+                    break;
+                case 2:
                     if (jtfDescricaoPe.getText().isEmpty()) {
                         JOptionPane.showMessageDialog(null, "INSIRA A DESCRIÇÃO DO PRODUTO", "ERRO",
                                 JOptionPane.ERROR_MESSAGE);
@@ -1565,858 +2216,15 @@ public class ProdutoFrame extends javax.swing.JInternalFrame {
                             return;
                         }
                     }
-                    //------------------------------------------------------------------
-
-                    //SALVA O PRODUTO---------------------------------------------------
-                    switch (FUNCAO) {
-                        case 1:
-                            ProdutoDAO.editaPe(new ProdutoPrEntBEAN(COD_PROD,
-                                    jtfDescricaoPe.getText().toUpperCase(),
-                                    Float.valueOf(jftfLarguraPe.getText().replace(",", ".")),
-                                    Float.valueOf(jftfAlturaPe.getText().replace(",", ".")),
-                                    Float.valueOf(jftfEspessuraPe.getText().replace(",", ".")),
-                                    Float.valueOf(jftfPesoPe.getText().replace(",", ".")),
-                                    jckbDispVendas.isSelected() ? (byte) 1 : (byte) 0,
-                                    jckbProdPreVenda.isSelected() ? (byte) 1 : (byte) 0,
-                                    jckbProm.isSelected() ? (byte) 1 : (byte) 0,
-                                    Double.valueOf(jftfVlrProm.getText().replace(",", ".")),
-                                    jdcInicioProm.getDate(),
-                                    jdcFimProm.getDate(),
-                                    jsfQtdFolhasPe.getValue(),
-                                    Integer.valueOf(jftfEstoqueFisico.getValue().toString()),
-                                    jckbAvisoEstoque.isSelected() ? (byte) 1 : (byte) 0,
-                                    Integer.valueOf(jftfAvisoEstoque.getValue().toString()),
-                                    String.valueOf(jcbTipoPe.getSelectedItem()),
-                                    Double.valueOf(jftfVlrUnitPe.getValue().toString()),
-                                    new java.sql.Timestamp(new Date().getTime()),
-                                    Integer.valueOf(jftfQtdMin.getText()),
-                                    jckbQtdMax.isSelected() ? (byte) 1 : (byte) 0,
-                                    Integer.valueOf(jftfQtdMax.getText())
-                            ));
-                            //INTERAÇÃO COM O USUÁRIO---------------------------------------
-                            JOptionPane.showMessageDialog(null, "PRODUTO EDITADO COM SUCESSO COM SUCESSO. >> CÓDIGO: "
-                                    + COD_PROD, "CONFIMAÇÃO", JOptionPane.INFORMATION_MESSAGE);
-                            //--------------------------------------------------------------
-
-                            break;
-                        case 3:
-                            ProdutoDAO.atualizaEstPe(new ProdutoPrEntBEAN(
-                                    COD_PROD,
-                                    Integer.valueOf(jftfEstoqueFisico.getValue().toString()),
-                                    jckbAvisoEstoque.isSelected() ? (byte) 1 : (byte) 0,
-                                    Integer.valueOf(jftfAvisoEstoque.getText())
-                            ));
-                            JOptionPane.showMessageDialog(null, "INFORMAÇÕES ATUALIZADAS COM SUCESSO.",
-                                    "CONFIMAÇÃO", JOptionPane.INFORMATION_MESSAGE);
-                            //--------------------------------------------------------------
-                            break;
-                        default:
-                            COD_PROD = ProdutoDAO.retornaCodPe();
-                            ProdutoDAO.inserePe(new ProdutoPrEntBEAN(COD_PROD,
-                                    jtfDescricaoPe.getText().toUpperCase(),
-                                    Float.valueOf(jftfLarguraPe.getText().replace(",", ".")),
-                                    Float.valueOf(jftfAlturaPe.getText().replace(",", ".")),
-                                    Float.valueOf(jftfEspessuraPe.getText().replace(",", ".")),
-                                    Float.valueOf(jftfPesoPe.getText().replace(",", ".")),
-                                    jckbDispVendas.isSelected() ? (byte) 1 : (byte) 0,
-                                    jckbProdPreVenda.isSelected() ? (byte) 1 : (byte) 0,
-                                    jckbProm.isSelected() ? (byte) 1 : (byte) 0,
-                                    Double.valueOf(jftfVlrProm.getText().replace(",", ".")),
-                                    jdcInicioProm.getDate(),
-                                    jdcFimProm.getDate(),
-                                    jsfQtdFolhasPe.getValue(),
-                                    Integer.valueOf(jftfEstoqueFisico.getValue().toString()),
-                                    jckbAvisoEstoque.isSelected() ? (byte) 1 : (byte) 0,
-                                    Integer.valueOf(jftfAvisoEstoque.getValue().toString()),
-                                    String.valueOf(jcbTipoPe.getSelectedItem()),
-                                    Double.valueOf(jftfVlrUnitPe.getValue().toString()),
-                                    new java.sql.Timestamp(new Date().getTime()),
-                                    Integer.valueOf(jftfQtdMin.getText()),
-                                    jckbQtdMax.isSelected() ? (byte) 1 : (byte) 0,
-                                    Integer.valueOf(jftfQtdMax.getText())
-                            ));
-                            //INTERAÇÃO COM O USUÁRIO---------------------------------------
-                            JOptionPane.showMessageDialog(null, "PRODUTO SALVO COM SUCESSO COM SUCESSO. >> CÓDIGO: "
-                                    + ProdutoDAO.traduzCodProd(COD_PROD, (byte) 2), "CONFIMAÇÃO", JOptionPane.INFORMATION_MESSAGE);
-                            //--------------------------------------------------------------
-                            break;
-                    }
-                    //------------------------------------------------------------------
-
-                    //RESETA CAMPOS-----------------------------------------------------
-                    limpaPe();
-                    //------------------------------------------------------------------
-
-                    /**
-                     * Reseta a função
-                     */
-                    FUNCAO = 0;
-                } catch (SQLException ex) {
-                    EnvioExcecao envioExcecao = new EnvioExcecao(Controle.getDefaultGj(), ex);
-                    EnvioExcecao.envio();
-                }
-                loading.setVisible(false);
-                estadoInicialPe();
-            }
-        }.start();
-    }//GEN-LAST:event_btnSalvarPeActionPerformed
-
-    private void jcbTipoPeItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_jcbTipoPeItemStateChanged
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jcbTipoPeItemStateChanged
-
-    private void btnLimparPeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLimparPeActionPerformed
-        limpaPe();
-    }//GEN-LAST:event_btnLimparPeActionPerformed
-
-    private void jftfAlturaPeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jftfAlturaPeActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jftfAlturaPeActionPerformed
-
-    private void jckbAvisoEstoqueItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_jckbAvisoEstoqueItemStateChanged
-        if (jckbAvisoEstoque.isSelected()) {
-            jftfAvisoEstoque.setEnabled(true);
-        } else {
-            jftfAvisoEstoque.setEnabled(false);
-        }
-    }//GEN-LAST:event_jckbAvisoEstoqueItemStateChanged
-
-    private void tblConsultaPeKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tblConsultaPeKeyTyped
-
-    }//GEN-LAST:event_tblConsultaPeKeyTyped
-
-    private void tblConsultaPeKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tblConsultaPeKeyReleased
-        new Thread() {
-            @Override
-            public void run() {
-                mouseClicked();
-            }
-        }.start();
-    }//GEN-LAST:event_tblConsultaPeKeyReleased
-
-    private void tblConsultaPeMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblConsultaPeMouseClicked
-        new Thread() {
-            @Override
-            public void run() {
-                mouseClicked();
-            }
-        }.start();
-    }//GEN-LAST:event_tblConsultaPeMouseClicked
-
-    private void btnClonarPeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnClonarPeActionPerformed
-        try {
-            loading.setVisible(true);
-            loading.setText("CARREGANDO...");
-
-            COD_PROD
-                    = Integer.valueOf(tblConsultaPe.getValueAt(tblConsultaPe.getSelectedRow(), 0).toString());
-
-            //CARREGA OS DADOS DO BD--------------------------------------------
-            ProdutoPrEntBEAN produto = ProdutoDAO.retornaPeEdicao(COD_PROD);
-            //------------------------------------------------------------------
-
-            //PREENCHE OS CAMPOS------------------------------------------------
-            jtfDescricaoPe.setText(produto.getDescricao());
-            jftfLarguraPe.setValue(produto.getLargura());
-            jftfAlturaPe.setValue(produto.getAltura());
-            jftfEspessuraPe.setValue(produto.getEspessura());
-            jftfPesoPe.setValue(produto.getPeso());
-            jsfQtdFolhasPe.setValue(produto.getQtdPaginas());
-            jcbTipoPe.setSelectedItem(produto.getTipo());
-            jckbProdPreVenda.setSelected((produto.getPreVenda() == 1));
-            jftfVlrUnitPe.setValue(produto.getVlrUnit());
-            if (produto.getPromocao() == 1) {
-                jckbProm.setSelected(produto.getPromocao() == 1);
-                jftfVlrProm.setValue(produto.getVlrPromocao());
-                jdcInicioProm.setDate(produto.getInicioPromocao());
-                jdcFimProm.setDate(produto.getFimPromocao());
-            }
-            jftfEstoqueFisico.setValue(produto.getEstoque());
-            if (produto.getAvisoEstoque() == 1) {
-                jckbAvisoEstoque.setSelected(produto.getAvisoEstoque() == 1);
-                jftfAvisoEstoque.setValue(produto.getAvisoEstoqueUn());
-            }
-            jftfQtdMin.setValue(produto.getPdQtdMin());
-            if (produto.getPdMax() == 1) {
-                jckbQtdMax.setSelected(produto.getPdMax() == 1);
-                jftfQtdMax.setValue(produto.getPdQtdMax());
-            }
-            //------------------------------------------------------------------
-
-            //SELECIONA A ABA NOVO/EDITAR---------------------------------------
-            //------------------------------------------------------------------
-        } catch (SQLException ex) {
-            EnvioExcecao envioExcecao = new EnvioExcecao(Controle.getDefaultGj(), ex);
-            EnvioExcecao.envio();
-        }
-        tabPane.setSelectedIndex(2);
-        loading.setVisible(false);
-        FUNCAO = 2;
-    }//GEN-LAST:event_btnClonarPeActionPerformed
-
-    private void btnEditarPeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarPeActionPerformed
-        estadoInicialPe();
-        new Thread() {
-            @Override
-            public void run() {
-                try {
-                    loading.setText("CARREGANDO...");
-                    loading.setVisible(true);
-
-                    COD_PROD
-                            = Integer.valueOf(tblConsultaPe.getValueAt(tblConsultaPe.getSelectedRow(), 0).toString());
-
-                    //CARREGA OS DADOS DO BD------------------------------------
-                    ProdutoPrEntBEAN produto = ProdutoDAO.retornaPeEdicao(COD_PROD);
-                    //----------------------------------------------------------
-
-                    //PREENCHE OS CAMPOS----------------------------------------
-                    jtfDescricaoPe.setText(produto.getDescricao());
-                    jftfLarguraPe.setValue(produto.getLargura());
-                    jftfAlturaPe.setValue(produto.getAltura());
-                    jftfEspessuraPe.setValue(produto.getEspessura());
-                    jftfPesoPe.setValue(produto.getPeso());
-                    jsfQtdFolhasPe.setValue(produto.getQtdPaginas());
-                    jcbTipoPe.setSelectedItem(produto.getTipo());
-                    jckbProdPreVenda.setSelected((produto.getPreVenda() == 1));
-                    jftfVlrUnitPe.setValue(produto.getVlrUnit());
-                    if (produto.getPromocao() == 1) {
-                        jckbProm.setSelected(produto.getPromocao() == 1);
-                        jftfVlrProm.setValue(produto.getVlrPromocao());
-                        jdcInicioProm.setDate(produto.getInicioPromocao());
-                        jdcFimProm.setDate(produto.getFimPromocao());
-                    }
-                    jftfEstoqueFisico.setValue(produto.getEstoque());
-                    if (produto.getAvisoEstoque() == 1) {
-                        jckbAvisoEstoque.setSelected(produto.getAvisoEstoque() == 1);
-                        jftfAvisoEstoque.setValue(produto.getAvisoEstoqueUn());
-                    }
-                    jftfQtdMin.setValue(produto.getPdQtdMin());
-                    if (produto.getPdMax() == 1) {
-                        jckbQtdMax.setSelected(produto.getPdMax() == 1);
-                        jftfQtdMax.setValue(produto.getPdQtdMax());
-                    }
-                    lblMov.setText("ÚLTIMA MOVIMENTAÇÃO: " + produto.getUltMov());
-                    //----------------------------------------------------------
-
-                    //SELECIONA A ABA NOVO/EDITAR-------------------------------
-                    tabPane.setSelectedIndex(2);
-                    //----------------------------------------------------------
-
-                } catch (SQLException ex) {
-                    EnvioExcecao envioExcecao = new EnvioExcecao(Controle.getDefaultGj(), ex);
-                    EnvioExcecao.envio();
-                }
-                loading.setVisible(false);
-            }
-        }.start();
-        FUNCAO = 1;
-    }//GEN-LAST:event_btnEditarPeActionPerformed
-
-    private void btnSelPeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSelPeActionPerformed
-        COD_PROD
-                = Integer.valueOf(tblConsultaPe.getValueAt(tblConsultaPe.getSelectedRow(), 0).toString());
-        new Thread() {
-            @Override
-            public void run() {
-                OrcamentoPrincipalFrame.carregaProdutos(COD_PROD, (byte) 2);
-            }
-        }.start();
-        this.dispose();
-    }//GEN-LAST:event_btnSelPeActionPerformed
-
-    private void btnMostrarUltPeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMostrarUltPeActionPerformed
-        try {
-            DefaultTableModel modeloConsulta = (DefaultTableModel) tblConsultaPe.getModel();
-            modeloConsulta.setNumRows(0);
-            for (ProdutoPrEntBEAN produto : ProdutoDAO.pesquisaPe((byte) 3, null)) {
-                adicionaTblConsultaPe(modeloConsulta, produto);
-            }
-        } catch (SQLException ex) {
-            EnvioExcecao envioExcecao = new EnvioExcecao(Controle.getDefaultGj(), ex);
-            EnvioExcecao.envio();
-        }
-    }//GEN-LAST:event_btnMostrarUltPeActionPerformed
-
-    private void btnPesqPeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPesqPeActionPerformed
-        try {
-            DefaultTableModel modeloConsulta = (DefaultTableModel) tblConsultaPe.getModel();
-            modeloConsulta.setNumRows(0);
-            switch (tipoPesqPe.getSelectedIndex()) {
-                case 0:
-                    JOptionPane.showMessageDialog(null, "SELECIONE UM TIPO DE PESQUISA", "ERRO",
-                            JOptionPane.ERROR_MESSAGE);
-                    break;
-                case 1:
-                    for (ProdutoPrEntBEAN produto : ProdutoDAO.pesquisaPe((byte) 1,
-                            textoPesqPe.getText())) {
-                        adicionaTblConsultaPe(modeloConsulta, produto);
-                    }
-                    break;
-                case 2:
-                    for (ProdutoPrEntBEAN produto : ProdutoDAO.pesquisaPe((byte) 2,
-                            textoPesqPe.getText())) {
-                        adicionaTblConsultaPe(modeloConsulta, produto);
-                    }
                     break;
             }
-        } catch (SQLException ex) {
-            EnvioExcecao envioExcecao = new EnvioExcecao(Controle.getDefaultGj(), ex);
-            EnvioExcecao.envio();
-        }
-    }//GEN-LAST:event_btnPesqPeActionPerformed
-
-    private void altEstoqueActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_altEstoqueActionPerformed
-        new Thread() {
-            @Override
-            public void run() {
-                estadoAlterarEstoque();
-                try {
-                    loading.setText("CARREGANDO...");
-                    loading.setVisible(true);
-
-                    COD_PROD
-                            = Integer.valueOf(tblConsultaPe.getValueAt(tblConsultaPe.getSelectedRow(), 0).toString());
-
-                    /**
-                     * Carrega mais informações sobre o produto
-                     */
-                    ProdutoPrEntBEAN produto = ProdutoDAO.retornaPeEdicao(COD_PROD);
-
-                    /**
-                     * Preenche GUI
-                     */
-                    jtfDescricaoPe.setText(produto.getDescricao());
-                    jftfLarguraPe.setValue(produto.getLargura());
-                    jftfAlturaPe.setValue(produto.getAltura());
-                    jftfEspessuraPe.setValue(produto.getEspessura());
-                    jftfPesoPe.setValue(produto.getPeso());
-                    jsfQtdFolhasPe.setValue(produto.getQtdPaginas());
-                    jcbTipoPe.setSelectedItem(produto.getTipo());
-                    jckbProdPreVenda.setSelected((produto.getPreVenda() == 1));
-                    jftfVlrUnitPe.setValue(produto.getVlrUnit());
-                    if (produto.getPromocao() == 1) {
-                        jckbProm.setSelected(produto.getPromocao() == 1);
-                        jftfVlrProm.setValue(produto.getVlrPromocao());
-                        jdcInicioProm.setDate(produto.getInicioPromocao());
-                        jdcFimProm.setDate(produto.getFimPromocao());
-                    }
-                    jftfEstoqueFisico.setValue(produto.getEstoque());
-                    if (produto.getAvisoEstoque() == 1) {
-                        jckbAvisoEstoque.setSelected(produto.getAvisoEstoque() == 1);
-                        jftfAvisoEstoque.setValue(produto.getAvisoEstoqueUn());
-                    }
-                    jftfQtdMin.setValue(produto.getPdQtdMin());
-                    if (produto.getPdMax() == 1) {
-                        jckbQtdMax.setSelected(produto.getPdMax() == 1);
-                        jftfQtdMax.setValue(produto.getPdQtdMax());
-                    }
-
-                    /**
-                     * Seleciona a aba 2
-                     */
-                    tabPane.setSelectedIndex(2);
-
-                    /**
-                     * Define a função como alterar estoque
-                     */
-                    FUNCAO = 3;
-                } catch (SQLException ex) {
-                    EnvioExcecao envioExcecao = new EnvioExcecao(Controle.getDefaultGj(), ex);
-                    EnvioExcecao.envio();
-                }
-                loading.setVisible(false);
-            }
-        }.start();
-    }//GEN-LAST:event_altEstoqueActionPerformed
-
-    private void jftfEspessuraPeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jftfEspessuraPeActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jftfEspessuraPeActionPerformed
-
-    private void jckbPromItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_jckbPromItemStateChanged
-        if (jckbProm.isSelected()) {
-            jftfVlrProm.setEnabled(true);
-            jdcInicioProm.setEnabled(true);
-            jdcFimProm.setEnabled(true);
-        } else {
-            jftfVlrProm.setEnabled(false);
-            jdcInicioProm.setEnabled(false);
-            jdcFimProm.setEnabled(false);
-        }
-    }//GEN-LAST:event_jckbPromItemStateChanged
-
-    private void jftfPesoPeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jftfPesoPeActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jftfPesoPeActionPerformed
-
-    private void jckbQtdMaxItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_jckbQtdMaxItemStateChanged
-        if (jckbQtdMax.isSelected()) {
-            jftfQtdMax.setEnabled(true);
-        } else {
-            jftfQtdMax.setEnabled(false);
-        }
-    }//GEN-LAST:event_jckbQtdMaxItemStateChanged
-
-    private void jcbTipoPeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jcbTipoPeActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jcbTipoPeActionPerformed
-
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton2ActionPerformed
-
-    private void jftfEspessuraProdutoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jftfEspessuraProdutoActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jftfEspessuraProdutoActionPerformed
-
-    private void jftfPesoProdutoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jftfPesoProdutoActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jftfPesoProdutoActionPerformed
-
-
-    // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton altEstoque;
-    private javax.swing.JButton botaoClonar;
-    private javax.swing.JButton botaoEditar;
-    private javax.swing.JButton botaoMostrarUltimos;
-    private javax.swing.JButton botaoPesquisar;
-    public static javax.swing.JButton botaoSelecionar;
-    private javax.swing.JButton btnClonarPe;
-    private javax.swing.JButton btnEditarPe;
-    private javax.swing.JButton btnLimparPe;
-    private javax.swing.JButton btnMostrarUltPe;
-    private javax.swing.JButton btnPesqPe;
-    private javax.swing.JButton btnSalvarPe;
-    public static javax.swing.JButton btnSelPe;
-    public static javax.swing.JFormattedTextField codigoPapel;
-    public static javax.swing.JButton concluirPapel;
-    public static com.toedter.components.JSpinField coresFrente;
-    public static com.toedter.components.JSpinField coresVerso;
-    private javax.swing.JTextField descricaoProduto;
-    private javax.swing.JButton inserirPapel;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
-    private javax.swing.JCheckBox jCheckBox1;
-    private javax.swing.JCheckBox jCheckBox2;
-    private javax.swing.JComboBox<String> jComboBox1;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel10;
-    private javax.swing.JLabel jLabel11;
-    private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
-    private javax.swing.JLabel jLabel6;
-    private javax.swing.JLabel jLabel7;
-    private javax.swing.JLabel jLabel8;
-    private javax.swing.JLabel jLabel9;
-    private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel10;
-    private javax.swing.JPanel jPanel11;
-    private javax.swing.JPanel jPanel2;
-    private javax.swing.JPanel jPanel3;
-    private javax.swing.JPanel jPanel4;
-    private javax.swing.JPanel jPanel5;
-    private javax.swing.JPanel jPanel6;
-    private javax.swing.JPanel jPanel7;
-    private javax.swing.JPanel jPanel8;
-    private javax.swing.JPanel jPanel9;
-    private javax.swing.JRadioButton jRadioButton1;
-    private javax.swing.JRadioButton jRadioButton2;
-    private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JScrollPane jScrollPane3;
-    private javax.swing.JScrollPane jScrollPane4;
-    public static javax.swing.JComboBox<String> jcbTipoPe;
-    private javax.swing.JCheckBox jckbAvisoEstoque;
-    private javax.swing.JCheckBox jckbDispVendas;
-    private javax.swing.JCheckBox jckbProdPreVenda;
-    private javax.swing.JCheckBox jckbProm;
-    private javax.swing.JCheckBox jckbQtdMax;
-    public static com.toedter.calendar.JDateChooser jdcFimProm;
-    public static com.toedter.calendar.JDateChooser jdcInicioProm;
-    private javax.swing.JFormattedTextField jftfAlturaPe;
-    private javax.swing.JFormattedTextField jftfAlturaProduto;
-    private javax.swing.JFormattedTextField jftfAvisoEstoque;
-    private javax.swing.JFormattedTextField jftfEspessuraPe;
-    private javax.swing.JFormattedTextField jftfEspessuraProduto;
-    private javax.swing.JFormattedTextField jftfEstoqueFisico;
-    private javax.swing.JFormattedTextField jftfLarguraPe;
-    private javax.swing.JFormattedTextField jftfLarguraProduto;
-    private javax.swing.JFormattedTextField jftfPesoPe;
-    private javax.swing.JFormattedTextField jftfPesoProduto;
-    private javax.swing.JFormattedTextField jftfQtdMax;
-    private javax.swing.JFormattedTextField jftfQtdMin;
-    private javax.swing.JFormattedTextField jftfVlrProm;
-    private javax.swing.JFormattedTextField jftfVlrUnitPe;
-    private javax.swing.JFormattedTextField jftfVlrUnitPe1;
-    private com.toedter.components.JSpinField jsfQtdFolhasPe;
-    private javax.swing.JTextField jtfDescricaoPe;
-    private javax.swing.JLabel lblMov;
-    public static javax.swing.JFormattedTextField orelha;
-    private javax.swing.JButton pesquisar_acabamentos;
-    private com.toedter.components.JSpinField quantidadeFolhas;
-    private javax.swing.JButton retirarAcabamento;
-    private javax.swing.JButton retirarPapel;
-    private javax.swing.JButton salvar;
-    private javax.swing.JTabbedPane tabPane;
-    public static javax.swing.JTable tabelaAcabamentos;
-    public static javax.swing.JTable tabelaConsulta;
-    public static javax.swing.JTable tabelaPapel;
-    public static javax.swing.JTable tblConsultaPe;
-    private javax.swing.JTextField textoPesqPe;
-    private javax.swing.JTextField textoPesquisa;
-    public static javax.swing.JComboBox<String> tipoPapel;
-    private javax.swing.JComboBox<String> tipoPesqPe;
-    private javax.swing.JComboBox<String> tipoPesquisa;
-    public static javax.swing.JComboBox<String> tipoProduto;
-    // End of variables declaration//GEN-END:variables
-
-    //TABELA CONSULTA-----------------------------------------------------------
-    private void mouseClicked() {
-        try {
-            COD_PROD
-                    = Integer.valueOf(tblConsultaPe.getValueAt(tblConsultaPe.getSelectedRow(), 0).toString());
-
-            if (ProdutoDAO.verificaUsoProdPe(COD_PROD)) {
-                btnEditarPe.setEnabled(false);
-                altEstoque.setEnabled(true);
-
-            } else {
-                btnEditarPe.setEnabled(true);
-                altEstoque.setEnabled(false);
-            }
-            btnClonarPe.setEnabled(true);
-
-            if (SEL_ORC) {
-                btnSelPe.setEnabled(true);
-            }
-        } catch (SQLException ex) {
-            EnvioExcecao envioExcecao = new EnvioExcecao(Controle.getDefaultGj(), ex);
-            EnvioExcecao.envio();
-        }
-    }
-    //--------------------------------------------------------------------------
-
-    //ESTADOS-------------------------------------------------------------------
-    public void estado1Papel() {
-        codigoPapel.setEnabled(false);
-        codigoPapel.setText(null);
-        descricaoPapel = null;
-        tipoPapel.setEnabled(false);
-        coresFrente.setEnabled(false);
-        coresVerso.setEnabled(false);
-        concluirPapel.setEnabled(false);
-        coresFrente.setValue(0);
-        coresVerso.setValue(0);
-        orelha.setValue(0);
-        orelha.setEnabled(false);
-        tipoPapel.setSelectedIndex(0);
-    }
-
-    public void estado2Papel() {
-        codigoPapel.setEnabled(false);
-        tipoPapel.setEnabled(true);
-        coresFrente.setEnabled(true);
-        coresVerso.setEnabled(true);
-        concluirPapel.setEnabled(true);
-        if (tipoProduto.getSelectedItem().equals("LIVRO")) {
-            orelha.setEnabled(true);
-        } else {
-            orelha.setEnabled(false);
-        }
-    }
-
-    private void estadoAlterarEstoque() {
-        jtfDescricaoPe.setEditable(false);
-        jftfLarguraPe.setEditable(false);
-        jftfAlturaPe.setEditable(false);
-        jftfEspessuraPe.setEditable(false);
-        jftfPesoPe.setEditable(false);
-        jsfQtdFolhasPe.setEnabled(false);
-        jcbTipoPe.setEnabled(false);
-        jckbProdPreVenda.setEnabled(true);
-        jftfVlrUnitPe.setEnabled(true);
-        jckbProm.setEnabled(true);
-        jftfEstoqueFisico.setEnabled(true);
-        jckbAvisoEstoque.setEnabled(true);
-        jftfQtdMin.setEnabled(true);
-        jckbQtdMax.setEnabled(true);
-        jckbDispVendas.setEnabled(true);
-    }
-
-    private void estadoInicialPe() {
-        jtfDescricaoPe.setEditable(true);
-        jftfLarguraPe.setEditable(true);
-        jftfAlturaPe.setEditable(true);
-        jftfEspessuraPe.setEditable(true);
-        jftfPesoPe.setEditable(true);
-        jsfQtdFolhasPe.setEnabled(true);
-        jcbTipoPe.setEnabled(true);
-        jckbProdPreVenda.setEnabled(true);
-        jftfVlrUnitPe.setEnabled(true);
-        jckbProm.setEnabled(true);
-        jftfEstoqueFisico.setEnabled(true);
-        jckbAvisoEstoque.setEnabled(true);
-        jftfQtdMin.setEnabled(true);
-        jckbQtdMax.setEnabled(true);
-        jckbDispVendas.setEnabled(true);
-    }
-
-    public void limpa() {
-        COD_PROD = 0;
-        FUNCAO = 0;
-        descricaoProduto.setText("");
-        jftfLarguraProduto.setText("");
-        jftfAlturaProduto.setText("");
-        quantidadeFolhas.setValue(1);
-        DefaultTableModel modeloPapel = (DefaultTableModel) tabelaPapel.getModel();
-        modeloPapel.setNumRows(0);
-        DefaultTableModel modeloAcabamentos = (DefaultTableModel) tabelaAcabamentos.getModel();
-        modeloAcabamentos.setNumRows(0);
-        estado1Papel();
-    }
-
-    public void limpaPe() {
-        jtfDescricaoPe.setText("");
-        jftfLarguraPe.setValue(0);
-        jftfAlturaPe.setValue(0);
-        jftfEspessuraPe.setValue(0);
-        jftfPesoPe.setValue(0);
-        jsfQtdFolhasPe.setValue(1);
-        jcbTipoPe.setSelectedIndex(0);
-        jckbProdPreVenda.setSelected(false);
-        jftfVlrUnitPe.setValue(0);
-        jckbProm.setSelected(false);
-        jftfVlrProm.setValue(0);
-        jdcInicioProm.setDate(null);
-        jdcFimProm.setDate(null);
-        jftfEstoqueFisico.setValue(0);
-        jckbAvisoEstoque.setSelected(false);
-        jftfAvisoEstoque.setValue(0);
-        jftfQtdMin.setValue(0);
-        jckbQtdMax.setSelected(false);
-        jftfQtdMax.setValue(0);
-        lblMov.setText("");
-        FUNCAO = 0;
-        COD_PROD = 0;
-    }
-    //--------------------------------------------------------------------------
-
-    private static int mdc(int a, int b) {
-        while (b != 0) {
-            int r = a % b;
-            a = b;
-            b = r;
-        }
-        return a;
-    }
-
-    private static int mmc(int a, int b) {
-        return a * (b / mdc(a, b));
-    }
-
-    private void carregaClonagem() {
-        try {
-            this.setTitle("CLONANDO PRODUTO " + COD_PROD);
-            loading.setVisible(true);
-            loading.setText("CARREGANDO CLONAGEM...");
-
-            limpa();
-            COD_PROD
-                    = Integer.valueOf(tabelaConsulta.getValueAt(tabelaConsulta.getSelectedRow(), 0).toString());
-            FUNCAO = 2;
-
-            ProdutoBEAN produto = ProdutoDAO.retornaInfoProd(COD_PROD, (byte) 1);
-            descricaoProduto.setText(produto.getDescricao());
-            jftfLarguraProduto.setValue(produto.getLargura());
-            jftfAlturaProduto.setValue(produto.getAltura());
-            quantidadeFolhas.setValue(produto.getQuantidadeFolhas());
-            tipoProduto.setSelectedItem(produto.getTipoProduto());
-
-            DefaultTableModel modeloPapeis = (DefaultTableModel) ProdutoFrame.tabelaPapel.getModel();
-            for (PapelBEAN bean : ProdutoDAO.retornaInformacoesPapel(COD_PROD)) {
-                modeloPapeis.addRow(new Object[]{
-                    bean.getCodigo(),
-                    bean.getDescricaoPapel(),
-                    bean.getTipoPapel(),
-                    bean.getOrelha(),
-                    bean.getCorFrente(),
-                    bean.getCorVerso()
-                });
-            }
-
-            try {
-                DefaultTableModel modeloAcabamentos = (DefaultTableModel) ProdutoFrame.tabelaAcabamentos.getModel();
-                for (AcabamentoProdBEAN bean : AcabamentoDAO.retornaAcabamentosProduto(COD_PROD)) {
-                    modeloAcabamentos.addRow(new Object[]{
-                        bean.getCodigoAcabamento(),
-                        AcabamentoDAO.retornaDescricaoAcabamentos(bean.getCodigoAcabamento())
-                    });
-                }
-            } catch (SemAcabamentoException ex) {
-                //NENHUMA AÇÃO
-            }
-            tabPane.setSelectedIndex(0);
-        } catch (SQLException ex) {
-            EnvioExcecao envioExcecao = new EnvioExcecao(Controle.getDefaultGj(), ex);
-            EnvioExcecao.envio();
-        }
-
-        loading.setVisible(false);
-    }
-
-    private void salvarProduto() {
-        try {
-            loading.setText("SALVANDO...");
-            loading.setVisible(true);
-
-            ProdutoBEAN produto = new ProdutoBEAN();
-            PapelBEAN papeisCadastroBEAN = new PapelBEAN();
-            AcabamentoProdBEAN produtosComponentesBEAN = new AcabamentoProdBEAN();
-
-            switch (FUNCAO) {
-                case 1:
-                    produto.setCodigo(COD_PROD);
-                    break;
-                case 0:
-                case 2:
-                    COD_PROD = ProdutoDAO.retornaUltimoRegistro() + 1;
-                    produto.setCodigo(COD_PROD);
-                    break;
-            }
-
-            //VERIFICA CASOS DE ERRO--------------------------------------------
-            if (ProdutoDAO.verificaDescricao(descricaoProduto.getText())
-                    & FUNCAO != 1) {
-                JOptionPane.showMessageDialog(null, "DESCRIÇÃO DE PRODUTO JÁ EXISTENTE!", "ERRO AO SALVAR", JOptionPane.ERROR_MESSAGE);
-                loading.setVisible(false);
-                return;
-            } else {
-                if (descricaoProduto.getText().isEmpty()) {
-                    JOptionPane.showMessageDialog(null, "INSIRA UM CONTEÚDO NO CAMPO DESCRIÇÃO!", "ERRO AO SALVAR", JOptionPane.ERROR_MESSAGE);
-                    loading.setVisible(false);
-                    return;
-                }
-                if (descricaoProduto.getText().length() >= 150) {
-                    JOptionPane.showMessageDialog(null, "O CAMPO DESCRIÇÃO DO PRODUTO EXCEDE 150 CARACTERES", "LIMITE DE CARACTERES", JOptionPane.ERROR_MESSAGE);
-                    loading.setVisible(false);
-                    return;
-                } else {
-                    produto.setDescricao(descricaoProduto.getText().toUpperCase());
-                }
-            }
-
-            if (jftfLarguraProduto.getText().isEmpty()) {
-                JOptionPane.showMessageDialog(null, "INSIRA UM CONTEÚDO NO CAMPO LARGURA", "ERRO AO SALVAR", JOptionPane.ERROR_MESSAGE);
-                loading.setVisible(false);
-                return;
-            } else {
-                String n2 = String.valueOf(jftfLarguraProduto.getValue().toString());
-                n2 = n2.replace(",", ".");
-                produto.setLargura(Float.valueOf(n2));
-            }
-
-            if (jftfAlturaProduto.getText().isEmpty()) {
-                JOptionPane.showMessageDialog(null, "INSIRA UM CONTEÚDO NO CAMPO ALTURA.");
-                loading.setVisible(false);
-                return;
-            } else {
-                String n2 = String.valueOf(jftfAlturaProduto.getValue().toString());
-                n2 = n2.replace(",", ".");
-                produto.setAltura(Float.valueOf(n2));
-            }
-
-            if (tabelaPapel.getRowCount() == 0) {
-                JOptionPane.showMessageDialog(null, "PRODUTO SEM PAPEL!", "ERRO AO SALVAR", JOptionPane.ERROR_MESSAGE);
-                loading.setVisible(false);
-                return;
-            }
-
-            if (quantidadeFolhas.getValue() == 0) {
-                JOptionPane.showMessageDialog(null, "A QUANTIDADE DE FOLHAS NÃO PODE SER 0!", "ERRO AO SALVAR", JOptionPane.ERROR_MESSAGE);
-                loading.setVisible(false);
-                return;
-            }
-
-            int dialogButton = JOptionPane.YES_NO_OPTION;
-            int dialogResult = JOptionPane.showConfirmDialog(this, "CONFIRMA A QUANTIDADE DE PÁGINAS DE '" + quantidadeFolhas.getValue() + "' ?\n (ISSO AFETARÁ NO CALCÚLO DE FOLHAS A SEREM UTILIZADAS)", "CONFIRMAÇÃO DE PÁGINAS", dialogButton);
-            if (dialogResult != 0) {
-                loading.setVisible(false);
-                return;
-            }
-
-            produto.setQuantidadePaginas(quantidadeFolhas.getValue());
-
-            if (tipoProduto.getSelectedItem().toString().equals("SELECIONE...")) {
-                JOptionPane.showMessageDialog(null, "SELECIONE O TIPO DO PRODUTO.");
-                loading.setVisible(false);
-                return;
-            } else {
-                produto.setTipoProduto(tipoProduto.getSelectedItem().toString());
-            }
-
-            dialogButton = JOptionPane.YES_NO_OPTION;
-            dialogResult = JOptionPane.showConfirmDialog(this, "CONFIRMA O TIPO DE PRODUTO COMO '" + tipoProduto.getSelectedItem().toString() + "' ?\n (ISSO AFETARÁ NO CALCÚLO DE FOLHAS A SEREM UTILIZADAS)", "CONFIRMAÇÃO DE TIPO DE PRODUTO", dialogButton);
-            if (dialogResult != 0) {
-                loading.setVisible(false);
-                return;
-            }
-
-            switch (FUNCAO) {
-                case 1:
-                    PapelDAO.exluiPapeisProduto(Integer.valueOf(COD_PROD), (byte) 1);
-                    AcabamentoDAO.excluiAcabamentosProduto(Integer.valueOf(COD_PROD), (byte) 1);
-                    ProdutoDAO.atualiza(produto);
-                    break;
-                case 0:
-                case 2:
-                    ProdutoDAO.cria(produto);
-                    break;
-
-            }
-
-            switch (FUNCAO) {
-                case 0:
-                case 1:
-                case 2:
-                    if (tabelaPapel.getRowCount() > 0) {
-                        for (int i = 0; i < tabelaPapel.getRowCount(); i++) {
-                            papeisCadastroBEAN.setCodProduto(COD_PROD);
-                            papeisCadastroBEAN.setTipoProduto((byte) 1);
-                            papeisCadastroBEAN.setCodPapel((int) tabelaPapel.getValueAt(i, 0));
-                            papeisCadastroBEAN.setTipo_papel((String) tabelaPapel.getValueAt(i, 2));
-                            papeisCadastroBEAN.setCor_frente((int) tabelaPapel.getValueAt(i, 4));
-                            papeisCadastroBEAN.setCor_verso((int) tabelaPapel.getValueAt(i, 5));
-                            papeisCadastroBEAN.setDescricaoPapel((String) tabelaPapel.getValueAt(i, 1));
-                            papeisCadastroBEAN.setOrelha(Float.valueOf(tabelaPapel.getValueAt(i, 3).toString().replace(",", ".")));
-                            PapelDAO.criaPplProduto(papeisCadastroBEAN);
-                        }
-                    }
-
-                    if (tabelaAcabamentos.getRowCount() > 0) {
-                        for (int i = 0; i < tabelaAcabamentos.getRowCount(); i++) {
-                            produtosComponentesBEAN.setTipoProduto((byte) 1);
-                            produtosComponentesBEAN.setCodigoProduto(COD_PROD);
-                            produtosComponentesBEAN.setCodigoAcabamento((int) tabelaAcabamentos.getValueAt(i, 0));
-                            AcabamentoDAO.criaAcabamentosProduto(produtosComponentesBEAN);
-                        }
-                    }
-                    break;
-            }
-
-            JOptionPane.showMessageDialog(null, "PRODUTO Nº " + COD_PROD + " CADASTRADO COM SUCESSO!");
         } catch (SQLException ex) {
             EnvioExcecao envioExcecao = new EnvioExcecao(Controle.getDefaultGj(), ex);
             EnvioExcecao.envio();
             loading.setVisible(false);
             return;
         }
-        this.setTitle("CADASTRO DE PRODUTOS");
-        loading.setVisible(false);
 
-        limpa();
     }
 
     private void pesquisarProduto() {
@@ -2463,11 +2271,11 @@ public class ProdutoFrame extends javax.swing.JInternalFrame {
             FUNCAO = 1;
 
             ProdutoBEAN produto = ProdutoDAO.retornaInfoProd(COD_PROD, (byte) 1);
-            descricaoProduto.setText(produto.getDescricao());
+            jftfDescricaoProduto.setText(produto.getDescricao());
             jftfLarguraProduto.setValue(produto.getLargura());
             jftfAlturaProduto.setValue(produto.getAltura());
-            quantidadeFolhas.setValue(produto.getQuantidadeFolhas());
-            tipoProduto.setSelectedItem(produto.getTipoProduto());
+            jsfQtdFolhasProduto.setValue(produto.getQuantidadeFolhas());
+            jcbTipoProduto.setSelectedItem(produto.getTipoProduto());
 
             DefaultTableModel modeloPapeis = (DefaultTableModel) ProdutoFrame.tabelaPapel.getModel();
             for (PapelBEAN bean : ProdutoDAO.retornaInformacoesPapel(Integer.valueOf(COD_PROD))) {

@@ -6,7 +6,7 @@
 package ui.cadastros.clientes;
 
 import connection.ConnectionFactory;
-import entidades.Orcamento;
+import entities.sisgrafex.Orcamento;
 import exception.ClienteNaoEncontradoException;
 import exception.EnvioExcecao;
 import java.sql.SQLException;

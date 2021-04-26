@@ -11,7 +11,7 @@ import com.itextpdf.text.PageSize;
 import com.itextpdf.text.Paragraph;
 import com.itextpdf.text.Phrase;
 import com.itextpdf.text.pdf.PdfWriter;
-import entidades.Cliente;
+import entities.sisgrafex.Cliente;
 import exception.EnvioExcecao;
 import java.io.File;
 import java.io.FileNotFoundException;

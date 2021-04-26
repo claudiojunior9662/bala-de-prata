@@ -5,7 +5,7 @@
  */
 package model.tabelas;
 
-import entidades.OrdemProducao;
+import entities.sisgrafex.OrdemProducao;
 import exception.EnvioExcecao;
 import java.sql.SQLException;
 import java.util.ArrayList;

@@ -5,7 +5,7 @@
  */
 package model.tabelas;
 
-import entidades.Orcamento;
+import entities.sisgrafex.Orcamento;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.table.AbstractTableModel;

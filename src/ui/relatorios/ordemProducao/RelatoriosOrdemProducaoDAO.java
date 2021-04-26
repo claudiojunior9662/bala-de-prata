@@ -6,9 +6,9 @@
 package ui.relatorios.ordemProducao;
 
 import connection.ConnectionFactory;
-import entidades.Cliente;
-import entidades.OrdemProducao;
-import entidades.Produto;
+import entities.sisgrafex.Cliente;
+import entities.sisgrafex.OrdemProducao;
+import entities.sisgrafex.Produto;
 import exception.ConsultaSemResultadoException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;

@@ -6,16 +6,16 @@
 package model.dao;
 
 import connection.ConnectionFactory;
-import entidades.AlteraData;
+import entities.sisgrafex.AlteraData;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import entidades.OrdemProducao;
-import entidades.CalculosOpBEAN;
-import entidades.Servicos;
+import entities.sisgrafex.OrdemProducao;
+import entities.sisgrafex.CalculosOpBEAN;
+import entities.sisgrafex.Servicos;
 import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;

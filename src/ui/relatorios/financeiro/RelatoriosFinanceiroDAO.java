@@ -6,7 +6,7 @@
 package ui.relatorios.financeiro;
 
 import connection.ConnectionFactory;
-import entidades.Cliente;
+import entities.sisgrafex.Cliente;
 import ui.cadastros.notas.NotaBEAN;
 import java.sql.Connection;
 import java.sql.PreparedStatement;

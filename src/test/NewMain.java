@@ -7,7 +7,7 @@
 package test;
 
 import connection.ConnectionFactory;
-import entidades.Valores;
+import entities.sisgrafex.Valores;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;

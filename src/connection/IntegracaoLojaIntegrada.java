@@ -43,11 +43,7 @@ public class IntegracaoLojaIntegrada {
     private static final String FORMATO_SAIDA = "json";
 
     public static void main(String[] args) {
-        try {
-            realizaRequisicaoPOST("teste");
-        } catch (IOException | InterruptedException ex) {
-            Logger.getLogger(IntegracaoLojaIntegrada.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        
     }
 
     public static void realizaRequisicaoGET(String requisicao) {
@@ -126,8 +122,36 @@ public class IntegracaoLojaIntegrada {
         }
     }
 
-    public static void realizaRequisicaoPOST(String requisicao) throws IOException, InterruptedException {
-                
+    /**
+     * Realiza requisição POST para o e-commerce
+     * @param tipo 1 - Cadastro categoria, 2 - Cadastro marca, 3 - Cadastro grade, 4 - Cadastro variação,
+     * 5 - Cadastro produto pai, 6 - Cadastro produto filho, 7 - Cadastro imagem produto, 8 - Cadastro cliente
+     * @throws IOException
+     * @throws InterruptedException 
+     */
+    public static void realizaRequisicaoPOST(byte tipo, Object requisicao) throws IOException, InterruptedException {
+        
+        switch(tipo){
+            case 1:
+                break;
+            case 2:
+                break;
+            case 3:
+                break;
+            case 4:
+                break;
+            case 5:
+                break;
+            case 6:
+                break;
+            case 7:
+                break;
+            case 8:
+                break;
+            default:
+                break;
+        }
+        
         HashMap values = new HashMap<String, String>(){{
             put("id_externo", null);
             put("nome", "Teste Integracao API");
