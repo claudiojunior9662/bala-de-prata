@@ -56,25 +56,25 @@ public class ConnectionFactory {
     private static void defineVar() {
         switch (Controle.getTipoVersao()) {
             case 1:
-                DRIVER_SQL = "com.mysql.jdbc.Driver";
+                DRIVER_SQL = "com.mysql.cj.jdbc.Driver";
                 URL = "jdbc:mysql://10.67.32.252:3306/bala_dev";
                 USER = "remoto";
                 PASS = "ALLAH@366";
                 break;
             case 2:
-                DRIVER_SQL = "com.mysql.jdbc.Driver";
+                DRIVER_SQL = "com.mysql.cj.jdbc.Driver";
                 URL = "jdbc:mysql://10.67.32.252:3306/bala_dev_TESTE";
                 USER = "remoto";
                 PASS = "ALLAH@366";
                 break;
             case 3:
-                DRIVER_SQL = "com.mysql.jdbc.Driver";
+                DRIVER_SQL = "com.mysql.cj.jdbc.Driver";
                 URL = "jdbc:mysql://localhost:3306/bala_dev";
                 USER = "root";
                 PASS = "";
                 break;
             case 4:
-                DRIVER_SQL = "com.mysql.jdbc.Driver";
+                DRIVER_SQL = "com.mysql.cj.jdbc.Driver";
                 URL = "jdbc:mysql://10.67.32.252:3306/bala_dev_TESTE";
                 USER = "remoto";
                 PASS = "ALLAH@366";
