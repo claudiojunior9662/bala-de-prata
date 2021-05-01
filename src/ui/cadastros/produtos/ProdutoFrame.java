@@ -12,8 +12,6 @@ import javax.swing.table.DefaultTableModel;
 import ui.cadastros.papeis.PapelCadastro;
 import java.sql.SQLException;
 import java.util.Date;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import ui.cadastros.acabamentos.AcabamentoDAO;
@@ -27,7 +25,7 @@ import ui.principal.GerenteJanelas;
  *
  * @author claud
  */
-public class ProdutoFrame extends javax.swing.JInternalFrame {
+public final class ProdutoFrame extends javax.swing.JInternalFrame {
 
     public static boolean orcamentoNovo;
     public static boolean orcamentoEditar;
@@ -62,16 +60,12 @@ public class ProdutoFrame extends javax.swing.JInternalFrame {
         initComponents();
         this.loading = loading;
         this.gj = gj;
-        botaoSelecionar.setEnabled(false);
-        botaoEditar.setEnabled(false);
-        botaoClonar.setEnabled(false);
         retirarAcabamento.setEnabled(false);
         retirarPapel.setEnabled(false);
         orelha.setEnabled(false);
         orelha.setValue(0);
 
         limpa();
-        limpaPe();
 
 //        tabPane.setEnabledAt(2, false);
 //        tabPane.setEnabledAt(3, false);
@@ -88,6 +82,7 @@ public class ProdutoFrame extends javax.swing.JInternalFrame {
 
         tipoIntProduto = new javax.swing.ButtonGroup();
         paiFilho = new javax.swing.ButtonGroup();
+        tipoConsulta = new javax.swing.ButtonGroup();
         tabPane = new javax.swing.JTabbedPane();
         jPanel2 = new javax.swing.JPanel();
         jftfDescricaoProduto = new javax.swing.JTextField();
@@ -99,7 +94,7 @@ public class ProdutoFrame extends javax.swing.JInternalFrame {
         jButton1 = new javax.swing.JButton();
         jPanel10 = new javax.swing.JPanel();
         jrdParaProducao = new javax.swing.JRadioButton();
-        jrdParaPE = new javax.swing.JRadioButton();
+        jrdParaProntaEntrega = new javax.swing.JRadioButton();
         jckbUtilizadoEcommerce = new javax.swing.JCheckBox();
         jckbAtivo = new javax.swing.JCheckBox();
         jLabel8 = new javax.swing.JLabel();
@@ -108,7 +103,7 @@ public class ProdutoFrame extends javax.swing.JInternalFrame {
         jLabel10 = new javax.swing.JLabel();
         jLabel11 = new javax.swing.JLabel();
         jftfPesoProduto = new javax.swing.JFormattedTextField();
-        jTabbedPane1 = new javax.swing.JTabbedPane();
+        tabPaneInfoProduto = new javax.swing.JTabbedPane();
         jPanel12 = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
         tabelaPapel = new javax.swing.JTable();
@@ -149,27 +144,19 @@ public class ProdutoFrame extends javax.swing.JInternalFrame {
         jScrollPane5 = new javax.swing.JScrollPane();
         jtblFilhos = new javax.swing.JTable();
         lblMov = new javax.swing.JLabel();
-        jPanel3 = new javax.swing.JPanel();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        tabelaConsulta = new javax.swing.JTable();
-        tipoPesquisa = new javax.swing.JComboBox<>();
-        textoPesquisa = new javax.swing.JTextField();
-        botaoPesquisar = new javax.swing.JButton();
-        botaoMostrarUltimos = new javax.swing.JButton();
-        botaoSelecionar = new javax.swing.JButton();
-        botaoEditar = new javax.swing.JButton();
-        botaoClonar = new javax.swing.JButton();
         jPanel6 = new javax.swing.JPanel();
-        textoPesqPe = new javax.swing.JTextField();
+        textoPesquisaProduto = new javax.swing.JTextField();
         btnPesqPe = new javax.swing.JButton();
         btnMostrarUltPe = new javax.swing.JButton();
-        btnSelPe = new javax.swing.JButton();
-        btnEditarPe = new javax.swing.JButton();
-        btnClonarPe = new javax.swing.JButton();
+        btnSelecionar = new javax.swing.JButton();
+        btnEditar = new javax.swing.JButton();
+        btnClonar = new javax.swing.JButton();
         jScrollPane4 = new javax.swing.JScrollPane();
-        tblConsultaPe = new javax.swing.JTable();
-        tipoPesqPe = new javax.swing.JComboBox<>();
-        altEstoque = new javax.swing.JButton();
+        tblConsulta = new javax.swing.JTable();
+        tipoPesquisaProduto = new javax.swing.JComboBox<>();
+        btnAlterarEstoque = new javax.swing.JButton();
+        jrdConsultaProducao = new javax.swing.JRadioButton();
+        jrdConsultaProntaEntrega = new javax.swing.JRadioButton();
 
         setTitle("CADASTRO DE PRODUTOS");
         setFrameIcon(new javax.swing.ImageIcon(getClass().getResource("/icones/produto.png"))); // NOI18N
@@ -226,8 +213,8 @@ public class ProdutoFrame extends javax.swing.JInternalFrame {
         tipoIntProduto.add(jrdParaProducao);
         jrdParaProducao.setText("PRODUÇÃO (PP)");
 
-        tipoIntProduto.add(jrdParaPE);
-        jrdParaPE.setText("PRONTA ENTREGA (PE)");
+        tipoIntProduto.add(jrdParaProntaEntrega);
+        jrdParaProntaEntrega.setText("PRONTA ENTREGA (PE)");
 
         jckbUtilizadoEcommerce.setText("SERÁ UTILIZADO NO E-COMMERCE");
 
@@ -239,9 +226,9 @@ public class ProdutoFrame extends javax.swing.JInternalFrame {
         jPanel10Layout.setHorizontalGroup(
             jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel10Layout.createSequentialGroup()
-                .addGap(282, 282, 282)
+                .addGap(305, 305, 305)
                 .addComponent(jckbUtilizadoEcommerce)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGap(18, 18, 18)
                 .addComponent(jckbAtivo)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -252,7 +239,7 @@ public class ProdutoFrame extends javax.swing.JInternalFrame {
             .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(jPanel10Layout.createSequentialGroup()
                     .addGap(137, 137, 137)
-                    .addComponent(jrdParaPE)
+                    .addComponent(jrdParaProntaEntrega)
                     .addContainerGap(585, Short.MAX_VALUE)))
         );
         jPanel10Layout.setVerticalGroup(
@@ -271,7 +258,7 @@ public class ProdutoFrame extends javax.swing.JInternalFrame {
             .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel10Layout.createSequentialGroup()
                     .addContainerGap(17, Short.MAX_VALUE)
-                    .addComponent(jrdParaPE)
+                    .addComponent(jrdParaProntaEntrega)
                     .addContainerGap()))
         );
 
@@ -434,7 +421,7 @@ public class ProdutoFrame extends javax.swing.JInternalFrame {
 
         jPanel12Layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {concluirPapel, coresVerso});
 
-        jTabbedPane1.addTab("PAPÉIS", jPanel12);
+        tabPaneInfoProduto.addTab("PAPÉIS", jPanel12);
 
         retirarAcabamento.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icones/remove.png"))); // NOI18N
         retirarAcabamento.addActionListener(new java.awt.event.ActionListener() {
@@ -506,7 +493,7 @@ public class ProdutoFrame extends javax.swing.JInternalFrame {
                 .addContainerGap())
         );
 
-        jTabbedPane1.addTab("ACABAMENTOS", jPanel13);
+        tabPaneInfoProduto.addTab("ACABAMENTOS", jPanel13);
 
         jdcInicioPromProduto.setBorder(javax.swing.BorderFactory.createTitledBorder("INÍCIO"));
         jdcInicioPromProduto.setEnabled(false);
@@ -566,7 +553,7 @@ public class ProdutoFrame extends javax.swing.JInternalFrame {
                 .addContainerGap(122, Short.MAX_VALUE))
         );
 
-        jTabbedPane1.addTab("VALORES", jPanel4);
+        tabPaneInfoProduto.addTab("VALORES", jPanel4);
 
         jftfEstoqueFisicoProduto.setBorder(javax.swing.BorderFactory.createTitledBorder("ESTOQUE FÍSICO"));
         jftfEstoqueFisicoProduto.setValue(0);
@@ -615,7 +602,7 @@ public class ProdutoFrame extends javax.swing.JInternalFrame {
                 .addContainerGap(122, Short.MAX_VALUE))
         );
 
-        jTabbedPane1.addTab("ESTOQUE", jPanel14);
+        tabPaneInfoProduto.addTab("ESTOQUE", jPanel14);
 
         jftfQtdMinProduto.setBorder(javax.swing.BorderFactory.createTitledBorder("QUANTIDADE MÍNIMA"));
         jftfQtdMinProduto.setValue(0);
@@ -654,7 +641,7 @@ public class ProdutoFrame extends javax.swing.JInternalFrame {
                 .addGap(19, 122, Short.MAX_VALUE))
         );
 
-        jTabbedPane1.addTab("PEDIDOS", jPanel15);
+        tabPaneInfoProduto.addTab("PEDIDOS", jPanel15);
 
         paiFilho.add(jrdProdutoPai);
         jrdProdutoPai.setText("PRODUTO PAI");
@@ -728,7 +715,7 @@ public class ProdutoFrame extends javax.swing.JInternalFrame {
                         .addContainerGap())))
         );
 
-        jTabbedPane1.addTab("PAI/FILHOS", jPanel16);
+        tabPaneInfoProduto.addTab("PAI/FILHOS", jPanel16);
 
         lblMov.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         lblMov.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -766,7 +753,7 @@ public class ProdutoFrame extends javax.swing.JInternalFrame {
                         .addComponent(jsfQtdFolhasProduto, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jcbTipoProduto, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addComponent(jTabbedPane1)
+                    .addComponent(tabPaneInfoProduto)
                     .addComponent(lblMov, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
@@ -798,7 +785,7 @@ public class ProdutoFrame extends javax.swing.JInternalFrame {
                             .addComponent(jLabel11)
                             .addComponent(jftfPesoProduto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(tabPaneInfoProduto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(lblMov, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -816,140 +803,7 @@ public class ProdutoFrame extends javax.swing.JInternalFrame {
 
         jPanel2Layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {jLabel11, jftfPesoProduto});
 
-        tabPane.addTab("PRODUÇÃO NOVO/EDITAR", new javax.swing.ImageIcon(getClass().getResource("/icones/incluir.png")), jPanel2); // NOI18N
-
-        tabelaConsulta.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-
-            },
-            new String [] {
-                "CÓDIGO", "ID", "DESCRIÇÃO"
-            }
-        ) {
-            Class[] types = new Class [] {
-                java.lang.Object.class, java.lang.String.class, java.lang.Object.class
-            };
-            boolean[] canEdit = new boolean [] {
-                false, false, false
-            };
-
-            public Class getColumnClass(int columnIndex) {
-                return types [columnIndex];
-            }
-
-            public boolean isCellEditable(int rowIndex, int columnIndex) {
-                return canEdit [columnIndex];
-            }
-        });
-        tabelaConsulta.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                tabelaConsultaMouseClicked(evt);
-            }
-        });
-        jScrollPane1.setViewportView(tabelaConsulta);
-        if (tabelaConsulta.getColumnModel().getColumnCount() > 0) {
-            tabelaConsulta.getColumnModel().getColumn(0).setMinWidth(50);
-            tabelaConsulta.getColumnModel().getColumn(0).setPreferredWidth(50);
-            tabelaConsulta.getColumnModel().getColumn(1).setPreferredWidth(15);
-            tabelaConsulta.getColumnModel().getColumn(2).setPreferredWidth(700);
-        }
-
-        tipoPesquisa.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "SELECIONE...", "CÓDIGO", "DESCRIÇÃO" }));
-        tipoPesquisa.setBorder(javax.swing.BorderFactory.createTitledBorder("PESQUISAR POR"));
-        tipoPesquisa.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                tipoPesquisaActionPerformed(evt);
-            }
-        });
-
-        botaoPesquisar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icones/pesquisar.png"))); // NOI18N
-        botaoPesquisar.setText("PESQUISAR");
-        botaoPesquisar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                botaoPesquisarActionPerformed(evt);
-            }
-        });
-
-        botaoMostrarUltimos.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icones/ultimos.png"))); // NOI18N
-        botaoMostrarUltimos.setText("MOSTRAR 45 ÚLTIMOS");
-        botaoMostrarUltimos.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                botaoMostrarUltimosActionPerformed(evt);
-            }
-        });
-
-        botaoSelecionar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icones/confirma.png"))); // NOI18N
-        botaoSelecionar.setText("SELECIONAR");
-        botaoSelecionar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                botaoSelecionarActionPerformed(evt);
-            }
-        });
-
-        botaoEditar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icones/editar.png"))); // NOI18N
-        botaoEditar.setText("EDITAR");
-        botaoEditar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                botaoEditarActionPerformed(evt);
-            }
-        });
-
-        botaoClonar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icones/clonar.png"))); // NOI18N
-        botaoClonar.setText("CLONAR");
-        botaoClonar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                botaoClonarActionPerformed(evt);
-            }
-        });
-
-        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
-        jPanel3.setLayout(jPanel3Layout);
-        jPanel3Layout.setHorizontalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 893, Short.MAX_VALUE)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(botaoClonar)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(botaoEditar)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(botaoSelecionar))
-                    .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addComponent(tipoPesquisa, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(textoPesquisa, javax.swing.GroupLayout.PREFERRED_SIZE, 352, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(botaoPesquisar)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(botaoMostrarUltimos)))
-                .addContainerGap())
-        );
-        jPanel3Layout.setVerticalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
-                .addGap(11, 11, 11)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(tipoPesquisa, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(textoPesquisa, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(botaoMostrarUltimos)
-                        .addComponent(botaoPesquisar)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 480, Short.MAX_VALUE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(botaoSelecionar)
-                    .addComponent(botaoEditar)
-                    .addComponent(botaoClonar))
-                .addContainerGap())
-        );
-
-        jPanel3Layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {botaoMostrarUltimos, botaoPesquisar, textoPesquisa, tipoPesquisa});
-
-        tabPane.addTab("PRODUÇÃO CONSULTAS", new javax.swing.ImageIcon(getClass().getResource("/icones/pesquisar.png")), jPanel3); // NOI18N
+        tabPane.addTab("NOVO/EDITAR", new javax.swing.ImageIcon(getClass().getResource("/icones/incluir.png")), jPanel2); // NOI18N
 
         btnPesqPe.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icones/pesquisar.png"))); // NOI18N
         btnPesqPe.setText("PESQUISAR");
@@ -967,34 +821,34 @@ public class ProdutoFrame extends javax.swing.JInternalFrame {
             }
         });
 
-        btnSelPe.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icones/confirma.png"))); // NOI18N
-        btnSelPe.setText("SELECIONAR");
-        btnSelPe.setEnabled(false);
-        btnSelPe.addActionListener(new java.awt.event.ActionListener() {
+        btnSelecionar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icones/confirma.png"))); // NOI18N
+        btnSelecionar.setText("SELECIONAR");
+        btnSelecionar.setEnabled(false);
+        btnSelecionar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnSelPeActionPerformed(evt);
+                btnSelecionarActionPerformed(evt);
             }
         });
 
-        btnEditarPe.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icones/editar.png"))); // NOI18N
-        btnEditarPe.setText("EDITAR");
-        btnEditarPe.setEnabled(false);
-        btnEditarPe.addActionListener(new java.awt.event.ActionListener() {
+        btnEditar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icones/editar.png"))); // NOI18N
+        btnEditar.setText("EDITAR");
+        btnEditar.setEnabled(false);
+        btnEditar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnEditarPeActionPerformed(evt);
+                btnEditarActionPerformed(evt);
             }
         });
 
-        btnClonarPe.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icones/clonar.png"))); // NOI18N
-        btnClonarPe.setText("CLONAR");
-        btnClonarPe.setEnabled(false);
-        btnClonarPe.addActionListener(new java.awt.event.ActionListener() {
+        btnClonar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icones/clonar.png"))); // NOI18N
+        btnClonar.setText("CLONAR");
+        btnClonar.setEnabled(false);
+        btnClonar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnClonarPeActionPerformed(evt);
+                btnClonarActionPerformed(evt);
             }
         });
 
-        tblConsultaPe.setModel(new javax.swing.table.DefaultTableModel(
+        tblConsulta.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
@@ -1017,41 +871,48 @@ public class ProdutoFrame extends javax.swing.JInternalFrame {
                 return canEdit [columnIndex];
             }
         });
-        tblConsultaPe.addMouseListener(new java.awt.event.MouseAdapter() {
+        tblConsulta.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                tblConsultaPeMouseClicked(evt);
+                tblConsultaMouseClicked(evt);
             }
         });
-        tblConsultaPe.addKeyListener(new java.awt.event.KeyAdapter() {
+        tblConsulta.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
-                tblConsultaPeKeyReleased(evt);
+                tblConsultaKeyReleased(evt);
             }
             public void keyTyped(java.awt.event.KeyEvent evt) {
-                tblConsultaPeKeyTyped(evt);
+                tblConsultaKeyTyped(evt);
             }
         });
-        jScrollPane4.setViewportView(tblConsultaPe);
-        if (tblConsultaPe.getColumnModel().getColumnCount() > 0) {
-            tblConsultaPe.getColumnModel().getColumn(0).setMinWidth(50);
-            tblConsultaPe.getColumnModel().getColumn(0).setPreferredWidth(20);
-            tblConsultaPe.getColumnModel().getColumn(1).setPreferredWidth(15);
-            tblConsultaPe.getColumnModel().getColumn(2).setPreferredWidth(400);
-            tblConsultaPe.getColumnModel().getColumn(4).setPreferredWidth(30);
-            tblConsultaPe.getColumnModel().getColumn(5).setPreferredWidth(45);
-            tblConsultaPe.getColumnModel().getColumn(6).setPreferredWidth(45);
+        jScrollPane4.setViewportView(tblConsulta);
+        if (tblConsulta.getColumnModel().getColumnCount() > 0) {
+            tblConsulta.getColumnModel().getColumn(0).setMinWidth(50);
+            tblConsulta.getColumnModel().getColumn(0).setPreferredWidth(20);
+            tblConsulta.getColumnModel().getColumn(1).setPreferredWidth(15);
+            tblConsulta.getColumnModel().getColumn(2).setPreferredWidth(400);
+            tblConsulta.getColumnModel().getColumn(4).setPreferredWidth(30);
+            tblConsulta.getColumnModel().getColumn(5).setPreferredWidth(45);
+            tblConsulta.getColumnModel().getColumn(6).setPreferredWidth(45);
         }
 
-        tipoPesqPe.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "SELECIONE...", "CÓDIGO", "DESCRIÇÃO" }));
-        tipoPesqPe.setBorder(javax.swing.BorderFactory.createTitledBorder("PESQUISAR POR"));
+        tipoPesquisaProduto.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "SELECIONE...", "CÓDIGO", "DESCRIÇÃO" }));
+        tipoPesquisaProduto.setBorder(javax.swing.BorderFactory.createTitledBorder("PESQUISAR POR"));
 
-        altEstoque.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icones/editar.png"))); // NOI18N
-        altEstoque.setText("ALTERAR ESTOQUE/VALOR UNITÁRIO");
-        altEstoque.setEnabled(false);
-        altEstoque.addActionListener(new java.awt.event.ActionListener() {
+        btnAlterarEstoque.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icones/editar.png"))); // NOI18N
+        btnAlterarEstoque.setText("ALTERAR ESTOQUE/VALOR UNITÁRIO");
+        btnAlterarEstoque.setEnabled(false);
+        btnAlterarEstoque.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                altEstoqueActionPerformed(evt);
+                btnAlterarEstoqueActionPerformed(evt);
             }
         });
+
+        tipoConsulta.add(jrdConsultaProducao);
+        jrdConsultaProducao.setSelected(true);
+        jrdConsultaProducao.setText("PRODUÇÃO");
+
+        tipoConsulta.add(jrdConsultaProntaEntrega);
+        jrdConsultaProntaEntrega.setText("PRONTA ENTREGA");
 
         javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
         jPanel6.setLayout(jPanel6Layout);
@@ -1063,17 +924,21 @@ public class ProdutoFrame extends javax.swing.JInternalFrame {
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(jPanel6Layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(altEstoque)
+                        .addComponent(btnAlterarEstoque)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btnClonarPe)
+                        .addComponent(btnClonar)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btnEditarPe)
+                        .addComponent(btnEditar)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btnSelPe))
+                        .addComponent(btnSelecionar))
                     .addGroup(jPanel6Layout.createSequentialGroup()
-                        .addComponent(tipoPesqPe, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(tipoPesquisaProduto, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jrdConsultaProducao)
+                            .addComponent(jrdConsultaProntaEntrega))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(textoPesqPe, javax.swing.GroupLayout.PREFERRED_SIZE, 358, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(textoPesquisaProduto)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btnPesqPe)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -1085,25 +950,27 @@ public class ProdutoFrame extends javax.swing.JInternalFrame {
             .addGroup(jPanel6Layout.createSequentialGroup()
                 .addGap(11, 11, 11)
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(textoPesqPe, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(textoPesquisaProduto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(btnMostrarUltPe)
                         .addComponent(btnPesqPe))
-                    .addComponent(tipoPesqPe, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 486, Short.MAX_VALUE)
+                    .addComponent(tipoPesquisaProduto, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jrdConsultaProducao)
+                    .addComponent(jrdConsultaProntaEntrega, javax.swing.GroupLayout.Alignment.TRAILING))
+                .addGap(7, 7, 7)
+                .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 489, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnSelPe)
-                    .addComponent(btnEditarPe)
-                    .addComponent(btnClonarPe)
-                    .addComponent(altEstoque))
+                    .addComponent(btnSelecionar)
+                    .addComponent(btnEditar)
+                    .addComponent(btnClonar)
+                    .addComponent(btnAlterarEstoque))
                 .addContainerGap())
         );
 
-        jPanel6Layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {btnMostrarUltPe, btnPesqPe, textoPesqPe, tipoPesqPe});
+        jPanel6Layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {btnMostrarUltPe, btnPesqPe, textoPesquisaProduto, tipoPesquisaProduto});
 
-        tabPane.addTab("PRONTA ENTREGA CONSULTAS", new javax.swing.ImageIcon(getClass().getResource("/icones/pesquisar.png")), jPanel6); // NOI18N
+        tabPane.addTab("CONSULTAR", new javax.swing.ImageIcon(getClass().getResource("/icones/pesquisar.png")), jPanel6); // NOI18N
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -1119,7 +986,7 @@ public class ProdutoFrame extends javax.swing.JInternalFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void altEstoqueActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_altEstoqueActionPerformed
+    private void btnAlterarEstoqueActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAlterarEstoqueActionPerformed
         new Thread() {
             @Override
             public void run() {
@@ -1129,16 +996,16 @@ public class ProdutoFrame extends javax.swing.JInternalFrame {
                     loading.setVisible(true);
 
                     COD_PROD
-                    = Integer.valueOf(tblConsultaPe.getValueAt(tblConsultaPe.getSelectedRow(), 0).toString());
+                            = Integer.valueOf(tblConsulta.getValueAt(tblConsulta.getSelectedRow(), 0).toString());
 
                     /**
-                    * Carrega mais informações sobre o produto
-                    */
+                     * Carrega mais informações sobre o produto
+                     */
                     ProdutoPrEntBEAN produto = ProdutoDAO.retornaPeEdicao(COD_PROD);
 
                     /**
-                    * Preenche GUI
-                    */
+                     * Preenche GUI
+                     */
                     jftfDescricaoProduto.setText(produto.getDescricao());
                     jftfLarguraProduto.setValue(produto.getLargura());
                     jftfAlturaProduto.setValue(produto.getAltura());
@@ -1166,13 +1033,13 @@ public class ProdutoFrame extends javax.swing.JInternalFrame {
                     }
 
                     /**
-                    * Seleciona a aba 2
-                    */
+                     * Seleciona a aba 2
+                     */
                     tabPane.setSelectedIndex(0);
 
                     /**
-                    * Define a função como alterar estoque
-                    */
+                     * Define a função como alterar estoque
+                     */
                     FUNCAO = 3;
                 } catch (SQLException ex) {
                     EnvioExcecao envioExcecao = new EnvioExcecao(Controle.getDefaultGj(), ex);
@@ -1181,83 +1048,44 @@ public class ProdutoFrame extends javax.swing.JInternalFrame {
                 loading.setVisible(false);
             }
         }.start();
-    }//GEN-LAST:event_altEstoqueActionPerformed
+    }//GEN-LAST:event_btnAlterarEstoqueActionPerformed
 
-    private void tblConsultaPeKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tblConsultaPeKeyTyped
+    private void tblConsultaKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tblConsultaKeyTyped
 
-    }//GEN-LAST:event_tblConsultaPeKeyTyped
+    }//GEN-LAST:event_tblConsultaKeyTyped
 
-    private void tblConsultaPeKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tblConsultaPeKeyReleased
+    private void tblConsultaKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tblConsultaKeyReleased
         new Thread() {
             @Override
             public void run() {
                 mouseClicked();
             }
         }.start();
-    }//GEN-LAST:event_tblConsultaPeKeyReleased
+    }//GEN-LAST:event_tblConsultaKeyReleased
 
-    private void tblConsultaPeMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblConsultaPeMouseClicked
+    private void tblConsultaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblConsultaMouseClicked
         new Thread() {
             @Override
             public void run() {
                 mouseClicked();
             }
         }.start();
-    }//GEN-LAST:event_tblConsultaPeMouseClicked
+    }//GEN-LAST:event_tblConsultaMouseClicked
 
-    private void btnClonarPeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnClonarPeActionPerformed
-        try {
-            loading.setVisible(true);
-            loading.setText("CARREGANDO...");
-
-            COD_PROD
-            = Integer.valueOf(tblConsultaPe.getValueAt(tblConsultaPe.getSelectedRow(), 0).toString());
-
-            //CARREGA OS DADOS DO BD--------------------------------------------
-            ProdutoPrEntBEAN produto = ProdutoDAO.retornaPeEdicao(COD_PROD);
-            //------------------------------------------------------------------
-
-            //PREENCHE OS CAMPOS------------------------------------------------
-            jftfDescricaoProduto.setText(produto.getDescricao());
-            jftfLarguraProduto.setValue(produto.getLargura());
-            jftfAlturaProduto.setValue(produto.getAltura());
-            jftfEspessuraProduto.setValue(produto.getEspessura());
-            jftfPesoProduto.setValue(produto.getPeso());
-            jsfQtdFolhasProduto.setValue(produto.getQtdPaginas());
-            jcbTipoProduto.setSelectedItem(produto.getTipo());
-            jckbProdPreVenda.setSelected((produto.getPreVenda() == 1));
-            jftfVlrUnitProduto.setValue(produto.getVlrUnit());
-            if (produto.getPromocao() == 1) {
-                jckbPromProduto.setSelected(produto.getPromocao() == 1);
-                jftfVlrPromProduto.setValue(produto.getVlrPromocao());
-                jdcInicioPromProduto.setDate(produto.getInicioPromocao());
-                jdcFimPromProduto.setDate(produto.getFimPromocao());
-            }
-            jftfEstoqueFisicoProduto.setValue(produto.getEstoque());
-            if (produto.getAvisoEstoque() == 1) {
-                jckbAvisoEstoqueProduto.setSelected(produto.getAvisoEstoque() == 1);
-                jftfAvisoEstoqueProduto.setValue(produto.getAvisoEstoqueUn());
-            }
-            jftfQtdMinProduto.setValue(produto.getPdQtdMin());
-            if (produto.getPdMax() == 1) {
-                jckbQtdMaxProduto.setSelected(produto.getPdMax() == 1);
-                jftfQtdMaxProduto.setValue(produto.getPdQtdMax());
-            }
-            //------------------------------------------------------------------
-
-            //SELECIONA A ABA NOVO/EDITAR---------------------------------------
-            //------------------------------------------------------------------
-        } catch (SQLException ex) {
-            EnvioExcecao envioExcecao = new EnvioExcecao(Controle.getDefaultGj(), ex);
-            EnvioExcecao.envio();
+    private void btnClonarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnClonarActionPerformed
+        switch(String.valueOf(tblConsulta.getValueAt(tblConsulta.getSelectedRow(), 1))){
+            case "PP":
+                carregaClonagem((byte) 1);
+                break;
+            case "PE":
+                carregaClonagem((byte) 2);
+                break;
         }
-        tabPane.setSelectedIndex(2);
-        loading.setVisible(false);
-        FUNCAO = 2;
-    }//GEN-LAST:event_btnClonarPeActionPerformed
+    }//GEN-LAST:event_btnClonarActionPerformed
 
-    private void btnEditarPeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarPeActionPerformed
-        estadoInicialPe();
+    private void btnEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarActionPerformed
+        limpa();
+        this.setTitle("EDITANDO PRODUTO " + COD_PROD);
         new Thread() {
             @Override
             public void run() {
@@ -1266,40 +1094,80 @@ public class ProdutoFrame extends javax.swing.JInternalFrame {
                     loading.setVisible(true);
 
                     COD_PROD
-                    = Integer.valueOf(tblConsultaPe.getValueAt(tblConsultaPe.getSelectedRow(), 0).toString());
+                            = Integer.valueOf(tblConsulta.getValueAt(tblConsulta.getSelectedRow(), 0).toString());
 
-                    //CARREGA OS DADOS DO BD------------------------------------
-                    ProdutoPrEntBEAN produto = ProdutoDAO.retornaPeEdicao(COD_PROD);
-                    //----------------------------------------------------------
+                    switch (String.valueOf(tblConsulta.getValueAt(tblConsulta.getSelectedRow(), 1))) {
+                        case "PP":
+                            ProdutoBEAN produtoPP = ProdutoDAO.retornaInfoProd(COD_PROD, (byte) 1);
+                            jftfDescricaoProduto.setText(produtoPP.getDescricao());
+                            jftfLarguraProduto.setValue(produtoPP.getLargura());
+                            jftfAlturaProduto.setValue(produtoPP.getAltura());
+                            jsfQtdFolhasProduto.setValue(produtoPP.getQuantidadeFolhas());
+                            jcbTipoProduto.setSelectedItem(produtoPP.getTipoProduto());
+                            jrdParaProducao.setSelected(true);
 
-                    //PREENCHE OS CAMPOS----------------------------------------
-                    jftfDescricaoProduto.setText(produto.getDescricao());
-                    jftfLarguraProduto.setValue(produto.getLargura());
-                    jftfAlturaProduto.setValue(produto.getAltura());
-                    jftfEspessuraProduto.setValue(produto.getEspessura());
-                    jftfPesoProduto.setValue(produto.getPeso());
-                    jsfQtdFolhasProduto.setValue(produto.getQtdPaginas());
-                    jcbTipoProduto.setSelectedItem(produto.getTipo());
-                    jckbProdPreVenda.setSelected((produto.getPreVenda() == 1));
-                    jftfVlrUnitProduto.setValue(produto.getVlrUnit());
-                    if (produto.getPromocao() == 1) {
-                        jckbPromProduto.setSelected(produto.getPromocao() == 1);
-                        jftfVlrPromProduto.setValue(produto.getVlrPromocao());
-                        jdcInicioPromProduto.setDate(produto.getInicioPromocao());
-                        jdcFimPromProduto.setDate(produto.getFimPromocao());
+                            DefaultTableModel modeloPapeis = (DefaultTableModel) ProdutoFrame.tabelaPapel.getModel();
+                            for (PapelBEAN bean : ProdutoDAO.retornaInformacoesPapel(Integer.valueOf(COD_PROD))) {
+                                modeloPapeis.addRow(new Object[]{
+                                    bean.getCodigo(),
+                                    bean.getDescricaoPapel(),
+                                    bean.getTipoPapel(),
+                                    bean.getOrelha(),
+                                    bean.getCorFrente(),
+                                    bean.getCorVerso()
+                                });
+                            }
+
+                            try {
+                                DefaultTableModel modeloAcabamentos = (DefaultTableModel) ProdutoFrame.tabelaAcabamentos.getModel();
+                                for (AcabamentoProdBEAN bean : AcabamentoDAO.retornaAcabamentosProduto(COD_PROD)) {
+                                    modeloAcabamentos.addRow(new Object[]{
+                                        bean.getCodigoAcabamento(),
+                                        AcabamentoDAO.retornaDescricaoAcabamentos(bean.getCodigoAcabamento())
+                                    });
+                                }
+                            } catch (SemAcabamentoException ex) {
+                                //NENHUMA AÇÃO
+                            }
+                            break;
+                        case "PE":
+                            //CARREGA OS DADOS DO BD------------------------------------
+                            ProdutoPrEntBEAN produtoPE = ProdutoDAO.retornaPeEdicao(COD_PROD);
+                            //----------------------------------------------------------
+
+                            //PREENCHE OS CAMPOS----------------------------------------
+                            jftfDescricaoProduto.setText(produtoPE.getDescricao());
+                            jftfLarguraProduto.setValue(produtoPE.getLargura());
+                            jftfAlturaProduto.setValue(produtoPE.getAltura());
+                            jftfEspessuraProduto.setValue(produtoPE.getEspessura());
+                            jftfPesoProduto.setValue(produtoPE.getPeso());
+                            jsfQtdFolhasProduto.setValue(produtoPE.getQtdPaginas());
+                            jcbTipoProduto.setSelectedItem(produtoPE.getTipo());
+                            jckbProdPreVenda.setSelected((produtoPE.getPreVenda() == 1));
+                            jftfVlrUnitProduto.setValue(produtoPE.getVlrUnit());
+                            jrdParaProntaEntrega.setSelected(true);
+                            jckbUtilizadoEcommerce.setSelected(produtoPE.getVendas() == 1);
+
+                            if (produtoPE.getPromocao() == 1) {
+                                jckbPromProduto.setSelected(produtoPE.getPromocao() == 1);
+                                jftfVlrPromProduto.setValue(produtoPE.getVlrPromocao());
+                                jdcInicioPromProduto.setDate(produtoPE.getInicioPromocao());
+                                jdcFimPromProduto.setDate(produtoPE.getFimPromocao());
+                            }
+                            jftfEstoqueFisicoProduto.setValue(produtoPE.getEstoque());
+                            if (produtoPE.getAvisoEstoque() == 1) {
+                                jckbAvisoEstoqueProduto.setSelected(produtoPE.getAvisoEstoque() == 1);
+                                jftfAvisoEstoqueProduto.setValue(produtoPE.getAvisoEstoqueUn());
+                            }
+                            jftfQtdMinProduto.setValue(produtoPE.getPdQtdMin());
+                            if (produtoPE.getPdMax() == 1) {
+                                jckbQtdMaxProduto.setSelected(produtoPE.getPdMax() == 1);
+                                jftfQtdMaxProduto.setValue(produtoPE.getPdQtdMax());
+                            }
+                            lblMov.setText("ÚLTIMA MOVIMENTAÇÃO: " + produtoPE.getUltMov());
+                            //----------------------------------------------------------
+                            break;
                     }
-                    jftfEstoqueFisicoProduto.setValue(produto.getEstoque());
-                    if (produto.getAvisoEstoque() == 1) {
-                        jckbAvisoEstoqueProduto.setSelected(produto.getAvisoEstoque() == 1);
-                        jftfAvisoEstoqueProduto.setValue(produto.getAvisoEstoqueUn());
-                    }
-                    jftfQtdMinProduto.setValue(produto.getPdQtdMin());
-                    if (produto.getPdMax() == 1) {
-                        jckbQtdMaxProduto.setSelected(produto.getPdMax() == 1);
-                        jftfQtdMaxProduto.setValue(produto.getPdQtdMax());
-                    }
-                    lblMov.setText("ÚLTIMA MOVIMENTAÇÃO: " + produto.getUltMov());
-                    //----------------------------------------------------------
 
                     //SELECIONA A ABA NOVO/EDITAR-------------------------------
                     tabPane.setSelectedIndex(0);
@@ -1313,26 +1181,39 @@ public class ProdutoFrame extends javax.swing.JInternalFrame {
             }
         }.start();
         FUNCAO = 1;
-    }//GEN-LAST:event_btnEditarPeActionPerformed
+    }//GEN-LAST:event_btnEditarActionPerformed
 
-    private void btnSelPeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSelPeActionPerformed
+    private void btnSelecionarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSelecionarActionPerformed
         COD_PROD
-        = Integer.valueOf(tblConsultaPe.getValueAt(tblConsultaPe.getSelectedRow(), 0).toString());
+                = Integer.valueOf(tblConsulta.getValueAt(tblConsulta.getSelectedRow(), 0).toString());
         new Thread() {
             @Override
             public void run() {
-                OrcamentoPrincipalFrame.carregaProdutos(COD_PROD, (byte) 2);
+                switch (String.valueOf(tblConsulta.getValueAt(tblConsulta.getSelectedRow(), 1).toString())) {
+                    case "PP":
+                        OrcamentoPrincipalFrame.carregaProdutos(COD_PROD, (byte) 1);
+                        break;
+                    case "PE":
+                        OrcamentoPrincipalFrame.carregaProdutos(COD_PROD, (byte) 2);
+                        break;
+                }
             }
         }.start();
         this.dispose();
-    }//GEN-LAST:event_btnSelPeActionPerformed
+    }//GEN-LAST:event_btnSelecionarActionPerformed
 
     private void btnMostrarUltPeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMostrarUltPeActionPerformed
         try {
-            DefaultTableModel modeloConsulta = (DefaultTableModel) tblConsultaPe.getModel();
+            DefaultTableModel modeloConsulta = (DefaultTableModel) tblConsulta.getModel();
             modeloConsulta.setNumRows(0);
-            for (ProdutoPrEntBEAN produto : ProdutoDAO.pesquisaPe((byte) 3, null)) {
-                adicionaTblConsultaPe(modeloConsulta, produto);
+            if (jrdConsultaProducao.isSelected()) {
+                for (ProdutoBEAN produto : ProdutoDAO.mostraTodos()) {
+                    adicionaTblConsulta(modeloConsulta, produto, (byte) 1);
+                }
+            } else if (jrdConsultaProntaEntrega.isSelected()) {
+                for (ProdutoPrEntBEAN produto : ProdutoDAO.pesquisaPe((byte) 3, null)) {
+                    adicionaTblConsulta(modeloConsulta, produto, (byte) 2);
+                }
             }
         } catch (SQLException ex) {
             EnvioExcecao envioExcecao = new EnvioExcecao(Controle.getDefaultGj(), ex);
@@ -1342,95 +1223,48 @@ public class ProdutoFrame extends javax.swing.JInternalFrame {
 
     private void btnPesqPeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPesqPeActionPerformed
         try {
-            DefaultTableModel modeloConsulta = (DefaultTableModel) tblConsultaPe.getModel();
+            DefaultTableModel modeloConsulta = (DefaultTableModel) tblConsulta.getModel();
             modeloConsulta.setNumRows(0);
-            switch (tipoPesqPe.getSelectedIndex()) {
-                case 0:
-                JOptionPane.showMessageDialog(null, "SELECIONE UM TIPO DE PESQUISA", "ERRO",
-                    JOptionPane.ERROR_MESSAGE);
-                break;
-                case 1:
-                for (ProdutoPrEntBEAN produto : ProdutoDAO.pesquisaPe((byte) 1,
-                    textoPesqPe.getText())) {
-                adicionaTblConsultaPe(modeloConsulta, produto);
+            if (jrdConsultaProducao.isSelected()) {
+                if (tipoPesquisaProduto.getSelectedItem().equals("SELECIONE...")) {
+                    JOptionPane.showMessageDialog(null, "SELECIONE UM TIPO DE PESQUISA!");
+                } else {
+                    try {
+                        for (ProdutoBEAN produto : ProdutoDAO.pesquisaRegistro((String) tipoPesquisaProduto.getSelectedItem(),
+                                textoPesquisaProduto.getText())) {
+                            adicionaTblConsulta(modeloConsulta, produto, (byte) 1);
+                        }
+                    } catch (SQLException ex) {
+                        EnvioExcecao envioExcecao = new EnvioExcecao(Controle.getDefaultGj(), ex);
+                        EnvioExcecao.envio();
+                    }
+                }
+            } else if (jrdConsultaProntaEntrega.isSelected()) {
+
+                switch (tipoPesquisaProduto.getSelectedIndex()) {
+                    case 0:
+                        JOptionPane.showMessageDialog(null, "SELECIONE UM TIPO DE PESQUISA", "ERRO",
+                                JOptionPane.ERROR_MESSAGE);
+                        break;
+                    case 1:
+                        for (ProdutoPrEntBEAN produto : ProdutoDAO.pesquisaPe((byte) 1,
+                                textoPesquisaProduto.getText())) {
+                            adicionaTblConsulta(modeloConsulta, produto, (byte) 2);
+                        }
+                        break;
+                    case 2:
+                        for (ProdutoPrEntBEAN produto : ProdutoDAO.pesquisaPe((byte) 2,
+                                textoPesquisaProduto.getText())) {
+                            adicionaTblConsulta(modeloConsulta, produto, (byte) 2);
+                        }
+                        break;
+                }
             }
-            break;
-            case 2:
-            for (ProdutoPrEntBEAN produto : ProdutoDAO.pesquisaPe((byte) 2,
-                textoPesqPe.getText())) {
-            adicionaTblConsultaPe(modeloConsulta, produto);
-        }
-        break;
-        }
         } catch (SQLException ex) {
             EnvioExcecao envioExcecao = new EnvioExcecao(Controle.getDefaultGj(), ex);
             EnvioExcecao.envio();
         }
     }//GEN-LAST:event_btnPesqPeActionPerformed
-
-    private void botaoClonarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botaoClonarActionPerformed
-        carregaClonagem();
-    }//GEN-LAST:event_botaoClonarActionPerformed
-
-    private void botaoEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botaoEditarActionPerformed
-        carregaEdicao();
-    }//GEN-LAST:event_botaoEditarActionPerformed
-
-    private void botaoSelecionarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botaoSelecionarActionPerformed
-        COD_PROD
-        = Integer.valueOf(tabelaConsulta.getValueAt(tabelaConsulta.getSelectedRow(), 0).toString());
-        new Thread() {
-            @Override
-            public void run() {
-                OrcamentoPrincipalFrame.carregaProdutos(COD_PROD, (byte) 1);
-            }
-        }.start();
-        this.dispose();
-    }//GEN-LAST:event_botaoSelecionarActionPerformed
-
-    private void botaoMostrarUltimosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botaoMostrarUltimosActionPerformed
-        new Thread() {
-            @Override
-            public void run() {
-                mostrarTodos();
-            }
-        }.start();
-    }//GEN-LAST:event_botaoMostrarUltimosActionPerformed
-
-    private void botaoPesquisarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botaoPesquisarActionPerformed
-        new Thread() {
-            @Override
-            public void run() {
-                pesquisarProduto();
-            }
-        }.start();
-    }//GEN-LAST:event_botaoPesquisarActionPerformed
-
-    private void tipoPesquisaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tipoPesquisaActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_tipoPesquisaActionPerformed
-
-    private void tabelaConsultaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tabelaConsultaMouseClicked
-        try {
-            if (orcamentoNovo | orcamentoEditar) {
-                botaoSelecionar.setEnabled(true);
-            } else {
-                botaoSelecionar.setEnabled(false);
-            }
-
-            botaoClonar.setEnabled(true);
-            COD_PROD
-            = Integer.valueOf(tabelaConsulta.getValueAt(tabelaConsulta.getSelectedRow(), 0).toString());
-            if (ProdutoDAO.retornaUsoProduto(Integer.valueOf(COD_PROD)) == 1) {
-                botaoEditar.setEnabled(false);
-            } else {
-                botaoEditar.setEnabled(true);
-            }
-        } catch (SQLException ex) {
-            EnvioExcecao envioExcecao = new EnvioExcecao(Controle.getDefaultGj(), ex);
-            EnvioExcecao.envio();
-        }
-    }//GEN-LAST:event_tabelaConsultaMouseClicked
 
     private void jtblFilhosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jtblFilhosMouseClicked
         // TODO add your handling code here:
@@ -1454,7 +1288,7 @@ public class ProdutoFrame extends javax.swing.JInternalFrame {
 
     private void pesquisar_acabamentosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_pesquisar_acabamentosActionPerformed
         gj.abrirJanelas(AcabamentosCadastro.getInstancia((byte) 2, loading),
-            "CADASTRO DE ACABAMENTOS");
+                "CADASTRO DE ACABAMENTOS");
     }//GEN-LAST:event_pesquisar_acabamentosActionPerformed
 
     private void retirarAcabamentoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_retirarAcabamentoActionPerformed
@@ -1481,8 +1315,8 @@ public class ProdutoFrame extends javax.swing.JInternalFrame {
             orelha.getValue(),
             coresFrente.getValue(),
             coresVerso.getValue()});
-    estado1Papel();
-    inserir = false;
+        estado1Papel();
+        inserir = false;
     }//GEN-LAST:event_concluirPapelActionPerformed
 
     private void orelhaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_orelhaActionPerformed
@@ -1570,7 +1404,7 @@ public class ProdutoFrame extends javax.swing.JInternalFrame {
     private void salvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_salvarActionPerformed
         if (jrdParaProducao.isSelected()) {
             salvarProduto((byte) 1);
-        } else if (jrdParaPE.isSelected()) {
+        } else if (jrdParaProntaEntrega.isSelected()) {
             salvarProduto((byte) 2);
         }
     }//GEN-LAST:event_salvarActionPerformed
@@ -1581,17 +1415,12 @@ public class ProdutoFrame extends javax.swing.JInternalFrame {
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton altEstoque;
-    private javax.swing.JButton botaoClonar;
-    private javax.swing.JButton botaoEditar;
-    private javax.swing.JButton botaoMostrarUltimos;
-    private javax.swing.JButton botaoPesquisar;
-    public static javax.swing.JButton botaoSelecionar;
-    private javax.swing.JButton btnClonarPe;
-    private javax.swing.JButton btnEditarPe;
+    private javax.swing.JButton btnAlterarEstoque;
+    private javax.swing.JButton btnClonar;
+    private javax.swing.JButton btnEditar;
     private javax.swing.JButton btnMostrarUltPe;
     private javax.swing.JButton btnPesqPe;
-    public static javax.swing.JButton btnSelPe;
+    public static javax.swing.JButton btnSelecionar;
     public static javax.swing.JFormattedTextField codigoPapel;
     public static javax.swing.JButton concluirPapel;
     public static com.toedter.components.JSpinField coresFrente;
@@ -1611,15 +1440,12 @@ public class ProdutoFrame extends javax.swing.JInternalFrame {
     private javax.swing.JPanel jPanel15;
     private javax.swing.JPanel jPanel16;
     private javax.swing.JPanel jPanel2;
-    private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel6;
-    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JScrollPane jScrollPane5;
-    private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JButton jbtnAdicionarPai;
     public static javax.swing.JComboBox<String> jcbTipoProduto;
     private javax.swing.JCheckBox jckbAtivo;
@@ -1641,8 +1467,10 @@ public class ProdutoFrame extends javax.swing.JInternalFrame {
     private javax.swing.JFormattedTextField jftfQtdMinProduto;
     private javax.swing.JFormattedTextField jftfVlrPromProduto;
     private javax.swing.JFormattedTextField jftfVlrUnitProduto;
-    private javax.swing.JRadioButton jrdParaPE;
+    private javax.swing.JRadioButton jrdConsultaProducao;
+    private javax.swing.JRadioButton jrdConsultaProntaEntrega;
     private javax.swing.JRadioButton jrdParaProducao;
+    private javax.swing.JRadioButton jrdParaProntaEntrega;
     private javax.swing.JRadioButton jrdProdutoFilho;
     private javax.swing.JRadioButton jrdProdutoPai;
     private com.toedter.components.JSpinField jsfQtdFolhasProduto;
@@ -1655,36 +1483,53 @@ public class ProdutoFrame extends javax.swing.JInternalFrame {
     private javax.swing.JButton retirarPapel;
     private javax.swing.JButton salvar;
     private javax.swing.JTabbedPane tabPane;
+    private javax.swing.JTabbedPane tabPaneInfoProduto;
     public static javax.swing.JTable tabelaAcabamentos;
-    public static javax.swing.JTable tabelaConsulta;
     public static javax.swing.JTable tabelaPapel;
-    public static javax.swing.JTable tblConsultaPe;
-    private javax.swing.JTextField textoPesqPe;
-    private javax.swing.JTextField textoPesquisa;
+    public static javax.swing.JTable tblConsulta;
+    private javax.swing.JTextField textoPesquisaProduto;
+    private javax.swing.ButtonGroup tipoConsulta;
     private javax.swing.ButtonGroup tipoIntProduto;
     public static javax.swing.JComboBox<String> tipoPapel;
-    private javax.swing.JComboBox<String> tipoPesqPe;
-    private javax.swing.JComboBox<String> tipoPesquisa;
+    private javax.swing.JComboBox<String> tipoPesquisaProduto;
     // End of variables declaration//GEN-END:variables
 
     //TABELA CONSULTA-----------------------------------------------------------
     private void mouseClicked() {
         try {
             COD_PROD
-                    = Integer.valueOf(tblConsultaPe.getValueAt(tblConsultaPe.getSelectedRow(), 0).toString());
+                    = Integer.valueOf(tblConsulta.getValueAt(tblConsulta.getSelectedRow(), 0).toString());
+            switch (String.valueOf(tblConsulta.getValueAt(tblConsulta.getSelectedRow(), 1))) {
+                case "PP":
+                    if (orcamentoNovo | orcamentoEditar) {
+                        btnSelecionar.setEnabled(true);
+                    } else {
+                        btnSelecionar.setEnabled(false);
+                    }
+                    btnClonar.setEnabled(true);
 
-            if (ProdutoDAO.verificaUsoProdPe(COD_PROD)) {
-                btnEditarPe.setEnabled(false);
-                altEstoque.setEnabled(true);
+                    if (ProdutoDAO.retornaUsoProduto(Integer.valueOf(COD_PROD)) == 1) {
+                        btnEditar.setEnabled(false);
+                    } else {
+                        btnEditar.setEnabled(true);
+                    }
+                    btnAlterarEstoque.setEnabled(false);
+                    break;
+                case "PE":
+                    if (ProdutoDAO.verificaUsoProdPe(COD_PROD)) {
+                        btnEditar.setEnabled(false);
+                        btnAlterarEstoque.setEnabled(true);
 
-            } else {
-                btnEditarPe.setEnabled(true);
-                altEstoque.setEnabled(false);
-            }
-            btnClonarPe.setEnabled(true);
+                    } else {
+                        btnEditar.setEnabled(true);
+                        btnAlterarEstoque.setEnabled(false);
+                    }
+                    btnClonar.setEnabled(true);
 
-            if (SEL_ORC) {
-                btnSelPe.setEnabled(true);
+                    if (SEL_ORC) {
+                        btnSelecionar.setEnabled(true);
+                    }
+                    break;
             }
         } catch (SQLException ex) {
             EnvioExcecao envioExcecao = new EnvioExcecao(Controle.getDefaultGj(), ex);
@@ -1722,22 +1567,25 @@ public class ProdutoFrame extends javax.swing.JInternalFrame {
         }
     }
 
+    /**
+     * Estado de alteração de estoque de produto
+     */
     private void estadoAlterarEstoque() {
-        jtfDescricaoPe.setEditable(false);
-        jftfLarguraPe.setEditable(false);
-        jftfAlturaPe.setEditable(false);
-        jftfEspessuraPe.setEditable(false);
-        jftfPesoPe.setEditable(false);
-        jsfQtdFolhasPe.setEnabled(false);
-        jcbTipoPe.setEnabled(false);
+        jftfDescricaoProduto.setEditable(false);
+        jftfLarguraProduto.setEditable(false);
+        jftfAlturaProduto.setEditable(false);
+        jftfEspessuraProduto.setEditable(false);
+        jftfPesoProduto.setEditable(false);
+        jsfQtdFolhasProduto.setEnabled(false);
+        jcbTipoProduto.setEnabled(false);
         jckbProdPreVenda.setEnabled(true);
-        jftfVlrUnitPe.setEnabled(true);
-        jckbProm.setEnabled(true);
-        jftfEstoqueFisico.setEnabled(true);
-        jckbAvisoEstoque.setEnabled(true);
-        jftfQtdMin.setEnabled(true);
-        jckbQtdMax.setEnabled(true);
-        jckbDispVendas.setEnabled(true);
+        jftfVlrUnitProduto.setEnabled(true);
+        jckbPromProduto.setEnabled(true);
+        jftfEstoqueFisicoProduto.setEnabled(true);
+        jckbAvisoEstoqueProduto.setEnabled(true);
+        jftfQtdMinProduto.setEnabled(true);
+        jckbQtdMaxProduto.setEnabled(true);
+        jckbUtilizadoEcommerce.setEnabled(true);
     }
 
     /**
@@ -1784,31 +1632,8 @@ public class ProdutoFrame extends javax.swing.JInternalFrame {
         //Date Choosers---------------------------------------------------------
         jdcInicioPromProduto.setDate(null);
         jdcFimPromProduto.setDate(null);
-    }
-
-    public void limpaPe() {
-        jtfDescricaoPe.setText("");
-        jftfLarguraPe.setValue(0);
-        jftfAlturaPe.setValue(0);
-        jftfEspessuraPe.setValue(0);
-        jftfPesoPe.setValue(0);
-        jsfQtdFolhasPe.setValue(1);
-        jcbTipoPe.setSelectedIndex(0);
-        jckbProdPreVenda.setSelected(false);
-        jftfVlrUnitPe.setValue(0);
-        jckbProm.setSelected(false);
-        jftfVlrProm.setValue(0);
-        jdcInicioProm.setDate(null);
-        jdcFimProm.setDate(null);
-        jftfEstoqueFisico.setValue(0);
-        jckbAvisoEstoque.setSelected(false);
-        jftfAvisoEstoque.setValue(0);
-        jftfQtdMin.setValue(0);
-        jckbQtdMax.setSelected(false);
-        jftfQtdMax.setValue(0);
-        lblMov.setText("");
-        FUNCAO = 0;
-        COD_PROD = 0;
+        //Tab Pane--------------------------------------------------------------
+        tabPaneInfoProduto.setSelectedIndex(0);
     }
     //--------------------------------------------------------------------------
 
@@ -1825,53 +1650,93 @@ public class ProdutoFrame extends javax.swing.JInternalFrame {
         return a * (b / mdc(a, b));
     }
 
-    private void carregaClonagem() {
+    /**
+     * Carrega as informações para a clonagem do produto
+     * @param tipo 1 - Para produção, 2 - Para pronta entrega
+     */
+    private void carregaClonagem(byte tipo) {
         try {
+            limpa();
+            
+            COD_PROD = Integer.valueOf(tblConsulta.getValueAt(tblConsulta.getSelectedRow(), 0).toString());
             this.setTitle("CLONANDO PRODUTO " + COD_PROD);
             loading.setVisible(true);
             loading.setText("CARREGANDO CLONAGEM...");
 
-            limpa();
-            COD_PROD
-                    = Integer.valueOf(tabelaConsulta.getValueAt(tabelaConsulta.getSelectedRow(), 0).toString());
             FUNCAO = 2;
 
-            ProdutoBEAN produto = ProdutoDAO.retornaInfoProd(COD_PROD, (byte) 1);
-            jftfDescricaoProduto.setText(produto.getDescricao());
-            jftfLarguraProduto.setValue(produto.getLargura());
-            jftfAlturaProduto.setValue(produto.getAltura());
-            jsfQtdFolhasProduto.setValue(produto.getQuantidadeFolhas());
-            jcbTipoProduto.setSelectedItem(produto.getTipoProduto());
+            switch (tipo) {
+                case 1:
+                    ProdutoBEAN produtoPP = ProdutoDAO.retornaInfoProd(COD_PROD, (byte) 1);
+                    jftfDescricaoProduto.setText(produtoPP.getDescricao());
+                    jftfLarguraProduto.setValue(produtoPP.getLargura());
+                    jftfAlturaProduto.setValue(produtoPP.getAltura());
+                    jsfQtdFolhasProduto.setValue(produtoPP.getQuantidadeFolhas());
+                    jcbTipoProduto.setSelectedItem(produtoPP.getTipoProduto());
 
-            DefaultTableModel modeloPapeis = (DefaultTableModel) ProdutoFrame.tabelaPapel.getModel();
-            for (PapelBEAN bean : ProdutoDAO.retornaInformacoesPapel(COD_PROD)) {
-                modeloPapeis.addRow(new Object[]{
-                    bean.getCodigo(),
-                    bean.getDescricaoPapel(),
-                    bean.getTipoPapel(),
-                    bean.getOrelha(),
-                    bean.getCorFrente(),
-                    bean.getCorVerso()
-                });
-            }
+                    DefaultTableModel modeloPapeis = (DefaultTableModel) ProdutoFrame.tabelaPapel.getModel();
+                    for (PapelBEAN bean : ProdutoDAO.retornaInformacoesPapel(COD_PROD)) {
+                        modeloPapeis.addRow(new Object[]{
+                            bean.getCodigo(),
+                            bean.getDescricaoPapel(),
+                            bean.getTipoPapel(),
+                            bean.getOrelha(),
+                            bean.getCorFrente(),
+                            bean.getCorVerso()
+                        });
+                    }
 
-            try {
-                DefaultTableModel modeloAcabamentos = (DefaultTableModel) ProdutoFrame.tabelaAcabamentos.getModel();
-                for (AcabamentoProdBEAN bean : AcabamentoDAO.retornaAcabamentosProduto(COD_PROD)) {
-                    modeloAcabamentos.addRow(new Object[]{
-                        bean.getCodigoAcabamento(),
-                        AcabamentoDAO.retornaDescricaoAcabamentos(bean.getCodigoAcabamento())
-                    });
-                }
-            } catch (SemAcabamentoException ex) {
-                //NENHUMA AÇÃO
+                    try {
+                        DefaultTableModel modeloAcabamentos = (DefaultTableModel) ProdutoFrame.tabelaAcabamentos.getModel();
+                        for (AcabamentoProdBEAN bean : AcabamentoDAO.retornaAcabamentosProduto(COD_PROD)) {
+                            modeloAcabamentos.addRow(new Object[]{
+                                bean.getCodigoAcabamento(),
+                                AcabamentoDAO.retornaDescricaoAcabamentos(bean.getCodigoAcabamento())
+                            });
+                        }
+                    } catch (SemAcabamentoException ex) {
+                        //NENHUMA AÇÃO
+                    }
+                    break;
+                case 2:
+                    //CARREGA OS DADOS DO BD--------------------------------------------
+                    ProdutoPrEntBEAN produtoPE = ProdutoDAO.retornaPeEdicao(COD_PROD);
+                    //------------------------------------------------------------------
+
+                    //PREENCHE OS CAMPOS------------------------------------------------
+                    jftfDescricaoProduto.setText(produtoPE.getDescricao());
+                    jftfLarguraProduto.setValue(produtoPE.getLargura());
+                    jftfAlturaProduto.setValue(produtoPE.getAltura());
+                    jftfEspessuraProduto.setValue(produtoPE.getEspessura());
+                    jftfPesoProduto.setValue(produtoPE.getPeso());
+                    jsfQtdFolhasProduto.setValue(produtoPE.getQtdPaginas());
+                    jcbTipoProduto.setSelectedItem(produtoPE.getTipo());
+                    jckbProdPreVenda.setSelected((produtoPE.getPreVenda() == 1));
+                    jftfVlrUnitProduto.setValue(produtoPE.getVlrUnit());
+                    if (produtoPE.getPromocao() == 1) {
+                        jckbPromProduto.setSelected(produtoPE.getPromocao() == 1);
+                        jftfVlrPromProduto.setValue(produtoPE.getVlrPromocao());
+                        jdcInicioPromProduto.setDate(produtoPE.getInicioPromocao());
+                        jdcFimPromProduto.setDate(produtoPE.getFimPromocao());
+                    }
+                    jftfEstoqueFisicoProduto.setValue(produtoPE.getEstoque());
+                    if (produtoPE.getAvisoEstoque() == 1) {
+                        jckbAvisoEstoqueProduto.setSelected(produtoPE.getAvisoEstoque() == 1);
+                        jftfAvisoEstoqueProduto.setValue(produtoPE.getAvisoEstoqueUn());
+                    }
+                    jftfQtdMinProduto.setValue(produtoPE.getPdQtdMin());
+                    if (produtoPE.getPdMax() == 1) {
+                        jckbQtdMaxProduto.setSelected(produtoPE.getPdMax() == 1);
+                        jftfQtdMaxProduto.setValue(produtoPE.getPdQtdMax());
+                    }
+                    //------------------------------------------------------------------
+                    break;
             }
             tabPane.setSelectedIndex(0);
         } catch (SQLException ex) {
             EnvioExcecao envioExcecao = new EnvioExcecao(Controle.getDefaultGj(), ex);
             EnvioExcecao.envio();
         }
-
         loading.setVisible(false);
     }
 
@@ -1947,27 +1812,27 @@ public class ProdutoFrame extends javax.swing.JInternalFrame {
                     switch (FUNCAO) {
                         case 1:
                             ProdutoDAO.editaPe(new ProdutoPrEntBEAN(COD_PROD,
-                                    jtfDescricaoPe.getText().toUpperCase(),
-                                    Float.valueOf(jftfLarguraPe.getText().replace(",", ".")),
-                                    Float.valueOf(jftfAlturaPe.getText().replace(",", ".")),
-                                    Float.valueOf(jftfEspessuraPe.getText().replace(",", ".")),
-                                    Float.valueOf(jftfPesoPe.getText().replace(",", ".")),
-                                    jckbDispVendas.isSelected() ? (byte) 1 : (byte) 0,
+                                    jftfDescricaoProduto.getText().toUpperCase(),
+                                    Float.valueOf(jftfLarguraProduto.getText().replace(",", ".")),
+                                    Float.valueOf(jftfAlturaProduto.getText().replace(",", ".")),
+                                    Float.valueOf(jftfEspessuraProduto.getText().replace(",", ".")),
+                                    Float.valueOf(jftfPesoProduto.getText().replace(",", ".")),
+                                    jckbUtilizadoEcommerce.isSelected() ? (byte) 1 : (byte) 0,
                                     jckbProdPreVenda.isSelected() ? (byte) 1 : (byte) 0,
-                                    jckbProm.isSelected() ? (byte) 1 : (byte) 0,
-                                    Double.valueOf(jftfVlrProm.getText().replace(",", ".")),
-                                    jdcInicioProm.getDate(),
-                                    jdcFimProm.getDate(),
-                                    jsfQtdFolhasPe.getValue(),
-                                    Integer.valueOf(jftfEstoqueFisico.getValue().toString()),
-                                    jckbAvisoEstoque.isSelected() ? (byte) 1 : (byte) 0,
-                                    Integer.valueOf(jftfAvisoEstoque.getValue().toString()),
-                                    String.valueOf(jcbTipoPe.getSelectedItem()),
-                                    Double.valueOf(jftfVlrUnitPe.getValue().toString()),
+                                    jckbPromProduto.isSelected() ? (byte) 1 : (byte) 0,
+                                    Double.valueOf(jftfVlrPromProduto.getText().replace(",", ".")),
+                                    jdcInicioPromProduto.getDate(),
+                                    jdcFimPromProduto.getDate(),
+                                    jsfQtdFolhasProduto.getValue(),
+                                    Integer.valueOf(jftfEstoqueFisicoProduto.getValue().toString()),
+                                    jckbAvisoEstoqueProduto.isSelected() ? (byte) 1 : (byte) 0,
+                                    Integer.valueOf(jftfAvisoEstoqueProduto.getValue().toString()),
+                                    String.valueOf(jcbTipoProduto.getSelectedItem()),
+                                    Double.valueOf(jftfVlrUnitProduto.getValue().toString()),
                                     new java.sql.Timestamp(new Date().getTime()),
-                                    Integer.valueOf(jftfQtdMin.getText()),
-                                    jckbQtdMax.isSelected() ? (byte) 1 : (byte) 0,
-                                    Integer.valueOf(jftfQtdMax.getText())
+                                    Integer.valueOf(jftfQtdMinProduto.getText()),
+                                    jckbQtdMaxProduto.isSelected() ? (byte) 1 : (byte) 0,
+                                    Integer.valueOf(jftfQtdMaxProduto.getText())
                             ));
                             //INTERAÇÃO COM O USUÁRIO---------------------------------------
                             JOptionPane.showMessageDialog(null, "PRODUTO EDITADO COM SUCESSO COM SUCESSO. >> CÓDIGO: "
@@ -1978,9 +1843,9 @@ public class ProdutoFrame extends javax.swing.JInternalFrame {
                         case 3:
                             ProdutoDAO.atualizaEstPe(new ProdutoPrEntBEAN(
                                     COD_PROD,
-                                    Integer.valueOf(jftfEstoqueFisico.getValue().toString()),
-                                    jckbAvisoEstoque.isSelected() ? (byte) 1 : (byte) 0,
-                                    Integer.valueOf(jftfAvisoEstoque.getText())
+                                    Integer.valueOf(jftfEstoqueFisicoProduto.getValue().toString()),
+                                    jckbAvisoEstoqueProduto.isSelected() ? (byte) 1 : (byte) 0,
+                                    Integer.valueOf(jftfAvisoEstoqueProduto.getText())
                             ));
                             JOptionPane.showMessageDialog(null, "INFORMAÇÕES ATUALIZADAS COM SUCESSO.",
                                     "CONFIMAÇÃO", JOptionPane.INFORMATION_MESSAGE);
@@ -1989,27 +1854,27 @@ public class ProdutoFrame extends javax.swing.JInternalFrame {
                         default:
                             COD_PROD = ProdutoDAO.retornaCodPe();
                             ProdutoDAO.inserePe(new ProdutoPrEntBEAN(COD_PROD,
-                                    jtfDescricaoPe.getText().toUpperCase(),
-                                    Float.valueOf(jftfLarguraPe.getText().replace(",", ".")),
-                                    Float.valueOf(jftfAlturaPe.getText().replace(",", ".")),
-                                    Float.valueOf(jftfEspessuraPe.getText().replace(",", ".")),
-                                    Float.valueOf(jftfPesoPe.getText().replace(",", ".")),
-                                    jckbDispVendas.isSelected() ? (byte) 1 : (byte) 0,
+                                    jftfDescricaoProduto.getText().toUpperCase(),
+                                    Float.valueOf(jftfLarguraProduto.getText().replace(",", ".")),
+                                    Float.valueOf(jftfAlturaProduto.getText().replace(",", ".")),
+                                    Float.valueOf(jftfEspessuraProduto.getText().replace(",", ".")),
+                                    Float.valueOf(jftfPesoProduto.getText().replace(",", ".")),
+                                    jckbUtilizadoEcommerce.isSelected() ? (byte) 1 : (byte) 0,
                                     jckbProdPreVenda.isSelected() ? (byte) 1 : (byte) 0,
-                                    jckbProm.isSelected() ? (byte) 1 : (byte) 0,
-                                    Double.valueOf(jftfVlrProm.getText().replace(",", ".")),
-                                    jdcInicioProm.getDate(),
-                                    jdcFimProm.getDate(),
-                                    jsfQtdFolhasPe.getValue(),
-                                    Integer.valueOf(jftfEstoqueFisico.getValue().toString()),
-                                    jckbAvisoEstoque.isSelected() ? (byte) 1 : (byte) 0,
-                                    Integer.valueOf(jftfAvisoEstoque.getValue().toString()),
-                                    String.valueOf(jcbTipoPe.getSelectedItem()),
-                                    Double.valueOf(jftfVlrUnitPe.getValue().toString()),
+                                    jckbPromProduto.isSelected() ? (byte) 1 : (byte) 0,
+                                    Double.valueOf(jftfVlrPromProduto.getText().replace(",", ".")),
+                                    jdcInicioPromProduto.getDate(),
+                                    jdcFimPromProduto.getDate(),
+                                    jsfQtdFolhasProduto.getValue(),
+                                    Integer.valueOf(jftfEstoqueFisicoProduto.getValue().toString()),
+                                    jckbAvisoEstoqueProduto.isSelected() ? (byte) 1 : (byte) 0,
+                                    Integer.valueOf(jftfAvisoEstoqueProduto.getValue().toString()),
+                                    String.valueOf(jcbTipoProduto.getSelectedItem()),
+                                    Double.valueOf(jftfVlrUnitProduto.getValue().toString()),
                                     new java.sql.Timestamp(new Date().getTime()),
-                                    Integer.valueOf(jftfQtdMin.getText()),
-                                    jckbQtdMax.isSelected() ? (byte) 1 : (byte) 0,
-                                    Integer.valueOf(jftfQtdMax.getText())
+                                    Integer.valueOf(jftfQtdMinProduto.getText()),
+                                    jckbQtdMaxProduto.isSelected() ? (byte) 1 : (byte) 0,
+                                    Integer.valueOf(jftfQtdMaxProduto.getText())
                             ));
                             //INTERAÇÃO COM O USUÁRIO---------------------------------------
                             JOptionPane.showMessageDialog(null, "PRODUTO SALVO COM SUCESSO COM SUCESSO. >> CÓDIGO: "
@@ -2018,11 +1883,6 @@ public class ProdutoFrame extends javax.swing.JInternalFrame {
                             break;
                     }
                     //------------------------------------------------------------------
-
-                    //RESETA CAMPOS-----------------------------------------------------
-                    limpaPe();
-                    //------------------------------------------------------------------
-
                     /**
                      * Reseta a função
                      */
@@ -2118,90 +1978,90 @@ public class ProdutoFrame extends javax.swing.JInternalFrame {
                     }
                     break;
                 case 2:
-                    if (jtfDescricaoPe.getText().isEmpty()) {
+                    if (jftfDescricaoProduto.getText().isEmpty()) {
                         JOptionPane.showMessageDialog(null, "INSIRA A DESCRIÇÃO DO PRODUTO", "ERRO",
                                 JOptionPane.ERROR_MESSAGE);
                         loading.setVisible(false);
                         return;
                     }
-                    if (Double.valueOf(jftfLarguraPe.getText().replace(",", ".")) == 0d) {
+                    if (Double.valueOf(jftfLarguraProduto.getText().replace(",", ".")) == 0d) {
                         JOptionPane.showMessageDialog(null, "INSIRA A LARGURA DO PRODUTO", "ERRO",
                                 JOptionPane.ERROR_MESSAGE);
                         loading.setVisible(false);
                         return;
                     }
-                    if (Double.valueOf(jftfAlturaPe.getText().replace(",", ".")) == 0d) {
+                    if (Double.valueOf(jftfAlturaProduto.getText().replace(",", ".")) == 0d) {
                         JOptionPane.showMessageDialog(null, "INSIRA A ALTURA DO PRODUTO", "ERRO",
                                 JOptionPane.ERROR_MESSAGE);
                         loading.setVisible(false);
                         return;
                     }
-                    if (Double.valueOf(jftfEspessuraPe.getText().replace(",", ".")) == 0d) {
+                    if (Double.valueOf(jftfEspessuraProduto.getText().replace(",", ".")) == 0d) {
                         JOptionPane.showMessageDialog(null, "INSIRA A ESPESSURA DO PRODUTO", "ERRO",
                                 JOptionPane.ERROR_MESSAGE);
                         loading.setVisible(false);
                         return;
                     }
-                    if (Double.valueOf(jftfPesoPe.getText().replace(",", ".")) == 0d) {
+                    if (Double.valueOf(jftfPesoProduto.getText().replace(",", ".")) == 0d) {
                         JOptionPane.showMessageDialog(null, "INSIRA O PESO DO PRODUTO", "ERRO",
                                 JOptionPane.ERROR_MESSAGE);
                         loading.setVisible(false);
                         return;
                     }
-                    if (jsfQtdFolhasPe.getValue() == 0) {
+                    if (jsfQtdFolhasProduto.getValue() == 0) {
                         JOptionPane.showMessageDialog(null, "A QUANTIDADE DE FOLHAS NÃO PODE SER IGUAL À ZERO", "ERRO",
                                 JOptionPane.ERROR_MESSAGE);
                         loading.setVisible(false);
                         return;
                     }
-                    if (jcbTipoPe.getSelectedIndex() == 0) {
+                    if (jcbTipoProduto.getSelectedIndex() == 0) {
                         JOptionPane.showMessageDialog(null, "SELECIONE O TIPO DO PRODUTO", "ERRO",
                                 JOptionPane.ERROR_MESSAGE);
                         loading.setVisible(false);
                         return;
                     }
                     if (!jckbProdPreVenda.isSelected()) {
-                        if (Double.valueOf(jftfVlrUnitPe.getText().replace(",", ".")) == 0d) {
+                        if (Double.valueOf(jftfVlrUnitProduto.getText().replace(",", ".")) == 0d) {
                             JOptionPane.showMessageDialog(null, "DIGITE O VALOR UNITÁRIO DO PRODUTO", "ERRO",
                                     JOptionPane.ERROR_MESSAGE);
                             loading.setVisible(false);
                             return;
                         }
                     }
-                    if (jckbProm.isSelected()) {
-                        if (Double.valueOf(jftfVlrProm.getText().replace(",", ".")) == 0d) {
+                    if (jckbPromProduto.isSelected()) {
+                        if (Double.valueOf(jftfVlrPromProduto.getText().replace(",", ".")) == 0d) {
                             JOptionPane.showMessageDialog(null, "DIGITE O VALOR PROMOCIONAL DO PRODUTO", "ERRO",
                                     JOptionPane.ERROR_MESSAGE);
                             loading.setVisible(false);
                             return;
                         }
-                        if (jdcInicioProm.getDate() == null) {
+                        if (jdcInicioPromProduto.getDate() == null) {
                             JOptionPane.showMessageDialog(null, "DIGITE A DATA DE INÍCIO DA PROMOÇÃO", "ERRO",
                                     JOptionPane.ERROR_MESSAGE);
                             loading.setVisible(false);
                             return;
                         }
-                        if (jdcFimProm.getDate() == null) {
+                        if (jdcFimPromProduto.getDate() == null) {
                             JOptionPane.showMessageDialog(null, "DIGITE A DATA FIM DA PROMOÇÃO", "ERRO",
                                     JOptionPane.ERROR_MESSAGE);
                             loading.setVisible(false);
                             return;
                         }
                     }
-                    if (Integer.valueOf(jftfEstoqueFisico.getText().replace(".", "")) == 0) {
+                    if (Integer.valueOf(jftfEstoqueFisicoProduto.getText().replace(".", "")) == 0) {
                         JOptionPane.showMessageDialog(null, "O ESTOQUE FÍSICO DO PRODUTO NÃO PODE SER IGUAL À ZERO", "ERRO",
                                 JOptionPane.ERROR_MESSAGE);
                         loading.setVisible(false);
                         return;
                     }
-                    if (Integer.valueOf(jftfQtdMin.getText()) == 0) {
+                    if (Integer.valueOf(jftfQtdMinProduto.getText()) == 0) {
                         JOptionPane.showMessageDialog(null, "A QUANTIDADE MÍNIMA PARA PEDIDO DO PRODUTO NÃO PODE SER IGUAL À ZERO", "ERRO",
                                 JOptionPane.ERROR_MESSAGE);
                         loading.setVisible(false);
                         return;
                     }
-                    if (jckbQtdMax.isSelected()) {
-                        if (Integer.valueOf(jftfQtdMax.getText().replace(",", ".")) == 0) {
+                    if (jckbQtdMaxProduto.isSelected()) {
+                        if (Integer.valueOf(jftfQtdMaxProduto.getText().replace(",", ".")) == 0) {
                             JOptionPane.showMessageDialog(null, "A QUANTIDADE MÁXIMA PARA PEDIDO DO PRODUTO NÃO PODE SER IGUAL À ZERO", "ERRO",
                                     JOptionPane.ERROR_MESSAGE);
                             loading.setVisible(false);
@@ -2209,7 +2069,7 @@ public class ProdutoFrame extends javax.swing.JInternalFrame {
                         }
                     }
                     if (FUNCAO != 1 & FUNCAO != 3) {
-                        if (ProdutoDAO.verificaDescPe(jtfDescricaoPe.getText())) {
+                        if (ProdutoDAO.verificaDescPe(jftfDescricaoProduto.getText())) {
                             JOptionPane.showMessageDialog(null, "A DESCRIÇÃO DO PRODUTO JÁ EXISTE", "ERRO",
                                     JOptionPane.ERROR_MESSAGE);
                             loading.setVisible(false);
@@ -2227,105 +2087,41 @@ public class ProdutoFrame extends javax.swing.JInternalFrame {
 
     }
 
-    private void pesquisarProduto() {
-        DefaultTableModel modeloConsulta = (DefaultTableModel) tabelaConsulta.getModel();
-        modeloConsulta.setNumRows(0);
-        if (tipoPesquisa.getSelectedItem().equals("SELECIONE...")) {
-            JOptionPane.showMessageDialog(null, "SELECIONE UM TIPO DE PESQUISA!");
-        } else {
-            try {
-                for (ProdutoBEAN produto : ProdutoDAO.pesquisaRegistro((String) tipoPesquisa.getSelectedItem(),
-                        textoPesquisa.getText())) {
-                    adicionaTblConsultaPp(modeloConsulta, produto);
-                }
-            } catch (SQLException ex) {
-                EnvioExcecao envioExcecao = new EnvioExcecao(Controle.getDefaultGj(), ex);
-                EnvioExcecao.envio();
-            }
-
-        }
-    }
-
-    private void mostrarTodos() {
-        try {
-            DefaultTableModel modeloConsulta = (DefaultTableModel) tabelaConsulta.getModel();
-            modeloConsulta.setNumRows(0);
-            for (ProdutoBEAN produto : ProdutoDAO.mostraTodos()) {
-                adicionaTblConsultaPp(modeloConsulta, produto);
-            }
-        } catch (SQLException ex) {
-            EnvioExcecao envioExcecao = new EnvioExcecao(Controle.getDefaultGj(), ex);
-            EnvioExcecao.envio();
-        }
-    }
-
-    private void carregaEdicao() {
-        try {
-            this.setTitle("EDITANDO PRODUTO " + COD_PROD);
-            loading.setVisible(true);
-            loading.setText("CARREGANDO EDIÇÃO...");
-
-            limpa();
-            COD_PROD
-                    = Integer.valueOf(tabelaConsulta.getValueAt(tabelaConsulta.getSelectedRow(), 0).toString());
-            FUNCAO = 1;
-
-            ProdutoBEAN produto = ProdutoDAO.retornaInfoProd(COD_PROD, (byte) 1);
-            jftfDescricaoProduto.setText(produto.getDescricao());
-            jftfLarguraProduto.setValue(produto.getLargura());
-            jftfAlturaProduto.setValue(produto.getAltura());
-            jsfQtdFolhasProduto.setValue(produto.getQuantidadeFolhas());
-            jcbTipoProduto.setSelectedItem(produto.getTipoProduto());
-
-            DefaultTableModel modeloPapeis = (DefaultTableModel) ProdutoFrame.tabelaPapel.getModel();
-            for (PapelBEAN bean : ProdutoDAO.retornaInformacoesPapel(Integer.valueOf(COD_PROD))) {
-                modeloPapeis.addRow(new Object[]{
-                    bean.getCodigo(),
-                    bean.getDescricaoPapel(),
-                    bean.getTipoPapel(),
-                    bean.getOrelha(),
-                    bean.getCorFrente(),
-                    bean.getCorVerso()
+    /**
+     * Adiciona os registros na tabela de consulta
+     *
+     * @param modelo
+     * @param produto
+     * @param tipoProduto 1 - Produção, 2 - Pronta Entrega
+     */
+    private void adicionaTblConsulta(DefaultTableModel modelo,
+            Object produto,
+            byte tipoProduto) {
+        switch (tipoProduto) {
+            case 1:
+                ProdutoBEAN cast = (ProdutoBEAN) produto;
+                modelo.addRow(new Object[]{
+                    cast.getCodigo(),
+                    "PP",
+                    cast.getDescricao(),
+                    null,
+                    null,
+                    null,
+                    null
                 });
-            }
-
-            try {
-                DefaultTableModel modeloAcabamentos = (DefaultTableModel) ProdutoFrame.tabelaAcabamentos.getModel();
-                for (AcabamentoProdBEAN bean : AcabamentoDAO.retornaAcabamentosProduto(COD_PROD)) {
-                    modeloAcabamentos.addRow(new Object[]{
-                        bean.getCodigoAcabamento(),
-                        AcabamentoDAO.retornaDescricaoAcabamentos(bean.getCodigoAcabamento())
-                    });
-                }
-            } catch (SemAcabamentoException ex) {
-                //NENHUMA AÇÃO
-            }
-            tabPane.setSelectedIndex(0);
-        } catch (SQLException ex) {
-            EnvioExcecao envioExcecao = new EnvioExcecao(Controle.getDefaultGj(), ex);
-            EnvioExcecao.envio();
+                break;
+            case 2:
+                ProdutoPrEntBEAN cast2 = (ProdutoPrEntBEAN) produto;
+                modelo.addRow(new Object[]{
+                    cast2.getCodigo(),
+                    "PE",
+                    cast2.getDescricao(),
+                    cast2.getVlrUnit(),
+                    cast2.getEstoque(),
+                    (cast2.getPreVenda() == 1),
+                    (cast2.getPromocao() == 1)
+                });
+                break;
         }
-
-        loading.setVisible(false);
     }
-
-    private void adicionaTblConsultaPe(DefaultTableModel modelo, ProdutoPrEntBEAN produto) {
-        modelo.addRow(new Object[]{
-            produto.getCodigo(),
-            "PE",
-            produto.getDescricao(),
-            produto.getVlrUnit(),
-            produto.getEstoque(),
-            (produto.getPreVenda() == 1),
-            (produto.getPromocao() == 1)
-        });
-    }
-
-    private void adicionaTblConsultaPp(DefaultTableModel modelo, ProdutoBEAN produto) {
-        modelo.addRow(new Object[]{
-            produto.getCodigo(),
-            "PP",
-            produto.getDescricao()});
-    }
-
 }

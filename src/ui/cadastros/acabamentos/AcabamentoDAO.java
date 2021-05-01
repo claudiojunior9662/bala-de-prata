@@ -327,9 +327,6 @@ public class AcabamentoDAO {
                     + "WHERE cod_produto = ?");
             stmt.setInt(1, codProd);
             rs = stmt.executeQuery();
-            if(rs.wasNull()){
-                throw new SemAcabamentoException();
-            }
             while(rs.next()){
                 AcabamentoProdBEAN lcBEAN = new AcabamentoProdBEAN();
                 lcBEAN.setCodigoAcabamento(rs.getInt("cod_acabamento"));

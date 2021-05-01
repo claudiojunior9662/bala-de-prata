@@ -6,6 +6,7 @@
 package connection;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import entities.lojaIntegrada.Product;
 import exception.EnvioExcecao;
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -22,6 +23,8 @@ import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.util.HashMap;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.json.JSONException;
 import org.json.JSONObject;
 import ui.controle.Controle;
@@ -41,7 +44,25 @@ public class IntegracaoLojaIntegrada {
     private static final String FORMATO_SAIDA = "json";
 
     public static void main(String[] args) {
-        
+        try {
+            Product produto = new Product(
+                    1,
+                    "prod-pai",
+                    "Produto teste integração",
+                    "Produto teste integração",
+                    true,
+                    (float) 0.01,
+                    (float) 0.01,
+                    (float) 0.01,
+                    (float) 0.01,
+                    "produto-teste"
+            );
+            realizaRequisicaoPOST((byte) 5, produto);
+        } catch (IOException ex) {
+            Logger.getLogger(IntegracaoLojaIntegrada.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (InterruptedException ex) {
+            Logger.getLogger(IntegracaoLojaIntegrada.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     public static void realizaRequisicaoGET(String requisicao) {
@@ -122,14 +143,16 @@ public class IntegracaoLojaIntegrada {
 
     /**
      * Realiza requisição POST para o e-commerce
-     * @param tipo 1 - Cadastro categoria, 2 - Cadastro marca, 3 - Cadastro grade, 4 - Cadastro variação,
-     * 5 - Cadastro produto pai, 6 - Cadastro produto filho, 7 - Cadastro imagem produto, 8 - Cadastro cliente
+     *
+     * @param tipo 1 - Cadastro categoria, 2 - Cadastro marca, 3 - Cadastro
+     * grade, 4 - Cadastro variação, 5 - Cadastro produto pai, 6 - Cadastro
+     * produto filho, 7 - Cadastro imagem produto, 8 - Cadastro cliente
      * @throws IOException
-     * @throws InterruptedException 
+     * @throws InterruptedException
      */
     public static void realizaRequisicaoPOST(byte tipo, Object requisicao) throws IOException, InterruptedException {
-        
-        switch(tipo){
+
+        switch (tipo) {
             case 1:
                 break;
             case 2:
@@ -139,8 +162,49 @@ public class IntegracaoLojaIntegrada {
             case 4:
                 break;
             case 5:
+                Product product = (Product) requisicao;
+                HashMap values = new HashMap<String, Object>() {
+                    {
+                        put("id_externo", String.valueOf(product.getIdExterno()));
+                        put("sku", String.valueOf(product.getSku()));
+                        put("mpn", String.valueOf(product.getMpn()));
+                        put("ncm", String.valueOf(product.getNcm()));
+                        put("nome", String.valueOf(product.getNome()));
+                        put("descricao_completa", String.valueOf(product.getDescricaoCompleta()));
+                        put("ativo", product.isAtivo());
+                        put("destaque", product.isDestaque());
+                        put("peso", product.getPeso());
+                        put("altura", product.getAltura());
+                        put("largura", product.getLargura());
+                        put("profundidade", product.getProfundidade());
+                        put("tipo", product.getTipo());
+                        put("usado", product.isUsado());
+                    }
+                };
+
+                ObjectMapper objectMapper = new ObjectMapper();
+                String requestBody = objectMapper.writeValueAsString(values);
+
+                HttpClient client = HttpClient.newHttpClient();
+                HttpRequest request = HttpRequest.newBuilder()
+                        .uri(URI.create("https://api.awsli.com.br/v1/produto/?"
+                                + FORMATO_SAIDA
+                                + "&"
+                                + "chave_api="
+                                + CHAVE_API
+                                + "&"
+                                + "chave_aplicacao="
+                                + CHAVE_APLICACAO))
+                        .POST(HttpRequest.BodyPublishers.ofString(requestBody))
+                        .build();
+                HttpResponse<String> response = client.send(request,
+                        HttpResponse.BodyHandlers.ofString());
+                System.out.println(response);
+                System.out.println(request);
+
                 break;
             case 6:
+
                 break;
             case 7:
                 break;
@@ -149,31 +213,7 @@ public class IntegracaoLojaIntegrada {
             default:
                 break;
         }
-        
-        HashMap values = new HashMap<String, String>(){{
-            put("id_externo", null);
-            put("nome", "Teste Integracao API");
-            put("descricao", "Canecas.");
-            put("categoria_pai", null);
-        }};
-        
-        ObjectMapper objectMapper = new ObjectMapper();
-        String requestBody = objectMapper.writeValueAsString(values);
-        
-        HttpClient client = HttpClient.newHttpClient();
-        HttpRequest request = HttpRequest.newBuilder()
-                .uri(URI.create("https://api.awsli.com.br/v1/categoria/?" 
-                        + FORMATO_SAIDA
-                        + "&" 
-                        + "chave_api=" 
-                        + CHAVE_API
-                        + "&"
-                        + "chave_aplicacao=" 
-                        + CHAVE_APLICACAO))
-                .POST(HttpRequest.BodyPublishers.ofString(requestBody))
-                .build();
-        HttpResponse<String> response = client.send(request, 
-                HttpResponse.BodyHandlers.ofString());
+
     }
-        
+
 }

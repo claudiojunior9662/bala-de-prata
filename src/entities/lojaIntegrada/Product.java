@@ -10,6 +10,7 @@ package entities.lojaIntegrada;
  * @author claud
  */
 public class Product {
+
     private int idExterno;
     private String sku;
     private String mpn;
@@ -20,6 +21,7 @@ public class Product {
     private boolean destaque;
     private float peso;
     private float altura;
+    private float largura;
     private float profundidade;
     private String tipo;
     private boolean usado;
@@ -27,8 +29,19 @@ public class Product {
     private Category category;
 
     //Contructors---------------------------------------------------------------
-    
-    
+    public Product(int idExterno, String sku, String nome, String descricaoCompleta, boolean ativo, float peso, float altura, float largura, float profundidade, String tipo) {
+        this.idExterno = idExterno;
+        this.sku = sku;
+        this.nome = nome;
+        this.descricaoCompleta = descricaoCompleta;
+        this.ativo = ativo;
+        this.peso = peso;
+        this.altura = altura;
+        this.largura = largura;
+        this.profundidade = profundidade;
+        this.tipo = tipo;
+    }
+
     //Getters and setters-------------------------------------------------------
     public int getIdExterno() {
         return idExterno;
@@ -149,6 +162,13 @@ public class Product {
     public void setCategory(Category category) {
         this.category = category;
     }
-    
-    
+
+    public float getLargura() {
+        return largura;
+    }
+
+    public void setLargura(float largura) {
+        this.largura = largura;
+    }
+
 }
