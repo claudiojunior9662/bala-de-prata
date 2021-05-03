@@ -5,20 +5,13 @@
  */
 package ui.principal;
 
-import com.jcraft.jsch.SftpException;
 import connection.ConnectionFactory;
 import exception.EnvioExcecao;
-import java.awt.Dimension;
-import java.awt.Graphics;
-import java.awt.Image;
-import java.awt.Toolkit;
 import java.io.File;
 import java.io.IOException;
-import java.net.URL;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.swing.ImageIcon;
 import ui.controle.Controle;
 import ui.estoque.EnviarEstoque;
 import ui.login.TelaAutenticacao;
