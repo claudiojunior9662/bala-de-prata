@@ -25,6 +25,8 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.text.DecimalFormat;
 import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.DefaultListModel;
 import javax.swing.JLabel;
 import ui.administrador.UsuarioBEAN;
@@ -1392,9 +1394,8 @@ public class RelatorioFat extends javax.swing.JInternalFrame {
                 } catch (FileNotFoundException ex) {
                     EnvioExcecao envioExcecao = new EnvioExcecao(Controle.getDefaultGj(), ex);
                     EnvioExcecao.envio();
-                } catch (DocumentException | IOException ex) {
-                    EnvioExcecao envioExcecao = new EnvioExcecao(Controle.getDefaultGj(), ex);
-                    EnvioExcecao.envio();
+                } catch (DocumentException ex) {
+                    Logger.getLogger(RelatorioFat.class.getName()).log(Level.SEVERE, null, ex);
                 }
 
                 try {

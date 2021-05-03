@@ -557,7 +557,7 @@ public class RelatorioFat2 extends javax.swing.JInternalFrame {
                 } catch (FileNotFoundException ex) {
                     EnvioExcecao envioExcecao = new EnvioExcecao(Controle.getDefaultGj(), ex);
                     EnvioExcecao.envio();
-                } catch (DocumentException | IOException ex) {
+                } catch (DocumentException ex) {
                     EnvioExcecao envioExcecao = new EnvioExcecao(Controle.getDefaultGj(), ex);
                     EnvioExcecao.envio();
                 }
