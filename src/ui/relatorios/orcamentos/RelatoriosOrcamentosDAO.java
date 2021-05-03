@@ -6,9 +6,9 @@
 package ui.relatorios.orcamentos;
 
 import connection.ConnectionFactory;
-import entidades.Cliente;
-import entidades.Orcamento;
-import entidades.Produto;
+import entities.sisgrafex.Cliente;
+import entities.sisgrafex.Orcamento;
+import entities.sisgrafex.Produto;
 import exception.ConsultaSemResultadoException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;

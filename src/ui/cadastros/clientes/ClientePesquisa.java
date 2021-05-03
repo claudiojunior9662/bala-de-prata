@@ -5,7 +5,7 @@
  */
 package ui.cadastros.clientes;
 
-import entidades.Cliente;
+import entities.sisgrafex.Cliente;
 import exception.EnvioExcecao;
 import exception.TipoPessoaIncorretoException;
 import ui.cadastros.enderecos.EnderecoBEAN;

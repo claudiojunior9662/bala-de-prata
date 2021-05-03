@@ -6,7 +6,7 @@
 package ui.relatorios.papeis;
 
 import connection.ConnectionFactory;
-import entidades.Papel;
+import entities.sisgrafex.Papel;
 import exception.ConsultaSemResultadoException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;

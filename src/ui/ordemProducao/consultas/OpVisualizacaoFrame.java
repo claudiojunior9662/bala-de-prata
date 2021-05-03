@@ -5,7 +5,7 @@
  */
 package ui.ordemProducao.consultas;
 
-import entidades.OrdemProducao;
+import entities.sisgrafex.OrdemProducao;
 import exception.EnvioExcecao;
 import java.sql.SQLException;
 import javax.swing.JLabel;

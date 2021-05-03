@@ -5,9 +5,9 @@
  */
 package ui.cadastros.notas;
 
-import entidades.Cliente;
-import entidades.Faturamento;
-import entidades.OrdemProducao;
+import entities.sisgrafex.Cliente;
+import entities.sisgrafex.Faturamento;
+import entities.sisgrafex.OrdemProducao;
 import ui.cadastros.clientes.ClienteBEAN;
 import ui.cadastros.contatos.ContatoBEAN;
 import ui.cadastros.enderecos.EnderecoBEAN;
@@ -21,7 +21,7 @@ import java.sql.SQLException;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.SpinnerNumberModel;
-import entidades.ProdOrcamento;
+import entities.sisgrafex.ProdOrcamento;
 import exception.EnvioExcecao;
 import model.dao.OrcamentoDAO;
 import model.dao.OrdemProducaoDAO;

@@ -7,7 +7,7 @@ package ui.cadastros.produtos;
 
 import ui.cadastros.papeis.PapelBEAN;
 import connection.ConnectionFactory;
-import entidades.Produto;
+import entities.sisgrafex.Produto;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -15,7 +15,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import entidades.ProdOrcamento;
+import entities.sisgrafex.ProdOrcamento;
 
 /**
  *
@@ -124,16 +124,27 @@ public class ProdutoDAO {
         }
     }
 
+    /**
+     * Retorna lista de pesquisa de produtos para produção (PP)
+     * @param tipo tipo da pesquisa
+     * @param texto texto de pesquisa
+     * @return
+     * @throws SQLException 
+     */
     public static List<ProdutoBEAN> pesquisaRegistro(String tipo, String texto) throws SQLException {
         Connection con = ConnectionFactory.getConnection();
         PreparedStatement stmt = null;
         ResultSet rs = null;
 
-        List<ProdutoBEAN> cadastrolc = new ArrayList();
+        System.out.println(tipo + " " + texto);
+        
+        List<ProdutoBEAN> retorno = new ArrayList();
 
         try {
             if (tipo.equals("CÓDIGO")) {
-                stmt = con.prepareStatement("SELECT CODIGO, DESCRICAO FROM produtos WHERE CODIGO = ?");
+                stmt = con.prepareStatement("SELECT CODIGO, DESCRICAO "
+                        + "FROM produtos "
+                        + "WHERE CODIGO = ?");
                 stmt.setInt(1, Integer.valueOf(texto));
             } else if (tipo.equals("DESCRIÇÃO")) {
                 stmt = con.prepareStatement("SELECT CODIGO, DESCRICAO FROM "
@@ -143,17 +154,17 @@ public class ProdutoDAO {
             rs = stmt.executeQuery();
 
             while (rs.next()) {
-                ProdutoBEAN lpBEAN = new ProdutoBEAN();
-                lpBEAN.setCodigo(rs.getInt("CODIGO"));
-                lpBEAN.setDescricao(rs.getString("DESCRICAO"));
-                cadastrolc.add(lpBEAN);
+                ProdutoBEAN produto = new ProdutoBEAN();
+                produto.setCodigo(rs.getInt("CODIGO"));
+                produto.setDescricao(rs.getString("DESCRICAO"));
+                retorno.add(produto);
             }
         } catch (SQLException ex) {
             throw new SQLException(ex);
         } finally {
             ConnectionFactory.closeConnection(con, stmt, rs);
         }
-        return cadastrolc;
+        return retorno;
     }
 
     public static List<ProdutoBEAN> mostraTodos() throws SQLException {
@@ -248,7 +259,7 @@ public class ProdutoDAO {
         Connection con = ConnectionFactory.getConnection();
         PreparedStatement stmt = null;
         ResultSet rs = null;
-
+        
         try {
             switch (tipoProduto) {
                 case 1:

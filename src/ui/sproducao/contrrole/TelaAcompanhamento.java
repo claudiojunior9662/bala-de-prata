@@ -6,9 +6,9 @@
 package ui.sproducao.contrrole;
 
 import connection.ConnectionFactory;
-import entidades.AlteraData;
+import entities.sisgrafex.AlteraData;
 import javax.swing.table.DefaultTableModel;
-import entidades.OrdemProducao;
+import entities.sisgrafex.OrdemProducao;
 import exception.EnvioExcecao;
 import model.bean.TelaAcompanhamentoBEAN;
 import model.dao.OrdemProducaoDAO;

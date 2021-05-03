@@ -5,8 +5,8 @@
  */
 package ui.ordemProducao.consultas;
 
-import entidades.Cliente;
-import entidades.Faturamento;
+import entities.sisgrafex.Cliente;
+import entities.sisgrafex.Faturamento;
 import ui.cadastros.contatos.ContatoBEAN;
 import ui.cadastros.enderecos.EnderecoBEAN;
 import ui.cadastros.notas.NotaDAO;
@@ -17,11 +17,11 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.text.DefaultFormatterFactory;
 import javax.swing.text.MaskFormatter;
 import ui.cadastros.produtos.ProdutoBEAN;
-import entidades.OrdemProducao;
+import entities.sisgrafex.OrdemProducao;
 import java.sql.SQLException;
 import javax.swing.JOptionPane;
 import javax.swing.SpinnerNumberModel;
-import entidades.ProdOrcamento;
+import entities.sisgrafex.ProdOrcamento;
 import exception.EnvioExcecao;
 import java.awt.Dimension;
 import javax.swing.JTextArea;

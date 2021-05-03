@@ -7,7 +7,7 @@ package ui.cadastros.chapas;
 
 import java.sql.SQLException;
 import javax.swing.table.DefaultTableModel;
-import entidades.Chapa;
+import entities.sisgrafex.Chapa;
 import exception.EnvioExcecao;
 import javax.swing.JOptionPane;
 import ui.controle.Controle;

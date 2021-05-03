@@ -16,7 +16,7 @@ import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
 import com.lowagie.text.Element;
-import entidades.Cliente;
+import entities.sisgrafex.Cliente;
 import exception.EnvioExcecao;
 import java.io.File;
 import java.io.FileNotFoundException;

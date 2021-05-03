@@ -6,7 +6,7 @@
 package ui.cadastros.notas;
 
 import connection.ConnectionFactory;
-import entidades.Faturamento;
+import entities.sisgrafex.Faturamento;
 import ui.cadastros.clientes.ClienteBEAN;
 import ui.cadastros.contatos.ContatoBEAN;
 import ui.cadastros.enderecos.EnderecoBEAN;

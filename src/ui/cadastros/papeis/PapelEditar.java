@@ -6,7 +6,7 @@
 package ui.cadastros.papeis;
 
 import javax.swing.table.DefaultTableModel;
-import entidades.Papel;
+import entities.sisgrafex.Papel;
 import javax.swing.JOptionPane;
 
 /**
