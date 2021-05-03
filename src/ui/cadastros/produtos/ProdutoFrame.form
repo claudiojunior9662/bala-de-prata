@@ -78,19 +78,19 @@
                               <Component id="salvar" min="-2" max="-2" attributes="0"/>
                           </Group>
                           <Group type="102" alignment="0" attributes="0">
-                              <Component id="jLabel8" min="-2" max="-2" attributes="0"/>
+                              <Component id="lblLarguraProduto" min="-2" max="-2" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
                               <Component id="jftfLarguraProduto" linkSize="2" min="-2" pref="77" max="-2" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
-                              <Component id="jLabel9" min="-2" max="-2" attributes="0"/>
+                              <Component id="lblAlturaProduto" min="-2" max="-2" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
                               <Component id="jftfAlturaProduto" linkSize="2" min="-2" pref="57" max="-2" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
-                              <Component id="jLabel10" min="-2" max="-2" attributes="0"/>
+                              <Component id="lblEspessuraProduto" min="-2" max="-2" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
                               <Component id="jftfEspessuraProduto" min="-2" pref="86" max="-2" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
-                              <Component id="jLabel11" min="-2" max="-2" attributes="0"/>
+                              <Component id="lblPesoProduto" min="-2" max="-2" attributes="0"/>
                               <EmptySpace min="-2" pref="9" max="-2" attributes="0"/>
                               <Component id="jftfPesoProduto" min="-2" pref="72" max="-2" attributes="0"/>
                               <EmptySpace min="-2" pref="2" max="-2" attributes="0"/>
@@ -123,13 +123,13 @@
                           <Group type="102" alignment="0" attributes="0">
                               <EmptySpace min="126" pref="126" max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="0" attributes="0">
-                                  <Component id="jLabel8" linkSize="1" alignment="0" min="-2" max="-2" attributes="0"/>
+                                  <Component id="lblLarguraProduto" linkSize="1" alignment="0" min="-2" max="-2" attributes="0"/>
                                   <Component id="jftfLarguraProduto" linkSize="1" alignment="0" pref="46" max="32767" attributes="0"/>
-                                  <Component id="jLabel9" linkSize="1" alignment="0" min="-2" max="-2" attributes="0"/>
+                                  <Component id="lblAlturaProduto" linkSize="1" alignment="0" min="-2" max="-2" attributes="0"/>
                                   <Component id="jftfAlturaProduto" linkSize="1" min="-2" max="-2" attributes="0"/>
-                                  <Component id="jLabel10" linkSize="19" alignment="0" min="-2" max="-2" attributes="0"/>
+                                  <Component id="lblEspessuraProduto" linkSize="19" alignment="0" min="-2" max="-2" attributes="0"/>
                                   <Component id="jftfEspessuraProduto" linkSize="19" alignment="0" min="-2" max="-2" attributes="0"/>
-                                  <Component id="jLabel11" linkSize="20" alignment="0" min="-2" max="-2" attributes="0"/>
+                                  <Component id="lblPesoProduto" linkSize="20" alignment="0" min="-2" max="-2" attributes="0"/>
                                   <Component id="jftfPesoProduto" linkSize="20" alignment="0" min="-2" max="-2" attributes="0"/>
                               </Group>
                           </Group>
@@ -314,8 +314,12 @@
                     <Property name="buttonGroup" type="javax.swing.ButtonGroup" editor="org.netbeans.modules.form.RADComponent$ButtonGroupPropertyEditor">
                       <ComponentRef name="tipoIntProduto"/>
                     </Property>
+                    <Property name="selected" type="boolean" value="true"/>
                     <Property name="text" type="java.lang.String" value="PRODU&#xc7;&#xc3;O (PP)"/>
                   </Properties>
+                  <Events>
+                    <EventHandler event="itemStateChanged" listener="java.awt.event.ItemListener" parameters="java.awt.event.ItemEvent" handler="jrdParaProducaoItemStateChanged"/>
+                  </Events>
                 </Component>
                 <Component class="javax.swing.JRadioButton" name="jrdParaProntaEntrega">
                   <Properties>
@@ -324,11 +328,17 @@
                     </Property>
                     <Property name="text" type="java.lang.String" value="PRONTA ENTREGA (PE)"/>
                   </Properties>
+                  <Events>
+                    <EventHandler event="itemStateChanged" listener="java.awt.event.ItemListener" parameters="java.awt.event.ItemEvent" handler="jrdParaProntaEntregaItemStateChanged"/>
+                  </Events>
                 </Component>
                 <Component class="javax.swing.JCheckBox" name="jckbUtilizadoEcommerce">
                   <Properties>
                     <Property name="text" type="java.lang.String" value="SER&#xc1; UTILIZADO NO E-COMMERCE"/>
                   </Properties>
+                  <Events>
+                    <EventHandler event="itemStateChanged" listener="java.awt.event.ItemListener" parameters="java.awt.event.ItemEvent" handler="jckbUtilizadoEcommerceItemStateChanged"/>
+                  </Events>
                 </Component>
                 <Component class="javax.swing.JCheckBox" name="jckbAtivo">
                   <Properties>
@@ -340,14 +350,14 @@
                 </Component>
               </SubComponents>
             </Container>
-            <Component class="javax.swing.JLabel" name="jLabel8">
+            <Component class="javax.swing.JLabel" name="lblLarguraProduto">
               <Properties>
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
                   <Image iconType="3" name="/icones/largura.png"/>
                 </Property>
               </Properties>
             </Component>
-            <Component class="javax.swing.JLabel" name="jLabel9">
+            <Component class="javax.swing.JLabel" name="lblAlturaProduto">
               <Properties>
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
                   <Image iconType="3" name="/icones/altura.png"/>
@@ -373,14 +383,14 @@
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jftfEspessuraProdutoActionPerformed"/>
               </Events>
             </Component>
-            <Component class="javax.swing.JLabel" name="jLabel10">
+            <Component class="javax.swing.JLabel" name="lblEspessuraProduto">
               <Properties>
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
                   <Image iconType="3" name="/icones/espessura.png"/>
                 </Property>
               </Properties>
             </Component>
-            <Component class="javax.swing.JLabel" name="jLabel11">
+            <Component class="javax.swing.JLabel" name="lblPesoProduto">
               <Properties>
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
                   <Image iconType="3" name="/icones/peso.png"/>
@@ -486,7 +496,7 @@
 
                       <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
                       <SubComponents>
-                        <Component class="javax.swing.JTable" name="tabelaPapel">
+                        <Component class="javax.swing.JTable" name="tblPapel">
                           <Properties>
                             <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
                               <Table columnCount="6" rowCount="0">
@@ -503,7 +513,7 @@
                             </Property>
                           </Properties>
                           <Events>
-                            <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="tabelaPapelMouseClicked"/>
+                            <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="tblPapelMouseClicked"/>
                           </Events>
                           <AuxValues>
                             <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="9"/>
@@ -701,7 +711,7 @@
 
                       <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
                       <SubComponents>
-                        <Component class="javax.swing.JTable" name="tabelaAcabamentos">
+                        <Component class="javax.swing.JTable" name="tblAcabamentos">
                           <Properties>
                             <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
                               <Table columnCount="2" rowCount="0">
@@ -728,7 +738,7 @@
                             </Property>
                           </Properties>
                           <Events>
-                            <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="tabelaAcabamentosMouseClicked"/>
+                            <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="tblAcabamentosMouseClicked"/>
                           </Events>
                           <AuxValues>
                             <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="9"/>

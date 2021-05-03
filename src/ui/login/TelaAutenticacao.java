@@ -354,6 +354,7 @@ public class TelaAutenticacao extends javax.swing.JFrame {
 //                    MudancaSenha.SENHA = senha;
 //                    md.setVisible(true);
                 if (Controle.getTipoLogin() == 1) {
+                    Controle.inicializa();
                     mInt = new ModulosInt();
                     mInt.setLocationRelativeTo(null);
                     mInt.setDefaultCloseOperation(ModulosInt.EXIT_ON_CLOSE);

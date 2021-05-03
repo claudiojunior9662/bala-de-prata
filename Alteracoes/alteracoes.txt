@@ -1,3 +1,4 @@
 Banco de dados:
     Acrescentar a coluna ATIVO para os produtos
     Acrescentar a tabela de filhos dos produtos
+    Verificar o faturamento de OP com status ENTREGUE PARCIALMENTE

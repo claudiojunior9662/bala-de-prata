@@ -369,17 +369,17 @@ public class AcabamentosCadastro extends javax.swing.JInternalFrame {
         loading.setVisible(true);
         loading.setText("SELECIONANDO...");
 
-        DefaultTableModel modeloAcabamentos = (DefaultTableModel) ProdutoFrame.tabelaAcabamentos.getModel();
+        DefaultTableModel modeloAcabamentos = (DefaultTableModel) ProdutoFrame.tblAcabamentos.getModel();
 
         for (int i : tabelaConsulta.getSelectedRows()) {
-            if (ProdutoFrame.tabelaAcabamentos.getRowCount() == 0) {
+            if (ProdutoFrame.tblAcabamentos.getRowCount() == 0) {
                 modeloAcabamentos.addRow(new Object[]{
                     Integer.valueOf(tabelaConsulta.getValueAt(i, 0).toString()),
                     tabelaConsulta.getValueAt(i, 1).toString()});
             } else {
-                for (int j = 0; j < ProdutoFrame.tabelaAcabamentos.getRowCount(); j++) {
+                for (int j = 0; j < ProdutoFrame.tblAcabamentos.getRowCount(); j++) {
                     if (Integer.valueOf(tabelaConsulta.getValueAt(i, 0).toString())
-                            == Integer.valueOf(ProdutoFrame.tabelaAcabamentos.getValueAt(j, 0).toString())) {
+                            == Integer.valueOf(ProdutoFrame.tblAcabamentos.getValueAt(j, 0).toString())) {
                         JOptionPane.showMessageDialog(null,
                                 "O ACABAMENTO "
                                 + tabelaConsulta.getValueAt(i, 1).toString()

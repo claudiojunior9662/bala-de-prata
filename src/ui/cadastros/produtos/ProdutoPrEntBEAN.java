@@ -36,6 +36,7 @@ public class ProdutoPrEntBEAN {
     private int pdQtdMin;
     private byte pdMax;
     private int pdQtdMax;
+    private boolean ativo;
 
     public ProdutoPrEntBEAN() {
     }
@@ -54,7 +55,7 @@ public class ProdutoPrEntBEAN {
     public ProdutoPrEntBEAN(int codigo, String descricao, float largura, float altura, float espessura,
             float peso, byte vendas, byte preVenda, byte promocao, double vlrPromocao, Date inicioPromocao,
             Date fimPromocao, int qtdPaginas, int estoque, byte avisoEstoque, int avisoEstoqueUn, String tipo,
-            double vlrUnit, Timestamp ultMov, int pdQtdMin, byte pdMax, int pdQtdMax) {
+            double vlrUnit, Timestamp ultMov, int pdQtdMin, byte pdMax, int pdQtdMax, boolean ativo) {
         this.codigo = codigo;
         this.descricao = descricao;
         this.largura = largura;
@@ -77,6 +78,7 @@ public class ProdutoPrEntBEAN {
         this.pdQtdMin = pdQtdMin;
         this.pdMax = pdMax;
         this.pdQtdMax = pdQtdMax;
+        this.ativo = ativo;
     }
 
     public ProdutoPrEntBEAN(int codigo, String descricao) {
@@ -118,6 +120,14 @@ public class ProdutoPrEntBEAN {
         this.largura = largura;
         this.espessura = espessura;
         this.peso = peso;
+    }
+
+    public boolean isAtivo() {
+        return ativo;
+    }
+
+    public void setAtivo(boolean ativo) {
+        this.ativo = ativo;
     }
 
     public int getCodigo() {

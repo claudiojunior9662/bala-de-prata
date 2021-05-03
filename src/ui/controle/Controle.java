@@ -40,7 +40,59 @@ public class Controle {
      * @param tipoVersao 1 - produção 2 - desenvolvimento rede 3 -
      * desenvolvimento local 4 - peixoto
      */
-    private static byte tipoVersao = 3;
+    private static byte tipoVersao = 1;
+
+    //VARIÁVEIS DE SISTEMA------------------------------------------------------
+    //CONEXÃO COM SERVIDOR ARQUIVOS---------------------------------------------
+    private String host;
+    private String usuario;
+    private String senha;
+    private int porta;
+
+    //CONTROLE DE ARQUIVOS------------------------------------------------------
+    public static String ESTOQUE_NAME = "estoque";
+    public static String TEMP_DIR = System.getProperty("java.io.tmpdir");
+    public static String SENHA_ESTOQUE = "Estoque2566";
+
+    //VARIÁVEIS PARA CONEXÃO COM FIREBIRD (SIMATEX)-----------------------------
+    final static public String DRIVER_FIREBIRD = "org.firebirdsql.jdbc.FBDriver";
+    public static String CHARSET = "?encoding=ISO8859_1";
+    public static String SERVIDOR = null;
+    public static String PORTA = null;
+    public static String USUARIO = null;
+    public static String SENHA = null;
+    public static String ENDERECO_BD = null;
+
+    //VARIÁVEIS PARA INTEGRAÇÃO COM LOJA INTEGRADA------------------------------
+    public static String CHAVE_APLICACAO = null;
+    public static String CHAVE_API = null;
+    public static String LINK_API = null;
+    public static String VERSAO_API = null;
+    public static String SEPARADOR = "/";
+    public static String FORMATO_SAIDA = "json";
+
+    //VARIÁVEIS PARA CONEXÃO INTERNET-------------------------------------------
+    public static boolean USO_PROXY = false;
+    public static String HOST_PROXY = null;
+    public static int PORT_PROXY = 0;
+    public static String USER_PROXY = null;
+    public static String PASSWORD_PROXY = null;
+
+    //ORÇAMENTOS E OP-----------------------------------------------------------
+    public static BaseColor fundoDestaque = new BaseColor(211, 211, 211);
+    public static Border bordaLinhaVermelha = BorderFactory.createLineBorder(Color.red);
+    public static Border bordaLinhaVerde = BorderFactory.createLineBorder(Color.green);
+    public static SimpleDateFormat dataPadrao = new SimpleDateFormat("dd/MM/yyyy");
+    public static SimpleDateFormat dataPadraoDiretorio = new SimpleDateFormat("dd-MM-yyyy");
+    public static SimpleDateFormat horaPadrao = new SimpleDateFormat("HH:mm:ss");
+    public static SimpleDateFormat horaPadraoDiretorio = new SimpleDateFormat("HH-mm-ss");
+    public static String tipoDesign = "";
+    public static String urlTempWindows = System.getProperty("java.io.tmpdir") + "\\";
+    public static String urlTempUnix = System.getProperty("java.io.tmpdir") + "/";
+    public static List<StsOrcamento> stsOrcamento;
+
+    //MENSAGENS PADRÃO----------------------------------------------------------
+    public static String naoAdm = "VOCÊ PRECISA SER UM ADMINISTRADOR DESTE MÓDULO PARA ACESSAR ESTA FUNÇÃO";
 
     public static byte getTipoVersao() {
         return tipoVersao;
@@ -84,23 +136,21 @@ public class Controle {
                 + " | " + Controle.dataPadrao.format(new Date()));
     }
 
-    //ORÇAMENTOS E OP
-    public static BaseColor fundoDestaque = new BaseColor(211, 211, 211);
-    public static Border bordaLinhaVermelha = BorderFactory.createLineBorder(Color.red);
-    public static Border bordaLinhaVerde = BorderFactory.createLineBorder(Color.green);
-    public static SimpleDateFormat dataPadrao = new SimpleDateFormat("dd/MM/yyyy");
-    public static SimpleDateFormat dataPadraoDiretorio = new SimpleDateFormat("dd-MM-yyyy");
-    public static SimpleDateFormat horaPadrao = new SimpleDateFormat("HH:mm:ss");
-    public static SimpleDateFormat horaPadraoDiretorio = new SimpleDateFormat("HH-mm-ss");
-    public static String tipoDesign = "";
-    public static String urlTempWindows = System.getProperty("java.io.tmpdir") + "\\";
-    public static String urlTempUnix = System.getProperty("java.io.tmpdir") + "/";
-    
-    public static List<StsOrcamento> stsOrcamento;
-    
-    //MENSAGENS PADRÃO
-    public static String naoAdm = "VOCÊ PRECISA SER UM ADMINISTRADOR DESTE MÓDULO PARA ACESSAR ESTA FUNÇÃO";
-    
+    public static void inicializa() {
+
+        new Thread("INICIALIZA VARIÁVEIS") {
+            @Override
+            public void run() {
+                preencheDadosConexaoSimatex();
+
+                preencheDadosConexaoLojaIntegrada();
+
+                preencheDadosConexaoInternet();
+            }
+
+        }.start();
+    }
+
     /**
      * Gerente de janelas
      */
@@ -113,17 +163,6 @@ public class Controle {
     public static void setDefaultGj(GerenteJanelas defaultGj) {
         Controle.defaultGj = defaultGj;
     }
-
-    //CONEXÃO COM SERVIDOR ARQUIVOS
-    private String host;
-    private String usuario;
-    private String senha;
-    private int porta;
-
-    //CONTROLE DE ARQUIVOS
-    public static String ESTOQUE_NAME = "estoque";
-    public static String TEMP_DIR = System.getProperty("java.io.tmpdir");
-    public static String SENHA_ESTOQUE = "Estoque2566";
 
     public Controle(String host, String usuario, String senha, int porta) {
         this.host = host;
@@ -164,7 +203,7 @@ public class Controle {
         this.porta = porta;
     }
 
-    //DAO
+    //DAO-----------------------------------------------------------------------
     public static Controle retornaDadosConexao(String senha) throws SQLException {
         Connection con = ConnectionFactory.getConnection();
         PreparedStatement stmt = null;
@@ -212,18 +251,19 @@ public class Controle {
         }
         return "";
     }
-    
+
     /**
      * Retorna os avisos definidos pelos administradores para edição
+     *
      * @return
-     * @throws SQLException 
+     * @throws SQLException
      */
-    public static List<String> retornaAvisos() throws SQLException{
+    public static List<String> retornaAvisos() throws SQLException {
         Connection con = ConnectionFactory.getConnection();
         PreparedStatement stmt = null;
         ResultSet rs = null;
         List<String> retorno = new ArrayList();
-        
+
         try {
             stmt = con.prepareStatement("SELECT AVISOS_ORC, AVISOS_PROD, AVISOS_EXP, AVISOS_FIN, AVISOS_ORD "
                     + "FROM tabela_controle");
@@ -242,142 +282,148 @@ public class Controle {
             ConnectionFactory.closeConnection(con, stmt, rs);
         }
     }
-    
+
     /**
      * Retorna avisos definidos pelos administradores
+     *
      * @return
-     * @throws SQLException 
+     * @throws SQLException
      */
-    public static String retornaAvOrc() throws SQLException{
+    public static String retornaAvOrc() throws SQLException {
         Connection con = ConnectionFactory.getConnection();
         PreparedStatement stmt = null;
         ResultSet rs = null;
-        
-        try{
+
+        try {
             stmt = con.prepareStatement("SELECT AVISOS_ORC "
                     + "FROM tabela_controle");
             rs = stmt.executeQuery();
-            if(rs.next()){
+            if (rs.next()) {
                 return rs.getString("AVISOS_ORC");
             }
             return null;
         } catch (SQLException ex) {
             throw new SQLException(ex);
-        }finally{
+        } finally {
             ConnectionFactory.closeConnection(con, stmt, rs);
         }
     }
-    
+
     /**
      * Retorna avisos definidos pelos administradores
+     *
      * @return
-     * @throws SQLException 
+     * @throws SQLException
      */
-    public static String retornaAvExp() throws SQLException{
+    public static String retornaAvExp() throws SQLException {
         Connection con = ConnectionFactory.getConnection();
         PreparedStatement stmt = null;
         ResultSet rs = null;
-        
-        try{
+
+        try {
             stmt = con.prepareStatement("SELECT AVISOS_EXP "
                     + "FROM tabela_controle");
             rs = stmt.executeQuery();
-            if(rs.next()){
+            if (rs.next()) {
                 return rs.getString("AVISOS_EXP");
             }
             return null;
         } catch (SQLException ex) {
             throw new SQLException(ex);
-        }finally{
+        } finally {
             ConnectionFactory.closeConnection(con, stmt, rs);
         }
     }
-    
+
     /**
      * Retorna avisos definidos pelos administradores
+     *
      * @return
-     * @throws SQLException 
+     * @throws SQLException
      */
-    public static String retornaAvProd() throws SQLException{
+    public static String retornaAvProd() throws SQLException {
         Connection con = ConnectionFactory.getConnection();
         PreparedStatement stmt = null;
         ResultSet rs = null;
-        
-        try{
+
+        try {
             stmt = con.prepareStatement("SELECT AVISOS_PROD "
                     + "FROM tabela_controle");
             rs = stmt.executeQuery();
-            if(rs.next()){
+            if (rs.next()) {
                 return rs.getString("AVISOS_PROD");
             }
             return null;
         } catch (SQLException ex) {
             throw new SQLException(ex);
-        }finally{
+        } finally {
             ConnectionFactory.closeConnection(con, stmt, rs);
         }
     }
-    
+
     /**
      * Retorna avisos definidos pelos administradores
+     *
      * @return
-     * @throws SQLException 
+     * @throws SQLException
      */
-    public static String retornaAvFin() throws SQLException{
+    public static String retornaAvFin() throws SQLException {
         Connection con = ConnectionFactory.getConnection();
         PreparedStatement stmt = null;
         ResultSet rs = null;
-        
-        try{
+
+        try {
             stmt = con.prepareStatement("SELECT AVISOS_FIN "
                     + "FROM tabela_controle");
             rs = stmt.executeQuery();
-            if(rs.next()){
+            if (rs.next()) {
                 return rs.getString("AVISOS_fin");
             }
             return null;
         } catch (SQLException ex) {
             throw new SQLException(ex);
-        }finally{
+        } finally {
             ConnectionFactory.closeConnection(con, stmt, rs);
         }
     }
-    
+
     /**
      * Retorna avisos definidos pelos administradores
+     *
      * @return
-     * @throws SQLException 
+     * @throws SQLException
      */
-    public static String retornaAvOrd() throws SQLException{
+    public static String retornaAvOrd() throws SQLException {
         Connection con = ConnectionFactory.getConnection();
         PreparedStatement stmt = null;
         ResultSet rs = null;
-        
-        try{
+
+        try {
             stmt = con.prepareStatement("SELECT AVISOS_ORD "
                     + "FROM tabela_controle");
             rs = stmt.executeQuery();
-            if(rs.next()){
+            if (rs.next()) {
                 return rs.getString("AVISOS_ORD");
             }
             return null;
         } catch (SQLException ex) {
             throw new SQLException(ex);
-        }finally{
+        } finally {
             ConnectionFactory.closeConnection(con, stmt, rs);
         }
     }
-    
+
     /**
      * Atualiza os avisos para os módulos
+     *
      * @param avisos lista de avisos
-     * @throws SQLException 
+     * @throws SQLException
      */
-    public static void atualizaAvisos(List<String> avisos) throws SQLException{
+    public static void atualizaAvisos(List<String> avisos) throws SQLException {
         Connection con = ConnectionFactory.getConnection();
         PreparedStatement stmt = null;
-        
-        try{
+
+        try {
             stmt = con.prepareStatement("UPDATE tabela_controle SET AVISOS_ORC = ?, AVISOS_PROD = ?,"
                     + "AVISOS_EXP = ?, AVISOS_FIN = ?, AVISOS_ORD = ?");
             stmt.setString(1, avisos.get(0));
@@ -388,24 +434,25 @@ public class Controle {
             stmt.executeUpdate();
         } catch (SQLException ex) {
             throw new SQLException(ex);
-        }finally{
+        } finally {
             ConnectionFactory.closeConnection(con, stmt);
         }
     }
-    
+
     /**
      * Verifica a versão atual do sistema
+     *
      * @param codigo código da versão
      * @param atualizacao atualização da versão
      * @return
-     * @throws SQLException 
+     * @throws SQLException
      */
-    public static boolean verificaVersao(String codigo, String atualizacao) throws SQLException{
+    public static boolean verificaVersao(String codigo, String atualizacao) throws SQLException {
         Connection con = ConnectionFactory.getConnection();
         PreparedStatement stmt = null;
         ResultSet rs = null;
-        
-        try{
+
+        try {
             stmt = con.prepareStatement("SELECT CODIGO, ATUALIZACAO "
                     + "FROM versao "
                     + "WHERE CODIGO != ? OR ATUALIZACAO != ?");
@@ -415,16 +462,96 @@ public class Controle {
             return rs.next();
         } catch (SQLException ex) {
             throw new SQLException(ex);
-        }finally{
+        } finally {
             ConnectionFactory.closeConnection(con, stmt, rs);
+        }
+    }
+
+    /**
+     * Preenche os dados para a conexão com o banco de dados do Simatex, com
+     * parâmetros do banco de dados
+     */
+    public static void preencheDadosConexaoSimatex() {
+        Connection con = ConnectionFactory.getConnection();
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+        try {
+            stmt = con.prepareStatement("SELECT SRV_SIMATEX, " + "PORTA_SIMATEX, " + "USR_SIMATEX, " + "SENHA_SIMATEX, " + "END_BD_SIMATEX " + "FROM tabela_controle");
+            rs = stmt.executeQuery();
+            if (rs.next()) {
+                SERVIDOR = rs.getString("SRV_SIMATEX");
+                PORTA = String.valueOf(rs.getInt("PORTA_SIMATEX"));
+                USUARIO = rs.getString("USR_SIMATEX");
+                SENHA = rs.getString("SENHA_SIMATEX");
+                ENDERECO_BD = rs.getString("END_BD_SIMATEX");
+            }
+        } catch (SQLException ex) {
+            EnvioExcecao envioExcecao = new EnvioExcecao(Controle.getDefaultGj(), ex);
+            EnvioExcecao.envio();
+        }
+    }
+
+    /**
+     * Preenche os dados para a integração com a Loja Integrada
+     */
+    public static void preencheDadosConexaoLojaIntegrada() {
+        Connection con = ConnectionFactory.getConnection();
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+        try {
+            stmt = con.prepareStatement("SELECT CHAVE_APP_LI, "
+                    + "CHAVE_API_LI, "
+                    + "LINK_API_LI, "
+                    + "VERSAO_API_LI "
+                    + "FROM tabela_controle");
+            rs = stmt.executeQuery();
+            if (rs.next()) {
+                CHAVE_APLICACAO = rs.getString("CHAVE_APP_LI");
+                CHAVE_API = rs.getString("CHAVE_API_LI");
+                LINK_API = rs.getString("LINK_API_LI");
+                VERSAO_API = rs.getString("VERSAO_API_LI");
+            }
+        } catch (SQLException ex) {
+            EnvioExcecao envioExcecao = new EnvioExcecao(Controle.getDefaultGj(), ex);
+            EnvioExcecao.envio();
+        }
+    }
+
+    /**
+     * Preenche os dados para a conexão com a internet
+     */
+    public static void preencheDadosConexaoInternet() {
+        Connection con = ConnectionFactory.getConnection();
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+        try {
+            stmt = con.prepareStatement("SELECT USO_PROXY, "
+                    + "HOST_PROXY, "
+                    + "PORT_PROXY, "
+                    + "USER_PROXY, "
+                    + "PASSWORD_PROXY "
+                    + "FROM tabela_controle");
+            rs = stmt.executeQuery();
+            if (rs.next()) {
+                USO_PROXY = rs.getByte("USO_PROXY") == 1;
+                HOST_PROXY = rs.getString("HOST_PROXY");
+                PORT_PROXY = rs.getInt("PORT_PROXY");
+                USER_PROXY = rs.getString("USER_PROXY");
+                PASSWORD_PROXY = rs.getString("PASSWORD_PROXY");
+            }
+        } catch (SQLException ex) {
+            EnvioExcecao envioExcecao = new EnvioExcecao(Controle.getDefaultGj(), ex);
+            EnvioExcecao.envio();
         }
     }
 
     //status--------------------------------------------------------------------    
     /**
-     * Retorna a descrição do status do orçamento pelo código do status informado
+     * Retorna a descrição do status do orçamento pelo código do status
+     * informado
+     *
      * @param codStatus código do status
-     * @return 
+     * @return
      */
     public static String getStatusByCod(int codStatus) {
         for (StsOrcamento status : stsOrcamento) {
@@ -455,13 +582,13 @@ public class Controle {
                 return null;
         }
     }
-    
+
     //funções de formatação de string-------------------------------------------
-    
     /**
      * Retorna o telefone formatado
+     *
      * @param telefone número de telefone
-     * @return 
+     * @return
      */
     public static synchronized String retornaTelefoneFormatado(String telefone) {
         try {
@@ -490,14 +617,15 @@ public class Controle {
             return null;
         }
     }
-    
+
     /**
      * Transforma tipo cliente byte em String
+     *
      * @param tipoCliente
-     * @return 
+     * @return
      */
-    public static synchronized String retornaTipoCliente(byte tipoCliente){
-        switch(tipoCliente){
+    public static synchronized String retornaTipoCliente(byte tipoCliente) {
+        switch (tipoCliente) {
             case 1:
                 return "PESSOA FÍSICA";
             case 2:

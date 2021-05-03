@@ -6,27 +6,19 @@
 package connection;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import entities.lojaIntegrada.Category;
 import entities.lojaIntegrada.Product;
-import exception.EnvioExcecao;
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.net.Authenticator;
-import java.net.HttpURLConnection;
 import java.net.InetSocketAddress;
-import java.net.MalformedURLException;
-import java.net.PasswordAuthentication;
-import java.net.Proxy;
+import java.net.ProxySelector;
 import java.net.URI;
-import java.net.URL;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.util.HashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import org.json.JSONException;
-import org.json.JSONObject;
+import java.net.http.HttpHeaders;
 import ui.controle.Controle;
 
 /**
@@ -36,108 +28,98 @@ import ui.controle.Controle;
 public class IntegracaoLojaIntegrada {
 
     //VARIÁVEIS LOJA INTEGRADA
-    private static final String CHAVE_APLICACAO = "f044287d-f069-49b8-887e-fb12df0107ff";
-    private static final String CHAVE_API = "307df38d3a7189c3c4aa";
-    private static final String LINK_API = "https://api.awsli.com.br";
-    private static final String VERSAO_API = "v1";
-    private static final String SEPARADOR = "/";
-    private static final String FORMATO_SAIDA = "json";
+    
+    private static boolean PROXY;
 
     public static void main(String[] args) {
+        PROXY = true;
+//            Product produto = new Product(
+//                    1,
+//                    "prod-pai",
+//                    "Produto teste integração",
+//                    "Produto teste integração",
+//                    true,
+//                    (float) 0.01,
+//                    (float) 0.01,
+//                    (float) 0.01,
+//                    (float) 0.01,
+//                    "produto-teste"
+//            );
+//
+//            Category categoria = new Category(
+//                    null,
+//                    "teste",
+//                    "teste descrição",
+//                    null
+//            );
+//            realizaRequisicaoPOST((byte) 1, categoria);
+
+        realizaRequisicaoGET((byte) 1);
+    }
+
+    public static void realizaRequisicaoGET(byte tipo) {
         try {
-            Product produto = new Product(
-                    1,
-                    "prod-pai",
-                    "Produto teste integração",
-                    "Produto teste integração",
-                    true,
-                    (float) 0.01,
-                    (float) 0.01,
-                    (float) 0.01,
-                    (float) 0.01,
-                    "produto-teste"
-            );
-            realizaRequisicaoPOST((byte) 5, produto);
+            HashMap values = null;
+            ObjectMapper objectMapper = null;
+            String requestBody = null;
+            HttpClient client = null;
+            HttpRequest request = null;
+            HttpResponse<String> response = null;
+            HttpHeaders headers = null;
+
+            switch (tipo) {
+                case 1:
+                    objectMapper = new ObjectMapper();
+                    requestBody = objectMapper.writeValueAsString(values);
+
+                    client = HttpClient.newBuilder()
+                            .proxy(ProxySelector.of(new InetSocketAddress(Controle.HOST_PROXY, Controle.PORT_PROXY)))
+                            .build();
+
+                    request = HttpRequest.newBuilder()
+                            .uri(URI.create(Controle.LINK_API
+                                    + "/"
+                                    + Controle.VERSAO_API
+                                    + "/"
+                                    + "categoria/?"
+                                    + Controle.FORMATO_SAIDA
+                                    + "&"
+                                    + "chave_api="
+                                    + Controle.CHAVE_API
+                                    + "&"
+                                    + "chave_aplicacao="
+                                    + Controle.CHAVE_APLICACAO))
+                            .GET()
+                            .build();
+
+                    response = client.send(request, HttpResponse.BodyHandlers.ofString());
+                    headers = response.headers();
+                    headers.map().forEach((k, v) -> System.out.println(k + ":" + v));
+                    System.out.println(response.statusCode());
+                    System.out.println(response.body());
+
+                    break;
+                case 2:
+                    break;
+                case 3:
+                    break;
+                case 4:
+                    break;
+                case 5:
+                    break;
+                case 6:
+                    break;
+                case 7:
+                    break;
+                case 8:
+                    break;
+                default:
+                    break;
+            }
         } catch (IOException ex) {
             Logger.getLogger(IntegracaoLojaIntegrada.class.getName()).log(Level.SEVERE, null, ex);
         } catch (InterruptedException ex) {
             Logger.getLogger(IntegracaoLojaIntegrada.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
-
-    public static void realizaRequisicaoGET(String requisicao) {
-        String queryURL = LINK_API
-                + SEPARADOR
-                + VERSAO_API
-                + SEPARADOR
-                + requisicao
-                + SEPARADOR
-                + "?format="
-                + FORMATO_SAIDA
-                + "&chave_api="
-                + CHAVE_API
-                + "&chave_aplicacao="
-                + CHAVE_APLICACAO;
-
-        //Define as configurações de proxy        
-        Proxy proxy = new Proxy(Proxy.Type.HTTP, new InetSocketAddress("10.166.128.179", 3128));
-        Authenticator auth = new Authenticator() {
-            @Override
-            public PasswordAuthentication getPasswordAuthentication() {
-                return (new PasswordAuthentication("spd", "spd2020".toCharArray()));
-            }
-        };
-        Authenticator.setDefault(auth);
-
-        System.out.println(queryURL);
-        JSONObject object;
-        HttpURLConnection con = null;
-
-        try {
-            URL url = new URL(queryURL);
-            con = (HttpURLConnection) url.openConnection(proxy);
-            System.out.println(con.getResponseCode());
-            //con = (HttpURLConnection) url.openConnection();
-            con.setRequestMethod("GET");
-
-            StringBuilder result = new StringBuilder();
-
-            int responseCode = con.getResponseCode();
-
-            BufferedReader in = new BufferedReader(
-                    new InputStreamReader(con.getInputStream()));
-            String inputLine;
-            StringBuffer response = new StringBuffer();
-
-            while ((inputLine = in.readLine()) != null) {
-                result.append(inputLine);
-            }
-            in.close();
-
-            JSONObject obj = new JSONObject(result.toString());
-            for (int i = 0; i < obj.getJSONArray("objects").length(); i++) {
-                System.out.println(obj.getJSONArray("objects").getJSONObject(i).getString("nome"));
-            }
-
-            try {
-
-//                retorno = new EnderecoBEAN(obj.getString("logradouro"),
-//                        obj.getString("complemento"),
-//                        obj.getString("bairro"),
-//                        obj.getString("localidade"),
-//                        obj.getString("uf"));
-            } catch (JSONException ex) {
-
-            }
-
-        } catch (MalformedURLException ex) {
-            EnvioExcecao envioExcecao = new EnvioExcecao(Controle.getDefaultGj(), ex);
-            EnvioExcecao.envio();
-        } catch (IOException ex) {
-            EnvioExcecao envioExcecao = new EnvioExcecao(Controle.getDefaultGj(), ex);
-            EnvioExcecao.envio();
-        } finally {
-            con.disconnect();
         }
     }
 
@@ -151,9 +133,48 @@ public class IntegracaoLojaIntegrada {
      * @throws InterruptedException
      */
     public static void realizaRequisicaoPOST(byte tipo, Object requisicao) throws IOException, InterruptedException {
+        HashMap values = null;
+        ObjectMapper objectMapper = null;
+        String requestBody = null;
+        HttpClient client = null;
+        HttpRequest request = null;
+        HttpResponse<String> response = null;
 
         switch (tipo) {
             case 1:
+                Category category = (Category) requisicao;
+                values = new HashMap<String, Object>() {
+                    {
+                        put("id_externo", String.valueOf(category.getIdExterno()));
+                        put("nome", String.valueOf(category.getNome()));
+                        put("descricao", String.valueOf(category.getDescricao()));
+                        put("categoria_pai", String.valueOf(category.getPai()));
+                    }
+                };
+
+                objectMapper = new ObjectMapper();
+                requestBody = objectMapper.writeValueAsString(values);
+
+                client = HttpClient.newBuilder()
+                        .proxy(ProxySelector.of(new InetSocketAddress(Controle.HOST_PROXY, Controle.PORT_PROXY)))
+                        .build();
+
+                request = HttpRequest.newBuilder()
+                        .uri(URI.create("https://api.awsli.com.br/v1/categoria/?"
+                                + Controle.FORMATO_SAIDA
+                                + "&"
+                                + "chave_api="
+                                + Controle.CHAVE_API
+                                + "&"
+                                + "chave_aplicacao="
+                                + Controle.CHAVE_APLICACAO))
+                        .POST(HttpRequest.BodyPublishers.ofString(requestBody))
+                        .build();
+                response = client.send(request,
+                        HttpResponse.BodyHandlers.ofString());
+                System.out.println(response);
+                System.out.println(request);
+
                 break;
             case 2:
                 break;
@@ -163,7 +184,7 @@ public class IntegracaoLojaIntegrada {
                 break;
             case 5:
                 Product product = (Product) requisicao;
-                HashMap values = new HashMap<String, Object>() {
+                values = new HashMap<String, Object>() {
                     {
                         put("id_externo", String.valueOf(product.getIdExterno()));
                         put("sku", String.valueOf(product.getSku()));
@@ -182,22 +203,25 @@ public class IntegracaoLojaIntegrada {
                     }
                 };
 
-                ObjectMapper objectMapper = new ObjectMapper();
-                String requestBody = objectMapper.writeValueAsString(values);
+                objectMapper = new ObjectMapper();
+                requestBody = objectMapper.writeValueAsString(values);
 
-                HttpClient client = HttpClient.newHttpClient();
-                HttpRequest request = HttpRequest.newBuilder()
+                client = HttpClient.newBuilder()
+                        .proxy(ProxySelector.of(new InetSocketAddress("10.166.128.179", 3128)))
+                        .build();
+
+                request = HttpRequest.newBuilder()
                         .uri(URI.create("https://api.awsli.com.br/v1/produto/?"
-                                + FORMATO_SAIDA
+                                + Controle.FORMATO_SAIDA
                                 + "&"
                                 + "chave_api="
-                                + CHAVE_API
+                                + Controle.CHAVE_API
                                 + "&"
                                 + "chave_aplicacao="
-                                + CHAVE_APLICACAO))
+                                + Controle.CHAVE_APLICACAO))
                         .POST(HttpRequest.BodyPublishers.ofString(requestBody))
                         .build();
-                HttpResponse<String> response = client.send(request,
+                response = client.send(request,
                         HttpResponse.BodyHandlers.ofString());
                 System.out.println(response);
                 System.out.println(request);
