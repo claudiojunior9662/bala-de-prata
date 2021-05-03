@@ -29,8 +29,8 @@ import ui.principal.ModulosExt;
  */
 public class TelaAutenticacao extends javax.swing.JFrame {
     
-    private static final String codVersao = "2.5.0";
-    private static final String update = "4";
+    private static final String codVersao = "2.5.1";
+    private static final String update = "1";
     private static UsuarioBEAN atendenteLogado;
 
     public static UsuarioBEAN getUsrLogado() {
@@ -362,9 +362,7 @@ public class TelaAutenticacao extends javax.swing.JFrame {
                     mInt.setVisible(true);
                     this.setVisible(false);
 
-                    JOptionPane.showMessageDialog(null, "CORREÇÕES E ATUALIZAÇÕES DA v.2.3.8 2 (10-11-2020)\n"
-                            + "- Correção da tela de visualização do OD externo;\n"
-                            + "CORREÇÕES E ATUALIZAÇÕES DA v.2.3.8 3 (22-11-2020)\n"
+                    JOptionPane.showMessageDialog(null, "CORREÇÕES E ATUALIZAÇÕES DA v.2.3.8 3 (22-11-2020)\n"
                             + "- Implementação dos campos de inseção de identificação nos faturamentos;\n"
                             + "CORREÇÕES E ATUALIZAÇÕES DA v.2.3.8 4 (24-11-2020)\n"
                             + "- Correção de erros enviados (335 e 334);\n"
@@ -381,6 +379,10 @@ public class TelaAutenticacao extends javax.swing.JFrame {
                             + "- Atualização dos títulos das tabelas de consulta Orçamento, OP e Faturamento;\n"
                             + "CORREÇÕES E ATUALIZAÇÕES DA v.2.5.0 3 (08-04-2021)\n"
                             + "- Correção no bug ao preencher a tela de pesquisa de Ordem de produção;\n"
+                            + "CORREÇÕES E ATUALIZAÇÕES DA v.2.5.0 5 (02-05-2021)\n"
+                            + "- Implementação do cadastro único de produtos;\n"
+                            + "- Implementação do ambiente de testes para integração e-commerce;\n"
+                            + "- Ajuste de erros internos do sistema;\n"
                             + "AVISOS:\n"
                             + "- Todas as sugestões de melhoria de usabilidade do programa serão estudadas, mas não há previsão de implementação;\n"
                             + "- Qualquer problema nas correções acima expostas deverão ser informados o mais rápido possível à SPD;\n"
