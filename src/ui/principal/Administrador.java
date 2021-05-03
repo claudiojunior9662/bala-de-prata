@@ -13,6 +13,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import ui.administrador.AnaliseErros;
 import ui.administrador.Avisos;
+import ui.administrador.Configuracoes;
 import ui.administrador.UsuarioCadastro;
 import ui.administrador.SelData;
 import ui.controle.Controle;
@@ -94,6 +95,7 @@ public class Administrador extends javax.swing.JFrame {
         menDados = new javax.swing.JMenuItem();
         menAvisos = new javax.swing.JMenuItem();
         menAnaliseErr = new javax.swing.JMenuItem();
+        jMenuItem1 = new javax.swing.JMenuItem();
         modulos = new javax.swing.JMenu();
         sair = new javax.swing.JMenu();
 
@@ -184,6 +186,15 @@ public class Administrador extends javax.swing.JFrame {
             }
         });
         menu.add(menAnaliseErr);
+
+        jMenuItem1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icones/apoio.png"))); // NOI18N
+        jMenuItem1.setText("CONFIGURAÇÕES");
+        jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem1ActionPerformed(evt);
+            }
+        });
+        menu.add(jMenuItem1);
 
         jMenuBar1.add(menu);
 
@@ -287,6 +298,10 @@ public class Administrador extends javax.swing.JFrame {
         Controle.getDefaultGj().abrirJanelas(AnaliseErros.getInstancia(loading), "ANÁLISE DE ERROS");
     }//GEN-LAST:event_menAnaliseErrActionPerformed
 
+    private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
+        Controle.getDefaultGj().abrirJanelas(Configuracoes.getInstancia(loading), "CONFIGURAÇÕES DO SISTEMA");
+    }//GEN-LAST:event_jMenuItem1ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -327,6 +342,7 @@ public class Administrador extends javax.swing.JFrame {
     public static javax.swing.JLabel atualizacao;
     private javax.swing.JDialog dialogSelOrigem;
     private javax.swing.JMenuBar jMenuBar1;
+    private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JScrollPane jScrollPane1;
     public static javax.swing.JLabel loading;
     private javax.swing.JMenuItem menAnaliseErr;

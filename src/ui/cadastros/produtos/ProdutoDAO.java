@@ -35,15 +35,18 @@ public class ProdutoDAO {
         PreparedStatement stmt = null;
 
         try {
-            stmt = con.prepareStatement("INSERT INTO produtos(CODIGO, DESCRICAO, LARGURA, ALTURA, QTD_PAGINAS, TIPO, VENDAS) "
-                    + "VALUES(?,?,?,?,?,?,?)");
+            stmt = con.prepareStatement("INSERT INTO produtos(CODIGO, DESCRICAO, LARGURA, ALTURA, ESPESSURA, PESO, QTD_PAGINAS, TIPO, VENDAS, ATIVO) "
+                    + "VALUES(?,?,?,?,?,?,?,?,?,?)");
             stmt.setInt(1, produto.getCodigo());
             stmt.setString(2, produto.getDescricao());
             stmt.setFloat(3, produto.getLargura());
             stmt.setFloat(4, produto.getAltura());
-            stmt.setInt(5, produto.getQuantidadeFolhas());
-            stmt.setString(6, produto.getTipoProduto());
-            stmt.setInt(7, produto.getDisponivelVendas());
+            stmt.setFloat(5, produto.getEspessura());
+            stmt.setFloat(6, produto.getPeso());
+            stmt.setInt(7, produto.getQuantidadeFolhas());
+            stmt.setString(8, produto.getTipoProduto());
+            stmt.setInt(9, produto.isUtilizadoEcommerce() ? (byte) 1 : (byte) 0);
+            stmt.setByte(10, produto.isAtivo() ? (byte) 1 : (byte) 0);
             stmt.executeUpdate();
         } catch (SQLException ex) {
             throw new SQLException(ex);
@@ -67,16 +70,23 @@ public class ProdutoDAO {
                     + "DESCRICAO = ?,"
                     + "LARGURA = ?,"
                     + "ALTURA = ?,"
+                    + "ESPESSURA = ?,"
+                    + "PESO = ?,"
                     + "QTD_PAGINAS = ?,"
                     + "TIPO = ?,"
-                    + "VENDAS = ? WHERE CODIGO = ?");
+                    + "VENDAS = ?, "
+                    + "ATIVO = ? "
+                    + "WHERE CODIGO = ?");
             stmt.setString(1, produto.getDescricao());
             stmt.setFloat(2, produto.getLargura());
             stmt.setFloat(3, produto.getAltura());
-            stmt.setInt(4, produto.getQuantidadeFolhas());
-            stmt.setString(5, produto.getTipoProduto());
-            stmt.setInt(6, produto.getDisponivelVendas());
-            stmt.setInt(7, Integer.valueOf(produto.getCodigo()));
+            stmt.setFloat(4, produto.getEspessura());
+            stmt.setFloat(5, produto.getPeso());
+            stmt.setInt(6, produto.getQuantidadeFolhas());
+            stmt.setString(7, produto.getTipoProduto());
+            stmt.setInt(8, produto.isUtilizadoEcommerce() ? (byte) 1 : (byte) 0);
+            stmt.setByte(9, produto.isAtivo() ? (byte) 1 : (byte) 0);
+            stmt.setInt(10, produto.getCodigo());
             stmt.executeUpdate();
         } catch (SQLException ex) {
             throw new SQLException(ex);
@@ -285,9 +295,12 @@ public class ProdutoDAO {
                         rs.getString("DESCRICAO"),
                         rs.getFloat("LARGURA"),
                         rs.getFloat("ALTURA"),
+                        rs.getFloat("ESPESSURA"),
+                        rs.getFloat("PESO"),
                         rs.getInt("QTD_PAGINAS"),
                         rs.getString("TIPO"),
-                        rs.getInt("VENDAS")
+                        rs.getByte("VENDAS") == 1,
+                        rs.getByte("ATIVO") == 1
                 );
             }
             return null;
@@ -797,8 +810,8 @@ public class ProdutoDAO {
             stmt = con.prepareStatement("INSERT INTO produtos_pr_ent(CODIGO, DESCRICAO, LARGURA,"
                     + "ALTURA, ESPESSURA, PESO, VENDAS, PRE_VENDA, PROM, VLR_PROM, INICIO_PROM,"
                     + "FIM_PROM, QTD_PAGINAS, ESTOQUE, AVISO_ESTOQUE, AVISO_ESTOQUE_UN, TIPO,"
-                    + "VLR_UNIT, ULT_MOV, PD_QTD_MIN, PD_MAX, PD_QTD_MAX) "
-                    + "VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
+                    + "VLR_UNIT, ULT_MOV, PD_QTD_MIN, PD_MAX, PD_QTD_MAX, ATIVO) "
+                    + "VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
             stmt.setInt(1, prodPrEnt.getCodigo());
             stmt.setString(2, prodPrEnt.getDescricao());
             stmt.setFloat(3, prodPrEnt.getLargura());
@@ -825,6 +838,7 @@ public class ProdutoDAO {
             stmt.setInt(20, prodPrEnt.getPdQtdMin());
             stmt.setByte(21, prodPrEnt.getPdMax());
             stmt.setInt(22, prodPrEnt.getPdQtdMax());
+            stmt.setByte(23, prodPrEnt.isAtivo() ? (byte) 1 : (byte) 0);
             stmt.executeUpdate();
         } catch (SQLException ex) {
             throw new SQLException(ex);
@@ -834,21 +848,22 @@ public class ProdutoDAO {
     }
 
     /**
-     * Edita produto pr ent
+     * Atualiza produto produtos para pronta entrega
      *
      * @param prodPrEnt produto pronta entrega para edição
      * @throws SQLException
      */
-    public static void editaPe(ProdutoPrEntBEAN prodPrEnt) throws SQLException {
+    public static void atualizaPE(ProdutoPrEntBEAN prodPrEnt) throws SQLException {
         Connection con = ConnectionFactory.getConnection();
         PreparedStatement stmt = null;
 
         try {
-            stmt = con.prepareStatement("UPDATE produtos_pr_ent SET DESCRICAO = ?, LARGURA = ?,"
+            stmt = con.prepareStatement("UPDATE produtos_pr_ent "
+                    + "SET DESCRICAO = ?, LARGURA = ?,"
                     + "ALTURA = ?, ESPESSURA = ?, PESO = ?, VENDAS = ?, PRE_VENDA = ?, PROM = ?,"
                     + "VLR_PROM = ?, INICIO_PROM = ?, FIM_PROM = ?, QTD_PAGINAS = ?, ESTOQUE = ?,"
                     + "AVISO_ESTOQUE = ?, AVISO_ESTOQUE_UN = ?, TIPO = ?, VLR_UNIT = ?, ULT_MOV = ?,"
-                    + "PD_QTD_MIN = ?, PD_MAX = ?, PD_QTD_MAX = ? "
+                    + "PD_QTD_MIN = ?, PD_MAX = ?, PD_QTD_MAX = ?, ATIVO = ? "
                     + "WHERE CODIGO = ?");
             stmt.setString(1, prodPrEnt.getDescricao());
             stmt.setFloat(2, prodPrEnt.getLargura());
@@ -875,7 +890,8 @@ public class ProdutoDAO {
             stmt.setInt(19, prodPrEnt.getPdQtdMin());
             stmt.setByte(20, prodPrEnt.getPdMax());
             stmt.setInt(21, prodPrEnt.getPdQtdMax());
-            stmt.setInt(22, prodPrEnt.getCodigo());
+            stmt.setByte(22, prodPrEnt.isAtivo() ? (byte) 1 : (byte) 0);
+            stmt.setInt(23, prodPrEnt.getCodigo());
             stmt.executeUpdate();
         } catch (SQLException ex) {
             throw new SQLException(ex);
@@ -1026,7 +1042,8 @@ public class ProdutoDAO {
                         rs.getTimestamp("ULT_MOV"),
                         rs.getInt("PD_QTD_MIN"),
                         rs.getByte("PD_MAX"),
-                        rs.getInt("PD_QTD_MAX")
+                        rs.getInt("PD_QTD_MAX"),
+                        rs.getByte("ATIVO") == 1
                 );
             }
             return null;

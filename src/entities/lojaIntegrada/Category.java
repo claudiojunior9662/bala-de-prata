@@ -10,12 +10,22 @@ package entities.lojaIntegrada;
  * @author claud
  */
 public class Category {
+
     private int id;
-    private int idExterno;
+    private String idExterno;
     private String nome;
     private String descricao;
     private Category pai;
 
+    //Constructors--------------------------------------------------------------
+    public Category(String idExterno, String nome, String descricao, Category pai) {
+        this.idExterno = idExterno;
+        this.nome = nome;
+        this.descricao = descricao;
+        this.pai = pai;
+    }
+
+    //Getters and setters-------------------------------------------------------
     public int getId() {
         return id;
     }
@@ -24,11 +34,11 @@ public class Category {
         this.id = id;
     }
 
-    public int getIdExterno() {
+    public String getIdExterno() {
         return idExterno;
     }
 
-    public void setIdExterno(int idExterno) {
+    public void setIdExterno(String idExterno) {
         this.idExterno = idExterno;
     }
 
@@ -55,6 +65,5 @@ public class Category {
     public void setPai(Category pai) {
         this.pai = pai;
     }
-    
-    
+
 }

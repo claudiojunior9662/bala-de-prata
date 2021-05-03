@@ -16,16 +16,19 @@ public class ProdutoBEAN {
     private int codigoOrcamento;
     private int codigoProduto;
     private String descricao;
-    private int disponivelVendas;
+    private boolean disponivelVendas;
     //DIMENSÕES
     private float largura;
     private float altura;
+    private float espessura;
+    private float peso;
     //CARACTERÍSTICAS
     private int qtdPaginas;
     private int quantidadeProduto;
     private String tipoProduto;
     private String descricaoProduto;
     private int quantidadeProduzida;
+    private boolean ativo;
 
     public ProdutoBEAN() {
     }
@@ -39,23 +42,53 @@ public class ProdutoBEAN {
             String descricao,
             float largura,
             float altura,
+            float espessura,
+            float peso,
             int qtdPaginas,
             String tipoProduto,
-            int disponivelVendas) {
+            boolean disponivelVendas,
+            boolean ativo) {
         this.codigo = codigo;
         this.descricao = descricao;
         this.largura = largura;
         this.altura = altura;
+        this.espessura = espessura;
+        this.peso = peso;
         this.qtdPaginas = qtdPaginas;
         this.tipoProduto = tipoProduto;
         this.disponivelVendas = disponivelVendas;
+        this.ativo = ativo;
     }
 
-    public int getDisponivelVendas() {
+    public boolean isAtivo() {
+        return ativo;
+    }
+
+    public void setAtivo(boolean ativo) {
+        this.ativo = ativo;
+    }
+
+    public float getEspessura() {
+        return espessura;
+    }
+
+    public void setEspessura(float espessura) {
+        this.espessura = espessura;
+    }
+
+    public float getPeso() {
+        return peso;
+    }
+
+    public void setPeso(float peso) {
+        this.peso = peso;
+    }
+
+    public boolean isUtilizadoEcommerce() {
         return disponivelVendas;
     }
 
-    public void setDisponivelVendas(int disponivelVendas) {
+    public void setDisponivelVendas(boolean disponivelVendas) {
         this.disponivelVendas = disponivelVendas;
     }
 

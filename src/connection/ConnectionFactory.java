@@ -1,5 +1,6 @@
 package connection;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.jcraft.jsch.Channel;
 import com.jcraft.jsch.ChannelExec;
 import com.jcraft.jsch.ChannelSftp;
@@ -14,21 +15,33 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.net.Authenticator;
 import java.net.HttpURLConnection;
 import java.net.InetSocketAddress;
 import java.net.MalformedURLException;
+import java.net.PasswordAuthentication;
 import java.net.Proxy;
+import java.net.ProxySelector;
 import java.net.SocketAddress;
+import java.net.URI;
 import java.net.URL;
+import java.net.http.HttpClient;
+import java.net.http.HttpHeaders;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.Duration;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPasswordField;
-import org.json.JSONException;
 import org.json.JSONObject;
 import ui.controle.Controle;
 import ui.principal.Estoque;
@@ -52,6 +65,10 @@ public class ConnectionFactory {
     public static boolean ready;
     public static Channel channel;
     public static InputStream commandOutput;
+
+    public static void main(String[] args) {
+        retornaInformacoesCEP("71010018");
+    }
 
     private static void defineVar() {
         switch (Controle.getTipoVersao()) {
@@ -104,7 +121,7 @@ public class ConnectionFactory {
         }
     }
 
-    public static void closeConnection(Connection con, PreparedStatement stmt){
+    public static void closeConnection(Connection con, PreparedStatement stmt) {
 
         try {
 
@@ -119,7 +136,7 @@ public class ConnectionFactory {
         closeConnection(con);
     }
 
-    public static void closeConnection(Connection con, PreparedStatement stmt, ResultSet rs){
+    public static void closeConnection(Connection con, PreparedStatement stmt, ResultSet rs) {
 
         closeConnection(con, stmt);
 
@@ -135,14 +152,14 @@ public class ConnectionFactory {
         }
     }
 
-    public static Boolean verificaCnpj(String cnpj){
+    public static Boolean verificaCnpj(String cnpj) {
         Boolean retorno = false;
 
         String queryURL = "https://www.receitaws.com.br/v1/cnpj/" + cnpj;
 
         JSONObject object;
 
-        SocketAddress addr = new InetSocketAddress("10.166.128.179", 3128);
+        SocketAddress addr = new InetSocketAddress(Controle.HOST_PROXY, Controle.PORT_PROXY);
         Proxy proxy = new Proxy(Proxy.Type.HTTP, addr);
 
         HttpURLConnection con = null;
@@ -187,70 +204,81 @@ public class ConnectionFactory {
         return retorno;
     }
 
-    public static EnderecoBEAN retornaInformacoesCEP(String cep){
+    public static EnderecoBEAN retornaInformacoesCEP(String cep) {
+        HashMap values = new HashMap();
+        ObjectMapper objectMapper = null;
+        String requestBody = null;
+        HttpClient client = null;
+        HttpRequest request = null;
+        HttpResponse<String> response = null;
+        HttpHeaders headers = null;
         EnderecoBEAN retorno = null;
 
-        String queryURL = "http://viacep.com.br/ws/" + cep + "/json/";
-
-        JSONObject object;
-
-        SocketAddress addr = new InetSocketAddress("10.166.128.179", 3128);
-        Proxy proxy = new Proxy(Proxy.Type.HTTP, addr);
-
-        HttpURLConnection con = null;
-
         try {
-            URL url = new URL(queryURL);
-            con = (HttpURLConnection) url.openConnection(proxy);
 
-            con.setRequestMethod("GET");
+            Authenticator.setDefault(new Authenticator() {
+                @Override
+                protected PasswordAuthentication getPasswordAuthentication() {
+                    if (getRequestorType() == RequestorType.PROXY) {
+                        String prot = getRequestingProtocol().toLowerCase();
+                        String host = System.getProperty(prot + ".proxyHost", Controle.HOST_PROXY);
+                        String port = System.getProperty(prot + ".proxyPort", String.valueOf(Controle.PORT_PROXY));
+                        String user = System.getProperty(prot + ".proxyUser", Controle.USER_PROXY);
+                        String password = System.getProperty(prot + ".proxyPassword", Controle.PASSWORD_PROXY);
 
-            StringBuilder result = new StringBuilder();
-
-            int responseCode = con.getResponseCode();
-
-            BufferedReader in = new BufferedReader(
-                    new InputStreamReader(con.getInputStream()));
-            String inputLine;
-            StringBuffer response = new StringBuffer();
-
-            while ((inputLine = in.readLine()) != null) {
-                result.append(inputLine);
-            }
-            in.close();
-
-            JSONObject obj = new JSONObject(result.toString());
-
-            try {
-                retorno = new EnderecoBEAN(obj.getString("logradouro"),
-                        obj.getString("complemento"),
-                        obj.getString("bairro"),
-                        obj.getString("localidade"),
-                        obj.getString("uf"));
-            } catch (JSONException ex) {
-                if (obj.getBoolean("erro")) {
-                    JOptionPane.showMessageDialog(null, "O 'CEP' DIGITADO NÃO EXISTE! " + ex);
+                        if (getRequestingHost().equalsIgnoreCase(host)) {
+                            if (Integer.parseInt(port) == getRequestingPort()) {
+                                // Seems to be OK.
+                                return new PasswordAuthentication(user, password.toCharArray());
+                            }
+                        }
+                    }
+                    return null;
                 }
-                return null;
-            }
-        } catch (MalformedURLException ex) {
-            EnvioExcecao envioExcecao = new EnvioExcecao(Controle.getDefaultGj(), ex);
-            EnvioExcecao.envio();
-        } catch (IOException ex) {
-            EnvioExcecao envioExcecao = new EnvioExcecao(Controle.getDefaultGj(), ex);
-            EnvioExcecao.envio();
-        } finally {
-            con.disconnect();
-        }
+            });
 
+            objectMapper = new ObjectMapper();
+            requestBody = objectMapper.writeValueAsString(values);
+
+            client = HttpClient.newBuilder()
+                    .connectTimeout(Duration.ofSeconds(10))
+                    .proxy(ProxySelector.of(new InetSocketAddress(Controle.HOST_PROXY, Controle.PORT_PROXY)))
+                    .authenticator(Authenticator.getDefault())
+                    .build();
+
+            request = HttpRequest.newBuilder()
+                    .uri(URI.create("http://viacep.com.br/ws/"
+                            + cep
+                            + "/json/"))
+                    .GET()
+                    .build();
+
+            response = client.send(request, HttpResponse.BodyHandlers.ofString());
+            headers = response.headers();
+
+            if (response.body().isEmpty()) {
+                JOptionPane.showMessageDialog(null, "O 'CEP' DIGITADO NÃO EXISTE!");
+            } else {
+                Map<String, Object> responseMap = new ObjectMapper().readValue(response.body(), HashMap.class);
+                retorno = new EnderecoBEAN(responseMap.get("logradouro").toString(),
+                        responseMap.get("complemento").toString(),
+                        responseMap.get("bairro").toString(),
+                        responseMap.get("localidade").toString(),
+                        responseMap.get("uf").toString());
+            }
+
+        } catch (IOException | InterruptedException ex) {
+            Logger.getLogger(IntegracaoLojaIntegrada.class.getName()).log(Level.SEVERE, null, ex);
+        }
         return retorno;
     }
 
     /**
-    @param operacao 1 - upload, 2 - download
-    @param className 1 - estoque, 2 - orçamento
-     **/
-    public static boolean connectSSH(byte operacao, byte className){
+     * @param operacao 1 - upload, 2 - download
+     * @param className 1 - estoque, 2 - orçamento
+     *
+     */
+    public static boolean connectSSH(byte operacao, byte className) {
         try {
             String resposta = null;
             int retorno = 0;
@@ -310,7 +338,7 @@ public class ConnectionFactory {
         ready = false;
     }
 
-    public static boolean uploadEstoqueSSH(String origem, String destino, String dirDestino){
+    public static boolean uploadEstoqueSSH(String origem, String destino, String dirDestino) {
         try {
             if (connectSSH((byte) 1, (byte) 1)) {
                 Estoque.loadingVisible("CARREGANDO ARQUIVO...");
@@ -329,7 +357,7 @@ public class ConnectionFactory {
             ready = false;
             EnvioExcecao envioExcecao = new EnvioExcecao(Controle.getDefaultGj(), ex);
             EnvioExcecao.envio();
-        }catch(SftpException ex){
+        } catch (SftpException ex) {
             EnvioExcecao envioExcecao = new EnvioExcecao(Controle.getDefaultGj(), ex);
             EnvioExcecao.envio();
         } catch (Exception ex) {
@@ -340,9 +368,10 @@ public class ConnectionFactory {
     }
 
     /**
-    @param className 1 - estoque, 2 - orcamento
-     **/
-    public static boolean downloadEstoqueSSH(String dirLocal, byte className){
+     * @param className 1 - estoque, 2 - orcamento
+     *
+     */
+    public static boolean downloadEstoqueSSH(String dirLocal, byte className) {
         try {
             connectSSH((byte) 2, className);
             if (className == 1) {
@@ -403,7 +432,7 @@ public class ConnectionFactory {
         return null;
     }
 
-    public static boolean existFile(){
+    public static boolean existFile() {
         try {
             if (ready) {
                 String retorno = write("cd " + Controle.retornaDirEstoque() + " && [ -f " + Controle.ESTOQUE_NAME + ".* ] && echo 1 || echo 0");
@@ -419,7 +448,7 @@ public class ConnectionFactory {
         return false;
     }
 
-    public static void deleteFile(){
+    public static void deleteFile() {
         try {
             if (ready) {
                 write("rm -f " + Controle.retornaDirEstoque() + "/" + Controle.ESTOQUE_NAME + ".*");
@@ -430,7 +459,7 @@ public class ConnectionFactory {
         }
     }
 
-    public static void deleteLocalFile(String dirLocal){
+    public static void deleteLocalFile(String dirLocal) {
         try {
             File file = new File(dirLocal);
             if (file.isDirectory()) {
@@ -448,6 +477,4 @@ public class ConnectionFactory {
         }
     }
 
-    
-    
 }

@@ -15,6 +15,7 @@ import javax.swing.text.MaskFormatter;
  * @author claudio
  */
 public class EnderecoBEAN {
+
     private int codigo;
     private String cep;
     private int codCliente;
@@ -24,12 +25,12 @@ public class EnderecoBEAN {
     private String uf;
     private String complemento;
     private String cidade;
-    
+
     public EnderecoBEAN(String logradouro,
-                                            String complemento,
-                                            String bairro,
-                                            String cidade,
-                                            String uf){
+            String complemento,
+            String bairro,
+            String cidade,
+            String uf) {
         this.logradouro = logradouro;
         this.complemento = complemento;
         this.bairro = bairro;
@@ -37,13 +38,13 @@ public class EnderecoBEAN {
         this.uf = uf;
     }
 
-    public EnderecoBEAN(int codigo, 
-            String cep, 
-            String tipoEndereco, 
-            String logradouro, 
-            String bairro, 
-            String uf, 
-            String complemento, 
+    public EnderecoBEAN(int codigo,
+            String cep,
+            String tipoEndereco,
+            String logradouro,
+            String bairro,
+            String uf,
+            String complemento,
             String cidade) {
         this.codigo = codigo;
         this.cep = cep;
@@ -54,13 +55,13 @@ public class EnderecoBEAN {
         this.complemento = complemento;
         this.cidade = cidade;
     }
-    
-    public EnderecoBEAN(String cep, 
-            String tipoEndereco, 
-            String logradouro, 
-            String bairro, 
-            String uf, 
-            String complemento, 
+
+    public EnderecoBEAN(String cep,
+            String tipoEndereco,
+            String logradouro,
+            String bairro,
+            String uf,
+            String complemento,
             String cidade) {
         this.cep = cep;
         this.tipoEndereco = tipoEndereco;
@@ -70,11 +71,9 @@ public class EnderecoBEAN {
         this.complemento = complemento;
         this.cidade = cidade;
     }
-    
-    
-    
-    public EnderecoBEAN(){
-    
+
+    public EnderecoBEAN() {
+
     }
 
     public int getCodigo() {
@@ -84,8 +83,6 @@ public class EnderecoBEAN {
     public void setCodigo(int codigo) {
         this.codigo = codigo;
     }
-    
-    
 
     public String getCidade() {
         return cidade;
@@ -150,7 +147,7 @@ public class EnderecoBEAN {
     public void setComplemento(String complemento) {
         this.complemento = complemento;
     }
-    
+
     public synchronized static String retornaCepFormatado(String cep) {
         String formatar = cep.replace(".", "-").replace("-", "");
         try {
@@ -163,5 +160,5 @@ public class EnderecoBEAN {
         }
         return formatar;
     }
-    
+
 }
