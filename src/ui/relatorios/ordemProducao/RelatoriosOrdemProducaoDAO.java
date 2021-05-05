@@ -408,10 +408,6 @@ public class RelatoriosOrdemProducaoDAO {
 
         try {
             
-            if(rs.wasNull()){
-                throw new ConsultaSemResultadoException();
-            }
-            
             while (rs.next()) {
                 OrdemProducao ordensProducao = new OrdemProducao();
 

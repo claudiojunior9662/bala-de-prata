@@ -31,7 +31,7 @@ import ui.controle.Controle;
 import ui.login.TelaAutenticacao;
 import ui.principal.GerenteJanelas;
 import ui.principal.Producao;
-import ui.sproducao.contrrole.observacoes.ObservacaoOp;
+import ui.sproducao.controle.observacoes.ObservacaoOp;
 
 /**
  *

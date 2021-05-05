@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package ui.sproducao.contrrole.observacoes;
+package ui.sproducao.controle.observacoes;
 
 import exception.EnvioExcecao;
 import java.sql.SQLException;
