@@ -54,7 +54,6 @@ import ui.cadastros.servicos.ServicosFrame;
 import ui.cadastros.servicos.ServicoDAO;
 import ui.controle.Controle;
 import ui.login.TelaAutenticacao;
-import static ui.orcamentos.email.Email.enviarEmail;
 import ui.principal.Estoque;
 import ui.principal.GerenteJanelas;
 import ui.principal.OrcamentoFrame;
@@ -2436,12 +2435,7 @@ public class OrcamentoPrincipalFrame extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_enviarProducaoActionPerformed
 
     private void enviarEmailAnexoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_enviarEmailAnexoActionPerformed
-        enviarEmail(Orcamento.geraPdf(2997,
-                true,
-                Boolean.FALSE,
-                1,
-                loading,
-                Boolean.TRUE), "Teste");
+        
     }//GEN-LAST:event_enviarEmailAnexoActionPerformed
 
     private void calcularOrcamentoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_calcularOrcamentoActionPerformed

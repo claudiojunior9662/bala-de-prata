@@ -6,22 +6,20 @@
 package ui.login;
 
 import exception.EnvioExcecao;
-import exception.UsuarioNaoAtivoException;
 import exception.UsuarioSenhaIncorretosException;
 import java.awt.Cursor;
-import java.awt.Image;
 import java.awt.Toolkit;
 import java.net.URL;
-import ui.principal.ModulosInt;
-import java.sql.SQLException;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
+import ui.principal.ModulosInt;
 import model.dao.OrcamentoDAO;
 import ui.administrador.UsuarioBEAN;
 import ui.administrador.UsuarioDAO;
 import ui.cadastros.clientes.ClienteDAO;
 import ui.controle.Controle;
 import ui.principal.ModulosExt;
+import java.sql.SQLException;
 
 /**
  *
@@ -53,7 +51,7 @@ public class TelaAutenticacao extends javax.swing.JFrame {
         initComponents();
 
         URL url = this.getClass().getResource("logo.png");
-        Image imagemLogo = Toolkit.getDefaultToolkit().getImage(url);
+        java.awt.Image imagemLogo = Toolkit.getDefaultToolkit().getImage(url);
         this.setIconImage(imagemLogo);
 
         lblVersao.setText("v. " + codVersao + " " + update);
@@ -397,13 +395,6 @@ public class TelaAutenticacao extends javax.swing.JFrame {
         } catch (SQLException ex) {
             EnvioExcecao envioExcecao = new EnvioExcecao(Controle.getDefaultGj(), ex);
             EnvioExcecao.envio();
-        }catch(UsuarioSenhaIncorretosException | UsuarioNaoAtivoException ex){
-            JOptionPane.showMessageDialog(
-                    null, 
-                    ex.getMessage(),
-                    "ERRO DE AUTENTICAÇÃO",
-                    0
-            );
         }
         lblEntrar.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
     }//GEN-LAST:event_lblEntrarMouseClicked

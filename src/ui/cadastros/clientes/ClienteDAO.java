@@ -19,8 +19,6 @@ import entities.sisgrafex.Orcamento;
 import exception.ClienteNaoEncontradoException;
 import java.sql.Timestamp;
 import java.util.Date;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  *

@@ -337,9 +337,6 @@ public class OrcamentoDAO {
                     + "WHERE cod_orcamento = ? AND cod_componente = 2");
             stmt.setInt(1, codOrc);
             rs = stmt.executeQuery();
-            if (rs.wasNull()) {
-                throw new SemServicoException();
-            }
             while (rs.next()) {
                 retorno.add(new Servicos(rs.getInt("cod_componente_1")));
             }
@@ -1209,7 +1206,9 @@ public class OrcamentoDAO {
                     + "AND cod_produto = ? "
                     + "AND tipo_papel = ? "
                     + "AND cod_papel = ? "
-                    + "AND tipo_produto = ?");
+                    + "AND tipo_produto = ?", 
+                    ResultSet.TYPE_SCROLL_SENSITIVE, 
+                    ResultSet.CONCUR_UPDATABLE);
             stmt.setInt(1, codProposta);
             stmt.setInt(2, codProd);
             stmt.setString(3, tipoPapel);
