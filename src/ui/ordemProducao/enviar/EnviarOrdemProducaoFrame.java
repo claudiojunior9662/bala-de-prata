@@ -583,10 +583,11 @@ public class EnviarOrdemProducaoFrame extends javax.swing.JInternalFrame {
                 try {
                     op.setDataEntrega(Controle.dataPadrao.parse(tabelaProdutos.getValueAt(i, 5).toString()));
                     
-                    if(tabelaProdutos.getValueAt(i, 6).toString() != ""){
-                        op.setDataEntgProva(Controle.dataPadrao.parse(tabelaProdutos.getValueAt(i, 6).toString()));
-                    }else{
+                    
+                    if(TIPO_PROD == 2){
                         op.setDataEntgProva(null);
+                    }else{
+                        op.setDataEntgProva(Controle.dataPadrao.parse(tabelaProdutos.getValueAt(i, 6).toString()));
                     }
                     
                 } catch (ParseException ex) {
