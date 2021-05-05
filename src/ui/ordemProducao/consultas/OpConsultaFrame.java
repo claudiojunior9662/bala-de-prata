@@ -434,7 +434,6 @@ public class OpConsultaFrame extends javax.swing.JInternalFrame {
         switch (tabelaConsulta.getValueAt(tabelaConsulta.getSelectedRow(), 6).toString()) {
             case "ENTREGUE":
             case "CANCELADA":
-            case "ENTREGUE PARCIALMENTE":
                 faturar.setEnabled(false);
                 botaoCancelarOp.setEnabled(false);
                 break;

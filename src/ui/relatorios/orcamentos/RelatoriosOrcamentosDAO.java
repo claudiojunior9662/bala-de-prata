@@ -487,10 +487,6 @@ public class RelatoriosOrcamentosDAO {
 
         try {
 
-            if (rs.wasNull()) {
-                throw new ConsultaSemResultadoException();
-            }
-
             while (rs.next()) {
                 Orcamento orcamento = new Orcamento();
 

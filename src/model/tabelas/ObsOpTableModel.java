@@ -8,7 +8,7 @@ package model.tabelas;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.table.AbstractTableModel;
-import ui.sproducao.contrrole.observacoes.ObservacaoBEAN;
+import ui.sproducao.controle.observacoes.ObservacaoBEAN;
 
 /**
  *
