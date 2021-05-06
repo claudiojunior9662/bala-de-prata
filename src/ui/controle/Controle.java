@@ -21,6 +21,7 @@ import java.util.Date;
 import java.util.List;
 import javax.swing.BorderFactory;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JTextPane;
 import static javax.swing.WindowConstants.EXIT_ON_CLOSE;
 import javax.swing.border.Border;
@@ -40,7 +41,7 @@ public class Controle {
      * @param tipoVersao 1 - produção 2 - desenvolvimento rede 3 -
      * desenvolvimento local 4 - peixoto
      */
-    private static byte tipoVersao = 3;
+    private static byte tipoVersao = 1;
 
     //VARIÁVEIS DE SISTEMA------------------------------------------------------
     //CONEXÃO COM SERVIDOR ARQUIVOS---------------------------------------------
@@ -93,6 +94,22 @@ public class Controle {
 
     //MENSAGENS PADRÃO----------------------------------------------------------
     public static String naoAdm = "VOCÊ PRECISA SER UM ADMINISTRADOR DESTE MÓDULO PARA ACESSAR ESTA FUNÇÃO";
+    
+    /**
+     * 
+     * @param tipo 1 - ERRO, 2 - INFORMAÇÃO
+     * @param mensagem 
+     */
+    public static void avisosUsuario(byte tipo, String mensagem){
+        switch(tipo){
+            case 1:
+                JOptionPane.showMessageDialog(null, mensagem, "ERRO", 1);
+                break;
+            case 2:
+                JOptionPane.showMessageDialog(null, mensagem, "INFORMAÇÃO", 2);
+                break;
+        }
+    }
 
     public static byte getTipoVersao() {
         return tipoVersao;

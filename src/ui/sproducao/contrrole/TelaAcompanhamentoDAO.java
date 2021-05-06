@@ -39,7 +39,7 @@ public class TelaAcompanhamentoDAO {
         List<TelaAcompanhamentoBEAN> retorno = new ArrayList();
 
         try {
-            stmt = con.prepareStatement("SELECT cod, data_entrega, status, cod_produto, tipo_produto "
+            stmt = con.prepareStatement("SELECT cod, data_emissao, data_entrega, status, cod_produto, tipo_produto "
                     + "FROM tabela_ordens_producao "
                     + "ORDER BY tabela_ordens_producao.cod "
                     + "DESC LIMIT " + limite);
@@ -47,6 +47,7 @@ public class TelaAcompanhamentoDAO {
             while (rs.next()) {
                 TelaAcompanhamentoBEAN telaAcompanhamentoBEAN = new TelaAcompanhamentoBEAN();
                 telaAcompanhamentoBEAN.setNumero(rs.getInt("cod"));
+                telaAcompanhamentoBEAN.setDataEmissao(rs.getDate("data_emissao"));
                 telaAcompanhamentoBEAN.setDataEntrega(rs.getDate("data_entrega"));
                 telaAcompanhamentoBEAN.setStatus(rs.getString("status"));
                 telaAcompanhamentoBEAN.setDescricaoProduto(
@@ -112,12 +113,13 @@ public class TelaAcompanhamentoDAO {
             switch (tipoFiltro) {
                 //TUDO
                 case 0:
-                    stmt = con.prepareStatement("SELECT cod, data_entrega, status, cod_produto, tipo_produto "
+                    stmt = con.prepareStatement("SELECT cod, data_emissao, data_entrega, status, cod_produto, tipo_produto "
                             + "FROM tabela_ordens_producao");
                     rs = stmt.executeQuery();
                     while (rs.next()) {
                         OrdemProducao op = new OrdemProducao();
                         op.setCodigo(rs.getInt("cod"));
+                        op.setDataEmissao(rs.getDate("data_emissao"));
                         op.setDataEntrega(rs.getDate("data_entrega"));
                         op.setStatus(rs.getString("status"));
                         op.setCodProduto(rs.getInt("cod_produto"));
@@ -127,7 +129,7 @@ public class TelaAcompanhamentoDAO {
                     break;
                 //POR CÓDIGO DA OP
                 case 1:
-                    stmt = con.prepareStatement("SELECT cod, data_entrega, status, cod_produto, tipo_produto "
+                    stmt = con.prepareStatement("SELECT cod, data_emissao, data_entrega, status, cod_produto, tipo_produto "
                             + "FROM tabela_ordens_producao "
                             + "WHERE cod = ? "
                             + "ORDER BY cod "
@@ -137,6 +139,7 @@ public class TelaAcompanhamentoDAO {
                     while (rs.next()) {
                         OrdemProducao op = new OrdemProducao();
                         op.setCodigo(rs.getInt("cod"));
+                        op.setDataEmissao(rs.getDate("data_emissao"));
                         op.setDataEntrega(rs.getDate("data_entrega"));
                         op.setStatus(rs.getString("status"));
                         op.setCodProduto(rs.getInt("cod_produto"));
@@ -146,7 +149,7 @@ public class TelaAcompanhamentoDAO {
                     break;
                 //POR CÓDIGO DO ORÇAMENTO
                 case 2:
-                    stmt = con.prepareStatement("SELECT cod, data_entrega, status, cod_produto, tipo_produto "
+                    stmt = con.prepareStatement("SELECT cod, data_emissao, data_entrega, status, cod_produto, tipo_produto "
                             + "FROM tabela_ordens_producao "
                             + "WHERE orcamento_base = ? "
                             + "ORDER BY cod "
@@ -156,6 +159,7 @@ public class TelaAcompanhamentoDAO {
                     while (rs.next()) {
                         OrdemProducao op = new OrdemProducao();
                         op.setCodigo(rs.getInt("cod"));
+                        op.setDataEmissao(rs.getDate("data_emissao"));
                         op.setDataEntrega(rs.getDate("data_entrega"));
                         op.setStatus(rs.getString("status"));
                         op.setCodProduto(rs.getInt("cod_produto"));
@@ -165,7 +169,7 @@ public class TelaAcompanhamentoDAO {
                     break;
                 //POR DATA DE ENTREGA
                 case 3:
-                    stmt = con.prepareStatement("SELECT cod, data_entrega, status, cod_produto, tipo_produto "
+                    stmt = con.prepareStatement("SELECT cod, data_emissao, data_entrega, status, cod_produto, tipo_produto "
                             + "FROM tabela_ordens_producao "
                             + "WHERE data_entrega = ?");
                     stmt.setDate(1, new java.sql.Date(new java.util.Date((Long) param).getTime()));
@@ -173,6 +177,7 @@ public class TelaAcompanhamentoDAO {
                     while (rs.next()) {
                         OrdemProducao op = new OrdemProducao();
                         op.setCodigo(rs.getInt("cod"));
+                        op.setDataEmissao(rs.getDate("data_emissao"));
                         op.setDataEntrega(rs.getDate("data_entrega"));
                         op.setStatus(rs.getString("status"));
                         op.setCodProduto(rs.getInt("cod_produto"));
@@ -183,7 +188,7 @@ public class TelaAcompanhamentoDAO {
                     break;
                 //POR MÊS DE EMISSÃO
                 case 4:
-                    stmt = con.prepareStatement("SELECT cod, data_entrega, status, cod_produto, tipo_produto "
+                    stmt = con.prepareStatement("SELECT cod, data_emissao, data_entrega, status, cod_produto, tipo_produto "
                             + "FROM tabela_ordens_producao "
                             + "WHERE MONTH(data_emissao) = ? "
                             + "AND YEAR(data_emissao) = ? "
@@ -196,6 +201,7 @@ public class TelaAcompanhamentoDAO {
                     while (rs.next()) {
                         OrdemProducao op = new OrdemProducao();
                         op.setCodigo(rs.getInt("cod"));
+                        op.setDataEmissao(rs.getDate("data_emissao"));
                         op.setDataEntrega(rs.getDate("data_entrega"));
                         op.setStatus(rs.getString("status"));
                         op.setCodProduto(rs.getInt("cod_produto"));
@@ -205,7 +211,7 @@ public class TelaAcompanhamentoDAO {
                     break;
                 //POR MÊS DE ENTREGA
                 case 5:
-                    stmt = con.prepareStatement("SELECT cod, data_entrega, status, cod_produto, tipo_produto "
+                    stmt = con.prepareStatement("SELECT cod, data_emissao, data_entrega, status, cod_produto, tipo_produto "
                             + "FROM tabela_ordens_producao "
                             + "WHERE MONTH(data_entrega) = ? "
                             + "AND YEAR(data_entrega) = ? "
@@ -218,6 +224,7 @@ public class TelaAcompanhamentoDAO {
                     while (rs.next()) {
                         OrdemProducao op = new OrdemProducao();
                         op.setCodigo(rs.getInt("cod"));
+                        op.setDataEmissao(rs.getDate("data_emissao"));
                         op.setDataEntrega(rs.getDate("data_entrega"));
                         op.setStatus(rs.getString("status"));
                         op.setCodProduto(rs.getInt("cod_produto"));
@@ -227,7 +234,7 @@ public class TelaAcompanhamentoDAO {
                     break;
                 //POR STATUS
                 case 6:
-                    stmt = con.prepareStatement("SELECT cod, data_entrega, status, cod_produto, tipo_produto "
+                    stmt = con.prepareStatement("SELECT cod, data_emissao, data_entrega, status, cod_produto, tipo_produto "
                             + "FROM tabela_ordens_producao "
                             + "WHERE status = ?");
                     stmt.setString(1, param.toString());
@@ -235,6 +242,7 @@ public class TelaAcompanhamentoDAO {
                     while (rs.next()) {
                         OrdemProducao op = new OrdemProducao();
                         op.setCodigo(rs.getInt("cod"));
+                        op.setDataEmissao(rs.getDate("data_emissao"));
                         op.setDataEntrega(rs.getDate("data_entrega"));
                         op.setStatus(rs.getString("status"));
                         op.setCodProduto(rs.getInt("cod_produto"));

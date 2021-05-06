@@ -14,6 +14,7 @@ import java.util.Date;
 public class TelaAcompanhamentoBEAN {
 
     int numero;
+    Date dataEmissao;
     Date dataEntrega;
     String status;
     String descricaoProduto;
@@ -53,6 +54,14 @@ public class TelaAcompanhamentoBEAN {
 
     public void setDataEntrega(Date dataEntrega) {
         this.dataEntrega = dataEntrega;
+    }
+
+    public Date getDataEmissao() {
+        return dataEmissao;
+    }
+
+    public void setDataEmissao(Date dataEmissao) {
+        this.dataEmissao = dataEmissao;
     }
 
 }
