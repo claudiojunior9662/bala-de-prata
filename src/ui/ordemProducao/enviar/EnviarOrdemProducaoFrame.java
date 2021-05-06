@@ -306,6 +306,7 @@ public class EnviarOrdemProducaoFrame extends javax.swing.JInternalFrame {
 
         jbtnSelDtEntgProd.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icones/periodo.png"))); // NOI18N
         jbtnSelDtEntgProd.setText("SELECIONAR DT ENTG PRODUTO");
+        jbtnSelDtEntgProd.setEnabled(false);
         jbtnSelDtEntgProd.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jbtnSelDtEntgProdActionPerformed(evt);
@@ -582,14 +583,17 @@ public class EnviarOrdemProducaoFrame extends javax.swing.JInternalFrame {
                         : "EM AVALIAÇÃO PELA SEÇ TÉCNICA");
                 try {
                     op.setDataEntrega(Controle.dataPadrao.parse(tabelaProdutos.getValueAt(i, 5).toString()));
-                    
-                    
-                    if(TIPO_PROD == 2){
+
+                    if (TIPO_PROD == 1) {
                         op.setDataEntgProva(null);
-                    }else{
-                        op.setDataEntgProva(Controle.dataPadrao.parse(tabelaProdutos.getValueAt(i, 6).toString()));
+                    } else {
+                        if (tabelaProdutos.getValueAt(i, 6).toString().equals("")) {
+                            Controle.avisosUsuario((byte) 1, "INSIRA A DATA DE ENTREGA DA PROVA.");
+                        } else {
+                            op.setDataEntgProva(Controle.dataPadrao.parse(tabelaProdutos.getValueAt(i, 6).toString()));
+                        }
                     }
-                    
+
                 } catch (ParseException ex) {
                     EnvioExcecao envioExcecao = new EnvioExcecao(Controle.getDefaultGj(), ex);
                     EnvioExcecao.envio();
@@ -617,7 +621,7 @@ public class EnviarOrdemProducaoFrame extends javax.swing.JInternalFrame {
                     }
                 }
 
-                switch(getTIPO_PROD()){
+                switch (getTIPO_PROD()) {
                     case 1:
                         OrcamentoDAO.alteraStatus(ORC_BASE, 2);
                         break;
@@ -684,7 +688,7 @@ public class EnviarOrdemProducaoFrame extends javax.swing.JInternalFrame {
 
     private void tabelaProdutosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tabelaProdutosMouseClicked
         jbtnSelDtEntgProd.setEnabled(true);
-        if(OrcamentoPrincipalFrame.getTIPO_ORCAMENTO() == 2){
+        if (OrcamentoPrincipalFrame.getTIPO_ORCAMENTO() == 2) {
             jbtnSelDtEntgProva.setEnabled(true);
         }
     }//GEN-LAST:event_tabelaProdutosMouseClicked
