@@ -27,34 +27,25 @@ import ui.controle.Controle;
  */
 public class IntegracaoLojaIntegrada {
 
-    //VARIÁVEIS LOJA INTEGRADA
-    
-    private static boolean PROXY;
-
     public static void main(String[] args) {
-        PROXY = true;
-//            Product produto = new Product(
-//                    1,
-//                    "prod-pai",
-//                    "Produto teste integração",
-//                    "Produto teste integração",
-//                    true,
-//                    (float) 0.01,
-//                    (float) 0.01,
-//                    (float) 0.01,
-//                    (float) 0.01,
-//                    "produto-teste"
-//            );
-//
-//            Category categoria = new Category(
-//                    null,
-//                    "teste",
-//                    "teste descrição",
-//                    null
-//            );
-//            realizaRequisicaoPOST((byte) 1, categoria);
-
-        realizaRequisicaoGET((byte) 1);
+        try {
+            Product produto = new Product(
+                    1,
+                    "prod-pai",
+                    "Produto teste integração",
+                    "Produto teste integração",
+                    true,
+                    (float) 0.01,
+                    (float) 0.01,
+                    (float) 0.01,
+                    (float) 0.01,
+                    "produto-teste"
+            );
+            
+            realizaRequisicaoPOST((byte) 5, produto);
+        } catch (IOException | InterruptedException ex) {
+            Logger.getLogger(IntegracaoLojaIntegrada.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     public static void realizaRequisicaoGET(byte tipo) {
@@ -155,12 +146,21 @@ public class IntegracaoLojaIntegrada {
                 objectMapper = new ObjectMapper();
                 requestBody = objectMapper.writeValueAsString(values);
 
-                client = HttpClient.newBuilder()
+                if(Controle.USO_PROXY){
+                    client = HttpClient.newBuilder()
                         .proxy(ProxySelector.of(new InetSocketAddress(Controle.HOST_PROXY, Controle.PORT_PROXY)))
                         .build();
-
+                }else{
+                    client = HttpClient.newBuilder()
+                        .build();
+                }
+                
                 request = HttpRequest.newBuilder()
-                        .uri(URI.create("https://api.awsli.com.br/v1/categoria/?"
+                        .uri(URI.create(Controle.LINK_API +
+                                Controle.SEPARADOR +
+                                Controle.VERSAO_API +
+                                Controle.SEPARADOR +
+                                "categoria/?"
                                 + Controle.FORMATO_SAIDA
                                 + "&"
                                 + "chave_api="
@@ -195,9 +195,9 @@ public class IntegracaoLojaIntegrada {
                         put("ativo", product.isAtivo());
                         put("destaque", product.isDestaque());
                         put("peso", product.getPeso());
-                        put("altura", product.getAltura());
-                        put("largura", product.getLargura());
-                        put("profundidade", product.getProfundidade());
+                        put("altura", (int) product.getAltura());
+                        put("largura", (int) product.getLargura());
+                        put("profundidade", (int) product.getProfundidade());
                         put("tipo", product.getTipo());
                         put("usado", product.isUsado());
                     }
@@ -206,12 +206,22 @@ public class IntegracaoLojaIntegrada {
                 objectMapper = new ObjectMapper();
                 requestBody = objectMapper.writeValueAsString(values);
 
-                client = HttpClient.newBuilder()
-                        .proxy(ProxySelector.of(new InetSocketAddress("10.166.128.179", 3128)))
+                if(Controle.USO_PROXY){
+                    client = HttpClient.newBuilder()
+                        .proxy(ProxySelector.of(new InetSocketAddress(Controle.HOST_PROXY, Controle.PORT_PROXY)))
                         .build();
-
+                }else{
+                    client = HttpClient.newBuilder()
+                        .build();
+                }
+                
+                
                 request = HttpRequest.newBuilder()
-                        .uri(URI.create("https://api.awsli.com.br/v1/produto/?"
+                        .uri(URI.create(Controle.LINK_API 
+                                + Controle.SEPARADOR 
+                                + Controle.VERSAO_API 
+                                + Controle.SEPARADOR 
+                                + "produto/?"
                                 + Controle.FORMATO_SAIDA
                                 + "&"
                                 + "chave_api="
@@ -223,7 +233,7 @@ public class IntegracaoLojaIntegrada {
                         .build();
                 response = client.send(request,
                         HttpResponse.BodyHandlers.ofString());
-                System.out.println(response);
+                System.out.println(response.body());
                 System.out.println(request);
 
                 break;
