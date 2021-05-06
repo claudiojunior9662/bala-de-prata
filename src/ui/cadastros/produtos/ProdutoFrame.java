@@ -15,8 +15,6 @@ import javax.swing.table.DefaultTableModel;
 import ui.cadastros.papeis.PapelCadastro;
 import java.sql.SQLException;
 import java.util.Date;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import ui.cadastros.acabamentos.AcabamentoDAO;
@@ -1895,7 +1893,7 @@ public final class ProdutoFrame extends javax.swing.JInternalFrame {
                             try {
                                 realizaRequisicaoPOST((byte) 5, new Product(
                                         COD_PROD,
-                                        "prod-pai",
+                                        String.valueOf(COD_PROD),
                                         produto.getDescricao(),
                                         produto.getDescricao(),
                                         produto.isAtivo(),
@@ -1903,7 +1901,7 @@ public final class ProdutoFrame extends javax.swing.JInternalFrame {
                                         produto.getAltura(),
                                         produto.getLargura(),
                                         produto.getEspessura(),
-                                        "integração"
+                                        "atributo"
                                 ));
                             } catch (IOException | InterruptedException ex) {
                                 JOptionPane.showMessageDialog(null, "ERRO AO INTEGRAR O CADASTRO!\nO PRODUTO NÃO FOI SINCRONIZADO COM O ECOMMERCE!", "ERRO AO SALVAR", JOptionPane.ERROR_MESSAGE);

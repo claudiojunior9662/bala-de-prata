@@ -28,26 +28,24 @@ import ui.controle.Controle;
 public class IntegracaoLojaIntegrada {
 
     public static void main(String[] args) {
-//            Product produto = new Product(
-//                    1,
-//                    "prod-pai",
-//                    "Produto teste integração",
-//                    "Produto teste integração",
-//                    true,
-//                    (float) 0.01,
-//                    (float) 0.01,
-//                    (float) 0.01,
-//                    (float) 0.01,
-//                    "produto-teste"
-//            );
-//
-//            Category categoria = new Category(
-//                    null,
-//                    "teste",
-//                    "teste descrição",
-//                    null
-//            );
-//            realizaRequisicaoPOST((byte) 1, categoria);
+        try {
+            Product produto = new Product(
+                    1,
+                    "prod-pai",
+                    "Produto teste integração",
+                    "Produto teste integração",
+                    true,
+                    (float) 0.01,
+                    (float) 0.01,
+                    (float) 0.01,
+                    (float) 0.01,
+                    "produto-teste"
+            );
+            
+            realizaRequisicaoPOST((byte) 5, produto);
+        } catch (IOException | InterruptedException ex) {
+            Logger.getLogger(IntegracaoLojaIntegrada.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     public static void realizaRequisicaoGET(byte tipo) {
@@ -197,9 +195,9 @@ public class IntegracaoLojaIntegrada {
                         put("ativo", product.isAtivo());
                         put("destaque", product.isDestaque());
                         put("peso", product.getPeso());
-                        put("altura", product.getAltura());
-                        put("largura", product.getLargura());
-                        put("profundidade", product.getProfundidade());
+                        put("altura", (int) product.getAltura());
+                        put("largura", (int) product.getLargura());
+                        put("profundidade", (int) product.getProfundidade());
                         put("tipo", product.getTipo());
                         put("usado", product.isUsado());
                     }
@@ -217,7 +215,7 @@ public class IntegracaoLojaIntegrada {
                         .build();
                 }
                 
-
+                
                 request = HttpRequest.newBuilder()
                         .uri(URI.create(Controle.LINK_API 
                                 + Controle.SEPARADOR 
@@ -235,7 +233,7 @@ public class IntegracaoLojaIntegrada {
                         .build();
                 response = client.send(request,
                         HttpResponse.BodyHandlers.ofString());
-                System.out.println(response);
+                System.out.println(response.body());
                 System.out.println(request);
 
                 break;
