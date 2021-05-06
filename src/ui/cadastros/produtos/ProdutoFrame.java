@@ -1892,24 +1892,25 @@ public final class ProdutoFrame extends javax.swing.JInternalFrame {
                             produto.setCodigo(COD_PROD);
                             ProdutoDAO.cria(produto);
 
-//                            try {
-//                                realizaRequisicaoPOST((byte) 5, new Product(
-//                                        COD_PROD,
-//                                        "prod-pai",
-//                                        produto.getDescricao(),
-//                                        produto.getDescricao(),
-//                                        produto.isAtivo(),
-//                                        produto.getPeso(),
-//                                        produto.getAltura(),
-//                                        produto.getLargura(),
-//                                        produto.getEspessura(),
-//                                        "integração"
-//                                ));
-//                            } catch (IOException | InterruptedException ex) {
-//                                JOptionPane.showMessageDialog(null, "ERRO AO INTEGRAR O CADASTRO!\nO PRODUTO NÃO FOI SINCRONIZADO COM O ECOMMERCE!", "ERRO AO SALVAR", JOptionPane.ERROR_MESSAGE);
-//                            }
+                            try {
+                                realizaRequisicaoPOST((byte) 5, new Product(
+                                        COD_PROD,
+                                        "prod-pai",
+                                        produto.getDescricao(),
+                                        produto.getDescricao(),
+                                        produto.isAtivo(),
+                                        produto.getPeso(),
+                                        produto.getAltura(),
+                                        produto.getLargura(),
+                                        produto.getEspessura(),
+                                        "integração"
+                                ));
+                            } catch (IOException | InterruptedException ex) {
+                                JOptionPane.showMessageDialog(null, "ERRO AO INTEGRAR O CADASTRO!\nO PRODUTO NÃO FOI SINCRONIZADO COM O ECOMMERCE!", "ERRO AO SALVAR", JOptionPane.ERROR_MESSAGE);
+                            }
 
                             break;
+
 
 
                     }

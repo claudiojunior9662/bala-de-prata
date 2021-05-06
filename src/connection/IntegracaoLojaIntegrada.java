@@ -27,12 +27,7 @@ import ui.controle.Controle;
  */
 public class IntegracaoLojaIntegrada {
 
-    //VARIÁVEIS LOJA INTEGRADA
-    
-    private static boolean PROXY;
-
     public static void main(String[] args) {
-        PROXY = true;
 //            Product produto = new Product(
 //                    1,
 //                    "prod-pai",
@@ -53,8 +48,6 @@ public class IntegracaoLojaIntegrada {
 //                    null
 //            );
 //            realizaRequisicaoPOST((byte) 1, categoria);
-
-        realizaRequisicaoGET((byte) 1);
     }
 
     public static void realizaRequisicaoGET(byte tipo) {
@@ -155,12 +148,21 @@ public class IntegracaoLojaIntegrada {
                 objectMapper = new ObjectMapper();
                 requestBody = objectMapper.writeValueAsString(values);
 
-                client = HttpClient.newBuilder()
+                if(Controle.USO_PROXY){
+                    client = HttpClient.newBuilder()
                         .proxy(ProxySelector.of(new InetSocketAddress(Controle.HOST_PROXY, Controle.PORT_PROXY)))
                         .build();
-
+                }else{
+                    client = HttpClient.newBuilder()
+                        .build();
+                }
+                
                 request = HttpRequest.newBuilder()
-                        .uri(URI.create("https://api.awsli.com.br/v1/categoria/?"
+                        .uri(URI.create(Controle.LINK_API +
+                                Controle.SEPARADOR +
+                                Controle.VERSAO_API +
+                                Controle.SEPARADOR +
+                                "categoria/?"
                                 + Controle.FORMATO_SAIDA
                                 + "&"
                                 + "chave_api="
@@ -206,12 +208,22 @@ public class IntegracaoLojaIntegrada {
                 objectMapper = new ObjectMapper();
                 requestBody = objectMapper.writeValueAsString(values);
 
-                client = HttpClient.newBuilder()
-                        .proxy(ProxySelector.of(new InetSocketAddress("10.166.128.179", 3128)))
+                if(Controle.USO_PROXY){
+                    client = HttpClient.newBuilder()
+                        .proxy(ProxySelector.of(new InetSocketAddress(Controle.HOST_PROXY, Controle.PORT_PROXY)))
                         .build();
+                }else{
+                    client = HttpClient.newBuilder()
+                        .build();
+                }
+                
 
                 request = HttpRequest.newBuilder()
-                        .uri(URI.create("https://api.awsli.com.br/v1/produto/?"
+                        .uri(URI.create(Controle.LINK_API 
+                                + Controle.SEPARADOR 
+                                + Controle.VERSAO_API 
+                                + Controle.SEPARADOR 
+                                + "produto/?"
                                 + Controle.FORMATO_SAIDA
                                 + "&"
                                 + "chave_api="
