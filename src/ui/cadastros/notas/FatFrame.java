@@ -2124,9 +2124,12 @@ public class FatFrame extends javax.swing.JInternalFrame {
             double vlrTotal = 0d;
             if (!listaCancelamento.contains(OrdemProducaoDAO.retornaAnoOp(Integer.valueOf(codOp.getText())))) {
                 vlrTotal += (int) qtdSerEntregue.getValue()
-                        * Double.valueOf(valorUnitario.getText().replace(",", ".").replace("R$ ", ""));
-                vlrTotal += faturarServicos.isSelected() ? Double.valueOf(valorServicos.getText().replace(",", ".").replace("R$ ", "")) : 0d;
-                vlrTotal += faturarFrete.isSelected() ? Double.valueOf(valorFrete.getText().replace(",", ".").replace("R$ ", "")) : 0d;
+                        * (Double) valorUnitario
+                                .getValue();
+                vlrTotal += faturarServicos.isSelected() ? (Double) valorServicos
+                        .getValue() : 0d;
+                vlrTotal += faturarFrete.isSelected() ? (Double) valorFrete
+                        .getValue() : 0d;
                 valorTotalEntregue.setValue(vlrTotal);
             } else {
                 avisoAnoFin.setVisible(true);
