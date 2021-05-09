@@ -1472,7 +1472,7 @@ public final class ProdutoFrame extends javax.swing.JInternalFrame {
             tabPaneInfoProduto.setSelectedIndex(0);
             tabPaneInfoProduto.setEnabledAt(0, true);
             tabPaneInfoProduto.setEnabledAt(1, true);
-            tabPaneInfoProduto.setEnabledAt(2, false);
+            tabPaneInfoProduto.setEnabledAt(2, true);
             tabPaneInfoProduto.setEnabledAt(3, false);
             tabPaneInfoProduto.setEnabledAt(4, false);
         } else if (!jckbUtilizadoEcommerce.isSelected() && jrdParaProducao.isSelected()) {
@@ -1872,11 +1872,6 @@ public final class ProdutoFrame extends javax.swing.JInternalFrame {
                     produto.setDisponivelVendas(jckbUtilizadoEcommerce.isSelected());
                     produto.setAtivo(jckbAtivo.isSelected());
 
-                    if (jckbUtilizadoEcommerce.isSelected()) {
-                        produto.setEspessura(Float.valueOf(jftfEspessuraProduto.getValue().toString().replace(",", ".")));
-                        produto.setPeso(Float.valueOf(jftfPesoProduto.getValue().toString().replace(",", ".")));
-                    }
-
                     switch (FUNCAO) {
                         case 1:
                             produto.setCodigo(COD_PROD);
@@ -1889,27 +1884,7 @@ public final class ProdutoFrame extends javax.swing.JInternalFrame {
                             COD_PROD = ProdutoDAO.retornaUltimoRegistro() + 1;
                             produto.setCodigo(COD_PROD);
                             ProdutoDAO.cria(produto);
-
-//                            try {
-//                                realizaRequisicaoPOST((byte) 5, new Product(
-//                                        COD_PROD,
-//                                        String.valueOf(COD_PROD),
-//                                        produto.getDescricao(),
-//                                        produto.getDescricao(),
-//                                        produto.isAtivo(),
-//                                        produto.getPeso(),
-//                                        produto.getAltura(),
-//                                        produto.getLargura(),
-//                                        produto.getEspessura(),
-//                                        "atributo"
-//                                ));
-//                            } catch (IOException | InterruptedException ex) {
-//                                JOptionPane.showMessageDialog(null, "ERRO AO INTEGRAR O CADASTRO!\nO PRODUTO NÃO FOI SINCRONIZADO COM O ECOMMERCE!", "ERRO AO SALVAR", JOptionPane.ERROR_MESSAGE);
-//                            }
-
                             break;
-
-
 
                     }
 
@@ -1941,6 +1916,41 @@ public final class ProdutoFrame extends javax.swing.JInternalFrame {
                             }
                             break;
                     }
+
+                    if (jckbUtilizadoEcommerce.isSelected()) {
+                        produto.setEspessura(Float.valueOf(jftfEspessuraProduto.getValue().toString().replace(",", ".")));
+                        produto.setPeso(Float.valueOf(jftfPesoProduto.getValue().toString().replace(",", ".")));
+                        produto.setValorCusto(Float.valueOf(jftfVlrUnitProduto.getValue().toString().replace(",", ".")));
+                        if(jckbPromProduto.isSelected()){
+                            produto.setValorPromocional(Float.valueOf(jftfVlrPromProduto.getValue().toString().replace(",", ".")));
+                        }else{
+                            produto.setValorPromocional(produto.getValorCusto());
+                        }
+
+                        try {
+                            realizaRequisicaoPOST((byte) 5, new Product(
+                                    null,
+                                    String.valueOf(COD_PROD),
+                                    produto.getDescricao(),
+                                    produto.getDescricao(),
+                                    produto.isAtivo(),
+                                    produto.getPeso(),
+                                    produto.getAltura(),
+                                    produto.getLargura(),
+                                    produto.getEspessura(),
+                                    "normal"
+                            ));
+
+                            realizaRequisicaoPOST((byte) 9, new Product(
+                                    String.valueOf(COD_PROD),
+                                    produto.getValorCusto(),
+                                    produto.getValorPromocional()
+                            ));
+                        } catch (IOException | InterruptedException ex) {
+                            JOptionPane.showMessageDialog(null, "ERRO AO INTEGRAR O CADASTRO!\nO PRODUTO NÃO FOI SINCRONIZADO COM O ECOMMERCE!", "ERRO AO SALVAR", JOptionPane.ERROR_MESSAGE);
+                        }
+                    }
+
                     break;
                 case 2:
                     switch (FUNCAO) {

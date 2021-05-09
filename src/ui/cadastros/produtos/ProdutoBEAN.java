@@ -29,6 +29,9 @@ public class ProdutoBEAN {
     private String descricaoProduto;
     private int quantidadeProduzida;
     private boolean ativo;
+    //PREÇOS
+    private float valorCusto;
+    private float valorPromocional;
 
     public ProdutoBEAN() {
     }
@@ -58,6 +61,22 @@ public class ProdutoBEAN {
         this.tipoProduto = tipoProduto;
         this.disponivelVendas = disponivelVendas;
         this.ativo = ativo;
+    }
+
+    public float getValorCusto() {
+        return valorCusto;
+    }
+
+    public void setValorCusto(float valorCusto) {
+        this.valorCusto = valorCusto;
+    }
+
+    public float getValorPromocional() {
+        return valorPromocional;
+    }
+
+    public void setValorPromocional(float valorPromocional) {
+        this.valorPromocional = valorPromocional;
     }
 
     public boolean isAtivo() {

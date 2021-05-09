@@ -29,9 +29,11 @@ public class IntegracaoLojaIntegrada {
 
     public static void main(String[] args) {
         try {
+            Controle.preencheDadosConexaoInternet();
+            Controle.preencheDadosConexaoLojaIntegrada();
             Product produto = new Product(
-                    1,
-                    "prod-pai",
+                    null,
+                    "prod-simples",
                     "Produto teste integração",
                     "Produto teste integração",
                     true,
@@ -39,9 +41,9 @@ public class IntegracaoLojaIntegrada {
                     (float) 0.01,
                     (float) 0.01,
                     (float) 0.01,
-                    "produto-teste"
+                    "normal"
             );
-            
+
             realizaRequisicaoPOST((byte) 5, produto);
         } catch (IOException | InterruptedException ex) {
             Logger.getLogger(IntegracaoLojaIntegrada.class.getName()).log(Level.SEVERE, null, ex);
@@ -119,7 +121,8 @@ public class IntegracaoLojaIntegrada {
      *
      * @param tipo 1 - Cadastro categoria, 2 - Cadastro marca, 3 - Cadastro
      * grade, 4 - Cadastro variação, 5 - Cadastro produto pai, 6 - Cadastro
-     * produto filho, 7 - Cadastro imagem produto, 8 - Cadastro cliente
+     * produto filho, 7 - Cadastro imagem produto, 8 - Cadastro cliente, 9 -
+     * Alterar Preço do produto
      * @throws IOException
      * @throws InterruptedException
      */
@@ -130,6 +133,7 @@ public class IntegracaoLojaIntegrada {
         HttpClient client = null;
         HttpRequest request = null;
         HttpResponse<String> response = null;
+        Product product;
 
         switch (tipo) {
             case 1:
@@ -146,21 +150,21 @@ public class IntegracaoLojaIntegrada {
                 objectMapper = new ObjectMapper();
                 requestBody = objectMapper.writeValueAsString(values);
 
-                if(Controle.USO_PROXY){
+                if (Controle.USO_PROXY) {
                     client = HttpClient.newBuilder()
-                        .proxy(ProxySelector.of(new InetSocketAddress(Controle.HOST_PROXY, Controle.PORT_PROXY)))
-                        .build();
-                }else{
+                            .proxy(ProxySelector.of(new InetSocketAddress(Controle.HOST_PROXY, Controle.PORT_PROXY)))
+                            .build();
+                } else {
                     client = HttpClient.newBuilder()
-                        .build();
+                            .build();
                 }
-                
+
                 request = HttpRequest.newBuilder()
-                        .uri(URI.create(Controle.LINK_API +
-                                Controle.SEPARADOR +
-                                Controle.VERSAO_API +
-                                Controle.SEPARADOR +
-                                "categoria/?"
+                        .uri(URI.create(Controle.LINK_API
+                                + Controle.SEPARADOR
+                                + Controle.VERSAO_API
+                                + Controle.SEPARADOR
+                                + "categoria/?"
                                 + Controle.FORMATO_SAIDA
                                 + "&"
                                 + "chave_api="
@@ -183,10 +187,9 @@ public class IntegracaoLojaIntegrada {
             case 4:
                 break;
             case 5:
-                Product product = (Product) requisicao;
+                product = (Product) requisicao;
                 values = new HashMap<String, Object>() {
                     {
-                        put("id_externo", String.valueOf(product.getIdExterno()));
                         put("sku", String.valueOf(product.getSku()));
                         put("mpn", String.valueOf(product.getMpn()));
                         put("ncm", String.valueOf(product.getNcm()));
@@ -206,21 +209,20 @@ public class IntegracaoLojaIntegrada {
                 objectMapper = new ObjectMapper();
                 requestBody = objectMapper.writeValueAsString(values);
 
-                if(Controle.USO_PROXY){
+                if (Controle.USO_PROXY) {
                     client = HttpClient.newBuilder()
-                        .proxy(ProxySelector.of(new InetSocketAddress(Controle.HOST_PROXY, Controle.PORT_PROXY)))
-                        .build();
-                }else{
+                            .proxy(ProxySelector.of(new InetSocketAddress(Controle.HOST_PROXY, Controle.PORT_PROXY)))
+                            .build();
+                } else {
                     client = HttpClient.newBuilder()
-                        .build();
+                            .build();
                 }
-                
-                
+
                 request = HttpRequest.newBuilder()
-                        .uri(URI.create(Controle.LINK_API 
-                                + Controle.SEPARADOR 
-                                + Controle.VERSAO_API 
-                                + Controle.SEPARADOR 
+                        .uri(URI.create(Controle.LINK_API
+                                + Controle.SEPARADOR
+                                + Controle.VERSAO_API
+                                + Controle.SEPARADOR
                                 + "produto/?"
                                 + Controle.FORMATO_SAIDA
                                 + "&"
@@ -235,7 +237,6 @@ public class IntegracaoLojaIntegrada {
                         HttpResponse.BodyHandlers.ofString());
                 System.out.println(response.body());
                 System.out.println(request);
-
                 break;
             case 6:
 
@@ -243,6 +244,52 @@ public class IntegracaoLojaIntegrada {
             case 7:
                 break;
             case 8:
+                break;
+            case 9:
+                product = (Product) requisicao;
+                values = new HashMap<String, Object>() {
+                    {
+                        put("cheio", String.valueOf(product.getValorCusto()));
+                        put("custo", String.valueOf(product.getValorCusto()));
+                        put("promocional", String.valueOf(product.getValorPromocional()));
+                    }
+                };
+
+                objectMapper = new ObjectMapper();
+                requestBody = objectMapper.writeValueAsString(values);
+
+                if (Controle.USO_PROXY) {
+                    client = HttpClient.newBuilder()
+                            .proxy(ProxySelector.of(new InetSocketAddress(Controle.HOST_PROXY, Controle.PORT_PROXY)))
+                            .build();
+                } else {
+                    client = HttpClient.newBuilder()
+                            .build();
+                }
+
+                request = HttpRequest.newBuilder()
+                        .uri(URI.create(Controle.LINK_API
+                                + Controle.SEPARADOR
+                                + Controle.VERSAO_API
+                                + Controle.SEPARADOR
+                                + "produto_preco"
+                                + Controle.SEPARADOR
+                                + product.getSku()
+                                + Controle.SEPARADOR
+                                + "?"
+                                + Controle.FORMATO_SAIDA
+                                + "&"
+                                + "chave_api="
+                                + Controle.CHAVE_API
+                                + "&"
+                                + "chave_aplicacao="
+                                + Controle.CHAVE_APLICACAO))
+                        .PUT(HttpRequest.BodyPublishers.ofString(requestBody))
+                        .build();
+                response = client.send(request,
+                        HttpResponse.BodyHandlers.ofString());
+                System.out.println(response.body());
+                System.out.println(request);
                 break;
             default:
                 break;
