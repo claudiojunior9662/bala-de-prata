@@ -35,8 +35,8 @@ public class ProdutoDAO {
         PreparedStatement stmt = null;
 
         try {
-            stmt = con.prepareStatement("INSERT INTO produtos(CODIGO, DESCRICAO, LARGURA, ALTURA, ESPESSURA, PESO, QTD_PAGINAS, TIPO, VENDAS, ATIVO) "
-                    + "VALUES(?,?,?,?,?,?,?,?,?,?)");
+            stmt = con.prepareStatement("INSERT INTO produtos(CODIGO, DESCRICAO, LARGURA, ALTURA, ESPESSURA, PESO, QTD_PAGINAS, TIPO, ATIVO, USO_ECOMMERCE, PRECO_CUSTO, PROMOCIONAL, PRECO_PROMOCIONAL) "
+                    + "VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?)");
             stmt.setInt(1, produto.getCodigo());
             stmt.setString(2, produto.getDescricao());
             stmt.setFloat(3, produto.getLargura());
@@ -45,8 +45,11 @@ public class ProdutoDAO {
             stmt.setFloat(6, produto.getPeso());
             stmt.setInt(7, produto.getQuantidadeFolhas());
             stmt.setString(8, produto.getTipoProduto());
-            stmt.setInt(9, produto.isUtilizadoEcommerce() ? (byte) 1 : (byte) 0);
-            stmt.setByte(10, produto.isAtivo() ? (byte) 1 : (byte) 0);
+            stmt.setByte(9, produto.isAtivo() ? (byte) 1 : (byte) 0);
+            stmt.setByte(10, produto.isUsoEcommerce() ? (byte) 1 : (byte) 0);
+            stmt.setFloat(11, produto.getValorCusto());
+            stmt.setByte(12, produto.isPrecoPromocional() ? (byte) 1 : (byte) 0);
+            stmt.setFloat(13, produto.getValorPromocional());
             stmt.executeUpdate();
         } catch (SQLException ex) {
             throw new SQLException(ex);
@@ -74,8 +77,11 @@ public class ProdutoDAO {
                     + "PESO = ?,"
                     + "QTD_PAGINAS = ?,"
                     + "TIPO = ?,"
-                    + "VENDAS = ?, "
-                    + "ATIVO = ? "
+                    + "ATIVO = ?, "
+                    + "USO_ECOMMERCE = ?, "
+                    + "PRECO_CUSTO = ?, "
+                    + "PROMOCIONAL = ?, "
+                    + "PRECO_PROMOCIONAL = ? "
                     + "WHERE CODIGO = ?");
             stmt.setString(1, produto.getDescricao());
             stmt.setFloat(2, produto.getLargura());
@@ -84,9 +90,12 @@ public class ProdutoDAO {
             stmt.setFloat(5, produto.getPeso());
             stmt.setInt(6, produto.getQuantidadeFolhas());
             stmt.setString(7, produto.getTipoProduto());
-            stmt.setInt(8, produto.isUtilizadoEcommerce() ? (byte) 1 : (byte) 0);
-            stmt.setByte(9, produto.isAtivo() ? (byte) 1 : (byte) 0);
-            stmt.setInt(10, produto.getCodigo());
+            stmt.setByte(8, produto.isAtivo() ? (byte) 1 : (byte) 0);
+            stmt.setByte(9, produto.isUsoEcommerce() ? (byte) 1 : (byte) 0);
+            stmt.setFloat(10, produto.getValorCusto());
+            stmt.setByte(11, produto.isPrecoPromocional() ? (byte) 1 : (byte) 0);
+            stmt.setFloat(12, produto.getValorPromocional());
+            stmt.setInt(13, produto.getCodigo());
             stmt.executeUpdate();
         } catch (SQLException ex) {
             throw new SQLException(ex);
@@ -299,8 +308,11 @@ public class ProdutoDAO {
                         rs.getFloat("PESO"),
                         rs.getInt("QTD_PAGINAS"),
                         rs.getString("TIPO"),
-                        rs.getByte("VENDAS") == 1,
-                        rs.getByte("ATIVO") == 1
+                        rs.getByte("ATIVO") == 1,
+                        rs.getFloat("PRECO_CUSTO"),
+                        rs.getFloat("PRECO_PROMOCIONAL"),
+                        rs.getByte("USO_ECOMMERCE") == 1,
+                        rs.getByte("PROMOCIONAL") == 1
                 );
             }
             return null;
