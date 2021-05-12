@@ -764,9 +764,7 @@ public class Orcamento {
                         document.add(p2);
                     } else {
                         p2 = new Paragraph("Método de pagamento: \n  "
-                                //+ "a) Pré-empenho na UG primária (SIAFI – Cod UG 160083), até o último dia útil do mês.\n  "
-                                //+ "b) "
-                                + "Transferência entre contas no SIGA, opção pagamento de serviço (Cod GRU 226963 e favorecido – UG 167083). ".toUpperCase(), FontFactory.getFont("arial.ttf", 10, Font.BOLD));
+                                + "Transferência entre contas no SIGA, opção pagamento de serviço (Cod GRU 226963 e favorecido – UG 167083 PARA ND 33 90 00). ".toUpperCase(), FontFactory.getFont("arial.ttf", 10, Font.BOLD));
                         document.add(p2);
                     }
 
