@@ -439,30 +439,42 @@ public class Orcamento {
                             = OrcamentoDAO.carregaProdOrc(codOrc);
 
                     if (consulta == true) {
-                        if (status == 1) {
-                            if (produtos.get(0).getTipoProduto() == 2) {
-                                celulaCabecalho = new PdfPCell(new Phrase("PROPOSTA DE PEDIDO DE VENDA Nº "
-                                        + codOrc,
-                                        FontFactory.getFont("arial.ttf", 12, Font.BOLD)));
-                            } else {
-                                celulaCabecalho = new PdfPCell(new Phrase("PROPOSTA DE ORÇAMENTO Nº "
-                                        + codOrc,
-                                        FontFactory.getFont("arial.ttf", 12, Font.BOLD)));
-                            }
-                        } else {
-                            List nOp = OrdemProducaoDAO.retornaCodOpOrc(codOrc);
-                            switch (OrdemProducaoDAO.retornaTipoProduto((int) nOp.get(0))) {
-                                case 1:
-                                    celulaCabecalho = new PdfPCell(new Phrase("PROPOSTA DE ORÇAMENTO Nº "
-                                            + codOrc + " / ORDEM DE PRODUÇÃO Nº " + nOp,
+                        switch (status) {
+                            case 1:
+                            case 3:
+                            case 4:
+                            case 5:
+                            case 6:
+                            case 10:
+                            case 11:
+                            case 13:
+                                if (produtos.get(0).getTipoProduto() == 2) {
+                                    celulaCabecalho = new PdfPCell(new Phrase("PROPOSTA DE PEDIDO DE VENDA Nº "
+                                            + codOrc,
                                             FontFactory.getFont("arial.ttf", 12, Font.BOLD)));
-                                    break;
-                                case 2:
+                                } else {
                                     celulaCabecalho = new PdfPCell(new Phrase("PROPOSTA DE ORÇAMENTO Nº "
-                                            + codOrc + " / PEDIDO DE VENDA Nº " + nOp,
+                                            + codOrc,
                                             FontFactory.getFont("arial.ttf", 12, Font.BOLD)));
-                                    break;
-                            }
+                                }
+                                break;
+                            case 2:
+                            case 7:
+                            case 9:
+                                List nOp = OrdemProducaoDAO.retornaCodOpOrc(codOrc);
+                                switch (OrdemProducaoDAO.retornaTipoProduto((int) nOp.get(0))) {
+                                    case 1:
+                                        celulaCabecalho = new PdfPCell(new Phrase("PROPOSTA DE ORÇAMENTO Nº "
+                                                + codOrc + " / ORDEM DE PRODUÇÃO Nº " + nOp,
+                                                FontFactory.getFont("arial.ttf", 12, Font.BOLD)));
+                                        break;
+                                    case 2:
+                                        celulaCabecalho = new PdfPCell(new Phrase("PROPOSTA DE ORÇAMENTO Nº "
+                                                + codOrc + " / PEDIDO DE VENDA Nº " + nOp,
+                                                FontFactory.getFont("arial.ttf", 12, Font.BOLD)));
+                                        break;
+                                }
+                                break;
 
                         }
                     } else {
