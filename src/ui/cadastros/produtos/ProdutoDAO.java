@@ -1272,6 +1272,7 @@ public class ProdutoDAO {
             stmt = con.prepareStatement("SELECT cod_produto "
                     + "FROM tabela_produtos_orcamento "
                     + "WHERE cod_produto = ? "
+                    + "AND tipo_produto = 2 "
                     + "ORDER BY cod_produto "
                     + "DESC LIMIT 1");
             stmt.setInt(1, codProd);
