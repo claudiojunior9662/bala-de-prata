@@ -355,7 +355,7 @@ public class IntegracaoLojaIntegrada {
                                 + Controle.SEPARADOR
                                 + "produto_preco"
                                 + Controle.SEPARADOR
-                                + product.getSku()
+                                + product.getId()
                                 + Controle.SEPARADOR
                                 + "?"
                                 + Controle.FORMATO_SAIDA
