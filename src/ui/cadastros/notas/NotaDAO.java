@@ -1004,10 +1004,6 @@ public class NotaDAO {
             stmt.setInt(3, codOp);
             rs = stmt.executeQuery();
 
-            if (rs.wasNull()) {
-                return null;
-            }
-
             while (rs.next()) {
                 retorno.add(new Faturamento(
                         rs.getInt("CODIGO"),
