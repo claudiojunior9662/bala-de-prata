@@ -844,37 +844,37 @@ public class ProdutoDAO {
 
         try {
             stmt = con.prepareStatement("INSERT INTO produtos_pr_ent(CODIGO, DESCRICAO, LARGURA,"
-                    + "ALTURA, ESPESSURA, PESO, VENDAS, PRE_VENDA, PROM, VLR_PROM, INICIO_PROM,"
+                    + "ALTURA, ESPESSURA, PESO, PRE_VENDA, PROM, VLR_PROM, INICIO_PROM,"
                     + "FIM_PROM, QTD_PAGINAS, ESTOQUE, AVISO_ESTOQUE, AVISO_ESTOQUE_UN, TIPO,"
-                    + "VLR_UNIT, ULT_MOV, PD_QTD_MIN, PD_MAX, PD_QTD_MAX, ATIVO) "
-                    + "VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
+                    + "VLR_UNIT, ULT_MOV, PD_QTD_MIN, PD_MAX, PD_QTD_MAX, ATIVO, USO_ECOMMERCE) "
+                    + "VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?, ?)");
             stmt.setInt(1, prodPrEnt.getCodigo());
             stmt.setString(2, prodPrEnt.getDescricao());
             stmt.setFloat(3, prodPrEnt.getLargura());
             stmt.setFloat(4, prodPrEnt.getAltura());
             stmt.setFloat(5, prodPrEnt.getEspessura());
             stmt.setFloat(6, prodPrEnt.getPeso());
-            stmt.setByte(7, prodPrEnt.getVendas());
-            stmt.setByte(8, prodPrEnt.getPreVenda());
-            stmt.setByte(9, prodPrEnt.getPromocao());
-            stmt.setDouble(10, prodPrEnt.getVlrPromocao());
-            stmt.setDate(11, prodPrEnt.getPromocao() == 1
+            stmt.setByte(7, prodPrEnt.getPreVenda());
+            stmt.setByte(8, prodPrEnt.getPromocao());
+            stmt.setDouble(9, prodPrEnt.getVlrPromocao());
+            stmt.setDate(10, prodPrEnt.getPromocao() == 1
                     ? new java.sql.Date(prodPrEnt.getInicioPromocao().getTime())
                     : null);
-            stmt.setDate(12, prodPrEnt.getPromocao() == 1
+            stmt.setDate(11, prodPrEnt.getPromocao() == 1
                     ? new java.sql.Date(prodPrEnt.getFimPromocao().getTime())
                     : null);
-            stmt.setInt(13, prodPrEnt.getQtdPaginas());
-            stmt.setInt(14, prodPrEnt.getEstoque());
-            stmt.setByte(15, prodPrEnt.getAvisoEstoque());
-            stmt.setInt(16, prodPrEnt.getAvisoEstoqueUn());
-            stmt.setString(17, prodPrEnt.getTipo());
-            stmt.setDouble(18, prodPrEnt.getVlrUnit());
-            stmt.setTimestamp(19, prodPrEnt.getUltMov());
-            stmt.setInt(20, prodPrEnt.getPdQtdMin());
-            stmt.setByte(21, prodPrEnt.getPdMax());
-            stmt.setInt(22, prodPrEnt.getPdQtdMax());
-            stmt.setByte(23, prodPrEnt.isAtivo() ? (byte) 1 : (byte) 0);
+            stmt.setInt(12, prodPrEnt.getQtdPaginas());
+            stmt.setInt(13, prodPrEnt.getEstoque());
+            stmt.setByte(14, prodPrEnt.getAvisoEstoque());
+            stmt.setInt(15, prodPrEnt.getAvisoEstoqueUn());
+            stmt.setString(16, prodPrEnt.getTipo());
+            stmt.setDouble(17, prodPrEnt.getVlrUnit());
+            stmt.setTimestamp(18, prodPrEnt.getUltMov());
+            stmt.setInt(19, prodPrEnt.getPdQtdMin());
+            stmt.setByte(20, prodPrEnt.getPdMax());
+            stmt.setInt(21, prodPrEnt.getPdQtdMax());
+            stmt.setByte(22, prodPrEnt.isAtivo() ? (byte) 1 : (byte) 0);
+            stmt.setByte(23, prodPrEnt.isUtilizadoEcommerce() ? (byte) 1 : (byte) 0);
             stmt.executeUpdate();
         } catch (SQLException ex) {
             throw new SQLException(ex);
@@ -896,37 +896,37 @@ public class ProdutoDAO {
         try {
             stmt = con.prepareStatement("UPDATE produtos_pr_ent "
                     + "SET DESCRICAO = ?, LARGURA = ?,"
-                    + "ALTURA = ?, ESPESSURA = ?, PESO = ?, VENDAS = ?, PRE_VENDA = ?, PROM = ?,"
+                    + "ALTURA = ?, ESPESSURA = ?, PESO = ?, PRE_VENDA = ?, PROM = ?,"
                     + "VLR_PROM = ?, INICIO_PROM = ?, FIM_PROM = ?, QTD_PAGINAS = ?, ESTOQUE = ?,"
                     + "AVISO_ESTOQUE = ?, AVISO_ESTOQUE_UN = ?, TIPO = ?, VLR_UNIT = ?, ULT_MOV = ?,"
-                    + "PD_QTD_MIN = ?, PD_MAX = ?, PD_QTD_MAX = ?, ATIVO = ? "
+                    + "PD_QTD_MIN = ?, PD_MAX = ?, PD_QTD_MAX = ?, ATIVO = ?, USO_ECOMMERCE = ? "
                     + "WHERE CODIGO = ?");
             stmt.setString(1, prodPrEnt.getDescricao());
             stmt.setFloat(2, prodPrEnt.getLargura());
             stmt.setFloat(3, prodPrEnt.getAltura());
             stmt.setFloat(4, prodPrEnt.getEspessura());
             stmt.setFloat(5, prodPrEnt.getPeso());
-            stmt.setByte(6, prodPrEnt.getVendas());
-            stmt.setByte(7, prodPrEnt.getPreVenda());
-            stmt.setByte(8, prodPrEnt.getPromocao());
-            stmt.setDouble(9, prodPrEnt.getVlrPromocao());
-            stmt.setDate(10, prodPrEnt.getPromocao() == 1
+            stmt.setByte(6, prodPrEnt.getPreVenda());
+            stmt.setByte(7, prodPrEnt.getPromocao());
+            stmt.setDouble(8, prodPrEnt.getVlrPromocao());
+            stmt.setDate(9, prodPrEnt.getPromocao() == 1
                     ? new java.sql.Date(prodPrEnt.getInicioPromocao().getTime())
                     : null);
-            stmt.setDate(11, prodPrEnt.getPromocao() == 1
+            stmt.setDate(10, prodPrEnt.getPromocao() == 1
                     ? new java.sql.Date(prodPrEnt.getFimPromocao().getTime())
                     : null);
-            stmt.setInt(12, prodPrEnt.getQtdPaginas());
-            stmt.setInt(13, prodPrEnt.getEstoque());
-            stmt.setByte(14, prodPrEnt.getAvisoEstoque());
-            stmt.setInt(15, prodPrEnt.getAvisoEstoqueUn());
-            stmt.setString(16, prodPrEnt.getTipo());
-            stmt.setDouble(17, prodPrEnt.getVlrUnit());
-            stmt.setTimestamp(18, prodPrEnt.getUltMov());
-            stmt.setInt(19, prodPrEnt.getPdQtdMin());
-            stmt.setByte(20, prodPrEnt.getPdMax());
-            stmt.setInt(21, prodPrEnt.getPdQtdMax());
-            stmt.setByte(22, prodPrEnt.isAtivo() ? (byte) 1 : (byte) 0);
+            stmt.setInt(11, prodPrEnt.getQtdPaginas());
+            stmt.setInt(12, prodPrEnt.getEstoque());
+            stmt.setByte(13, prodPrEnt.getAvisoEstoque());
+            stmt.setInt(14, prodPrEnt.getAvisoEstoqueUn());
+            stmt.setString(15, prodPrEnt.getTipo());
+            stmt.setDouble(16, prodPrEnt.getVlrUnit());
+            stmt.setTimestamp(17, prodPrEnt.getUltMov());
+            stmt.setInt(18, prodPrEnt.getPdQtdMin());
+            stmt.setByte(19, prodPrEnt.getPdMax());
+            stmt.setInt(20, prodPrEnt.getPdQtdMax());
+            stmt.setByte(21, prodPrEnt.isAtivo() ? (byte) 1 : (byte) 0);
+            stmt.setByte(22, prodPrEnt.isUtilizadoEcommerce() ? (byte) 1 : (byte) 0);
             stmt.setInt(23, prodPrEnt.getCodigo());
             stmt.executeUpdate();
         } catch (SQLException ex) {
@@ -1035,7 +1035,6 @@ public class ProdutoDAO {
                         rs.getFloat("ALTURA"),
                         rs.getFloat("ESPESSURA"),
                         rs.getFloat("PESO"),
-                        rs.getByte("VENDAS"),
                         rs.getByte("PRE_VENDA"),
                         rs.getByte("PROM"),
                         rs.getDouble("VLR_PROM"),
@@ -1051,7 +1050,8 @@ public class ProdutoDAO {
                         rs.getInt("PD_QTD_MIN"),
                         rs.getByte("PD_MAX"),
                         rs.getInt("PD_QTD_MAX"),
-                        rs.getByte("ATIVO") == 1
+                        rs.getByte("ATIVO") == 1,
+                        rs.getByte("USO_ECOMMERCE") == 1
                 );
             }
             return null;
