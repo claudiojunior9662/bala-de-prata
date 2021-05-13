@@ -1605,7 +1605,7 @@ public class OrdemProducao {
                                     texto = table.getValueAt(row, 3).toString();
                                     break;
                                 case 2:
-                                    texto = table.getValueAt(row, 6).toString();
+                                    texto = table.getValueAt(row, 7).toString();
                                     break;
                                 case 3:
                                     texto = table.getValueAt(row, 4).toString();

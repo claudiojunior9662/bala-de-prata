@@ -10,8 +10,11 @@ import exception.EnvioExcecao;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.table.AbstractTableModel;
 import ui.cadastros.clientes.ClienteDAO;
+import ui.cadastros.produtos.ProdutoDAO;
 import ui.controle.Controle;
 
 /**
@@ -21,7 +24,7 @@ import ui.controle.Controle;
 public class OpIntTableModel extends AbstractTableModel {
 
     private List<OrdemProducao> dados = new ArrayList<>();
-    private String[] colunas = {"OP", "ORÇAMENTO", "CLIENTE", "TIPO DE CLIENTE", "DATA DE EMISSÃO", "DATA DE ENTREGA", "STATUS"};
+    private String[] colunas = {"OP", "ORÇAMENTO", "PRODUTO", "CLIENTE", "TIPO DE CLIENTE", "DATA DE EMISSÃO", "DATA DE ENTREGA", "STATUS"};
     
     @Override
     public String getColumnName(int col) {
@@ -40,30 +43,35 @@ public class OpIntTableModel extends AbstractTableModel {
 
     @Override
     public Object getValueAt(int linha, int coluna) {
-        switch (coluna) {
-            case 0:
-                return dados.get(linha).getCodigo();
-            case 1:
-                return dados.get(linha).getOrcBase();
-            case 2: {
-                try {
-                    return ClienteDAO.retornaNomeCliente(
-                            dados.get(linha).getCodCliente(),
-                            dados.get(linha).getTipoPessoa()
-                    );
-                } catch (SQLException ex) {
-                    EnvioExcecao envioExcecao = new EnvioExcecao(Controle.getDefaultGj(), ex);
-                    EnvioExcecao.envio();
-                }
+        try {
+            switch (coluna) {
+                case 0:
+                    return dados.get(linha).getCodigo();
+                case 1:
+                    return dados.get(linha).getOrcBase();
+                case 2:
+                    return ProdutoDAO.retornaDescricaoProduto(dados.get(linha).getCodProduto(), dados.get(linha).getTipoProduto());
+                case 3:
+                    try {
+                        return ClienteDAO.retornaNomeCliente(
+                                dados.get(linha).getCodCliente(),
+                                dados.get(linha).getTipoPessoa()
+                        );
+                    } catch (SQLException ex) {
+                        EnvioExcecao envioExcecao = new EnvioExcecao(Controle.getDefaultGj(), ex);
+                        EnvioExcecao.envio();
+                    }
+                case 4:
+                    return Controle.retornaTipoCliente(dados.get(linha).getTipoPessoa());
+                case 5:
+                    return Controle.dataPadrao.format(dados.get(linha).getDataEmissao());
+                case 6:
+                    return Controle.dataPadrao.format(dados.get(linha).getDataEntrega());
+                case 7:
+                    return dados.get(linha).getStatus();
             }
-            case 3:
-                return Controle.retornaTipoCliente(dados.get(linha).getTipoPessoa());
-            case 4:
-                return Controle.dataPadrao.format(dados.get(linha).getDataEmissao());
-            case 5:
-                return Controle.dataPadrao.format(dados.get(linha).getDataEntrega());
-            case 6:
-                return dados.get(linha).getStatus();
+        } catch (SQLException ex) {
+            Logger.getLogger(OpIntTableModel.class.getName()).log(Level.SEVERE, null, ex);
         }
         return null;
     }

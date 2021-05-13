@@ -77,7 +77,7 @@
                       <Component id="mostraTodos" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <Group type="103" alignment="0" groupAlignment="1" max="-2" attributes="0">
-                      <Component id="p1" alignment="0" pref="43" max="32767" attributes="0"/>
+                      <Component id="p1" alignment="0" max="32767" attributes="0"/>
                       <Component id="p2" alignment="0" max="32767" attributes="0"/>
                       <Component id="p3Data" alignment="0" max="32767" attributes="0"/>
                       <Component id="p3Formatado" alignment="0" max="32767" attributes="0"/>

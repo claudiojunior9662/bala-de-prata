@@ -1005,7 +1005,6 @@ public class OpConsultaFrame extends javax.swing.JInternalFrame {
             paginaAtual.removeAllItems();
             paginaTotal.setText("");
             loading.setVisible(false);
-
         } catch (SQLException ex) {
             EnvioExcecao envioExcecao = new EnvioExcecao(Controle.getDefaultGj(), ex);
             EnvioExcecao.envio();
