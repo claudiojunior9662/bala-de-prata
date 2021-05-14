@@ -1541,6 +1541,7 @@ public final class TelaAcompanhamento extends javax.swing.JInternalFrame {
             for (TelaAcompanhamentoBEAN acompanhamento : TelaAcompanhamentoDAO.refreshTabela(45)) {
                 mdlAcompanhamento.addRow(new Object[]{
                     acompanhamento.getNumero(),
+                    Controle.dataPadrao.format(acompanhamento.getDataEmissao()),
                     Controle.dataPadrao.format(acompanhamento.getDataEntrega()),
                     acompanhamento.getStatus(),
                     acompanhamento.getDescricaoProduto()});
@@ -1606,6 +1607,9 @@ public final class TelaAcompanhamento extends javax.swing.JInternalFrame {
         }
     }
 
+    /**
+     * Salva as alterações de edição dos atributos da OP
+     */
     public static void salvaAlteracoes() {
         try {
             /**
@@ -1628,13 +1632,7 @@ public final class TelaAcompanhamento extends javax.swing.JInternalFrame {
             } else {
                 op.setOpSecao(operadorSecao.getSelectedItem().toString());
             }
-            if (dataPrevEntrega.getDate().compareTo(dataPrevEntregaBkp) != 0) {
-                dataAlterada = true;
-            } else {
-                dataAlterada = false;
-            }
-            System.out.println(OrdemProducaoDAO.retornaDataEntregaOp(numOp) + "data anterior");
-            System.out.println(dataPrevEntregaBkp + "data atual");
+            dataAlterada = dataPrevEntrega.getDate().compareTo(dataPrevEntregaBkp) != 0;
             /**
              * Salva as informações
              */
@@ -1662,7 +1660,6 @@ public final class TelaAcompanhamento extends javax.swing.JInternalFrame {
                         return;
                     }
                 }
-
                 /**
                  * Cria a classe altera data com os dados de alteração
                  */

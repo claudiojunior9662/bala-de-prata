@@ -1582,11 +1582,12 @@ public class OrdemProducao {
     }
 
     /**
+     * @param jTable tabelaControle
      * @param classTabela 1 - TELA ACOMPANHAMENTO 2 - CONSULTA ORCAMENTO 3 -
      * CONSULTA ORÇAMENTO EXTERNO
      */
-    public static void corTabela(JTable jTable, byte classTabela) {
-        new Thread() {
+    public synchronized static void corTabela(JTable jTable, byte classTabela) {
+        new Thread("Cor tabela") {
             @Override
             public void run() {
                 try {
@@ -1599,7 +1600,7 @@ public class OrdemProducao {
                             //***********************
                             Color c = Color.WHITE;
                             String texto = null;
-
+                            
                             switch (classTabela) {
                                 case 1:
                                     texto = table.getValueAt(row, 3).toString();
