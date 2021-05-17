@@ -5,6 +5,7 @@
  */
 package connection;
 
+import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import entities.lojaIntegrada.Category;
 import entities.lojaIntegrada.Product;
@@ -19,6 +20,9 @@ import java.util.HashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.net.http.HttpHeaders;
+import java.sql.SQLException;
+import org.json.JSONObject;
+import ui.cadastros.produtos.ProdutoDAO;
 import ui.controle.Controle;
 
 /**
@@ -191,8 +195,8 @@ public class IntegracaoLojaIntegrada {
                 product = (Product) requisicao;
                 values = new HashMap<String, Object>() {
                     {
-                        put("id_externo", String.valueOf(product.getId()));
-                        put("sku", String.valueOf(product.getSku()));
+                        put("id_externo", product.getId());
+                        put("sku", product.getSku());
                         put("mpn", String.valueOf(product.getMpn()));
                         put("ncm", String.valueOf(product.getNcm()));
                         put("nome", String.valueOf(product.getNome()));
@@ -237,9 +241,20 @@ public class IntegracaoLojaIntegrada {
                         .build();
                 response = client.send(request,
                         HttpResponse.BodyHandlers.ofString());
+
+                JSONObject json = new JSONObject(response.body());
+                 {
+                    try {
+                        ProdutoDAO.atualizaCodigoLI(Integer.valueOf(product.getId()), (int) json.get("id"), product.getSku().contains("PP") ? (byte) 1 : (byte) 2);
+                    } catch (SQLException ex) {
+                        Logger.getLogger(IntegracaoLojaIntegrada.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                }
+
                 System.out.println(response.body());
                 System.out.println(request);
                 break;
+
             case 6:
                 break;
             case 7:
@@ -253,10 +268,11 @@ public class IntegracaoLojaIntegrada {
     }
 
     /**
-     * @param tipo 1 - Alterar produto, 2 - Alterar preço produto
+     * @param tipo 1 - Alterar produto, 2 - Alterar/Adicionar preço produto, 3 -
+     * Alterar/Adicionar estoque produto
      * @param requisicao
      * @throws IOException
-     * @throws InterruptedException 
+     * @throws InterruptedException
      */
     public static void realizaRequisicaoPUT(byte tipo, Object requisicao) throws IOException, InterruptedException {
         HashMap values = null;
@@ -300,8 +316,6 @@ public class IntegracaoLojaIntegrada {
                             .build();
                 }
 
-                System.out.println("CÓDIGO DO PRODUTO: " + product.getId());
-                
                 request = HttpRequest.newBuilder()
                         .uri(URI.create(Controle.LINK_API
                                 + Controle.SEPARADOR
@@ -309,7 +323,7 @@ public class IntegracaoLojaIntegrada {
                                 + Controle.SEPARADOR
                                 + "produto"
                                 + Controle.SEPARADOR
-                                + product.getId() 
+                                + product.getId()
                                 + Controle.SEPARADOR
                                 + "?"
                                 + Controle.FORMATO_SAIDA
@@ -330,10 +344,17 @@ public class IntegracaoLojaIntegrada {
                 product = (Product) requisicao;
                 values = new HashMap<String, Object>() {
                     {
-                        put("custo", String.valueOf(product.getValorCusto()));
-                        put("promocional", String.valueOf(product.getValorPromocional()));
+                        put("cheio", product.getValorCusto());
+                        put("custo", product.getValorCusto());
+                        put("promocional", product.getValorPromocional());
                     }
                 };
+
+                try {
+                    product.setId(String.valueOf(ProdutoDAO.retornaCodigoLI(Integer.valueOf(product.getId()), product.getSku().contains("PP") ? (byte) 1 : (byte) 2)));
+                } catch (SQLException ex) {
+                    Logger.getLogger(IntegracaoLojaIntegrada.class.getName()).log(Level.SEVERE, null, ex);
+                }
 
                 objectMapper = new ObjectMapper();
                 requestBody = objectMapper.writeValueAsString(values);
@@ -356,9 +377,56 @@ public class IntegracaoLojaIntegrada {
                                 + Controle.SEPARADOR
                                 + product.getId()
                                 + Controle.SEPARADOR
-                                + "?"
-                                + Controle.FORMATO_SAIDA
+                                + "?format=json&"
+                                + "chave_api="
+                                + Controle.CHAVE_API
                                 + "&"
+                                + "chave_aplicacao="
+                                + Controle.CHAVE_APLICACAO))
+                        .PUT(HttpRequest.BodyPublishers.ofString(requestBody))
+                        .build();
+                response = client.send(request,
+                        HttpResponse.BodyHandlers.ofString());
+                System.out.println(response.body());
+                System.out.println(request);
+                break;
+            case 3:
+                product = (Product) requisicao;
+                values = new HashMap<String, Object>() {
+                    {
+                        put("gerenciado", true);
+                        put("quantidade", product.getEstoque());
+                    }
+                };
+                
+                try {
+                    product.setId(String.valueOf(ProdutoDAO.retornaCodigoLI(Integer.valueOf(product.getId()), product.getSku().contains("PP") ? (byte) 1 : (byte) 2)));
+                } catch (SQLException ex) {
+                    Logger.getLogger(IntegracaoLojaIntegrada.class.getName()).log(Level.SEVERE, null, ex);
+                }
+
+                objectMapper = new ObjectMapper();
+                requestBody = objectMapper.writeValueAsString(values);
+
+                if (Controle.USO_PROXY) {
+                    client = HttpClient.newBuilder()
+                            .proxy(ProxySelector.of(new InetSocketAddress(Controle.HOST_PROXY, Controle.PORT_PROXY)))
+                            .build();
+                } else {
+                    client = HttpClient.newBuilder()
+                            .build();
+                }
+
+                request = HttpRequest.newBuilder()
+                        .uri(URI.create(Controle.LINK_API
+                                + Controle.SEPARADOR
+                                + Controle.VERSAO_API
+                                + Controle.SEPARADOR
+                                + "produto_estoque"
+                                + Controle.SEPARADOR
+                                + product.getId()
+                                + Controle.SEPARADOR
+                                + "?format=json&"
                                 + "chave_api="
                                 + Controle.CHAVE_API
                                 + "&"

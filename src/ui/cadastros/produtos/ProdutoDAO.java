@@ -16,6 +16,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import entities.sisgrafex.ProdOrcamento;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -1403,5 +1405,81 @@ public class ProdutoDAO {
             default:
                 return null;
         }
+    }
+    
+    /**
+     * Atualiza o código da Loja Integrada do produto
+     * @param codProd código do produto Sisgrafex
+     * @param codLI código do produto Loja Integrada
+     * @param tipoProd tipo do produto 1 - produção, 2 - pronta entrega
+     * @throws java.sql.SQLException
+     */
+    public synchronized static void atualizaCodigoLI(int codProd,int codLI, byte tipoProd) throws SQLException{
+        try{
+            Connection con = ConnectionFactory.getConnection();
+            PreparedStatement stmt = null;
+            
+            switch(tipoProd){
+                case 1:
+                    stmt = con.prepareStatement("UPDATE produtos "
+                            + "SET CODIGO_LI = ? "
+                            + "WHERE CODIGO = ?");
+                    stmt.setInt(1, codLI);
+                    stmt.setInt(2, codProd);
+                    stmt.executeUpdate();
+                    break;
+                case 2:
+                    stmt = con.prepareStatement("UPDATE produtos_pr_ent "
+                            + "SET CODIGO_LI = ? "
+                            + "WHERE CODIGO = ?");
+                    stmt.setInt(1, codLI);
+                    stmt.setInt(2, codProd);
+                    stmt.executeUpdate();
+                    break;
+            }
+        }   catch (SQLException ex) {
+            throw new SQLException(ex);
+        }
+    }
+    
+    /**
+     * Retorna o código do produto na Loja integrada
+     * @param codProd código do produto no Sisgrafex
+     * @param tipoProd tipo do produto 1 - produção, 2 - pronta entrega
+     * @return 
+     * @throws java.sql.SQLException 
+     */
+    public synchronized static int retornaCodigoLI(int codProd, byte tipoProd) throws SQLException{
+       try{
+            Connection con = ConnectionFactory.getConnection();
+            PreparedStatement stmt = null;
+            ResultSet rs = null;
+            
+            switch(tipoProd){
+                case 1:
+                    stmt = con.prepareStatement("SELECT CODIGO_LI "
+                            + "FROM produtos "
+                            + "WHERE CODIGO = ?");
+                    stmt.setInt(1, codProd);
+                    rs = stmt.executeQuery();
+                    if(rs.next()){
+                        return rs.getInt("CODIGO_LI");
+                    }
+                    break;
+                case 2:
+                    stmt = con.prepareStatement("SELECT CODIGO_LI "
+                            + "FROM produtos_pr_ent "
+                            + "WHERE CODIGO = ?");
+                    stmt.setInt(1, codProd);
+                    rs = stmt.executeQuery();
+                    if(rs.next()){
+                        return rs.getInt("CODIGO_LI");
+                    }
+                    break;
+            }
+            return 0;
+        }   catch (SQLException ex) {
+            throw new SQLException(ex);
+        } 
     }
 }
