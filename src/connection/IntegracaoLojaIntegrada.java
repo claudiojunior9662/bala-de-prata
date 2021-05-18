@@ -5,7 +5,6 @@
  */
 package connection;
 
-import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import entities.lojaIntegrada.Category;
 import entities.lojaIntegrada.Product;
@@ -250,11 +249,9 @@ public class IntegracaoLojaIntegrada {
                         Logger.getLogger(IntegracaoLojaIntegrada.class.getName()).log(Level.SEVERE, null, ex);
                     }
                 }
-
                 System.out.println(response.body());
                 System.out.println(request);
                 break;
-
             case 6:
                 break;
             case 7:

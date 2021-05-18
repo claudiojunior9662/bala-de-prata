@@ -522,7 +522,13 @@ public final class ProdutoFrame extends javax.swing.JInternalFrame {
 
         jftfVlrUnitProduto.setBorder(javax.swing.BorderFactory.createTitledBorder("VALOR UNITÁRIO (R$)"));
         jftfVlrUnitProduto.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#0.00"))));
+        jftfVlrUnitProduto.setText("0,00");
         jftfVlrUnitProduto.setValue(0);
+        jftfVlrUnitProduto.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jftfVlrUnitProdutoActionPerformed(evt);
+            }
+        });
 
         jckbPromProduto.addItemListener(new java.awt.event.ItemListener() {
             public void itemStateChanged(java.awt.event.ItemEvent evt) {
@@ -1527,6 +1533,10 @@ public final class ProdutoFrame extends javax.swing.JInternalFrame {
         }
     }//GEN-LAST:event_jrdParaProntaEntregaItemStateChanged
 
+    private void jftfVlrUnitProdutoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jftfVlrUnitProdutoActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jftfVlrUnitProdutoActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAlterarEstoque;
@@ -1714,16 +1724,16 @@ public final class ProdutoFrame extends javax.swing.JInternalFrame {
         paiFilho.clearSelection();
         //Campos de texto-------------------------------------------------------
         jftfDescricaoProduto.setText("");
-        jftfLarguraProduto.setText("");
-        jftfAlturaProduto.setText("");
-        jftfEspessuraProduto.setText("");
-        jftfPesoProduto.setText("");
-        jftfVlrUnitProduto.setText("");
-        jftfVlrPromProduto.setText("");
-        jftfEstoqueFisicoProduto.setText("");
-        jftfAvisoEstoqueProduto.setText("");
-        jftfQtdMinProduto.setText("");
-        jftfQtdMaxProduto.setText("");
+        jftfLarguraProduto.setValue(0f);
+        jftfAlturaProduto.setValue(0f);
+        jftfEspessuraProduto.setValue(0f);
+        jftfPesoProduto.setValue(0f);
+        jftfVlrUnitProduto.setValue(0f);
+        jftfVlrPromProduto.setValue(0f);
+        jftfEstoqueFisicoProduto.setValue(0);
+        jftfAvisoEstoqueProduto.setValue(0);
+        jftfQtdMaxProduto.setValue(0);
+        jftfQtdMaxProduto.setValue(0);
         //Spin boxes------------------------------------------------------------
         jsfQtdFolhasProduto.setValue(1);
         //Combo boxes-----------------------------------------------------------
@@ -2211,13 +2221,13 @@ public final class ProdutoFrame extends javax.swing.JInternalFrame {
                         }
                     }
 
-                    if (jftfLarguraProduto.getText().isEmpty()) {
+                    if (Float.valueOf(jftfLarguraProduto.getText().replace(",", ".")) == (float) 0) {
                         JOptionPane.showMessageDialog(null, "INSIRA UM CONTEÚDO NO CAMPO LARGURA", "ERRO AO SALVAR", JOptionPane.ERROR_MESSAGE);
                         loading.setVisible(false);
                         return 1;
                     }
 
-                    if (jftfAlturaProduto.getText().isEmpty()) {
+                    if (Float.valueOf(jftfAlturaProduto.getText().replace(",", ".")) == (float) 0) {
                         JOptionPane.showMessageDialog(null, "INSIRA UM CONTEÚDO NO CAMPO ALTURA.");
                         loading.setVisible(false);
                         return 1;
@@ -2243,6 +2253,12 @@ public final class ProdutoFrame extends javax.swing.JInternalFrame {
 
                     if (jsfQtdFolhasProduto.getValue() == 0) {
                         JOptionPane.showMessageDialog(null, "A QUANTIDADE DE FOLHAS NÃO PODE SER 0!", "ERRO AO SALVAR", JOptionPane.ERROR_MESSAGE);
+                        loading.setVisible(false);
+                        return 1;
+                    }
+
+                    if (Double.valueOf(jftfVlrUnitProduto.getText().replace(",", ".")) == 0d && jckbUtilizadoEcommerce.isSelected()) {
+                        JOptionPane.showMessageDialog(null, "O VALOR UNITÁRIO DO PRODUTO NÃO PODE SER ZERO!", "ERRO AO SALVAR", JOptionPane.ERROR_MESSAGE);
                         loading.setVisible(false);
                         return 1;
                     }
@@ -2358,6 +2374,13 @@ public final class ProdutoFrame extends javax.swing.JInternalFrame {
                             return 1;
                         }
                     }
+
+                    if (Double.valueOf(jftfVlrUnitProduto.getText().replace(",", ".")) == 0d && jckbUtilizadoEcommerce.isSelected()) {
+                        JOptionPane.showMessageDialog(null, "O VALOR UNITÁRIO DO PRODUTO NÃO PODE SER ZERO!", "ERRO AO SALVAR", JOptionPane.ERROR_MESSAGE);
+                        loading.setVisible(false);
+                        return 1;
+                    }
+
                     if (FUNCAO != 1 & FUNCAO != 3) {
                         if (ProdutoDAO.verificaDescPe(jftfDescricaoProduto.getText())) {
                             JOptionPane.showMessageDialog(null, "A DESCRIÇÃO DO PRODUTO JÁ EXISTE", "ERRO",
