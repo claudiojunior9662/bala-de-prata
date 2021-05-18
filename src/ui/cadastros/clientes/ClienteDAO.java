@@ -1799,12 +1799,15 @@ public class ClienteDAO {
                     + "WHERE senha = md5(?)");
             stmt.setString(1, senha);
             rs = stmt.executeQuery();
-            return !rs.wasNull();
+            if(rs.next()){
+                return true;
+            }
         } catch (SQLException ex) {
             throw new SQLException(ex);
         }finally{
             ConnectionFactory.closeConnection(con, stmt, rs);
         }
+        return false;
     }
     
     /**
