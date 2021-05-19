@@ -45,8 +45,8 @@ public class Product {
         this.tipo = tipo;
     }
 
-    public Product(String sku, float valorCusto, float valorPromocional) {
-        this.sku = sku;
+    public Product(String id, float valorCusto, float valorPromocional) {
+        this.id = id;
         this.valorCusto = valorCusto;
         this.valorPromocional = valorPromocional;
     }

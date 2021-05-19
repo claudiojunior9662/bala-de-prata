@@ -124,13 +124,36 @@ public class ProdutoDAO {
         }
     }
 
-    public static int retornaUltimoRegistro() throws SQLException {
+    /**
+     * Retorna o código do produto
+     *
+     * @param tipoProduto 1 - PARA PRODUÇÃO, 2 - PARA PRONTA ENTREGA
+     * @return
+     * @throws SQLException
+     */
+    public static int retornaUltimoProduto(byte tipoProduto) throws SQLException {
         Connection con = ConnectionFactory.getConnection();
         PreparedStatement stmt = null;
         ResultSet rs = null;
 
         try {
-            stmt = con.prepareStatement("SELECT CODIGO FROM produtos ORDER BY CODIGO DESC LIMIT 1");
+            switch (tipoProduto) {
+                case 1:
+                    stmt = con.prepareStatement("SELECT CODIGO "
+                            + "FROM produtos "
+                            + "ORDER BY CODIGO "
+                            + "DESC "
+                            + "LIMIT 1");
+                    break;
+                case 2:
+                    stmt = con.prepareStatement("SELECT CODIGO "
+                            + "FROM produtos_pr_ent "
+                            + "ORDER BY CODIGO "
+                            + "DESC "
+                            + "LIMIT 1");
+                    break;
+            }
+
             rs = stmt.executeQuery();
             while (rs.next()) {
                 return rs.getInt("CODIGO");
@@ -145,10 +168,11 @@ public class ProdutoDAO {
 
     /**
      * Retorna lista de pesquisa de produtos para produção (PP)
+     *
      * @param tipo tipo da pesquisa
      * @param texto texto de pesquisa
      * @return
-     * @throws SQLException 
+     * @throws SQLException
      */
     public static List<ProdutoBEAN> pesquisaRegistro(String tipo, String texto) throws SQLException {
         Connection con = ConnectionFactory.getConnection();
@@ -156,7 +180,7 @@ public class ProdutoDAO {
         ResultSet rs = null;
 
         System.out.println(tipo + " " + texto);
-        
+
         List<ProdutoBEAN> retorno = new ArrayList();
 
         try {
@@ -278,7 +302,7 @@ public class ProdutoDAO {
         Connection con = ConnectionFactory.getConnection();
         PreparedStatement stmt = null;
         ResultSet rs = null;
-        
+
         try {
             switch (tipoProduto) {
                 case 1:
@@ -983,34 +1007,6 @@ public class ProdutoDAO {
             throw new SQLException(ex);
         } finally {
             ConnectionFactory.closeConnection(con, stmt);
-        }
-    }
-
-    /**
-     * Retorna o código do útlimo produto pr ent
-     *
-     * @return String codigo do último produto
-     * @see retornaCodPe
-     */
-    public static int retornaCodPe() throws SQLException {
-        Connection con = ConnectionFactory.getConnection();
-        PreparedStatement stmt = null;
-        ResultSet rs = null;
-
-        try {
-            stmt = con.prepareStatement("SELECT CODIGO "
-                    + "FROM produtos_pr_ent "
-                    + "ORDER BY CODIGO DESC "
-                    + "LIMIT 1");
-            rs = stmt.executeQuery();
-            if (rs.next()) {
-                return rs.getInt("CODIGO") + 1;
-            }
-            return 0;
-        } catch (SQLException ex) {
-            throw new SQLException(ex);
-        } finally {
-            ConnectionFactory.closeConnection(con, stmt, rs);
         }
     }
 
