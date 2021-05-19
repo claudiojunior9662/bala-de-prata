@@ -191,7 +191,7 @@ public class IntegracaoLojaIntegrada {
                 product = (Product) requisicao;
                 values = new HashMap<String, Object>() {
                     {
-                        put("id", String.valueOf(product.getId()));
+                        put("id_externo", String.valueOf(product.getId()));
                         put("sku", String.valueOf(product.getSku()));
                         put("mpn", String.valueOf(product.getMpn()));
                         put("ncm", String.valueOf(product.getNcm()));
@@ -272,7 +272,7 @@ public class IntegracaoLojaIntegrada {
                 product = (Product) requisicao;
                 values = new HashMap<String, Object>() {
                     {
-                        put("id", String.valueOf(product.getId()));
+                        put("id_externo", String.valueOf(product.getId()));
                         put("sku", String.valueOf(product.getSku()));
                         put("nome", String.valueOf(product.getNome()));
                         put("descricao_completa", String.valueOf(product.getDescricaoCompleta()));
@@ -310,7 +310,7 @@ public class IntegracaoLojaIntegrada {
                                 + "produto"
                                 + Controle.SEPARADOR
                                 + product.getId() 
-                                + Controle.SEPARADOR 
+                                + Controle.SEPARADOR
                                 + "?"
                                 + Controle.FORMATO_SAIDA
                                 + "&"
@@ -330,7 +330,6 @@ public class IntegracaoLojaIntegrada {
                 product = (Product) requisicao;
                 values = new HashMap<String, Object>() {
                     {
-                        put("cheio", String.valueOf(product.getValorCusto()));
                         put("custo", String.valueOf(product.getValorCusto()));
                         put("promocional", String.valueOf(product.getValorPromocional()));
                     }

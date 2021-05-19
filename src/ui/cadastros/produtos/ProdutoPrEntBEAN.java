@@ -20,7 +20,6 @@ public class ProdutoPrEntBEAN {
     private float altura;
     private float espessura;
     private float peso;
-    private byte vendas;
     private byte preVenda;
     private byte promocao;
     private double vlrPromocao;
@@ -37,6 +36,7 @@ public class ProdutoPrEntBEAN {
     private byte pdMax;
     private int pdQtdMax;
     private boolean ativo;
+    private boolean utilizadoEcommerce;
 
     public ProdutoPrEntBEAN() {
     }
@@ -53,16 +53,15 @@ public class ProdutoPrEntBEAN {
     }
 
     public ProdutoPrEntBEAN(int codigo, String descricao, float largura, float altura, float espessura,
-            float peso, byte vendas, byte preVenda, byte promocao, double vlrPromocao, Date inicioPromocao,
+            float peso, byte preVenda, byte promocao, double vlrPromocao, Date inicioPromocao,
             Date fimPromocao, int qtdPaginas, int estoque, byte avisoEstoque, int avisoEstoqueUn, String tipo,
-            double vlrUnit, Timestamp ultMov, int pdQtdMin, byte pdMax, int pdQtdMax, boolean ativo) {
+            double vlrUnit, Timestamp ultMov, int pdQtdMin, byte pdMax, int pdQtdMax, boolean ativo, boolean utilizadoEcommerce) {
         this.codigo = codigo;
         this.descricao = descricao;
         this.largura = largura;
         this.altura = altura;
         this.espessura = espessura;
         this.peso = peso;
-        this.vendas = vendas;
         this.preVenda = preVenda;
         this.promocao = promocao;
         this.vlrPromocao = vlrPromocao;
@@ -79,6 +78,7 @@ public class ProdutoPrEntBEAN {
         this.pdMax = pdMax;
         this.pdQtdMax = pdQtdMax;
         this.ativo = ativo;
+        this.utilizadoEcommerce = utilizadoEcommerce;
     }
 
     public ProdutoPrEntBEAN(int codigo, String descricao) {
@@ -120,6 +120,14 @@ public class ProdutoPrEntBEAN {
         this.largura = largura;
         this.espessura = espessura;
         this.peso = peso;
+    }
+
+    public boolean isUtilizadoEcommerce() {
+        return utilizadoEcommerce;
+    }
+
+    public void setUtilizadoEcommerce(boolean utilizadoEcommerce) {
+        this.utilizadoEcommerce = utilizadoEcommerce;
     }
 
     public boolean isAtivo() {
@@ -176,14 +184,6 @@ public class ProdutoPrEntBEAN {
 
     public void setPeso(float peso) {
         this.peso = peso;
-    }
-
-    public byte getVendas() {
-        return vendas;
-    }
-
-    public void setVendas(byte vendas) {
-        this.vendas = vendas;
     }
 
     public byte getPreVenda() {

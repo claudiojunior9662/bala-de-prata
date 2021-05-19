@@ -1179,7 +1179,7 @@ public final class ProdutoFrame extends javax.swing.JInternalFrame {
                             jckbProdPreVenda.setSelected((produtoPE.getPreVenda() == 1));
                             jftfVlrUnitProduto.setValue(produtoPE.getVlrUnit());
                             jrdParaProntaEntrega.setSelected(true);
-                            jckbUtilizadoEcommerce.setSelected(produtoPE.getVendas() == 1);
+                            jckbUtilizadoEcommerce.setSelected(produtoPE.isUtilizadoEcommerce());
 
                             if (produtoPE.getPromocao() == 1) {
                                 jckbPromProduto.setSelected(produtoPE.getPromocao() == 1);
@@ -1840,6 +1840,7 @@ public final class ProdutoFrame extends javax.swing.JInternalFrame {
                     jcbTipoProduto.setSelectedItem(produtoPE.getTipo());
                     jckbProdPreVenda.setSelected((produtoPE.getPreVenda() == 1));
                     jftfVlrUnitProduto.setValue(produtoPE.getVlrUnit());
+                    jckbUtilizadoEcommerce.setSelected(produtoPE.isUtilizadoEcommerce());
                     if (produtoPE.getPromocao() == 1) {
                         jckbPromProduto.setSelected(produtoPE.getPromocao() == 1);
                         jftfVlrPromProduto.setValue(produtoPE.getVlrPromocao());
@@ -2023,7 +2024,6 @@ public final class ProdutoFrame extends javax.swing.JInternalFrame {
                                     Float.valueOf(jftfAlturaProduto.getText().replace(",", ".")),
                                     Float.valueOf(jftfEspessuraProduto.getText().replace(",", ".")),
                                     Float.valueOf(jftfPesoProduto.getText().replace(",", ".")),
-                                    jckbUtilizadoEcommerce.isSelected() ? (byte) 1 : (byte) 0,
                                     jckbProdPreVenda.isSelected() ? (byte) 1 : (byte) 0,
                                     jckbPromProduto.isSelected() ? (byte) 1 : (byte) 0,
                                     jftfVlrPromProduto.getText().equals("") ? 0.00 : Double.valueOf(jftfVlrPromProduto.getText().replace(",", ".")),
@@ -2039,7 +2039,8 @@ public final class ProdutoFrame extends javax.swing.JInternalFrame {
                                     Integer.valueOf(jftfQtdMinProduto.getText()),
                                     jckbQtdMaxProduto.isSelected() ? (byte) 1 : (byte) 0,
                                     jftfQtdMaxProduto.getText().equals("") ? 0 : Integer.valueOf(jftfQtdMaxProduto.getText()),
-                                    jckbAtivo.isSelected()
+                                    jckbAtivo.isSelected(),
+                                    jckbUtilizadoEcommerce.isSelected()
                             ));
 
                             if (jckbUtilizadoEcommerce.isSelected()) {
@@ -2094,7 +2095,6 @@ public final class ProdutoFrame extends javax.swing.JInternalFrame {
                                     Float.valueOf(jftfAlturaProduto.getText().replace(",", ".")),
                                     Float.valueOf(jftfEspessuraProduto.getText().replace(",", ".")),
                                     Float.valueOf(jftfPesoProduto.getText().replace(",", ".")),
-                                    jckbUtilizadoEcommerce.isSelected() ? (byte) 1 : (byte) 0,
                                     jckbProdPreVenda.isSelected() ? (byte) 1 : (byte) 0,
                                     jckbPromProduto.isSelected() ? (byte) 1 : (byte) 0,
                                     jckbPromProduto.isSelected() ? Double.valueOf(jftfVlrPromProduto.getText().replace(",", ".")) : (Double) 0.00,
@@ -2110,7 +2110,8 @@ public final class ProdutoFrame extends javax.swing.JInternalFrame {
                                     Integer.valueOf(jftfQtdMinProduto.getText()),
                                     jckbQtdMaxProduto.isSelected() ? (byte) 1 : (byte) 0,
                                     jckbQtdMaxProduto.isSelected() ? Integer.valueOf(jftfQtdMaxProduto.getText()) : (int) 0,
-                                    jckbAtivo.isSelected()
+                                    jckbAtivo.isSelected(),
+                                    jckbUtilizadoEcommerce.isSelected()
                             ));
 
                             if (jckbUtilizadoEcommerce.isSelected()) {
