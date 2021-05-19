@@ -2798,7 +2798,7 @@ public class RelatoriosOrdemProducao extends javax.swing.JInternalFrame {
                             + data
                             + " "
                             + hora
-                            + " - SISTEMA BALA DE PRATA\n\n", FontFactory.getFont("arial.ttf", 9))));
+                            + " - SISGRAFEX\n\n", FontFactory.getFont("arial.ttf", 9))));
 
                     PdfPTable tabelaPrincipal = retornaTabelaComConteudo();
                     document.add(tabelaPrincipal);

@@ -1379,7 +1379,7 @@ public class RelatorioFat extends javax.swing.JInternalFrame {
                             + data
                             + " "
                             + hora
-                            + " - SISTEMA BALA DE PRATA\n\n", FontFactory.getFont("arial.ttf", 9))));
+                            + " - SISGRAFEX\n\n", FontFactory.getFont("arial.ttf", 9))));
 
                     Paragraph p = new Paragraph("RELATÓRIO DE FATURAMENTOS", FontFactory.getFont("arial.ttf", 12, Font.BOLD));
                     p.setAlignment(1);
