@@ -2024,7 +2024,7 @@ public final class ProdutoFrame extends javax.swing.JInternalFrame {
                                     jckbUtilizadoEcommerce.isSelected() ? (byte) 1 : (byte) 0,
                                     jckbProdPreVenda.isSelected() ? (byte) 1 : (byte) 0,
                                     jckbPromProduto.isSelected() ? (byte) 1 : (byte) 0,
-                                    Double.valueOf(jftfVlrPromProduto.getText().replace(",", ".")),
+                                    jftfVlrPromProduto.getText().equals("") ? 0.00 : Double.valueOf(jftfVlrPromProduto.getText().replace(",", ".")),
                                     jdcInicioPromProduto.getDate(),
                                     jdcFimPromProduto.getDate(),
                                     jsfQtdFolhasProduto.getValue(),
@@ -2036,7 +2036,7 @@ public final class ProdutoFrame extends javax.swing.JInternalFrame {
                                     new java.sql.Timestamp(new Date().getTime()),
                                     Integer.valueOf(jftfQtdMinProduto.getText()),
                                     jckbQtdMaxProduto.isSelected() ? (byte) 1 : (byte) 0,
-                                    Integer.valueOf(jftfQtdMaxProduto.getText()),
+                                    jftfQtdMaxProduto.getText().equals("") ? 0 : Integer.valueOf(jftfQtdMaxProduto.getText()),
                                     jckbAtivo.isSelected()
                             ));
 
@@ -2128,7 +2128,7 @@ public final class ProdutoFrame extends javax.swing.JInternalFrame {
                                     realizaRequisicaoPUT((byte) 1, new Product(
                                             String.valueOf(COD_PROD),
                                             Float.valueOf(jftfVlrUnitProduto.getValue().toString()),
-                                            Float.valueOf(jftfVlrPromProduto.getText().replace(",", "."))
+                                            jftfVlrPromProduto.getText().equals("") ? 0 : Float.valueOf(jftfVlrPromProduto.getText().replace(",", "."))
                                     ));
 
                                 } catch (IOException | InterruptedException ex) {
