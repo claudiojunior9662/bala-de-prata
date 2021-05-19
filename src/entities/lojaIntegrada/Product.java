@@ -11,7 +11,7 @@ package entities.lojaIntegrada;
  */
 public class Product {
 
-    private int idExterno;
+    private String idExterno;
     private String sku;
     private String mpn;
     private String ncm;
@@ -27,9 +27,11 @@ public class Product {
     private boolean usado;
     private Grid grid;
     private Category category;
+    private float valorCusto;
+    private float valorPromocional;
 
     //Contructors---------------------------------------------------------------
-    public Product(int idExterno, String sku, String nome, String descricaoCompleta, boolean ativo, float peso, float altura, float largura, float profundidade, String tipo) {
+    public Product(String idExterno, String sku, String nome, String descricaoCompleta, boolean ativo, float peso, float altura, float largura, float profundidade, String tipo) {
         this.idExterno = idExterno;
         this.sku = sku;
         this.nome = nome;
@@ -42,12 +44,34 @@ public class Product {
         this.tipo = tipo;
     }
 
+    public Product(String sku, float valorCusto, float valorPromocional) {
+        this.sku = sku;
+        this.valorCusto = valorCusto;
+        this.valorPromocional = valorPromocional;
+    }
+
     //Getters and setters-------------------------------------------------------
-    public int getIdExterno() {
+    public float getValorCusto() {
+        return valorCusto;
+    }
+
+    public void setValorCusto(float valorCusto) {
+        this.valorCusto = valorCusto;
+    }
+
+    public float getValorPromocional() {
+        return valorPromocional;
+    }
+
+    public void setValorPromocional(float valorPromocional) {
+        this.valorPromocional = valorPromocional;
+    }
+
+    public String getIdExterno() {
         return idExterno;
     }
 
-    public void setIdExterno(int idExterno) {
+    public void setIdExterno(String idExterno) {
         this.idExterno = idExterno;
     }
 

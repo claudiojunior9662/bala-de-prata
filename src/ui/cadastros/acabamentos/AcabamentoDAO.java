@@ -6,7 +6,6 @@
 package ui.cadastros.acabamentos;
 
 import connection.ConnectionFactory;
-import exception.SemAcabamentoException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
