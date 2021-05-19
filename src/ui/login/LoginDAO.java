@@ -24,8 +24,8 @@ import ui.controle.Controle;
 public class LoginDAO extends RuntimeException {
 
     /**
-     * Verifica o login do usuário
-     * @param login
+     * Verifica o login do usuário e entra no sistema
+     * @param login 
      * @param senha
      * @return
      * @throws SQLException 

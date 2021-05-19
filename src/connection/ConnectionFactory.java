@@ -67,7 +67,7 @@ public class ConnectionFactory {
     public static InputStream commandOutput;
 
     public static void main(String[] args) {
-        retornaInformacoesCEP("71010018");
+        
     }
 
     private static void defineVar() {
@@ -80,7 +80,7 @@ public class ConnectionFactory {
                 break;
             case 2:
                 DRIVER_SQL = "com.mysql.cj.jdbc.Driver";
-                URL = "jdbc:mysql://10.67.32.252:3306/bala_dev_TESTE";
+                URL = "jdbc:mysql://10.67.32.252:3306/bala_dev2";
                 USER = "remoto";
                 PASS = "ALLAH@366";
                 break;
@@ -92,7 +92,7 @@ public class ConnectionFactory {
                 break;
             case 4:
                 DRIVER_SQL = "com.mysql.cj.jdbc.Driver";
-                URL = "jdbc:mysql://10.67.32.252:3306/bala_dev_TESTE";
+                URL = "jdbc:mysql://10.67.32.252:3306/bala_dev2";
                 USER = "remoto";
                 PASS = "ALLAH@366";
                 break;
