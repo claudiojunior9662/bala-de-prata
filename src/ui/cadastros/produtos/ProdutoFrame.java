@@ -1938,6 +1938,7 @@ public final class ProdutoFrame extends javax.swing.JInternalFrame {
 
                                     realizaRequisicaoPUT((byte) 2, new Product(
                                             String.valueOf(COD_PROD),
+                                            "PP" + String.valueOf(COD_PROD),
                                             produto.getValorCusto(),
                                             produto.getValorPromocional()
                                     ));
@@ -1973,6 +1974,7 @@ public final class ProdutoFrame extends javax.swing.JInternalFrame {
 
                                     realizaRequisicaoPUT((byte) 2, new Product(
                                             String.valueOf(COD_PROD),
+                                            "PP" + String.valueOf(COD_PROD),
                                             produto.getValorCusto(),
                                             produto.getValorPromocional()
                                     ));
@@ -2061,9 +2063,17 @@ public final class ProdutoFrame extends javax.swing.JInternalFrame {
 
                                     realizaRequisicaoPUT((byte) 2, new Product(
                                             String.valueOf(COD_PROD),
+                                            "PE" + String.valueOf(COD_PROD),
                                             Float.valueOf(jftfVlrUnitProduto.getValue().toString()),
                                             jftfVlrPromProduto.getText().equals("") ? 0 : Float.valueOf(jftfVlrPromProduto.getText().replace(",", "."))
                                     ));
+
+                                    realizaRequisicaoPUT((byte) 3, new Product(
+                                            String.valueOf(COD_PROD),
+                                            "PE" + String.valueOf(COD_PROD),
+                                            Integer.valueOf(jftfEstoqueFisicoProduto.getValue().toString())
+                                    ));
+
                                     loading.setText("SALVANDO...");
                                 } catch (IOException | InterruptedException ex) {
                                     JOptionPane.showMessageDialog(null, "ERRO AO INTEGRAR O CADASTRO!\nO PRODUTO NÃO FOI SINCRONIZADO COM O ECOMMERCE!", "ERRO AO SALVAR", JOptionPane.ERROR_MESSAGE);
@@ -2132,8 +2142,15 @@ public final class ProdutoFrame extends javax.swing.JInternalFrame {
 
                                     realizaRequisicaoPUT((byte) 2, new Product(
                                             String.valueOf(COD_PROD),
+                                            "PE" + String.valueOf(COD_PROD),
                                             Float.valueOf(jftfVlrUnitProduto.getValue().toString()),
                                             jftfVlrPromProduto.getText().equals("") ? 0 : Float.valueOf(jftfVlrPromProduto.getText().replace(",", "."))
+                                    ));
+
+                                    realizaRequisicaoPUT((byte) 3, new Product(
+                                            String.valueOf(COD_PROD),
+                                            "PE" + String.valueOf(COD_PROD),
+                                            Integer.valueOf(jftfEstoqueFisicoProduto.getValue().toString())
                                     ));
                                     loading.setText("SALVANDO...");
                                 } catch (IOException | InterruptedException ex) {

@@ -30,6 +30,7 @@ public class Product {
     private Category category;
     private float valorCusto;
     private float valorPromocional;
+    private int estoque;
 
     //Contructors---------------------------------------------------------------
     public Product(String id, String sku, String nome, String descricaoCompleta, boolean ativo, float peso, float altura, float largura, float profundidade, String tipo) {
@@ -45,13 +46,29 @@ public class Product {
         this.tipo = tipo;
     }
 
-    public Product(String id, float valorCusto, float valorPromocional) {
+    public Product(String id, String sku, float valorCusto, float valorPromocional) {
         this.id = id;
+        this.sku = sku;
         this.valorCusto = valorCusto;
         this.valorPromocional = valorPromocional;
     }
+    
+    public Product(String id, String sku, int estoque) {
+        this.id = id;
+        this.sku = sku;
+        this.estoque = estoque;
+    }
 
     //Getters and setters-------------------------------------------------------
+    public int getEstoque() {
+        return estoque;
+    }
+
+    public void setEstoque(int estoque) {
+        this.estoque = estoque;
+    }
+    
+    
     public String getId() {
         return id;
     }
