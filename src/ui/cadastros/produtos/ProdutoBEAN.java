@@ -16,13 +16,14 @@ public class ProdutoBEAN {
     private int codigoOrcamento;
     private int codigoProduto;
     private String descricao;
-    private boolean disponivelVendas;
     //DIMENSÕES
     private float largura;
     private float altura;
     private float espessura;
     private float peso;
     //CARACTERÍSTICAS
+    private boolean usoEcommerce;
+    private boolean precoPromocional;
     private int qtdPaginas;
     private int quantidadeProduto;
     private String tipoProduto;
@@ -49,8 +50,11 @@ public class ProdutoBEAN {
             float peso,
             int qtdPaginas,
             String tipoProduto,
-            boolean disponivelVendas,
-            boolean ativo) {
+            boolean ativo,
+            float valorCusto,
+            float valorPromocional,
+            boolean usoEcommerce,
+            boolean precoPromocional) {
         this.codigo = codigo;
         this.descricao = descricao;
         this.largura = largura;
@@ -59,8 +63,27 @@ public class ProdutoBEAN {
         this.peso = peso;
         this.qtdPaginas = qtdPaginas;
         this.tipoProduto = tipoProduto;
-        this.disponivelVendas = disponivelVendas;
         this.ativo = ativo;
+        this.valorCusto = valorCusto;
+        this.valorPromocional = valorPromocional;
+        this.usoEcommerce = usoEcommerce;
+        this.precoPromocional = precoPromocional;
+    }
+
+    public boolean isUsoEcommerce() {
+        return usoEcommerce;
+    }
+
+    public void setUsoEcommerce(boolean usoEcommerce) {
+        this.usoEcommerce = usoEcommerce;
+    }
+
+    public boolean isPrecoPromocional() {
+        return precoPromocional;
+    }
+
+    public void setPrecoPromocional(boolean precoPromocional) {
+        this.precoPromocional = precoPromocional;
     }
 
     public float getValorCusto() {
@@ -101,14 +124,6 @@ public class ProdutoBEAN {
 
     public void setPeso(float peso) {
         this.peso = peso;
-    }
-
-    public boolean isUtilizadoEcommerce() {
-        return disponivelVendas;
-    }
-
-    public void setDisponivelVendas(boolean disponivelVendas) {
-        this.disponivelVendas = disponivelVendas;
     }
 
     public int getQuantidade() {

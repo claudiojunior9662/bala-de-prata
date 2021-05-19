@@ -122,7 +122,8 @@ public class IntegracaoLojaIntegrada {
      * @param tipo 1 - Cadastro categoria, 2 - Cadastro marca, 3 - Cadastro
      * grade, 4 - Cadastro variação, 5 - Cadastro produto pai, 6 - Cadastro
      * produto filho, 7 - Cadastro imagem produto, 8 - Cadastro cliente, 9 -
-     * Alterar Preço do produto
+     * Alterar Preço do produto, 10 - Alterar produto
+     * @param requisicao
      * @throws IOException
      * @throws InterruptedException
      */
@@ -190,6 +191,7 @@ public class IntegracaoLojaIntegrada {
                 product = (Product) requisicao;
                 values = new HashMap<String, Object>() {
                     {
+                        put("id", String.valueOf(product.getId()));
                         put("sku", String.valueOf(product.getSku()));
                         put("mpn", String.valueOf(product.getMpn()));
                         put("ncm", String.valueOf(product.getNcm()));
@@ -239,13 +241,92 @@ public class IntegracaoLojaIntegrada {
                 System.out.println(request);
                 break;
             case 6:
-
                 break;
             case 7:
                 break;
             case 8:
                 break;
-            case 9:
+            default:
+                break;
+        }
+
+    }
+
+    /**
+     * @param tipo 1 - Alterar produto, 2 - Alterar preço produto
+     * @param requisicao
+     * @throws IOException
+     * @throws InterruptedException 
+     */
+    public static void realizaRequisicaoPUT(byte tipo, Object requisicao) throws IOException, InterruptedException {
+        HashMap values = null;
+        ObjectMapper objectMapper = null;
+        String requestBody = null;
+        HttpClient client = null;
+        HttpRequest request = null;
+        HttpResponse<String> response = null;
+        Product product;
+
+        switch (tipo) {
+            case 1:
+                product = (Product) requisicao;
+                values = new HashMap<String, Object>() {
+                    {
+                        put("id", String.valueOf(product.getId()));
+                        put("sku", String.valueOf(product.getSku()));
+                        put("nome", String.valueOf(product.getNome()));
+                        put("descricao_completa", String.valueOf(product.getDescricaoCompleta()));
+                        put("ativo", product.isAtivo());
+                        put("destaque", product.isDestaque());
+                        put("peso", product.getPeso());
+                        put("altura", (int) product.getAltura());
+                        put("largura", (int) product.getLargura());
+                        put("profundidade", (int) product.getProfundidade());
+                        put("tipo", product.getTipo());
+                        put("data_criacao", "2014-01-06T23:13:59");
+                        put("data_modificacao", "2014-01-06T23:13:59");
+                    }
+                };
+
+                objectMapper = new ObjectMapper();
+                requestBody = objectMapper.writeValueAsString(values);
+
+                if (Controle.USO_PROXY) {
+                    client = HttpClient.newBuilder()
+                            .proxy(ProxySelector.of(new InetSocketAddress(Controle.HOST_PROXY, Controle.PORT_PROXY)))
+                            .build();
+                } else {
+                    client = HttpClient.newBuilder()
+                            .build();
+                }
+
+                System.out.println("CÓDIGO DO PRODUTO: " + product.getId());
+                
+                request = HttpRequest.newBuilder()
+                        .uri(URI.create(Controle.LINK_API
+                                + Controle.SEPARADOR
+                                + Controle.VERSAO_API
+                                + Controle.SEPARADOR
+                                + "produto"
+                                + Controle.SEPARADOR
+                                + product.getId() 
+                                + Controle.SEPARADOR 
+                                + "?"
+                                + Controle.FORMATO_SAIDA
+                                + "&"
+                                + "chave_api="
+                                + Controle.CHAVE_API
+                                + "&"
+                                + "chave_aplicacao="
+                                + Controle.CHAVE_APLICACAO))
+                        .PUT(HttpRequest.BodyPublishers.ofString(requestBody))
+                        .build();
+                response = client.send(request,
+                        HttpResponse.BodyHandlers.ofString());
+                System.out.println(response.body());
+                System.out.println(request);
+                break;
+            case 2:
                 product = (Product) requisicao;
                 values = new HashMap<String, Object>() {
                     {
@@ -291,10 +372,6 @@ public class IntegracaoLojaIntegrada {
                 System.out.println(response.body());
                 System.out.println(request);
                 break;
-            default:
-                break;
         }
-
     }
-
 }

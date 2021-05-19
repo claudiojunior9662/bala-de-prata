@@ -11,6 +11,7 @@ package entities.lojaIntegrada;
  */
 public class Product {
 
+    private String id;
     private String idExterno;
     private String sku;
     private String mpn;
@@ -31,8 +32,8 @@ public class Product {
     private float valorPromocional;
 
     //Contructors---------------------------------------------------------------
-    public Product(String idExterno, String sku, String nome, String descricaoCompleta, boolean ativo, float peso, float altura, float largura, float profundidade, String tipo) {
-        this.idExterno = idExterno;
+    public Product(String id, String sku, String nome, String descricaoCompleta, boolean ativo, float peso, float altura, float largura, float profundidade, String tipo) {
+        this.id = id;
         this.sku = sku;
         this.nome = nome;
         this.descricaoCompleta = descricaoCompleta;
@@ -51,6 +52,14 @@ public class Product {
     }
 
     //Getters and setters-------------------------------------------------------
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
     public float getValorCusto() {
         return valorCusto;
     }
