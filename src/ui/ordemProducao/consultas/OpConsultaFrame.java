@@ -348,6 +348,7 @@ public class OpConsultaFrame extends javax.swing.JInternalFrame {
             p2.addItem("ENCAMINHADO PARA ACABAMENTO");
             p2.addItem("EM FINALIZAÇÃO");
             p2.addItem("ENCAMINHADO PARA EXPEDIÇÃO");
+            p2.addItem("ENTREGUE PARCIALMENTE");
             p2.addItem("CANCELADA");
             p2.addItem("ENTREGUE");
             p2.setEnabled(true);

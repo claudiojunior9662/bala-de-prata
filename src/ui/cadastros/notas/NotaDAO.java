@@ -17,6 +17,8 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import ui.cadastros.clientes.ClienteDAO;
 import static ui.cadastros.notas.NotaDAO.verificaQuantidadeEntregue;
 
@@ -1022,6 +1024,34 @@ public class NotaDAO {
         } catch (SQLException ex) {
             throw new SQLException(ex);
         } finally {
+            ConnectionFactory.closeConnection(con, stmt, rs);
+        }
+    }
+    
+    /**
+     * Retorna o valor dos faturamentos de entregas parciais
+     * @param codOp código da ordem de produção
+     * @return 
+     */
+    public static float retornaVlrOpEntregueParcial(int codOp) throws SQLException{
+        Connection con = ConnectionFactory.getConnection();
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+        float retorno = 0f;
+        
+        try{
+            stmt = con.prepareStatement("SELECT faturamentos.VLR_FAT "
+                    + "FROM faturamentos "
+                    + "WHERE CODIGO_OP = ?");
+            stmt.setInt(1, codOp);
+            rs = stmt.executeQuery();
+            while(rs.next()){
+                retorno += rs.getFloat("faturamentos.VLR_FAT");
+            }
+            return retorno;
+        } catch (SQLException ex) {
+            throw new SQLException(ex);
+        }finally{
             ConnectionFactory.closeConnection(con, stmt, rs);
         }
     }
