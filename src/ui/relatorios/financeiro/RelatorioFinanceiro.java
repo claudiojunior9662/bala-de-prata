@@ -226,8 +226,12 @@ public class RelatorioFinanceiro extends javax.swing.JInternalFrame {
     private com.toedter.calendar.JYearChooser selAno;
     private com.toedter.calendar.JMonthChooser selMes;
     // End of variables declaration//GEN-END:variables
+
+    /**
+     * Gera o relatório financeiro
+     */
     public void geraRelatorio() {
-        new Thread() {
+        new Thread("Gera o relatório financeiro") {
             @Override
             public void run() {
 
@@ -391,6 +395,9 @@ public class RelatorioFinanceiro extends javax.swing.JInternalFrame {
 
     }
 
+    /**
+     * Retorna os crédito e débitos dos clientes
+     */
     private void retornaCreditosDebitos() {
         Connection con = ConnectionFactory.getConnection();
         PreparedStatement stmt = null;
@@ -404,6 +411,9 @@ public class RelatorioFinanceiro extends javax.swing.JInternalFrame {
         DecimalFormat df = new DecimalFormat("###,##0.00");
 
         try {
+            /**
+             * Retorna a lista de clientes
+             */
             switch (tipoPessoa) {
                 case 1:
                     stmt = con.prepareStatement("SELECT cod, nome "
@@ -415,6 +425,7 @@ public class RelatorioFinanceiro extends javax.swing.JInternalFrame {
                     break;
             }
             rs = stmt.executeQuery();
+
             while (rs.next()) {
                 credito = 0d;
                 debito = 0d;
@@ -425,6 +436,7 @@ public class RelatorioFinanceiro extends javax.swing.JInternalFrame {
                             + "DATE_FORMAT(STR_TO_DATE('01/01/" + selAno.getValue() + "', '%d/%m/%Y'), '%Y-%m-%d') AND "
                             + "DATE_FORMAT(STR_TO_DATE('31/12/" + selAno.getValue() + "', '%d/%m/%Y'), '%Y-%m-%d') AND "
                             + "cod_cliente = ? AND tipo_pessoa = " + tipoPessoa);
+                    stmt.setInt(1, rs.getInt("cod"));
                 } else {
                     stmt = con.prepareStatement("SELECT valor "
                             + "FROM tabela_notas "
@@ -432,12 +444,11 @@ public class RelatorioFinanceiro extends javax.swing.JInternalFrame {
                             + "DATE_FORMAT(STR_TO_DATE('01/" + (selMes.getMonth() + 1) + "/" + selAno.getValue() + "', '%d/%m/%Y'), '%Y-%m-%d') AND "
                             + "DATE_FORMAT(STR_TO_DATE('31/" + (selMes.getMonth() + 1) + "/" + selAno.getValue() + "', '%d/%m/%Y'), '%Y-%m-%d') AND "
                             + "cod_cliente = ? AND tipo_pessoa = " + tipoPessoa);
+                    stmt.setInt(1, rs.getInt("cod"));
                 }
-                stmt.setInt(1, rs.getInt("cod"));
                 rs2 = stmt.executeQuery();
                 while (rs2.next()) {
                     credito += rs2.getFloat("valor");
-
                 }
 
                 if (jckbAnoInteiro.isSelected()) {
@@ -446,15 +457,16 @@ public class RelatorioFinanceiro extends javax.swing.JInternalFrame {
                             + "INNER JOIN tabela_ordens_producao ON tabela_ordens_producao.cod = faturamentos.CODIGO_OP "
                             + "WHERE faturamentos.DT_FAT BETWEEN '" + selAno.getValue() + "-01-01' AND '" + selAno.getValue() + "-12-31' AND "
                             + "tabela_ordens_producao.cod_cliente = ? AND tabela_ordens_producao.tipo_cliente = " + tipoPessoa);
+                    stmt.setInt(1, rs.getInt("cod"));
                 } else {
                     stmt = con.prepareStatement("SELECT faturamentos.VLR_FAT "
                             + "FROM faturamentos "
                             + "INNER JOIN tabela_ordens_producao ON tabela_ordens_producao.cod = faturamentos.CODIGO_OP "
                             + "WHERE faturamentos.DT_FAT BETWEEN '" + selAno.getValue() + "-" + (selMes.getMonth() + 1) + "-01' AND '" + selAno.getValue() + "-" + (selMes.getMonth() + 1) + "-31' AND "
                             + "tabela_ordens_producao.cod_cliente = ? AND tabela_ordens_producao.tipo_cliente = " + tipoPessoa);
+                    stmt.setInt(1, rs.getInt("cod"));
                 }
 
-                stmt.setInt(1, rs.getInt("cod"));
                 rs2 = stmt.executeQuery();
                 while (rs2.next()) {
                     debito += rs2.getFloat("faturamentos.VLR_FAT");
@@ -473,10 +485,14 @@ public class RelatorioFinanceiro extends javax.swing.JInternalFrame {
                 consulta.add(cliente);
             }
         } catch (SQLException ex) {
-            Logger.getLogger(NewMain.class.getName()).log(Level.SEVERE, null, ex);
+            EnvioExcecao envioExcecao = new EnvioExcecao(Controle.getDefaultGj(), ex);
+            EnvioExcecao.envio();
         }
     }
 
+    /**
+     * Retorna os valores em aberto das OP
+     */
     private void retornaEmAberto() {
         Connection con = ConnectionFactory.getConnection();
         PreparedStatement stmt = null;
@@ -551,6 +567,11 @@ public class RelatorioFinanceiro extends javax.swing.JInternalFrame {
         }
     }
 
+    /**
+     * Calcula o saldo acumulado do cliente, NC - FAT
+     *
+     * @throws SQLException
+     */
     private void calculaSaldoAcumulado() throws SQLException {
         for (ClienteRelFin c : consulta) {
             Connection con = ConnectionFactory.getConnection();
@@ -558,6 +579,10 @@ public class RelatorioFinanceiro extends javax.swing.JInternalFrame {
             ResultSet rs = null;
             ResultSet rs2 = null;
 
+            double saldoCreditoAtual = 0d;
+            double saldoFaturamentosAtual = 0d;
+            double saldoCreditoAnterior = 0d;
+            double saldoFaturamentosAnterior = 0d;
             double saldoAcumuladoAtual;
             double saldoAcumuladoAnterior;
 
@@ -565,60 +590,103 @@ public class RelatorioFinanceiro extends javax.swing.JInternalFrame {
 
             try {
                 saldoAcumuladoAtual = 0d;
-                stmt = con.prepareStatement("SELECT valor "
-                        + "FROM tabela_notas "
-                        + "WHERE DATE_FORMAT(STR_TO_DATE(`data`, '%d/%m/%Y'), '%Y-%m-%d') BETWEEN "
-                        + "DATE_FORMAT(STR_TO_DATE('01/01/2019', '%d/%m/%Y'), '%Y-%m-%d') AND "
-                        + "DATE_FORMAT(STR_TO_DATE('31/" + (selMes.getMonth() + 1) + "/" + selAno.getValue() + "', '%d/%m/%Y'), '%Y-%m-%d') AND "
-                        + "cod_cliente = ? AND tipo_pessoa = " + tipoPessoa);
-                stmt.setInt(1, c.getCodigo());
+
+                /**
+                 * Retorna os créditos dos clientes no ano selecionado
+                 */
+                if (jckbAnoInteiro.isSelected()) {
+                    stmt = con.prepareStatement("SELECT valor "
+                            + "FROM tabela_notas "
+                            + "WHERE DATE_FORMAT(STR_TO_DATE(`data`, '%d/%m/%Y'), '%Y-%m-%d') BETWEEN "
+                            + "DATE_FORMAT(STR_TO_DATE('01/01/" + selAno.getValue() + "', '%d/%m/%Y'), '%Y-%m-%d') AND "
+                            + "DATE_FORMAT(STR_TO_DATE('31/12/" + selAno.getValue() + "', '%d/%m/%Y'), '%Y-%m-%d') AND "
+                            + "cod_cliente = ? AND tipo_pessoa = " + tipoPessoa);
+                    stmt.setInt(1, c.getCodigo());
+                } else {
+                    stmt = con.prepareStatement("SELECT valor "
+                            + "FROM tabela_notas "
+                            + "WHERE DATE_FORMAT(STR_TO_DATE(`data`, '%d/%m/%Y'), '%Y-%m-%d') BETWEEN "
+                            + "DATE_FORMAT(STR_TO_DATE('01/01/2019', '%d/%m/%Y'), '%Y-%m-%d') AND "
+                            + "DATE_FORMAT(STR_TO_DATE('31/" + (selMes.getMonth() + 1) + "/" + selAno.getValue() + "', '%d/%m/%Y'), '%Y-%m-%d') AND "
+                            + "cod_cliente = ? AND tipo_pessoa = " + tipoPessoa);
+                    stmt.setInt(1, c.getCodigo());
+                }
+                
                 rs2 = stmt.executeQuery();
                 while (rs2.next()) {
-                    saldoAcumuladoAtual += rs2.getFloat("valor");
-
+                    saldoCreditoAtual += rs2.getFloat("valor");
                 }
 
-                stmt = con.prepareStatement("SELECT faturamentos.VLR_FAT "
-                        + "FROM faturamentos "
-                        + "INNER JOIN tabela_ordens_producao ON tabela_ordens_producao.cod = faturamentos.CODIGO_OP "
-                        + "WHERE faturamentos.DT_FAT BETWEEN '2019-01-01' AND '" + selAno.getValue() + "-" + (selMes.getMonth() + 1) + "-31' AND "
-                        + "tabela_ordens_producao.cod_cliente = ? AND tabela_ordens_producao.tipo_cliente = " + tipoPessoa);
-                stmt.setInt(1, c.getCodigo());
+                /**
+                 * Retorna os faturamentos dos clientes no ano selecionado
+                 */
+                if (jckbAnoInteiro.isSelected()) {
+                    stmt = con.prepareStatement("SELECT faturamentos.VLR_FAT "
+                            + "FROM faturamentos "
+                            + "INNER JOIN tabela_ordens_producao ON tabela_ordens_producao.cod = faturamentos.CODIGO_OP "
+                            + "WHERE faturamentos.DT_FAT BETWEEN '" + selAno.getValue() + "-01-01' AND '" + selAno.getValue() + "-12-31' AND "
+                            + "tabela_ordens_producao.cod_cliente = ? AND tabela_ordens_producao.tipo_cliente = " + tipoPessoa);
+                    stmt.setInt(1, c.getCodigo());
+                } else {
+                    stmt = con.prepareStatement("SELECT faturamentos.VLR_FAT "
+                            + "FROM faturamentos "
+                            + "INNER JOIN tabela_ordens_producao ON tabela_ordens_producao.cod = faturamentos.CODIGO_OP "
+                            + "WHERE faturamentos.DT_FAT BETWEEN '2019-01-01' AND '" + selAno.getValue() + "-" + (selMes.getMonth() + 1) + "-31' AND "
+                            + "tabela_ordens_producao.cod_cliente = ? AND tabela_ordens_producao.tipo_cliente = " + tipoPessoa);
+                    stmt.setInt(1, c.getCodigo());
+                }
+                
                 rs2 = stmt.executeQuery();
                 while (rs2.next()) {
-                    saldoAcumuladoAtual -= rs2.getFloat("faturamentos.VLR_FAT");
+                    saldoFaturamentosAtual += rs2.getFloat("faturamentos.VLR_FAT");
                 }
+
+                saldoAcumuladoAtual = saldoCreditoAtual - saldoFaturamentosAtual;
+
                 saldoAcumuladoAtual += c.getEmAberto();
                 c.setSaldoAcumuladoAtual(saldoAcumuladoAtual);
 
                 //SALDO ACUMULADO ANTERIOR--------------------------------------
                 saldoAcumuladoAnterior = 0d;
+                /**
+                 * Retorna os créditos dos clientes no ano anterior
+                 */
                 stmt = con.prepareStatement("SELECT valor "
                         + "FROM tabela_notas "
                         + "WHERE DATE_FORMAT(STR_TO_DATE(`data`, '%d/%m/%Y'), '%Y-%m-%d') BETWEEN "
-                        + "DATE_FORMAT(STR_TO_DATE('01/01/2019', '%d/%m/%Y'), '%Y-%m-%d') AND "
+                        + "DATE_FORMAT(STR_TO_DATE('01/01/" + (selAno.getValue() - 1) + "', '%d/%m/%Y'), '%Y-%m-%d') AND "
                         + "DATE_FORMAT(STR_TO_DATE('31/12/" + (selAno.getValue() - 1) + "', '%d/%m/%Y'), '%Y-%m-%d') AND "
                         + "cod_cliente = ? AND tipo_pessoa = " + tipoPessoa);
                 stmt.setInt(1, c.getCodigo());
+                System.out.println("CRÉDITO - > " + stmt);
                 rs2 = stmt.executeQuery();
                 while (rs2.next()) {
-                    saldoAcumuladoAnterior += rs2.getFloat("valor");
+                    saldoCreditoAnterior += rs2.getFloat("valor");
                 }
 
+                /**
+                 * Retorna os faturamentos dos clientes no ano anterior
+                 */
                 stmt = con.prepareStatement("SELECT faturamentos.VLR_FAT "
                         + "FROM faturamentos "
                         + "INNER JOIN tabela_ordens_producao ON tabela_ordens_producao.cod = faturamentos.CODIGO_OP "
-                        + "WHERE faturamentos.DT_FAT BETWEEN '2019-01-01' AND '" + (selAno.getValue() - 1) + "-12-31' AND "
+                        + "WHERE faturamentos.DT_FAT BETWEEN '" + (selAno.getValue() - 1) + "-01-01' AND '" + (selAno.getValue() - 1) + "-12-31' AND "
                         + "tabela_ordens_producao.cod_cliente = ? AND tabela_ordens_producao.tipo_cliente = " + tipoPessoa);
                 stmt.setInt(1, c.getCodigo());
+                System.out.println("DÉBITO -> " + stmt);
                 rs2 = stmt.executeQuery();
                 while (rs2.next()) {
-                    saldoAcumuladoAnterior -= rs2.getFloat("faturamentos.VLR_FAT");
+                    saldoFaturamentosAnterior += rs2.getFloat("faturamentos.VLR_FAT");
                 }
+
+                saldoAcumuladoAnterior = saldoCreditoAnterior - saldoFaturamentosAnterior;
+                System.out.println("SALDO CREDITO ANTERIOR - > " + saldoCreditoAnterior);
+                System.out.println("SALDO FATURAMENTOS ANTERIOR - > " + saldoFaturamentosAnterior);
+                System.out.println("SALDO ACUMULADO ANTERIOR -> " + saldoAcumuladoAnterior);
                 c.setSaldoAcumuladoAnterior(saldoAcumuladoAnterior);
             } catch (SQLException ex) {
                 throw new SQLException(ex);
-            } finally{
+            } finally {
                 ConnectionFactory.closeConnection(con, stmt, rs);
             }
         }

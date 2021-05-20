@@ -19,6 +19,13 @@ public class ClienteRelFin implements Comparable<ClienteRelFin>{
     private Double saldoAcumuladoAtual;
     private Double saldoAcumuladoAnterior;
 
+    @Override
+    public String toString() {
+        return "ClienteRelFin{" + "codigo=" + codigo + ", nome=" + nome + ", credito=" + credito + ", debito=" + debito + ", emAberto=" + emAberto + ", saldoAcumuladoAtual=" + saldoAcumuladoAtual + ", saldoAcumuladoAnterior=" + saldoAcumuladoAnterior + '}';
+    }
+    
+    
+
     public int getCodigo() {
         return codigo;
     }
