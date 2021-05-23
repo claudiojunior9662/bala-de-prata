@@ -568,10 +568,11 @@ public class EnviarOrdemProducaoFrame extends javax.swing.JInternalFrame {
         //INSTANCIA A LISTA DE OPS QUE SERÁ CRIADA------------------------------
         List listaOps = new ArrayList();
         //----------------------------------------------------------------------
+        
         try {
             for (int i = 0; i < tabelaProdutos.getRowCount(); i++) {
-
-                int codOp = OrdemProducaoDAO.retornaUltimoRegistro() + 1;
+                
+                int codOp = OrdemProducaoDAO.retornaCodOp((int) codigoOrcamentoBase.getValue(), i+1);
                 int codProd = Integer.valueOf(tabelaProdutos.getValueAt(i, 0).toString());
 
                 op.setCodigo(codOp);
