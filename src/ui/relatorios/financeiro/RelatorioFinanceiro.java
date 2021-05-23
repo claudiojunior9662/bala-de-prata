@@ -505,33 +505,68 @@ public class RelatorioFinanceiro extends javax.swing.JInternalFrame {
         List<Integer> codigosProcessados = new ArrayList();
 
         try {
-            stmt = con.prepareStatement("SELECT tabela_ordens_producao.cod_cliente, "
-                    + "tabela_ordens_producao.orcamento_base, "
-                    + "tabela_ordens_producao.cod_produto "
-                    + "FROM tabela_ordens_producao "
-                    + "INNER JOIN tabela_orcamentos ON tabela_orcamentos.cod = tabela_ordens_producao.orcamento_base "
-                    + "WHERE tabela_ordens_producao.status != 'ENTREGUE' "
-                    + "AND tabela_ordens_producao.status != 'CANCELADA' "
-                    + "AND tabela_ordens_producao.tipo_cliente = " + tipoPessoa + " "
-                    + "AND tabela_ordens_producao.data_emissao BETWEEN '2019-01-01' AND '" + selAno.getValue() + "-" + (selMes.getMonth() + 1) + "-31' "
-                    + "ORDER BY tabela_ordens_producao.cod_cliente ASC");
+            if (jckbAnoInteiro.isSelected()) {
+                stmt = con.prepareStatement("SELECT tabela_ordens_producao.cod_cliente, "
+                        + "tabela_ordens_producao.orcamento_base, "
+                        + "tabela_ordens_producao.cod_produto "
+                        + "FROM tabela_ordens_producao "
+                        + "INNER JOIN tabela_orcamentos ON tabela_orcamentos.cod = tabela_ordens_producao.orcamento_base "
+                        + "WHERE tabela_ordens_producao.status != 'ENTREGUE' "
+                        + "AND tabela_ordens_producao.status != 'CANCELADA' "
+                        + "AND tabela_ordens_producao.tipo_cliente = " + tipoPessoa + " "
+                        + "AND tabela_ordens_producao.data_emissao BETWEEN '2019-01-01' AND '" + selAno.getValue() + "-12-31' "
+                        + "ORDER BY tabela_ordens_producao.cod_cliente ASC");
+            } else {
+                int mes = selMes.getMonth() == 0 ? 12 : selMes.getMonth();
+                int ano = selMes.getMonth() == 0 ? (selAno.getValue() - 1) : selAno.getValue();
+                stmt = con.prepareStatement("SELECT tabela_ordens_producao.cod_cliente, "
+                        + "tabela_ordens_producao.orcamento_base, "
+                        + "tabela_ordens_producao.cod_produto "
+                        + "FROM tabela_ordens_producao "
+                        + "INNER JOIN tabela_orcamentos ON tabela_orcamentos.cod = tabela_ordens_producao.orcamento_base "
+                        + "WHERE tabela_ordens_producao.status != 'ENTREGUE' "
+                        + "AND tabela_ordens_producao.status != 'CANCELADA' "
+                        + "AND tabela_ordens_producao.tipo_cliente = " + tipoPessoa + " "
+                        + "AND tabela_ordens_producao.data_emissao BETWEEN '2019-01-01' AND '" + ano + "-" + mes + "-31' "
+                        + "ORDER BY tabela_ordens_producao.cod_cliente ASC");
+            }
+            System.out.println(stmt);
             rs = stmt.executeQuery();
             while (rs.next()) {
                 if (!codigosProcessados.contains(rs.getInt("tabela_ordens_producao.cod_cliente"))) {
                     valor = 0d;
-                    stmt = con.prepareStatement("SELECT tabela_ordens_producao.orcamento_base, "
-                            + "tabela_ordens_producao.cod_produto,"
-                            + "tabela_ordens_producao.status,"
-                            + "tabela_ordens_producao.cod "
-                            + "FROM tabela_ordens_producao "
-                            + "INNER JOIN tabela_orcamentos ON tabela_orcamentos.cod = tabela_ordens_producao.orcamento_base "
-                            + "WHERE tabela_ordens_producao.status != 'ENTREGUE' "
-                            + "AND tabela_ordens_producao.status != 'CANCELADA' "
-                            + "AND tabela_ordens_producao.tipo_cliente = " + tipoPessoa + " "
-                            + "AND tabela_ordens_producao.cod_cliente = ? "
-                            + "AND tabela_ordens_producao.data_emissao BETWEEN '2019-01-01' AND '" + selAno.getValue() + "-" + (selMes.getMonth() + 1) + "-31' "
-                            + "ORDER BY tabela_ordens_producao.cod_cliente ASC");
-                    stmt.setInt(1, rs.getInt("tabela_ordens_producao.cod_cliente"));
+                    if (jckbAnoInteiro.isSelected()) {
+                        stmt = con.prepareStatement("SELECT tabela_ordens_producao.orcamento_base, "
+                                + "tabela_ordens_producao.cod_produto,"
+                                + "tabela_ordens_producao.status,"
+                                + "tabela_ordens_producao.cod "
+                                + "FROM tabela_ordens_producao "
+                                + "INNER JOIN tabela_orcamentos ON tabela_orcamentos.cod = tabela_ordens_producao.orcamento_base "
+                                + "WHERE tabela_ordens_producao.status != 'ENTREGUE' "
+                                + "AND tabela_ordens_producao.status != 'CANCELADA' "
+                                + "AND tabela_ordens_producao.tipo_cliente = " + tipoPessoa + " "
+                                + "AND tabela_ordens_producao.cod_cliente = ? "
+                                + "AND tabela_ordens_producao.data_emissao BETWEEN '2019-01-01' AND '" + selAno.getValue() + "-12-31' "
+                                + "ORDER BY tabela_ordens_producao.cod_cliente ASC");
+                        stmt.setInt(1, rs.getInt("tabela_ordens_producao.cod_cliente"));
+                    } else {
+                        int mes = selMes.getMonth() == 0 ? 12 : selMes.getMonth();
+                        int ano = selMes.getMonth() == 0 ? (selAno.getValue() - 1) : selAno.getValue();
+                        stmt = con.prepareStatement("SELECT tabela_ordens_producao.orcamento_base, "
+                                + "tabela_ordens_producao.cod_produto,"
+                                + "tabela_ordens_producao.status,"
+                                + "tabela_ordens_producao.cod "
+                                + "FROM tabela_ordens_producao "
+                                + "INNER JOIN tabela_orcamentos ON tabela_orcamentos.cod = tabela_ordens_producao.orcamento_base "
+                                + "WHERE tabela_ordens_producao.status != 'ENTREGUE' "
+                                + "AND tabela_ordens_producao.status != 'CANCELADA' "
+                                + "AND tabela_ordens_producao.tipo_cliente = " + tipoPessoa + " "
+                                + "AND tabela_ordens_producao.cod_cliente = ? "
+                                + "AND tabela_ordens_producao.data_emissao BETWEEN '2019-01-01' AND '" + ano + "-" + mes + "-31' "
+                                + "ORDER BY tabela_ordens_producao.cod_cliente ASC");
+                        stmt.setInt(1, rs.getInt("tabela_ordens_producao.cod_cliente"));
+                    }
+                    System.out.println(stmt);
                     rs2 = stmt.executeQuery();
                     while (rs2.next()) {
                         stmt = con.prepareStatement("SELECT (quantidade * preco_unitario) AS valor "
@@ -670,7 +705,6 @@ public class RelatorioFinanceiro extends javax.swing.JInternalFrame {
                             + "cod_cliente = ? AND tipo_pessoa = " + tipoPessoa);
                     stmt.setInt(1, c.getCodigo());
                 }
-                System.out.println(stmt);
                 rs2 = stmt.executeQuery();
                 while (rs2.next()) {
                     saldoCreditoAnterior += rs2.getFloat("valor");
@@ -696,7 +730,6 @@ public class RelatorioFinanceiro extends javax.swing.JInternalFrame {
                             + "tabela_ordens_producao.cod_cliente = ? AND tabela_ordens_producao.tipo_cliente = " + tipoPessoa);
                     stmt.setInt(1, c.getCodigo());
                 }
-                System.out.println(stmt);
                 rs2 = stmt.executeQuery();
                 while (rs2.next()) {
                     saldoFaturamentosAnterior += rs2.getFloat("faturamentos.VLR_FAT");
