@@ -818,7 +818,7 @@ public class OrdemProducaoDAO {
                 ordemProducao.add(rs.getInt("cod"));
             }
             return ordemProducao;
-        } catch (Exception ex) {
+        } catch (SQLException ex) {
             throw new SQLException(ex);
         } finally {
             ConnectionFactory.closeConnection(con, stmt, rs);

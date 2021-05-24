@@ -225,7 +225,7 @@ public class RelatorioFinanceiro extends javax.swing.JInternalFrame {
     private com.toedter.calendar.JYearChooser selAno;
     private com.toedter.calendar.JMonthChooser selMes;
     // End of variables declaration//GEN-END:variables
-        public void geraRelatorio() {
+    public void geraRelatorio() {
         new Thread() {
             @Override
             public void run() {
@@ -280,7 +280,7 @@ public class RelatorioFinanceiro extends javax.swing.JInternalFrame {
                             + data
                             + " "
                             + hora
-                            + " - SISTEMA BALA DE PRATA\n\n", FontFactory.getFont("arial.ttf", 9))));
+                            + " - SISGRAFEX\n\n", FontFactory.getFont("arial.ttf", 9))));
 
                     Paragraph p = new Paragraph("RELATÓRIO FINANCEIRO", FontFactory.getFont("arial.ttf", 12, Font.BOLD));
                     p.setAlignment(1);

@@ -16,6 +16,8 @@ import javax.swing.table.DefaultTableModel;
 import ui.cadastros.papeis.PapelCadastro;
 import java.sql.SQLException;
 import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import ui.cadastros.acabamentos.AcabamentoDAO;
@@ -1932,29 +1934,37 @@ public final class ProdutoFrame extends javax.swing.JInternalFrame {
 
                             if (jckbUtilizadoEcommerce.isSelected()) {
 
-                                try {
-                                    realizaRequisicaoPUT((byte) 1, new Product(
-                                            String.valueOf(COD_PROD),
-                                            "PP" + String.valueOf(COD_PROD),
-                                            produto.getDescricao(),
-                                            produto.getDescricao(),
-                                            produto.isAtivo(),
-                                            produto.getPeso(),
-                                            produto.getAltura(),
-                                            produto.getLargura(),
-                                            produto.getEspessura(),
-                                            "normal"
-                                    ));
+                                if (jckbUtilizadoEcommerce.isSelected()) {
+                                    new Thread("INSERIR NO E-COMMERCE") {
+                                        @Override
+                                        public void run() {
+                                            try {
+                                                loading.setText("INSERINDO NO E-COMMERCE...");
+                                                realizaRequisicaoPOST((byte) 5, new Product(
+                                                        String.valueOf(COD_PROD),
+                                                        "PP" + String.valueOf(COD_PROD),
+                                                        produto.getDescricao(),
+                                                        produto.getDescricao(),
+                                                        produto.isAtivo(),
+                                                        produto.getPeso(),
+                                                        produto.getAltura(),
+                                                        produto.getLargura(),
+                                                        produto.getEspessura(),
+                                                        "normal"
+                                                ));
 
-                                    realizaRequisicaoPUT((byte) 2, new Product(
-                                            String.valueOf(COD_PROD),
-                                            "PP" + String.valueOf(COD_PROD),
-                                            produto.getValorCusto(),
-                                            produto.getValorPromocional()
-                                    ));
-
-                                } catch (IOException | InterruptedException ex) {
-                                    JOptionPane.showMessageDialog(null, "ERRO AO INTEGRAR O CADASTRO!\nO PRODUTO NÃO FOI SINCRONIZADO COM O ECOMMERCE!", "ERRO AO SALVAR", JOptionPane.ERROR_MESSAGE);
+                                                realizaRequisicaoPUT((byte) 2, new Product(
+                                                        String.valueOf(COD_PROD),
+                                                        "PP" + String.valueOf(COD_PROD),
+                                                        produto.getValorCusto(),
+                                                        produto.getValorPromocional()
+                                                ));
+                                                loading.setText("SALVANDO...");
+                                            } catch (IOException | InterruptedException ex) {
+                                                Logger.getLogger(ProdutoFrame.class.getName()).log(Level.SEVERE, null, ex);
+                                            }
+                                        }
+                                    }.start();
                                 }
                             }
 
@@ -1967,31 +1977,36 @@ public final class ProdutoFrame extends javax.swing.JInternalFrame {
                             ProdutoDAO.cria(produto);
 
                             if (jckbUtilizadoEcommerce.isSelected()) {
-                                try {
-                                    loading.setText("INSERINDO NO E-COMMERCE...");
-                                    realizaRequisicaoPOST((byte) 5, new Product(
-                                            String.valueOf(COD_PROD),
-                                            "PP" + String.valueOf(COD_PROD),
-                                            produto.getDescricao(),
-                                            produto.getDescricao(),
-                                            produto.isAtivo(),
-                                            produto.getPeso(),
-                                            produto.getAltura(),
-                                            produto.getLargura(),
-                                            produto.getEspessura(),
-                                            "normal"
-                                    ));
+                                new Thread("INSERIR NO E-COMMERCE") {
+                                    @Override
+                                    public void run() {
+                                        try {
+                                            loading.setText("INSERINDO NO E-COMMERCE...");
+                                            realizaRequisicaoPOST((byte) 5, new Product(
+                                                    String.valueOf(COD_PROD),
+                                                    "PP" + String.valueOf(COD_PROD),
+                                                    produto.getDescricao(),
+                                                    produto.getDescricao(),
+                                                    produto.isAtivo(),
+                                                    produto.getPeso(),
+                                                    produto.getAltura(),
+                                                    produto.getLargura(),
+                                                    produto.getEspessura(),
+                                                    "normal"
+                                            ));
 
-                                    realizaRequisicaoPUT((byte) 2, new Product(
-                                            String.valueOf(COD_PROD),
-                                            "PP" + String.valueOf(COD_PROD),
-                                            produto.getValorCusto(),
-                                            produto.getValorPromocional()
-                                    ));
-                                    loading.setText("SALVANDO...");
-                                } catch (IOException | InterruptedException ex) {
-                                    JOptionPane.showMessageDialog(null, "ERRO AO INTEGRAR O CADASTRO!\nO PRODUTO NÃO FOI SINCRONIZADO COM O ECOMMERCE!", "ERRO AO SALVAR", JOptionPane.ERROR_MESSAGE);
-                                }
+                                            realizaRequisicaoPUT((byte) 2, new Product(
+                                                    String.valueOf(COD_PROD),
+                                                    "PP" + String.valueOf(COD_PROD),
+                                                    produto.getValorCusto(),
+                                                    produto.getValorPromocional()
+                                            ));
+                                            loading.setText("SALVANDO...");
+                                        } catch (IOException | InterruptedException ex) {
+                                            Logger.getLogger(ProdutoFrame.class.getName()).log(Level.SEVERE, null, ex);
+                                        }
+                                    }
+                                }.start();
                             }
 
                             break;
@@ -2056,46 +2071,54 @@ public final class ProdutoFrame extends javax.swing.JInternalFrame {
                             ));
 
                             if (jckbUtilizadoEcommerce.isSelected()) {
-                                try {
-                                    loading.setText("INSERINDO NO E-COMMERCE...");
-                                    realizaRequisicaoPUT((byte) 1, new Product(
-                                            String.valueOf(COD_PROD),
-                                            "PE" + String.valueOf(COD_PROD),
-                                            jftfDescricaoProduto.getText().toUpperCase(),
-                                            jftfDescricaoProduto.getText().toUpperCase(),
-                                            true,
-                                            Float.valueOf(jftfPesoProduto.getText().replace(",", ".")),
-                                            Float.valueOf(jftfAlturaProduto.getText().replace(",", ".")),
-                                            Float.valueOf(jftfLarguraProduto.getText().replace(",", ".")),
-                                            Float.valueOf(jftfEspessuraProduto.getText().replace(",", ".")),
-                                            "normal"
-                                    ));
+                                new Thread("INSERIR E-COMMERCE") {
+                                    @Override
+                                    public void run() {
+                                        try {
+                                            loading.setText("INSERINDO NO E-COMMERCE...");
+                                            realizaRequisicaoPUT((byte) 1, new Product(
+                                                    String.valueOf(COD_PROD),
+                                                    "PE" + String.valueOf(COD_PROD),
+                                                    jftfDescricaoProduto.getText().toUpperCase(),
+                                                    jftfDescricaoProduto.getText().toUpperCase(),
+                                                    true,
+                                                    Float.valueOf(jftfPesoProduto.getText().replace(",", ".")),
+                                                    Float.valueOf(jftfAlturaProduto.getText().replace(",", ".")),
+                                                    Float.valueOf(jftfLarguraProduto.getText().replace(",", ".")),
+                                                    Float.valueOf(jftfEspessuraProduto.getText().replace(",", ".")),
+                                                    "normal"
+                                            ));
 
-                                    realizaRequisicaoPUT((byte) 2, new Product(
-                                            String.valueOf(COD_PROD),
-                                            "PE" + String.valueOf(COD_PROD),
-                                            Float.valueOf(jftfVlrUnitProduto.getValue().toString()),
-                                            jftfVlrPromProduto.getText().equals("") ? 0 : Float.valueOf(jftfVlrPromProduto.getText().replace(",", "."))
-                                    ));
+                                            realizaRequisicaoPUT((byte) 2, new Product(
+                                                    String.valueOf(COD_PROD),
+                                                    "PE" + String.valueOf(COD_PROD),
+                                                    Float.valueOf(jftfVlrUnitProduto.getValue().toString()),
+                                                    jftfVlrPromProduto.getText().equals("") ? 0 : Float.valueOf(jftfVlrPromProduto.getText().replace(",", "."))
+                                            ));
 
-                                    realizaRequisicaoPUT((byte) 3, new Product(
-                                            String.valueOf(COD_PROD),
-                                            "PE" + String.valueOf(COD_PROD),
-                                            Integer.valueOf(jftfEstoqueFisicoProduto.getValue().toString())
-                                    ));
+                                            realizaRequisicaoPUT((byte) 3, new Product(
+                                                    String.valueOf(COD_PROD),
+                                                    "PE" + String.valueOf(COD_PROD),
+                                                    Integer.valueOf(jftfEstoqueFisicoProduto.getValue().toString())
+                                            ));
 
-                                    loading.setText("SALVANDO...");
-                                } catch (IOException | InterruptedException ex) {
-                                    JOptionPane.showMessageDialog(null, "ERRO AO INTEGRAR O CADASTRO!\nO PRODUTO NÃO FOI SINCRONIZADO COM O ECOMMERCE!", "ERRO AO SALVAR", JOptionPane.ERROR_MESSAGE);
-                                }
+                                            loading.setText("SALVANDO...");
+                                        } catch (IOException ex) {
+                                            Logger.getLogger(ProdutoFrame.class.getName()).log(Level.SEVERE, null, ex);
+                                        } catch (InterruptedException ex) {
+                                            Logger.getLogger(ProdutoFrame.class.getName()).log(Level.SEVERE, null, ex);
+                                        }
+                                    }
+                                }.start();
+
+                                //INTERAÇÃO COM O USUÁRIO---------------------------------------
+                                JOptionPane.showMessageDialog(null, "PRODUTO EDITADO COM SUCESSO COM SUCESSO. >> CÓDIGO: "
+                                        + COD_PROD, "CONFIMAÇÃO", JOptionPane.INFORMATION_MESSAGE);
+                                //--------------------------------------------------------------
+
+                                break;
                             }
 
-                            //INTERAÇÃO COM O USUÁRIO---------------------------------------
-                            JOptionPane.showMessageDialog(null, "PRODUTO EDITADO COM SUCESSO COM SUCESSO. >> CÓDIGO: "
-                                    + COD_PROD, "CONFIMAÇÃO", JOptionPane.INFORMATION_MESSAGE);
-                            //--------------------------------------------------------------
-
-                            break;
                         case 3:
                             ProdutoDAO.atualizaEstPe(new ProdutoPrEntBEAN(
                                     COD_PROD,
@@ -2135,37 +2158,45 @@ public final class ProdutoFrame extends javax.swing.JInternalFrame {
                             ));
 
                             if (jckbUtilizadoEcommerce.isSelected()) {
-                                try {
-                                    loading.setText("INSERINDO NO E-COMMERCE...");
-                                    realizaRequisicaoPOST((byte) 5, new Product(
-                                            String.valueOf(COD_PROD),
-                                            "PE" + String.valueOf(COD_PROD),
-                                            jftfDescricaoProduto.getText().toUpperCase(),
-                                            jftfDescricaoProduto.getText().toUpperCase(),
-                                            true,
-                                            Float.valueOf(jftfPesoProduto.getText().replace(",", ".")),
-                                            Float.valueOf(jftfAlturaProduto.getText().replace(",", ".")),
-                                            Float.valueOf(jftfLarguraProduto.getText().replace(",", ".")),
-                                            Float.valueOf(jftfEspessuraProduto.getText().replace(",", ".")),
-                                            "normal"
-                                    ));
+                                new Thread("INSERIR E-COMMERCE") {
+                                    @Override
+                                    public void run() {
+                                        try {
+                                            loading.setText("INSERINDO NO E-COMMERCE...");
+                                            realizaRequisicaoPUT((byte) 1, new Product(
+                                                    String.valueOf(COD_PROD),
+                                                    "PE" + String.valueOf(COD_PROD),
+                                                    jftfDescricaoProduto.getText().toUpperCase(),
+                                                    jftfDescricaoProduto.getText().toUpperCase(),
+                                                    true,
+                                                    Float.valueOf(jftfPesoProduto.getText().replace(",", ".")),
+                                                    Float.valueOf(jftfAlturaProduto.getText().replace(",", ".")),
+                                                    Float.valueOf(jftfLarguraProduto.getText().replace(",", ".")),
+                                                    Float.valueOf(jftfEspessuraProduto.getText().replace(",", ".")),
+                                                    "normal"
+                                            ));
 
-                                    realizaRequisicaoPUT((byte) 2, new Product(
-                                            String.valueOf(COD_PROD),
-                                            "PE" + String.valueOf(COD_PROD),
-                                            Float.valueOf(jftfVlrUnitProduto.getValue().toString()),
-                                            jftfVlrPromProduto.getText().equals("") ? 0 : Float.valueOf(jftfVlrPromProduto.getText().replace(",", "."))
-                                    ));
+                                            realizaRequisicaoPUT((byte) 2, new Product(
+                                                    String.valueOf(COD_PROD),
+                                                    "PE" + String.valueOf(COD_PROD),
+                                                    Float.valueOf(jftfVlrUnitProduto.getValue().toString()),
+                                                    jftfVlrPromProduto.getText().equals("") ? 0 : Float.valueOf(jftfVlrPromProduto.getText().replace(",", "."))
+                                            ));
 
-                                    realizaRequisicaoPUT((byte) 3, new Product(
-                                            String.valueOf(COD_PROD),
-                                            "PE" + String.valueOf(COD_PROD),
-                                            Integer.valueOf(jftfEstoqueFisicoProduto.getValue().toString())
-                                    ));
-                                    loading.setText("SALVANDO...");
-                                } catch (IOException | InterruptedException ex) {
-                                    JOptionPane.showMessageDialog(null, "ERRO AO INTEGRAR O CADASTRO!\nO PRODUTO NÃO FOI SINCRONIZADO COM O ECOMMERCE!", "ERRO AO SALVAR", JOptionPane.ERROR_MESSAGE);
-                                }
+                                            realizaRequisicaoPUT((byte) 3, new Product(
+                                                    String.valueOf(COD_PROD),
+                                                    "PE" + String.valueOf(COD_PROD),
+                                                    Integer.valueOf(jftfEstoqueFisicoProduto.getValue().toString())
+                                            ));
+
+                                            loading.setText("SALVANDO...");
+                                        } catch (IOException ex) {
+                                            Logger.getLogger(ProdutoFrame.class.getName()).log(Level.SEVERE, null, ex);
+                                        } catch (InterruptedException ex) {
+                                            Logger.getLogger(ProdutoFrame.class.getName()).log(Level.SEVERE, null, ex);
+                                        }
+                                    }
+                                }.start();
                             }
 
                             //INTERAÇÃO COM O USUÁRIO---------------------------------------

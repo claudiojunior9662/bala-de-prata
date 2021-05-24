@@ -571,11 +571,12 @@ public class ProdutoDAO {
         return usoProduto;
     }
 
-    /*
-    @param codProduto código do produto
-    @return string descrição do produto
+    /**
+    @param codProduto Código do produto
+    @param tipoProduto 1 - PRODUTO PARA PRODUÇÃO, 2 - PRODUTO PARA PRONTA ENTREGA
+    @return String descrição do produto
     @see retornaDescricaoProduto
-     */
+     **/
     public static String retornaDescricaoProduto(int codProduto, byte tipoProduto) throws SQLException {
         Connection con = ConnectionFactory.getConnection();
         PreparedStatement stmt = null;

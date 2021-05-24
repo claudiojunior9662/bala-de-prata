@@ -834,25 +834,34 @@ public class OpConsultaFrame extends javax.swing.JInternalFrame {
     }
 
     public static synchronized void pesquisar() {
-        try {
+        new Thread() {
+            @Override
+            public void run() {
+                try {
+                    new Thread() {
+                        @Override
+                        public void run() {
 
-            loading.setVisible(true);
-            loading.setText("CARREGANDO...");
+                        }
+                    }.start();
 
-            switch (CLASSE_PAI) {
-                case 1:
-                case 2:
-                    modelInt.setNumRows(0);
-                    break;
-                case 3:
-                    modelExt.setNumRows(0);
-                    break;
-            }
+                    loading.setVisible(true);
+                    loading.setText("CARREGANDO...");
 
-            int totalRegistros = 0;
-            double totalPaginas = 0d;
+                    switch (CLASSE_PAI) {
+                        case 1:
+                        case 2:
+                            modelInt.setNumRows(0);
+                            break;
+                        case 3:
+                            modelExt.setNumRows(0);
+                            break;
+                    }
 
-            /*
+                    int totalRegistros = 0;
+                    double totalPaginas = 0d;
+
+                    /*
              @param p1
              0 - SELECIONE...
              1 - CÓDIGO
@@ -862,154 +871,155 @@ public class OpConsultaFrame extends javax.swing.JInternalFrame {
              5 - DATA EMISSAO
              6 - DATA ENTREGA
              7 - STATUS
-             */
-            switch (p1.getSelectedIndex()) {
-                case 0:
-                    JOptionPane.showMessageDialog(null, "SELECIONE UM TIPO DE PESQUISA!",
-                            "ERRO",
-                            JOptionPane.ERROR_MESSAGE);
-                    loading.setVisible(false);
-                    break;
-                case 1:
-                    for (OrdemProducao op : OrdemProducaoDAO.consultaOp((byte) 1,
-                            null,
-                            p3Texto.getText(),
-                            null)) {
-                        switch (CLASSE_PAI) {
-                            case 1:
-                            case 2:
-                                modelInt.addRow(op);
-                                break;
-                            case 3:
-                                modelExt.addRow(op);
-                                break;
-                        }
-                        totalRegistros += 1;
-                    }
-                    break;
-                case 2:
-                    for (OrdemProducao op : OrdemProducaoDAO.consultaOp((byte) 2,
-                            null,
-                            p3Texto.getText(),
-                            null)) {
-                        switch (CLASSE_PAI) {
-                            case 1:
-                            case 2:
-                                modelInt.addRow(op);
-                                break;
-                            case 3:
-                                modelExt.addRow(op);
-                                break;
-                        }
-                        totalRegistros += 1;
-                    }
-                    break;
-                case 3:
-                    for (OrdemProducao op : OrdemProducaoDAO.consultaOp((byte) 3,
-                            null,
-                            p3Texto.getText(),
-                            null)) {
-                        switch (CLASSE_PAI) {
-                            case 1:
-                            case 2:
-                                modelInt.addRow(op);
-                                break;
-                            case 3:
-                                modelExt.addRow(op);
-                                break;
-                        }
-                        totalRegistros += 1;
-                    }
-                    break;
-                case 4:
-                    for (OrdemProducao op : OrdemProducaoDAO.consultaOp((byte) 4,
-                            p2.getSelectedItem().toString(),
-                            p2.getSelectedItem().toString().contains("NÚMEROS")
+                     */
+                    switch (p1.getSelectedIndex()) {
+                        case 0:
+                            JOptionPane.showMessageDialog(null, "SELECIONE UM TIPO DE PESQUISA!",
+                                    "ERRO",
+                                    JOptionPane.ERROR_MESSAGE);
+                            loading.setVisible(false);
+                            break;
+                        case 1:
+                            for (OrdemProducao op : OrdemProducaoDAO.consultaOp((byte) 1,
+                                    null,
+                                    p3Texto.getText(),
+                                    null)) {
+                                switch (CLASSE_PAI) {
+                                    case 1:
+                                    case 2:
+                                        modelInt.addRow(op);
+                                        break;
+                                    case 3:
+                                        modelExt.addRow(op);
+                                        break;
+                                }
+                                totalRegistros += 1;
+                            }
+                            break;
+                        case 2:
+                            for (OrdemProducao op : OrdemProducaoDAO.consultaOp((byte) 2,
+                                    null,
+                                    p3Texto.getText(),
+                                    null)) {
+                                switch (CLASSE_PAI) {
+                                    case 1:
+                                    case 2:
+                                        modelInt.addRow(op);
+                                        break;
+                                    case 3:
+                                        modelExt.addRow(op);
+                                        break;
+                                }
+                                totalRegistros += 1;
+                            }
+                            break;
+                        case 3:
+                            for (OrdemProducao op : OrdemProducaoDAO.consultaOp((byte) 3,
+                                    null,
+                                    p3Texto.getText(),
+                                    null)) {
+                                switch (CLASSE_PAI) {
+                                    case 1:
+                                    case 2:
+                                        modelInt.addRow(op);
+                                        break;
+                                    case 3:
+                                        modelExt.addRow(op);
+                                        break;
+                                }
+                                totalRegistros += 1;
+                            }
+                            break;
+                        case 4:
+                            for (OrdemProducao op : OrdemProducaoDAO.consultaOp((byte) 4,
+                                    p2.getSelectedItem().toString(),
+                                    p2.getSelectedItem().toString().contains("NÚMEROS")
                                     ? p3Formatado.getText().toUpperCase()
                                     : p3Texto.getText().toUpperCase(),
-                            null)) {
-                        switch (CLASSE_PAI) {
-                            case 1:
-                            case 2:
-                                modelInt.addRow(op);
-                                break;
-                            case 3:
-                                modelExt.addRow(op);
-                                break;
-                        }
-                        totalRegistros += 1;
+                                    null)) {
+                                switch (CLASSE_PAI) {
+                                    case 1:
+                                    case 2:
+                                        modelInt.addRow(op);
+                                        break;
+                                    case 3:
+                                        modelExt.addRow(op);
+                                        break;
+                                }
+                                totalRegistros += 1;
+                            }
+                            break;
+                        case 5:
+                            for (OrdemProducao op : OrdemProducaoDAO.consultaOp((byte) 5,
+                                    null,
+                                    null,
+                                    p3Data.getDate())) {
+                                switch (CLASSE_PAI) {
+                                    case 1:
+                                    case 2:
+                                        modelInt.addRow(op);
+                                        break;
+                                    case 3:
+                                        modelExt.addRow(op);
+                                        break;
+                                }
+                                totalRegistros += 1;
+                            }
+                            break;
+                        case 6:
+                            for (OrdemProducao op : OrdemProducaoDAO.consultaOp((byte) 6,
+                                    null,
+                                    null,
+                                    p3Data.getDate())) {
+                                switch (CLASSE_PAI) {
+                                    case 1:
+                                    case 2:
+                                        modelInt.addRow(op);
+                                        break;
+                                    case 3:
+                                        modelExt.addRow(op);
+                                        break;
+                                }
+                                totalRegistros += 1;
+                            }
+                            break;
+                        case 7:
+                            for (OrdemProducao op : OrdemProducaoDAO.consultaOp((byte) 7,
+                                    p2.getSelectedItem().toString(),
+                                    null,
+                                    null)) {
+                                switch (CLASSE_PAI) {
+                                    case 1:
+                                    case 2:
+                                        modelInt.addRow(op);
+                                        break;
+                                    case 3:
+                                        modelExt.addRow(op);
+                                        break;
+                                }
+                                totalRegistros += 1;
+                            }
+                            break;
                     }
-                    break;
-                case 5:
-                    for (OrdemProducao op : OrdemProducaoDAO.consultaOp((byte) 5,
-                            null,
-                            null,
-                            p3Data.getDate())) {
-                        switch (CLASSE_PAI) {
-                            case 1:
-                            case 2:
-                                modelInt.addRow(op);
-                                break;
-                            case 3:
-                                modelExt.addRow(op);
-                                break;
-                        }
-                        totalRegistros += 1;
-                    }
-                    break;
-                case 6:
-                    for (OrdemProducao op : OrdemProducaoDAO.consultaOp((byte) 6,
-                            null,
-                            null,
-                            p3Data.getDate())) {
-                        switch (CLASSE_PAI) {
-                            case 1:
-                            case 2:
-                                modelInt.addRow(op);
-                                break;
-                            case 3:
-                                modelExt.addRow(op);
-                                break;
-                        }
-                        totalRegistros += 1;
-                    }
-                    break;
-                case 7:
-                    for (OrdemProducao op : OrdemProducaoDAO.consultaOp((byte) 7,
-                            p2.getSelectedItem().toString(),
-                            null,
-                            null)) {
-                        switch (CLASSE_PAI) {
-                            case 1:
-                            case 2:
-                                modelInt.addRow(op);
-                                break;
-                            case 3:
-                                modelExt.addRow(op);
-                                break;
-                        }
-                        totalRegistros += 1;
-                    }
-                    break;
-            }
 
-            switch (CLASSE_PAI) {
-                case 1:
-                case 2:
-                    OrdemProducao.corTabela(tabelaConsulta, (byte) 2);
-                    break;
-                case 3:
-                    OrdemProducao.corTabela(tabelaConsulta, (byte) 3);
-                    break;
+                    switch (CLASSE_PAI) {
+                        case 1:
+                        case 2:
+                            OrdemProducao.corTabela(tabelaConsulta, (byte) 2);
+                            break;
+                        case 3:
+                            OrdemProducao.corTabela(tabelaConsulta, (byte) 3);
+                            break;
+                    }
+                    paginaAtual.removeAllItems();
+                    paginaTotal.setText("");
+                    loading.setVisible(false);
+                } catch (SQLException ex) {
+                    EnvioExcecao envioExcecao = new EnvioExcecao(Controle.getDefaultGj(), ex);
+                    EnvioExcecao.envio();
+                }
             }
-            paginaAtual.removeAllItems();
-            paginaTotal.setText("");
-            loading.setVisible(false);
-
-        } catch (SQLException ex) {
-            EnvioExcecao envioExcecao = new EnvioExcecao(Controle.getDefaultGj(), ex);
-            EnvioExcecao.envio();
-        }
+        }.start();
     }
 
     public synchronized static void estadoOdExt() {

@@ -439,30 +439,42 @@ public class Orcamento {
                             = OrcamentoDAO.carregaProdOrc(codOrc);
 
                     if (consulta == true) {
-                        if (status == 1) {
-                            if (produtos.get(0).getTipoProduto() == 2) {
-                                celulaCabecalho = new PdfPCell(new Phrase("PROPOSTA DE PEDIDO DE VENDA Nº "
-                                        + codOrc,
-                                        FontFactory.getFont("arial.ttf", 12, Font.BOLD)));
-                            } else {
-                                celulaCabecalho = new PdfPCell(new Phrase("PROPOSTA DE ORÇAMENTO Nº "
-                                        + codOrc,
-                                        FontFactory.getFont("arial.ttf", 12, Font.BOLD)));
-                            }
-                        } else {
-                            List nOp = OrdemProducaoDAO.retornaCodOpOrc(codOrc);
-                            switch (OrdemProducaoDAO.retornaTipoProduto((int) nOp.get(0))) {
-                                case 1:
-                                    celulaCabecalho = new PdfPCell(new Phrase("PROPOSTA DE ORÇAMENTO Nº "
-                                            + codOrc + " / ORDEM DE PRODUÇÃO Nº " + nOp,
+                        switch (status) {
+                            case 1:
+                            case 3:
+                            case 4:
+                            case 5:
+                            case 6:
+                            case 10:
+                            case 11:
+                            case 13:
+                                if (produtos.get(0).getTipoProduto() == 2) {
+                                    celulaCabecalho = new PdfPCell(new Phrase("PROPOSTA DE PEDIDO DE VENDA Nº "
+                                            + codOrc,
                                             FontFactory.getFont("arial.ttf", 12, Font.BOLD)));
-                                    break;
-                                case 2:
+                                } else {
                                     celulaCabecalho = new PdfPCell(new Phrase("PROPOSTA DE ORÇAMENTO Nº "
-                                            + codOrc + " / PEDIDO DE VENDA Nº " + nOp,
+                                            + codOrc,
                                             FontFactory.getFont("arial.ttf", 12, Font.BOLD)));
-                                    break;
-                            }
+                                }
+                                break;
+                            case 2:
+                            case 7:
+                            case 9:
+                                List nOp = OrdemProducaoDAO.retornaCodOpOrc(codOrc);
+                                switch (OrdemProducaoDAO.retornaTipoProduto((int) nOp.get(0))) {
+                                    case 1:
+                                        celulaCabecalho = new PdfPCell(new Phrase("PROPOSTA DE ORÇAMENTO Nº "
+                                                + codOrc + " / ORDEM DE PRODUÇÃO Nº " + nOp,
+                                                FontFactory.getFont("arial.ttf", 12, Font.BOLD)));
+                                        break;
+                                    case 2:
+                                        celulaCabecalho = new PdfPCell(new Phrase("PROPOSTA DE ORÇAMENTO Nº "
+                                                + codOrc + " / PEDIDO DE VENDA Nº " + nOp,
+                                                FontFactory.getFont("arial.ttf", 12, Font.BOLD)));
+                                        break;
+                                }
+                                break;
 
                         }
                     } else {
@@ -752,9 +764,7 @@ public class Orcamento {
                         document.add(p2);
                     } else {
                         p2 = new Paragraph("Método de pagamento: \n  "
-                                //+ "a) Pré-empenho na UG primária (SIAFI – Cod UG 160083), até o último dia útil do mês.\n  "
-                                //+ "b) "
-                                + "Transferência entre contas no SIGA, opção pagamento de serviço (Cod GRU 226963 e favorecido – UG 167083). ".toUpperCase(), FontFactory.getFont("arial.ttf", 10, Font.BOLD));
+                                + "Transferência entre contas no SIGA, opção pagamento de serviço (Cod GRU 226963 e favorecido – UG 167083 PARA ND 33 90 00). ".toUpperCase(), FontFactory.getFont("arial.ttf", 10, Font.BOLD));
                         document.add(p2);
                     }
 
