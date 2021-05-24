@@ -1312,14 +1312,45 @@ public class OrdemProducaoDAO {
             stmt.setInt(2, codProd);
             stmt.setInt(3, tipoProd);
             rs = stmt.executeQuery();
-            if(rs.next()){
+            if (rs.next()) {
                 return rs.getFloat("valor_parcial");
+            }
+        } catch (SQLException ex) {
+            throw new SQLException(ex);
+        } finally {
+            ConnectionFactory.closeConnection(con, stmt, rs);
+        }
+        return 0f;
+    }
+
+    /**
+     * Retorna o código da ordem de produção
+     *
+     * @param codOrc código do orçamento
+     * @param ordProd ordem do produto
+     * @return
+     */
+    public static int retornaCodOp(int codOrc, int ordProd) throws SQLException {
+        Connection con = ConnectionFactory.getConnection();
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+        
+        try{
+            stmt = con.prepareStatement("SELECT cod "
+                    + "FROM tabela_ordens_producao "
+                    + "WHERE tabela_ordens_producao.orcamento_base = ? "
+                    + "ORDER BY cod DESC LIMIT 1");
+            stmt.setInt(1, codOrc);
+            rs = stmt.executeQuery();
+            if(rs.next()){
+                return Integer.valueOf(codOrc + "" + (Integer.valueOf(String.valueOf(rs.getInt("cod")).split(String.valueOf(codOrc))[1]) + 1));
+            }else{
+                return Integer.valueOf(String.valueOf(codOrc) + "" + ordProd);
             }
         } catch (SQLException ex) {
             throw new SQLException(ex);
         }finally{
             ConnectionFactory.closeConnection(con, stmt, rs);
         }
-        return 0f;
     }
 }

@@ -64,7 +64,7 @@ public class OrdemProducao {
     /**
      * Campos do banco de dados
      */
-    private int cod;
+    private int codigo;
     private int orcamentoBase;
     private byte tipoProduto;
     private int codProduto;
@@ -109,13 +109,13 @@ public class OrdemProducao {
             Date dataEntrega,
             String status,
             int codProduto) {
-        this.cod = cod;
+        this.codigo = cod;
         this.dataEntrega = dataEntrega;
         this.status = status;
         this.codProduto = codProduto;
     }
 
-    public OrdemProducao(Integer cod,
+    public OrdemProducao(int cod,
             Integer orcamentoBase,
             Integer codCliente,
             byte tipoPessoa,
@@ -127,7 +127,7 @@ public class OrdemProducao {
             Date dataEntrega,
             String status,
             String descricao) {
-        this.cod = cod;
+        this.codigo = cod;
         this.orcamentoBase = orcamentoBase;
         this.codCliente = codCliente;
         this.tipoCliente = tipoPessoa;
@@ -150,7 +150,7 @@ public class OrdemProducao {
             int codEndereco,
             byte tipoPessoa,
             String codEmissor) {
-        this.cod = cod;
+        this.codigo = cod;
         this.orcamentoBase = orcamentoBase;
         this.codProduto = codProduto;
         this.tipoProduto = tipoProduto;
@@ -175,7 +175,7 @@ public class OrdemProducao {
             String codEmissor,
             Date dataCancelamento,
             String obsFrete) {
-        this.cod = cod;
+        this.codigo = cod;
         this.orcamentoBase = orcamentoBase;
         this.codCliente = codCliente;
         this.codContato = codContato;
@@ -222,7 +222,7 @@ public class OrdemProducao {
             int codEndereco,
             Date dataCancelamento,
             String tipoTrabalho) {
-        this.cod = cod;
+        this.codigo = cod;
         this.codCliente = codCliente;
         this.tipoCliente = tipoPessoa;
         this.dataEmissao = dataEmissao;
@@ -264,7 +264,7 @@ public class OrdemProducao {
             Date dataEmissao,
             Date dataEntrega,
             String status) {
-        this.cod = cod;
+        this.codigo = cod;
         this.orcamentoBase = orcamentoBase;
         this.codProduto = codProduto;
         this.tipoProduto = tipoProduto;
@@ -364,11 +364,11 @@ public class OrdemProducao {
     }
 
     public int getCodigo() {
-        return cod;
+        return codigo;
     }
 
-    public void setCodigo(int cod) {
-        this.cod = cod;
+    public void setCodigo(int codigo) {
+        this.codigo = codigo;
     }
 
     public String getStatus() {
@@ -1600,7 +1600,7 @@ public class OrdemProducao {
                             //***********************
                             Color c = Color.WHITE;
                             String texto = null;
-                            
+
                             switch (classTabela) {
                                 case 1:
                                     texto = table.getValueAt(row, 3).toString();
