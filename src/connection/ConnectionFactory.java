@@ -276,6 +276,7 @@ public class ConnectionFactory {
     /**
      * @param operacao 1 - upload, 2 - download
      * @param className 1 - estoque, 2 - orçamento
+     * @return 
      *
      */
     public static boolean connectSSH(byte operacao, byte className) {
@@ -368,7 +369,9 @@ public class ConnectionFactory {
     }
 
     /**
+     * @param dirLocal diretório local
      * @param className 1 - estoque, 2 - orcamento
+     * @return 
      *
      */
     public static boolean downloadEstoqueSSH(String dirLocal, byte className) {
