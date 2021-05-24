@@ -80,7 +80,7 @@ public class ConnectionFactory {
                 break;
             case 2:
                 DRIVER_SQL = "com.mysql.cj.jdbc.Driver";
-                URL = "jdbc:mysql://10.67.32.252:3306/bala_dev_TESTE";
+                URL = "jdbc:mysql://10.67.32.252:3306/bala_dev2";
                 USER = "remoto";
                 PASS = "ALLAH@366";
                 break;

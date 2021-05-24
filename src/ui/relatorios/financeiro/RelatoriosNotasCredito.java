@@ -1539,6 +1539,7 @@ public class RelatoriosNotasCredito extends javax.swing.JInternalFrame {
                 cliente.setTipoPessoa(pessoaFisica.isSelected() ? (byte) 1 : (byte) 2);
             } else {
                 tipoCondicaoCliente = "";
+                cliente.setTipoPessoa((byte) 0);
             }
 
             if (porEmissor.isSelected() == true) {
