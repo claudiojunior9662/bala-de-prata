@@ -17,6 +17,7 @@ import ui.login.TelaAutenticacao;
 import ui.orcamentos.operacoes.OrcamentoPrincipalFrame;
 import ui.ordemProducao.consultas.OpConsultaFrame;
 import ui.relatorios.financeiro.RelatorioFat;
+import ui.relatorios.financeiro.RelatorioFinanceiro;
 import ui.relatorios.financeiro.RelatoriosNotasCredito;
 import ui.relatorios.orcamentos.RelatorioOrcamentos;
 import ui.relatorios.ordemProducao.RelatoriosOrdemProducao;
@@ -113,6 +114,7 @@ public class OrdenadorInt extends javax.swing.JFrame {
         relatoriosNv = new javax.swing.JMenuItem();
         relatoriosNc = new javax.swing.JMenuItem();
         relatoriosPapeis = new javax.swing.JMenuItem();
+        jMenuItem1 = new javax.swing.JMenuItem();
         modulos = new javax.swing.JMenu();
         sair = new javax.swing.JMenu();
 
@@ -136,6 +138,8 @@ public class OrdenadorInt extends javax.swing.JFrame {
         taAvisos.setDragEnabled(true);
         jScrollPane2.setViewportView(taAvisos);
 
+        areaDeTrabalho.setLayer(jScrollPane2, javax.swing.JLayeredPane.DEFAULT_LAYER);
+
         javax.swing.GroupLayout areaDeTrabalhoLayout = new javax.swing.GroupLayout(areaDeTrabalho);
         areaDeTrabalho.setLayout(areaDeTrabalhoLayout);
         areaDeTrabalhoLayout.setHorizontalGroup(
@@ -152,7 +156,6 @@ public class OrdenadorInt extends javax.swing.JFrame {
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 467, Short.MAX_VALUE)
                 .addContainerGap())
         );
-        areaDeTrabalho.setLayer(jScrollPane2, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
         loading.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         loading.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ui/orcamentos/operacoes/carregando.gif"))); // NOI18N
@@ -283,6 +286,15 @@ public class OrdenadorInt extends javax.swing.JFrame {
             }
         });
         jMenu1.add(relatoriosPapeis);
+
+        jMenuItem1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icones/financeiro.png"))); // NOI18N
+        jMenuItem1.setText("RELATÓRIO FINANCEIRO");
+        jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem1ActionPerformed(evt);
+            }
+        });
+        jMenu1.add(jMenuItem1);
 
         jMenuBar1.add(jMenu1);
 
@@ -423,6 +435,10 @@ public class OrdenadorInt extends javax.swing.JFrame {
         Controle.getDefaultGj().abrirJanelas(RelatoriosPapeis.getInstancia(loading), "RELATÓRIO DE CONSUMO DE PAPÉIS");
     }//GEN-LAST:event_relatoriosPapeisActionPerformed
 
+    private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
+        Controle.getDefaultGj().abrirJanelas(RelatorioFinanceiro.getInstancia(loading), "RELATÓRIOS - FINANCEIRO");
+    }//GEN-LAST:event_jMenuItem1ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -466,6 +482,7 @@ public class OrdenadorInt extends javax.swing.JFrame {
     private javax.swing.JMenuItem consultaSimatex;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenuBar jMenuBar1;
+    private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     public static javax.swing.JLabel loading;
