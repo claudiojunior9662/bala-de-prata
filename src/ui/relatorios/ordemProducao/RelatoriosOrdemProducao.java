@@ -95,9 +95,10 @@ public class RelatoriosOrdemProducao extends javax.swing.JInternalFrame {
         grupoOrdenar = new javax.swing.ButtonGroup();
         grupoTipoPessoa = new javax.swing.ButtonGroup();
         grupoOrientacao = new javax.swing.ButtonGroup();
+        grupoStatus = new javax.swing.ButtonGroup();
         jTabbedPane1 = new javax.swing.JTabbedPane();
         jPanel1 = new javax.swing.JPanel();
-        listaPesquisaCliente = new javax.swing.JList<String>();
+        listaPesquisaCliente = new javax.swing.JList<>();
         porCodigoCliente = new javax.swing.JRadioButton();
         codigoCliente = new javax.swing.JFormattedTextField();
         porNomeCliente = new javax.swing.JRadioButton();
@@ -106,7 +107,7 @@ public class RelatoriosOrdemProducao extends javax.swing.JInternalFrame {
         pessoaJuridica = new javax.swing.JRadioButton();
         pessoaFisica = new javax.swing.JRadioButton();
         porTodosClientes = new javax.swing.JRadioButton();
-        comboTipoPessoa = new javax.swing.JComboBox<String>();
+        comboTipoPessoa = new javax.swing.JComboBox<>();
         jPanel7 = new javax.swing.JPanel();
         porOrdemProducao = new javax.swing.JRadioButton();
         textoOrdemProducao = new javax.swing.JFormattedTextField();
@@ -120,11 +121,11 @@ public class RelatoriosOrdemProducao extends javax.swing.JInternalFrame {
         codigoProduto = new javax.swing.JFormattedTextField();
         descricaoProduto = new javax.swing.JTextField();
         porTodosProdutos = new javax.swing.JRadioButton();
-        listaPesquisaProdutos = new javax.swing.JList<String>();
+        listaPesquisaProdutos = new javax.swing.JList<>();
         tipoProduto = new javax.swing.JComboBox();
         jPanel2 = new javax.swing.JPanel();
         porEmissor = new javax.swing.JRadioButton();
-        comboEmissores = new javax.swing.JComboBox<String>();
+        comboEmissores = new javax.swing.JComboBox<>();
         porTodosEmissores = new javax.swing.JRadioButton();
         jPanel3 = new javax.swing.JPanel();
         periodoFimEmissao = new com.toedter.calendar.JDateChooser();
@@ -142,6 +143,10 @@ public class RelatoriosOrdemProducao extends javax.swing.JInternalFrame {
         jLabel3 = new javax.swing.JLabel();
         periodoInicioEntrega = new com.toedter.calendar.JDateChooser();
         jLabel4 = new javax.swing.JLabel();
+        jPanel8 = new javax.swing.JPanel();
+        porStatus = new javax.swing.JRadioButton();
+        porTodosStatus = new javax.swing.JRadioButton();
+        comboStatus = new javax.swing.JComboBox<>();
         jPanel6 = new javax.swing.JPanel();
         campoCodigoOp = new javax.swing.JCheckBox();
         campoCodigoOrcamento = new javax.swing.JCheckBox();
@@ -245,7 +250,7 @@ public class RelatoriosOrdemProducao extends javax.swing.JInternalFrame {
             }
         });
 
-        comboTipoPessoa.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "1 - PESSOA FÍSICA (PF)", "2 - PESSOA JURÍDICA (PJ)" }));
+        comboTipoPessoa.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "1 - PESSOA FÍSICA (PF)", "2 - PESSOA JURÍDICA (PJ)" }));
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -478,11 +483,9 @@ public class RelatoriosOrdemProducao extends javax.swing.JInternalFrame {
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addComponent(porEmissor)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(comboEmissores, 0, 624, Short.MAX_VALUE))
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addComponent(porTodosEmissores)
-                        .addGap(0, 0, Short.MAX_VALUE)))
-                .addContainerGap())
+                        .addComponent(comboEmissores, javax.swing.GroupLayout.PREFERRED_SIZE, 307, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(porTodosEmissores))
+                .addContainerGap(472, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -493,7 +496,7 @@ public class RelatoriosOrdemProducao extends javax.swing.JInternalFrame {
                     .addComponent(comboEmissores, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(porTodosEmissores)
-                .addContainerGap(196, Short.MAX_VALUE))
+                .addContainerGap(209, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("EMISSOR", new javax.swing.ImageIcon(getClass().getResource("/icones/atendentes.png")), jPanel2); // NOI18N
@@ -652,6 +655,54 @@ public class RelatoriosOrdemProducao extends javax.swing.JInternalFrame {
         jPanel3Layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {diaEmissao, diaEntrega, porDiaEmissao, porDiaEntrega});
 
         jTabbedPane1.addTab("PERÍODO", new javax.swing.ImageIcon(getClass().getResource("/icones/periodo.png")), jPanel3); // NOI18N
+
+        grupoStatus.add(porStatus);
+        porStatus.setText("POR STATUS");
+        porStatus.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                porStatusItemStateChanged(evt);
+            }
+        });
+
+        grupoStatus.add(porTodosStatus);
+        porTodosStatus.setSelected(true);
+        porTodosStatus.setText("TODOS");
+        porTodosStatus.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                porTodosStatusItemStateChanged(evt);
+            }
+        });
+
+        comboStatus.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "EM AVALIAÇÃO PELA SEÇ TÉCNICA", "ENCAMINHADO PARA PRÉ IMP", "DIAGRAMAÇÃO", "PRODUZINDO PROVA", "AGUARDANDO APR CLIENTE", "ENCAMINHADO PARA OFFSET", "ENCAMINHADO PARA TIPOGRAFIA", "ENCAMINHADO PARA ACABAMENTO", "EM FINALIZAÇÃO", "ENCAMINHADO PARA EXPEDIÇÃO", "ENTREGUE PARCIALMENTE", "CANCELADA", "ENTREGUE" }));
+        comboStatus.setEnabled(false);
+
+        javax.swing.GroupLayout jPanel8Layout = new javax.swing.GroupLayout(jPanel8);
+        jPanel8.setLayout(jPanel8Layout);
+        jPanel8Layout.setHorizontalGroup(
+            jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel8Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel8Layout.createSequentialGroup()
+                        .addComponent(porStatus)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(comboStatus, javax.swing.GroupLayout.PREFERRED_SIZE, 274, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(porTodosStatus))
+                .addContainerGap(513, Short.MAX_VALUE))
+        );
+        jPanel8Layout.setVerticalGroup(
+            jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel8Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(porStatus)
+                    .addComponent(comboStatus, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(porTodosStatus)
+                .addContainerGap(215, Short.MAX_VALUE))
+        );
+
+        jTabbedPane1.addTab("STATUS", new javax.swing.ImageIcon(getClass().getResource("/icones/ordenador_despesas.png")), jPanel8); // NOI18N
 
         campoCodigoOp.setText("CÓDIGO OP");
         campoCodigoOp.addItemListener(new java.awt.event.ItemListener() {
@@ -1439,6 +1490,22 @@ public class RelatoriosOrdemProducao extends javax.swing.JInternalFrame {
         }.start();
     }//GEN-LAST:event_botaoGeraRelatorioActionPerformed
 
+    private void porStatusItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_porStatusItemStateChanged
+        if (porStatus.isSelected()) {
+            comboStatus.setEnabled(true);
+        } else {
+            comboStatus.setEnabled(false);
+        }
+    }//GEN-LAST:event_porStatusItemStateChanged
+
+    private void porTodosStatusItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_porTodosStatusItemStateChanged
+        if (porStatus.isSelected()) {
+            comboStatus.setEnabled(true);
+        } else {
+            comboStatus.setEnabled(false);
+        }
+    }//GEN-LAST:event_porTodosStatusItemStateChanged
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton botaoGeraRelatorio;
@@ -1458,6 +1525,7 @@ public class RelatoriosOrdemProducao extends javax.swing.JInternalFrame {
     private javax.swing.JFormattedTextField codigoCliente;
     private javax.swing.JFormattedTextField codigoProduto;
     private javax.swing.JComboBox<String> comboEmissores;
+    private javax.swing.JComboBox<String> comboStatus;
     private javax.swing.JComboBox<String> comboTipoPessoa;
     private javax.swing.JTextField descricaoProduto;
     private com.toedter.calendar.JDateChooser diaEmissao;
@@ -1469,6 +1537,7 @@ public class RelatoriosOrdemProducao extends javax.swing.JInternalFrame {
     private javax.swing.ButtonGroup grupoOrientacao;
     private javax.swing.ButtonGroup grupoPeriodo;
     private javax.swing.ButtonGroup grupoProduto;
+    private javax.swing.ButtonGroup grupoStatus;
     private javax.swing.ButtonGroup grupoTipoPessoa;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
@@ -1482,6 +1551,7 @@ public class RelatoriosOrdemProducao extends javax.swing.JInternalFrame {
     private javax.swing.JPanel jPanel5;
     private javax.swing.JPanel jPanel6;
     private javax.swing.JPanel jPanel7;
+    private javax.swing.JPanel jPanel8;
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JList<String> listaPesquisaCliente;
     private javax.swing.JList<String> listaPesquisaProdutos;
@@ -1514,6 +1584,7 @@ public class RelatoriosOrdemProducao extends javax.swing.JInternalFrame {
     private javax.swing.JRadioButton porPeriodoEntrega;
     private javax.swing.JRadioButton porQuantidadeCrescente;
     private javax.swing.JRadioButton porQuantidadeDecrescente;
+    private javax.swing.JRadioButton porStatus;
     private javax.swing.JRadioButton porTipoPessoaCliente;
     private javax.swing.JRadioButton porTipoPessoaOrdenar;
     private javax.swing.JRadioButton porTipoProduto;
@@ -1522,6 +1593,7 @@ public class RelatoriosOrdemProducao extends javax.swing.JInternalFrame {
     private javax.swing.JRadioButton porTodosOpOrcamento;
     private javax.swing.JRadioButton porTodosPeriodos;
     private javax.swing.JRadioButton porTodosProdutos;
+    private javax.swing.JRadioButton porTodosStatus;
     private javax.swing.JRadioButton porValorCrescente;
     private javax.swing.JRadioButton porValorDecrescente;
     private javax.swing.JRadioButton semOrdenacao;
@@ -1570,7 +1642,7 @@ public class RelatoriosOrdemProducao extends javax.swing.JInternalFrame {
         if (campoNomeCliente.isSelected()) {
             quantidadeSelecionada += 1;
         }
-        if(campoStatus.isSelected()){
+        if (campoStatus.isSelected()) {
             quantidadeSelecionada += 1;
         }
 
@@ -2609,6 +2681,20 @@ public class RelatoriosOrdemProducao extends javax.swing.JInternalFrame {
             } else if (porTodosPeriodos.isSelected()) {
                 tipoCondicaoPeriodo = 5;
             }
+            
+            /**
+            * @param tipoCondicaoStatus 1 - POR STATUS 2 - POR TODOS
+            * @param textoStatus
+            **/
+            byte tipoCondicaoStatus = 0;
+            String textoStatus = null;
+            if(porStatus.isSelected()){
+                tipoCondicaoStatus = 1;
+                textoStatus = comboStatus.getSelectedItem().toString();
+            }else if(porTodosStatus.isSelected()){
+                tipoCondicaoStatus = 0;
+            }
+            
             /*
              @param tipoCondicaoOrdenar
              1 - codigo op crescente
@@ -2674,8 +2760,10 @@ public class RelatoriosOrdemProducao extends javax.swing.JInternalFrame {
                     tipoCondicaoEmissor,
                     tipoCondicaoPeriodo,
                     tipoCondicaoOrdenar,
+                    tipoCondicaoStatus,
                     textoOpOrcamento,
                     textoEmissor,
+                    textoStatus,
                     textoPeriodoInicio,
                     textoPeriodoFim,
                     cliente,
@@ -2742,7 +2830,7 @@ public class RelatoriosOrdemProducao extends javax.swing.JInternalFrame {
                     celula.setHorizontalAlignment(Element.ALIGN_CENTER);
                     retorno.addCell(celula);
                 }
-                if(campoStatus.isSelected()){
+                if (campoStatus.isSelected()) {
                     celula = new PdfPCell(new Phrase(op.getStatus(), FontFactory.getFont("arial.ttf", 6)));
                     celula.setHorizontalAlignment(Element.ALIGN_CENTER);
                     retorno.addCell(celula);
@@ -2840,6 +2928,8 @@ public class RelatoriosOrdemProducao extends javax.swing.JInternalFrame {
         porTodosEmissores.setSelected(true);
         //periodo
         porTodosPeriodos.setSelected(true);
+        //status
+        porTodosStatus.setSelected(true);
         //ordenar
         semOrdenacao.setSelected(true);
         porCodigoOpCrescente.setEnabled(false);

@@ -33,6 +33,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JLabel;
 import test.NewMain;
+import ui.cadastros.notas.NotaDAO;
 import ui.controle.Controle;
 
 /**
@@ -229,156 +230,162 @@ public class RelatorioFinanceiro extends javax.swing.JInternalFrame {
         new Thread() {
             @Override
             public void run() {
-                
-                loading.setVisible(true);
-                loading.setText("GERANDO RELATÓRIO...");
-
-                consulta = new ArrayList();
-                tipoPessoa = rbtnPessoaFisica.isSelected() ? (byte) 1 : (byte) 2;
-                retornaCreditosDebitos();
-                retornaEmAberto();
-                calculaSaldoAcumulado();
-
-                if (jckbOrdenarSaldoCrescente.isSelected()) {
-                    Collections.sort(consulta);
-                }
-
-                com.itextpdf.text.Document document = new com.itextpdf.text.Document(PageSize.A4, 30, 20, 20, 30);
-
-                String valor = null;
-
-                DecimalFormat df = new DecimalFormat("###,##0.00");
-
-                String hora = Controle.horaPadraoDiretorio.format(new Date());
-                String data = Controle.dataPadraoDiretorio.format(new Date());
-
-                Double somaSaldoAcumuladoAnterior = 0d;
-                Double somaCredito = 0d;
-                Double somaDebito = 0d;
-                Double somaEmAberto = 0d;
-                Double somaSaldoAcumuladoAtual = 0d;
 
                 try {
-                    if (System.getProperty("os.name").toLowerCase().contains("windows")) {
-                        PdfWriter.getInstance(document, new FileOutputStream(Controle.urlTempWindows + data + hora + ".pdf"));
-                    } else {
-                        PdfWriter.getInstance(document, new FileOutputStream(Controle.urlTempUnix + data + hora + ".pdf"));
+
+                    loading.setVisible(true);
+                    loading.setText("GERANDO RELATÓRIO...");
+
+                    consulta = new ArrayList();
+                    tipoPessoa = rbtnPessoaFisica.isSelected() ? (byte) 1 : (byte) 2;
+                    retornaCreditosDebitos();
+                    retornaEmAberto();
+                    calculaSaldoAcumulado();
+
+                    if (jckbOrdenarSaldoCrescente.isSelected()) {
+                        Collections.sort(consulta);
                     }
 
-                    document.setMargins(20, 20, 20, 20);
+                    com.itextpdf.text.Document document = new com.itextpdf.text.Document(PageSize.A4, 30, 20, 20, 30);
 
-                    if (jckbPaisagem.isSelected()) {
-                        document.setPageSize(PageSize.A4.rotate());
-                    } else {
-                        document.setPageSize(PageSize.A4);
-                    }
+                    String valor = null;
 
-                    document.open();
+                    DecimalFormat df = new DecimalFormat("###,##0.00");
 
-                    document.add(new Paragraph(new Phrase("RELATÓRIO FINANCEIRO - "
-                            + "DATA E HORA DE EMISSÃO: "
-                            + data
-                            + " "
-                            + hora
-                            + " - SISGRAFEX\n\n", FontFactory.getFont("arial.ttf", 9))));
+                    String hora = Controle.horaPadraoDiretorio.format(new Date());
+                    String data = Controle.dataPadraoDiretorio.format(new Date());
 
-                    Paragraph p = new Paragraph("RELATÓRIO FINANCEIRO", FontFactory.getFont("arial.ttf", 12, Font.BOLD));
-                    p.setAlignment(1);
-                    document.add(p);
-                    p = new Paragraph((jckbAnoInteiro.isSelected() ? "" 
-                            + selAno.getValue() : (selMes.getMonth() + 1) + "/" + selAno.getValue())
-                            + (rbtnPessoaFisica.isSelected() ? " - PESSOAS FÍSICAS" : " - PESSOAS JURÍDICAS"), FontFactory.getFont("arial.ttf", 12, Font.BOLD));
-                    p.setAlignment(1);
-                    document.add(p);
+                    Double somaSaldoAcumuladoAnterior = 0d;
+                    Double somaCredito = 0d;
+                    Double somaDebito = 0d;
+                    Double somaEmAberto = 0d;
+                    Double somaSaldoAcumuladoAtual = 0d;
 
-                    document.add(new Paragraph("\n"));
+                    try {
+                        if (System.getProperty("os.name").toLowerCase().contains("windows")) {
+                            PdfWriter.getInstance(document, new FileOutputStream(Controle.urlTempWindows + data + hora + ".pdf"));
+                        } else {
+                            PdfWriter.getInstance(document, new FileOutputStream(Controle.urlTempUnix + data + hora + ".pdf"));
+                        }
 
-                    PdfPTable retorno = new PdfPTable(new float[]{1.5f, 5f, 3f, 2f, 2f, 2f, 3f});
-                    retorno.setWidthPercentage(100);
+                        document.setMargins(20, 20, 20, 20);
 
-                    PdfPCell cell1 = new PdfPCell(new Phrase("CÓDIGO", FontFactory.getFont("arial.ttf", 10, Font.BOLD)));
-                    cell1.setHorizontalAlignment(1);
-                    retorno.addCell(cell1);
-                    cell1 = new PdfPCell(new Phrase("NOME", FontFactory.getFont("arial.ttf", 10, Font.BOLD)));
-                    cell1.setHorizontalAlignment(1);
-                    retorno.addCell(cell1);
-                    cell1 = new PdfPCell(new Phrase("SALDO ACUMULADO " + (selAno.getValue() - 1), FontFactory.getFont("arial.ttf", 10, Font.BOLD)));
-                    cell1.setHorizontalAlignment(1);
-                    retorno.addCell(cell1);
-                    cell1 = new PdfPCell(new Phrase("CRÉDITO", FontFactory.getFont("arial.ttf", 10, Font.BOLD)));
-                    cell1.setHorizontalAlignment(1);
-                    retorno.addCell(cell1);
-                    cell1 = new PdfPCell(new Phrase("DÉBITO", FontFactory.getFont("arial.ttf", 10, Font.BOLD)));
-                    cell1.setHorizontalAlignment(1);
-                    retorno.addCell(cell1);
-                    cell1 = new PdfPCell(new Phrase("EM ABERTO", FontFactory.getFont("arial.ttf", 10, Font.BOLD)));
-                    cell1.setHorizontalAlignment(1);
-                    retorno.addCell(cell1);
-                    cell1 = new PdfPCell(new Phrase("SALDO ACUMULADO " + selAno.getValue(), FontFactory.getFont("arial.ttf", 10, Font.BOLD)));
-                    cell1.setHorizontalAlignment(1);
-                    retorno.addCell(cell1);
+                        if (jckbPaisagem.isSelected()) {
+                            document.setPageSize(PageSize.A4.rotate());
+                        } else {
+                            document.setPageSize(PageSize.A4);
+                        }
 
-                    for (ClienteRelFin c : consulta) {
-                        cell1 = new PdfPCell(new Phrase("" + c.getCodigo(), FontFactory.getFont("arial.ttf", 8)));
+                        document.open();
+
+                        document.add(new Paragraph(new Phrase("RELATÓRIO FINANCEIRO - "
+                                + "DATA E HORA DE EMISSÃO: "
+                                + data
+                                + " "
+                                + hora
+                                + " - SISGRAFEX\n\n", FontFactory.getFont("arial.ttf", 9))));
+
+                        Paragraph p = new Paragraph("RELATÓRIO FINANCEIRO", FontFactory.getFont("arial.ttf", 12, Font.BOLD));
+                        p.setAlignment(1);
+                        document.add(p);
+                        p = new Paragraph((jckbAnoInteiro.isSelected() ? ""
+                                + selAno.getValue() : (selMes.getMonth() + 1) + "/" + selAno.getValue())
+                                + (rbtnPessoaFisica.isSelected() ? " - PESSOAS FÍSICAS" : " - PESSOAS JURÍDICAS"), FontFactory.getFont("arial.ttf", 12, Font.BOLD));
+                        p.setAlignment(1);
+                        document.add(p);
+
+                        document.add(new Paragraph("\n"));
+
+                        PdfPTable retorno = new PdfPTable(new float[]{1.5f, 5f, 3f, 2f, 2f, 2f, 3f});
+                        retorno.setWidthPercentage(100);
+
+                        PdfPCell cell1 = new PdfPCell(new Phrase("CÓDIGO", FontFactory.getFont("arial.ttf", 10, Font.BOLD)));
                         cell1.setHorizontalAlignment(1);
                         retorno.addCell(cell1);
-                        cell1 = new PdfPCell(new Phrase(c.getNome(), FontFactory.getFont("arial.ttf", 8)));
+                        cell1 = new PdfPCell(new Phrase("NOME", FontFactory.getFont("arial.ttf", 10, Font.BOLD)));
+                        cell1.setHorizontalAlignment(1);
                         retorno.addCell(cell1);
-                        cell1 = new PdfPCell(new Phrase("R$ " + df.format(c.getSaldoAcumuladoAnterior()), FontFactory.getFont("arial.ttf", 8)));
+                        cell1 = new PdfPCell(new Phrase("SALDO ACUMULADO " + (selAno.getValue() - 1), FontFactory.getFont("arial.ttf", 10, Font.BOLD)));
+                        cell1.setHorizontalAlignment(1);
                         retorno.addCell(cell1);
-                        cell1 = new PdfPCell(new Phrase("R$ " + df.format(c.getCredito()), FontFactory.getFont("arial.ttf", 8)));
+                        cell1 = new PdfPCell(new Phrase("CRÉDITO", FontFactory.getFont("arial.ttf", 10, Font.BOLD)));
+                        cell1.setHorizontalAlignment(1);
                         retorno.addCell(cell1);
-                        cell1 = new PdfPCell(new Phrase("R$ " + df.format(c.getDebito()), FontFactory.getFont("arial.ttf", 8)));
+                        cell1 = new PdfPCell(new Phrase("DÉBITO", FontFactory.getFont("arial.ttf", 10, Font.BOLD)));
+                        cell1.setHorizontalAlignment(1);
                         retorno.addCell(cell1);
-                        cell1 = new PdfPCell(new Phrase("R$ " + df.format(c.getEmAberto()), FontFactory.getFont("arial.ttf", 8)));
+                        cell1 = new PdfPCell(new Phrase("EM ABERTO", FontFactory.getFont("arial.ttf", 10, Font.BOLD)));
+                        cell1.setHorizontalAlignment(1);
                         retorno.addCell(cell1);
-                        cell1 = new PdfPCell(new Phrase("R$ " + df.format(c.getSaldoAcumuladoAtual()), FontFactory.getFont("arial.ttf", 8)));
+                        cell1 = new PdfPCell(new Phrase("SALDO ACUMULADO " + selAno.getValue(), FontFactory.getFont("arial.ttf", 10, Font.BOLD)));
+                        cell1.setHorizontalAlignment(1);
                         retorno.addCell(cell1);
 
-                        somaSaldoAcumuladoAnterior += c.getSaldoAcumuladoAnterior();
-                        somaCredito += c.getCredito();
-                        somaDebito += c.getDebito();
-                        somaEmAberto += c.getEmAberto();
-                        somaSaldoAcumuladoAtual += c.getSaldoAcumuladoAtual();
+                        for (ClienteRelFin c : consulta) {
+                            cell1 = new PdfPCell(new Phrase("" + c.getCodigo(), FontFactory.getFont("arial.ttf", 8)));
+                            cell1.setHorizontalAlignment(1);
+                            retorno.addCell(cell1);
+                            cell1 = new PdfPCell(new Phrase(c.getNome(), FontFactory.getFont("arial.ttf", 8)));
+                            retorno.addCell(cell1);
+                            cell1 = new PdfPCell(new Phrase("R$ " + df.format(c.getSaldoAcumuladoAnterior()), FontFactory.getFont("arial.ttf", 8)));
+                            retorno.addCell(cell1);
+                            cell1 = new PdfPCell(new Phrase("R$ " + df.format(c.getCredito()), FontFactory.getFont("arial.ttf", 8)));
+                            retorno.addCell(cell1);
+                            cell1 = new PdfPCell(new Phrase("R$ " + df.format(c.getDebito()), FontFactory.getFont("arial.ttf", 8)));
+                            retorno.addCell(cell1);
+                            cell1 = new PdfPCell(new Phrase("R$ " + df.format(c.getEmAberto()), FontFactory.getFont("arial.ttf", 8)));
+                            retorno.addCell(cell1);
+                            cell1 = new PdfPCell(new Phrase("R$ " + df.format(c.getSaldoAcumuladoAtual()), FontFactory.getFont("arial.ttf", 8)));
+                            retorno.addCell(cell1);
+
+                            somaSaldoAcumuladoAnterior += c.getSaldoAcumuladoAnterior();
+                            somaCredito += c.getCredito();
+                            somaDebito += c.getDebito();
+                            somaEmAberto += c.getEmAberto();
+                            somaSaldoAcumuladoAtual += c.getSaldoAcumuladoAtual();
+                        }
+
+                        cell1 = new PdfPCell(new Phrase("TOTAL", FontFactory.getFont("arial.ttf", 10, Font.BOLD)));
+                        cell1.setColspan(2);
+                        cell1.setHorizontalAlignment(1);
+                        retorno.addCell(cell1);
+                        cell1 = new PdfPCell(new Phrase("R$ " + df.format(somaSaldoAcumuladoAnterior), FontFactory.getFont("arial.ttf", 10, Font.BOLD)));
+                        retorno.addCell(cell1);
+                        cell1 = new PdfPCell(new Phrase("R$ " + df.format(somaCredito), FontFactory.getFont("arial.ttf", 10, Font.BOLD)));
+                        retorno.addCell(cell1);
+                        cell1 = new PdfPCell(new Phrase("R$ " + df.format(somaDebito), FontFactory.getFont("arial.ttf", 10, Font.BOLD)));
+                        retorno.addCell(cell1);
+                        cell1 = new PdfPCell(new Phrase("R$ " + df.format(somaEmAberto), FontFactory.getFont("arial.ttf", 10, Font.BOLD)));
+                        retorno.addCell(cell1);
+                        cell1 = new PdfPCell(new Phrase("R$ " + df.format(somaSaldoAcumuladoAtual), FontFactory.getFont("arial.ttf", 10, Font.BOLD)));
+                        retorno.addCell(cell1);
+
+                        document.add(retorno);
+                        document.close();
+                    } catch (FileNotFoundException ex) {
+                        EnvioExcecao envioExcecao = new EnvioExcecao(Controle.getDefaultGj(), ex);
+                        EnvioExcecao.envio();
+                    } catch (DocumentException ex) {
+                        EnvioExcecao envioExcecao = new EnvioExcecao(Controle.getDefaultGj(), ex);
+                        EnvioExcecao.envio();
                     }
 
-                    cell1 = new PdfPCell(new Phrase("TOTAL", FontFactory.getFont("arial.ttf", 10, Font.BOLD)));
-                    cell1.setColspan(2);
-                    cell1.setHorizontalAlignment(1);
-                    retorno.addCell(cell1);
-                    cell1 = new PdfPCell(new Phrase("R$ " + df.format(somaSaldoAcumuladoAnterior), FontFactory.getFont("arial.ttf", 10, Font.BOLD)));
-                    retorno.addCell(cell1);
-                    cell1 = new PdfPCell(new Phrase("R$ " + df.format(somaCredito), FontFactory.getFont("arial.ttf", 10, Font.BOLD)));
-                    retorno.addCell(cell1);
-                    cell1 = new PdfPCell(new Phrase("R$ " + df.format(somaDebito), FontFactory.getFont("arial.ttf", 10, Font.BOLD)));
-                    retorno.addCell(cell1);
-                    cell1 = new PdfPCell(new Phrase("R$ " + df.format(somaEmAberto), FontFactory.getFont("arial.ttf", 10, Font.BOLD)));
-                    retorno.addCell(cell1);
-                    cell1 = new PdfPCell(new Phrase("R$ " + df.format(somaSaldoAcumuladoAtual), FontFactory.getFont("arial.ttf", 10, Font.BOLD)));
-                    retorno.addCell(cell1);
+                    try {
+                        if (System.getProperty("os.name").toLowerCase().contains("windows")) {
+                            java.awt.Desktop.getDesktop().open(new File(Controle.urlTempWindows + data + hora + ".pdf"));
+                        } else {
+                            java.awt.Desktop.getDesktop().open(new File(Controle.urlTempUnix + data + hora + ".pdf"));
+                        }
+                    } catch (IOException ex) {
+                        EnvioExcecao envioExcecao = new EnvioExcecao(Controle.getDefaultGj(), ex);
+                        EnvioExcecao.envio();
+                    }
 
-                    document.add(retorno);
-                    document.close();
-                } catch (FileNotFoundException ex) {
-                    EnvioExcecao envioExcecao = new EnvioExcecao(Controle.getDefaultGj(), ex);
-                    EnvioExcecao.envio();
-                } catch (DocumentException ex) {
+                    loading.setVisible(false);
+                } catch (SQLException ex) {
                     EnvioExcecao envioExcecao = new EnvioExcecao(Controle.getDefaultGj(), ex);
                     EnvioExcecao.envio();
                 }
-
-                try {
-                    if (System.getProperty("os.name").toLowerCase().contains("windows")) {
-                        java.awt.Desktop.getDesktop().open(new File(Controle.urlTempWindows + data + hora + ".pdf"));
-                    } else {
-                        java.awt.Desktop.getDesktop().open(new File(Controle.urlTempUnix + data + hora + ".pdf"));
-                    }
-                } catch (IOException ex) {
-                    EnvioExcecao envioExcecao = new EnvioExcecao(Controle.getDefaultGj(), ex);
-                    EnvioExcecao.envio();
-                }
-
-                loading.setVisible(false);
             }
         }.start();
 
@@ -487,8 +494,7 @@ public class RelatorioFinanceiro extends javax.swing.JInternalFrame {
                     + "FROM tabela_ordens_producao "
                     + "INNER JOIN tabela_orcamentos ON tabela_orcamentos.cod = tabela_ordens_producao.orcamento_base "
                     + "WHERE tabela_ordens_producao.status != 'ENTREGUE' "
-                    + "AND tabela_ordens_producao.status != 'ENTREGUE PARCIALMENTE' "
-                    + "AND tabela_ordens_producao.status != 'CANCELADA'"
+                    + "AND tabela_ordens_producao.status != 'CANCELADA' "
                     + "AND tabela_ordens_producao.tipo_cliente = " + tipoPessoa + " "
                     + "AND tabela_ordens_producao.data_emissao BETWEEN '2020-01-01' AND '" + selAno.getValue() + "-" + (selMes.getMonth() + 1) + "-31' "
                     + "ORDER BY tabela_ordens_producao.cod_cliente ASC");
@@ -497,12 +503,13 @@ public class RelatorioFinanceiro extends javax.swing.JInternalFrame {
                 if (!codigosProcessados.contains(rs.getInt("tabela_ordens_producao.cod_cliente"))) {
                     valor = 0d;
                     stmt = con.prepareStatement("SELECT tabela_ordens_producao.orcamento_base, "
-                            + "tabela_ordens_producao.cod_produto "
+                            + "tabela_ordens_producao.cod_produto,"
+                            + "tabela_ordens_producao.status,"
+                            + "tabela_ordens_producao.cod "
                             + "FROM tabela_ordens_producao "
                             + "INNER JOIN tabela_orcamentos ON tabela_orcamentos.cod = tabela_ordens_producao.orcamento_base "
                             + "WHERE tabela_ordens_producao.status != 'ENTREGUE' "
-                            + "AND tabela_ordens_producao.status != 'ENTREGUE PARCIALMENTE' "
-                            + "AND tabela_ordens_producao.status != 'CANCELADA'"
+                            + "AND tabela_ordens_producao.status != 'CANCELADA' "
                             + "AND tabela_ordens_producao.tipo_cliente = " + tipoPessoa + " "
                             + "AND tabela_ordens_producao.cod_cliente = ? "
                             + "AND tabela_ordens_producao.data_emissao BETWEEN '2020-01-01' AND '" + selAno.getValue() + "-" + (selMes.getMonth() + 1) + "-31' "
@@ -516,9 +523,19 @@ public class RelatorioFinanceiro extends javax.swing.JInternalFrame {
                         stmt.setInt(1, rs2.getInt("tabela_ordens_producao.orcamento_base"));
                         stmt.setInt(2, rs2.getInt("tabela_ordens_producao.cod_produto"));
                         rs3 = stmt.executeQuery();
+
                         if (rs3.next()) {
-                            valor += rs3.getDouble("valor");
+                            switch (rs2.getString("tabela_ordens_producao.status")) {
+                                case "ENTREGUE PARCIALMENTE":
+                                    valor += rs3.getDouble("valor");
+                                    valor -= NotaDAO.retornaVlrOpEntregueParcial(rs2.getInt("tabela_ordens_producao.cod"));
+                                    break;
+                                default:
+                                    valor += rs3.getDouble("valor");
+                                    break;
+                            }
                         }
+
                     }
                     codigosProcessados.add(rs.getInt("tabela_ordens_producao.cod_cliente"));
 
@@ -534,7 +551,7 @@ public class RelatorioFinanceiro extends javax.swing.JInternalFrame {
         }
     }
 
-    private void calculaSaldoAcumulado() {
+    private void calculaSaldoAcumulado() throws SQLException {
         for (ClienteRelFin c : consulta) {
             Connection con = ConnectionFactory.getConnection();
             PreparedStatement stmt = null;
@@ -600,7 +617,9 @@ public class RelatorioFinanceiro extends javax.swing.JInternalFrame {
                 }
                 c.setSaldoAcumuladoAnterior(saldoAcumuladoAnterior);
             } catch (SQLException ex) {
-                Logger.getLogger(NewMain.class.getName()).log(Level.SEVERE, null, ex);
+                throw new SQLException(ex);
+            } finally{
+                ConnectionFactory.closeConnection(con, stmt, rs);
             }
         }
     }

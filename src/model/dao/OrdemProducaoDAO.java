@@ -134,8 +134,9 @@ public class OrdemProducaoDAO {
 
     /**
      * Cria a ordem de produção
+     *
      * @param op ordem de produção
-     * @throws SQLException 
+     * @throws SQLException
      */
     public static void createOp(OrdemProducao op) throws SQLException {
         Connection con = ConnectionFactory.getConnection();
@@ -171,8 +172,8 @@ public class OrdemProducaoDAO {
             stmt.setByte(11, op.getTipoProduto());
             stmt.setInt(12, op.getCodContato());
             stmt.setInt(13, op.getCodEndereco());
-            stmt.setDate(14, op.getDataEntgProva() != null 
-                    ? new java.sql.Date(op.getDataEntgProva().getTime()) 
+            stmt.setDate(14, op.getDataEntgProva() != null
+                    ? new java.sql.Date(op.getDataEntgProva().getTime())
                     : null);
             stmt.setString(15, op.getObsFrete());
             stmt.executeUpdate();
@@ -185,13 +186,15 @@ public class OrdemProducaoDAO {
 
     /**
      * Atualiza os cálculo da ordem de produção
+     *
      * @param codProposta código da proposta de orçamento
      * @param codProd código do produto
-     * @param tipoProd tipo do produto 1 - PERSONALIZADO (PP), 2 - PRONTA ENTREGA (PE), 3 - INTERNET (PI)
+     * @param tipoProd tipo do produto 1 - PERSONALIZADO (PP), 2 - PRONTA
+     * ENTREGA (PE), 3 - INTERNET (PI)
      * @param codPapel código do papel
      * @param codOp código da ordem de produção
      * @param tipoPapel tipo do papel
-     * @throws SQLException 
+     * @throws SQLException
      */
     public static void alteraCalculosOp(int codProposta,
             int codProd,
@@ -293,9 +296,9 @@ public class OrdemProducaoDAO {
      * @return
      * @throws SQLException
      */
-    public static List<CalculosOpBEAN> retornaCalculosOp(int codOp, 
+    public static List<CalculosOpBEAN> retornaCalculosOp(int codOp,
             byte tipoProduto,
-            int codProduto, 
+            int codProduto,
             String tipoPapel) throws SQLException {
         Connection con = ConnectionFactory.getConnection();
         PreparedStatement stmt = null;
@@ -505,9 +508,10 @@ public class OrdemProducaoDAO {
 
     /**
      * Define o status como cancelada e aciciona o motivo do cancelamento
+     *
      * @param codOp código da OP
      * @param motivoCanc motivo do cancelamento
-     * @throws SQLException 
+     * @throws SQLException
      */
     public static void cancelaOp(int codOp, String motivoCanc) throws SQLException {
         Connection con = ConnectionFactory.getConnection();
@@ -549,12 +553,13 @@ public class OrdemProducaoDAO {
             ConnectionFactory.closeConnection(con, stmt, rs);
         }
     }
-    
+
     /**
      * Retorna a observação existente na OP
+     *
      * @param codOp código da OP
      * @return
-     * @throws SQLException 
+     * @throws SQLException
      */
     public static String retornaObsOp(int codOp) throws SQLException {
         Connection con = ConnectionFactory.getConnection();
@@ -578,7 +583,7 @@ public class OrdemProducaoDAO {
         }
     }
 
-    //NOTA FISCAL---------------------------------------------------------------
+    //NOTA DÉBITO---------------------------------------------------------------
     /**
      * @param codOp código da ordem de produção a ser selecionada para a nota de
      * venda
@@ -798,6 +803,7 @@ public class OrdemProducaoDAO {
 
     /**
      * Retorna os códigos das ordens de produção relacionadas ao orçamento
+     *
      * @param codOrc código do orçamento
      * @return int código da ordem de produção
      * @see retornaCodOpOrcProd
@@ -814,7 +820,7 @@ public class OrdemProducaoDAO {
                     + "WHERE orcamento_base = ?");
             stmt.setInt(1, codOrc);
             rs = stmt.executeQuery();
-            while(rs.next()){
+            while (rs.next()) {
                 ordemProducao.add(rs.getInt("cod"));
             }
             return ordemProducao;
@@ -1026,12 +1032,14 @@ public class OrdemProducaoDAO {
             ConnectionFactory.closeConnection(con, stmt, rs);
         }
     }
-    
+
     /**
-     * Retorna uma lista de códigos de OP através de uma lista de códigos de clientes
+     * Retorna uma lista de códigos de OP através de uma lista de códigos de
+     * clientes
+     *
      * @param clientes lista de códigos de clientes
      * @return
-     * @throws SQLException 
+     * @throws SQLException
      */
     public static List<Integer> retornaCodOpCliente(List<ClienteBEAN> clientes) throws SQLException {
         Connection con = ConnectionFactory.getConnection();
@@ -1044,7 +1052,7 @@ public class OrdemProducaoDAO {
                 stmt = con.prepareStatement("SELECT cod "
                         + "FROM tabela_ordens_producao "
                         + "WHERE cod_cliente = ? AND tipo_cliente = ?");
-                stmt.setInt(1,cliente.getCod());
+                stmt.setInt(1, cliente.getCod());
                 stmt.setInt(2, cliente.getTipoCliente());
                 rs = stmt.executeQuery();
                 while (rs.next()) {
@@ -1058,12 +1066,13 @@ public class OrdemProducaoDAO {
             ConnectionFactory.closeConnection(con, stmt, rs);
         }
     }
-    
+
     /**
      * Altera o status da ordem de produção
+     *
      * @param status novo status da op
      * @param codOp código da ordem de produção
-     * @throws SQLException 
+     * @throws SQLException
      */
     public static void alteraStatus(String status, int codOp) throws SQLException {
         Connection con = ConnectionFactory.getConnection();
@@ -1082,15 +1091,17 @@ public class OrdemProducaoDAO {
             ConnectionFactory.closeConnection(con, stmt);
         }
     }
-    
+
     /**
-     * Verifica se existe mais uma OP no orçamento, e, se existir, se foram entregues
+     * Verifica se existe mais uma OP no orçamento, e, se existir, se foram
+     * entregues
+     *
      * @param codOrc código do orçamento
      * @param codOp código da OP
      * @return
-     * @throws SQLException 
+     * @throws SQLException
      */
-    public static boolean verificaOpOrcEntregues(int codOrc, int codOp) throws SQLException{
+    public static boolean verificaOpOrcEntregues(int codOrc, int codOp) throws SQLException {
         Connection con = ConnectionFactory.getConnection();
         PreparedStatement stmt = null;
         ResultSet rs = null;
@@ -1112,15 +1123,16 @@ public class OrdemProducaoDAO {
             ConnectionFactory.closeConnection(con, stmt, rs);
         }
     }
-    
+
     /**
      * Verifica se existe mais uma OP no orçamento
+     *
      * @param codOrc código do orçamento
      * @param codOp código da OP
      * @return
-     * @throws SQLException 
+     * @throws SQLException
      */
-    public static boolean verificaOpOrcNEntregues(int codOrc, int codOp) throws SQLException{
+    public static boolean verificaOpOrcNEntregues(int codOrc, int codOp) throws SQLException {
         Connection con = ConnectionFactory.getConnection();
         PreparedStatement stmt = null;
         ResultSet rs = null;
@@ -1141,125 +1153,129 @@ public class OrdemProducaoDAO {
             ConnectionFactory.closeConnection(con, stmt, rs);
         }
     }
-    
+
     /**
      * Retorna o ano da ordem de produção
+     *
      * @param codOp código da ordem de produção
      * @return
-     * @throws SQLException 
+     * @throws SQLException
      */
-    public static int retornaAnoOp(int codOp) throws SQLException{
+    public static int retornaAnoOp(int codOp) throws SQLException {
         Connection con = ConnectionFactory.getConnection();
         PreparedStatement stmt = null;
         ResultSet rs = null;
-        
-        try{
+
+        try {
             stmt = con.prepareStatement("SELECT YEAR(tabela_ordens_producao.data_emissao) AS ano "
                     + "FROM tabela_ordens_producao "
                     + "WHERE tabela_ordens_producao.cod = ?");
             stmt.setInt(1, codOp);
             rs = stmt.executeQuery();
-            if(rs.next()){
+            if (rs.next()) {
                 return rs.getInt("ano");
             }
             return 0;
         } catch (SQLException ex) {
             throw new SQLException(ex);
-        }finally{
+        } finally {
             ConnectionFactory.closeConnection(con, stmt, rs);
         }
     }
-    
-    public static byte retornaTipoProduto(int codOp) throws SQLException{
+
+    public static byte retornaTipoProduto(int codOp) throws SQLException {
         Connection con = ConnectionFactory.getConnection();
         PreparedStatement stmt = null;
         ResultSet rs = null;
-        
-        try{
+
+        try {
             stmt = con.prepareStatement("SELECT tabela_ordens_producao.tipo_produto "
                     + "FROM tabela_ordens_producao "
                     + "WHERE tabela_ordens_producao.cod = ?");
             stmt.setInt(1, codOp);
             rs = stmt.executeQuery();
-            if(rs.next()){
+            if (rs.next()) {
                 return rs.getByte("tabela_ordens_producao.tipo_produto");
             }
             return 0;
         } catch (SQLException ex) {
             throw new SQLException(ex);
-        }finally{
+        } finally {
             ConnectionFactory.closeConnection(con, stmt, rs);
         }
     }
-    
+
     /**
      * Retorna as OP associadas a proposta de orçamento
+     *
      * @param codProp código da proposta
      * @return
-     * @throws SQLException 
+     * @throws SQLException
      */
-    public static String retornaOpsAssociadas(int codProp) throws SQLException{
+    public static String retornaOpsAssociadas(int codProp) throws SQLException {
         Connection con = ConnectionFactory.getConnection();
         PreparedStatement stmt = null;
         ResultSet rs = null;
-        
+
         StringBuilder retorno = new StringBuilder();
-        
-        try{
+
+        try {
             stmt = con.prepareStatement("SELECT tabela_ordens_producao.cod "
                     + "FROM tabela_ordens_producao "
                     + "WHERE tabela_ordens_producao.orcamento_base = ?");
             stmt.setInt(1, codProp);
             rs = stmt.executeQuery();
-            while(rs.next()){
+            while (rs.next()) {
                 retorno.append(rs.getString("tabela_ordens_producao.cod"));
                 retorno.append("\n");
             }
             return retorno.toString();
         } catch (SQLException ex) {
             throw new SQLException(ex);
-        }finally{
+        } finally {
             ConnectionFactory.closeConnection(con, stmt, rs);
         }
     }
-    
+
     /**
      * Retorna a data de entrega da ordem de produção
+     *
      * @param codOp
-     * @return 
+     * @return
      */
-    public static Date retornaDataEntregaOp(int codOp) throws SQLException{
+    public static Date retornaDataEntregaOp(int codOp) throws SQLException {
         Connection con = ConnectionFactory.getConnection();
         PreparedStatement stmt = null;
         ResultSet rs = null;
-        
-        try{
+
+        try {
             stmt = con.prepareStatement("SELECT tabela_ordens_producao.data_entrega "
                     + "FROM tabela_ordens_producao "
                     + "WHERE tabela_ordens_producao.cod = ?");
             stmt.setInt(1, codOp);
             rs = stmt.executeQuery();
-            while(rs.next()){
+            while (rs.next()) {
                 return rs.getDate("tabela_ordens_producao.data_entrega");
             }
-            return null;            
+            return null;
         } catch (SQLException ex) {
             throw new SQLException(ex);
-        }finally{
+        } finally {
             ConnectionFactory.closeConnection(con, stmt, rs);
         }
     }
-    
+
     /**
      * Salva a alteração de data da OP
-     * @param alteraData 
+     *
+     * @param alteraData
      */
-    public static void salvaAlteracaoData (AlteraData alteraData) throws SQLException{
+    public static void salvaAlteracaoData(AlteraData alteraData) throws SQLException {
         Connection con = ConnectionFactory.getConnection();
         PreparedStatement stmt = null;
         ResultSet rs = null;
-        
-        try{
+
+        try {
             stmt = con.prepareStatement("INSERT INTO alteracoes_ordem_producao(OP, ALTERACAO, DATA_ANTERIOR, USUARIO, MOTIVO) "
                     + "VALUES(?,?,?,?,?)");
             stmt.setInt(1, alteraData.getCodigoOp());
@@ -1270,8 +1286,40 @@ public class OrdemProducaoDAO {
             stmt.executeUpdate();
         } catch (SQLException ex) {
             throw new SQLException(ex);
+        } finally {
+            ConnectionFactory.closeConnection(con, stmt, rs);
+        }
+    }
+
+    /**
+     * Retorna o valor parcial da Ordem de produção
+     *
+     * @param codOrc código do orçamento
+     * @param codProd código do produto
+     * @param tipoProd tipo do produto 1 - PRODUÇÃO 2 - PRONTA ENTREGA
+     */
+    public static float retornaValorParcial(int codOrc, int codProd, byte tipoProd) throws SQLException {
+        Connection con = ConnectionFactory.getConnection();
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+
+        try {
+            stmt = con.prepareStatement("SELECT (tabela_produtos_orcamento.quantidade * tabela_produtos_orcamento.preco_unitario) "
+                    + "AS valor_parcial "
+                    + "FROM tabela_produtos_orcamento "
+                    + "WHERE cod_orcamento = ? AND cod_produto = ? AND tipo_produto = ?");
+            stmt.setInt(1, codOrc);
+            stmt.setInt(2, codProd);
+            stmt.setInt(3, tipoProd);
+            rs = stmt.executeQuery();
+            if(rs.next()){
+                return rs.getFloat("valor_parcial");
+            }
+        } catch (SQLException ex) {
+            throw new SQLException(ex);
         }finally{
             ConnectionFactory.closeConnection(con, stmt, rs);
         }
+        return 0f;
     }
 }

@@ -43,6 +43,8 @@ import java.util.List;
  * EMISSÃO MAIS ANTIGA 11 - DATA ENTREGA MAIS ATUAL 12 - DATA ENTREGA MAIS
  * ANTIGA
  *
+ * TIPO CONDIÇÃO STATUS: 1 - POR STATUS 2 - TODOS
+ *
  */
 public class RelatoriosOrdemProducaoDAO {
 
@@ -65,8 +67,10 @@ public class RelatoriosOrdemProducaoDAO {
             byte condicaoEmissor,
             byte condicaoPeriodo,
             byte condicaoOrdenar,
+            byte condicaoStatus,
             int textoOpOrcamento,
             String textoEmissor,
+            String textoStatus,
             Date textoPeriodoInicio,
             Date textoPeriodoFim,
             Cliente cliente,
@@ -82,7 +86,7 @@ public class RelatoriosOrdemProducaoDAO {
         try {
             comando = retornaComandoOrdemProducao(codigoOp, codigoOrcamento, codigoCliente, codigoProduto, descricaoProduto, tipoPessoa, quantidade, valorParcial,
                     dataEmissao, dataEntrega, emissor, nomeCliente, status, condicaoCliente, condicaoOpOrcamento, condicaoProduto, condicaoEmissor, condicaoPeriodo, condicaoOrdenar,
-                    textoOpOrcamento, textoEmissor, textoPeriodoInicio, textoPeriodoFim, cliente, produto);
+                    condicaoStatus, textoOpOrcamento, textoEmissor, textoStatus, textoPeriodoInicio, textoPeriodoFim, cliente, produto);
             stmt = con.prepareStatement(comando);
             rs = stmt.executeQuery();
             retorno = retornaResultadoQueryOrdemProducao(rs, codigoOp, codigoOrcamento, codigoCliente, codigoProduto, descricaoProduto, tipoPessoa, quantidade, valorParcial, dataEmissao, dataEntrega,
@@ -114,8 +118,10 @@ public class RelatoriosOrdemProducaoDAO {
             byte condicaoEmissor,
             byte condicaoPeriodo,
             byte condicaoOrdenar,
+            byte condicaoStatus,
             int textoOpOrcamento,
             String textoEmissor,
+            String textoStatus,
             Date textoPeriodoInicio,
             Date textoPeriodoFim,
             Cliente cliente,
@@ -208,13 +214,13 @@ public class RelatoriosOrdemProducaoDAO {
                 comando = comando + " , tabela_ordens_producao.cod_emissor";
             }
         }
-        if(status){
-           if (primeiro == 0) {
+        if (status) {
+            if (primeiro == 0) {
                 comando = comando + " tabela_ordens_producao.status";
                 primeiro += 1;
             } else {
                 comando = comando + " , tabela_ordens_producao.status";
-            } 
+            }
         }
 
         comando = comando + " FROM tabela_ordens_producao";
@@ -249,7 +255,7 @@ public class RelatoriosOrdemProducaoDAO {
                 if (descricaoProduto) {
                     comando = comando + " INNER JOIN produtos ON produtos.CODIGO = tabela_ordens_producao.cod_produto ";
                     comando = comando + " AND produtos.TIPO = '" + produto.getTipo() + "' ";
-                }else{
+                } else {
                     comando = comando + " INNER JOIN produtos ON produtos.CODIGO = tabela_ordens_producao.cod_produto AND produtos.TIPO = '" + produto.getTipo() + "'";
                 }
                 break;
@@ -345,6 +351,18 @@ public class RelatoriosOrdemProducaoDAO {
                 break;
         }
 
+        switch (condicaoStatus) {
+            case 1:
+                if (primeiro != 0) {
+                    comando = comando + " AND";
+                } else {
+                    comando = comando + " WHERE";
+                    primeiro++;
+                }
+                comando = comando + " tabela_ordens_producao.status = '" + textoStatus + "'";
+                break;
+        }
+
         switch (condicaoOrdenar) {
             case 1:
                 comando = comando + " ORDER BY tabela_ordens_producao.cod ASC";
@@ -407,7 +425,7 @@ public class RelatoriosOrdemProducaoDAO {
         List<OrdemProducao> retorno = new ArrayList();
 
         try {
-            
+
             while (rs.next()) {
                 OrdemProducao ordensProducao = new OrdemProducao();
 
@@ -442,7 +460,7 @@ public class RelatoriosOrdemProducaoDAO {
                 if (emissor) {
                     ordensProducao.setCodEmissor(rs.getString("tabela_ordens_producao.cod_emissor"));
                 }
-                if(status){
+                if (status) {
                     ordensProducao.setStatus(rs.getString("tabela_ordens_producao.status"));
                 }
 
