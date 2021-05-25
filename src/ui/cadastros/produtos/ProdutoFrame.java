@@ -1933,39 +1933,36 @@ public final class ProdutoFrame extends javax.swing.JInternalFrame {
                             ProdutoDAO.atualiza(produto);
 
                             if (jckbUtilizadoEcommerce.isSelected()) {
+                                new Thread("INSERIR NO E-COMMERCE") {
+                                    @Override
+                                    public void run() {
+                                        try {
+                                            loading.setText("INSERINDO NO E-COMMERCE...");
+                                            realizaRequisicaoPOST((byte) 5, new Product(
+                                                    String.valueOf(COD_PROD),
+                                                    "PP" + String.valueOf(COD_PROD),
+                                                    produto.getDescricao(),
+                                                    produto.getDescricao(),
+                                                    produto.isAtivo(),
+                                                    produto.getPeso(),
+                                                    produto.getAltura(),
+                                                    produto.getLargura(),
+                                                    produto.getEspessura(),
+                                                    "normal"
+                                            ));
 
-                                if (jckbUtilizadoEcommerce.isSelected()) {
-                                    new Thread("INSERIR NO E-COMMERCE") {
-                                        @Override
-                                        public void run() {
-                                            try {
-                                                loading.setText("INSERINDO NO E-COMMERCE...");
-                                                realizaRequisicaoPOST((byte) 5, new Product(
-                                                        String.valueOf(COD_PROD),
-                                                        "PP" + String.valueOf(COD_PROD),
-                                                        produto.getDescricao(),
-                                                        produto.getDescricao(),
-                                                        produto.isAtivo(),
-                                                        produto.getPeso(),
-                                                        produto.getAltura(),
-                                                        produto.getLargura(),
-                                                        produto.getEspessura(),
-                                                        "normal"
-                                                ));
-
-                                                realizaRequisicaoPUT((byte) 2, new Product(
-                                                        String.valueOf(COD_PROD),
-                                                        "PP" + String.valueOf(COD_PROD),
-                                                        produto.getValorCusto(),
-                                                        produto.getValorPromocional()
-                                                ));
-                                                loading.setText("SALVANDO...");
-                                            } catch (IOException | InterruptedException ex) {
-                                                Logger.getLogger(ProdutoFrame.class.getName()).log(Level.SEVERE, null, ex);
-                                            }
+                                            realizaRequisicaoPUT((byte) 2, new Product(
+                                                    String.valueOf(COD_PROD),
+                                                    "PP" + String.valueOf(COD_PROD),
+                                                    produto.getValorCusto(),
+                                                    produto.getValorPromocional()
+                                            ));
+                                            loading.setText("SALVANDO...");
+                                        } catch (IOException | InterruptedException ex) {
+                                            Logger.getLogger(ProdutoFrame.class.getName()).log(Level.SEVERE, null, ex);
                                         }
-                                    }.start();
-                                }
+                                    }
+                                }.start();
                             }
 
                             break;

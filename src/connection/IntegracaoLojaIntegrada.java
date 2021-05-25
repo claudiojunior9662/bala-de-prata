@@ -271,7 +271,7 @@ public class IntegracaoLojaIntegrada {
      * @throws IOException
      * @throws InterruptedException
      */
-    public static void realizaRequisicaoPUT(byte tipo, Object requisicao) throws IOException, InterruptedException {
+    public static void realizaRequisicaoPUT(byte tipo, Object requisicao) throws IOException, InterruptedException, SQLException {
         HashMap values = null;
         ObjectMapper objectMapper = null;
         String requestBody = null;
@@ -350,7 +350,7 @@ public class IntegracaoLojaIntegrada {
                 try {
                     product.setId(String.valueOf(ProdutoDAO.retornaCodigoLI(Integer.valueOf(product.getId()), product.getSku().contains("PP") ? (byte) 1 : (byte) 2)));
                 } catch (SQLException ex) {
-                    Logger.getLogger(IntegracaoLojaIntegrada.class.getName()).log(Level.SEVERE, null, ex);
+                    throw new SQLException(ex);
                 }
 
                 objectMapper = new ObjectMapper();
