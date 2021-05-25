@@ -127,6 +127,7 @@ public class Financeiro extends javax.swing.JFrame {
         relatoriosNotaVenda = new javax.swing.JMenuItem();
         jMenuItem1 = new javax.swing.JMenuItem();
         jMenuItem2 = new javax.swing.JMenuItem();
+        jMenuItem3 = new javax.swing.JMenuItem();
         menuModulos = new javax.swing.JMenu();
         menuSair = new javax.swing.JMenu();
 
@@ -150,6 +151,8 @@ public class Financeiro extends javax.swing.JFrame {
         taAvisos.setDragEnabled(true);
         jScrollPane2.setViewportView(taAvisos);
 
+        areaDeTrabalho.setLayer(jScrollPane2, javax.swing.JLayeredPane.DEFAULT_LAYER);
+
         javax.swing.GroupLayout areaDeTrabalhoLayout = new javax.swing.GroupLayout(areaDeTrabalho);
         areaDeTrabalho.setLayout(areaDeTrabalhoLayout);
         areaDeTrabalhoLayout.setHorizontalGroup(
@@ -166,7 +169,6 @@ public class Financeiro extends javax.swing.JFrame {
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 448, Short.MAX_VALUE)
                 .addContainerGap())
         );
-        areaDeTrabalho.setLayer(jScrollPane2, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
         atualizacao.setBackground(new java.awt.Color(255, 102, 102));
         atualizacao.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -257,6 +259,9 @@ public class Financeiro extends javax.swing.JFrame {
             }
         });
         menuRelatorios.add(jMenuItem2);
+
+        jMenuItem3.setText("DETALHAMENTO");
+        menuRelatorios.add(jMenuItem3);
 
         jMenuBar1.add(menuRelatorios);
 
@@ -432,6 +437,7 @@ public class Financeiro extends javax.swing.JFrame {
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItem2;
+    private javax.swing.JMenuItem jMenuItem3;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     public static javax.swing.JLabel loading;

@@ -5,6 +5,7 @@
  */
 package ui.cadastros.notas;
 
+import entities.sisgrafex.NotaCredito;
 import entities.sisgrafex.Cliente;
 import ui.cadastros.clientes.ClienteBEAN;
 import ui.cadastros.contatos.ContatoBEAN;
@@ -406,7 +407,7 @@ public class NotaPesquisa extends javax.swing.JInternalFrame {
         CODIGO_TRANSPORTE = 0;
 
         try {
-            for (NotaBEAN nota : NotaDAO.selecionaNotaCredito(CODIGO_NOTA)) {
+            for (NotaCredito nota : NotaDAO.selecionaNotaCredito(CODIGO_NOTA)) {
                 NCFrame.numeroNota.setValue(nota.getCod());
                 try {
                     NCFrame.data.setDate(Controle.dataPadrao.parse(nota.getData()));
@@ -517,7 +518,7 @@ public class NotaPesquisa extends javax.swing.JInternalFrame {
 
             modeloConsulta.setNumRows(0);
 
-            for (NotaBEAN nota : NotaDAO.mostraUltimas()) {
+            for (NotaCredito nota : NotaDAO.mostraUltimas()) {
                 String op = null;
                 modeloConsulta.addRow(new Object[]{
                     nota.getCod(),
@@ -552,7 +553,7 @@ public class NotaPesquisa extends javax.swing.JInternalFrame {
                 return;
             } else {
                 if (p1.getSelectedItem().toString().equals("SÉRIE")) {
-                    for (NotaBEAN nota : NotaDAO.pesquisaNota(p1.getSelectedItem().toString(), null, p3Texto.getText())) {
+                    for (NotaCredito nota : NotaDAO.pesquisaNota(p1.getSelectedItem().toString(), null, p3Texto.getText())) {
                         modeloConsulta.addRow(new Object[]{
                             nota.getCod(),
                             nota.getData(),
@@ -563,7 +564,7 @@ public class NotaPesquisa extends javax.swing.JInternalFrame {
                         });
                     }
                 } else if (p1.getSelectedItem().toString().equals("OP")) {
-                    for (NotaBEAN nota : NotaDAO.pesquisaNota(p1.getSelectedItem().toString(), null, p3Texto.getText())) {
+                    for (NotaCredito nota : NotaDAO.pesquisaNota(p1.getSelectedItem().toString(), null, p3Texto.getText())) {
                         modeloConsulta.addRow(new Object[]{
                             nota.getCod(),
                             nota.getData(),
@@ -574,7 +575,7 @@ public class NotaPesquisa extends javax.swing.JInternalFrame {
                         });
                     }
                 } else if (p1.getSelectedItem().toString().equals("DATA LANÇAMENTO")) {
-                    for (NotaBEAN nota : NotaDAO.pesquisaNota(p1.getSelectedItem().toString(), null, Controle.dataPadrao.format(p3Data.getDate()).toString())) {
+                    for (NotaCredito nota : NotaDAO.pesquisaNota(p1.getSelectedItem().toString(), null, Controle.dataPadrao.format(p3Data.getDate()).toString())) {
                         modeloConsulta.addRow(new Object[]{
                             nota.getCod(),
                             nota.getData(),
@@ -586,7 +587,7 @@ public class NotaPesquisa extends javax.swing.JInternalFrame {
                     }
                 } else if (p1.getSelectedItem().toString().equals("CLIENTE")) {
                     if (p2.getSelectedItem().toString().contains("CPF") == false || p2.getSelectedItem().toString().contains("CNPJ") == false) {
-                        for (NotaBEAN nota : NotaDAO.pesquisaNota(p1.getSelectedItem().toString(), p2.getSelectedItem().toString(), p3Texto.getText())) {
+                        for (NotaCredito nota : NotaDAO.pesquisaNota(p1.getSelectedItem().toString(), p2.getSelectedItem().toString(), p3Texto.getText())) {
                             modeloConsulta.addRow(new Object[]{
                                 nota.getCod(),
                                 nota.getData(),
@@ -597,7 +598,7 @@ public class NotaPesquisa extends javax.swing.JInternalFrame {
                             });
                         }
                     } else {
-                        for (NotaBEAN nota : NotaDAO.pesquisaNota(p1.getSelectedItem().toString(), p2.getSelectedItem().toString(), p3Formatado.getText())) {
+                        for (NotaCredito nota : NotaDAO.pesquisaNota(p1.getSelectedItem().toString(), p2.getSelectedItem().toString(), p3Formatado.getText())) {
                             modeloConsulta.addRow(new Object[]{
                                 nota.getCod(),
                                 nota.getData(),
@@ -609,7 +610,7 @@ public class NotaPesquisa extends javax.swing.JInternalFrame {
                         }
                     }
                 } else if (p1.getSelectedItem().toString().equals("EMISSOR")) {
-                    for (NotaBEAN nota : NotaDAO.pesquisaNota(p1.getSelectedItem().toString(), null, p2.getSelectedItem().toString())) {
+                    for (NotaCredito nota : NotaDAO.pesquisaNota(p1.getSelectedItem().toString(), null, p2.getSelectedItem().toString())) {
                         modeloConsulta.addRow(new Object[]{
                             nota.getCod(),
                             nota.getData(),
@@ -620,7 +621,7 @@ public class NotaPesquisa extends javax.swing.JInternalFrame {
                         });
                     }
                 } else if (p1.getSelectedItem().toString().equals("CÓDIGO")) {
-                    for (NotaBEAN nota : NotaDAO.pesquisaNota(p1.getSelectedItem().toString(), null, p3Texto.getText())) {
+                    for (NotaCredito nota : NotaDAO.pesquisaNota(p1.getSelectedItem().toString(), null, p3Texto.getText())) {
                         modeloConsulta.addRow(new Object[]{
                             nota.getCod(),
                             nota.getData(),

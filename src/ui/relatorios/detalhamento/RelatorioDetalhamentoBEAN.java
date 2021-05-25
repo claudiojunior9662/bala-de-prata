@@ -3,13 +3,15 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package ui.relatorios.financeiro;
+package ui.relatorios.detalhamento;
+
+import ui.relatorios.financeiro.*;
 
 /**
  *
  * @author 1113778771
  */
-public class ClienteRelFin implements Comparable<ClienteRelFin> {
+public class RelatorioDetalhamentoBEAN implements Comparable<RelatorioDetalhamentoBEAN> {
 
     private int codigo;
     private String nome;
@@ -80,7 +82,7 @@ public class ClienteRelFin implements Comparable<ClienteRelFin> {
         this.saldoAcumuladoAnterior = saldoAcumuladoAnterior;
     }
 
-    public ClienteRelFin(int codigo, String nome, Double credito, Double debito, Double emAberto, Double saldoAcumuladoAtual, Double saldoAcumuladoAnterior) {
+    public RelatorioDetalhamentoBEAN(int codigo, String nome, Double credito, Double debito, Double emAberto, Double saldoAcumuladoAtual, Double saldoAcumuladoAnterior) {
         this.codigo = codigo;
         this.nome = nome;
         this.credito = credito;
@@ -90,14 +92,14 @@ public class ClienteRelFin implements Comparable<ClienteRelFin> {
         this.saldoAcumuladoAnterior = 0d;
     }
 
-    public ClienteRelFin(int codigo, String nome, Double credito) {
+    public RelatorioDetalhamentoBEAN(int codigo, String nome, Double credito) {
         this.codigo = codigo;
         this.nome = nome;
         this.credito = credito;
     }
 
     @Override
-    public int compareTo(ClienteRelFin outroCliente) {
+    public int compareTo(RelatorioDetalhamentoBEAN outroCliente) {
         if (this.saldoAcumuladoAtual > outroCliente.getSaldoAcumuladoAtual()) {
             return -1;
         }

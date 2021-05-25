@@ -1958,8 +1958,9 @@ public final class ProdutoFrame extends javax.swing.JInternalFrame {
                                                     produto.getValorPromocional()
                                             ));
                                             loading.setText("SALVANDO...");
-                                        } catch (IOException | InterruptedException ex) {
-                                            Logger.getLogger(ProdutoFrame.class.getName()).log(Level.SEVERE, null, ex);
+                                        } catch (IOException | InterruptedException | SQLException ex) {
+                                            EnvioExcecao envioExcecao = new EnvioExcecao(Controle.getDefaultGj(), ex);
+                                            EnvioExcecao.envio();
                                         }
                                     }
                                 }.start();
@@ -1999,8 +2000,9 @@ public final class ProdutoFrame extends javax.swing.JInternalFrame {
                                                     produto.getValorPromocional()
                                             ));
                                             loading.setText("SALVANDO...");
-                                        } catch (IOException | InterruptedException ex) {
-                                            Logger.getLogger(ProdutoFrame.class.getName()).log(Level.SEVERE, null, ex);
+                                        } catch (IOException | InterruptedException | SQLException ex) {
+                                            EnvioExcecao envioExcecao = new EnvioExcecao(Controle.getDefaultGj(), ex);
+                                            EnvioExcecao.envio();
                                         }
                                     }
                                 }.start();
@@ -2100,10 +2102,9 @@ public final class ProdutoFrame extends javax.swing.JInternalFrame {
                                             ));
 
                                             loading.setText("SALVANDO...");
-                                        } catch (IOException ex) {
-                                            Logger.getLogger(ProdutoFrame.class.getName()).log(Level.SEVERE, null, ex);
-                                        } catch (InterruptedException ex) {
-                                            Logger.getLogger(ProdutoFrame.class.getName()).log(Level.SEVERE, null, ex);
+                                        } catch (IOException | InterruptedException | SQLException ex) {
+                                            EnvioExcecao envioExcecao = new EnvioExcecao(Controle.getDefaultGj(), ex);
+                                            EnvioExcecao.envio();
                                         }
                                     }
                                 }.start();
@@ -2187,10 +2188,9 @@ public final class ProdutoFrame extends javax.swing.JInternalFrame {
                                             ));
 
                                             loading.setText("SALVANDO...");
-                                        } catch (IOException ex) {
-                                            Logger.getLogger(ProdutoFrame.class.getName()).log(Level.SEVERE, null, ex);
-                                        } catch (InterruptedException ex) {
-                                            Logger.getLogger(ProdutoFrame.class.getName()).log(Level.SEVERE, null, ex);
+                                        } catch (IOException | InterruptedException | SQLException ex) {
+                                            EnvioExcecao envioExcecao = new EnvioExcecao(Controle.getDefaultGj(), ex);
+                                            EnvioExcecao.envio();
                                         }
                                     }
                                 }.start();

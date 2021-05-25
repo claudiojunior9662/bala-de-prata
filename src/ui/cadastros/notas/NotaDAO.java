@@ -5,6 +5,7 @@
  */
 package ui.cadastros.notas;
 
+import entities.sisgrafex.NotaCredito;
 import connection.ConnectionFactory;
 import entities.sisgrafex.Faturamento;
 import ui.cadastros.clientes.ClienteBEAN;
@@ -29,7 +30,7 @@ import static ui.cadastros.notas.NotaDAO.verificaQuantidadeEntregue;
 public class NotaDAO {
 
     //PESQUISA------------------------------------------------------------------
-    public static List<NotaBEAN> pesquisaNota(String p1, String p2, String p3) throws SQLException {
+    public static List<NotaCredito> pesquisaNota(String p1, String p2, String p3) throws SQLException {
         Connection con = ConnectionFactory.getConnection();
         PreparedStatement stmt = null;
         ResultSet rs = null;
@@ -44,7 +45,7 @@ public class NotaDAO {
         PreparedStatement stmt2 = null;
         ResultSet rs2 = null;
 
-        List<NotaBEAN> retorno = new ArrayList();
+        List<NotaCredito> retorno = new ArrayList();
 
         try {
             if (p1.equals("SÉRIE")) {
@@ -77,7 +78,7 @@ public class NotaDAO {
 
             rs = stmt.executeQuery();
             while (rs.next()) {
-                NotaBEAN aux2 = new NotaBEAN();
+                NotaCredito aux2 = new NotaCredito();
                 aux2.setCod(rs.getInt("cod"));
                 aux2.setSerie(rs.getInt("serie"));
                 aux2.setCodOp(rs.getInt("cod_op"));
@@ -143,7 +144,7 @@ public class NotaDAO {
         return retorno;
     }
 
-    public static List<NotaBEAN> mostraUltimas() throws SQLException {
+    public static List<NotaCredito> mostraUltimas() throws SQLException {
         Connection con = ConnectionFactory.getConnection();
         PreparedStatement stmt = null;
         ResultSet rs = null;
@@ -151,13 +152,13 @@ public class NotaDAO {
         //VARIÁVEIS AUXILIARES--------------------------------------------------
         List retornoCliente = new ArrayList();
 
-        List<NotaBEAN> retorno = new ArrayList();
+        List<NotaCredito> retorno = new ArrayList();
 
         try {
             stmt = con.prepareStatement("SELECT * FROM tabela_notas ORDER BY cod DESC LIMIT 45");
             rs = stmt.executeQuery();
             while (rs.next()) {
-                NotaBEAN aux2 = new NotaBEAN();
+                NotaCredito aux2 = new NotaCredito();
                 aux2.setCod(rs.getInt("cod"));
                 aux2.setSerie(rs.getInt("serie"));
                 aux2.setCodOp(rs.getInt("cod_op"));
@@ -206,10 +207,10 @@ public class NotaDAO {
 
     /*
     @param codNota código da nota de venda a ser selecionada
-    @return NotaBEAN nota de venda selecionada
+    @return NotaCredito nota de venda selecionada
     @see selNotaVenda
      */
-    public synchronized static NotaBEAN selNotaVenda(int codNota) throws SQLException {
+    public synchronized static NotaCredito selNotaVenda(int codNota) throws SQLException {
         Connection con = ConnectionFactory.getConnection();
         PreparedStatement stmt = null;
         ResultSet rs = null;
@@ -224,7 +225,7 @@ public class NotaDAO {
             stmt.setInt(1, codNota);
             rs = stmt.executeQuery();
             if (rs.next()) {
-                return new NotaBEAN(
+                return new NotaCredito(
                         codNota,
                         rs.getInt("serie"),
                         rs.getInt("cod_op"),
@@ -253,19 +254,19 @@ public class NotaDAO {
         }
     }
 
-    public static List<NotaBEAN> selecionaNotaCredito(int codNota) throws SQLException {
+    public static List<NotaCredito> selecionaNotaCredito(int codNota) throws SQLException {
         Connection con = ConnectionFactory.getConnection();
         PreparedStatement stmt = null;
         ResultSet rs = null;
 
-        List<NotaBEAN> retorno = new ArrayList();
+        List<NotaCredito> retorno = new ArrayList();
 
         try {
             stmt = con.prepareStatement("SELECT * FROM tabela_notas WHERE cod = ?");
             stmt.setInt(1, codNota);
             rs = stmt.executeQuery();
             while (rs.next()) {
-                NotaBEAN aux = new NotaBEAN();
+                NotaCredito aux = new NotaCredito();
                 aux.setCod(codNota);
                 aux.setSerie(rs.getInt("serie"));
                 aux.setTipo(rs.getInt("tipo"));
@@ -439,7 +440,7 @@ public class NotaDAO {
         return retorno;
     }
 
-    public static void gravaNotaVenda(NotaBEAN notaBEAN, int codigoNota) throws SQLException {
+    public static void gravaNotaVenda(NotaCredito notaBEAN, int codigoNota) throws SQLException {
         Connection con = ConnectionFactory.getConnection();
         PreparedStatement stmt = null;
         ResultSet rs = null;
@@ -476,7 +477,7 @@ public class NotaDAO {
         }
     }
 
-    public static void gravaNotaCredito(NotaBEAN nota) throws SQLException {
+    public static void gravaNotaCredito(NotaCredito nota) throws SQLException {
         Connection con = ConnectionFactory.getConnection();
         PreparedStatement stmt = null;
         ResultSet rs = null;
@@ -652,6 +653,13 @@ public class NotaDAO {
     }
 
     //RETORNA DADOS NOTA CRÉDITO------------------------------------------------
+    /**
+     * Retorna informações do endereço do cliente
+     *
+     * @param codEndereco código do endereço
+     * @return
+     * @throws SQLException
+     */
     public static List<EnderecoBEAN> retornaEndereco(int codEndereco) throws SQLException {
         Connection con = ConnectionFactory.getConnection();
         PreparedStatement stmt = null;
@@ -660,8 +668,8 @@ public class NotaDAO {
         List<EnderecoBEAN> retorno = new ArrayList();
 
         try {
-            stmt = con.prepareStatement("SELECT tipo_endereco, bairro, cidade, uf, complemento, cep, logadouro"
-                    + " FROM tabela_enderecos WHERE cod = ?");
+            stmt = con.prepareStatement("SELECT tipo_endereco, bairro, cidade, uf, complemento, cep, logadouro "
+                    + "FROM tabela_enderecos WHERE cod = ?");
             stmt.setInt(1, codEndereco);
             rs = stmt.executeQuery();
             while (rs.next()) {
@@ -683,6 +691,13 @@ public class NotaDAO {
         return retorno;
     }
 
+    /**
+     * Retorna informações do contato do cliente
+     *
+     * @param codContato código do contato
+     * @return
+     * @throws SQLException
+     */
     public static List<ContatoBEAN> retornaContato(int codContato) throws SQLException {
         Connection con = ConnectionFactory.getConnection();
         PreparedStatement stmt = null;
@@ -691,8 +706,8 @@ public class NotaDAO {
         List<ContatoBEAN> retorno = new ArrayList();
 
         try {
-            stmt = con.prepareStatement("SELECT nome_contato, email, telefone, telefone2"
-                    + " FROM tabela_contatos WHERE cod = ?");
+            stmt = con.prepareStatement("SELECT nome_contato, email, telefone, telefone2 "
+                    + "FROM tabela_contatos WHERE cod = ?");
             stmt.setInt(1, codContato);
             rs = stmt.executeQuery();
             while (rs.next()) {
@@ -711,6 +726,43 @@ public class NotaDAO {
         return retorno;
     }
 
+    /**
+     * Retorna todas as NC do cliente especificado
+     * @param codCliente código do cliente
+     * @param tipoCliente tipo do cliente
+     * @return 
+     * @throws java.sql.SQLException 
+     */
+    public static List<NotaCredito> retornaNCCliente(int codCliente, byte tipoCliente) throws SQLException {
+        Connection con = ConnectionFactory.getConnection();
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+        List<NotaCredito> retorno = new ArrayList();
+        
+        try{
+            stmt = con.prepareStatement("SELECT tabela_notas.cod, tabela_notas.data, tabela_notas.valor "
+                    + "FROM tabela_notas "
+                    + "WHERE cod_cliente = ? "
+                    + "AND tipo_pessoa = ?");
+            stmt.setInt(1, codCliente);
+            stmt.setByte(2, tipoCliente);
+            rs = stmt.executeQuery();
+            while(rs.next()){
+                retorno.add(new NotaCredito(
+                        rs.getInt("cod"),
+                        rs.getFloat("valor"),
+                        rs.getString("data")
+                        
+                ));
+            }
+            return retorno;
+        } catch (SQLException ex) {
+            throw new SQLException(ex);
+        }finally{
+            ConnectionFactory.closeConnection(con, stmt, rs);
+        }
+    }
+
     //ATUALIZA NOTA DE CRÉDITO--------------------------------------------------
     /**
      * Atualiza a nota de crédito
@@ -718,7 +770,7 @@ public class NotaDAO {
      * @param nota
      * @throws SQLException
      */
-    public static void atualizaNC(NotaBEAN nota) throws SQLException {
+    public static void atualizaNC(NotaCredito nota) throws SQLException {
         Connection con = ConnectionFactory.getConnection();
         PreparedStatement stmt = null;
 
@@ -1027,37 +1079,37 @@ public class NotaDAO {
             ConnectionFactory.closeConnection(con, stmt, rs);
         }
     }
-    
+
     /**
      * Retorna o valor dos faturamentos de entregas parciais
+     *
      * @param codOp código da ordem de produção
-     * @return 
+     * @return
      */
-    public static float retornaVlrOpEntregueParcial(int codOp) throws SQLException{
+    public static float retornaVlrOpEntregueParcial(int codOp) throws SQLException {
         Connection con = ConnectionFactory.getConnection();
         PreparedStatement stmt = null;
         ResultSet rs = null;
         float retorno = 0f;
-        
-        try{
+
+        try {
             stmt = con.prepareStatement("SELECT faturamentos.VLR_FAT "
                     + "FROM faturamentos "
                     + "WHERE CODIGO_OP = ?");
             stmt.setInt(1, codOp);
             rs = stmt.executeQuery();
-            while(rs.next()){
+            while (rs.next()) {
                 retorno += rs.getFloat("faturamentos.VLR_FAT");
             }
             return retorno;
         } catch (SQLException ex) {
             throw new SQLException(ex);
-        }finally{
+        } finally {
             ConnectionFactory.closeConnection(con, stmt, rs);
         }
     }
 
     //LANÇAMENTO SIGA/SIAFI-----------------------------------------------------
-    
     /**
      * Exclui lançamento siga/siafi
      *
@@ -1214,7 +1266,7 @@ public class NotaDAO {
             stmt.setInt(3, lanc.getUg());
             stmt.setTimestamp(4, lanc.getDataHora());
             rs = stmt.executeQuery();
-            if(rs.next()){
+            if (rs.next()) {
                 return rs.getInt("NT_CREDITO_CODIGO");
             }
             return 0;
@@ -1224,9 +1276,8 @@ public class NotaDAO {
             ConnectionFactory.closeConnection(con, stmt, rs);
         }
     }
-    
+
     //LANÇAMENTO GRU------------------------------------------------------------
-    
     /**
      * Exclui lançamento siga/siafi
      *
@@ -1383,7 +1434,7 @@ public class NotaDAO {
             stmt.setInt(3, lanc.getCodRec());
             stmt.setTimestamp(4, lanc.getDataHora());
             rs = stmt.executeQuery();
-            if(rs.next()){
+            if (rs.next()) {
                 return rs.getInt("NT_CREDITO_CODIGO");
             }
             return 0;

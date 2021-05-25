@@ -5,7 +5,7 @@
  */
 package ui.relatorios.financeiro;
 
-import ui.cadastros.notas.NotaBEAN;
+import entities.sisgrafex.NotaCredito;
 import com.itextpdf.text.DocumentException;
 import com.itextpdf.text.Font;
 import com.itextpdf.text.FontFactory;
@@ -1151,357 +1151,289 @@ public class RelatoriosNotasCredito extends javax.swing.JInternalFrame {
         PdfPTable retorno = null;
         PdfPCell celula = null;
 
-        if (qtdSelecionada == 1) {
-            retorno = new PdfPTable(new float[]{5f});
-
-            if (campoCodigo.isSelected() == true) {
-                celula = new PdfPCell(new Phrase("CÓDIGO", FontFactory.getFont("arial.ttf", 8, Font.BOLD)));
-                celula.setHorizontalAlignment(Element.ALIGN_CENTER);
-                retorno.addCell(celula);
-            }
-            if (campoEmissor.isSelected() == true) {
-                celula = new PdfPCell(new Phrase("EMISSOR", FontFactory.getFont("arial.ttf", 8, Font.BOLD)));
-                celula.setHorizontalAlignment(Element.ALIGN_CENTER);
-                retorno.addCell(celula);
-            }
-            if (campoCodigoCliente.isSelected() == true) {
-                celula = new PdfPCell(new Phrase("CÓDIGO DO CLIENTE", FontFactory.getFont("arial.ttf", 8, Font.BOLD)));
-                celula.setHorizontalAlignment(Element.ALIGN_CENTER);
-                retorno.addCell(celula);
-            }
-            if (campoNomeCliente.isSelected() == true) {
-                celula = new PdfPCell(new Phrase("NOME DO CLIENTE", FontFactory.getFont("arial.ttf", 8, Font.BOLD)));
-                celula.setHorizontalAlignment(Element.ALIGN_CENTER);
-                retorno.addCell(celula);
-            }
-            if (campoTipoPessoa.isSelected() == true) {
-                celula = new PdfPCell(new Phrase("TIPO PESSOA", FontFactory.getFont("arial.ttf", 8, Font.BOLD)));
-                celula.setHorizontalAlignment(Element.ALIGN_CENTER);
-                retorno.addCell(celula);
-            }
-            if (campoValor.isSelected() == true) {
-                celula = new PdfPCell(new Phrase("VALOR", FontFactory.getFont("arial.ttf", 8, Font.BOLD)));
-                celula.setHorizontalAlignment(Element.ALIGN_CENTER);
-                retorno.addCell(celula);
-            }
-            if (campoData.isSelected() == true) {
-                celula = new PdfPCell(new Phrase("DATA", FontFactory.getFont("arial.ttf", 8, Font.BOLD)));
-                celula.setHorizontalAlignment(Element.ALIGN_CENTER);
-                retorno.addCell(celula);
-            }
-            if (campoFormaPagamento.isSelected() == true) {
-                celula = new PdfPCell(new Phrase("FORMA DE PAGAMENTO", FontFactory.getFont("arial.ttf", 8, Font.BOLD)));
-                celula.setHorizontalAlignment(Element.ALIGN_CENTER);
-                retorno.addCell(celula);
-            }
-
-        } else if (qtdSelecionada == 2) {
-            retorno = new PdfPTable(new float[]{5f, 5f});
-
-            if (campoCodigo.isSelected() == true) {
-                celula = new PdfPCell(new Phrase("CÓDIGO", FontFactory.getFont("arial.ttf", 8, Font.BOLD)));
-                celula.setHorizontalAlignment(Element.ALIGN_CENTER);
-                retorno.addCell(celula);
-            }
-            if (campoEmissor.isSelected() == true) {
-                celula = new PdfPCell(new Phrase("EMISSOR", FontFactory.getFont("arial.ttf", 8, Font.BOLD)));
-                celula.setHorizontalAlignment(Element.ALIGN_CENTER);
-                retorno.addCell(celula);
-            }
-            if (campoCodigoCliente.isSelected() == true) {
-                celula = new PdfPCell(new Phrase("CÓDIGO DO CLIENTE", FontFactory.getFont("arial.ttf", 8, Font.BOLD)));
-                celula.setHorizontalAlignment(Element.ALIGN_CENTER);
-                retorno.addCell(celula);
-            }
-            if (campoNomeCliente.isSelected() == true) {
-                celula = new PdfPCell(new Phrase("NOME DO CLIENTE", FontFactory.getFont("arial.ttf", 8, Font.BOLD)));
-                celula.setHorizontalAlignment(Element.ALIGN_CENTER);
-                retorno.addCell(celula);
-            }
-            if (campoTipoPessoa.isSelected() == true) {
-                celula = new PdfPCell(new Phrase("TIPO PESSOA", FontFactory.getFont("arial.ttf", 8, Font.BOLD)));
-                celula.setHorizontalAlignment(Element.ALIGN_CENTER);
-                retorno.addCell(celula);
-            }
-            if (campoValor.isSelected() == true) {
-                celula = new PdfPCell(new Phrase("VALOR", FontFactory.getFont("arial.ttf", 8, Font.BOLD)));
-                celula.setHorizontalAlignment(Element.ALIGN_CENTER);
-                retorno.addCell(celula);
-            }
-            if (campoData.isSelected() == true) {
-                celula = new PdfPCell(new Phrase("DATA", FontFactory.getFont("arial.ttf", 8, Font.BOLD)));
-                celula.setHorizontalAlignment(Element.ALIGN_CENTER);
-                retorno.addCell(celula);
-            }
-            if (campoFormaPagamento.isSelected() == true) {
-                celula = new PdfPCell(new Phrase("FORMA DE PAGAMENTO", FontFactory.getFont("arial.ttf", 8, Font.BOLD)));
-                celula.setHorizontalAlignment(Element.ALIGN_CENTER);
-                retorno.addCell(celula);
-            }
-
-        } else if (qtdSelecionada == 3) {
-            retorno = new PdfPTable(new float[]{5f, 5f, 5f});
-
-            if (campoCodigo.isSelected() == true) {
-                celula = new PdfPCell(new Phrase("CÓDIGO", FontFactory.getFont("arial.ttf", 8, Font.BOLD)));
-                celula.setHorizontalAlignment(Element.ALIGN_CENTER);
-                retorno.addCell(celula);
-            }
-            if (campoEmissor.isSelected() == true) {
-                celula = new PdfPCell(new Phrase("EMISSOR", FontFactory.getFont("arial.ttf", 8, Font.BOLD)));
-                celula.setHorizontalAlignment(Element.ALIGN_CENTER);
-                retorno.addCell(celula);
-            }
-            if (campoCodigoCliente.isSelected() == true) {
-                celula = new PdfPCell(new Phrase("CÓDIGO DO CLIENTE", FontFactory.getFont("arial.ttf", 8, Font.BOLD)));
-                celula.setHorizontalAlignment(Element.ALIGN_CENTER);
-                retorno.addCell(celula);
-            }
-            if (campoNomeCliente.isSelected() == true) {
-                celula = new PdfPCell(new Phrase("NOME DO CLIENTE", FontFactory.getFont("arial.ttf", 8, Font.BOLD)));
-                celula.setHorizontalAlignment(Element.ALIGN_CENTER);
-                retorno.addCell(celula);
-            }
-            if (campoTipoPessoa.isSelected() == true) {
-                celula = new PdfPCell(new Phrase("TIPO PESSOA", FontFactory.getFont("arial.ttf", 8, Font.BOLD)));
-                celula.setHorizontalAlignment(Element.ALIGN_CENTER);
-                retorno.addCell(celula);
-            }
-            if (campoValor.isSelected() == true) {
-                celula = new PdfPCell(new Phrase("VALOR", FontFactory.getFont("arial.ttf", 8, Font.BOLD)));
-                celula.setHorizontalAlignment(Element.ALIGN_CENTER);
-                retorno.addCell(celula);
-            }
-            if (campoData.isSelected() == true) {
-                celula = new PdfPCell(new Phrase("DATA", FontFactory.getFont("arial.ttf", 8, Font.BOLD)));
-                celula.setHorizontalAlignment(Element.ALIGN_CENTER);
-                retorno.addCell(celula);
-            }
-            if (campoFormaPagamento.isSelected() == true) {
-                celula = new PdfPCell(new Phrase("FORMA DE PAGAMENTO", FontFactory.getFont("arial.ttf", 8, Font.BOLD)));
-                celula.setHorizontalAlignment(Element.ALIGN_CENTER);
-                retorno.addCell(celula);
-            }
-
-        } else if (qtdSelecionada == 4) {
-            retorno = new PdfPTable(new float[]{5f, 5f, 5f, 5f});
-
-            if (campoCodigo.isSelected() == true) {
-                celula = new PdfPCell(new Phrase("CÓDIGO", FontFactory.getFont("arial.ttf", 8, Font.BOLD)));
-                celula.setHorizontalAlignment(Element.ALIGN_CENTER);
-                retorno.addCell(celula);
-            }
-            if (campoEmissor.isSelected() == true) {
-                celula = new PdfPCell(new Phrase("EMISSOR", FontFactory.getFont("arial.ttf", 8, Font.BOLD)));
-                celula.setHorizontalAlignment(Element.ALIGN_CENTER);
-                retorno.addCell(celula);
-            }
-            if (campoCodigoCliente.isSelected() == true) {
-                celula = new PdfPCell(new Phrase("CÓDIGO DO CLIENTE", FontFactory.getFont("arial.ttf", 8, Font.BOLD)));
-                celula.setHorizontalAlignment(Element.ALIGN_CENTER);
-                retorno.addCell(celula);
-            }
-            if (campoNomeCliente.isSelected() == true) {
-                celula = new PdfPCell(new Phrase("NOME DO CLIENTE", FontFactory.getFont("arial.ttf", 8, Font.BOLD)));
-                celula.setHorizontalAlignment(Element.ALIGN_CENTER);
-                retorno.addCell(celula);
-            }
-            if (campoTipoPessoa.isSelected() == true) {
-                celula = new PdfPCell(new Phrase("TIPO PESSOA", FontFactory.getFont("arial.ttf", 8, Font.BOLD)));
-                celula.setHorizontalAlignment(Element.ALIGN_CENTER);
-                retorno.addCell(celula);
-            }
-            if (campoValor.isSelected() == true) {
-                celula = new PdfPCell(new Phrase("VALOR", FontFactory.getFont("arial.ttf", 8, Font.BOLD)));
-                celula.setHorizontalAlignment(Element.ALIGN_CENTER);
-                retorno.addCell(celula);
-            }
-            if (campoData.isSelected() == true) {
-                celula = new PdfPCell(new Phrase("DATA", FontFactory.getFont("arial.ttf", 8, Font.BOLD)));
-                celula.setHorizontalAlignment(Element.ALIGN_CENTER);
-                retorno.addCell(celula);
-            }
-            if (campoFormaPagamento.isSelected() == true) {
-                celula = new PdfPCell(new Phrase("FORMA DE PAGAMENTO", FontFactory.getFont("arial.ttf", 8, Font.BOLD)));
-                celula.setHorizontalAlignment(Element.ALIGN_CENTER);
-                retorno.addCell(celula);
-            }
-
-        } else if (qtdSelecionada == 5) {
-            retorno = new PdfPTable(new float[]{5f, 5f, 5f, 5f, 5f});
-
-            if (campoCodigo.isSelected() == true) {
-                celula = new PdfPCell(new Phrase("CÓDIGO", FontFactory.getFont("arial.ttf", 8, Font.BOLD)));
-                celula.setHorizontalAlignment(Element.ALIGN_CENTER);
-                retorno.addCell(celula);
-            }
-            if (campoEmissor.isSelected() == true) {
-                celula = new PdfPCell(new Phrase("EMISSOR", FontFactory.getFont("arial.ttf", 8, Font.BOLD)));
-                celula.setHorizontalAlignment(Element.ALIGN_CENTER);
-                retorno.addCell(celula);
-            }
-            if (campoCodigoCliente.isSelected() == true) {
-                celula = new PdfPCell(new Phrase("CÓDIGO DO CLIENTE", FontFactory.getFont("arial.ttf", 8, Font.BOLD)));
-                celula.setHorizontalAlignment(Element.ALIGN_CENTER);
-                retorno.addCell(celula);
-            }
-            if (campoNomeCliente.isSelected() == true) {
-                celula = new PdfPCell(new Phrase("NOME DO CLIENTE", FontFactory.getFont("arial.ttf", 8, Font.BOLD)));
-                celula.setHorizontalAlignment(Element.ALIGN_CENTER);
-                retorno.addCell(celula);
-            }
-            if (campoTipoPessoa.isSelected() == true) {
-                celula = new PdfPCell(new Phrase("TIPO PESSOA", FontFactory.getFont("arial.ttf", 8, Font.BOLD)));
-                celula.setHorizontalAlignment(Element.ALIGN_CENTER);
-                retorno.addCell(celula);
-            }
-            if (campoValor.isSelected() == true) {
-                celula = new PdfPCell(new Phrase("VALOR", FontFactory.getFont("arial.ttf", 8, Font.BOLD)));
-                celula.setHorizontalAlignment(Element.ALIGN_CENTER);
-                retorno.addCell(celula);
-            }
-            if (campoData.isSelected() == true) {
-                celula = new PdfPCell(new Phrase("DATA", FontFactory.getFont("arial.ttf", 8, Font.BOLD)));
-                celula.setHorizontalAlignment(Element.ALIGN_CENTER);
-                retorno.addCell(celula);
-            }
-            if (campoFormaPagamento.isSelected() == true) {
-                celula = new PdfPCell(new Phrase("FORMA DE PAGAMENTO", FontFactory.getFont("arial.ttf", 8, Font.BOLD)));
-                celula.setHorizontalAlignment(Element.ALIGN_CENTER);
-                retorno.addCell(celula);
-            }
-
-        } else if (qtdSelecionada == 6) {
-            retorno = new PdfPTable(new float[]{5f, 5f, 5f, 5f, 5f, 5f});
-
-            if (campoCodigo.isSelected() == true) {
-                celula = new PdfPCell(new Phrase("CÓDIGO", FontFactory.getFont("arial.ttf", 8, Font.BOLD)));
-                celula.setHorizontalAlignment(Element.ALIGN_CENTER);
-                retorno.addCell(celula);
-            }
-            if (campoEmissor.isSelected() == true) {
-                celula = new PdfPCell(new Phrase("EMISSOR", FontFactory.getFont("arial.ttf", 8, Font.BOLD)));
-                celula.setHorizontalAlignment(Element.ALIGN_CENTER);
-                retorno.addCell(celula);
-            }
-            if (campoCodigoCliente.isSelected() == true) {
-                celula = new PdfPCell(new Phrase("CÓDIGO DO CLIENTE", FontFactory.getFont("arial.ttf", 8, Font.BOLD)));
-                celula.setHorizontalAlignment(Element.ALIGN_CENTER);
-                retorno.addCell(celula);
-            }
-            if (campoNomeCliente.isSelected() == true) {
-                celula = new PdfPCell(new Phrase("NOME DO CLIENTE", FontFactory.getFont("arial.ttf", 8, Font.BOLD)));
-                celula.setHorizontalAlignment(Element.ALIGN_CENTER);
-                retorno.addCell(celula);
-            }
-            if (campoTipoPessoa.isSelected() == true) {
-                celula = new PdfPCell(new Phrase("TIPO PESSOA", FontFactory.getFont("arial.ttf", 8, Font.BOLD)));
-                celula.setHorizontalAlignment(Element.ALIGN_CENTER);
-                retorno.addCell(celula);
-            }
-            if (campoValor.isSelected() == true) {
-                celula = new PdfPCell(new Phrase("VALOR", FontFactory.getFont("arial.ttf", 8, Font.BOLD)));
-                celula.setHorizontalAlignment(Element.ALIGN_CENTER);
-                retorno.addCell(celula);
-            }
-            if (campoData.isSelected() == true) {
-                celula = new PdfPCell(new Phrase("DATA", FontFactory.getFont("arial.ttf", 8, Font.BOLD)));
-                celula.setHorizontalAlignment(Element.ALIGN_CENTER);
-                retorno.addCell(celula);
-            }
-            if (campoFormaPagamento.isSelected() == true) {
-                celula = new PdfPCell(new Phrase("FORMA DE PAGAMENTO", FontFactory.getFont("arial.ttf", 8, Font.BOLD)));
-                celula.setHorizontalAlignment(Element.ALIGN_CENTER);
-                retorno.addCell(celula);
-            }
-
-        } else if (qtdSelecionada == 7) {
-            retorno = new PdfPTable(new float[]{5f, 5f, 5f, 5f, 5f, 5f, 5f});
-
-            if (campoCodigo.isSelected() == true) {
-                celula = new PdfPCell(new Phrase("CÓDIGO", FontFactory.getFont("arial.ttf", 8, Font.BOLD)));
-                celula.setHorizontalAlignment(Element.ALIGN_CENTER);
-                retorno.addCell(celula);
-            }
-            if (campoEmissor.isSelected() == true) {
-                celula = new PdfPCell(new Phrase("EMISSOR", FontFactory.getFont("arial.ttf", 8, Font.BOLD)));
-                celula.setHorizontalAlignment(Element.ALIGN_CENTER);
-                retorno.addCell(celula);
-            }
-            if (campoCodigoCliente.isSelected() == true) {
-                celula = new PdfPCell(new Phrase("CÓDIGO DO CLIENTE", FontFactory.getFont("arial.ttf", 8, Font.BOLD)));
-                celula.setHorizontalAlignment(Element.ALIGN_CENTER);
-                retorno.addCell(celula);
-            }
-            if (campoNomeCliente.isSelected() == true) {
-                celula = new PdfPCell(new Phrase("NOME DO CLIENTE", FontFactory.getFont("arial.ttf", 8, Font.BOLD)));
-                celula.setHorizontalAlignment(Element.ALIGN_CENTER);
-                retorno.addCell(celula);
-            }
-            if (campoTipoPessoa.isSelected() == true) {
-                celula = new PdfPCell(new Phrase("TIPO PESSOA", FontFactory.getFont("arial.ttf", 8, Font.BOLD)));
-                celula.setHorizontalAlignment(Element.ALIGN_CENTER);
-                retorno.addCell(celula);
-            }
-            if (campoValor.isSelected() == true) {
-                celula = new PdfPCell(new Phrase("VALOR", FontFactory.getFont("arial.ttf", 8, Font.BOLD)));
-                celula.setHorizontalAlignment(Element.ALIGN_CENTER);
-                retorno.addCell(celula);
-            }
-            if (campoData.isSelected() == true) {
-                celula = new PdfPCell(new Phrase("DATA", FontFactory.getFont("arial.ttf", 8, Font.BOLD)));
-                celula.setHorizontalAlignment(Element.ALIGN_CENTER);
-                retorno.addCell(celula);
-            }
-            if (campoFormaPagamento.isSelected() == true) {
-                celula = new PdfPCell(new Phrase("FORMA DE PAGAMENTO", FontFactory.getFont("arial.ttf", 8, Font.BOLD)));
-                celula.setHorizontalAlignment(Element.ALIGN_CENTER);
-                retorno.addCell(celula);
-            }
-
-        } else if (qtdSelecionada == 8) {
-            retorno = new PdfPTable(new float[]{5f, 5f, 5f, 5f, 5f, 5f, 5f, 5f});
-
-            if (campoCodigo.isSelected() == true) {
-                celula = new PdfPCell(new Phrase("CÓDIGO", FontFactory.getFont("arial.ttf", 8, Font.BOLD)));
-                celula.setHorizontalAlignment(Element.ALIGN_CENTER);
-                retorno.addCell(celula);
-            }
-            if (campoEmissor.isSelected() == true) {
-                celula = new PdfPCell(new Phrase("EMISSOR", FontFactory.getFont("arial.ttf", 8, Font.BOLD)));
-                celula.setHorizontalAlignment(Element.ALIGN_CENTER);
-                retorno.addCell(celula);
-            }
-            if (campoCodigoCliente.isSelected() == true) {
-                celula = new PdfPCell(new Phrase("CÓDIGO DO CLIENTE", FontFactory.getFont("arial.ttf", 8, Font.BOLD)));
-                celula.setHorizontalAlignment(Element.ALIGN_CENTER);
-                retorno.addCell(celula);
-            }
-            if (campoNomeCliente.isSelected() == true) {
-                celula = new PdfPCell(new Phrase("NOME DO CLIENTE", FontFactory.getFont("arial.ttf", 8, Font.BOLD)));
-                celula.setHorizontalAlignment(Element.ALIGN_CENTER);
-                retorno.addCell(celula);
-            }
-            if (campoTipoPessoa.isSelected() == true) {
-                celula = new PdfPCell(new Phrase("TIPO PESSOA", FontFactory.getFont("arial.ttf", 8, Font.BOLD)));
-                celula.setHorizontalAlignment(Element.ALIGN_CENTER);
-                retorno.addCell(celula);
-            }
-            if (campoValor.isSelected() == true) {
-                celula = new PdfPCell(new Phrase("VALOR", FontFactory.getFont("arial.ttf", 8, Font.BOLD)));
-                celula.setHorizontalAlignment(Element.ALIGN_CENTER);
-                retorno.addCell(celula);
-            }
-            if (campoData.isSelected() == true) {
-                celula = new PdfPCell(new Phrase("DATA", FontFactory.getFont("arial.ttf", 8, Font.BOLD)));
-                celula.setHorizontalAlignment(Element.ALIGN_CENTER);
-                retorno.addCell(celula);
-            }
-            if (campoFormaPagamento.isSelected() == true) {
-                celula = new PdfPCell(new Phrase("FORMA DE PAGAMENTO", FontFactory.getFont("arial.ttf", 8, Font.BOLD)));
-                celula.setHorizontalAlignment(Element.ALIGN_CENTER);
-                retorno.addCell(celula);
-            }
+        switch (qtdSelecionada) {
+            case 1:
+                retorno = new PdfPTable(new float[]{5f});
+                if (campoCodigo.isSelected() == true) {
+                    celula = new PdfPCell(new Phrase("CÓDIGO", FontFactory.getFont("arial.ttf", 8, Font.BOLD)));
+                    celula.setHorizontalAlignment(Element.ALIGN_CENTER);
+                    retorno.addCell(celula);
+                }   if (campoEmissor.isSelected() == true) {
+                    celula = new PdfPCell(new Phrase("EMISSOR", FontFactory.getFont("arial.ttf", 8, Font.BOLD)));
+                    celula.setHorizontalAlignment(Element.ALIGN_CENTER);
+                    retorno.addCell(celula);
+                }   if (campoCodigoCliente.isSelected() == true) {
+                    celula = new PdfPCell(new Phrase("CÓDIGO DO CLIENTE", FontFactory.getFont("arial.ttf", 8, Font.BOLD)));
+                    celula.setHorizontalAlignment(Element.ALIGN_CENTER);
+                    retorno.addCell(celula);
+                }   if (campoNomeCliente.isSelected() == true) {
+                    celula = new PdfPCell(new Phrase("NOME DO CLIENTE", FontFactory.getFont("arial.ttf", 8, Font.BOLD)));
+                    celula.setHorizontalAlignment(Element.ALIGN_CENTER);
+                    retorno.addCell(celula);
+                }   if (campoTipoPessoa.isSelected() == true) {
+                    celula = new PdfPCell(new Phrase("TIPO PESSOA", FontFactory.getFont("arial.ttf", 8, Font.BOLD)));
+                    celula.setHorizontalAlignment(Element.ALIGN_CENTER);
+                    retorno.addCell(celula);
+                }   if (campoValor.isSelected() == true) {
+                    celula = new PdfPCell(new Phrase("VALOR", FontFactory.getFont("arial.ttf", 8, Font.BOLD)));
+                    celula.setHorizontalAlignment(Element.ALIGN_CENTER);
+                    retorno.addCell(celula);
+                }   if (campoData.isSelected() == true) {
+                    celula = new PdfPCell(new Phrase("DATA", FontFactory.getFont("arial.ttf", 8, Font.BOLD)));
+                    celula.setHorizontalAlignment(Element.ALIGN_CENTER);
+                    retorno.addCell(celula);
+                }   if (campoFormaPagamento.isSelected() == true) {
+                    celula = new PdfPCell(new Phrase("FORMA DE PAGAMENTO", FontFactory.getFont("arial.ttf", 8, Font.BOLD)));
+                    celula.setHorizontalAlignment(Element.ALIGN_CENTER);
+                    retorno.addCell(celula);
+                }   break;
+            case 2:
+                retorno = new PdfPTable(new float[]{5f, 5f});
+                if (campoCodigo.isSelected() == true) {
+                    celula = new PdfPCell(new Phrase("CÓDIGO", FontFactory.getFont("arial.ttf", 8, Font.BOLD)));
+                    celula.setHorizontalAlignment(Element.ALIGN_CENTER);
+                    retorno.addCell(celula);
+                }   if (campoEmissor.isSelected() == true) {
+                    celula = new PdfPCell(new Phrase("EMISSOR", FontFactory.getFont("arial.ttf", 8, Font.BOLD)));
+                    celula.setHorizontalAlignment(Element.ALIGN_CENTER);
+                    retorno.addCell(celula);
+                }   if (campoCodigoCliente.isSelected() == true) {
+                    celula = new PdfPCell(new Phrase("CÓDIGO DO CLIENTE", FontFactory.getFont("arial.ttf", 8, Font.BOLD)));
+                    celula.setHorizontalAlignment(Element.ALIGN_CENTER);
+                    retorno.addCell(celula);
+                }   if (campoNomeCliente.isSelected() == true) {
+                    celula = new PdfPCell(new Phrase("NOME DO CLIENTE", FontFactory.getFont("arial.ttf", 8, Font.BOLD)));
+                    celula.setHorizontalAlignment(Element.ALIGN_CENTER);
+                    retorno.addCell(celula);
+                }   if (campoTipoPessoa.isSelected() == true) {
+                    celula = new PdfPCell(new Phrase("TIPO PESSOA", FontFactory.getFont("arial.ttf", 8, Font.BOLD)));
+                    celula.setHorizontalAlignment(Element.ALIGN_CENTER);
+                    retorno.addCell(celula);
+                }   if (campoValor.isSelected() == true) {
+                    celula = new PdfPCell(new Phrase("VALOR", FontFactory.getFont("arial.ttf", 8, Font.BOLD)));
+                    celula.setHorizontalAlignment(Element.ALIGN_CENTER);
+                    retorno.addCell(celula);
+                }   if (campoData.isSelected() == true) {
+                    celula = new PdfPCell(new Phrase("DATA", FontFactory.getFont("arial.ttf", 8, Font.BOLD)));
+                    celula.setHorizontalAlignment(Element.ALIGN_CENTER);
+                    retorno.addCell(celula);
+                }   if (campoFormaPagamento.isSelected() == true) {
+                    celula = new PdfPCell(new Phrase("FORMA DE PAGAMENTO", FontFactory.getFont("arial.ttf", 8, Font.BOLD)));
+                    celula.setHorizontalAlignment(Element.ALIGN_CENTER);
+                    retorno.addCell(celula);
+                }   break;
+            case 3:
+                retorno = new PdfPTable(new float[]{5f, 5f, 5f});
+                if (campoCodigo.isSelected() == true) {
+                    celula = new PdfPCell(new Phrase("CÓDIGO", FontFactory.getFont("arial.ttf", 8, Font.BOLD)));
+                    celula.setHorizontalAlignment(Element.ALIGN_CENTER);
+                    retorno.addCell(celula);
+                }   if (campoEmissor.isSelected() == true) {
+                    celula = new PdfPCell(new Phrase("EMISSOR", FontFactory.getFont("arial.ttf", 8, Font.BOLD)));
+                    celula.setHorizontalAlignment(Element.ALIGN_CENTER);
+                    retorno.addCell(celula);
+                }   if (campoCodigoCliente.isSelected() == true) {
+                    celula = new PdfPCell(new Phrase("CÓDIGO DO CLIENTE", FontFactory.getFont("arial.ttf", 8, Font.BOLD)));
+                    celula.setHorizontalAlignment(Element.ALIGN_CENTER);
+                    retorno.addCell(celula);
+                }   if (campoNomeCliente.isSelected() == true) {
+                    celula = new PdfPCell(new Phrase("NOME DO CLIENTE", FontFactory.getFont("arial.ttf", 8, Font.BOLD)));
+                    celula.setHorizontalAlignment(Element.ALIGN_CENTER);
+                    retorno.addCell(celula);
+                }   if (campoTipoPessoa.isSelected() == true) {
+                    celula = new PdfPCell(new Phrase("TIPO PESSOA", FontFactory.getFont("arial.ttf", 8, Font.BOLD)));
+                    celula.setHorizontalAlignment(Element.ALIGN_CENTER);
+                    retorno.addCell(celula);
+                }   if (campoValor.isSelected() == true) {
+                    celula = new PdfPCell(new Phrase("VALOR", FontFactory.getFont("arial.ttf", 8, Font.BOLD)));
+                    celula.setHorizontalAlignment(Element.ALIGN_CENTER);
+                    retorno.addCell(celula);
+                }   if (campoData.isSelected() == true) {
+                    celula = new PdfPCell(new Phrase("DATA", FontFactory.getFont("arial.ttf", 8, Font.BOLD)));
+                    celula.setHorizontalAlignment(Element.ALIGN_CENTER);
+                    retorno.addCell(celula);
+                }   if (campoFormaPagamento.isSelected() == true) {
+                    celula = new PdfPCell(new Phrase("FORMA DE PAGAMENTO", FontFactory.getFont("arial.ttf", 8, Font.BOLD)));
+                    celula.setHorizontalAlignment(Element.ALIGN_CENTER);
+                    retorno.addCell(celula);
+                }   break;
+            case 4:
+                retorno = new PdfPTable(new float[]{5f, 5f, 5f, 5f});
+                if (campoCodigo.isSelected() == true) {
+                    celula = new PdfPCell(new Phrase("CÓDIGO", FontFactory.getFont("arial.ttf", 8, Font.BOLD)));
+                    celula.setHorizontalAlignment(Element.ALIGN_CENTER);
+                    retorno.addCell(celula);
+                }   if (campoEmissor.isSelected() == true) {
+                    celula = new PdfPCell(new Phrase("EMISSOR", FontFactory.getFont("arial.ttf", 8, Font.BOLD)));
+                    celula.setHorizontalAlignment(Element.ALIGN_CENTER);
+                    retorno.addCell(celula);
+                }   if (campoCodigoCliente.isSelected() == true) {
+                    celula = new PdfPCell(new Phrase("CÓDIGO DO CLIENTE", FontFactory.getFont("arial.ttf", 8, Font.BOLD)));
+                    celula.setHorizontalAlignment(Element.ALIGN_CENTER);
+                    retorno.addCell(celula);
+                }   if (campoNomeCliente.isSelected() == true) {
+                    celula = new PdfPCell(new Phrase("NOME DO CLIENTE", FontFactory.getFont("arial.ttf", 8, Font.BOLD)));
+                    celula.setHorizontalAlignment(Element.ALIGN_CENTER);
+                    retorno.addCell(celula);
+                }   if (campoTipoPessoa.isSelected() == true) {
+                    celula = new PdfPCell(new Phrase("TIPO PESSOA", FontFactory.getFont("arial.ttf", 8, Font.BOLD)));
+                    celula.setHorizontalAlignment(Element.ALIGN_CENTER);
+                    retorno.addCell(celula);
+                }   if (campoValor.isSelected() == true) {
+                    celula = new PdfPCell(new Phrase("VALOR", FontFactory.getFont("arial.ttf", 8, Font.BOLD)));
+                    celula.setHorizontalAlignment(Element.ALIGN_CENTER);
+                    retorno.addCell(celula);
+                }   if (campoData.isSelected() == true) {
+                    celula = new PdfPCell(new Phrase("DATA", FontFactory.getFont("arial.ttf", 8, Font.BOLD)));
+                    celula.setHorizontalAlignment(Element.ALIGN_CENTER);
+                    retorno.addCell(celula);
+                }   if (campoFormaPagamento.isSelected() == true) {
+                    celula = new PdfPCell(new Phrase("FORMA DE PAGAMENTO", FontFactory.getFont("arial.ttf", 8, Font.BOLD)));
+                    celula.setHorizontalAlignment(Element.ALIGN_CENTER);
+                    retorno.addCell(celula);
+                }   break;
+            case 5:
+                retorno = new PdfPTable(new float[]{5f, 5f, 5f, 5f, 5f});
+                if (campoCodigo.isSelected() == true) {
+                    celula = new PdfPCell(new Phrase("CÓDIGO", FontFactory.getFont("arial.ttf", 8, Font.BOLD)));
+                    celula.setHorizontalAlignment(Element.ALIGN_CENTER);
+                    retorno.addCell(celula);
+                }   if (campoEmissor.isSelected() == true) {
+                    celula = new PdfPCell(new Phrase("EMISSOR", FontFactory.getFont("arial.ttf", 8, Font.BOLD)));
+                    celula.setHorizontalAlignment(Element.ALIGN_CENTER);
+                    retorno.addCell(celula);
+                }   if (campoCodigoCliente.isSelected() == true) {
+                    celula = new PdfPCell(new Phrase("CÓDIGO DO CLIENTE", FontFactory.getFont("arial.ttf", 8, Font.BOLD)));
+                    celula.setHorizontalAlignment(Element.ALIGN_CENTER);
+                    retorno.addCell(celula);
+                }   if (campoNomeCliente.isSelected() == true) {
+                    celula = new PdfPCell(new Phrase("NOME DO CLIENTE", FontFactory.getFont("arial.ttf", 8, Font.BOLD)));
+                    celula.setHorizontalAlignment(Element.ALIGN_CENTER);
+                    retorno.addCell(celula);
+                }   if (campoTipoPessoa.isSelected() == true) {
+                    celula = new PdfPCell(new Phrase("TIPO PESSOA", FontFactory.getFont("arial.ttf", 8, Font.BOLD)));
+                    celula.setHorizontalAlignment(Element.ALIGN_CENTER);
+                    retorno.addCell(celula);
+                }   if (campoValor.isSelected() == true) {
+                    celula = new PdfPCell(new Phrase("VALOR", FontFactory.getFont("arial.ttf", 8, Font.BOLD)));
+                    celula.setHorizontalAlignment(Element.ALIGN_CENTER);
+                    retorno.addCell(celula);
+                }   if (campoData.isSelected() == true) {
+                    celula = new PdfPCell(new Phrase("DATA", FontFactory.getFont("arial.ttf", 8, Font.BOLD)));
+                    celula.setHorizontalAlignment(Element.ALIGN_CENTER);
+                    retorno.addCell(celula);
+                }   if (campoFormaPagamento.isSelected() == true) {
+                    celula = new PdfPCell(new Phrase("FORMA DE PAGAMENTO", FontFactory.getFont("arial.ttf", 8, Font.BOLD)));
+                    celula.setHorizontalAlignment(Element.ALIGN_CENTER);
+                    retorno.addCell(celula);
+                }   break;
+            case 6:
+                retorno = new PdfPTable(new float[]{5f, 5f, 5f, 5f, 5f, 5f});
+                if (campoCodigo.isSelected() == true) {
+                    celula = new PdfPCell(new Phrase("CÓDIGO", FontFactory.getFont("arial.ttf", 8, Font.BOLD)));
+                    celula.setHorizontalAlignment(Element.ALIGN_CENTER);
+                    retorno.addCell(celula);
+                }   if (campoEmissor.isSelected() == true) {
+                    celula = new PdfPCell(new Phrase("EMISSOR", FontFactory.getFont("arial.ttf", 8, Font.BOLD)));
+                    celula.setHorizontalAlignment(Element.ALIGN_CENTER);
+                    retorno.addCell(celula);
+                }   if (campoCodigoCliente.isSelected() == true) {
+                    celula = new PdfPCell(new Phrase("CÓDIGO DO CLIENTE", FontFactory.getFont("arial.ttf", 8, Font.BOLD)));
+                    celula.setHorizontalAlignment(Element.ALIGN_CENTER);
+                    retorno.addCell(celula);
+                }   if (campoNomeCliente.isSelected() == true) {
+                    celula = new PdfPCell(new Phrase("NOME DO CLIENTE", FontFactory.getFont("arial.ttf", 8, Font.BOLD)));
+                    celula.setHorizontalAlignment(Element.ALIGN_CENTER);
+                    retorno.addCell(celula);
+                }   if (campoTipoPessoa.isSelected() == true) {
+                    celula = new PdfPCell(new Phrase("TIPO PESSOA", FontFactory.getFont("arial.ttf", 8, Font.BOLD)));
+                    celula.setHorizontalAlignment(Element.ALIGN_CENTER);
+                    retorno.addCell(celula);
+                }   if (campoValor.isSelected() == true) {
+                    celula = new PdfPCell(new Phrase("VALOR", FontFactory.getFont("arial.ttf", 8, Font.BOLD)));
+                    celula.setHorizontalAlignment(Element.ALIGN_CENTER);
+                    retorno.addCell(celula);
+                }   if (campoData.isSelected() == true) {
+                    celula = new PdfPCell(new Phrase("DATA", FontFactory.getFont("arial.ttf", 8, Font.BOLD)));
+                    celula.setHorizontalAlignment(Element.ALIGN_CENTER);
+                    retorno.addCell(celula);
+                }   if (campoFormaPagamento.isSelected() == true) {
+                    celula = new PdfPCell(new Phrase("FORMA DE PAGAMENTO", FontFactory.getFont("arial.ttf", 8, Font.BOLD)));
+                    celula.setHorizontalAlignment(Element.ALIGN_CENTER);
+                    retorno.addCell(celula);
+                }   break;
+            case 7:
+                retorno = new PdfPTable(new float[]{5f, 5f, 5f, 5f, 5f, 5f, 5f});
+                if (campoCodigo.isSelected() == true) {
+                    celula = new PdfPCell(new Phrase("CÓDIGO", FontFactory.getFont("arial.ttf", 8, Font.BOLD)));
+                    celula.setHorizontalAlignment(Element.ALIGN_CENTER);
+                    retorno.addCell(celula);
+                }   if (campoEmissor.isSelected() == true) {
+                    celula = new PdfPCell(new Phrase("EMISSOR", FontFactory.getFont("arial.ttf", 8, Font.BOLD)));
+                    celula.setHorizontalAlignment(Element.ALIGN_CENTER);
+                    retorno.addCell(celula);
+                }   if (campoCodigoCliente.isSelected() == true) {
+                    celula = new PdfPCell(new Phrase("CÓDIGO DO CLIENTE", FontFactory.getFont("arial.ttf", 8, Font.BOLD)));
+                    celula.setHorizontalAlignment(Element.ALIGN_CENTER);
+                    retorno.addCell(celula);
+                }   if (campoNomeCliente.isSelected() == true) {
+                    celula = new PdfPCell(new Phrase("NOME DO CLIENTE", FontFactory.getFont("arial.ttf", 8, Font.BOLD)));
+                    celula.setHorizontalAlignment(Element.ALIGN_CENTER);
+                    retorno.addCell(celula);
+                }   if (campoTipoPessoa.isSelected() == true) {
+                    celula = new PdfPCell(new Phrase("TIPO PESSOA", FontFactory.getFont("arial.ttf", 8, Font.BOLD)));
+                    celula.setHorizontalAlignment(Element.ALIGN_CENTER);
+                    retorno.addCell(celula);
+                }   if (campoValor.isSelected() == true) {
+                    celula = new PdfPCell(new Phrase("VALOR", FontFactory.getFont("arial.ttf", 8, Font.BOLD)));
+                    celula.setHorizontalAlignment(Element.ALIGN_CENTER);
+                    retorno.addCell(celula);
+                }   if (campoData.isSelected() == true) {
+                    celula = new PdfPCell(new Phrase("DATA", FontFactory.getFont("arial.ttf", 8, Font.BOLD)));
+                    celula.setHorizontalAlignment(Element.ALIGN_CENTER);
+                    retorno.addCell(celula);
+                }   if (campoFormaPagamento.isSelected() == true) {
+                    celula = new PdfPCell(new Phrase("FORMA DE PAGAMENTO", FontFactory.getFont("arial.ttf", 8, Font.BOLD)));
+                    celula.setHorizontalAlignment(Element.ALIGN_CENTER);
+                    retorno.addCell(celula);
+                }   break;
+            case 8:
+                retorno = new PdfPTable(new float[]{5f, 5f, 5f, 5f, 5f, 5f, 5f, 5f});
+                if (campoCodigo.isSelected() == true) {
+                    celula = new PdfPCell(new Phrase("CÓDIGO", FontFactory.getFont("arial.ttf", 8, Font.BOLD)));
+                    celula.setHorizontalAlignment(Element.ALIGN_CENTER);
+                    retorno.addCell(celula);
+                }   if (campoEmissor.isSelected() == true) {
+                    celula = new PdfPCell(new Phrase("EMISSOR", FontFactory.getFont("arial.ttf", 8, Font.BOLD)));
+                    celula.setHorizontalAlignment(Element.ALIGN_CENTER);
+                    retorno.addCell(celula);
+                }   if (campoCodigoCliente.isSelected() == true) {
+                    celula = new PdfPCell(new Phrase("CÓDIGO DO CLIENTE", FontFactory.getFont("arial.ttf", 8, Font.BOLD)));
+                    celula.setHorizontalAlignment(Element.ALIGN_CENTER);
+                    retorno.addCell(celula);
+                }   if (campoNomeCliente.isSelected() == true) {
+                    celula = new PdfPCell(new Phrase("NOME DO CLIENTE", FontFactory.getFont("arial.ttf", 8, Font.BOLD)));
+                    celula.setHorizontalAlignment(Element.ALIGN_CENTER);
+                    retorno.addCell(celula);
+                }   if (campoTipoPessoa.isSelected() == true) {
+                    celula = new PdfPCell(new Phrase("TIPO PESSOA", FontFactory.getFont("arial.ttf", 8, Font.BOLD)));
+                    celula.setHorizontalAlignment(Element.ALIGN_CENTER);
+                    retorno.addCell(celula);
+                }   if (campoValor.isSelected() == true) {
+                    celula = new PdfPCell(new Phrase("VALOR", FontFactory.getFont("arial.ttf", 8, Font.BOLD)));
+                    celula.setHorizontalAlignment(Element.ALIGN_CENTER);
+                    retorno.addCell(celula);
+                }   if (campoData.isSelected() == true) {
+                    celula = new PdfPCell(new Phrase("DATA", FontFactory.getFont("arial.ttf", 8, Font.BOLD)));
+                    celula.setHorizontalAlignment(Element.ALIGN_CENTER);
+                    retorno.addCell(celula);
+                }   if (campoFormaPagamento.isSelected() == true) {
+                    celula = new PdfPCell(new Phrase("FORMA DE PAGAMENTO", FontFactory.getFont("arial.ttf", 8, Font.BOLD)));
+                    celula.setHorizontalAlignment(Element.ALIGN_CENTER);
+                    retorno.addCell(celula);
+                }   break;
+            default:
+                break;
         }
 
         retorno.setWidthPercentage(100);
@@ -1593,7 +1525,7 @@ public class RelatoriosNotasCredito extends javax.swing.JInternalFrame {
                 tipoCondicaoOrdenar = "";
             }
 
-            for (NotaBEAN bean : dao.retornaConteudoRelatorioCredito(campoCodigo.isSelected(),
+            for (NotaCredito bean : dao.retornaConteudoRelatorioCredito(campoCodigo.isSelected(),
                     campoFormaPagamento.isSelected(),
                     campoEmissor.isSelected(),
                     campoCodigoCliente.isSelected(),

@@ -324,23 +324,47 @@ public class ProdutoDAO {
             }
 
             rs = stmt.executeQuery();
-            if (rs.next()) {
-                return new ProdutoBEAN(
-                        codProduto,
-                        rs.getString("DESCRICAO"),
-                        rs.getFloat("LARGURA"),
-                        rs.getFloat("ALTURA"),
-                        rs.getFloat("ESPESSURA"),
-                        rs.getFloat("PESO"),
-                        rs.getInt("QTD_PAGINAS"),
-                        rs.getString("TIPO"),
-                        rs.getByte("ATIVO") == 1,
-                        rs.getFloat("PRECO_CUSTO"),
-                        rs.getFloat("PRECO_PROMOCIONAL"),
-                        rs.getByte("USO_ECOMMERCE") == 1,
-                        rs.getByte("PROMOCIONAL") == 1
-                );
+            switch (tipoProduto) {
+                case 1:
+                    if (rs.next()) {
+                        return new ProdutoBEAN(
+                                codProduto,
+                                rs.getString("DESCRICAO"),
+                                rs.getFloat("LARGURA"),
+                                rs.getFloat("ALTURA"),
+                                rs.getFloat("ESPESSURA"),
+                                rs.getFloat("PESO"),
+                                rs.getInt("QTD_PAGINAS"),
+                                rs.getString("TIPO"),
+                                rs.getByte("ATIVO") == 1,
+                                rs.getFloat("PRECO_CUSTO"),
+                                rs.getFloat("PRECO_PROMOCIONAL"),
+                                rs.getByte("USO_ECOMMERCE") == 1,
+                                rs.getByte("PROMOCIONAL") == 1
+                        );
+                    }
+                    break;
+                case 2:
+                    if (rs.next()) {
+                        return new ProdutoBEAN(
+                                codProduto,
+                                rs.getString("DESCRICAO"),
+                                rs.getFloat("LARGURA"),
+                                rs.getFloat("ALTURA"),
+                                rs.getFloat("ESPESSURA"),
+                                rs.getFloat("PESO"),
+                                rs.getInt("QTD_PAGINAS"),
+                                rs.getString("TIPO"),
+                                rs.getByte("ATIVO") == 1,
+                                rs.getFloat("VLR_UNIT"),
+                                rs.getFloat("VLR_PROM"),
+                                rs.getByte("USO_ECOMMERCE") == 1,
+                                rs.getByte("PROM") == 1
+                        );
+                    }
+                    break;
             }
+
             return null;
         } catch (SQLException ex) {
             throw new SQLException(ex);
@@ -572,11 +596,13 @@ public class ProdutoDAO {
     }
 
     /**
-    @param codProduto Código do produto
-    @param tipoProduto 1 - PRODUTO PARA PRODUÇÃO, 2 - PRODUTO PARA PRONTA ENTREGA
-    @return String descrição do produto
-    @see retornaDescricaoProduto
-     **/
+     * @param codProduto Código do produto
+     * @param tipoProduto 1 - PRODUTO PARA PRODUÇÃO, 2 - PRODUTO PARA PRONTA
+     * ENTREGA
+     * @return String descrição do produto
+     * @see retornaDescricaoProduto
+     *
+     */
     public static String retornaDescricaoProduto(int codProduto, byte tipoProduto) throws SQLException {
         Connection con = ConnectionFactory.getConnection();
         PreparedStatement stmt = null;
@@ -1407,20 +1433,21 @@ public class ProdutoDAO {
                 return null;
         }
     }
-    
+
     /**
      * Atualiza o código da Loja Integrada do produto
+     *
      * @param codProd código do produto Sisgrafex
      * @param codLI código do produto Loja Integrada
      * @param tipoProd tipo do produto 1 - produção, 2 - pronta entrega
      * @throws java.sql.SQLException
      */
-    public synchronized static void atualizaCodigoLI(int codProd,int codLI, byte tipoProd) throws SQLException{
-        try{
+    public synchronized static void atualizaCodigoLI(int codProd, int codLI, byte tipoProd) throws SQLException {
+        try {
             Connection con = ConnectionFactory.getConnection();
             PreparedStatement stmt = null;
-            
-            switch(tipoProd){
+
+            switch (tipoProd) {
                 case 1:
                     stmt = con.prepareStatement("UPDATE produtos "
                             + "SET CODIGO_LI = ? "
@@ -1438,32 +1465,33 @@ public class ProdutoDAO {
                     stmt.executeUpdate();
                     break;
             }
-        }   catch (SQLException ex) {
+        } catch (SQLException ex) {
             throw new SQLException(ex);
         }
     }
-    
+
     /**
      * Retorna o código do produto na Loja integrada
+     *
      * @param codProd código do produto no Sisgrafex
      * @param tipoProd tipo do produto 1 - produção, 2 - pronta entrega
-     * @return 
-     * @throws java.sql.SQLException 
+     * @return
+     * @throws java.sql.SQLException
      */
-    public synchronized static int retornaCodigoLI(int codProd, byte tipoProd) throws SQLException{
-       try{
+    public synchronized static int retornaCodigoLI(int codProd, byte tipoProd) throws SQLException {
+        try {
             Connection con = ConnectionFactory.getConnection();
             PreparedStatement stmt = null;
             ResultSet rs = null;
-            
-            switch(tipoProd){
+
+            switch (tipoProd) {
                 case 1:
                     stmt = con.prepareStatement("SELECT CODIGO_LI "
                             + "FROM produtos "
                             + "WHERE CODIGO = ?");
                     stmt.setInt(1, codProd);
                     rs = stmt.executeQuery();
-                    if(rs.next()){
+                    if (rs.next()) {
                         return rs.getInt("CODIGO_LI");
                     }
                     break;
@@ -1473,14 +1501,14 @@ public class ProdutoDAO {
                             + "WHERE CODIGO = ?");
                     stmt.setInt(1, codProd);
                     rs = stmt.executeQuery();
-                    if(rs.next()){
+                    if (rs.next()) {
                         return rs.getInt("CODIGO_LI");
                     }
                     break;
             }
             return 0;
-        }   catch (SQLException ex) {
+        } catch (SQLException ex) {
             throw new SQLException(ex);
-        } 
+        }
     }
 }

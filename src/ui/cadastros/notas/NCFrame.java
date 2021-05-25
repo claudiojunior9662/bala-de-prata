@@ -5,6 +5,7 @@
  */
 package ui.cadastros.notas;
 
+import entities.sisgrafex.NotaCredito;
 import exception.EnvioExcecao;
 import java.sql.SQLException;
 import java.sql.Timestamp;
@@ -797,7 +798,7 @@ public class NCFrame extends javax.swing.JInternalFrame {
                 loading.setText("GRAVANDO...");
 
                 try {
-                    NotaBEAN nota = new NotaBEAN();
+                    NotaCredito nota = new NotaCredito();
                     LancSigaSiafi lanc = null;
                     LancGru lancGru = null;
 
@@ -1081,7 +1082,7 @@ public class NCFrame extends javax.swing.JInternalFrame {
 
     private void botaoGerarArquivoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botaoGerarArquivoActionPerformed
         if (numeroNota.getText() != "") {
-            NotaBEAN notaBEAN = new NotaBEAN();
+            NotaCredito notaBEAN = new NotaCredito();
             notaBEAN.geraNotaCredito(Integer.parseInt(numeroNota.getText()),
                     jcbFormaPgto.getSelectedItem().toString());
         }

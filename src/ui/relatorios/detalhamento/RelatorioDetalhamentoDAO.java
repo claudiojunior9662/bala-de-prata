@@ -3,8 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package ui.relatorios.financeiro;
+package ui.relatorios.detalhamento;
 
+import ui.relatorios.financeiro.*;
 import connection.ConnectionFactory;
 import entities.sisgrafex.Cliente;
 import entities.sisgrafex.NotaCredito;
@@ -22,7 +23,7 @@ import ui.cadastros.produtos.ProdutoDAO;
  *
  * @author claudio
  */
-public class RelatoriosFinanceiroDAO {
+public class RelatorioDetalhamentoDAO {
 
     //NOTAS DE CRÉDITO
     public List<NotaCredito> retornaConteudoRelatorioCredito(boolean codigo,

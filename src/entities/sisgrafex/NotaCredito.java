@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package ui.cadastros.notas;
+package entities.sisgrafex;
 
 import com.itextpdf.text.BaseColor;
 import com.itextpdf.text.DocumentException;
@@ -16,9 +16,6 @@ import com.itextpdf.text.Phrase;
 import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
-import entities.sisgrafex.Faturamento;
-import entities.sisgrafex.OrdemProducao;
-import entities.sisgrafex.ProdOrcamento;
 import exception.EnvioExcecao;
 import java.awt.Font;
 import java.io.File;
@@ -34,6 +31,7 @@ import ui.cadastros.clientes.ClienteBEAN;
 import ui.cadastros.clientes.ClienteDAO;
 import ui.cadastros.contatos.ContatoBEAN;
 import ui.cadastros.enderecos.EnderecoBEAN;
+import ui.cadastros.notas.NotaDAO;
 import ui.cadastros.produtos.ProdutoDAO;
 import ui.cadastros.servicos.ServicoDAO;
 import ui.controle.Controle;
@@ -43,7 +41,7 @@ import ui.login.TelaAutenticacao;
  *
  * @author spd3
  */
-public class NotaBEAN {
+public class NotaCredito {
 
     private int cod;
     private int serie;
@@ -65,7 +63,7 @@ public class NotaBEAN {
     private byte fatServicos;
     private int codProduto;
 
-    public NotaBEAN(int cod,
+    public NotaCredito(int cod,
             int serie,
             int codOp,
             int codOrcamento,
@@ -103,8 +101,17 @@ public class NotaBEAN {
         this.codProduto = codProduto;
     }
 
-    public NotaBEAN() {
+    public NotaCredito() {
+        
     }
+
+    public NotaCredito(int cod, float valor, String data) {
+        this.cod = cod;
+        this.valor = valor;
+        this.data = data;
+    }
+    
+    
 
     public byte getFatFrete() {
         return fatFrete;
@@ -283,7 +290,7 @@ public class NotaBEAN {
                     /**
                      * Pesquisa pela nota
                      */
-                    NotaBEAN nota = NotaDAO.selNotaVenda(numeroNota);
+                    NotaCredito nota = NotaDAO.selNotaVenda(numeroNota);
 
                     /**
                      * Pesquisa pelo cliente

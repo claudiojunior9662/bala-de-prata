@@ -14,6 +14,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -87,6 +88,7 @@ public class Controle {
     public static SimpleDateFormat dataPadraoDiretorio = new SimpleDateFormat("dd-MM-yyyy");
     public static SimpleDateFormat horaPadrao = new SimpleDateFormat("HH:mm:ss");
     public static SimpleDateFormat horaPadraoDiretorio = new SimpleDateFormat("HH-mm-ss");
+    public static DecimalFormat formatoVlrPadrao = new DecimalFormat("###,##0.00");
     public static String tipoDesign = "";
     public static String urlTempWindows = System.getProperty("java.io.tmpdir") + "\\";
     public static String urlTempUnix = System.getProperty("java.io.tmpdir") + "/";

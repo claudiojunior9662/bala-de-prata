@@ -5,6 +5,7 @@
  */
 package ui.cadastros.notas;
 
+import entities.sisgrafex.NotaCredito;
 import ui.login.TelaAutenticacao;
 import com.itextpdf.text.DocumentException;
 import com.itextpdf.text.Image;
@@ -1200,7 +1201,7 @@ public class FatFrame extends javax.swing.JInternalFrame {
     private void botaoGerarArquivoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botaoGerarArquivoActionPerformed
         try {
             if (NotaDAO.verificaQuantidadeEntregue(FAT.getCodOp()) < (int) qtdSolicitada.getValue()) {
-                NotaBEAN.geraRecibo(FAT);
+                NotaCredito.geraRecibo(FAT);
             } else {
                 OrdemProducao.gerarPdfOp(FAT.getCodOp(), FAT.getCodOrc(), (byte) 2, FAT);
             }
@@ -1347,7 +1348,7 @@ public class FatFrame extends javax.swing.JInternalFrame {
 //                    PdfPTable tblGuiaEntrega = new PdfPTable(new float[]{3f, 8f, 3f});
 //                    tblGuiaEntrega.setWidthPercentage(100);
 //
-//                    NotaBEAN nota = NotaDAO.selNotaVenda(CODIGO_FAT);
+//                    NotaCredito nota = NotaDAO.selNotaVenda(CODIGO_FAT);
 //                    PdfPCell cell1 = null;
 //                    PdfPCell cell2 = null;
 //                    PdfPCell cell3 = null;
