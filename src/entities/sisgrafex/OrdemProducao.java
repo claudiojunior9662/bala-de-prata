@@ -274,6 +274,22 @@ public class OrdemProducao {
         this.dataEntrega = dataEntrega;
         this.status = status;
     }
+    
+    public OrdemProducao(int orcamentoBase,
+            int codOp,
+            Date dataEmissao,
+            Date dataEntrega,
+            String descricao,
+            float valorParcial,
+            String status){
+        this.orcamentoBase = orcamentoBase;
+        this.codigo = codOp;
+        this.dataEmissao = dataEmissao;
+        this.dataEntrega = dataEntrega;
+        this.descricao = descricao;
+        this.valorParcial = valorParcial;
+        this.status = status;
+    }
 
     public String getObsFrete() {
         return obsFrete;

@@ -16,6 +16,8 @@ import ui.controle.Controle;
 import ui.login.TelaAutenticacao;
 import ui.orcamentos.operacoes.OrcamentoPrincipalFrame;
 import ui.ordemProducao.consultas.OpConsultaFrame;
+import static ui.principal.Financeiro.loading;
+import ui.relatorios.detalhamento.RelatorioDetalhamento;
 import ui.relatorios.financeiro.RelatorioFat;
 import ui.relatorios.financeiro.RelatorioFinanceiro;
 import ui.relatorios.financeiro.RelatoriosNotasCredito;
@@ -115,6 +117,7 @@ public class OrdenadorInt extends javax.swing.JFrame {
         relatoriosNc = new javax.swing.JMenuItem();
         relatoriosPapeis = new javax.swing.JMenuItem();
         jMenuItem1 = new javax.swing.JMenuItem();
+        jMenuItem2 = new javax.swing.JMenuItem();
         modulos = new javax.swing.JMenu();
         sair = new javax.swing.JMenu();
 
@@ -296,6 +299,15 @@ public class OrdenadorInt extends javax.swing.JFrame {
         });
         jMenu1.add(jMenuItem1);
 
+        jMenuItem2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icones/detalhes.png"))); // NOI18N
+        jMenuItem2.setText("DETALHAMENTO DE CLIENTE");
+        jMenuItem2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem2ActionPerformed(evt);
+            }
+        });
+        jMenu1.add(jMenuItem2);
+
         jMenuBar1.add(jMenu1);
 
         modulos.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icones/modulos.png"))); // NOI18N
@@ -439,6 +451,10 @@ public class OrdenadorInt extends javax.swing.JFrame {
         Controle.getDefaultGj().abrirJanelas(RelatorioFinanceiro.getInstancia(loading), "RELATÓRIOS - FINANCEIRO");
     }//GEN-LAST:event_jMenuItem1ActionPerformed
 
+    private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
+        Controle.getDefaultGj().abrirJanelas(RelatorioDetalhamento.getInstancia(loading), "RELATÓRIOS - DETALHAMENTO");
+    }//GEN-LAST:event_jMenuItem2ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -483,6 +499,7 @@ public class OrdenadorInt extends javax.swing.JFrame {
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem jMenuItem1;
+    private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     public static javax.swing.JLabel loading;

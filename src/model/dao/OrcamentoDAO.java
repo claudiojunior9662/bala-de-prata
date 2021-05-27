@@ -21,12 +21,9 @@ import entities.sisgrafex.CalculosOpBEAN;
 import entities.sisgrafex.Servicos;
 import entities.sisgrafex.StsOrcamento;
 import exception.OrcamentoInexistenteException;
-import exception.SemServicoException;
 import java.text.ParseException;
 import entities.sisgrafex.ProdOrcamento;
 import java.sql.Timestamp;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import ui.controle.Controle;
 
 /**

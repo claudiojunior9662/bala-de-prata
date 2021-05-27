@@ -5,12 +5,10 @@
  */
 package ui.relatorios.detalhamento;
 
-import ui.relatorios.financeiro.*;
+import com.itextpdf.text.BaseColor;
 import entities.sisgrafex.NotaCredito;
 import com.itextpdf.text.DocumentException;
-import com.itextpdf.text.Font;
 import com.itextpdf.text.FontFactory;
-import com.itextpdf.text.Image;
 import com.itextpdf.text.PageSize;
 import com.itextpdf.text.Paragraph;
 import com.itextpdf.text.Phrase;
@@ -19,20 +17,25 @@ import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
 import com.lowagie.text.Element;
 import entities.sisgrafex.Cliente;
+import entities.sisgrafex.Faturamento;
+import entities.sisgrafex.OrdemProducao;
 import exception.EnvioExcecao;
+import java.awt.Color;
+import java.awt.Font;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.sql.SQLException;
-import java.text.DecimalFormat;
 import java.util.Date;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.DefaultListModel;
+import javax.swing.GroupLayout;
 import javax.swing.JLabel;
-import ui.administrador.UsuarioBEAN;
-import ui.administrador.UsuarioDAO;
+import model.dao.OrdemProducaoDAO;
+import static model.dao.OrdemProducaoDAO.retornaOrdemProducaoCliente;
 import ui.cadastros.clientes.ClienteDAO;
 import ui.cadastros.notas.NotaDAO;
 import ui.controle.Controle;
@@ -55,10 +58,16 @@ public class RelatorioDetalhamento extends javax.swing.JInternalFrame {
         return new RelatorioDetalhamento(loading);
     }
 
+    private double saldoNC;
+    private double saldoFat;
+    private double saldoEmAberto;
+
     public RelatorioDetalhamento(JLabel loading) {
         initComponents();
         this.loading = loading;
+        listPesquisaCliente.setModel(model);
         estadoInicial();
+
     }
 
     /**
@@ -134,8 +143,10 @@ public class RelatorioDetalhamento extends javax.swing.JInternalFrame {
 
         lblOrientacao.setText("ORIENTAÇÃO:");
 
+        grupoOrientacao.add(rBtnRetrato);
         rBtnRetrato.setText("RETRATO");
 
+        grupoOrientacao.add(rBtnPaisagem);
         rBtnPaisagem.setText("PAISAGEM");
 
         botaoGeraRelatorio.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icones/confirma.png"))); // NOI18N
@@ -180,31 +191,36 @@ public class RelatorioDetalhamento extends javax.swing.JInternalFrame {
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(10, 10, 10)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jrbPorCodigo, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jcbTipoPessoa, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jftfCodigoCliente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(15, 15, 15)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jrbPorNome, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jtfNomeCliente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(1, 1, 1)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(100, 100, 100)
-                        .addComponent(lblOrientacao))
+                        .addGap(10, 10, 10)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jrbPorCodigo, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jcbTipoPessoa, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jftfCodigoCliente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(15, 15, 15)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jrbPorNome, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jtfNomeCliente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(101, 101, 101)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(lblOrientacao)
+                            .addComponent(rBtnRetrato)
+                            .addComponent(rBtnPaisagem)))
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(100, 100, 100)
-                        .addComponent(rBtnPaisagem))
+                        .addGap(200, 200, 200)
+                        .addComponent(botaoGeraRelatorio))
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(100, 100, 100)
-                        .addComponent(rBtnRetrato))
-                    .addComponent(listPesquisaCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(130, 130, 130)
-                        .addComponent(botaoGeraRelatorio))))
+                        .addGap(70, 70, 70)
+                        .addComponent(listPesquisaCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(43, 43, 43))
         );
+
+        jPanel1Layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {lblOrientacao, rBtnPaisagem, rBtnRetrato});
+
+        jPanel1Layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {jrbPorNome, jtfNomeCliente});
+
+        jPanel1Layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {jcbTipoPessoa, jftfCodigoCliente, jrbPorCodigo});
 
         jTabbedPane1.addTab("CLIENTE", new javax.swing.ImageIcon(getClass().getResource("/icones/cliente.png")), jPanel1); // NOI18N
 
@@ -333,6 +349,10 @@ public class RelatorioDetalhamento extends javax.swing.JInternalFrame {
      */
     public void geraRelatorio() {
 
+        saldoNC = 0d;
+        saldoFat = 0d;
+        saldoEmAberto = 0d;
+
         com.itextpdf.text.Document document = new com.itextpdf.text.Document(PageSize.A4, 30, 20, 20, 30);
 
         String valor = null;
@@ -372,11 +392,37 @@ public class RelatorioDetalhamento extends javax.swing.JInternalFrame {
 
                     document.add(new Paragraph("\n"));
 
+                    if (jrbPorCodigo.isSelected()) {
+                        cliente = ClienteDAO.selInfoNota((byte) (jcbTipoPessoa.getSelectedIndex() + 1), Integer.valueOf(jftfCodigoCliente.getText()));
+                    }
+
+                    Paragraph p = new Paragraph(Element.ALIGN_CENTER, cliente.getCodigo() + " - " + cliente.getNome());
+                    p.setAlignment(Element.ALIGN_CENTER);
+                    document.add(p);
+
+                    document.add(new Paragraph("\n"));
+
                     PdfPTable tabelaNotasCredito = geraTabelaNotasCredito();
+                    tabelaNotasCredito.setWidthPercentage(100);
                     document.add(tabelaNotasCredito);
-                    
+                    document.add(new Paragraph("\n"));
+                    PdfPTable tabelaFaturamentos = geraTabelaFaturamentos();
+                    tabelaFaturamentos.setWidthPercentage(100);
+                    document.add(tabelaFaturamentos);
+                    document.add(new Paragraph("\n"));
+                    PdfPTable tabelaOrdemProducao = geraTabelaOrdemProducao();
+                    tabelaOrdemProducao.setWidthPercentage(100);
+                    document.add(tabelaOrdemProducao);
+                    document.add(new Paragraph("\n\n"));
+                    PdfPTable tabelaSaldoFinal = geraTabelaSaldoFinal();
+                    tabelaSaldoFinal.setWidthPercentage(100);
+                    document.add(tabelaSaldoFinal);
+
                     document.close();
                 } catch (FileNotFoundException | DocumentException ex) {
+                    EnvioExcecao envioExcecao = new EnvioExcecao(Controle.getDefaultGj(), ex);
+                    EnvioExcecao.envio();
+                } catch (SQLException ex) {
                     EnvioExcecao envioExcecao = new EnvioExcecao(Controle.getDefaultGj(), ex);
                     EnvioExcecao.envio();
                 }
@@ -408,19 +454,25 @@ public class RelatorioDetalhamento extends javax.swing.JInternalFrame {
 
         try {
             if (jrbPorCodigo.isSelected()) {
+                cliente = new Cliente();
                 cliente.setTipoPessoa((byte) (jcbTipoPessoa.getSelectedIndex() + 1));
-                cliente.setCodigo((int) jftfCodigoCliente.getValue());
+                cliente.setCodigo(Integer.valueOf(jftfCodigoCliente.getText()));
             }
 
             //CABEÇALHO---------------------------------------------------------
             PdfPCell celula = new PdfPCell();
-            celula = new PdfPCell(new Phrase("NC", FontFactory.getFont("arial.ttf", 6)));
+            celula = new PdfPCell(new Phrase("NOTAS DE CRÉDITO", FontFactory.getFont("arial.ttf", 8, Font.BOLD, BaseColor.WHITE)));
+            celula.setBackgroundColor(BaseColor.BLACK);
+            celula.setHorizontalAlignment(Element.ALIGN_CENTER);
+            celula.setColspan(3);
+            retorno.addCell(celula);
+            celula = new PdfPCell(new Phrase("NOTA DE CRÉDITO", FontFactory.getFont("arial.ttf", 6, Font.BOLD)));
             celula.setHorizontalAlignment(Element.ALIGN_CENTER);
             retorno.addCell(celula);
-            celula = new PdfPCell(new Phrase("DATA", FontFactory.getFont("arial.ttf", 6)));
+            celula = new PdfPCell(new Phrase("DATA", FontFactory.getFont("arial.ttf", 6, Font.BOLD)));
             celula.setHorizontalAlignment(Element.ALIGN_CENTER);
             retorno.addCell(celula);
-            celula = new PdfPCell(new Phrase("VALOR", FontFactory.getFont("arial.ttf", 6)));
+            celula = new PdfPCell(new Phrase("VALOR", FontFactory.getFont("arial.ttf", 6, Font.BOLD)));
             celula.setHorizontalAlignment(Element.ALIGN_CENTER);
             retorno.addCell(celula);
 
@@ -431,14 +483,15 @@ public class RelatorioDetalhamento extends javax.swing.JInternalFrame {
                 celula = new PdfPCell(new Phrase(nc.getData(), FontFactory.getFont("arial.ttf", 6)));
                 celula.setHorizontalAlignment(Element.ALIGN_CENTER);
                 retorno.addCell(celula);
-                celula = new PdfPCell(new Phrase("R$ " + Controle.formatoVlrPadrao.format(nc.getValor()), FontFactory.getFont("arial.ttf", 6)));
+                celula = new PdfPCell(new Phrase("(+) R$ " + Controle.formatoVlrPadrao.format(nc.getValor()), FontFactory.getFont("arial.ttf", 6)));
                 celula.setHorizontalAlignment(Element.ALIGN_CENTER);
                 retorno.addCell(celula);
                 vlrTotal += nc.getValor();
             }
-            celula = new PdfPCell(new Phrase("VALOR TOTAL: R$ " + Controle.formatoVlrPadrao.format(vlrTotal), FontFactory.getFont("arial.ttf", 6)));
+            saldoNC = vlrTotal;
+            celula = new PdfPCell(new Phrase("VALOR TOTAL: (+) R$ " + Controle.formatoVlrPadrao.format(vlrTotal), FontFactory.getFont("arial.ttf", 8, Font.BOLD)));
             celula.setColspan(3);
-            celula.setHorizontalAlignment(Element.ALIGN_CENTER);
+            celula.setHorizontalAlignment(Element.ALIGN_RIGHT);
             retorno.addCell(celula);
 
         } catch (SQLException ex) {
@@ -446,6 +499,309 @@ public class RelatorioDetalhamento extends javax.swing.JInternalFrame {
             EnvioExcecao.envio();
         }
         return retorno;
+    }
+
+    /**
+     * Retorna a tabela de faturamentos
+     *
+     * @return
+     */
+    public PdfPTable geraTabelaFaturamentos() {
+        PdfPTable retorno = new PdfPTable(new float[]{5f, 5f, 5f, 5f, 5f});
+        Double vlrTotal = 0d;
+
+        try {
+            if (jrbPorCodigo.isSelected()) {
+                cliente = new Cliente();
+                cliente.setTipoPessoa((byte) (jcbTipoPessoa.getSelectedIndex() + 1));
+                cliente.setCodigo(Integer.valueOf(jftfCodigoCliente.getText()));
+            }
+
+            //CABEÇALHO---------------------------------------------------------
+            PdfPCell celula = new PdfPCell();
+            celula = new PdfPCell(new Phrase("FATURAMENTOS", FontFactory.getFont("arial.ttf", 8, Font.BOLD, BaseColor.WHITE)));
+            celula.setBackgroundColor(BaseColor.BLACK);
+            celula.setHorizontalAlignment(Element.ALIGN_CENTER);
+            celula.setColspan(5);
+            retorno.addCell(celula);
+            celula = new PdfPCell(new Phrase("PROPOSTA DE ORÇAMENTO", FontFactory.getFont("arial.ttf", 6, Font.BOLD)));
+            celula.setHorizontalAlignment(Element.ALIGN_CENTER);
+            retorno.addCell(celula);
+            celula = new PdfPCell(new Phrase("ORDEM DE PRODUÇÃO", FontFactory.getFont("arial.ttf", 6, Font.BOLD)));
+            celula.setHorizontalAlignment(Element.ALIGN_CENTER);
+            retorno.addCell(celula);
+            celula = new PdfPCell(new Phrase("DATA", FontFactory.getFont("arial.ttf", 6, Font.BOLD)));
+            celula.setHorizontalAlignment(Element.ALIGN_CENTER);
+            retorno.addCell(celula);
+            celula = new PdfPCell(new Phrase("PRODUTO", FontFactory.getFont("arial.ttf", 6, Font.BOLD)));
+            celula.setHorizontalAlignment(Element.ALIGN_CENTER);
+            retorno.addCell(celula);
+            celula = new PdfPCell(new Phrase("VALOR", FontFactory.getFont("arial.ttf", 6, Font.BOLD)));
+            celula.setHorizontalAlignment(Element.ALIGN_CENTER);
+            retorno.addCell(celula);
+
+            for (Faturamento fat : NotaDAO.retornaFatCliente(cliente.getCodigo(), cliente.getTipoPessoa())) {
+                celula = new PdfPCell(new Phrase(String.valueOf(fat.getCodOrc()), FontFactory.getFont("arial.ttf", 6)));
+                celula.setHorizontalAlignment(Element.ALIGN_CENTER);
+                retorno.addCell(celula);
+                celula = new PdfPCell(new Phrase(String.valueOf(fat.getCodOp()), FontFactory.getFont("arial.ttf", 6)));
+                celula.setHorizontalAlignment(Element.ALIGN_CENTER);
+                retorno.addCell(celula);
+                celula = new PdfPCell(new Phrase(Controle.dataPadrao.format(fat.getDtFat()), FontFactory.getFont("arial.ttf", 6)));
+                celula.setHorizontalAlignment(Element.ALIGN_CENTER);
+                retorno.addCell(celula);
+                celula = new PdfPCell(new Phrase(fat.getDescricaoProduto(), FontFactory.getFont("arial.ttf", 6)));
+                celula.setHorizontalAlignment(Element.ALIGN_CENTER);
+                retorno.addCell(celula);
+                celula = new PdfPCell(new Phrase("(-) R$ " + Controle.formatoVlrPadrao.format(fat.getVlrFat()), FontFactory.getFont("arial.ttf", 6)));
+                celula.setHorizontalAlignment(Element.ALIGN_CENTER);
+                retorno.addCell(celula);
+                vlrTotal += fat.getVlrFat();
+            }
+            saldoFat = vlrTotal;
+            celula = new PdfPCell(new Phrase("VALOR TOTAL: (-) R$ " + Controle.formatoVlrPadrao.format(vlrTotal), FontFactory.getFont("arial.ttf", 8, Font.BOLD)));
+            celula.setColspan(5);
+            celula.setHorizontalAlignment(Element.ALIGN_RIGHT);
+            retorno.addCell(celula);
+
+        } catch (SQLException ex) {
+            EnvioExcecao envioExcecao = new EnvioExcecao(Controle.getDefaultGj(), ex);
+            EnvioExcecao.envio();
+        }
+        return retorno;
+    }
+
+    /**
+     * Retorna as ordem de produção do cliente
+     *
+     * @return
+     */
+    public PdfPTable geraTabelaOrdemProducao() {
+        PdfPTable retorno = new PdfPTable(new float[]{5f, 5f, 5f, 5f, 5f, 5f, 5f});
+        Double vlrTotal = 0d;
+
+        try {
+            if (jrbPorCodigo.isSelected()) {
+                cliente = new Cliente();
+                cliente.setTipoPessoa((byte) (jcbTipoPessoa.getSelectedIndex() + 1));
+                cliente.setCodigo(Integer.valueOf(jftfCodigoCliente.getText()));
+            }
+
+            //CABEÇALHO---------------------------------------------------------
+            PdfPCell celula = new PdfPCell();
+            celula = new PdfPCell(new Phrase("ORDEM DE PRODUÇÃO", FontFactory.getFont("arial.ttf", 8, Font.BOLD, BaseColor.WHITE)));
+            celula.setBackgroundColor(BaseColor.BLACK);
+            celula.setHorizontalAlignment(Element.ALIGN_CENTER);
+            celula.setColspan(7);
+            retorno.addCell(celula);
+            celula = new PdfPCell(new Phrase("PROPOSTA DE ORÇAMENTO", FontFactory.getFont("arial.ttf", 6, Font.BOLD)));
+            celula.setHorizontalAlignment(Element.ALIGN_CENTER);
+            retorno.addCell(celula);
+            celula = new PdfPCell(new Phrase("ORDEM DE PRODUÇÃO", FontFactory.getFont("arial.ttf", 6, Font.BOLD)));
+            celula.setHorizontalAlignment(Element.ALIGN_CENTER);
+            retorno.addCell(celula);
+            celula = new PdfPCell(new Phrase("EMISSÃO", FontFactory.getFont("arial.ttf", 6, Font.BOLD)));
+            celula.setHorizontalAlignment(Element.ALIGN_CENTER);
+            retorno.addCell(celula);
+            celula = new PdfPCell(new Phrase("ENTREGA PREVISTA", FontFactory.getFont("arial.ttf", 6, Font.BOLD)));
+            celula.setHorizontalAlignment(Element.ALIGN_CENTER);
+            retorno.addCell(celula);
+            celula = new PdfPCell(new Phrase("PRODUTO", FontFactory.getFont("arial.ttf", 6, Font.BOLD)));
+            celula.setHorizontalAlignment(Element.ALIGN_CENTER);
+            retorno.addCell(celula);
+            celula = new PdfPCell(new Phrase("STATUS", FontFactory.getFont("arial.ttf", 6, Font.BOLD)));
+            celula.setHorizontalAlignment(Element.ALIGN_CENTER);
+            retorno.addCell(celula);
+            celula = new PdfPCell(new Phrase("VALOR", FontFactory.getFont("arial.ttf", 6, Font.BOLD)));
+            celula.setHorizontalAlignment(Element.ALIGN_CENTER);
+            retorno.addCell(celula);
+
+            //Indicador que adicionou o cabeçalho da tabela
+            boolean addCabecalho = false;
+
+            List<OrdemProducao> listaOp = OrdemProducaoDAO.retornaOrdemProducaoCliente(cliente.getCodigo(), cliente.getTipoPessoa());
+
+            for (OrdemProducao op : listaOp) {
+                if (op.getStatus().equals("ENTREGUE") || op.getStatus().equals("CANCELADA")) {
+                    if (!addCabecalho) {
+                        celula = new PdfPCell(new Phrase("FINALIZADAS", FontFactory.getFont("arial.ttf", 6, Font.BOLD, BaseColor.WHITE)));
+                        celula.setBackgroundColor(BaseColor.BLACK);
+                        celula.setHorizontalAlignment(Element.ALIGN_CENTER);
+                        celula.setColspan(7);
+                        retorno.addCell(celula);
+                        addCabecalho = true;
+                    }
+                    celula = new PdfPCell(new Phrase(String.valueOf(op.getOrcBase()), FontFactory.getFont("arial.ttf", 6)));
+                    celula.setHorizontalAlignment(Element.ALIGN_CENTER);
+                    retorno.addCell(celula);
+                    celula = new PdfPCell(new Phrase(String.valueOf(op.getCodigo()), FontFactory.getFont("arial.ttf", 6)));
+                    celula.setHorizontalAlignment(Element.ALIGN_CENTER);
+                    retorno.addCell(celula);
+                    celula = new PdfPCell(new Phrase(Controle.dataPadrao.format(op.getDataEmissao()), FontFactory.getFont("arial.ttf", 6)));
+                    celula.setHorizontalAlignment(Element.ALIGN_CENTER);
+                    retorno.addCell(celula);
+                    celula = new PdfPCell(new Phrase(Controle.dataPadrao.format(op.getDataEntrega()), FontFactory.getFont("arial.ttf", 6)));
+                    celula.setHorizontalAlignment(Element.ALIGN_CENTER);
+                    retorno.addCell(celula);
+                    celula = new PdfPCell(new Phrase(op.getDescricao(), FontFactory.getFont("arial.ttf", 6)));
+                    celula.setHorizontalAlignment(Element.ALIGN_CENTER);
+                    retorno.addCell(celula);
+                    celula = new PdfPCell(new Phrase(op.getStatus(), FontFactory.getFont("arial.ttf", 6)));
+                    celula.setHorizontalAlignment(Element.ALIGN_CENTER);
+                    retorno.addCell(celula);
+                    if (op.getStatus().equals("ENTREGUE")) {
+                        if (NotaDAO.verificaFaturamento(op.getCodigo())) {
+                            celula = new PdfPCell(new Phrase("(FATURADA) R$ " + Controle.formatoVlrPadrao.format(op.getValorParcial()), FontFactory.getFont("arial.ttf", 6)));
+                            celula.setHorizontalAlignment(Element.ALIGN_CENTER);
+                            retorno.addCell(celula);
+                        } else {
+                            celula = new PdfPCell(new Phrase("(NÃO FATURADA) R$ " + Controle.formatoVlrPadrao.format(op.getValorParcial()), FontFactory.getFont("arial.ttf", 6)));
+                            celula.setHorizontalAlignment(Element.ALIGN_CENTER);
+                            retorno.addCell(celula);
+                        }
+                    } else {
+                        celula = new PdfPCell(new Phrase("-", FontFactory.getFont("arial.ttf", 6)));
+                        celula.setHorizontalAlignment(Element.ALIGN_CENTER);
+                        retorno.addCell(celula);
+                    }
+
+                }
+            }
+
+            addCabecalho = false;
+
+            for (OrdemProducao op : listaOp) {
+                if (op.getStatus().equals("ENTREGUE PARCIALMENTE")) {
+                    if (!addCabecalho) {
+                        celula = new PdfPCell(new Phrase("ENTREGUES PARCIALMENTE", FontFactory.getFont("arial.ttf", 6, Font.BOLD, BaseColor.WHITE)));
+                        celula.setBackgroundColor(BaseColor.BLACK);
+                        celula.setHorizontalAlignment(Element.ALIGN_CENTER);
+                        celula.setColspan(7);
+                        retorno.addCell(celula);
+                        addCabecalho = true;
+                    }
+                    celula = new PdfPCell(new Phrase(String.valueOf(op.getOrcBase()), FontFactory.getFont("arial.ttf", 6)));
+                    celula.setHorizontalAlignment(Element.ALIGN_CENTER);
+                    retorno.addCell(celula);
+                    celula = new PdfPCell(new Phrase(String.valueOf(op.getCodigo()), FontFactory.getFont("arial.ttf", 6)));
+                    celula.setHorizontalAlignment(Element.ALIGN_CENTER);
+                    retorno.addCell(celula);
+                    celula = new PdfPCell(new Phrase(Controle.dataPadrao.format(op.getDataEmissao()), FontFactory.getFont("arial.ttf", 6)));
+                    celula.setHorizontalAlignment(Element.ALIGN_CENTER);
+                    retorno.addCell(celula);
+                    celula = new PdfPCell(new Phrase(Controle.dataPadrao.format(op.getDataEntrega()), FontFactory.getFont("arial.ttf", 6)));
+                    celula.setHorizontalAlignment(Element.ALIGN_CENTER);
+                    retorno.addCell(celula);
+                    celula = new PdfPCell(new Phrase(op.getDescricao(), FontFactory.getFont("arial.ttf", 6)));
+                    celula.setHorizontalAlignment(Element.ALIGN_CENTER);
+                    retorno.addCell(celula);
+                    celula = new PdfPCell(new Phrase(op.getStatus(), FontFactory.getFont("arial.ttf", 6)));
+                    celula.setHorizontalAlignment(Element.ALIGN_CENTER);
+                    retorno.addCell(celula);
+                    float emAberto = NotaDAO.retornaVlrOpEntregueParcial(op.getCodigo());
+                    float faturada = op.getValorParcial() - emAberto;
+                    celula = new PdfPCell(new Phrase("(TOTAL) R$ " + Controle.formatoVlrPadrao.format(op.getValorParcial()) + "\n\n(FATURADO) R$ "
+                            + Controle.formatoVlrPadrao.format(faturada) + "\n\n (PRODUÇÃO) (-) R$ "
+                            + Controle.formatoVlrPadrao.format(emAberto),
+                            FontFactory.getFont("arial.ttf", 6)
+                    ));
+                    celula.setHorizontalAlignment(Element.ALIGN_CENTER);
+                    retorno.addCell(celula);
+                    vlrTotal += emAberto;
+                }
+            }
+
+            for (OrdemProducao op : listaOp) {
+                if (!op.getStatus().equals("ENTREGUE PARCIALMENTE") && !op.getStatus().equals("ENTREGUE") && !op.getStatus().equals("CANCELADA")) {
+                    if (!addCabecalho) {
+                        celula = new PdfPCell(new Phrase("EM PRODUÇÃO", FontFactory.getFont("arial.ttf", 6, Font.BOLD, BaseColor.WHITE)));
+                        celula.setBackgroundColor(BaseColor.BLACK);
+                        celula.setHorizontalAlignment(Element.ALIGN_CENTER);
+                        celula.setColspan(7);
+                        retorno.addCell(celula);
+                        addCabecalho = true;
+                    }
+                    celula = new PdfPCell(new Phrase(String.valueOf(op.getOrcBase()), FontFactory.getFont("arial.ttf", 6)));
+                    celula.setHorizontalAlignment(Element.ALIGN_CENTER);
+                    retorno.addCell(celula);
+                    celula = new PdfPCell(new Phrase(String.valueOf(op.getCodigo()), FontFactory.getFont("arial.ttf", 6)));
+                    celula.setHorizontalAlignment(Element.ALIGN_CENTER);
+                    retorno.addCell(celula);
+                    celula = new PdfPCell(new Phrase(Controle.dataPadrao.format(op.getDataEmissao()), FontFactory.getFont("arial.ttf", 6)));
+                    celula.setHorizontalAlignment(Element.ALIGN_CENTER);
+                    retorno.addCell(celula);
+                    celula = new PdfPCell(new Phrase(Controle.dataPadrao.format(op.getDataEntrega()), FontFactory.getFont("arial.ttf", 6)));
+                    celula.setHorizontalAlignment(Element.ALIGN_CENTER);
+                    retorno.addCell(celula);
+                    celula = new PdfPCell(new Phrase(op.getDescricao(), FontFactory.getFont("arial.ttf", 6)));
+                    celula.setHorizontalAlignment(Element.ALIGN_CENTER);
+                    retorno.addCell(celula);
+                    celula = new PdfPCell(new Phrase(op.getStatus(), FontFactory.getFont("arial.ttf", 6)));
+                    celula.setHorizontalAlignment(Element.ALIGN_CENTER);
+                    retorno.addCell(celula);
+                    celula = new PdfPCell(new Phrase("(-) R$ " + Controle.formatoVlrPadrao.format(op.getValorParcial()), FontFactory.getFont("arial.ttf", 6)));
+                    celula.setHorizontalAlignment(Element.ALIGN_CENTER);
+                    retorno.addCell(celula);
+                    vlrTotal += op.getValorParcial();
+                }
+            }
+            saldoEmAberto = vlrTotal;
+            celula = new PdfPCell(new Phrase("VALOR TOTAL: (-) R$ " + Controle.formatoVlrPadrao.format(vlrTotal), FontFactory.getFont("arial.ttf", 8, Font.BOLD)));
+            celula.setColspan(7);
+            celula.setHorizontalAlignment(Element.ALIGN_RIGHT);
+            retorno.addCell(celula);
+        } catch (SQLException ex) {
+            EnvioExcecao envioExcecao = new EnvioExcecao(Controle.getDefaultGj(), ex);
+            EnvioExcecao.envio();
+        }
+        return retorno;
+
+    }
+
+    /**
+     * Retorna a tabela de saldo final
+     *
+     * @return
+     */
+    public PdfPTable geraTabelaSaldoFinal() {
+        PdfPTable retorno = new PdfPTable(new float[]{5f, 5f, 5f, 5f});
+        Double vlrTotal = 0d;
+
+        PdfPCell celula = new PdfPCell();
+        celula = new PdfPCell(new Phrase("SALDO FINAL", FontFactory.getFont("arial.ttf", 8, Font.BOLD, BaseColor.WHITE)));
+        celula.setBackgroundColor(BaseColor.BLACK);
+        celula.setHorizontalAlignment(Element.ALIGN_CENTER);
+        celula.setColspan(4);
+        retorno.addCell(celula);
+        
+        celula = new PdfPCell(new Phrase("CRÉDITO", FontFactory.getFont("arial.ttf", 6, Font.BOLD)));
+        celula.setHorizontalAlignment(Element.ALIGN_CENTER);
+        retorno.addCell(celula);
+        celula = new PdfPCell(new Phrase("DÉBITO", FontFactory.getFont("arial.ttf", 6, Font.BOLD)));
+        celula.setHorizontalAlignment(Element.ALIGN_CENTER);
+        retorno.addCell(celula);
+        celula = new PdfPCell(new Phrase("EM PRODUÇÃO", FontFactory.getFont("arial.ttf", 6, Font.BOLD)));
+        celula.setHorizontalAlignment(Element.ALIGN_CENTER);
+        retorno.addCell(celula);
+        celula = new PdfPCell(new Phrase("TOTAL", FontFactory.getFont("arial.ttf", 6, Font.BOLD)));
+        celula.setHorizontalAlignment(Element.ALIGN_CENTER);
+        retorno.addCell(celula);
+        
+        celula = new PdfPCell(new Phrase("R$ (+) " + Controle.formatoVlrPadrao.format(saldoNC), FontFactory.getFont("arial.ttf", 6, Font.BOLD)));
+        celula.setHorizontalAlignment(Element.ALIGN_CENTER);
+        retorno.addCell(celula);
+        celula = new PdfPCell(new Phrase("R$ (-) " + Controle.formatoVlrPadrao.format(saldoFat), FontFactory.getFont("arial.ttf", 6, Font.BOLD)));
+        celula.setHorizontalAlignment(Element.ALIGN_CENTER);
+        retorno.addCell(celula);
+        celula = new PdfPCell(new Phrase("R$ (-) " + Controle.formatoVlrPadrao.format(saldoEmAberto), FontFactory.getFont("arial.ttf", 6, Font.BOLD)));
+        celula.setHorizontalAlignment(Element.ALIGN_CENTER);
+        retorno.addCell(celula);
+        vlrTotal = saldoNC - (saldoFat + saldoEmAberto);
+        celula = new PdfPCell(new Phrase("R$ " + Controle.formatoVlrPadrao.format(vlrTotal), FontFactory.getFont("arial.ttf", 6, Font.BOLD)));
+        celula.setHorizontalAlignment(Element.ALIGN_CENTER);
+        retorno.addCell(celula);
+        
+        return retorno;        
     }
 
 }

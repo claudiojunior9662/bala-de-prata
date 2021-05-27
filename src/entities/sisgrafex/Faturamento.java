@@ -23,6 +23,7 @@ public class Faturamento {
     private byte freteFat;
     private byte servicosFat;
     private String observacoes;
+    private String descricaoProduto;
 
     public Faturamento() {
     }
@@ -47,6 +48,26 @@ public class Faturamento {
         this.freteFat = freteFat;
         this.servicosFat = servicosFat;
         this.observacoes = observacoes;
+    }
+    
+    public Faturamento(int codOrc,
+            int codOp,
+            Date data,
+            String descricaoProduto,
+            double vlrFat){
+        this.codOrc = codOrc;
+        this.codOp = codOp;
+        this.dtFat = data;
+        this.descricaoProduto = descricaoProduto;
+        this.vlrFat = vlrFat;
+    }
+
+    public String getDescricaoProduto() {
+        return descricaoProduto;
+    }
+
+    public void setDescricaoProduto(String descricaoProduto) {
+        this.descricaoProduto = descricaoProduto;
     }
 
     public int getCod() {

@@ -31,9 +31,9 @@ public class ClienteDAO {
         Connection con = ConnectionFactory.getConnection();
         PreparedStatement stmt = null;
         ResultSet rs = null;
-
+        
         List<ClienteBEAN> retorno = new ArrayList();
-
+        
         try {
             if (p1.equals("PESSOA FÍSICA")) {
                 if (p2.equals("CÓDIGO")) {
@@ -48,30 +48,30 @@ public class ClienteDAO {
                             + "FROM tabela_clientes_fisicos "
                             + "WHERE nome "
                             + "LIKE " + "'%" + p3 + "%' "
-                                    + "AND excluido != 1 "
-                                    + "ORDER BY cod "
-                                    + "DESC "
-                                    + "LIMIT 45");
+                            + "AND excluido != 1 "
+                            + "ORDER BY cod "
+                            + "DESC "
+                            + "LIMIT 45");
                 }
                 if (p2.equals("CPF")) {
                     stmt = con.prepareStatement("SELECT * "
                             + "FROM tabela_clientes_fisicos "
                             + "WHERE cpf "
                             + "LIKE " + "'%" + p3 + "%' "
-                                    + "AND excluido != 1 "
-                                    + "ORDER BY cod "
-                                    + "DESC "
-                                    + "LIMIT 45");
+                            + "AND excluido != 1 "
+                            + "ORDER BY cod "
+                            + "DESC "
+                            + "LIMIT 45");
                 }
                 if (p2.equals("ATIVIDADE")) {
                     stmt = con.prepareStatement("SELECT * "
                             + "FROM tabela_clientes_fisicos "
                             + "WHERE atividade "
                             + "LIKE " + "'%" + p3 + "%' "
-                                    + "AND excluido != 1 "
-                                    + "ORDER BY cod "
-                                    + "DESC "
-                                    + "LIMIT 45");
+                            + "AND excluido != 1 "
+                            + "ORDER BY cod "
+                            + "DESC "
+                            + "LIMIT 45");
                 }
             }
             if (p1.equals("PESSOA JURÍDICA")) {
@@ -138,14 +138,14 @@ public class ClienteDAO {
         }
         return retorno;
     }
-
+    
     public static List<ClienteBEAN> mostraUltimos(String p1) throws SQLException {
         Connection con = ConnectionFactory.getConnection();
         PreparedStatement stmt = null;
         ResultSet rs = null;
-
+        
         List<ClienteBEAN> retorno = new ArrayList();
-
+        
         try {
             if (p1.equals("PESSOA FÍSICA")) {
                 stmt = con.prepareStatement("SELECT * FROM tabela_clientes_fisicos WHERE excluido != 1 ORDER BY cod DESC LIMIT 45");
@@ -181,20 +181,20 @@ public class ClienteDAO {
                 }
                 retorno.add(aux);
             }
-             return retorno;
+            return retorno;
         } catch (SQLException ex) {
             throw new SQLException(ex);
         } finally {
             ConnectionFactory.closeConnection(con, stmt, rs);
         }
-       
+        
     }
-
+    
     public static ClienteBEAN selecionaInformacoes(byte tipoPessoa, Integer codigoCliente) throws SQLException {
         Connection con = ConnectionFactory.getConnection();
         PreparedStatement stmt = null;
         ResultSet rs = null;
-
+        
         try {
             //INFORMAÇÕES CLIENTE-----------------------------------------------
             if (tipoPessoa == 1) {
@@ -224,7 +224,7 @@ public class ClienteDAO {
                             rs.getFloat("credito"),
                             (byte) 1
                     );
-
+                    
                 } else if (tipoPessoa == 2) {
                     return new ClienteBEAN(
                             rs.getString("nome"),
@@ -248,11 +248,11 @@ public class ClienteDAO {
             ConnectionFactory.closeConnection(con, stmt, rs);
         }
     }
-
+    
     public static void desativaAtivaCliente(int codigoCliente, byte tipoPessoa, byte funcao) throws SQLException {
         Connection con = ConnectionFactory.getConnection();
         PreparedStatement stmt = null;
-
+        
         try {
             if (tipoPessoa == 1) {
                 stmt = con.prepareStatement("UPDATE tabela_clientes_fisicos SET excluido = ? WHERE cod = ?");
@@ -271,13 +271,13 @@ public class ClienteDAO {
             ConnectionFactory.closeConnection(con, stmt);
         }
     }
-
+    
     public static Integer retornaCliente(String cpfCnpj, byte tipoPessoa) throws SQLException {
         Connection con = ConnectionFactory.getConnection();
         PreparedStatement stmt = null;
         ResultSet rs = null;
         Integer retorno = null;
-
+        
         try {
             if (tipoPessoa == 1) {
                 stmt = con.prepareStatement("SELECT cod FROM tabela_clientes_fisicos WHERE cpf = ?");
@@ -286,7 +286,7 @@ public class ClienteDAO {
                 stmt = con.prepareStatement("SELECT cod FROM tabela_clientes_juridicos WHERE cnpj = ?");
                 stmt.setString(1, cpfCnpj);
             }
-
+            
             if ((rs = stmt.executeQuery()).next()) {
                 retorno = rs.getInt("cod");
             } else {
@@ -298,11 +298,11 @@ public class ClienteDAO {
         }
         return retorno;
     }
-
+    
     public static void gravarClientes(ClienteBEAN cadastroClientes2BEAN, byte tipoPessoa) throws SQLException {
         Connection con = ConnectionFactory.getConnection();
         PreparedStatement stmt = null;
-
+        
         try {
             if (tipoPessoa == 1) {
                 stmt = con.prepareStatement("INSERT INTO tabela_clientes_fisicos(cod, nome, cpf,"
@@ -339,11 +339,11 @@ public class ClienteDAO {
             ConnectionFactory.closeConnection(con, stmt);
         }
     }
-
+    
     public static void atualizaClientes(ClienteBEAN cadastroClientes2BEAN, byte tipoPessoa) throws SQLException {
         Connection con = ConnectionFactory.getConnection();
         PreparedStatement stmt = null;
-
+        
         try {
             if (tipoPessoa == 1) {
                 stmt = con.prepareStatement("UPDATE tabela_clientes_fisicos SET  nome = ?, cpf = ?,"
@@ -376,20 +376,20 @@ public class ClienteDAO {
             ConnectionFactory.closeConnection(con, stmt);
         }
     }
-
+    
     public static void associacaoClientes(List codigosEnderecos, List codigosContatos, int codCliente, byte tipoPessoa) throws SQLException {
         Connection con = ConnectionFactory.getConnection();
         PreparedStatement stmt = null;
         PreparedStatement stmt2 = null;
         int tipo = 0;
-
+        
         if (tipoPessoa == 1) {
             tipo = 1;
         }
         if (tipoPessoa == 2) {
             tipo = 2;
         }
-
+        
         try {
             for (int i = 0; i < codigosEnderecos.size(); i++) {
                 stmt = con.prepareStatement("INSERT INTO tabela_associacao_enderecos(cod_endereco,"
@@ -414,17 +414,17 @@ public class ClienteDAO {
             ConnectionFactory.closeConnection(con, stmt2);
         }
     }
-
+    
     public static void excluirAssociacaoClientes(int codigoCliente, byte tipoPessoa) throws SQLException {
         Connection con = ConnectionFactory.getConnection();
         PreparedStatement stmt = null;
-
+        
         try {
             stmt = con.prepareStatement("DELETE FROM tabela_associacao_contatos WHERE cod_cliente = ? AND tipo_cliente = ?");
             stmt.setInt(1, codigoCliente);
             stmt.setInt(2, tipoPessoa);
             stmt.executeUpdate();
-
+            
             stmt = con.prepareStatement("DELETE FROM tabela_associacao_enderecos WHERE cod_cliente = ? AND tipo_cliente = ?");
             stmt.setInt(1, codigoCliente);
             stmt.setInt(2, tipoPessoa);
@@ -433,13 +433,13 @@ public class ClienteDAO {
             ConnectionFactory.closeConnection(con, stmt);
         }
     }
-
+    
     public static int retornaUltimoRegistroClientes(byte tipoPessoa) throws SQLException {
         Connection con = ConnectionFactory.getConnection();
         PreparedStatement stmt = null;
         ResultSet rs = null;
         int retorno = 0;
-
+        
         try {
             if (tipoPessoa == 1) {
                 stmt = con.prepareStatement("SELECT cod FROM tabela_clientes_fisicos ORDER BY cod DESC LIMIT 1");
@@ -456,13 +456,13 @@ public class ClienteDAO {
         }
         return retorno;
     }
-
+    
     public static Boolean verificaCpfCnpj(byte tipoPessoa, String valor, Boolean excluido) throws SQLException {
         Connection con = ConnectionFactory.getConnection();
         PreparedStatement stmt = null;
         ResultSet rs = null;
         Boolean retorno = false;
-
+        
         try {
             if (tipoPessoa == 1) {
                 if (!excluido) {
@@ -496,13 +496,13 @@ public class ClienteDAO {
         }
         return retorno;
     }
-
+    
     public static Boolean verificaAtrelamentoCliente(Integer codigoCliente, byte tipoPessoa) throws SQLException {
         Connection con = ConnectionFactory.getConnection();
         PreparedStatement stmt = null;
         ResultSet rs = null;
         Boolean retorno = false;
-
+        
         try {
             //VERIFICA ORCAMENTOS
             stmt = con.prepareStatement("SELECT cod_cliente FROM tabela_orcamentos WHERE cod_cliente = ? AND tipo_cliente = ?");
@@ -530,26 +530,28 @@ public class ClienteDAO {
         }
         return retorno;
     }
-
+    
     public static Cliente retornaTipoCodClienteRelatorio(String nome) throws SQLException {
         Connection con = ConnectionFactory.getConnection();
         ResultSet rs = null;
         PreparedStatement stmt = null;
-
+        
         try {
             stmt = con.prepareStatement("SELECT cod, nome FROM tabela_clientes_fisicos WHERE nome = ?");
             stmt.setString(1, nome);
             rs = stmt.executeQuery();
             if (rs.next()) {
                 return new Cliente(rs.getInt("cod"),
-                        (byte) 1);
+                        (byte) 1,
+                        rs.getString("nome"));
             } else {
                 stmt = con.prepareStatement("SELECT cod, nome FROM tabela_clientes_juridicos WHERE nome = ?");
                 stmt.setString(1, nome);
                 rs = stmt.executeQuery();
                 if (rs.next()) {
                     return new Cliente(rs.getInt("cod"),
-                            (byte) 2);
+                            (byte) 2,
+                            rs.getString("nome"));
                 }
             }
             return null;
@@ -559,15 +561,15 @@ public class ClienteDAO {
             ConnectionFactory.closeConnection(con, stmt, rs);
         }
     }
-
+    
     public static List<String> retornaPesquisaClientesAproximada(String texto) throws SQLException {
         Connection con = ConnectionFactory.getConnection();
         PreparedStatement stmt = null;
         ResultSet rs = null;
-
+        
         List<String> retorno = new ArrayList();
         retorno.clear();
-
+        
         try {
             stmt = con.prepareStatement("SELECT nome FROM tabela_clientes_fisicos WHERE nome LIKE '%"
                     + texto + "%' ORDER BY nome DESC LIMIT 5");
@@ -575,7 +577,7 @@ public class ClienteDAO {
             while (rs.next()) {
                 retorno.add(rs.getString("nome"));
             }
-
+            
             stmt = con.prepareStatement("SELECT cod,nome FROM tabela_clientes_juridicos WHERE nome LIKE '%"
                     + texto + "%' ORDER BY nome DESC LIMIT 5");
             rs = stmt.executeQuery();
@@ -592,17 +594,18 @@ public class ClienteDAO {
 
     /**
      * Retorna o nome do cliente por extenso
+     *
      * @param codCliente código do cliente
      * @param tipoCliente 1 - Pessoa física, 2 - Pessoa jurídica
      * @return
-     * @throws SQLException 
+     * @throws SQLException
      */
     public static String retornaNomeCliente(int codCliente, byte tipoCliente) throws SQLException {
         Connection con = ConnectionFactory.getConnection();
         PreparedStatement stmt = null;
         ResultSet rs = null;
         String retorno = null;
-
+        
         try {
             if (tipoCliente == 1) {
                 stmt = con.prepareStatement("SELECT nome "
@@ -632,9 +635,9 @@ public class ClienteDAO {
         Connection con = ConnectionFactory.getConnection();
         PreparedStatement stmt = null;
         ResultSet rs = null;
-
+        
         List retorno = new ArrayList();
-
+        
         try {
             if (tipoPessoa == 1) {
                 stmt = con.prepareStatement("SELECT cod_endereco FROM tabela_associacao_enderecos WHERE cod_cliente = ? AND tipo_cliente = 1");
@@ -653,14 +656,14 @@ public class ClienteDAO {
         }
         return retorno;
     }
-
+    
     public static List<EnderecoBEAN> retornaDescricaoEnderecos(List codigos) throws SQLException {
         Connection con = ConnectionFactory.getConnection();
         PreparedStatement stmt = null;
         ResultSet rs = null;
-
+        
         List<EnderecoBEAN> retorno = new ArrayList();
-
+        
         try {
             for (int i = 0; i < codigos.size(); i++) {
                 stmt = con.prepareStatement("SELECT * FROM tabela_enderecos WHERE cod = ?");
@@ -684,11 +687,11 @@ public class ClienteDAO {
         }
         return retorno;
     }
-
+    
     public static void desativaAtivaEnderecos(int codigoCliente, int codigoEndereco, byte tipoPessoa, byte funcao, boolean associacao) throws SQLException {
         Connection con = ConnectionFactory.getConnection();
         PreparedStatement stmt = null;
-
+        
         try {
             if (!associacao) {
                 stmt = con.prepareStatement("UPDATE tabela_enderecos SET excluido = ? WHERE cod = ?");
@@ -710,13 +713,13 @@ public class ClienteDAO {
             ConnectionFactory.closeConnection(con, stmt);
         }
     }
-
+    
     public static List<Integer> retornaCodigosEnderecos(int codigoCliente, byte tipoPessoa) throws SQLException {
         Connection con = ConnectionFactory.getConnection();
         PreparedStatement stmt = null;
         ResultSet rs = null;
         List<Integer> retorno = new ArrayList();
-
+        
         try {
             stmt = con.prepareStatement("SELECT cod_endereco FROM tabela_associacao_enderecos WHERE cod_cliente = ? AND tipo_cliente = ?");
             stmt.setInt(1, codigoCliente);
@@ -730,12 +733,12 @@ public class ClienteDAO {
         }
         return retorno;
     }
-
+    
     public void excluirEnderecosCliente(int codigoCliente, byte tipoCliente) throws SQLException {
         Connection con = ConnectionFactory.getConnection();
         PreparedStatement stmt = null;
         List<Integer> listaCodigosEnderecos = retornaCodigosEnderecos(codigoCliente, tipoCliente);
-
+        
         try {
             for (Integer codigoEndereco : listaCodigosEnderecos) {
                 stmt = con.prepareStatement("DELETE FROM tabela_enderecos WHERE cod = ? AND excluido = 1");
@@ -752,14 +755,14 @@ public class ClienteDAO {
             ConnectionFactory.closeConnection(con, stmt);
         }
     }
-
+    
     public static List<EnderecoBEAN> retornaPesquisaEnderecos(String p1, String p2, boolean todos) throws SQLException {
         Connection con = ConnectionFactory.getConnection();
         PreparedStatement stmt = null;
         ResultSet rs = null;
-
+        
         List<EnderecoBEAN> retorno = new ArrayList();
-
+        
         try {
             if (p1.equals("CÓDIGO")) {
                 stmt = con.prepareStatement("SELECT * FROM tabela_enderecos"
@@ -820,11 +823,11 @@ public class ClienteDAO {
         }
         return retorno;
     }
-
+    
     public static void gravarEnderecos(EnderecoBEAN auxBEAN) throws SQLException {
         Connection con = ConnectionFactory.getConnection();
         PreparedStatement stmt = null;
-
+        
         try {
             stmt = con.prepareStatement("INSERT INTO tabela_enderecos(cod, cep,"
                     + "tipo_endereco, logadouro, cidade, bairro, uf,"
@@ -842,11 +845,11 @@ public class ClienteDAO {
             ConnectionFactory.closeConnection(con, stmt);
         }
     }
-
+    
     public static void atualizaEnderecos(EnderecoBEAN cadastroClientes2EnderecosBEAN) throws SQLException {
         Connection con = ConnectionFactory.getConnection();
         PreparedStatement stmt = null;
-
+        
         try {
             stmt = con.prepareStatement("UPDATE tabela_enderecos SET cep = ?, tipo_endereco = ?, logadouro = ?,"
                     + "bairro = ?, uf = ?, cidade = ?, complemento = ? WHERE cod = ?");
@@ -863,13 +866,13 @@ public class ClienteDAO {
             ConnectionFactory.closeConnection(con, stmt);
         }
     }
-
+    
     public static int retornaUltimoRegistroEnderecos() throws SQLException {
         Connection con = ConnectionFactory.getConnection();
         PreparedStatement stmt = null;
         ResultSet rs = null;
         int retorno = 0;
-
+        
         try {
             stmt = con.prepareStatement("SELECT cod FROM tabela_enderecos ORDER BY cod DESC LIMIT 1");
             rs = stmt.executeQuery();
@@ -882,13 +885,13 @@ public class ClienteDAO {
         }
         return retorno;
     }
-
+    
     public Boolean verificaAtrelamentoEnderecos(Integer codigoEndereco) throws SQLException {
         Connection con = ConnectionFactory.getConnection();
         PreparedStatement stmt = null;
         ResultSet rs = null;
         Boolean retorno = false;
-
+        
         try {
             //VERIFICA ORCAMENTOS
             stmt = con.prepareStatement("SELECT cod_endereco FROM tabela_orcamentos WHERE cod_endereco = ?");
@@ -913,13 +916,13 @@ public class ClienteDAO {
         }
         return retorno;
     }
-
+    
     public static Boolean buscaCep(String cep) throws SQLException {
         Connection con = ConnectionFactory.getConnection();
         PreparedStatement stmt = null;
         ResultSet rs = null;
         Boolean retorno = false;
-
+        
         try {
             stmt = con.prepareStatement("SELECT cep FROM tabela_enderecos WHERE cep = ?");
             stmt.setString(1, cep);
@@ -939,9 +942,9 @@ public class ClienteDAO {
         Connection con = ConnectionFactory.getConnection();
         PreparedStatement stmt = null;
         ResultSet rs = null;
-
+        
         List<Integer> retorno = new ArrayList();
-
+        
         try {
             if (tipoPessoa == 1) {
                 stmt = con.prepareStatement("SELECT cod_contato FROM tabela_associacao_contatos WHERE cod_cliente = ? AND tipo_cliente = 1");
@@ -960,14 +963,14 @@ public class ClienteDAO {
         }
         return retorno;
     }
-
+    
     public static List<ContatoBEAN> retornaDescricaoContatos(List codigos) throws SQLException {
         Connection con = ConnectionFactory.getConnection();
         PreparedStatement stmt = null;
         ResultSet rs = null;
-
+        
         List<ContatoBEAN> retorno = new ArrayList();
-
+        
         try {
             for (int i = 0; i < codigos.size(); i++) {
                 stmt = con.prepareStatement("SELECT * FROM tabela_contatos WHERE cod = ?");
@@ -989,11 +992,11 @@ public class ClienteDAO {
         }
         return retorno;
     }
-
+    
     public static void desativaAtivaContatos(int codigoCliente, int codigoContato, byte tipoPessoa, byte funcao, boolean associacao) throws SQLException {
         Connection con = ConnectionFactory.getConnection();
         PreparedStatement stmt = null;
-
+        
         try {
             if (!associacao) {
                 stmt = con.prepareStatement("UPDATE tabela_contatos SET excluido = ? WHERE cod = ?");
@@ -1015,13 +1018,13 @@ public class ClienteDAO {
             ConnectionFactory.closeConnection(con, stmt);
         }
     }
-
+    
     public static List<Integer> retornaCodigosContatos(int codigoCliente, byte tipoPessoa) throws SQLException {
         Connection con = ConnectionFactory.getConnection();
         PreparedStatement stmt = null;
         ResultSet rs = null;
         List<Integer> retorno = new ArrayList();
-
+        
         try {
             stmt = con.prepareStatement("SELECT cod_contato FROM tabela_associacao_contatos WHERE cod_cliente = ? AND tipo_cliente = ?");
             stmt.setInt(1, codigoCliente);
@@ -1035,14 +1038,14 @@ public class ClienteDAO {
         }
         return retorno;
     }
-
+    
     public static List<ContatoBEAN> retornaPesquisaContatos(String p1, String p2, boolean todos) throws SQLException {
         Connection con = ConnectionFactory.getConnection();
         PreparedStatement stmt = null;
         ResultSet rs = null;
-
+        
         List<ContatoBEAN> retorno = new ArrayList();
-
+        
         try {
             if (p1.equals("CÓDIGO")) {
                 stmt = con.prepareStatement("SELECT * FROM tabela_contatos"
@@ -1083,11 +1086,11 @@ public class ClienteDAO {
         }
         return retorno;
     }
-
+    
     public void gravarContatos(ContatoBEAN cadastroClientes2ContatosBEAN) throws SQLException {
         Connection con = ConnectionFactory.getConnection();
         PreparedStatement stmt = null;
-
+        
         try {
             stmt = con.prepareStatement("INSERT INTO tabela_contatos(cod, nome_contato, email,"
                     + "telefone, ramal, telefone2, ramal2, departamento"
@@ -1106,11 +1109,11 @@ public class ClienteDAO {
             ConnectionFactory.closeConnection(con, stmt);
         }
     }
-
+    
     public void atualizaContatos(ContatoBEAN cadastroClientes2ContatosBEAN, int codigoContato) throws SQLException {
         Connection con = ConnectionFactory.getConnection();
         PreparedStatement stmt = null;
-
+        
         try {
             stmt = con.prepareStatement("UPDATE tabela_contatos SET  nome_contato = ?,"
                     + "email = ?, telefone = ?, ramal = ?, telefone2 = ?,"
@@ -1128,13 +1131,13 @@ public class ClienteDAO {
             ConnectionFactory.closeConnection(con, stmt);
         }
     }
-
+    
     public int retornaUltimoRegistroContatos() throws SQLException {
         Connection con = ConnectionFactory.getConnection();
         PreparedStatement stmt = null;
         ResultSet rs = null;
         int retorno = 0;
-
+        
         try {
             stmt = con.prepareStatement("SELECT cod FROM tabela_contatos ORDER BY cod DESC LIMIT 1");
             rs = stmt.executeQuery();
@@ -1146,13 +1149,13 @@ public class ClienteDAO {
         }
         return retorno;
     }
-
+    
     public List<Integer> retornaCodigoContato(Integer codigoCliente, byte tipoPessoa) throws SQLException {
         Connection con = ConnectionFactory.getConnection();
         PreparedStatement stmt = null;
         ResultSet rs = null;
         List<Integer> retorno = new ArrayList();
-
+        
         try {
             stmt = con.prepareStatement("SELECT cod_contato FROM tabela_associacao_contatos WHERE cod_cliente = ? AND tipo_cliente = ?");
             stmt.setInt(1, codigoCliente);
@@ -1169,13 +1172,13 @@ public class ClienteDAO {
         }
         return retorno;
     }
-
+    
     public Boolean verificaAtrelamentoContatos(Integer codigoContato) throws SQLException {
         Connection con = ConnectionFactory.getConnection();
         PreparedStatement stmt = null;
         ResultSet rs = null;
         Boolean retorno = false;
-
+        
         try {
             //VERIFICA ORCAMENTOS
             stmt = con.prepareStatement("SELECT cod_contato FROM tabela_orcamentos WHERE cod_contato = ?");
@@ -1214,7 +1217,7 @@ public class ClienteDAO {
         Connection con = ConnectionFactory.getConnection();
         PreparedStatement stmt = null;
         ResultSet rs = null;
-
+        
         try {
             //INFORMAÇÕES CLIENTE-----------------------------------------------
             switch (tipoPessoa) {
@@ -1263,9 +1266,9 @@ public class ClienteDAO {
         Connection con = ConnectionFactory.getConnection();
         PreparedStatement stmt = null;
         ResultSet rs = null;
-
+        
         List<Orcamento> retorno = new ArrayList();
-
+        
         try {
             stmt = con.prepareStatement("SELECT cod, data_emissao, data_validade, valor_total, status, cod_emissor FROM tabela_orcamentos WHERE cod_cliente = ? AND tipo_cliente = ?");
             stmt.setInt(1, codigoCliente);
@@ -1286,14 +1289,14 @@ public class ClienteDAO {
         }
         return retorno;
     }
-
+    
     public List<Orcamento> carregaOrcamentosPersonalizado(int codigoCliente, int tipoPessoa, String p1, String p2) throws SQLException {
         Connection con = ConnectionFactory.getConnection();
         PreparedStatement stmt = null;
         ResultSet rs = null;
-
+        
         List<Orcamento> retorno = new ArrayList();
-
+        
         try {
             if (p1.equals("MÊS/ANO") || p1.equals("ANO")) {
                 stmt = con.prepareStatement("SELECT cod, data_emissao, data_validade, valor_total, status, cod_emissor "
@@ -1337,7 +1340,7 @@ public class ClienteDAO {
         Connection con = ConnectionFactory.getConnection();
         PreparedStatement stmt = null;
         ResultSet rs = null;
-
+        
         try {
             switch (tipoPessoa) {
                 case 1:
@@ -1372,7 +1375,7 @@ public class ClienteDAO {
         Connection con = ConnectionFactory.getConnection();
         PreparedStatement stmt = null;
         ResultSet rs = null;
-
+        
         try {
             stmt = con.prepareStatement("SELECT "
                     + "nome_contato, "
@@ -1410,7 +1413,7 @@ public class ClienteDAO {
         Connection con = ConnectionFactory.getConnection();
         PreparedStatement stmt = null;
         ResultSet rs = null;
-
+        
         try {
             stmt = con.prepareStatement("SELECT logadouro, tipo_endereco, bairro, cidade, uf, complemento, cep "
                     + "FROM tabela_enderecos "
@@ -1448,7 +1451,7 @@ public class ClienteDAO {
         PreparedStatement stmt = null;
         ResultSet rs = null;
         List retorno = new ArrayList();
-
+        
         try {
             if (condicao.equals("PESSOA FÍSICA - NOME")) {
                 stmt = con.prepareStatement("SELECT cod "
@@ -1511,7 +1514,7 @@ public class ClienteDAO {
         ResultSet rs = null;
         List<ClienteBEAN> retorno = new ArrayList();
         byte tipoCliente = 0;
-
+        
         try {
             if (condicao.equals("PESSOA FÍSICA - NOME")) {
                 stmt = con.prepareStatement("SELECT cod "
@@ -1551,7 +1554,7 @@ public class ClienteDAO {
                         + "ASC");
                 stmt.setString(1, pesquisa);
                 tipoCliente = 1;
-            } else if(condicao.contains("FÍSICA") & condicao.contains("CÓDIGO")){
+            } else if (condicao.contains("FÍSICA") & condicao.contains("CÓDIGO")) {
                 stmt = con.prepareStatement("SELECT cod, nome "
                         + "FROM tabela_clientes_fisicos "
                         + "WHERE cod = ? "
@@ -1559,7 +1562,7 @@ public class ClienteDAO {
                         + "ASC");
                 stmt.setInt(1, Integer.valueOf(pesquisa));
                 tipoCliente = 1;
-            }else if(condicao.contains("JURÍDICA") & condicao.contains("CÓDIGO")){
+            } else if (condicao.contains("JURÍDICA") & condicao.contains("CÓDIGO")) {
                 stmt = con.prepareStatement("SELECT cod, nome "
                         + "FROM tabela_clientes_juridicos "
                         + "WHERE cod = ? "
@@ -1600,11 +1603,11 @@ public class ClienteDAO {
         PreparedStatement stmt = null;
         ResultSet rs = null;
         double credito = 0d;
-
+        
         try {
-
+            
             credito = retornaCredCliente(codCliente, tipoPessoa);
-
+            
             switch (operacao) {
                 case 1:
                     credito = credito + valor;
@@ -1613,7 +1616,7 @@ public class ClienteDAO {
                     credito = credito - valor;
                     break;
             }
-
+            
             switch (tipoPessoa) {
                 case 1:
                     stmt = con.prepareStatement("UPDATE tabela_clientes_fisicos "
@@ -1650,7 +1653,7 @@ public class ClienteDAO {
         Connection con = ConnectionFactory.getConnection();
         PreparedStatement stmt = null;
         ResultSet rs = null;
-
+        
         try {
             switch (tipoCliente) {
                 case 1:
@@ -1693,28 +1696,30 @@ public class ClienteDAO {
             ConnectionFactory.closeConnection(con, stmt, rs);
         }
     }
-    
+
     /**
      * Retorna conteúdo do relatório de contabilidade (crédito do cliente)
+     *
      * @param tipoCondicaoCliente 1 - PF, 2 - PJ
-     * @param tipoCondicaoOrdenar 1 - CODIGO ASC, 2 - CODIGO DESC, 2 - NOME ASC, NOME DESC
-     * @return 
+     * @param tipoCondicaoOrdenar 1 - CODIGO ASC, 2 - CODIGO DESC, 2 - NOME ASC,
+     * NOME DESC
+     * @return
      */
     public static List<ClienteBEAN> retornaContRelContabilidade(
             byte tipoCondicaoCliente,
-            byte tipoCondicaoOrdenar) throws SQLException{
+            byte tipoCondicaoOrdenar) throws SQLException {
         Connection con = ConnectionFactory.getConnection();
         PreparedStatement stmt = null;
         ResultSet rs = null;
         StringBuilder sb = null;
         List<ClienteBEAN> retorno = new ArrayList();
-
+        
         try {
-            switch(tipoCondicaoCliente){
+            switch (tipoCondicaoCliente) {
                 case 1:
                     sb = new StringBuilder().append("SELECT cod, nome, cpf, credito "
                             + "FROM tabela_clientes_fisicos ");
-                    switch(tipoCondicaoOrdenar){
+                    switch (tipoCondicaoOrdenar) {
                         case 1:
                             sb.append("ORDER BY cod ASC");
                             break;
@@ -1732,7 +1737,7 @@ public class ClienteDAO {
                 case 2:
                     sb = new StringBuilder().append("SELECT cod, nome, nome_fantasia, cnpj, credito "
                             + "FROM tabela_clientes_juridicos ");
-                    switch(tipoCondicaoOrdenar){
+                    switch (tipoCondicaoOrdenar) {
                         case 1:
                             sb.append("ORDER BY cod ASC");
                             break;
@@ -1751,7 +1756,7 @@ public class ClienteDAO {
             stmt = con.prepareStatement(sb.toString());
             rs = stmt.executeQuery();
             while (rs.next()) {
-                switch(tipoCondicaoCliente){
+                switch (tipoCondicaoCliente) {
                     case 1:
                         retorno.add(new ClienteBEAN(
                                 rs.getInt("cod"),
@@ -1781,52 +1786,54 @@ public class ClienteDAO {
             ConnectionFactory.closeConnection(con, stmt, rs);
         }
     }
-    
+
     /**
      * Faz a autenticação da senha do cliente
+     *
      * @param cod código do cliente
      * @param senha
-     * @return 
+     * @return
      */
-    public static boolean autenticaCliente(int cod,String senha) throws SQLException{
+    public static boolean autenticaCliente(int cod, String senha) throws SQLException {
         Connection con = ConnectionFactory.getConnection();
         PreparedStatement stmt = null;
         ResultSet rs = null;
         
-        try{
+        try {
             stmt = con.prepareStatement("SELECT senha "
                     + "FROM tabela_clientes_juridicos "
                     + "WHERE senha = md5(?)");
             stmt.setString(1, senha);
             rs = stmt.executeQuery();
-            if(rs.next()){
+            if (rs.next()) {
                 return true;
             }
         } catch (SQLException ex) {
             throw new SQLException(ex);
-        }finally{
+        } finally {
             ConnectionFactory.closeConnection(con, stmt, rs);
         }
         return false;
     }
-    
+
     /**
      * Retorna clientes com créditos negativos para apreciação do financeiro
+     *
      * @return
-     * @throws SQLException 
+     * @throws SQLException
      */
-    public static List<ClienteBEAN> retornaCredNeg() throws SQLException{
+    public static List<ClienteBEAN> retornaCredNeg() throws SQLException {
         Connection con = ConnectionFactory.getConnection();
         PreparedStatement stmt = null;
         ResultSet rs = null;
         List<ClienteBEAN> creditos = new ArrayList();
         
-        try{
+        try {
             stmt = con.prepareStatement("SELECT cod, nome, credito "
                     + "FROM tabela_clientes_fisicos "
                     + "WHERE credito < 0");
             rs = stmt.executeQuery();
-            while(rs.next()){
+            while (rs.next()) {
                 creditos.add(new ClienteBEAN(
                         rs.getInt("cod"),
                         rs.getString("nome"),
@@ -1839,7 +1846,7 @@ public class ClienteDAO {
                     + "FROM tabela_clientes_juridicos "
                     + "WHERE credito < 0");
             rs = stmt.executeQuery();
-            while(rs.next()){
+            while (rs.next()) {
                 creditos.add(new ClienteBEAN(
                         rs.getInt("cod"),
                         rs.getString("nome"),
@@ -1851,17 +1858,18 @@ public class ClienteDAO {
             return creditos;
         } catch (SQLException ex) {
             throw new SQLException(ex);
-        }finally{
+        } finally {
             ConnectionFactory.closeConnection(con, stmt, rs);
         }
     }
-    
+
     /**
      * Atualiza os dados de acesso (contator e último acesso) dos clientes
+     *
      * @param cod - código do cliente
-     * @throws SQLException 
+     * @throws SQLException
      */
-    public static void atualizaClientes(int cod) throws SQLException{
+    public static void atualizaClientes(int cod) throws SQLException {
         Connection con = ConnectionFactory.getConnection();
         PreparedStatement stmt = null;
         ResultSet rs = null;
@@ -1869,14 +1877,14 @@ public class ClienteDAO {
         int acessos = 0;
         Timestamp data = new Timestamp(new Date().getTime());
         
-        try{
+        try {
             stmt = con.prepareStatement("SELECT "
                     + "tabela_clientes_juridicos.QTD_ACESSOS "
                     + "FROM tabela_clientes_juridicos "
                     + "WHERE tabela_clientes_juridicos.cod = ?");
             stmt.setInt(1, cod);
             rs = stmt.executeQuery();
-            if(rs.next()){
+            if (rs.next()) {
                 acessos = rs.getInt("tabela_clientes_juridicos.QTD_ACESSOS");
             }
             
@@ -1892,7 +1900,7 @@ public class ClienteDAO {
             stmt.executeUpdate();
         } catch (SQLException ex) {
             throw new SQLException(ex);
-        }finally{
+        } finally {
             ConnectionFactory.closeConnection(con, stmt, rs);
         }
     }

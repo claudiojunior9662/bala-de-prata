@@ -130,6 +130,12 @@ public class Cliente {
         this.tipoPessoa = tipoPessoa;
     }
 
+    public Cliente(int codigo, byte tipoPessoa, String nome) {
+        this.codigo = codigo;
+        this.tipoPessoa = tipoPessoa;
+        this.nome = nome;
+    }
+    
     public Cliente(int codigo, byte tipoPessoa) {
         this.codigo = codigo;
         this.tipoPessoa = tipoPessoa;

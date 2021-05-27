@@ -1353,4 +1353,44 @@ public class OrdemProducaoDAO {
             ConnectionFactory.closeConnection(con, stmt, rs);
         }
     }
+    
+    /**
+     * Retorna as ordens de produção do cliente (Relatório de detalhamento)
+     * @param codCliente código do cliente
+     * @param tipoPessoa tipo de pessoa
+     * @return
+     * @throws SQLException 
+     */
+    public static List<OrdemProducao> retornaOrdemProducaoCliente(int codCliente, byte tipoPessoa) throws SQLException{
+        Connection con = ConnectionFactory.getConnection();
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+        List<OrdemProducao> retorno = new ArrayList();
+        
+        try{
+            stmt = con.prepareStatement("SELECT tabela_ordens_producao.orcamento_base, tabela_ordens_producao.cod, tabela_ordens_producao.data_emissao, tabela_ordens_producao.data_entrega, "
+                    + "tabela_ordens_producao.cod_produto, tabela_ordens_producao.tipo_produto, tabela_ordens_producao.status "
+                    + "FROM tabela_ordens_producao "
+                    + "WHERE tabela_ordens_producao.cod_cliente = ? AND tabela_ordens_producao.tipo_cliente = ?");
+            stmt.setInt(1, codCliente);
+            stmt.setByte(2, tipoPessoa);
+            rs = stmt.executeQuery();
+            while(rs.next()){
+                retorno.add(new OrdemProducao(
+                        rs.getInt("tabela_ordens_producao.orcamento_base"),
+                        rs.getInt("tabela_ordens_producao.cod"),
+                        rs.getDate("tabela_ordens_producao.data_emissao"),
+                        rs.getDate("tabela_ordens_producao.data_entrega"),
+                        ProdutoDAO.retornaDescricaoProduto(rs.getInt("tabela_ordens_producao.cod_produto"), rs.getByte("tabela_ordens_producao.tipo_produto")),
+                        retornaValorParcial(rs.getInt("tabela_ordens_producao.orcamento_base"), rs.getInt("tabela_ordens_producao.cod_produto"), rs.getByte("tabela_ordens_producao.tipo_produto")),
+                        rs.getString("tabela_ordens_producao.status")
+                ));
+            }
+        } catch (SQLException ex) {
+            throw new SQLException(ex);
+        }finally{
+            ConnectionFactory.closeConnection(con, stmt, rs);
+        }
+        return retorno;
+    }
 }

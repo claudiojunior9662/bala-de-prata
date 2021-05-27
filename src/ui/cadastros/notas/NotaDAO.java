@@ -20,8 +20,10 @@ import java.util.List;
 import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import model.dao.OrdemProducaoDAO;
 import ui.cadastros.clientes.ClienteDAO;
 import static ui.cadastros.notas.NotaDAO.verificaQuantidadeEntregue;
+import ui.cadastros.produtos.ProdutoDAO;
 
 /**
  *
@@ -728,18 +730,19 @@ public class NotaDAO {
 
     /**
      * Retorna todas as NC do cliente especificado
+     *
      * @param codCliente código do cliente
      * @param tipoCliente tipo do cliente
-     * @return 
-     * @throws java.sql.SQLException 
+     * @return
+     * @throws java.sql.SQLException
      */
     public static List<NotaCredito> retornaNCCliente(int codCliente, byte tipoCliente) throws SQLException {
         Connection con = ConnectionFactory.getConnection();
         PreparedStatement stmt = null;
         ResultSet rs = null;
         List<NotaCredito> retorno = new ArrayList();
-        
-        try{
+
+        try {
             stmt = con.prepareStatement("SELECT tabela_notas.cod, tabela_notas.data, tabela_notas.valor "
                     + "FROM tabela_notas "
                     + "WHERE cod_cliente = ? "
@@ -747,21 +750,60 @@ public class NotaDAO {
             stmt.setInt(1, codCliente);
             stmt.setByte(2, tipoCliente);
             rs = stmt.executeQuery();
-            while(rs.next()){
+            while (rs.next()) {
                 retorno.add(new NotaCredito(
                         rs.getInt("cod"),
                         rs.getFloat("valor"),
                         rs.getString("data")
-                        
                 ));
             }
             return retorno;
         } catch (SQLException ex) {
             throw new SQLException(ex);
-        }finally{
+        } finally {
             ConnectionFactory.closeConnection(con, stmt, rs);
         }
     }
+
+    /**
+     * Retorna todos os faturamentos do cliente especificado
+     *
+     * @param codCliente código do cliente
+     * @param tipoCliente tipo do cliente
+     * @return
+     */
+    public static List<Faturamento> retornaFatCliente(int codCliente, byte tipoCliente) throws SQLException {
+        Connection con = ConnectionFactory.getConnection();
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+        List<Faturamento> retorno = new ArrayList();
+
+        try {
+            stmt = con.prepareStatement("SELECT faturamentos.CODIGO_ORC, faturamentos.CODIGO_OP, faturamentos.DT_FAT, faturamentos.VLR_FAT, tabela_ordens_producao.cod_produto, tabela_ordens_producao.tipo_produto "
+                    + "FROM faturamentos "
+                    + "INNER JOIN tabela_ordens_producao ON tabela_ordens_producao.cod = faturamentos.CODIGO_OP "
+                    + "WHERE tabela_ordens_producao.cod_cliente = ? "
+                    + "AND tabela_ordens_producao.tipo_cliente = ?");
+            stmt.setInt(1, codCliente);
+            stmt.setByte(2, tipoCliente);
+            rs = stmt.executeQuery();
+            while (rs.next()) {
+                retorno.add(new Faturamento(
+                        rs.getInt("faturamentos.CODIGO_ORC"),
+                        rs.getInt("faturamentos.CODIGO_OP"),
+                        rs.getDate("faturamentos.DT_FAT"),
+                        ProdutoDAO.retornaDescricaoProduto(rs.getInt("tabela_ordens_producao.cod_produto"), rs.getByte("tabela_ordens_producao.tipo_produto")),
+                        rs.getDouble("faturamentos.VLR_FAT")
+                        
+                ));
+            }
+        }catch(SQLException ex){
+            throw new SQLException(ex);
+        }finally{
+            ConnectionFactory.closeConnection(con, stmt, rs);
+        }
+            return retorno;
+        }
 
     //ATUALIZA NOTA DE CRÉDITO--------------------------------------------------
     /**
@@ -1105,6 +1147,30 @@ public class NotaDAO {
         } catch (SQLException ex) {
             throw new SQLException(ex);
         } finally {
+            ConnectionFactory.closeConnection(con, stmt, rs);
+        }
+    }
+    
+    /**
+     * Verifica se existe faturamento para a OP enviada
+     * @param codOp código da OP
+     * @return
+     * @throws SQLException 
+     */
+    public static boolean verificaFaturamento(int codOp) throws SQLException{
+        Connection con = ConnectionFactory.getConnection();
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+        
+        try{
+            stmt = con.prepareStatement("SELECT faturamentos.CODIGO_OP "
+                    + "FROM faturamentos "
+                    + "WHERE faturamentos.CODIGO_OP = ?");
+            stmt.setInt(1, codOp);
+            return (rs = stmt.executeQuery()).next();
+        }catch(SQLException ex){
+            throw new SQLException(ex);
+        }finally{
             ConnectionFactory.closeConnection(con, stmt, rs);
         }
     }

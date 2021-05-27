@@ -22,6 +22,7 @@ import ui.cadastros.clientes.RelatorioContabilidade;
 import ui.cadastros.notas.NCFrame;
 import ui.controle.Controle;
 import ui.login.TelaAutenticacao;
+import ui.relatorios.detalhamento.RelatorioDetalhamento;
 import ui.relatorios.financeiro.RelatorioFat;
 import ui.relatorios.financeiro.RelatorioFinanceiro;
 import ui.relatorios.financeiro.RelatoriosNotasCredito;
@@ -260,7 +261,13 @@ public class Financeiro extends javax.swing.JFrame {
         });
         menuRelatorios.add(jMenuItem2);
 
+        jMenuItem3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icones/detalhes.png"))); // NOI18N
         jMenuItem3.setText("DETALHAMENTO");
+        jMenuItem3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem3ActionPerformed(evt);
+            }
+        });
         menuRelatorios.add(jMenuItem3);
 
         jMenuBar1.add(menuRelatorios);
@@ -394,6 +401,10 @@ public class Financeiro extends javax.swing.JFrame {
     private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
         Controle.getDefaultGj().abrirJanelas(RelatorioFinanceiro.getInstancia(loading), "RELATÓRIOS - FINANCEIRO");
     }//GEN-LAST:event_jMenuItem2ActionPerformed
+
+    private void jMenuItem3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem3ActionPerformed
+        Controle.getDefaultGj().abrirJanelas(RelatorioDetalhamento.getInstancia(loading), "RELATÓRIOS - DETALHAMENTO");
+    }//GEN-LAST:event_jMenuItem3ActionPerformed
 
     /**
      * @param args the command line arguments

@@ -530,7 +530,6 @@ public class RelatorioFinanceiro extends javax.swing.JInternalFrame {
                         + "AND tabela_ordens_producao.data_emissao BETWEEN '2019-01-01' AND '" + ano + "-" + mes + "-31' "
                         + "ORDER BY tabela_ordens_producao.cod_cliente ASC");
             }
-            System.out.println(stmt);
             rs = stmt.executeQuery();
             while (rs.next()) {
                 if (!codigosProcessados.contains(rs.getInt("tabela_ordens_producao.cod_cliente"))) {
