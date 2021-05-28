@@ -31,26 +31,7 @@ import ui.controle.Controle;
 public class IntegracaoLojaIntegrada {
 
     public static void main(String[] args) {
-        try {
-            Controle.preencheDadosConexaoInternet();
-            Controle.preencheDadosConexaoLojaIntegrada();
-            Product produto = new Product(
-                    null,
-                    "prod-simples",
-                    "Produto teste integração",
-                    "Produto teste integração",
-                    true,
-                    (float) 0.01,
-                    (float) 0.01,
-                    (float) 0.01,
-                    (float) 0.01,
-                    "normal"
-            );
 
-            realizaRequisicaoPOST((byte) 5, produto);
-        } catch (IOException | InterruptedException ex) {
-            Logger.getLogger(IntegracaoLojaIntegrada.class.getName()).log(Level.SEVERE, null, ex);
-        }
     }
 
     public static void realizaRequisicaoGET(byte tipo) {
@@ -130,7 +111,7 @@ public class IntegracaoLojaIntegrada {
      * @throws IOException
      * @throws InterruptedException
      */
-    public static void realizaRequisicaoPOST(byte tipo, Object requisicao) throws IOException, InterruptedException {
+    public static void realizaRequisicaoPOST(byte tipo, Object requisicao) throws IOException, InterruptedException, SQLException {
         HashMap values = null;
         ObjectMapper objectMapper = null;
         String requestBody = null;
@@ -182,7 +163,6 @@ public class IntegracaoLojaIntegrada {
                         HttpResponse.BodyHandlers.ofString());
                 System.out.println(response);
                 System.out.println(request);
-
                 break;
             case 2:
                 break;
@@ -208,6 +188,7 @@ public class IntegracaoLojaIntegrada {
                         put("profundidade", (int) product.getProfundidade());
                         put("tipo", product.getTipo());
                         put("usado", product.isUsado());
+                        put("categorias", "/api/v1/categoria/12408485");
                     }
                 };
 
@@ -240,17 +221,18 @@ public class IntegracaoLojaIntegrada {
                         .build();
                 response = client.send(request,
                         HttpResponse.BodyHandlers.ofString());
+                System.out.println(response.body());
+                System.out.println(request);
 
                 JSONObject json = new JSONObject(response.body());
                  {
                     try {
                         ProdutoDAO.atualizaCodigoLI(Integer.valueOf(product.getId()), (int) json.get("id"), product.getSku().contains("PP") ? (byte) 1 : (byte) 2);
                     } catch (SQLException ex) {
-                        Logger.getLogger(IntegracaoLojaIntegrada.class.getName()).log(Level.SEVERE, null, ex);
+                        throw new SQLException(ex);
                     }
                 }
-                System.out.println(response.body());
-                System.out.println(request);
+
                 break;
             case 6:
                 break;
@@ -395,7 +377,7 @@ public class IntegracaoLojaIntegrada {
                         put("quantidade", product.getEstoque());
                     }
                 };
-                
+
                 try {
                     product.setId(String.valueOf(ProdutoDAO.retornaCodigoLI(Integer.valueOf(product.getId()), product.getSku().contains("PP") ? (byte) 1 : (byte) 2)));
                 } catch (SQLException ex) {

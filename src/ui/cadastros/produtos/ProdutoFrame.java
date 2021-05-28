@@ -1933,37 +1933,32 @@ public final class ProdutoFrame extends javax.swing.JInternalFrame {
                             ProdutoDAO.atualiza(produto);
 
                             if (jckbUtilizadoEcommerce.isSelected()) {
-                                new Thread("INSERIR NO E-COMMERCE") {
-                                    @Override
-                                    public void run() {
-                                        try {
-                                            loading.setText("INSERINDO NO E-COMMERCE...");
-                                            realizaRequisicaoPOST((byte) 5, new Product(
-                                                    String.valueOf(COD_PROD),
-                                                    "PP" + String.valueOf(COD_PROD),
-                                                    produto.getDescricao(),
-                                                    produto.getDescricao(),
-                                                    produto.isAtivo(),
-                                                    produto.getPeso(),
-                                                    produto.getAltura(),
-                                                    produto.getLargura(),
-                                                    produto.getEspessura(),
-                                                    "normal"
-                                            ));
+                                try {
+                                    loading.setText("INSERINDO NO E-COMMERCE...");
+                                    realizaRequisicaoPOST((byte) 5, new Product(
+                                            String.valueOf(COD_PROD),
+                                            "PP" + String.valueOf(COD_PROD),
+                                            produto.getDescricao(),
+                                            produto.getDescricao(),
+                                            produto.isAtivo(),
+                                            produto.getPeso(),
+                                            produto.getAltura(),
+                                            produto.getLargura(),
+                                            produto.getEspessura(),
+                                            "normal"
+                                    ));
 
-                                            realizaRequisicaoPUT((byte) 2, new Product(
-                                                    String.valueOf(COD_PROD),
-                                                    "PP" + String.valueOf(COD_PROD),
-                                                    produto.getValorCusto(),
-                                                    produto.getValorPromocional()
-                                            ));
-                                            loading.setText("SALVANDO...");
-                                        } catch (IOException | InterruptedException | SQLException ex) {
-                                            EnvioExcecao envioExcecao = new EnvioExcecao(Controle.getDefaultGj(), ex);
-                                            EnvioExcecao.envio();
-                                        }
-                                    }
-                                }.start();
+                                    realizaRequisicaoPUT((byte) 2, new Product(
+                                            String.valueOf(COD_PROD),
+                                            "PP" + String.valueOf(COD_PROD),
+                                            produto.getValorCusto(),
+                                            produto.getValorPromocional()
+                                    ));
+                                    loading.setText("SALVANDO...");
+                                } catch (IOException | InterruptedException | SQLException ex) {
+                                    EnvioExcecao envioExcecao = new EnvioExcecao(Controle.getDefaultGj(), ex);
+                                    EnvioExcecao.envio();
+                                }
                             }
 
                             break;
@@ -1975,37 +1970,32 @@ public final class ProdutoFrame extends javax.swing.JInternalFrame {
                             ProdutoDAO.cria(produto);
 
                             if (jckbUtilizadoEcommerce.isSelected()) {
-                                new Thread("INSERIR NO E-COMMERCE") {
-                                    @Override
-                                    public void run() {
-                                        try {
-                                            loading.setText("INSERINDO NO E-COMMERCE...");
-                                            realizaRequisicaoPOST((byte) 5, new Product(
-                                                    String.valueOf(COD_PROD),
-                                                    "PP" + String.valueOf(COD_PROD),
-                                                    produto.getDescricao(),
-                                                    produto.getDescricao(),
-                                                    produto.isAtivo(),
-                                                    produto.getPeso(),
-                                                    produto.getAltura(),
-                                                    produto.getLargura(),
-                                                    produto.getEspessura(),
-                                                    "normal"
-                                            ));
+                                try {
+                                    loading.setText("INSERINDO NO E-COMMERCE...");
+                                    realizaRequisicaoPOST((byte) 5, new Product(
+                                            String.valueOf(COD_PROD),
+                                            "PP" + String.valueOf(COD_PROD),
+                                            produto.getDescricao(),
+                                            produto.getDescricao(),
+                                            produto.isAtivo(),
+                                            produto.getPeso(),
+                                            produto.getAltura(),
+                                            produto.getLargura(),
+                                            produto.getEspessura(),
+                                            "normal"
+                                    ));
 
-                                            realizaRequisicaoPUT((byte) 2, new Product(
-                                                    String.valueOf(COD_PROD),
-                                                    "PP" + String.valueOf(COD_PROD),
-                                                    produto.getValorCusto(),
-                                                    produto.getValorPromocional()
-                                            ));
-                                            loading.setText("SALVANDO...");
-                                        } catch (IOException | InterruptedException | SQLException ex) {
-                                            EnvioExcecao envioExcecao = new EnvioExcecao(Controle.getDefaultGj(), ex);
-                                            EnvioExcecao.envio();
-                                        }
-                                    }
-                                }.start();
+                                    realizaRequisicaoPUT((byte) 2, new Product(
+                                            String.valueOf(COD_PROD),
+                                            "PP" + String.valueOf(COD_PROD),
+                                            produto.getValorCusto(),
+                                            produto.getValorPromocional()
+                                    ));
+                                    loading.setText("SALVANDO...");
+                                } catch (IOException | InterruptedException | SQLException ex) {
+                                    EnvioExcecao envioExcecao = new EnvioExcecao(Controle.getDefaultGj(), ex);
+                                    EnvioExcecao.envio();
+                                }
                             }
 
                             break;
@@ -2070,44 +2060,39 @@ public final class ProdutoFrame extends javax.swing.JInternalFrame {
                             ));
 
                             if (jckbUtilizadoEcommerce.isSelected()) {
-                                new Thread("INSERIR E-COMMERCE") {
-                                    @Override
-                                    public void run() {
-                                        try {
-                                            loading.setText("INSERINDO NO E-COMMERCE...");
-                                            realizaRequisicaoPUT((byte) 1, new Product(
-                                                    String.valueOf(COD_PROD),
-                                                    "PE" + String.valueOf(COD_PROD),
-                                                    jftfDescricaoProduto.getText().toUpperCase(),
-                                                    jftfDescricaoProduto.getText().toUpperCase(),
-                                                    true,
-                                                    Float.valueOf(jftfPesoProduto.getText().replace(",", ".")),
-                                                    Float.valueOf(jftfAlturaProduto.getText().replace(",", ".")),
-                                                    Float.valueOf(jftfLarguraProduto.getText().replace(",", ".")),
-                                                    Float.valueOf(jftfEspessuraProduto.getText().replace(",", ".")),
-                                                    "normal"
-                                            ));
+                                try {
+                                    loading.setText("INSERINDO NO E-COMMERCE...");
+                                    realizaRequisicaoPUT((byte) 1, new Product(
+                                            String.valueOf(COD_PROD),
+                                            "PE" + String.valueOf(COD_PROD),
+                                            jftfDescricaoProduto.getText().toUpperCase(),
+                                            jftfDescricaoProduto.getText().toUpperCase(),
+                                            true,
+                                            Float.valueOf(jftfPesoProduto.getText().replace(",", ".")),
+                                            Float.valueOf(jftfAlturaProduto.getText().replace(",", ".")),
+                                            Float.valueOf(jftfLarguraProduto.getText().replace(",", ".")),
+                                            Float.valueOf(jftfEspessuraProduto.getText().replace(",", ".")),
+                                            "normal"
+                                    ));
 
-                                            realizaRequisicaoPUT((byte) 2, new Product(
-                                                    String.valueOf(COD_PROD),
-                                                    "PE" + String.valueOf(COD_PROD),
-                                                    Float.valueOf(jftfVlrUnitProduto.getValue().toString()),
-                                                    jftfVlrPromProduto.getText().equals("") ? 0 : Float.valueOf(jftfVlrPromProduto.getText().replace(",", "."))
-                                            ));
+                                    realizaRequisicaoPUT((byte) 2, new Product(
+                                            String.valueOf(COD_PROD),
+                                            "PE" + String.valueOf(COD_PROD),
+                                            Float.valueOf(jftfVlrUnitProduto.getValue().toString()),
+                                            jftfVlrPromProduto.getText().equals("") ? 0 : Float.valueOf(jftfVlrPromProduto.getText().replace(",", "."))
+                                    ));
 
-                                            realizaRequisicaoPUT((byte) 3, new Product(
-                                                    String.valueOf(COD_PROD),
-                                                    "PE" + String.valueOf(COD_PROD),
-                                                    Integer.valueOf(jftfEstoqueFisicoProduto.getValue().toString())
-                                            ));
+                                    realizaRequisicaoPUT((byte) 3, new Product(
+                                            String.valueOf(COD_PROD),
+                                            "PE" + String.valueOf(COD_PROD),
+                                            Integer.valueOf(jftfEstoqueFisicoProduto.getValue().toString())
+                                    ));
 
-                                            loading.setText("SALVANDO...");
-                                        } catch (IOException | InterruptedException | SQLException ex) {
-                                            EnvioExcecao envioExcecao = new EnvioExcecao(Controle.getDefaultGj(), ex);
-                                            EnvioExcecao.envio();
-                                        }
-                                    }
-                                }.start();
+                                    loading.setText("SALVANDO...");
+                                } catch (IOException | InterruptedException | SQLException ex) {
+                                    EnvioExcecao envioExcecao = new EnvioExcecao(Controle.getDefaultGj(), ex);
+                                    EnvioExcecao.envio();
+                                }
 
                                 //INTERAÇÃO COM O USUÁRIO---------------------------------------
                                 JOptionPane.showMessageDialog(null, "PRODUTO EDITADO COM SUCESSO COM SUCESSO. >> CÓDIGO: "
@@ -2156,44 +2141,39 @@ public final class ProdutoFrame extends javax.swing.JInternalFrame {
                             ));
 
                             if (jckbUtilizadoEcommerce.isSelected()) {
-                                new Thread("INSERIR E-COMMERCE") {
-                                    @Override
-                                    public void run() {
-                                        try {
-                                            loading.setText("INSERINDO NO E-COMMERCE...");
-                                            realizaRequisicaoPUT((byte) 1, new Product(
-                                                    String.valueOf(COD_PROD),
-                                                    "PE" + String.valueOf(COD_PROD),
-                                                    jftfDescricaoProduto.getText().toUpperCase(),
-                                                    jftfDescricaoProduto.getText().toUpperCase(),
-                                                    true,
-                                                    Float.valueOf(jftfPesoProduto.getText().replace(",", ".")),
-                                                    Float.valueOf(jftfAlturaProduto.getText().replace(",", ".")),
-                                                    Float.valueOf(jftfLarguraProduto.getText().replace(",", ".")),
-                                                    Float.valueOf(jftfEspessuraProduto.getText().replace(",", ".")),
-                                                    "normal"
-                                            ));
+                                try {
+                                    loading.setText("INSERINDO NO E-COMMERCE...");
+                                    realizaRequisicaoPUT((byte) 1, new Product(
+                                            String.valueOf(COD_PROD),
+                                            "PE" + String.valueOf(COD_PROD),
+                                            jftfDescricaoProduto.getText().toUpperCase(),
+                                            jftfDescricaoProduto.getText().toUpperCase(),
+                                            true,
+                                            Float.valueOf(jftfPesoProduto.getText().replace(",", ".")),
+                                            Float.valueOf(jftfAlturaProduto.getText().replace(",", ".")),
+                                            Float.valueOf(jftfLarguraProduto.getText().replace(",", ".")),
+                                            Float.valueOf(jftfEspessuraProduto.getText().replace(",", ".")),
+                                            "normal"
+                                    ));
 
-                                            realizaRequisicaoPUT((byte) 2, new Product(
-                                                    String.valueOf(COD_PROD),
-                                                    "PE" + String.valueOf(COD_PROD),
-                                                    Float.valueOf(jftfVlrUnitProduto.getValue().toString()),
-                                                    jftfVlrPromProduto.getText().equals("") ? 0 : Float.valueOf(jftfVlrPromProduto.getText().replace(",", "."))
-                                            ));
+                                    realizaRequisicaoPUT((byte) 2, new Product(
+                                            String.valueOf(COD_PROD),
+                                            "PE" + String.valueOf(COD_PROD),
+                                            Float.valueOf(jftfVlrUnitProduto.getValue().toString()),
+                                            jftfVlrPromProduto.getText().equals("") ? 0 : Float.valueOf(jftfVlrPromProduto.getText().replace(",", "."))
+                                    ));
 
-                                            realizaRequisicaoPUT((byte) 3, new Product(
-                                                    String.valueOf(COD_PROD),
-                                                    "PE" + String.valueOf(COD_PROD),
-                                                    Integer.valueOf(jftfEstoqueFisicoProduto.getValue().toString())
-                                            ));
+                                    realizaRequisicaoPUT((byte) 3, new Product(
+                                            String.valueOf(COD_PROD),
+                                            "PE" + String.valueOf(COD_PROD),
+                                            Integer.valueOf(jftfEstoqueFisicoProduto.getValue().toString())
+                                    ));
 
-                                            loading.setText("SALVANDO...");
-                                        } catch (IOException | InterruptedException | SQLException ex) {
-                                            EnvioExcecao envioExcecao = new EnvioExcecao(Controle.getDefaultGj(), ex);
-                                            EnvioExcecao.envio();
-                                        }
-                                    }
-                                }.start();
+                                    loading.setText("SALVANDO...");
+                                } catch (IOException | InterruptedException | SQLException ex) {
+                                    EnvioExcecao envioExcecao = new EnvioExcecao(Controle.getDefaultGj(), ex);
+                                    EnvioExcecao.envio();
+                                }
                             }
 
                             //INTERAÇÃO COM O USUÁRIO---------------------------------------

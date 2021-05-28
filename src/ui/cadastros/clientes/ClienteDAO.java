@@ -537,7 +537,9 @@ public class ClienteDAO {
         PreparedStatement stmt = null;
         
         try {
-            stmt = con.prepareStatement("SELECT cod, nome FROM tabela_clientes_fisicos WHERE nome = ?");
+            stmt = con.prepareStatement("SELECT cod, nome "
+                    + "FROM tabela_clientes_fisicos "
+                    + "WHERE nome = ?");
             stmt.setString(1, nome);
             rs = stmt.executeQuery();
             if (rs.next()) {
@@ -545,7 +547,9 @@ public class ClienteDAO {
                         (byte) 1,
                         rs.getString("nome"));
             } else {
-                stmt = con.prepareStatement("SELECT cod, nome FROM tabela_clientes_juridicos WHERE nome = ?");
+                stmt = con.prepareStatement("SELECT cod, nome "
+                        + "FROM tabela_clientes_juridicos "
+                        + "WHERE nome = ?");
                 stmt.setString(1, nome);
                 rs = stmt.executeQuery();
                 if (rs.next()) {
