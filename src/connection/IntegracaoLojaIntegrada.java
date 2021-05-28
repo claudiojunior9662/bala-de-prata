@@ -58,7 +58,7 @@ public class IntegracaoLojaIntegrada {
                                     + "/"
                                     + Controle.VERSAO_API
                                     + "/"
-                                    + "categoria/?"
+                                    + "categoria/?format="
                                     + Controle.FORMATO_SAIDA
                                     + "&"
                                     + "chave_api="
@@ -149,7 +149,7 @@ public class IntegracaoLojaIntegrada {
                                 + Controle.SEPARADOR
                                 + Controle.VERSAO_API
                                 + Controle.SEPARADOR
-                                + "categoria/?"
+                                + "categoria/?format="
                                 + Controle.FORMATO_SAIDA
                                 + "&"
                                 + "chave_api="
@@ -209,7 +209,7 @@ public class IntegracaoLojaIntegrada {
                                 + Controle.SEPARADOR
                                 + Controle.VERSAO_API
                                 + Controle.SEPARADOR
-                                + "produto/?"
+                                + "produto/?format="
                                 + Controle.FORMATO_SAIDA
                                 + "&"
                                 + "chave_api="
@@ -304,7 +304,7 @@ public class IntegracaoLojaIntegrada {
                                 + Controle.SEPARADOR
                                 + product.getId()
                                 + Controle.SEPARADOR
-                                + "?"
+                                + "?format="
                                 + Controle.FORMATO_SAIDA
                                 + "&"
                                 + "chave_api="
