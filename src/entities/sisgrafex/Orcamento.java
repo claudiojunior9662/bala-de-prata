@@ -156,6 +156,14 @@ public class Orcamento {
 
     public Orcamento() {
     }
+    
+    public Orcamento(int codigo, 
+            Date dataValidade,
+            int status){
+        this.codigo = codigo;
+        this.dataValidade = dataValidade;
+        this.status = status;
+    }
 
     public Double getArte() {
         return arte;

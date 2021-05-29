@@ -2383,10 +2383,10 @@ public class FatFrame extends javax.swing.JInternalFrame {
                     STATUS_FATURAMENTO = 1;
                     if ((int) qtdSerEntregue.getValue()
                             < (int) qtdSolicitada.getValue() - (int) qtdEntregue.getValue()) {
-                        OrcamentoDAO.alteraStatus(FAT.getCodOrc(), (byte) 7);
+                        OrcamentoDAO.alteraStatus(FAT.getCodOrc(), (byte) 8);
                     } else if ((int) qtdSerEntregue.getValue()
                             == (int) qtdSolicitada.getValue() - (int) qtdEntregue.getValue()) {
-                        OrcamentoDAO.alteraStatus(FAT.getCodOrc(), (byte) 8);
+                        OrcamentoDAO.alteraStatus(FAT.getCodOrc(), (byte) 9);
                     }
                 } else {
                     FAT.setFreteFat((byte) 0);
@@ -2396,7 +2396,7 @@ public class FatFrame extends javax.swing.JInternalFrame {
                             Double.valueOf(valorServicos.getValue().toString())
                             + Double.valueOf(valorFrete.getValue().toString()),
                             (byte) 2);
-                    OrcamentoDAO.alteraStatus(FAT.getCodOrc(), (byte) 7);
+                    OrcamentoDAO.alteraStatus(FAT.getCodOrc(), (byte) 8);
                 }
             }
 

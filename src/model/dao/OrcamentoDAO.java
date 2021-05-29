@@ -24,6 +24,9 @@ import exception.OrcamentoInexistenteException;
 import java.text.ParseException;
 import entities.sisgrafex.ProdOrcamento;
 import java.sql.Timestamp;
+import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import ui.controle.Controle;
 
 /**
@@ -345,12 +348,20 @@ public class OrcamentoDAO {
         return retorno;
     }
 
+    /**
+     * Altera o status da proposta de orçamento
+     * @param cod código da proposta
+     * @param status status a mudar
+     * @throws SQLException 
+     */
     public static void alteraStatus(int cod, int status) throws SQLException {
         Connection con = ConnectionFactory.getConnection();
         PreparedStatement stmt = null;
 
         try {
-            stmt = con.prepareStatement("UPDATE tabela_orcamentos SET status = ? WHERE cod = ?");
+            stmt = con.prepareStatement("UPDATE tabela_orcamentos "
+                    + "SET status = ? "
+                    + "WHERE cod = ?");
             stmt.setInt(1, status);
             stmt.setInt(2, cod);
             stmt.executeUpdate();
@@ -1203,8 +1214,8 @@ public class OrcamentoDAO {
                     + "AND cod_produto = ? "
                     + "AND tipo_papel = ? "
                     + "AND cod_papel = ? "
-                    + "AND tipo_produto = ?", 
-                    ResultSet.TYPE_SCROLL_SENSITIVE, 
+                    + "AND tipo_produto = ?",
+                    ResultSet.TYPE_SCROLL_SENSITIVE,
                     ResultSet.CONCUR_UPDATABLE);
             stmt.setInt(1, codProposta);
             stmt.setInt(2, codProd);
@@ -1679,6 +1690,39 @@ public class OrcamentoDAO {
             }
 
             return listaAlteracoes;
+        } catch (SQLException ex) {
+            throw new SQLException(ex);
+        } finally {
+            ConnectionFactory.closeConnection(con, stmt, rs);
+        }
+    }
+
+    /**
+     * Retorna as propostas de orçamentos que venceram por prazo de validade
+     * @return
+     * @throws SQLException 
+     */
+    public static List<Orcamento> consultaPropostasVencidas() throws SQLException {
+        Connection con = ConnectionFactory.getConnection();
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+        List<Orcamento> retorno = new ArrayList();
+
+        try {
+            stmt = con.prepareStatement("SELECT tabela_orcamentos.cod, tabela_orcamentos.data_validade, tabela_orcamentos.status "
+                    + "FROM tabela_orcamentos "
+                    + "WHERE tabela_orcamentos.data_validade <= ? AND (tabela_orcamentos.status = 1 OR tabela_orcamentos.status = 3 "
+                    + "OR tabela_orcamentos.status = 4 OR tabela_orcamentos.status = 11)");
+            stmt.setDate(1, new java.sql.Date(new Date().getTime()));
+            rs = stmt.executeQuery();
+            while (rs.next()) {
+                retorno.add(new Orcamento(
+                        rs.getInt("tabela_orcamentos.cod"),
+                        rs.getDate("tabela_orcamentos.data_validade"),
+                        rs.getByte("tabela_orcamentos.status")
+                ));
+            }
+            return retorno;
         } catch (SQLException ex) {
             throw new SQLException(ex);
         } finally {

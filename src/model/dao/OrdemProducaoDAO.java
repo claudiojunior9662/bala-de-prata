@@ -17,8 +17,6 @@ import entities.sisgrafex.OrdemProducao;
 import entities.sisgrafex.CalculosOpBEAN;
 import entities.sisgrafex.Servicos;
 import java.util.Date;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import static model.dao.OrdemProducaoDAO.alteraDtCancelamento;
 import static model.dao.OrdemProducaoDAO.alteraStatusOp;
 import static model.dao.OrdemProducaoDAO.consultaOp;
@@ -1209,27 +1207,33 @@ public class OrdemProducaoDAO {
      * Retorna as OP associadas a proposta de orçamento
      *
      * @param codProp código da proposta
+     * @param EntCancel filtrar as OP canceladas
      * @return
      * @throws SQLException
      */
-    public static String retornaOpsAssociadas(int codProp) throws SQLException {
+    public static List<Integer> retornaOpsAssociadas(int codProp, boolean EntCancel) throws SQLException {
         Connection con = ConnectionFactory.getConnection();
         PreparedStatement stmt = null;
         ResultSet rs = null;
-
-        StringBuilder retorno = new StringBuilder();
+        List retorno = new ArrayList();
 
         try {
-            stmt = con.prepareStatement("SELECT tabela_ordens_producao.cod "
-                    + "FROM tabela_ordens_producao "
-                    + "WHERE tabela_ordens_producao.orcamento_base = ?");
+            if (!EntCancel) {
+                stmt = con.prepareStatement("SELECT tabela_ordens_producao.cod "
+                        + "FROM tabela_ordens_producao "
+                        + "WHERE tabela_ordens_producao.orcamento_base = ?");
+            }else{
+                stmt = con.prepareStatement("SELECT tabela_ordens_producao.cod "
+                        + "FROM tabela_ordens_producao "
+                        + "WHERE tabela_ordens_producao.orcamento_base = ? "
+                        + "AND tabela_ordens_producao.status != 'CANCELADA'");
+            }
             stmt.setInt(1, codProp);
             rs = stmt.executeQuery();
             while (rs.next()) {
-                retorno.append(rs.getString("tabela_ordens_producao.cod"));
-                retorno.append("\n");
+                retorno.add(rs.getInt("tabela_ordens_producao.cod"));
             }
-            return retorno.toString();
+            return retorno;
         } catch (SQLException ex) {
             throw new SQLException(ex);
         } finally {
@@ -1334,40 +1338,41 @@ public class OrdemProducaoDAO {
         Connection con = ConnectionFactory.getConnection();
         PreparedStatement stmt = null;
         ResultSet rs = null;
-        
-        try{
+
+        try {
             stmt = con.prepareStatement("SELECT cod "
                     + "FROM tabela_ordens_producao "
                     + "WHERE tabela_ordens_producao.orcamento_base = ? "
                     + "ORDER BY cod DESC LIMIT 1");
             stmt.setInt(1, codOrc);
             rs = stmt.executeQuery();
-            if(rs.next()){
+            if (rs.next()) {
                 return Integer.valueOf(codOrc + "" + (Integer.valueOf(String.valueOf(rs.getInt("cod")).split(String.valueOf(codOrc))[1]) + 1));
-            }else{
+            } else {
                 return Integer.valueOf(String.valueOf(codOrc) + "" + ordProd);
             }
         } catch (SQLException ex) {
             throw new SQLException(ex);
-        }finally{
+        } finally {
             ConnectionFactory.closeConnection(con, stmt, rs);
         }
     }
-    
+
     /**
      * Retorna as ordens de produção do cliente (Relatório de detalhamento)
+     *
      * @param codCliente código do cliente
      * @param tipoPessoa tipo de pessoa
      * @return
-     * @throws SQLException 
+     * @throws SQLException
      */
-    public static List<OrdemProducao> retornaOrdemProducaoCliente(int codCliente, byte tipoPessoa) throws SQLException{
+    public static List<OrdemProducao> retornaOrdemProducaoCliente(int codCliente, byte tipoPessoa) throws SQLException {
         Connection con = ConnectionFactory.getConnection();
         PreparedStatement stmt = null;
         ResultSet rs = null;
         List<OrdemProducao> retorno = new ArrayList();
-        
-        try{
+
+        try {
             stmt = con.prepareStatement("SELECT tabela_ordens_producao.orcamento_base, tabela_ordens_producao.cod, tabela_ordens_producao.data_emissao, tabela_ordens_producao.data_entrega, "
                     + "tabela_ordens_producao.cod_produto, tabela_ordens_producao.tipo_produto, tabela_ordens_producao.status "
                     + "FROM tabela_ordens_producao "
@@ -1375,7 +1380,7 @@ public class OrdemProducaoDAO {
             stmt.setInt(1, codCliente);
             stmt.setByte(2, tipoPessoa);
             rs = stmt.executeQuery();
-            while(rs.next()){
+            while (rs.next()) {
                 retorno.add(new OrdemProducao(
                         rs.getInt("tabela_ordens_producao.orcamento_base"),
                         rs.getInt("tabela_ordens_producao.cod"),
@@ -1388,7 +1393,7 @@ public class OrdemProducaoDAO {
             }
         } catch (SQLException ex) {
             throw new SQLException(ex);
-        }finally{
+        } finally {
             ConnectionFactory.closeConnection(con, stmt, rs);
         }
         return retorno;

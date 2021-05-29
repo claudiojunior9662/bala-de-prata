@@ -8,10 +8,9 @@ package ui.principal;
 import entities.sisgrafex.AlteraData;
 import entities.sisgrafex.Orcamento;
 import exception.EnvioExcecao;
-import java.awt.Dimension;
-import java.awt.Graphics;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
@@ -51,7 +50,6 @@ public class OrcamentoFrame extends javax.swing.JFrame {
 //        URL url = this.getClass().getResource("/ui/login/logo.png");
 //        Image imagemLogo = Toolkit.getDefaultToolkit().getImage(url);
 //        this.setIconImage(imagemLogo);
-
         Controle.defineStatus(statusPane);
         Controle.setDefaultGj(new GerenteJanelas(areaDeTrabalho));
         loadingHide();
@@ -109,9 +107,9 @@ public class OrcamentoFrame extends javax.swing.JFrame {
                         Logger.getLogger(OrcamentoFrame.class.getName()).log(Level.SEVERE, null, ex);
                     }
                 }
-
             }
         }.start();
+        cancelaPorPrazo();
 
         try {
             SimpleDateFormat data = new SimpleDateFormat("dd/MM/yyyy");
@@ -638,6 +636,24 @@ public class OrcamentoFrame extends javax.swing.JFrame {
     public static void loadingHide() {
         loading.setVisible(false);
         loading.setText("");
+    }
+
+    public static void cancelaPorPrazo() {
+        new Thread("Cancela por prazo") {
+            @Override
+            public void run() {
+                try {
+                    List<Orcamento> listaPropostas = OrcamentoDAO.consultaPropostasVencidas();
+                    for (Orcamento po : listaPropostas) {
+                        OrcamentoDAO.alteraStatus(po.getCod(), (byte) 14);
+                    }
+                } catch (SQLException ex) {
+                    EnvioExcecao envioExcecao = new EnvioExcecao(Controle.getDefaultGj(), ex);
+                    EnvioExcecao.envio();
+                }
+            }
+        }.start();
+
     }
 
 }

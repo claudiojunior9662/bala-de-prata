@@ -24,6 +24,7 @@ import javax.swing.SpinnerNumberModel;
 import entities.sisgrafex.ProdOrcamento;
 import exception.EnvioExcecao;
 import java.awt.Dimension;
+import java.util.List;
 import javax.swing.JTextArea;
 import model.dao.OrcamentoDAO;
 import model.dao.OrdemProducaoDAO;
@@ -528,14 +529,18 @@ public class OpConsultaFrame extends javax.swing.JInternalFrame {
                                         (byte) 1);
                                 break;
                         }
-                        OrcamentoDAO.mudarStatus(CODIGO_ORCAMENTO_BASE, (byte) 1);
                         OrcamentoDAO.atualizaStatusFaturamento(CODIGO_ORCAMENTO_BASE, (byte) 0);
                     }
                 }
-
+                
+                List<Integer> opAssociadas = OrdemProducaoDAO.retornaOpsAssociadas(CODIGO_ORCAMENTO_BASE, true);
+                if(!opAssociadas.isEmpty()){
+                    OrcamentoDAO.mudarStatus(CODIGO_ORCAMENTO_BASE, (byte) 15);
+                }else{
+                    OrcamentoDAO.mudarStatus(CODIGO_ORCAMENTO_BASE, (byte) 1);
+                }
                 JOptionPane.showMessageDialog(null, "A OP " + CODIGO_OP + " FOI CANCELADA COM SUCESSO.");
             }
-
         } catch (SQLException ex) {
             EnvioExcecao envioExcecao = new EnvioExcecao(Controle.getDefaultGj(), ex);
             EnvioExcecao.envio();

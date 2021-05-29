@@ -66,18 +66,17 @@ public class OrcamentoPrincipalFrame extends javax.swing.JInternalFrame {
 
     private class ModoImpressao extends JComboBox {
 
-        ModoImpressao()
-
-        {
+        ModoImpressao() {
             addItem("SELECIONE...");
             addItem("OFFSET");
             addItem("DIGITAL");
             setSelectedIndex(0);
         }
     }
-    
-    private class TipoImpressao extends JComboBox{
-        TipoImpressao(){
+
+    private class TipoImpressao extends JComboBox {
+
+        TipoImpressao() {
             addItem("SELECIONE..");
             addItem("IMPRESSÃO CHAPADA");
             addItem("RETÍCULA 70%");
@@ -86,9 +85,10 @@ public class OrcamentoPrincipalFrame extends javax.swing.JInternalFrame {
             addItem("TEXTO");
         }
     }
-    
-    private class PesoEspTinta extends JComboBox{
-        PesoEspTinta(){
+
+    private class PesoEspTinta extends JComboBox {
+
+        PesoEspTinta() {
             addItem("SELECIONE..");
             addItem("CORES DE ESCALA");
             addItem("CORES TRANSPARENTES");
@@ -177,7 +177,7 @@ public class OrcamentoPrincipalFrame extends javax.swing.JInternalFrame {
                 tabelaConsulta.setModel(modelExt);
                 break;
         }
-        
+
         tabsInformacoes.setEnabledAt(2, false);
     }
 
@@ -1699,15 +1699,18 @@ public class OrcamentoPrincipalFrame extends javax.swing.JInternalFrame {
                     }
                     //----------------------------------------------------------
 
+                    String statusSplit[];
                     switch (CLASSE_PAI) {
                         case 1:
                         case 2:
-                            STATUS = Integer.valueOf(tabelaConsulta.getValueAt(
-                                    tabelaConsulta.getSelectedRow(), 6).toString().substring(0, 1));
+                            statusSplit = tabelaConsulta.getValueAt(
+                                    tabelaConsulta.getSelectedRow(), 6).toString().split(" ");
+                            STATUS = Integer.valueOf(statusSplit[0]);
                             break;
                         case 3:
-                            STATUS = Integer.valueOf(tabelaConsulta.getValueAt(
-                                    tabelaConsulta.getSelectedRow(), 4).toString().substring(0, 1));
+                            statusSplit = tabelaConsulta.getValueAt(
+                                    tabelaConsulta.getSelectedRow(), 4).toString().split(" ");
+                            STATUS = Integer.valueOf(statusSplit[0]);
                             break;
                     }
 
@@ -1742,6 +1745,7 @@ public class OrcamentoPrincipalFrame extends javax.swing.JInternalFrame {
                                 case 6:
                                 case 8:
                                 case 9:
+                                case 15:
                                     enviarProducao.setEnabled(false);
                                     enviarExpedicao.setEnabled(false);
                                     excluir.setEnabled(false);
@@ -1761,6 +1765,21 @@ public class OrcamentoPrincipalFrame extends javax.swing.JInternalFrame {
                                     }
                                     editar.setEnabled(true);
                                     naoAprovadoCliente.setEnabled(true);
+                                    break;
+                                case 14:
+                                    if (TIPO_ORCAMENTO == 1) {
+                                        enviarProducao.setEnabled(false);
+                                        enviarExpedicao.setEnabled(false);
+                                        excluir.setEnabled(true);
+                                        editar.setEnabled(true);
+                                        naoAprovadoCliente.setEnabled(true);
+                                    } else {
+                                        enviarProducao.setEnabled(false);
+                                        enviarExpedicao.setEnabled(false);
+                                        excluir.setEnabled(true);
+                                        editar.setEnabled(true);
+                                        naoAprovadoCliente.setEnabled(true);
+                                    }
                                     break;
                             }
                             autorizarProducao.setEnabled(true);
@@ -2161,43 +2180,43 @@ public class OrcamentoPrincipalFrame extends javax.swing.JInternalFrame {
 
     private void gerarPdfActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_gerarPdfActionPerformed
         if (tipoPdf.getSelectedItem().equals("SIMPLES")) {
-            switch(CLASSE_PAI){
+            switch (CLASSE_PAI) {
                 case 1:
                 case 2:
                     Orcamento.geraPdf((int) tabelaConsulta.getValueAt(tabelaConsulta.getSelectedRow(), 0),
-                    true,
-                    false,
-                    Integer.valueOf(tabelaConsulta.getValueAt(tabelaConsulta.getSelectedRow(), 6).toString().substring(0, 1)),
-                    loading,
-                    false);
+                            true,
+                            false,
+                            Integer.valueOf(tabelaConsulta.getValueAt(tabelaConsulta.getSelectedRow(), 6).toString().substring(0, 1)),
+                            loading,
+                            false);
                     break;
                 case 3:
                     Orcamento.geraPdf((int) tabelaConsulta.getValueAt(tabelaConsulta.getSelectedRow(), 0),
-                    true,
-                    false,
-                    Integer.valueOf(tabelaConsulta.getValueAt(tabelaConsulta.getSelectedRow(), 4).toString().substring(0, 1)),
-                    loading,
-                    false);
+                            true,
+                            false,
+                            Integer.valueOf(tabelaConsulta.getValueAt(tabelaConsulta.getSelectedRow(), 4).toString().substring(0, 1)),
+                            loading,
+                            false);
                     break;
             }
         } else {
-            switch(CLASSE_PAI){
+            switch (CLASSE_PAI) {
                 case 1:
                 case 2:
                     Orcamento.geraPdf((int) tabelaConsulta.getValueAt(tabelaConsulta.getSelectedRow(), 0),
-                    true,
-                    true,
-                    Integer.valueOf(tabelaConsulta.getValueAt(tabelaConsulta.getSelectedRow(), 6).toString().substring(0, 1)),
-                    loading,
-                    false);
+                            true,
+                            true,
+                            Integer.valueOf(tabelaConsulta.getValueAt(tabelaConsulta.getSelectedRow(), 6).toString().substring(0, 1)),
+                            loading,
+                            false);
                     break;
                 case 3:
                     Orcamento.geraPdf((int) tabelaConsulta.getValueAt(tabelaConsulta.getSelectedRow(), 0),
-                    true,
-                    true,
-                    Integer.valueOf(tabelaConsulta.getValueAt(tabelaConsulta.getSelectedRow(), 4).toString().substring(0, 1)),
-                    loading,
-                    false);
+                            true,
+                            true,
+                            Integer.valueOf(tabelaConsulta.getValueAt(tabelaConsulta.getSelectedRow(), 4).toString().substring(0, 1)),
+                            loading,
+                            false);
                     break;
             }
         }
@@ -2435,7 +2454,7 @@ public class OrcamentoPrincipalFrame extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_enviarProducaoActionPerformed
 
     private void enviarEmailAnexoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_enviarEmailAnexoActionPerformed
-        
+
     }//GEN-LAST:event_enviarEmailAnexoActionPerformed
 
     private void calcularOrcamentoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_calcularOrcamentoActionPerformed
@@ -3941,8 +3960,7 @@ public class OrcamentoPrincipalFrame extends javax.swing.JInternalFrame {
                 });
                 estadoProdSv((byte) 1);
 
-            } 
-            /**
+            } /**
              * função para produtos para produção
              */
             else {
@@ -4023,11 +4041,10 @@ public class OrcamentoPrincipalFrame extends javax.swing.JInternalFrame {
                         0,
                         0
                     });
-                    
+
                     modeloImpressao.addRow(new Object[]{
                         produto.getDescricao(),
-                        papeisCadastroBEAN.getTipoPapel(),
-                    });
+                        papeisCadastroBEAN.getTipoPapel(),});
                 }
 
                 /**
@@ -4042,7 +4059,7 @@ public class OrcamentoPrincipalFrame extends javax.swing.JInternalFrame {
                     1d,
                     0d
                 });
-                
+
                 /**
                  * preenche a tabela acabamentos
                  */

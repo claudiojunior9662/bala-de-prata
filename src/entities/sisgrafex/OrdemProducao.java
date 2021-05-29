@@ -1547,7 +1547,7 @@ public class OrdemProducao {
                         tblPostagem.addCell(cell2);
                         cell1 = new PdfPCell(new Phrase("OP ASSOCIADAS A PROPOSTA",
                                 FontFactory.getFont("arial.ttf", 9, Font.BOLD)));
-                        cell2 = new PdfPCell(new Phrase(OrdemProducaoDAO.retornaOpsAssociadas(op.getOrcBase()),
+                        cell2 = new PdfPCell(new Phrase(OrdemProducaoDAO.retornaOpsAssociadas(op.getOrcBase(), false).toString(),
                                 FontFactory.getFont("arial.ttf", 9)));
                         tblPostagem.addCell(cell1);
                         tblPostagem.addCell(cell2);
