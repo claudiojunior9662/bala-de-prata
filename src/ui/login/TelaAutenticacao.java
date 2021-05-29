@@ -28,7 +28,7 @@ import java.sql.SQLException;
 public class TelaAutenticacao extends javax.swing.JFrame {
     
     private static final String codVersao = "2.5.1";
-    private static final String update = "3";
+    private static final String update = "4";
     private static UsuarioBEAN atendenteLogado;
 
     public static UsuarioBEAN getUsrLogado() {
@@ -360,10 +360,7 @@ public class TelaAutenticacao extends javax.swing.JFrame {
                     mInt.setVisible(true);
                     this.setVisible(false);
 
-                    JOptionPane.showMessageDialog(null, "CORREÇÕES E ATUALIZAÇÕES DA v.2.4.1 1 (25-12-2020)\n"
-                            + "- Correção de código-fonte na pesquisa de filtros no controle do módulo Produção;\n"
-                            + "- Implementação da pesquisa por código de orçamento no controle do módulo Produção;\n"
-                            + "CORREÇÕES E ATUALIZAÇÕES DA v.2.4.1 2 (22-02-2021)\n"
+                    JOptionPane.showMessageDialog(null, "CORREÇÕES E ATUALIZAÇÕES DA v.2.4.1 2 (22-02-2021)\n"
                             + "- Correção do erro ao para abrir OP;\n"
                             + "CORREÇÕES E ATUALIZAÇÕES DA v.2.5.0 1 (03-03-2021)\n"
                             + "- Implementação do contator e último acesso para clientes externos;\n"
@@ -382,6 +379,11 @@ public class TelaAutenticacao extends javax.swing.JFrame {
                             + "- Ajuste no código da ordem de produção;\n"
                             + "CORREÇÕES E ATUALIZAÇÕES DA v.2.5.1 3 (27-05-2021)\n"
                             + "- Implementação do relatório detalhado do cliente;\n"
+                            + "CORREÇÕES E ATUALIZAÇÕES DA v.2.5.1 4 (28-05-2021)\n"
+                            + "- Criação da regra para cancelar por prazo uma PO que venceu;\n"
+                            + "- Atualização do workflow de OP canceladas;\n"
+                            + "- Correção da seleção de status de OP no módulo produção;\n"
+                            + "- Correção na atualização da alteração de status no módulo expedição, ao faturar uma OP;\n"
                             + "AVISOS:\n"
                             + "- Todas as sugestões de melhoria de usabilidade do programa serão estudadas, mas não há previsão de implementação;\n"
                             + "- Qualquer problema nas correções acima expostas deverão ser informados o mais rápido possível à SPD;\n"
