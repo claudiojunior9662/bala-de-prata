@@ -110,6 +110,7 @@ public class IntegracaoLojaIntegrada {
      * @param requisicao
      * @throws IOException
      * @throws InterruptedException
+     * @throws java.sql.SQLException
      */
     public static void realizaRequisicaoPOST(byte tipo, Object requisicao) throws IOException, InterruptedException, SQLException {
         HashMap values = null;
