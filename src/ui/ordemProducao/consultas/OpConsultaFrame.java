@@ -534,11 +534,6 @@ public class OpConsultaFrame extends javax.swing.JInternalFrame {
                 }
                 
                 List<Integer> opAssociadas = OrdemProducaoDAO.retornaOpsAssociadas(CODIGO_ORCAMENTO_BASE, true);
-                if(!opAssociadas.isEmpty()){
-                    OrcamentoDAO.mudarStatus(CODIGO_ORCAMENTO_BASE, (byte) 15);
-                }else{
-                    OrcamentoDAO.mudarStatus(CODIGO_ORCAMENTO_BASE, (byte) 1);
-                }
                 JOptionPane.showMessageDialog(null, "A OP " + CODIGO_OP + " FOI CANCELADA COM SUCESSO.");
             }
         } catch (SQLException ex) {

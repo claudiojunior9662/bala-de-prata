@@ -645,6 +645,7 @@ public class OrcamentoFrame extends javax.swing.JFrame {
                 try {
                     List<Orcamento> listaPropostas = OrcamentoDAO.consultaPropostasVencidas();
                     for (Orcamento po : listaPropostas) {
+                        
                         OrcamentoDAO.alteraStatus(po.getCod(), (byte) 14);
                     }
                 } catch (SQLException ex) {
