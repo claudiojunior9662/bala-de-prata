@@ -189,7 +189,6 @@ public class IntegracaoLojaIntegrada {
                         put("profundidade", (int) product.getProfundidade());
                         put("tipo", product.getTipo());
                         put("usado", product.isUsado());
-                        put("categorias", "/api/v1/categoria/12408485");
                     }
                 };
 
@@ -224,6 +223,7 @@ public class IntegracaoLojaIntegrada {
                         HttpResponse.BodyHandlers.ofString());
                 System.out.println(response.body());
                 System.out.println(request);
+                System.out.println(values);
 
                 JSONObject json = new JSONObject(response.body());
                  {

@@ -384,6 +384,8 @@ public class TelaAutenticacao extends javax.swing.JFrame {
                             + "- Atualização do workflow de OP canceladas;\n"
                             + "- Correção da seleção de status de OP no módulo produção;\n"
                             + "- Correção na atualização da alteração de status no módulo expedição, ao faturar uma OP;\n"
+                            + "CORREÇÕES E ATUALIZAÇÕES DA v.2.5.1 5 (31-05-2021)\n"
+                            + "- Correção da alteração da mudança do status da PO;\n"
                             + "AVISOS:\n"
                             + "- Todas as sugestões de melhoria de usabilidade do programa serão estudadas, mas não há previsão de implementação;\n"
                             + "- Qualquer problema nas correções acima expostas deverão ser informados o mais rápido possível à SPD;\n"

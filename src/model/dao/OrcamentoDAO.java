@@ -1577,6 +1577,7 @@ public class OrcamentoDAO {
                     + "WHERE cod_orcamento = ? AND cod_produto = ?");
             stmt.setInt(1, codOrcamento);
             stmt.setInt(2, codProduto);
+            System.out.println(stmt);
             rs = stmt.executeQuery();
             if (rs.next()) {
                 return new ProdOrcamento(
@@ -1711,7 +1712,7 @@ public class OrcamentoDAO {
         try {
             stmt = con.prepareStatement("SELECT tabela_orcamentos.cod, tabela_orcamentos.data_validade, tabela_orcamentos.status "
                     + "FROM tabela_orcamentos "
-                    + "WHERE tabela_orcamentos.data_validade <= ? AND (tabela_orcamentos.status = 1 OR tabela_orcamentos.status = 3 "
+                    + "WHERE tabela_orcamentos.data_validade < ? AND (tabela_orcamentos.status = 1 OR tabela_orcamentos.status = 3 "
                     + "OR tabela_orcamentos.status = 4 OR tabela_orcamentos.status = 11)");
             stmt.setDate(1, new java.sql.Date(new Date().getTime()));
             rs = stmt.executeQuery();
