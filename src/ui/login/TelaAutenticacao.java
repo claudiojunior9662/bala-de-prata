@@ -28,8 +28,8 @@ import model.dao.OrdemProducaoDAO;
  */
 public class TelaAutenticacao extends javax.swing.JFrame {
     
-    private static final String codVersao = "2.5.1";
-    private static final String update = "4";
+    private static final String codVersao = "2.6.0";
+    private static final String update = "1";
     private static UsuarioBEAN atendenteLogado;
 
     public static UsuarioBEAN getUsrLogado() {
@@ -361,9 +361,7 @@ public class TelaAutenticacao extends javax.swing.JFrame {
                     mInt.setVisible(true);
                     this.setVisible(false);
 
-                    JOptionPane.showMessageDialog(null, "CORREÇÕES E ATUALIZAÇÕES DA v.2.4.1 2 (22-02-2021)\n"
-                            + "- Correção do erro ao para abrir OP;\n"
-                            + "CORREÇÕES E ATUALIZAÇÕES DA v.2.5.0 1 (03-03-2021)\n"
+                    JOptionPane.showMessageDialog(null, "CORREÇÕES E ATUALIZAÇÕES DA v.2.5.0 1 (03-03-2021)\n"
                             + "- Implementação do contator e último acesso para clientes externos;\n"
                             + "CORREÇÕES E ATUALIZAÇÕES DA v.2.5.0 2 (06-04-2021)\n"
                             + "- Correção no título da proposta de orçamento, quando pedido de venda ou OP;\n"
@@ -387,6 +385,9 @@ public class TelaAutenticacao extends javax.swing.JFrame {
                             + "- Correção na atualização da alteração de status no módulo expedição, ao faturar uma OP;\n"
                             + "CORREÇÕES E ATUALIZAÇÕES DA v.2.5.1 5 (31-05-2021)\n"
                             + "- Correção da alteração da mudança do status da PO;\n"
+                            + "CORREÇÕES E ATUALIZAÇÕES DA v.2.6.0 1 (06-06-2021)\n"
+                            + "- Alteração nos status das OP;\n"
+                            + "- Implementação do recálculo;\n"
                             + "AVISOS:\n"
                             + "- Todas as sugestões de melhoria de usabilidade do programa serão estudadas, mas não há previsão de implementação;\n"
                             + "- Qualquer problema nas correções acima expostas deverão ser informados o mais rápido possível à SPD;\n"
