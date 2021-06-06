@@ -20,6 +20,7 @@ import ui.cadastros.clientes.ClienteDAO;
 import ui.controle.Controle;
 import ui.principal.ModulosExt;
 import java.sql.SQLException;
+import model.dao.OrdemProducaoDAO;
 
 /**
  *
@@ -391,6 +392,7 @@ public class TelaAutenticacao extends javax.swing.JFrame {
                             + "- Qualquer problema nas correções acima expostas deverão ser informados o mais rápido possível à SPD;\n"
                             + "SPD - Seção de Processamento de Dados - Missão de Grandeza, Servir!");
                     Controle.stsOrcamento = OrcamentoDAO.retornaStsOrcamento();
+                    Controle.stsOp = OrdemProducaoDAO.retornaStsOp();
                 } else {
                     this.dispose();
                 }

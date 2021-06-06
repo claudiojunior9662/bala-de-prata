@@ -49,7 +49,7 @@ public class TelaAcompanhamentoDAO {
                 telaAcompanhamentoBEAN.setNumero(rs.getInt("cod"));
                 telaAcompanhamentoBEAN.setDataEmissao(rs.getDate("data_emissao"));
                 telaAcompanhamentoBEAN.setDataEntrega(rs.getDate("data_entrega"));
-                telaAcompanhamentoBEAN.setStatus(rs.getString("status"));
+                telaAcompanhamentoBEAN.setStatus(rs.getByte("status"));
                 telaAcompanhamentoBEAN.setDescricaoProduto(
                         ProdutoDAO.retornaDescricaoProduto(rs.getInt("cod_produto"), rs.getByte("tipo_produto")));
                 retorno.add(telaAcompanhamentoBEAN);
@@ -79,7 +79,7 @@ public class TelaAcompanhamentoDAO {
             stmt.setInt(1, op.getIndEntPrazo());
             stmt.setInt(2, op.getIndEntErro());
             stmt.setString(3, op.getOpSecao());
-            stmt.setString(4, op.getStatus());
+            stmt.setByte(4, op.getStatus());
             stmt.setDate(5, new java.sql.Date(op.getDataEntrega().getTime()));
             stmt.setString(6, op.getTipoTrabalho());
             stmt.setInt(7, op.getCodigo());
@@ -121,7 +121,7 @@ public class TelaAcompanhamentoDAO {
                         op.setCodigo(rs.getInt("cod"));
                         op.setDataEmissao(rs.getDate("data_emissao"));
                         op.setDataEntrega(rs.getDate("data_entrega"));
-                        op.setStatus(rs.getString("status"));
+                        op.setStatus(rs.getByte("status"));
                         op.setCodProduto(rs.getInt("cod_produto"));
                         op.setTipoProduto(rs.getByte("tipo_produto"));
                         retorno.add(op);
@@ -141,7 +141,7 @@ public class TelaAcompanhamentoDAO {
                         op.setCodigo(rs.getInt("cod"));
                         op.setDataEmissao(rs.getDate("data_emissao"));
                         op.setDataEntrega(rs.getDate("data_entrega"));
-                        op.setStatus(rs.getString("status"));
+                        op.setStatus(rs.getByte("status"));
                         op.setCodProduto(rs.getInt("cod_produto"));
                         op.setTipoProduto(rs.getByte("tipo_produto"));
                         retorno.add(op);
@@ -161,7 +161,7 @@ public class TelaAcompanhamentoDAO {
                         op.setCodigo(rs.getInt("cod"));
                         op.setDataEmissao(rs.getDate("data_emissao"));
                         op.setDataEntrega(rs.getDate("data_entrega"));
-                        op.setStatus(rs.getString("status"));
+                        op.setStatus(rs.getByte("status"));
                         op.setCodProduto(rs.getInt("cod_produto"));
                         op.setTipoProduto(rs.getByte("tipo_produto"));
                         retorno.add(op);
@@ -179,7 +179,7 @@ public class TelaAcompanhamentoDAO {
                         op.setCodigo(rs.getInt("cod"));
                         op.setDataEmissao(rs.getDate("data_emissao"));
                         op.setDataEntrega(rs.getDate("data_entrega"));
-                        op.setStatus(rs.getString("status"));
+                        op.setStatus(rs.getByte("status"));
                         op.setCodProduto(rs.getInt("cod_produto"));
                         op.setTipoProduto(rs.getByte("tipo_produto"));
                         retorno.add(op);
@@ -203,7 +203,7 @@ public class TelaAcompanhamentoDAO {
                         op.setCodigo(rs.getInt("cod"));
                         op.setDataEmissao(rs.getDate("data_emissao"));
                         op.setDataEntrega(rs.getDate("data_entrega"));
-                        op.setStatus(rs.getString("status"));
+                        op.setStatus(rs.getByte("status"));
                         op.setCodProduto(rs.getInt("cod_produto"));
                         op.setTipoProduto(rs.getByte("tipo_produto"));
                         retorno.add(op);
@@ -226,7 +226,7 @@ public class TelaAcompanhamentoDAO {
                         op.setCodigo(rs.getInt("cod"));
                         op.setDataEmissao(rs.getDate("data_emissao"));
                         op.setDataEntrega(rs.getDate("data_entrega"));
-                        op.setStatus(rs.getString("status"));
+                        op.setStatus(rs.getByte("status"));
                         op.setCodProduto(rs.getInt("cod_produto"));
                         op.setTipoProduto(rs.getByte("tipo_produto"));
                         retorno.add(op);
@@ -244,7 +244,7 @@ public class TelaAcompanhamentoDAO {
                         op.setCodigo(rs.getInt("cod"));
                         op.setDataEmissao(rs.getDate("data_emissao"));
                         op.setDataEntrega(rs.getDate("data_entrega"));
-                        op.setStatus(rs.getString("status"));
+                        op.setStatus(rs.getByte("status"));
                         op.setCodProduto(rs.getInt("cod_produto"));
                         op.setTipoProduto(rs.getByte("tipo_produto"));
                         retorno.add(op);

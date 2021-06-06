@@ -580,8 +580,8 @@ public class EnviarOrdemProducaoFrame extends javax.swing.JInternalFrame {
                 op.setCodCliente(Integer.valueOf(codigoCliente.getValue().toString()));
                 op.setTipoPessoa(tipoPessoa.getText().contains("FÍSICA") ? (byte) 1 : (byte) 2);
                 op.setDataEmissao(new Date());
-                op.setStatus(getTIPO_PROD() == 2 ? "ENCAMINHADO PARA EXPEDIÇÃO"
-                        : "EM AVALIAÇÃO PELA SEÇ TÉCNICA");
+                op.setStatus(getTIPO_PROD() == 2 ? (byte) 10
+                        : (byte) 1);
                 try {
                     op.setDataEntrega(Controle.dataPadrao.parse(tabelaProdutos.getValueAt(i, 5).toString()));
 

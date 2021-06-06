@@ -68,7 +68,7 @@ public class OpIntTableModel extends AbstractTableModel {
                 case 6:
                     return Controle.dataPadrao.format(dados.get(linha).getDataEntrega());
                 case 7:
-                    return dados.get(linha).getStatus();
+                    return Controle.stsOp.get(dados.get(linha).getStatus() - 1).toString();
             }
         } catch (SQLException ex) {
             Logger.getLogger(OpIntTableModel.class.getName()).log(Level.SEVERE, null, ex);

@@ -7,6 +7,7 @@
 package test;
 
 import connection.ConnectionFactory;
+import entities.sisgrafex.OrdemProducao;
 import entities.sisgrafex.Valores;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -17,6 +18,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import model.dao.OrdemProducaoDAO;
+import ui.controle.Controle;
 import ui.relatorios.financeiro.ClienteRelFin;
 
 /**
@@ -38,7 +41,6 @@ public class NewMain {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        mostraEmAberto();
     }
 
     //--------------------------------------------------------------------------
@@ -70,7 +72,6 @@ public class NewMain {
 //                while (rs2.next()) {
 //                    credito += rs2.getFloat("valor");
 //                }
-                
 //                DÉBITO--------------------------------------------------------
 //                stmt = con.prepareStatement("SELECT faturamentos.VLR_FAT "
 //                        + "FROM faturamentos "
@@ -82,7 +83,6 @@ public class NewMain {
 //                while (rs2.next()) {
 //                    credito -= rs2.getFloat("faturamentos.VLR_FAT");
 //                }
-
 //                System.out.println(rs.getInt("cod") + "#" + rs.getString("nome") + "#" + df.format(credito));
                 System.out.println(df.format(credito));
             }
@@ -168,7 +168,7 @@ public class NewMain {
         } catch (SQLException ex) {
             Logger.getLogger(NewMain.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
+
         for (int i : clientes) {
             boolean add = false;
             for (Valores val : teste) {
@@ -177,7 +177,7 @@ public class NewMain {
                     add = true;
                 }
             }
-            if(!add){
+            if (!add) {
                 teste2.add(new Valores(i, 0));
             }
         }
@@ -322,8 +322,79 @@ public class NewMain {
             Logger.getLogger(NewMain.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
-    private static void decodificaSenha(){
-        
+
+    private static void decodificaSenha() {
+
+    }
+
+    private static void alteraStatusOp() {
+        try {
+            Controle.stsOp = OrdemProducaoDAO.retornaStsOp();
+
+            Connection con = ConnectionFactory.getConnection();
+            PreparedStatement stmt = null;
+            ResultSet rs = null;
+            List<OrdemProducao> listaOp = new ArrayList();
+
+            stmt = con.prepareStatement("SELECT tabela_ordens_producao.cod, tabela_ordens_producao.status "
+                    + "FROM tabela_ordens_producao ");
+            rs = stmt.executeQuery();
+            while (rs.next()) {
+                listaOp.add(new OrdemProducao(
+                        rs.getInt("tabela_ordens_producao.cod"),
+                        rs.getString("tabela_ordens_producao.status")
+                ));
+            }
+
+            for (OrdemProducao op : listaOp) {
+                byte statusNovo = 0;
+
+                switch (op.getStatusString()) {
+                    case "EM AVALIAÇÃO PELA SEÇ TÉCNICA":
+                        statusNovo = (byte) 1;
+                        break;
+                    case "ENCAMINHADO PARA PRÉ IMP":
+                        statusNovo = (byte) 2;
+                        break;
+                    case "DIAGRAMAÇÃO":
+                        statusNovo = (byte) 3;
+                        break;
+                    case "PRODUZINDO PROVA":
+                        statusNovo = (byte) 4;
+                        break;
+                    case "AGUARDANDO APR CLIENTE":
+                        statusNovo = (byte) 5;
+                        break;
+                    case "ENCAMINHADO PARA TIPOGRAFIA":
+                        statusNovo = (byte) 8;
+                        break;
+                    case "ENCAMINHADO PARA ACABAMENTO":
+                        statusNovo = (byte) 9;
+                        break;
+                    case "ENCAMINHADO PARA EXPEDIÇÃO":
+                        statusNovo = (byte) 10;
+                        break;
+                    case "ENTREGUE":
+                        statusNovo = (byte) 11;
+                        break;
+                    case "ENTREGUE PARCIALMENTE":
+                        statusNovo = (byte) 12;
+                        break;
+                    case "CANCELADA":
+                        statusNovo = (byte) 13;
+                        break;
+                }
+                
+                stmt = con.prepareStatement("UPDATE tabela_ordens_producao "
+                        + "SET status = ? "
+                        + "WHERE cod = ?");
+                stmt.setByte(1, statusNovo);
+                stmt.setInt(2, op.getCodigo());
+                stmt.executeUpdate();
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(NewMain.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
     }
 }

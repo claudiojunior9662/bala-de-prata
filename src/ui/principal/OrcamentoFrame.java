@@ -46,10 +46,6 @@ public class OrcamentoFrame extends javax.swing.JFrame {
     public OrcamentoFrame() {
         initComponents();
         atualizacao.setVisible(false);
-
-//        URL url = this.getClass().getResource("/ui/login/logo.png");
-//        Image imagemLogo = Toolkit.getDefaultToolkit().getImage(url);
-//        this.setIconImage(imagemLogo);
         Controle.defineStatus(statusPane);
         Controle.setDefaultGj(new GerenteJanelas(areaDeTrabalho));
         loadingHide();

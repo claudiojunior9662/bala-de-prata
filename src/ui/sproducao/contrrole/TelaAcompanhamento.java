@@ -22,10 +22,11 @@ import java.util.Date;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JTextArea;
+import org.joda.time.DateTime;
+import org.joda.time.Days;
 import ui.administrador.UsuarioBEAN;
 import ui.administrador.UsuarioDAO;
 import ui.cadastros.clientes.ClienteDAO;
-import ui.cadastros.notas.FatFrame;
 import ui.cadastros.produtos.ProdutoDAO;
 import ui.controle.Controle;
 import ui.login.TelaAutenticacao;
@@ -44,6 +45,7 @@ public final class TelaAcompanhamento extends javax.swing.JInternalFrame {
     public static boolean realTime = true;
     public static boolean dataAlterada = false;
     private static Date dataPrevEntregaBkp;
+    private static byte STATUS;
 
     private static JLabel loading;
     private final GerenteJanelas gj;
@@ -668,10 +670,10 @@ public final class TelaAcompanhamento extends javax.swing.JInternalFrame {
                             .addComponent(entrada_offset, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addGap(20, 20, 20))
                     .addGroup(jPanel7Layout.createSequentialGroup()
-                        .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                        .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(jlblDtEntDigital, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jbtnDtEntDigital, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 191, Short.MAX_VALUE))
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                            .addComponent(jbtnDtEntDigital, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGap(19, 19, 19))))
         );
         jPanel7Layout.setVerticalGroup(
             jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -726,7 +728,7 @@ public final class TelaAcompanhamento extends javax.swing.JInternalFrame {
             }
         });
 
-        statusOrdemProducao.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "EM AVALIAÇÃO PELA SEÇ TÉCNICA", "ENCAMINHADO PARA PRÉ IMP", "DIAGRAMAÇÃO", "PRODUZINDO PROVA", "AGUARDANDO APR CLIENTE", "ENCAMINHADO PARA OFFSET", "ENCAMINHADO PARA TIPOGRAFIA", "ENCAMINHADO PARA ACABAMENTO", "EM FINALIZAÇÃO", "ENCAMINHADO PARA EXPEDIÇÃO" }));
+        statusOrdemProducao.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "1 - EM AVALIAÇÃO PELA SEÇ TÉCNICA", "2 - ENCAMINHADO PARA PRÉ-IMPRESSÃO", "3 - EM DIAGRAMAÇÃO", "4 - PRODUZINDO PROVA", "5 - AGUARDANDO APROVAÇÃO DO CLIENTE", "6 - ENCAMINHADO PARA A OFFSET", "7 - ENCAMINHADO PARA A DIGITAL", "8 - ENCAMINHADO PARA A TIPOGRAFIA", "9 - ENCAMINHADO PARA O ACABAMENTO", "10 - ENCAMINHADO PARA EXPEDIÇÃO" }));
         statusOrdemProducao.setBorder(javax.swing.BorderFactory.createTitledBorder("STATUS"));
         statusOrdemProducao.addItemListener(new java.awt.event.ItemListener() {
             public void itemStateChanged(java.awt.event.ItemEvent evt) {
@@ -769,7 +771,7 @@ public final class TelaAcompanhamento extends javax.swing.JInternalFrame {
                             .addGroup(jPanel2Layout.createSequentialGroup()
                                 .addComponent(codigoProduto, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(descricaoProduto))))
+                                .addComponent(descricaoProduto, javax.swing.GroupLayout.PREFERRED_SIZE, 578, javax.swing.GroupLayout.PREFERRED_SIZE))))
                     .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel2Layout.createSequentialGroup()
                         .addComponent(operadorSecao, javax.swing.GroupLayout.PREFERRED_SIZE, 221, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -881,9 +883,9 @@ public final class TelaAcompanhamento extends javax.swing.JInternalFrame {
                             .addComponent(qtdDiasOp, javax.swing.GroupLayout.DEFAULT_SIZE, 42, Short.MAX_VALUE)
                             .addComponent(jLabel11, javax.swing.GroupLayout.DEFAULT_SIZE, 44, Short.MAX_VALUE)
                             .addComponent(btnObservacoes, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, 590, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, 590, Short.MAX_VALUE)))
+                .addContainerGap())
         );
 
         layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {btnGravar, btnObservacoes, jLabel11, qtdDiasOp, visualizarOrdemProducao});
@@ -969,7 +971,7 @@ public final class TelaAcompanhamento extends javax.swing.JInternalFrame {
                                     op.getCodigo(),
                                     Controle.dataPadrao.format(op.getDataEmissao()),
                                     Controle.dataPadrao.format(op.getDataEntrega()),
-                                    op.getStatus(),
+                                    Controle.stsOp.get(op.getStatus() - 1).toString(),
                                     ProdutoDAO.retornaDescricaoProduto(op.getCodProduto(), op.getTipoProduto())
                                 });
                             }
@@ -985,7 +987,7 @@ public final class TelaAcompanhamento extends javax.swing.JInternalFrame {
                                     op.getCodigo(),
                                     Controle.dataPadrao.format(op.getDataEmissao()),
                                     Controle.dataPadrao.format(op.getDataEntrega()),
-                                    op.getStatus(),
+                                    Controle.stsOp.get(op.getStatus() - 1).toString(),
                                     ProdutoDAO.retornaDescricaoProduto(op.getCodProduto(), op.getTipoProduto())
                                 });
                             }
@@ -1001,7 +1003,7 @@ public final class TelaAcompanhamento extends javax.swing.JInternalFrame {
                                     op.getCodigo(),
                                     Controle.dataPadrao.format(op.getDataEmissao()),
                                     Controle.dataPadrao.format(op.getDataEntrega()),
-                                    op.getStatus(),
+                                    Controle.stsOp.get(op.getStatus() - 1).toString(),
                                     ProdutoDAO.retornaDescricaoProduto(op.getCodProduto(), op.getTipoProduto())
                                 });
                             }
@@ -1016,7 +1018,7 @@ public final class TelaAcompanhamento extends javax.swing.JInternalFrame {
                                 op.getCodigo(),
                                 Controle.dataPadrao.format(op.getDataEmissao()),
                                 Controle.dataPadrao.format(op.getDataEntrega()),
-                                op.getStatus(),
+                                Controle.stsOp.get(op.getStatus() - 1).toString(),
                                 ProdutoDAO.retornaDescricaoProduto(op.getCodProduto(), op.getTipoProduto())
                             });
 
@@ -1032,7 +1034,7 @@ public final class TelaAcompanhamento extends javax.swing.JInternalFrame {
                                 op.getCodigo(),
                                 Controle.dataPadrao.format(op.getDataEmissao()),
                                 Controle.dataPadrao.format(op.getDataEntrega()),
-                                op.getStatus(),
+                                Controle.stsOp.get(op.getStatus() - 1).toString(),
                                 ProdutoDAO.retornaDescricaoProduto(op.getCodProduto(), op.getTipoProduto())
                             });
 
@@ -1048,7 +1050,7 @@ public final class TelaAcompanhamento extends javax.swing.JInternalFrame {
                                 op.getCodigo(),
                                 Controle.dataPadrao.format(op.getDataEmissao()),
                                 Controle.dataPadrao.format(op.getDataEntrega()),
-                                op.getStatus(),
+                                Controle.stsOp.get(op.getStatus() - 1).toString(),
                                 ProdutoDAO.retornaDescricaoProduto(op.getCodProduto(), op.getTipoProduto())
                             });
                         }
@@ -1337,8 +1339,6 @@ public final class TelaAcompanhamento extends javax.swing.JInternalFrame {
     }
 
     public static void estado2() {
-        dataPrevEntrega.setEnabled(true);
-        tipoTrabalho.setEnabled(true);
         primeira_prova.setEnabled(true);
         segunda_prova.setEnabled(true);
         terceira_prova.setEnabled(true);
@@ -1352,7 +1352,6 @@ public final class TelaAcompanhamento extends javax.swing.JInternalFrame {
         entrada_tipografia.setEnabled(true);
         entrada_acabamento.setEnabled(true);
         envioDivisaoComercial.setEnabled(true);
-        operadorSecao.setEnabled(true);
         visualizarOrdemProducao.setEnabled(true);
         statusOrdemProducao.setEnabled(true);
         btnGravar.setEnabled(true);
@@ -1360,149 +1359,139 @@ public final class TelaAcompanhamento extends javax.swing.JInternalFrame {
     }
 
     private synchronized static void atualiza() {
-        new Thread("Atualiza OP") {
-            @Override
-            public void run() {
-                try {
-                    /**
-                     * Recupera as informações da ordem de produção
-                     */
-                    OrdemProducao op = OrdemProducaoDAO.retornaDadosOp(numOp);
+        try {
+            /**
+             * Recupera as informações da ordem de produção
+             */
+            OrdemProducao op = OrdemProducaoDAO.retornaDadosOp(numOp);
 
-                    /**
-                     * Preenche os campos da GUI
-                     */
-                    numeroOp.setValue(numOp);
-                    orcamentoBase.setValue(OrdemProducaoDAO.retornaOrcamentoBase(numOp));
-                    cliente.setText(ClienteDAO.retornaNomeCliente(op.getCodCliente(),
-                            (byte) op.getTipoPessoa()));
-                    dataEntrada.setText(Controle.dataPadrao.format(op.getDataEmissao()));
-                    dataPrevEntrega.setDate(op.getDataEntrega());
-                    dataPrevEntregaBkp = op.getDataEntrega();
-                    op.setDescricao(op.getDescricao().concat("\nDATA DE ENTREGA DA PROVA: "
-                            + (op.getDataEntgProva() != null
-                            ? op.getDataEntgProva()
-                            : "NÃO DEFINIDA")));
-                    observacoesOrcamento.setText(op.getDescricao());
-                    codigoProduto.setText(String.valueOf(op.getCodProduto()));
+            /**
+             * Preenche os campos da GUI
+             */
+            numeroOp.setValue(numOp);
+            orcamentoBase.setValue(OrdemProducaoDAO.retornaOrcamentoBase(numOp));
+            cliente.setText(ClienteDAO.retornaNomeCliente(op.getCodCliente(),
+                    (byte) op.getTipoPessoa()));
+            dataEntrada.setText(Controle.dataPadrao.format(op.getDataEmissao()));
+            dataPrevEntrega.setDate(op.getDataEntrega());
+            dataPrevEntregaBkp = op.getDataEntrega();
+            op.setDescricao(op.getDescricao().concat("\nDATA DE ENTREGA DA PROVA: "
+                    + (op.getDataEntgProva() != null
+                    ? op.getDataEntgProva()
+                    : "NÃO DEFINIDA")));
+            observacoesOrcamento.setText(op.getDescricao());
+            codigoProduto.setText(String.valueOf(op.getCodProduto()));
 
-                    /**
-                     * Preenche as datas
-                     */
-                    if (op.getData1aProva() != null) {
-                        primeiraProva.setText(Controle.dataPadrao.format(op.getData1aProva()));
-                    }
-
-                    if (op.getData2aProva() != null) {
-                        segundaProva.setText(Controle.dataPadrao.format(op.getData2aProva()));
-                    }
-
-                    if (op.getData3aProva() != null) {
-                        terceiraProva.setText(Controle.dataPadrao.format(op.getData3aProva()));
-                    }
-
-                    if (op.getData4aProva() != null) {
-                        quartaProva.setText(Controle.dataPadrao.format(op.getData4aProva()));
-                    }
-
-                    if (op.getData5aProva() != null) {
-                        quintaProva.setText(Controle.dataPadrao.format(op.getData5aProva()));
-                    }
-
-                    if (op.getDataAprCliente() != null) {
-                        aprovacaoCliente.setText(Controle.dataPadrao.format(op.getDataAprCliente()));
-                    }
-
-                    if (op.getDataEntFinal() != null) {
-                        entregaFinal.setText(Controle.dataPadrao.format(op.getDataEntFinal()));
-                    }
-
-                    if (op.getDataImpDir() != null) {
-                        impostaDirecao.setText(Controle.dataPadrao.format(op.getDataImpDir()));
-                    }
-
-                    if (op.getDataEntOffset() != null) {
-                        entradaOffset.setText(Controle.dataPadrao.format(op.getDataEntOffset()));
-                    }
-
-                    if (op.getDataEntDigital() != null) {
-                        jlblDtEntDigital.setText(Controle.dataPadrao.format(op.getDataEntDigital()));
-                    }
-
-                    if (op.getDataEntTipografia() != null) {
-                        entradaTipografia.setText(Controle.dataPadrao.format(op.getDataEntTipografia()));
-                    }
-
-                    if (op.getDataEntAcabamento() != null) {
-                        entradaAcabamento.setText(Controle.dataPadrao.format(op.getDataEntAcabamento()));
-                    }
-
-                    if (op.getDataEnvioDivCmcl() != null) {
-                        envioDivCmcl.setText(Controle.dataPadrao.format(op.getDataEnvioDivCmcl()));
-                    }
-
-                    /**
-                     * Retorna atendentes
-                     */
-                    operadorSecao.removeAllItems();
-                    operadorSecao.addItem("SELECIONE...");
-
-                    for (UsuarioBEAN funcionario : UsuarioDAO.retornaAtendentes((byte) 1)) {
-                        operadorSecao.addItem(funcionario.getNome());
-                    }
-                    if (op.getOpSecao() != null) {
-                        operadorSecao.setSelectedItem(op.getOpSecao());
-                    } else {
-                        operadorSecao.setSelectedIndex(0);
-                    }
-
-                    /**
-                     * Define o estado da ordem de produção
-                     */
-                    if (op.getStatus().equals("CANCELADA")) {
-                        statusOrdemProducao.addItem("CANCELADA");
-                    } else {
-                        statusOrdemProducao.removeItem("CANCELADA");
-                    }
-                    statusOrdemProducao.setSelectedItem(op.getStatus());
-
-                    /**
-                     * Calcula os dias para a entrega
-                     */
-                    calculaDias(new Date(), op.getDataEntrega());
-
-                    /**
-                     * Preenche o código do produto
-                     */
-                    if (op.getCodProduto() != 0) {
-                        descricaoProduto.setText(ProdutoDAO.retornaDescricaoProduto(op.getCodProduto(), op.getTipoProduto()));
-                    } else {
-                        descricaoProduto.setText("SERVIÇOS");
-                    }
-
-                    /**
-                     * Define o tipo de trabalho
-                     */
-                    if (op.getTipoTrabalho() == null) {
-                        tipoTrabalho.setSelectedIndex(0);
-                    } else {
-                        tipoTrabalho.setSelectedItem(op.getTipoTrabalho());
-                    }
-
-                    /**
-                     * Define o estado da GUI
-                     */
-                    estado2();
-
-                    /**
-                     * Esconde a imagem de carregando
-                     */
-                } catch (SQLException ex) {
-                    EnvioExcecao envioExcecao = new EnvioExcecao(Controle.getDefaultGj(), ex);
-                    EnvioExcecao.envio();
-                }
+            /**
+             * Preenche as datas
+             */
+            if (op.getData1aProva() != null) {
+                primeiraProva.setText(Controle.dataPadrao.format(op.getData1aProva()));
             }
-        }.start();
+
+            if (op.getData2aProva() != null) {
+                segundaProva.setText(Controle.dataPadrao.format(op.getData2aProva()));
+            }
+
+            if (op.getData3aProva() != null) {
+                terceiraProva.setText(Controle.dataPadrao.format(op.getData3aProva()));
+            }
+
+            if (op.getData4aProva() != null) {
+                quartaProva.setText(Controle.dataPadrao.format(op.getData4aProva()));
+            }
+
+            if (op.getData5aProva() != null) {
+                quintaProva.setText(Controle.dataPadrao.format(op.getData5aProva()));
+            }
+
+            if (op.getDataAprCliente() != null) {
+                aprovacaoCliente.setText(Controle.dataPadrao.format(op.getDataAprCliente()));
+            }
+
+            if (op.getDataEntFinal() != null) {
+                entregaFinal.setText(Controle.dataPadrao.format(op.getDataEntFinal()));
+            }
+
+            if (op.getDataImpDir() != null) {
+                impostaDirecao.setText(Controle.dataPadrao.format(op.getDataImpDir()));
+            }
+
+            if (op.getDataEntOffset() != null) {
+                entradaOffset.setText(Controle.dataPadrao.format(op.getDataEntOffset()));
+            }
+
+            if (op.getDataEntDigital() != null) {
+                jlblDtEntDigital.setText(Controle.dataPadrao.format(op.getDataEntDigital()));
+            }
+
+            if (op.getDataEntTipografia() != null) {
+                entradaTipografia.setText(Controle.dataPadrao.format(op.getDataEntTipografia()));
+            }
+
+            if (op.getDataEntAcabamento() != null) {
+                entradaAcabamento.setText(Controle.dataPadrao.format(op.getDataEntAcabamento()));
+            }
+
+            if (op.getDataEnvioDivCmcl() != null) {
+                envioDivCmcl.setText(Controle.dataPadrao.format(op.getDataEnvioDivCmcl()));
+            }
+
+            /**
+             * Retorna atendentes
+             */
+            operadorSecao.removeAllItems();
+            operadorSecao.addItem("SELECIONE...");
+
+            for (UsuarioBEAN funcionario : UsuarioDAO.retornaAtendentes((byte) 1)) {
+                operadorSecao.addItem(funcionario.getNome());
+            }
+            if (op.getOpSecao() != null) {
+                operadorSecao.setSelectedItem(op.getOpSecao());
+            } else {
+                operadorSecao.setSelectedIndex(0);
+            }
+
+            /**
+             * Define o estado da ordem de produção
+             */
+            verificaStatus(op.getStatus());
+
+            /**
+             * Calcula os dias para a entrega
+             */
+            calculaDias(op);
+
+            /**
+             * Preenche o código do produto
+             */
+            if (op.getCodProduto() != 0) {
+                descricaoProduto.setText(ProdutoDAO.retornaDescricaoProduto(op.getCodProduto(), op.getTipoProduto()));
+            } else {
+                descricaoProduto.setText("SERVIÇOS");
+            }
+
+            /**
+             * Define o tipo de trabalho
+             */
+            if (op.getTipoTrabalho() == null) {
+                tipoTrabalho.setSelectedIndex(0);
+            } else {
+                tipoTrabalho.setSelectedItem(op.getTipoTrabalho());
+            }
+
+            /**
+             * Define o estado da GUI
+             */
+            estado2();
+
+            /**
+             * Esconde a imagem de carregando
+             */
+        } catch (SQLException ex) {
+            EnvioExcecao envioExcecao = new EnvioExcecao(Controle.getDefaultGj(), ex);
+            EnvioExcecao.envio();
+        }
     }
 
     public static void limpa() {
@@ -1543,7 +1532,7 @@ public final class TelaAcompanhamento extends javax.swing.JInternalFrame {
                     acompanhamento.getNumero(),
                     Controle.dataPadrao.format(acompanhamento.getDataEmissao()),
                     Controle.dataPadrao.format(acompanhamento.getDataEntrega()),
-                    acompanhamento.getStatus(),
+                    Controle.stsOp.get(acompanhamento.getStatus() - 1).toString(),
                     acompanhamento.getDescricaoProduto()});
             }
 
@@ -1570,7 +1559,7 @@ public final class TelaAcompanhamento extends javax.swing.JInternalFrame {
                                 telaAcompanhamentoBEAN.getNumero(),
                                 Controle.dataPadrao.format(telaAcompanhamentoBEAN.getDataEmissao()),
                                 Controle.dataPadrao.format(telaAcompanhamentoBEAN.getDataEntrega()),
-                                telaAcompanhamentoBEAN.getStatus(),
+                                Controle.stsOp.get(telaAcompanhamentoBEAN.getStatus() - 1).toString(),
                                 telaAcompanhamentoBEAN.getDescricaoProduto()});
                         }
                         OrdemProducao.corTabela(tabelaConsulta, (byte) 1);
@@ -1585,25 +1574,76 @@ public final class TelaAcompanhamento extends javax.swing.JInternalFrame {
         }.start();
     }
 
-    public static void calculaDias(Date data1, Date data2) {
+    public static Date recalculo(Date aprovacaoCliente, Date dataEmissao, Date dataEntrega) {
+        DateTime dataEmissaoTime = new DateTime(dataEmissao.getTime());
+        DateTime dataEntregaTime = new DateTime(dataEntrega.getTime());
+        DateTime recalculo = new DateTime(aprovacaoCliente.getTime());
+        int diasEstipulados = Days.daysBetween(dataEmissaoTime, dataEntregaTime).getDays();
+        recalculo = recalculo.plusDays(diasEstipulados);
+        return recalculo.toDate();
+    }
+
+    public static void calculaDias(OrdemProducao op) {
         Controle.dataPadrao.setLenient(false);
 
-        if (statusOrdemProducao.getSelectedItem().toString().equals("ENCAMINHADO PARA EXPEDIÇÃO")) {
-            qtdDiasOp.setBackground(Color.GREEN);
-            qtdDiasOp.setForeground(Color.black);
-            qtdDiasOp.setValue(0);
-        } else {
-            long dt = (data2.getTime() - data1.getTime()) + 3600000;
-            dt = dt / 86400000L;
-            qtdDiasOp.setValue(dt);
-            if (dt > 0) {
+        switch (op.getStatus()) {
+            case 10:
+            case 11:
+            case 13:
                 qtdDiasOp.setBackground(Color.GREEN);
                 qtdDiasOp.setForeground(Color.black);
-            }
-            if (dt <= 0) {
-                qtdDiasOp.setBackground(Color.red);
-                qtdDiasOp.setForeground(Color.black);
-            }
+                qtdDiasOp.setValue(0);
+                break;
+            default:
+                if (op.getDataAprCliente() != null) {
+                    int prazo = Days.daysBetween(
+                            new DateTime(new Date().getTime()),
+                            new DateTime(recalculo(op.getDataAprCliente(), op.getDataEmissao(), op.getDataEntrega()))).getDays() + 1;
+                    qtdDiasOp.setValue(prazo);
+                    if (prazo > 0) {
+                        qtdDiasOp.setBackground(Color.GREEN);
+                        qtdDiasOp.setForeground(Color.black);
+                    }
+                    if (prazo <= 0) {
+                        qtdDiasOp.setBackground(Color.red);
+                        qtdDiasOp.setForeground(Color.black);
+                    }
+                } else {
+                    DateTime dataAtual = new DateTime(new Date().getTime());
+                    DateTime dataEntrega = new DateTime(op.getDataEntrega().getTime());
+                    int prazo = Days.daysBetween(dataAtual, dataEntrega).getDays() + 1;
+                    qtdDiasOp.setValue(prazo);
+                    if (prazo > 0) {
+                        qtdDiasOp.setBackground(Color.GREEN);
+                        qtdDiasOp.setForeground(Color.black);
+                    }
+                    if (prazo <= 0) {
+                        qtdDiasOp.setBackground(Color.red);
+                        qtdDiasOp.setForeground(Color.black);
+                    }
+                }
+                break;
+        }
+    }
+
+    public synchronized static void verificaStatus(byte status) {
+        switch (status) {
+            case 11:
+            case 13:
+                dataPrevEntrega.setEnabled(false);
+                statusOrdemProducao.setVisible(false);
+                btnGravar.setVisible(false);
+                operadorSecao.setEnabled(false);
+                tipoTrabalho.setEnabled(false);
+                break;
+            default:
+                dataPrevEntrega.setEnabled(true);
+                operadorSecao.setEnabled(true);
+                tipoTrabalho.setEnabled(true);
+                btnGravar.setVisible(true);
+                statusOrdemProducao.setVisible(true);
+                statusOrdemProducao.setSelectedIndex(status - 1);
+                break;
         }
     }
 
@@ -1679,7 +1719,9 @@ public final class TelaAcompanhamento extends javax.swing.JInternalFrame {
             op.setIndEntPrazo(0);
             op.setIndEntErro(0);
 
-            op.setStatus(statusOrdemProducao.getSelectedItem().toString());
+            String[] statusSplit = statusOrdemProducao.getSelectedItem().toString().split(" ");
+            STATUS = Byte.valueOf(statusSplit[0]);
+            op.setStatus(STATUS);
 
             TelaAcompanhamentoDAO.atualizaDadosOp(op);
 
@@ -1718,6 +1760,26 @@ public final class TelaAcompanhamento extends javax.swing.JInternalFrame {
                         stmt = con.prepareStatement("UPDATE tabela_ordens_producao SET data_apr_cliente = ? WHERE cod = ?");
                         stmt.setDate(1, new java.sql.Date(EscolhaDatas.calendario.getDate().getTime()));
                         stmt.setInt(2, (int) TelaAcompanhamento.numeroOp.getValue());
+
+                        op = OrdemProducaoDAO.retornaDatasAprCliente((int) numeroOp.getValue());
+                        Date recalculo = recalculo(EscolhaDatas.calendario.getDate(), op.getDataEmissao(), op.getDataEntrega());
+                        int dialogButton = JOptionPane.YES_NO_OPTION;
+                        int dialogResult = JOptionPane.showConfirmDialog(null,
+                                "O NOVO RECÁLCULO DA DATA DE ENTREGA É PARA O DIA: " + Controle.dataPadrao.format(recalculo) + "."
+                                + "\nDESEJA ALTERAR A DATA DE ENTREGA PREVISTA REGISTRADA?",
+                                "CONFIRMAÇÃO DE ALTERAÇÃO", dialogButton);
+                        if (dialogResult == 0) {
+                            AlteraData alteraData = new AlteraData(
+                                    (int) numeroOp.getValue(),
+                                    new Timestamp(recalculo.getTime()),
+                                    op.getDataEntrega(),
+                                    TelaAutenticacao.getUsrLogado().getCodigo(),
+                                    "RECÁLCULO"
+                            );
+                            OrdemProducaoDAO.salvaAlteracaoData(alteraData);
+                            OrdemProducaoDAO.alteraDataEntrega((int) numeroOp.getValue(), recalculo);
+                            dataPrevEntrega.setDate(recalculo);
+                        }
                     }
                     if (TelaAcompanhamento.botao.equals("entrega_final")) {
                         stmt = con.prepareStatement("UPDATE tabela_ordens_producao SET data_ent_final = ? WHERE cod = ?");

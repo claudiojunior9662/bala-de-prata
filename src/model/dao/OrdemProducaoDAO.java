@@ -16,7 +16,10 @@ import java.util.List;
 import entities.sisgrafex.OrdemProducao;
 import entities.sisgrafex.CalculosOpBEAN;
 import entities.sisgrafex.Servicos;
+import entities.sisgrafex.StsOp;
 import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import static model.dao.OrdemProducaoDAO.alteraDtCancelamento;
 import static model.dao.OrdemProducaoDAO.alteraStatusOp;
 import static model.dao.OrdemProducaoDAO.consultaOp;
@@ -50,7 +53,7 @@ public class OrdemProducaoDAO {
                         rs.getByte("tipo_cliente"),
                         rs.getDate("data_emissao"),
                         rs.getDate("data_entrega"),
-                        rs.getString("status"),
+                        rs.getByte("status"),
                         rs.getString("descricao"),
                         rs.getString("op_secao"),
                         rs.getString("cod_emissor"),
@@ -163,7 +166,7 @@ public class OrdemProducaoDAO {
             stmt.setInt(4, op.getTipoPessoa());
             stmt.setDate(5, new java.sql.Date(op.getDataEmissao().getTime()));
             stmt.setDate(6, new java.sql.Date(op.getDataEntrega().getTime()));
-            stmt.setString(7, op.getStatus());
+            stmt.setByte(7, op.getStatus());
             stmt.setString(8, op.getDescricao());
             stmt.setString(9, op.getCodEmissor());
             stmt.setInt(10, op.getCodProduto());
@@ -653,7 +656,7 @@ public class OrdemProducaoDAO {
                         rs.getByte("tipo_cliente"),
                         rs.getDate("data_emissao"),
                         rs.getDate("data_entrega"),
-                        rs.getString("status")
+                        rs.getByte("status")
                 ));
             }
         } catch (SQLException ex) {
@@ -894,7 +897,7 @@ public class OrdemProducaoDAO {
                                 oBEAN.setTipoPessoa(rs.getByte("tipo_cliente"));
                                 oBEAN.setDataEmissao(rs.getDate("data_emissao"));
                                 oBEAN.setDataEntrega(rs.getDate("data_entrega"));
-                                oBEAN.setStatus(rs.getString("status"));
+                                oBEAN.setStatus(rs.getByte("status"));
                                 retorno.add(oBEAN);
                             }
                         }
@@ -936,7 +939,7 @@ public class OrdemProducaoDAO {
                             + "FROM tabela_ordens_producao "
                             + "WHERE status = ? "
                             + "ORDER BY cod DESC");
-                    stmt.setString(1, tipoPesqCliente);
+                    stmt.setByte(1, Byte.valueOf(tipoPesqCliente));
                     break;
             }
 
@@ -973,7 +976,7 @@ public class OrdemProducaoDAO {
                         oBEAN.setTipoPessoa(rs.getByte("tipo_cliente"));
                         oBEAN.setDataEmissao(rs.getDate("data_emissao"));
                         oBEAN.setDataEntrega(rs.getDate("data_entrega"));
-                        oBEAN.setStatus(rs.getString("status"));
+                        oBEAN.setStatus(rs.getByte("status"));
                         retorno.add(oBEAN);
                     }
                 }
@@ -990,7 +993,7 @@ public class OrdemProducaoDAO {
                     oBEAN.setTipoPessoa(rs.getByte("tipo_cliente"));
                     oBEAN.setDataEmissao(rs.getDate("data_emissao"));
                     oBEAN.setDataEntrega(rs.getDate("data_entrega"));
-                    oBEAN.setStatus(rs.getString("status"));
+                    oBEAN.setStatus(rs.getByte("status"));
                     retorno.add(oBEAN);
                 }
             }
@@ -1222,7 +1225,7 @@ public class OrdemProducaoDAO {
                 stmt = con.prepareStatement("SELECT tabela_ordens_producao.cod "
                         + "FROM tabela_ordens_producao "
                         + "WHERE tabela_ordens_producao.orcamento_base = ?");
-            }else{
+            } else {
                 stmt = con.prepareStatement("SELECT tabela_ordens_producao.cod "
                         + "FROM tabela_ordens_producao "
                         + "WHERE tabela_ordens_producao.orcamento_base = ? "
@@ -1388,7 +1391,7 @@ public class OrdemProducaoDAO {
                         rs.getDate("tabela_ordens_producao.data_entrega"),
                         ProdutoDAO.retornaDescricaoProduto(rs.getInt("tabela_ordens_producao.cod_produto"), rs.getByte("tabela_ordens_producao.tipo_produto")),
                         retornaValorParcial(rs.getInt("tabela_ordens_producao.orcamento_base"), rs.getInt("tabela_ordens_producao.cod_produto"), rs.getByte("tabela_ordens_producao.tipo_produto")),
-                        rs.getString("tabela_ordens_producao.status")
+                        rs.getByte("tabela_ordens_producao.status")
                 ));
             }
         } catch (SQLException ex) {
@@ -1397,5 +1400,91 @@ public class OrdemProducaoDAO {
             ConnectionFactory.closeConnection(con, stmt, rs);
         }
         return retorno;
+    }
+
+    /**
+     * Retorna os status cadastrados no banco de dados
+     *
+     * @return
+     * @throws SQLException
+     */
+    public static List<StsOp> retornaStsOp() throws SQLException {
+        Connection con = ConnectionFactory.getConnection();
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+
+        List<StsOp> retorno = new ArrayList();
+
+        try {
+            stmt = con.prepareStatement("SELECT * FROM sts_op");
+            rs = stmt.executeQuery();
+            while (rs.next()) {
+                retorno.add(new StsOp(rs.getInt("CODIGO"), rs.getString("STS_DESCRICAO")));
+            }
+            return retorno;
+        } catch (SQLException ex) {
+            throw new SQLException(null, ex);
+        } finally {
+            ConnectionFactory.closeConnection(con, stmt, rs);
+        }
+    }
+
+    /**
+     * Retorna as datas para uma possível alteração da data de entrega da ordem
+     * de produção
+     *
+     * @param codigoOp código da ordem de produção
+     * @return
+     * @throws SQLException
+     */
+    public static OrdemProducao retornaDatasAprCliente(int codigoOp) throws SQLException {
+        Connection con = ConnectionFactory.getConnection();
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+
+        try {
+            stmt = con.prepareStatement("SELECT tabela_ordens_producao.data_emissao, "
+                    + "tabela_ordens_producao.data_entrega "
+                    + "FROM tabela_ordens_producao "
+                    + "WHERE tabela_ordens_producao.cod = ?");
+            stmt.setInt(1, codigoOp);
+            rs = stmt.executeQuery();
+            if (rs.next()) {
+                return new OrdemProducao(
+                        rs.getDate("tabela_ordens_producao.data_emissao"),
+                        rs.getDate("tabela_ordens_producao.data_entrega")
+                );
+            }
+        } catch (SQLException ex) {
+            throw new SQLException(ex);
+        } finally {
+            ConnectionFactory.closeConnection(con, stmt, rs);
+        }
+        return null;
+    }
+    
+    /**
+     * Altera a data de entrega da ordem de produção
+     * @param codigoOp código da ordem de produção
+     * @param dataEntregaNova nova data de entrega calculada
+     * @throws SQLException 
+     */
+    public static void alteraDataEntrega(int codigoOp, Date dataEntregaNova) throws SQLException{
+        Connection con = ConnectionFactory.getConnection();
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+        
+        try{
+            stmt = con.prepareStatement("UPDATE tabela_ordens_producao "
+                    + "SET tabela_ordens_producao.data_entrega = ? "
+                    + "WHERE tabela_ordens_producao.cod = ?");
+            stmt.setDate(1, new java.sql.Date(dataEntregaNova.getTime()));
+            stmt.setInt(2, codigoOp);
+            stmt.executeUpdate();
+        } catch (SQLException ex) {
+            throw new SQLException(ex);
+        }finally{
+            ConnectionFactory.closeConnection(con, stmt, rs);
+        }
     }
 }

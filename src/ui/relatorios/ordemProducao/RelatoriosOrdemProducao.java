@@ -8,7 +8,6 @@ package ui.relatorios.ordemProducao;
 import com.itextpdf.text.DocumentException;
 import com.itextpdf.text.Font;
 import com.itextpdf.text.FontFactory;
-import com.itextpdf.text.Image;
 import com.itextpdf.text.PageSize;
 import com.itextpdf.text.Paragraph;
 import com.itextpdf.text.Phrase;
@@ -2831,7 +2830,7 @@ public class RelatoriosOrdemProducao extends javax.swing.JInternalFrame {
                     retorno.addCell(celula);
                 }
                 if (campoStatus.isSelected()) {
-                    celula = new PdfPCell(new Phrase(op.getStatus(), FontFactory.getFont("arial.ttf", 6)));
+                    celula = new PdfPCell(new Phrase(Controle.stsOp.get(op.getStatus() - 1).toString(), FontFactory.getFont("arial.ttf", 6)));
                     celula.setHorizontalAlignment(Element.ALIGN_CENTER);
                     retorno.addCell(celula);
                 }

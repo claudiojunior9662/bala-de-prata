@@ -16,7 +16,7 @@ public class TelaAcompanhamentoBEAN {
     int numero;
     Date dataEmissao;
     Date dataEntrega;
-    String status;
+    byte status;
     String descricaoProduto;
 
     @Override
@@ -40,11 +40,11 @@ public class TelaAcompanhamentoBEAN {
         this.numero = numero;
     }
 
-    public String getStatus() {
+    public byte getStatus() {
         return status;
     }
 
-    public void setStatus(String status) {
+    public void setStatus(byte status) {
         this.status = status;
     }
 

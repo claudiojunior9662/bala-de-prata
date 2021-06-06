@@ -7,6 +7,7 @@ package ui.controle;
 
 import com.itextpdf.text.BaseColor;
 import connection.ConnectionFactory;
+import entities.sisgrafex.StsOp;
 import entities.sisgrafex.StsOrcamento;
 import exception.EnvioExcecao;
 import java.awt.Color;
@@ -93,6 +94,7 @@ public class Controle {
     public static String urlTempWindows = System.getProperty("java.io.tmpdir") + "\\";
     public static String urlTempUnix = System.getProperty("java.io.tmpdir") + "/";
     public static List<StsOrcamento> stsOrcamento;
+    public static List<StsOp> stsOp;
 
     //MENSAGENS PADRÃO----------------------------------------------------------
     public static String naoAdm = "VOCÊ PRECISA SER UM ADMINISTRADOR DESTE MÓDULO PARA ACESSAR ESTA FUNÇÃO";
