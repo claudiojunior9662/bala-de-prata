@@ -9,7 +9,6 @@ import connection.ConnectionFactory;
 import entities.sisgrafex.Cliente;
 import entities.sisgrafex.OrdemProducao;
 import entities.sisgrafex.Produto;
-import exception.ConsultaSemResultadoException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -461,7 +460,7 @@ public class RelatoriosOrdemProducaoDAO {
                     ordensProducao.setCodEmissor(rs.getString("tabela_ordens_producao.cod_emissor"));
                 }
                 if (status) {
-                    ordensProducao.setStatus(rs.getString("tabela_ordens_producao.status"));
+                    ordensProducao.setStatus(rs.getByte("tabela_ordens_producao.status"));
                 }
 
                 retorno.add(ordensProducao);

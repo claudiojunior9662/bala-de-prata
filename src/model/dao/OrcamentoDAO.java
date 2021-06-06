@@ -1341,6 +1341,7 @@ public class OrcamentoDAO {
     }
 
     /**
+     * Retorna os status cadastrados no banco de dados
      * @return List<> lista de status
      * @throws java.sql.SQLException
      * @see retornaStsOrcamento

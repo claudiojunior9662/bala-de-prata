@@ -22,6 +22,7 @@ import java.sql.SQLException;
 import javax.swing.JOptionPane;
 import javax.swing.SpinnerNumberModel;
 import entities.sisgrafex.ProdOrcamento;
+import entities.sisgrafex.StsOp;
 import exception.EnvioExcecao;
 import java.awt.Dimension;
 import java.util.List;
@@ -339,19 +340,9 @@ public class OpConsultaFrame extends javax.swing.JInternalFrame {
             p2.setEnabled(true);
             p3Data.setEnabled(false);
         } else if (p1.getSelectedItem().equals("STATUS")) {
-            p2.addItem("EM AVALIAÇÃO PELA SEÇ TÉCNICA");
-            p2.addItem("ENCAMINHADO PARA PRÉ IMP");
-            p2.addItem("DIAGRAMAÇÃO");
-            p2.addItem("PRODUZINDO PROVA");
-            p2.addItem("AGUARDANDO APR CLIENTE");
-            p2.addItem("ENCAMINHADO PARA OFFSET");
-            p2.addItem("ENCAMINHADO PARA TIPOGRAFIA");
-            p2.addItem("ENCAMINHADO PARA ACABAMENTO");
-            p2.addItem("EM FINALIZAÇÃO");
-            p2.addItem("ENCAMINHADO PARA EXPEDIÇÃO");
-            p2.addItem("ENTREGUE PARCIALMENTE");
-            p2.addItem("CANCELADA");
-            p2.addItem("ENTREGUE");
+            for (StsOp status : Controle.stsOp) {
+                p2.addItem(status.toString());
+            }
             p2.setEnabled(true);
             p3Data.setEnabled(false);
         } else if (p1.getSelectedItem().equals("DATA EMISSÃO") || p1.getSelectedItem().equals("DATA DE ENTREGA")) {
@@ -532,11 +523,11 @@ public class OpConsultaFrame extends javax.swing.JInternalFrame {
                         OrcamentoDAO.atualizaStatusFaturamento(CODIGO_ORCAMENTO_BASE, (byte) 0);
                     }
                 }
-                
+
                 List<Integer> opAssociadas = OrdemProducaoDAO.retornaOpsAssociadas(CODIGO_ORCAMENTO_BASE, true);
-                if(!opAssociadas.isEmpty()){
+                if (!opAssociadas.isEmpty()) {
                     OrcamentoDAO.mudarStatus(CODIGO_ORCAMENTO_BASE, (byte) 15);
-                }else{
+                } else {
                     OrcamentoDAO.mudarStatus(CODIGO_ORCAMENTO_BASE, (byte) 1);
                 }
                 JOptionPane.showMessageDialog(null, "A OP " + CODIGO_OP + " FOI CANCELADA COM SUCESSO.");
@@ -819,7 +810,16 @@ public class OpConsultaFrame extends javax.swing.JInternalFrame {
             double totalPaginas = 0d;
             //FAZ A CONSULTA--------------------------------------------------------
             for (OrdemProducao op : OrdemProducaoDAO.consultaOpTodos(1)) {
-                modelInt.addRow(op);
+                modelInt.addRow(new OrdemProducao(
+                        op.getCodigo(),
+                        op.getOrcBase(),
+                        ProdutoDAO.retornaDescricaoProduto(op.getCodProduto(), op.getTipoProduto()),
+                        ClienteDAO.retornaNomeCliente(op.getCodCliente(), op.getTipoPessoa()),
+                        op.getTipoPessoa() == 1 ? "PESSOA FÍSICA" : "PESSOA JURÍDICA",
+                        Controle.dataPadrao.format(op.getDataEmissao()),
+                        Controle.dataPadrao.format(op.getDataEntrega()),
+                        Controle.stsOp.get(op.getStatus() - 1).toString()
+                ));
             }
             //CALCULA O NUMERO DE PÁGINAS-------------------------------------------
             totalRegistros = OrdemProducaoDAO.retornaUltimoRegistro();
@@ -844,13 +844,6 @@ public class OpConsultaFrame extends javax.swing.JInternalFrame {
             @Override
             public void run() {
                 try {
-                    new Thread() {
-                        @Override
-                        public void run() {
-
-                        }
-                    }.start();
-
                     loading.setVisible(true);
                     loading.setText("CARREGANDO...");
 
@@ -991,7 +984,7 @@ public class OpConsultaFrame extends javax.swing.JInternalFrame {
                             break;
                         case 7:
                             for (OrdemProducao op : OrdemProducaoDAO.consultaOp((byte) 7,
-                                    p2.getSelectedItem().toString(),
+                                    p2.getSelectedItem().toString().split(" ")[0],
                                     null,
                                     null)) {
                                 switch (CLASSE_PAI) {

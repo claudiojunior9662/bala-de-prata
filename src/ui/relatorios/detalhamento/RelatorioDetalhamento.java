@@ -20,7 +20,6 @@ import entities.sisgrafex.Cliente;
 import entities.sisgrafex.Faturamento;
 import entities.sisgrafex.OrdemProducao;
 import exception.EnvioExcecao;
-import java.awt.Color;
 import java.awt.Font;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -29,13 +28,9 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.util.Date;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.DefaultListModel;
-import javax.swing.GroupLayout;
 import javax.swing.JLabel;
 import model.dao.OrdemProducaoDAO;
-import static model.dao.OrdemProducaoDAO.retornaOrdemProducaoCliente;
 import ui.cadastros.clientes.ClienteDAO;
 import ui.cadastros.notas.NotaDAO;
 import ui.controle.Controle;
@@ -383,7 +378,7 @@ public class RelatorioDetalhamento extends javax.swing.JInternalFrame {
 
                     document.open();
 
-                    document.add(new Paragraph(new Phrase("RELATÓRIO DE NOTAS DE CRÉDITO - "
+                    document.add(new Paragraph(new Phrase("DETALHAMENTO DE CLIENTE - "
                             + "DATA E HORA DE EMISSÃO: "
                             + data
                             + " "
@@ -622,7 +617,7 @@ public class RelatorioDetalhamento extends javax.swing.JInternalFrame {
             List<OrdemProducao> listaOp = OrdemProducaoDAO.retornaOrdemProducaoCliente(cliente.getCodigo(), cliente.getTipoPessoa());
 
             for (OrdemProducao op : listaOp) {
-                if (op.getStatus().equals("ENTREGUE") || op.getStatus().equals("CANCELADA")) {
+                if (op.getStatus() == 11 || op.getStatus() == 13) {
                     if (!addCabecalho) {
                         celula = new PdfPCell(new Phrase("FINALIZADAS", FontFactory.getFont("arial.ttf", 6, Font.BOLD, BaseColor.WHITE)));
                         celula.setBackgroundColor(BaseColor.BLACK);
@@ -646,10 +641,10 @@ public class RelatorioDetalhamento extends javax.swing.JInternalFrame {
                     celula = new PdfPCell(new Phrase(op.getDescricao(), FontFactory.getFont("arial.ttf", 6)));
                     celula.setHorizontalAlignment(Element.ALIGN_CENTER);
                     retorno.addCell(celula);
-                    celula = new PdfPCell(new Phrase(op.getStatus(), FontFactory.getFont("arial.ttf", 6)));
+                    celula = new PdfPCell(new Phrase(Controle.stsOp.get(op.getStatus() - 1).toString(), FontFactory.getFont("arial.ttf", 6)));
                     celula.setHorizontalAlignment(Element.ALIGN_CENTER);
                     retorno.addCell(celula);
-                    if (op.getStatus().equals("ENTREGUE")) {
+                    if (op.getStatus() == 11) {
                         if (NotaDAO.verificaFaturamento(op.getCodigo())) {
                             celula = new PdfPCell(new Phrase("(FATURADA) R$ " + Controle.formatoVlrPadrao.format(op.getValorParcial()), FontFactory.getFont("arial.ttf", 6)));
                             celula.setHorizontalAlignment(Element.ALIGN_CENTER);
@@ -671,7 +666,7 @@ public class RelatorioDetalhamento extends javax.swing.JInternalFrame {
             addCabecalho = false;
 
             for (OrdemProducao op : listaOp) {
-                if (op.getStatus().equals("ENTREGUE PARCIALMENTE")) {
+                if (op.getStatus() == 12) {
                     if (!addCabecalho) {
                         celula = new PdfPCell(new Phrase("ENTREGUES PARCIALMENTE", FontFactory.getFont("arial.ttf", 6, Font.BOLD, BaseColor.WHITE)));
                         celula.setBackgroundColor(BaseColor.BLACK);
@@ -695,7 +690,7 @@ public class RelatorioDetalhamento extends javax.swing.JInternalFrame {
                     celula = new PdfPCell(new Phrase(op.getDescricao(), FontFactory.getFont("arial.ttf", 6)));
                     celula.setHorizontalAlignment(Element.ALIGN_CENTER);
                     retorno.addCell(celula);
-                    celula = new PdfPCell(new Phrase(op.getStatus(), FontFactory.getFont("arial.ttf", 6)));
+                    celula = new PdfPCell(new Phrase(Controle.stsOp.get(op.getStatus() - 1).toString(), FontFactory.getFont("arial.ttf", 6)));
                     celula.setHorizontalAlignment(Element.ALIGN_CENTER);
                     retorno.addCell(celula);
                     float emAberto = NotaDAO.retornaVlrOpEntregueParcial(op.getCodigo());
@@ -711,8 +706,10 @@ public class RelatorioDetalhamento extends javax.swing.JInternalFrame {
                 }
             }
 
+            addCabecalho = false;
+            
             for (OrdemProducao op : listaOp) {
-                if (!op.getStatus().equals("ENTREGUE PARCIALMENTE") && !op.getStatus().equals("ENTREGUE") && !op.getStatus().equals("CANCELADA")) {
+                if (op.getStatus() != 12 && op.getStatus() != 11 && op.getStatus() != 13) {
                     if (!addCabecalho) {
                         celula = new PdfPCell(new Phrase("EM PRODUÇÃO", FontFactory.getFont("arial.ttf", 6, Font.BOLD, BaseColor.WHITE)));
                         celula.setBackgroundColor(BaseColor.BLACK);
@@ -736,7 +733,7 @@ public class RelatorioDetalhamento extends javax.swing.JInternalFrame {
                     celula = new PdfPCell(new Phrase(op.getDescricao(), FontFactory.getFont("arial.ttf", 6)));
                     celula.setHorizontalAlignment(Element.ALIGN_CENTER);
                     retorno.addCell(celula);
-                    celula = new PdfPCell(new Phrase(op.getStatus(), FontFactory.getFont("arial.ttf", 6)));
+                    celula = new PdfPCell(new Phrase(Controle.stsOp.get(op.getStatus() - 1).toString(), FontFactory.getFont("arial.ttf", 6)));
                     celula.setHorizontalAlignment(Element.ALIGN_CENTER);
                     retorno.addCell(celula);
                     celula = new PdfPCell(new Phrase("(-) R$ " + Controle.formatoVlrPadrao.format(op.getValorParcial()), FontFactory.getFont("arial.ttf", 6)));

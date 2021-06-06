@@ -44,7 +44,7 @@ public final class ProdutoFrame extends javax.swing.JInternalFrame {
     private static ProdutoFrame cadastroProdutosNovo;
 
     /**
-     * @param FUNCAO 1 - EDITANDO 2 - CLONANDO 3 - ALTERANDO ESTOQUE
+     * FUNCAO 1 - EDITANDO 2 - CLONANDO 3 - ALTERANDO ESTOQUE
      */
     private byte FUNCAO = 0;
 
@@ -2143,7 +2143,7 @@ public final class ProdutoFrame extends javax.swing.JInternalFrame {
                             if (jckbUtilizadoEcommerce.isSelected()) {
                                 try {
                                     loading.setText("INSERINDO NO E-COMMERCE...");
-                                    realizaRequisicaoPUT((byte) 1, new Product(
+                                    realizaRequisicaoPOST((byte) 5, new Product(
                                             String.valueOf(COD_PROD),
                                             "PE" + String.valueOf(COD_PROD),
                                             jftfDescricaoProduto.getText().toUpperCase(),

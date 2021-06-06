@@ -75,7 +75,7 @@ public class OrdemProducao {
     private byte tipoCliente;
     private Date dataEmissao;
     private Date dataEntrega;
-    private String status;
+    private byte status;
     private String descricao;
     private Date data1aProva;
     private Date data2aProva;
@@ -101,13 +101,41 @@ public class OrdemProducao {
     private int quantidade;
     private float valorParcial;
 
+    //TABELA CONSULTA
+    private String statusString;
+    private String clienteString;
+    private String tipoPessoaString;
+    private String dataEmissaoString;
+    private String dataEntregaString;
+
     public OrdemProducao() {
 
     }
 
+    public OrdemProducao( Date dataEmissao, Date dataEntrega) {
+        this.dataEmissao = dataEmissao;
+        this.dataEntrega = dataEntrega;
+    }
+
+    public OrdemProducao(int codigo, int orcamentoBase, String dataEmissaoString, String dataEntregaString, String descricao, String statusString, String clienteString, String tipoPessoaString) {
+        this.codigo = codigo;
+        this.orcamentoBase = orcamentoBase;
+        this.dataEmissaoString = dataEmissaoString;
+        this.dataEntregaString = dataEntregaString;
+        this.descricao = descricao;
+        this.statusString = statusString;
+        this.clienteString = clienteString;
+        this.tipoPessoaString = tipoPessoaString;
+    }
+
+    public OrdemProducao(int codigo, String status) {
+        this.codigo = codigo;
+        this.statusString = status;
+    }
+
     public OrdemProducao(int cod,
             Date dataEntrega,
-            String status,
+            byte status,
             int codProduto) {
         this.codigo = cod;
         this.dataEntrega = dataEntrega;
@@ -125,7 +153,7 @@ public class OrdemProducao {
             Integer codEndereco,
             Date dataEmissao,
             Date dataEntrega,
-            String status,
+            byte status,
             String descricao) {
         this.codigo = cod;
         this.orcamentoBase = orcamentoBase;
@@ -196,7 +224,7 @@ public class OrdemProducao {
             byte tipoPessoa,
             Date dataEmissao,
             Date dataEntrega,
-            String status,
+            byte status,
             String descricao,
             String opSecao,
             String codEmissor,
@@ -263,7 +291,7 @@ public class OrdemProducao {
             byte tipoCliente,
             Date dataEmissao,
             Date dataEntrega,
-            String status) {
+            byte status) {
         this.codigo = cod;
         this.orcamentoBase = orcamentoBase;
         this.codProduto = codProduto;
@@ -274,14 +302,14 @@ public class OrdemProducao {
         this.dataEntrega = dataEntrega;
         this.status = status;
     }
-    
+
     public OrdemProducao(int orcamentoBase,
             int codOp,
             Date dataEmissao,
             Date dataEntrega,
             String descricao,
             float valorParcial,
-            String status){
+            byte status) {
         this.orcamentoBase = orcamentoBase;
         this.codigo = codOp;
         this.dataEmissao = dataEmissao;
@@ -289,6 +317,46 @@ public class OrdemProducao {
         this.descricao = descricao;
         this.valorParcial = valorParcial;
         this.status = status;
+    }
+
+    public String getDataEmissaoString() {
+        return dataEmissaoString;
+    }
+
+    public void setDataEmissaoString(String dataEmissaoString) {
+        this.dataEmissaoString = dataEmissaoString;
+    }
+
+    public String getDataEntregaString() {
+        return dataEntregaString;
+    }
+
+    public void setDataEntregaString(String dataEntregaString) {
+        this.dataEntregaString = dataEntregaString;
+    }
+
+    public String getClienteString() {
+        return clienteString;
+    }
+
+    public void setClienteString(String clienteString) {
+        this.clienteString = clienteString;
+    }
+
+    public String getTipoPessoaString() {
+        return tipoPessoaString;
+    }
+
+    public void setTipoPessoaString(String tipoPessoaString) {
+        this.tipoPessoaString = tipoPessoaString;
+    }
+
+    public String getStatusString() {
+        return statusString;
+    }
+
+    public void setStatusString(String statusString) {
+        this.statusString = statusString;
     }
 
     public String getObsFrete() {
@@ -387,11 +455,11 @@ public class OrdemProducao {
         this.codigo = codigo;
     }
 
-    public String getStatus() {
+    public byte getStatus() {
         return status;
     }
 
-    public void setStatus(String status) {
+    public void setStatus(byte status) {
         this.status = status;
     }
 
@@ -1617,57 +1685,80 @@ public class OrdemProducao {
                             Color c = Color.WHITE;
                             String texto = null;
 
+                            byte STATUS = 0;
+                            String[] statusSplit = null;
+
                             switch (classTabela) {
                                 case 1:
-                                    texto = table.getValueAt(row, 3).toString();
+                                    statusSplit = jTable.getValueAt(
+                                            row, 3).toString().split(" ");
+                                    STATUS = (byte) Byte.valueOf(statusSplit[0]);
                                     break;
                                 case 2:
-                                    texto = table.getValueAt(row, 7).toString();
+                                    statusSplit = jTable.getValueAt(
+                                            row, 7).toString().split(" ");
+                                    STATUS = (byte) Byte.valueOf(statusSplit[0]);
                                     break;
                                 case 3:
-                                    texto = table.getValueAt(row, 4).toString();
+                                    statusSplit = jTable.getValueAt(
+                                            row, 4).toString().split(" ");
+                                    STATUS = (byte) Byte.valueOf(statusSplit[0]);
                                     break;
                             }
-                            if (classTabela == 1) {
-                            } else if (classTabela == 2) {
 
-                            }
-                            if (texto.equals("EM AVALIAÇÃO PELA SEÇ TÉCNICA")) {
-                                c = Color.getColor("vermelho1");
-                                label.setForeground(Color.BLACK);
-                            } else if (texto.equals("ENCAMINHADO PARA PRÉ IMP")) {
-                                c = Color.getColor("amarelo1");
-                                label.setForeground(Color.BLACK);
-                            } else if (texto.equals("DIAGRAMAÇÃO")) {
-                                c = Color.getColor("amarelo2");
-                                label.setForeground(Color.BLACK);
-                            } else if (texto.equals("PRODUZINDO PROVA")) {
-                                c = Color.getColor("amarelo3");
-                                label.setForeground(Color.BLACK);
-                            } else if (texto.equals("AGUARDANDO APR CLIENTE")) {
-                                c = Color.getColor("vermelho2");
-                                label.setForeground(Color.BLACK);
-                            } else if (texto.equals("ENCAMINHADO PARA OFFSET")) {
-                                c = Color.getColor("verde1");
-                                label.setForeground(Color.BLACK);
-                            } else if (texto.equals("ENCAMINHADO PARA TIPOGRAFIA")) {
-                                c = Color.getColor("verde2");
-                                label.setForeground(Color.BLACK);
-                            } else if (texto.equals("ENCAMINHADO PARA ACABAMENTO")) {
-                                c = Color.getColor("verde3");
-                                label.setForeground(Color.BLACK);
-                            } else if (texto.equals("EM FINALIZAÇÃO")) {
-                                c = Color.getColor("verde4");
-                                label.setForeground(Color.BLACK);
-                            } else if (texto.equals("ENCAMINHADO PARA EXPEDIÇÃO")) {
-                                c = Color.WHITE;
-                                label.setForeground(Color.BLACK);
-                            } else if (texto.equals("CANCELADA")) {
-                                c = Color.BLACK;
-                                label.setForeground(Color.WHITE);
-                            } else if (texto.equals("ENTREGUE")) {
-                                c = Color.WHITE;
-                                label.setForeground(Color.BLACK);
+                            switch (STATUS) {
+                                case 1:
+                                    c = Color.getColor("vermelho1");
+                                    label.setForeground(Color.BLACK);
+                                    break;
+                                case 2:
+                                    c = Color.getColor("amarelo1");
+                                    label.setForeground(Color.BLACK);
+                                    break;
+                                case 3:
+                                    c = Color.getColor("amarelo2");
+                                    label.setForeground(Color.BLACK);
+                                    break;
+                                case 4:
+                                    c = Color.getColor("amarelo3");
+                                    label.setForeground(Color.BLACK);
+                                    break;
+                                case 5:
+                                    c = Color.getColor("vermelho2");
+                                    label.setForeground(Color.BLACK);
+                                    break;
+                                case 6:
+                                    c = Color.getColor("verde1");
+                                    label.setForeground(Color.BLACK);
+                                    break;
+                                case 7:
+                                    c = Color.getColor("verde1");
+                                    label.setForeground(Color.BLACK);
+                                    break;
+                                case 8:
+                                    c = Color.getColor("verde2");
+                                    label.setForeground(Color.BLACK);
+                                    break;
+                                case 9:
+                                    c = Color.getColor("verde3");
+                                    label.setForeground(Color.BLACK);
+                                    break;
+                                case 10:
+                                    c = Color.WHITE;
+                                    label.setForeground(Color.BLACK);
+                                    break;
+                                case 11:
+                                    c = Color.WHITE;
+                                    label.setForeground(Color.BLACK);
+                                    break;
+                                case 12:
+                                    c = Color.getColor("verde4");
+                                    label.setForeground(Color.BLACK);
+                                    break;
+                                case 13:
+                                    c = Color.BLACK;
+                                    label.setForeground(Color.WHITE);
+                                    break;
                             }
                             label.setBackground(c);
                             //***********************

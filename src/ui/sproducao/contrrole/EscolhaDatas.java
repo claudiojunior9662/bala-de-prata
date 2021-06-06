@@ -180,7 +180,8 @@ public class EscolhaDatas extends javax.swing.JInternalFrame {
     private javax.swing.JButton definir_data;
     private javax.swing.JLabel texto_info;
     // End of variables declaration//GEN-END:variables
-private List<OrdemProducao> verificar_data() {
+
+    private List<OrdemProducao> verificar_data() {
         Connection con = ConnectionFactory.getConnection();
         PreparedStatement stmt = null;
         ResultSet rs = null;
