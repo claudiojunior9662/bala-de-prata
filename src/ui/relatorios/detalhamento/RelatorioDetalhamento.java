@@ -693,8 +693,8 @@ public class RelatorioDetalhamento extends javax.swing.JInternalFrame {
                     celula = new PdfPCell(new Phrase(Controle.stsOp.get(op.getStatus() - 1).toString(), FontFactory.getFont("arial.ttf", 6)));
                     celula.setHorizontalAlignment(Element.ALIGN_CENTER);
                     retorno.addCell(celula);
-                    float emAberto = NotaDAO.retornaVlrOpEntregueParcial(op.getCodigo());
-                    float faturada = op.getValorParcial() - emAberto;
+                    float faturada = NotaDAO.retornaVlrOpEntregueParcial(op.getCodigo());
+                    float emAberto = op.getValorParcial() - faturada;
                     celula = new PdfPCell(new Phrase("(TOTAL) R$ " + Controle.formatoVlrPadrao.format(op.getValorParcial()) + "\n\n(FATURADO) R$ "
                             + Controle.formatoVlrPadrao.format(faturada) + "\n\n (PRODUÇÃO) (-) R$ "
                             + Controle.formatoVlrPadrao.format(emAberto),

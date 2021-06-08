@@ -15,7 +15,6 @@ import entities.sisgrafex.OrdemProducao;
 import java.io.IOException;
 import java.text.ParseException;
 import javax.swing.JLabel;
-import javax.swing.JPasswordField;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.text.MaskFormatter;
 import java.sql.SQLException;
@@ -2354,10 +2353,10 @@ public class FatFrame extends javax.swing.JInternalFrame {
              */
             if ((int) qtdSerEntregue.getValue()
                     < (int) qtdSolicitada.getValue() - (int) qtdEntregue.getValue()) {
-                OrdemProducaoDAO.alteraStatus("ENTREGUE PARCIALMENTE", FAT.getCodOp());
+                OrdemProducaoDAO.alteraStatus((byte) 12, FAT.getCodOp());
             } else if ((int) qtdSerEntregue.getValue()
                     == (int) qtdSolicitada.getValue() - (int) qtdEntregue.getValue()) {
-                OrdemProducaoDAO.alteraStatus("ENTREGUE", FAT.getCodOp());
+                OrdemProducaoDAO.alteraStatus((byte) 11, FAT.getCodOp());
             }
 
             /**

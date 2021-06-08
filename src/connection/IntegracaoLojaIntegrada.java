@@ -194,58 +194,12 @@ public class IntegracaoLojaIntegrada {
                         }
                     };
 
-                request = HttpRequest.newBuilder()
-                        .uri(URI.create(Controle.LINK_API
-                                + Controle.SEPARADOR
-                                + Controle.VERSAO_API
-                                + Controle.SEPARADOR
-                                + "categoria/?format="
-                                + Controle.FORMATO_SAIDA
-                                + "&"
-                                + "chave_api="
-                                + Controle.CHAVE_API
-                                + "&"
-                                + "chave_aplicacao="
-                                + Controle.CHAVE_APLICACAO))
-                        .POST(HttpRequest.BodyPublishers.ofString(requestBody))
-                        .build();
-                response = client.send(request,
-                        HttpResponse.BodyHandlers.ofString());
-                System.out.println(response);
-                System.out.println(request);
-                break;
-            case 2:
-                break;
-            case 3:
-                break;
-            case 4:
-                break;
-            case 5:
-                product = (Product) requisicao;
-                values = new HashMap<String, Object>() {
-                    {
-                        put("id_externo", product.getId());
-                        put("sku", product.getSku());
-                        put("mpn", String.valueOf(product.getMpn()));
-                        put("ncm", String.valueOf(product.getNcm()));
-                        put("nome", String.valueOf(product.getNome()));
-                        put("descricao_completa", String.valueOf(product.getDescricaoCompleta()));
-                        put("ativo", product.isAtivo());
-                        put("destaque", product.isDestaque());
-                        put("peso", product.getPeso());
-                        put("altura", (int) product.getAltura());
-                        put("largura", (int) product.getLargura());
-                        put("profundidade", (int) product.getProfundidade());
-                        put("tipo", product.getTipo());
-                        put("usado", product.isUsado());
-                    }
-
                     request = HttpRequest.newBuilder()
                             .uri(URI.create(Controle.LINK_API
                                     + Controle.SEPARADOR
                                     + Controle.VERSAO_API
                                     + Controle.SEPARADOR
-                                    + "produto/?format="
+                                    + "categoria/?format="
                                     + Controle.FORMATO_SAIDA
                                     + "&"
                                     + "chave_api="
@@ -257,36 +211,12 @@ public class IntegracaoLojaIntegrada {
                             .build();
                     response = client.send(request,
                             HttpResponse.BodyHandlers.ofString());
-                    System.out.println(response.body());
+                    System.out.println(response);
                     System.out.println(request);
+                    
+                    JSONObject json = new JSONObject(response.body());
+                    ProdutoDAO.atualizaCodigoLI(Integer.valueOf(product.getId()), (int) json.get("id"), product.getSku().contains("PP") ? (byte) 1 : (byte) 2);
 
-                request = HttpRequest.newBuilder()
-                        .uri(URI.create(Controle.LINK_API
-                                + Controle.SEPARADOR
-                                + Controle.VERSAO_API
-                                + Controle.SEPARADOR
-                                + "produto/?format="
-                                + Controle.FORMATO_SAIDA
-                                + "&"
-                                + "chave_api="
-                                + Controle.CHAVE_API
-                                + "&"
-                                + "chave_aplicacao="
-                                + Controle.CHAVE_APLICACAO))
-                        .POST(HttpRequest.BodyPublishers.ofString(requestBody))
-                        .build();
-                response = client.send(request,
-                        HttpResponse.BodyHandlers.ofString());
-                System.out.println(response.body());
-                System.out.println(request);
-                System.out.println(values);
-
-                JSONObject json = new JSONObject(response.body());
-                 {
-                    try {
-                        ProdutoDAO.atualizaCodigoLI(Integer.valueOf(product.getId()), (int) json.get("id"), product.getSku().contains("PP") ? (byte) 1 : (byte) 2);
-
-                    }
                     break;
                 case 6:
                     break;
@@ -299,17 +229,19 @@ public class IntegracaoLojaIntegrada {
             }
         } catch (JsonProcessingException ex) {
             Logger.getLogger(IntegracaoLojaIntegrada.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IOException | InterruptedException | SQLException ex) {
+        } catch (IOException | InterruptedException ex) {
             Logger.getLogger(IntegracaoLojaIntegrada.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
     /**
+     *
      * @param tipo 1 - Alterar produto, 2 - Alterar/Adicionar preço produto, 3 -
      * Alterar/Adicionar estoque produto
      * @param requisicao
      * @throws IOException
      * @throws InterruptedException
+     * @throws java.sql.SQLException
      */
     public static void realizaRequisicaoPUT(byte tipo, Object requisicao) throws IOException, InterruptedException, SQLException {
         new Thread("PUT Loja Integrada") {

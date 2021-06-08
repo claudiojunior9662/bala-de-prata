@@ -18,8 +18,6 @@ import entities.sisgrafex.CalculosOpBEAN;
 import entities.sisgrafex.Servicos;
 import entities.sisgrafex.StsOp;
 import java.util.Date;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import static model.dao.OrdemProducaoDAO.alteraDtCancelamento;
 import static model.dao.OrdemProducaoDAO.alteraStatusOp;
 import static model.dao.OrdemProducaoDAO.consultaOp;
@@ -521,7 +519,7 @@ public class OrdemProducaoDAO {
 
         try {
             stmt = con.prepareStatement("UPDATE tabela_ordens_producao "
-                    + "SET status = 'CANCELADA', descricao = ? "
+                    + "SET status = 13, descricao = ? "
                     + "WHERE cod = ?");
             stmt.setString(1, motivoCanc);
             stmt.setInt(2, codOp);
@@ -1075,7 +1073,7 @@ public class OrdemProducaoDAO {
      * @param codOp código da ordem de produção
      * @throws SQLException
      */
-    public static void alteraStatus(String status, int codOp) throws SQLException {
+    public static void alteraStatus(byte status, int codOp) throws SQLException {
         Connection con = ConnectionFactory.getConnection();
         PreparedStatement stmt = null;
 
@@ -1083,7 +1081,7 @@ public class OrdemProducaoDAO {
             stmt = con.prepareStatement("UPDATE tabela_ordens_producao "
                     + "SET status = ? "
                     + "WHERE cod = ?");
-            stmt.setString(1, status);
+            stmt.setByte(1, status);
             stmt.setInt(2, codOp);
             stmt.executeUpdate();
         } catch (SQLException ex) {

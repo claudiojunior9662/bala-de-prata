@@ -1358,6 +1358,9 @@ public final class TelaAcompanhamento extends javax.swing.JInternalFrame {
         btnObservacoes.setEnabled(true);
     }
 
+    /**
+     * Atualiza a tela de dados da Ordem de Produção
+     */
     private synchronized static void atualiza() {
         try {
             /**
@@ -1494,6 +1497,9 @@ public final class TelaAcompanhamento extends javax.swing.JInternalFrame {
         }
     }
 
+    /**
+     * Limpa a tela de dados da Ordem de Produção
+     */
     public static void limpa() {
         numeroOp.setText("");
         cliente.setText("");
@@ -1516,6 +1522,9 @@ public final class TelaAcompanhamento extends javax.swing.JInternalFrame {
 
     }
 
+    /**
+     * Atualiza a tabela de seleção e acompanhamento de Ordem de Produção
+     */
     private static void atualizaTabela() {
         try {
             /**
@@ -1546,6 +1555,9 @@ public final class TelaAcompanhamento extends javax.swing.JInternalFrame {
         }
     }
 
+    /**
+     * Atualização automática da tabela de seleção e acompanhamento de Ordem de Produção
+     */
     public void refresh() {
         DefaultTableModel modeloAcompanhamento = (DefaultTableModel) tabelaConsulta.getModel();
         new Thread("Refresh tela acompanhamento") {

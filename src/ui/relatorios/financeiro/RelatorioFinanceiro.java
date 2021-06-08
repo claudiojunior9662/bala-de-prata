@@ -511,8 +511,8 @@ public class RelatorioFinanceiro extends javax.swing.JInternalFrame {
                         + "tabela_ordens_producao.cod_produto "
                         + "FROM tabela_ordens_producao "
                         + "INNER JOIN tabela_orcamentos ON tabela_orcamentos.cod = tabela_ordens_producao.orcamento_base "
-                        + "WHERE tabela_ordens_producao.status != 'ENTREGUE' "
-                        + "AND tabela_ordens_producao.status != 'CANCELADA' "
+                        + "WHERE tabela_ordens_producao.status != 11 "
+                        + "AND tabela_ordens_producao.status != 13 "
                         + "AND tabela_ordens_producao.tipo_cliente = " + tipoPessoa + " "
                         + "AND tabela_ordens_producao.data_emissao BETWEEN '2019-01-01' AND '" + selAno.getValue() + "-12-31' "
                         + "ORDER BY tabela_ordens_producao.cod_cliente ASC");
@@ -524,8 +524,8 @@ public class RelatorioFinanceiro extends javax.swing.JInternalFrame {
                         + "tabela_ordens_producao.cod_produto "
                         + "FROM tabela_ordens_producao "
                         + "INNER JOIN tabela_orcamentos ON tabela_orcamentos.cod = tabela_ordens_producao.orcamento_base "
-                        + "WHERE tabela_ordens_producao.status != 'ENTREGUE' "
-                        + "AND tabela_ordens_producao.status != 'CANCELADA' "
+                        + "WHERE tabela_ordens_producao.status != 11 "
+                        + "AND tabela_ordens_producao.status != 13 "
                         + "AND tabela_ordens_producao.tipo_cliente = " + tipoPessoa + " "
                         + "AND tabela_ordens_producao.data_emissao BETWEEN '2019-01-01' AND '" + ano + "-" + mes + "-31' "
                         + "ORDER BY tabela_ordens_producao.cod_cliente ASC");
@@ -541,8 +541,8 @@ public class RelatorioFinanceiro extends javax.swing.JInternalFrame {
                                 + "tabela_ordens_producao.cod "
                                 + "FROM tabela_ordens_producao "
                                 + "INNER JOIN tabela_orcamentos ON tabela_orcamentos.cod = tabela_ordens_producao.orcamento_base "
-                                + "WHERE tabela_ordens_producao.status != 'ENTREGUE' "
-                                + "AND tabela_ordens_producao.status != 'CANCELADA' "
+                                + "WHERE tabela_ordens_producao.status != 11 "
+                                + "AND tabela_ordens_producao.status != 13 "
                                 + "AND tabela_ordens_producao.tipo_cliente = " + tipoPessoa + " "
                                 + "AND tabela_ordens_producao.cod_cliente = ? "
                                 + "AND tabela_ordens_producao.data_emissao BETWEEN '2019-01-01' AND '" + selAno.getValue() + "-12-31' "
@@ -557,15 +557,14 @@ public class RelatorioFinanceiro extends javax.swing.JInternalFrame {
                                 + "tabela_ordens_producao.cod "
                                 + "FROM tabela_ordens_producao "
                                 + "INNER JOIN tabela_orcamentos ON tabela_orcamentos.cod = tabela_ordens_producao.orcamento_base "
-                                + "WHERE tabela_ordens_producao.status != 'ENTREGUE' "
-                                + "AND tabela_ordens_producao.status != 'CANCELADA' "
+                                + "WHERE tabela_ordens_producao.status != 11 "
+                                + "AND tabela_ordens_producao.status != 13 "
                                 + "AND tabela_ordens_producao.tipo_cliente = " + tipoPessoa + " "
                                 + "AND tabela_ordens_producao.cod_cliente = ? "
                                 + "AND tabela_ordens_producao.data_emissao BETWEEN '2019-01-01' AND '" + ano + "-" + mes + "-31' "
                                 + "ORDER BY tabela_ordens_producao.cod_cliente ASC");
                         stmt.setInt(1, rs.getInt("tabela_ordens_producao.cod_cliente"));
                     }
-                    System.out.println(stmt);
                     rs2 = stmt.executeQuery();
                     while (rs2.next()) {
                         stmt = con.prepareStatement("SELECT (quantidade * preco_unitario) AS valor "
@@ -576,8 +575,8 @@ public class RelatorioFinanceiro extends javax.swing.JInternalFrame {
                         rs3 = stmt.executeQuery();
 
                         if (rs3.next()) {
-                            switch (rs2.getString("tabela_ordens_producao.status")) {
-                                case "ENTREGUE PARCIALMENTE":
+                            switch (rs2.getByte("tabela_ordens_producao.status")) {
+                                case 12:
                                     valor += rs3.getDouble("valor");
                                     valor -= NotaDAO.retornaVlrOpEntregueParcial(rs2.getInt("tabela_ordens_producao.cod"));
                                     break;
