@@ -135,7 +135,7 @@ public class Cliente {
         this.tipoPessoa = tipoPessoa;
         this.nome = nome;
     }
-    
+
     public Cliente(int codigo, byte tipoPessoa) {
         this.codigo = codigo;
         this.tipoPessoa = tipoPessoa;
@@ -144,7 +144,7 @@ public class Cliente {
     public Cliente(int codigo, String nome, String doc, byte tipoPessoa) {
         this.codigo = codigo;
         this.nome = nome;
-        switch(tipoPessoa){
+        switch (tipoPessoa) {
             case 1:
                 this.cpf = doc;
                 break;
@@ -152,10 +152,13 @@ public class Cliente {
                 this.cnpj = doc;
                 break;
         }
-        
+
     }
-    
-    
+
+    public Cliente(int codigo, String nome) {
+        this.codigo = codigo;
+        this.nome = nome;
+    }
 
     public Cliente() {
 
@@ -165,7 +168,5 @@ public class Cliente {
     public String toString() {
         return "Cliente{" + "codigo=" + codigo + ", nome=" + nome + ", nomeFantasia=" + nomeFantasia + ", cpf=" + cpf + ", cnpj=" + cnpj + ", tipoPessoa=" + tipoPessoa + ", atividade=" + atividade + ", filialColigada=" + filialColigada + ", observacoes=" + observacoes + ", credito=" + credito + '}';
     }
-    
-    
 
 }

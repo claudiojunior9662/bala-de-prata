@@ -7,6 +7,7 @@ package ui.cadastros.notas;
 
 import entities.sisgrafex.NotaCredito;
 import connection.ConnectionFactory;
+import entities.sisgrafex.Cliente;
 import entities.sisgrafex.Faturamento;
 import ui.cadastros.clientes.ClienteBEAN;
 import ui.cadastros.contatos.ContatoBEAN;
@@ -31,7 +32,14 @@ import ui.cadastros.produtos.ProdutoDAO;
  */
 public class NotaDAO {
 
-    //PESQUISA------------------------------------------------------------------
+    /**
+     * Retorna a pesquisa por filtros notas de crédito
+     * @param p1
+     * @param p2
+     * @param p3
+     * @return
+     * @throws SQLException 
+     */
     public static List<NotaCredito> pesquisaNota(String p1, String p2, String p3) throws SQLException {
         Connection con = ConnectionFactory.getConnection();
         PreparedStatement stmt = null;
@@ -40,7 +48,7 @@ public class NotaDAO {
         //VARIÁVEIS AUXILIARES--------------------------------------------------
         int aux = 0;
         boolean cliente = false;
-        List<Integer> retornoCliente = new ArrayList();
+        Cliente retornoCliente = null;
 
         //RETORNO DA TABELA ORDENS PRODUCAO-------------------------------------
         List codOps = new ArrayList();
@@ -52,64 +60,80 @@ public class NotaDAO {
         try {
             if (p1.equals("SÉRIE")) {
                 aux = Integer.valueOf(p3);
-                stmt = con.prepareStatement("SELECT * FROM tabela_notas WHERE serie = ?");
+                stmt = con.prepareStatement("SELECT * "
+                        + "FROM tabela_notas "
+                        + "WHERE serie = ?");
                 stmt.setInt(1, aux);
             } else if (p1.equals("OP")) {
                 aux = Integer.valueOf(p3);
-                stmt = con.prepareStatement("SELECT * FROM tabela_notas WHERE cod_op = ?");
+                stmt = con.prepareStatement("SELECT * "
+                        + "FROM tabela_notas "
+                        + "WHERE cod_op = ?");
                 stmt.setInt(1, aux);
             } else if (p1.equals("DATA LANÇAMENTO")) {
-                stmt = con.prepareStatement("SELECT * FROM tabela_notas WHERE data = ?");
+                stmt = con.prepareStatement("SELECT * "
+                        + "FROM tabela_notas "
+                        + "WHERE data = ?");
                 stmt.setString(1, p3);
             } else if (p1.equals("CLIENTE")) {
                 if (p2.contains("CÓDIGO")) {
-                    stmt = con.prepareStatement("SELECT * FROM tabela_notas WHERE cod_cliente = ?");
+                    stmt = con.prepareStatement("SELECT * "
+                            + "FROM tabela_notas "
+                            + "WHERE cod_cliente = ?");
                     stmt.setInt(1, Integer.valueOf(p3));
                 } else {
-                    retornoCliente = retornaCodigoCliente(p2, p3);
-                    stmt = con.prepareStatement("SELECT * FROM tabela_notas WHERE cod_cliente = ?");
-                    stmt.setInt(1, Integer.valueOf(retornoCliente.get(0).toString()));
+                    retornoCliente = retornaCodNomeCliente(p2, p3);
+                    stmt = con.prepareStatement("SELECT * "
+                            + "FROM tabela_notas "
+                            + "WHERE cod_cliente = ?");
+                    stmt.setInt(1, Integer.valueOf(retornoCliente.getCodigo()));
                 }
             } else if (p1.equals("EMISSOR")) {
-                stmt = con.prepareStatement("SELECT * FROM tabela_notas WHERE cod_emissor = ?");
+                stmt = con.prepareStatement("SELECT * "
+                        + "FROM tabela_notas "
+                        + "WHERE cod_emissor = ?");
                 stmt.setString(1, p3);
             } else if (p1.equals("CÓDIGO")) {
-                stmt = con.prepareStatement("SELECT * FROM tabela_notas WHERE cod = ?");
+                stmt = con.prepareStatement("SELECT * "
+                        + "FROM tabela_notas "
+                        + "WHERE cod = ?");
                 stmt.setInt(1, Integer.valueOf(p3));
             }
-
             rs = stmt.executeQuery();
             while (rs.next()) {
-                NotaCredito aux2 = new NotaCredito();
-                aux2.setCod(rs.getInt("cod"));
-                aux2.setSerie(rs.getInt("serie"));
-                aux2.setCodOp(rs.getInt("cod_op"));
-                //CLIENTE-------------------------------------------
-                retornoCliente = retornaCodigoCliente(String.valueOf(rs.getInt("tipo_pessoa")), String.valueOf(rs.getInt("cod_cliente")));
-                aux2.setCodigoCliente(Integer.valueOf(retornoCliente.get(0).toString()));
-                aux2.setNomeCliente(String.valueOf(retornoCliente.get(1)));
-                //--------------------------------------------------
-                aux2.setCodOrc(rs.getInt("cod_orcamento"));
-                aux2.setCodEmissor(rs.getString("cod_emissor"));
-                aux2.setQuantidadeEntregue(rs.getInt("quantidade_entregue"));
-                aux2.setValor(rs.getFloat("valor"));
-                aux2.setData(rs.getString("data"));
-                retorno.add(aux2);
+                retorno.add(new NotaCredito(
+                        rs.getInt("cod"),
+                        rs.getInt("serie"),
+                        rs.getInt("cod_op"),
+                        rs.getInt("cod_orcamento"),
+                        rs.getString("cod_emissor"),
+                        rs.getInt("quantidade_entregue"),
+                        rs.getFloat("valor"),
+                        rs.getString("data"),
+                        retornoCliente.getNome(),
+                        retornoCliente.getCodigo(),
+                        rs.getInt("tipo")
+                ));
             }
+            return retorno;
         } catch (SQLException ex) {
             throw new SQLException(ex);
         } finally {
             ConnectionFactory.closeConnection(con, stmt, rs);
         }
-        return retorno;
     }
 
-    public static List retornaCodigoCliente(String p1, String texto) throws SQLException {
+    /**
+     * Retorna código e nome do cliente na pesquisa
+     * @param p1
+     * @param texto
+     * @return
+     * @throws SQLException 
+     */
+    public static Cliente retornaCodNomeCliente(String p1, String texto) throws SQLException {
         Connection con = ConnectionFactory.getConnection();
         PreparedStatement stmt = null;
         ResultSet rs = null;
-
-        List retorno = new ArrayList();
 
         try {
             if (p1.equals("PESSOA FÍSICA - NOME")) {
@@ -126,7 +150,9 @@ public class NotaDAO {
                 stmt.setString(1, texto);
             } else {
                 if (Integer.valueOf(p1) == 1) {
-                    stmt = con.prepareStatement("SELECT cod, nome FROM tabela_clientes_fisicos WHERE cod = ?");
+                    stmt = con.prepareStatement("SELECT cod, nome "
+                            + "FROM tabela_clientes_fisicos "
+                            + "WHERE cod = ?");
                     stmt.setInt(1, Integer.valueOf(texto));
                 } else if (Integer.valueOf(p1) == 2) {
                     stmt = con.prepareStatement("SELECT cod, nome FROM tabela_clientes_juridicos WHERE cod = ?");
@@ -134,56 +160,61 @@ public class NotaDAO {
                 }
             }
             rs = stmt.executeQuery();
-            while (rs.next()) {
-                retorno.add(rs.getInt("cod"));
-                retorno.add(rs.getString("nome"));
+            if (rs.next()) {
+                return new Cliente(
+                        rs.getInt("cod"),
+                        rs.getString("nome")
+                );
             }
+            return null;
         } catch (SQLException ex) {
             throw new SQLException(ex);
         } finally {
             ConnectionFactory.closeConnection(con, stmt, rs);
         }
-        return retorno;
     }
 
+    /**
+     * Mostra as 45 últimas notas de crédito
+     * @return
+     * @throws SQLException 
+     */
     public static List<NotaCredito> mostraUltimas() throws SQLException {
         Connection con = ConnectionFactory.getConnection();
         PreparedStatement stmt = null;
         ResultSet rs = null;
 
-        //VARIÁVEIS AUXILIARES--------------------------------------------------
-        List retornoCliente = new ArrayList();
-
         List<NotaCredito> retorno = new ArrayList();
 
         try {
-            stmt = con.prepareStatement("SELECT * FROM tabela_notas ORDER BY cod DESC LIMIT 45");
+            stmt = con.prepareStatement("SELECT * "
+                    + "FROM tabela_notas "
+                    + "ORDER BY cod "
+                    + "DESC LIMIT 45");
             rs = stmt.executeQuery();
             while (rs.next()) {
-                NotaCredito aux2 = new NotaCredito();
-                aux2.setCod(rs.getInt("cod"));
-                aux2.setSerie(rs.getInt("serie"));
-                aux2.setCodOp(rs.getInt("cod_op"));
-                //CLIENTE-------------------------------------------
-                retornoCliente.clear();
-                retornoCliente = retornaCodigoCliente(String.valueOf(rs.getInt("tipo_pessoa")), String.valueOf(rs.getInt("cod_cliente")));
-                aux2.setCodigoCliente(Integer.valueOf(retornoCliente.get(0).toString()));
-                aux2.setNomeCliente(String.valueOf(retornoCliente.get(1)));
-                //--------------------------------------------------
-                aux2.setCodOrc(rs.getInt("cod_orcamento"));
-                aux2.setCodEmissor(rs.getString("cod_emissor"));
-                aux2.setQuantidadeEntregue(rs.getInt("quantidade_entregue"));
-                aux2.setValor(rs.getFloat("valor"));
-                aux2.setData(rs.getString("data"));
-                aux2.setTipo(rs.getInt("tipo"));
-                retorno.add(aux2);
+                Cliente cliente = retornaCodNomeCliente(String.valueOf(rs.getInt("tipo_pessoa")), String.valueOf(rs.getInt("cod_cliente")));
+                retorno.add(new NotaCredito(
+                        rs.getInt("cod"),
+                        rs.getInt("serie"),
+                        rs.getInt("cod_op"),
+                        rs.getInt("cod_orcamento"),
+                        rs.getString("cod_emissor"),
+                        rs.getInt("quantidade_entregue"),
+                        rs.getFloat("valor"),
+                        rs.getString("data"),
+                        cliente.getNome(),
+                        cliente.getCodigo(),
+                        rs.getInt("tipo")
+                ));
             }
+            System.out.println(retorno);
+            return retorno;
         } catch (SQLException ex) {
             throw new SQLException(ex);
         } finally {
             ConnectionFactory.closeConnection(con, stmt, rs);
         }
-        return retorno;
     }
 
     public static List retornaEmissores() throws SQLException {

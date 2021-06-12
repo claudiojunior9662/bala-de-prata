@@ -110,8 +110,20 @@ public class NotaCredito {
         this.valor = valor;
         this.data = data;
     }
-    
-    
+
+    public NotaCredito(int cod, int serie, int codOp, int codOrcamento, String codEmissor, int quantidadeEntregue, float valor, String data, String nomeCliente, int codCliente, int tipo) {
+        this.cod = cod;
+        this.serie = serie;
+        this.codOp = codOp;
+        this.codOrcamento = codOrcamento;
+        this.codEmissor = codEmissor;
+        this.quantidadeEntregue = quantidadeEntregue;
+        this.valor = valor;
+        this.data = data;
+        this.nomeCliente = nomeCliente;
+        this.codCliente = codCliente;
+        this.tipo = tipo;
+    }
 
     public byte getFatFrete() {
         return fatFrete;

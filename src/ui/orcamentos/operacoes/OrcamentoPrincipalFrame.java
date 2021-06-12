@@ -3801,7 +3801,7 @@ public class OrcamentoPrincipalFrame extends javax.swing.JInternalFrame {
                     if (Boolean.valueOf(tabelaTiragens.getValueAt(i, 2).toString())) {
                         valorImpressao += Double.valueOf(tabelaTiragens.getValueAt(i, 4).toString());
                     }
-
+                    
                     valorAcabamentos += AcabamentoDAO.retornaPrecoUnitarioProduto(Integer.valueOf(tabelaTiragens.getValueAt(i, 0).toString()));
 
                     valorUnitario += (double) (valorAcabamentos * (Integer.valueOf(tabelaTiragens.getValueAt(i, 1).toString())));
@@ -3809,7 +3809,7 @@ public class OrcamentoPrincipalFrame extends javax.swing.JInternalFrame {
                     valorUnitario += valorChapas;
                     valorUnitario /= Double.valueOf(tabelaTiragens.getValueAt(i, 1).toString());
                     valorUnitario += valorImpressao;
-
+                    valorUnitario = Double.valueOf(tabelaTiragens.getValueAt(i, 5).toString());
                     valorUnitario += (double) (valorUnitario * cifDividido) / 100d;
                     valorUnitario -= (double) (valorUnitario * descontoDividido) / 100d;
 
@@ -4191,10 +4191,10 @@ public class OrcamentoPrincipalFrame extends javax.swing.JInternalFrame {
             calculaChapas();
         }
 
-        if (!valoresManuais.isSelected()) {
+        if(!valoresManuais.isSelected()){
             calculaValoresUnitarios();
         }
-
+        
         calculaValorTotal();
         //----------------------------------------------------------------------
 
