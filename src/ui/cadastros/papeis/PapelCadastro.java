@@ -5,6 +5,7 @@
  */
 package ui.cadastros.papeis;
 
+import model.dao.PapelDAO;
 import javax.swing.table.DefaultTableModel;
 import entities.sisgrafex.Papel;
 import exception.EnvioExcecao;
@@ -357,7 +358,7 @@ public class PapelCadastro extends javax.swing.JFrame {
             limpa();
         } catch (SQLException ex) {
             EnvioExcecao envioExcecao = new EnvioExcecao(Controle.getDefaultGj(), ex);
-            EnvioExcecao.envio();
+            EnvioExcecao.envio(null);
         }
     }//GEN-LAST:event_cadastrar_papelActionPerformed
 
@@ -455,7 +456,7 @@ public class PapelCadastro extends javax.swing.JFrame {
             }
         } catch (SQLException ex) {
             EnvioExcecao envioExcecao = new EnvioExcecao(Controle.getDefaultGj(), ex);
-            EnvioExcecao.envio();
+            EnvioExcecao.envio(null);
         }
     }//GEN-LAST:event_botao_pesquisarActionPerformed
 

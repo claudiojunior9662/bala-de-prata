@@ -5,10 +5,11 @@
  */
 package ui.cadastros.contatos;
 
+import entities.sisgrafex.Contato;
 import exception.EnvioExcecao;
 import java.sql.SQLException;
 import javax.swing.JOptionPane;
-import ui.cadastros.clientes.ClienteDAO;
+import model.dao.ClienteDAO;
 import javax.swing.table.DefaultTableModel;
 import ui.cadastros.clientes.ClienteCadastro;
 import ui.controle.Controle;
@@ -195,7 +196,7 @@ public class ContatoPesquisa extends javax.swing.JFrame {
         try{
             DefaultTableModel modeloPesquisa = (DefaultTableModel) tabelaPesquisa.getModel();
             modeloPesquisa.setNumRows(0);
-            for(ContatoBEAN auxBEAN : ClienteDAO.retornaPesquisaContatos("", "", true)){
+            for(Contato auxBEAN : ClienteDAO.retornaPesquisaContatos("", "", true)){
                 modeloPesquisa.addRow(new Object[]{
                     auxBEAN.getCod(),
                     auxBEAN.getNomeContato(),
@@ -209,7 +210,7 @@ public class ContatoPesquisa extends javax.swing.JFrame {
             }
         }catch(SQLException ex){
             EnvioExcecao envioExcecao = new EnvioExcecao(Controle.getDefaultGj(), ex);
-            EnvioExcecao.envio();
+            EnvioExcecao.envio(null);
         }
     }//GEN-LAST:event_botaoMostrarTodosActionPerformed
 
@@ -218,7 +219,7 @@ public class ContatoPesquisa extends javax.swing.JFrame {
             ClienteDAO auxDAO = new ClienteDAO();
             DefaultTableModel modeloPesquisa = (DefaultTableModel) tabelaPesquisa.getModel();
             modeloPesquisa.setNumRows(0);
-            for(ContatoBEAN auxBEAN : auxDAO.retornaPesquisaContatos(p1.getSelectedItem().toString(), p2.getText(), false)){
+            for(Contato auxBEAN : auxDAO.retornaPesquisaContatos(p1.getSelectedItem().toString(), p2.getText(), false)){
                 modeloPesquisa.addRow(new Object[]{
                     auxBEAN.getCod(),
                     auxBEAN.getNomeContato(),
@@ -232,7 +233,7 @@ public class ContatoPesquisa extends javax.swing.JFrame {
             }
         }catch(SQLException ex){
             EnvioExcecao envioExcecao = new EnvioExcecao(Controle.getDefaultGj(), ex);
-            EnvioExcecao.envio();
+            EnvioExcecao.envio(null);
         }
     }//GEN-LAST:event_botaoPesquisarActionPerformed
 
@@ -272,7 +273,7 @@ public class ContatoPesquisa extends javax.swing.JFrame {
 
             DefaultTableModel modeloPesquisa = (DefaultTableModel) tabelaPesquisa.getModel();
             modeloPesquisa.setNumRows(0);
-            for(ContatoBEAN auxBEAN : ClienteDAO.retornaPesquisaContatos("", "", true)){
+            for(Contato auxBEAN : ClienteDAO.retornaPesquisaContatos("", "", true)){
                 modeloPesquisa.addRow(new Object[]{
                     auxBEAN.getCod(),
                     auxBEAN.getNomeContato(),
@@ -286,7 +287,7 @@ public class ContatoPesquisa extends javax.swing.JFrame {
             }
         }catch(SQLException ex){
             EnvioExcecao envioExcecao = new EnvioExcecao(Controle.getDefaultGj(), ex);
-            EnvioExcecao.envio();
+            EnvioExcecao.envio(null);
         }
     }//GEN-LAST:event_botaoExcluirActionPerformed
 

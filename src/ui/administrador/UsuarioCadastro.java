@@ -376,7 +376,7 @@ public class UsuarioCadastro extends javax.swing.JInternalFrame {
             carregaLista(null, null, null);
         } catch (SQLException ex) {
             EnvioExcecao envioExcecao = new EnvioExcecao(Controle.getDefaultGj(), ex);
-            EnvioExcecao.envio();
+            EnvioExcecao.envio(null);
         }
     }//GEN-LAST:event_btnCadastrarActionPerformed
 
@@ -534,7 +534,7 @@ public class UsuarioCadastro extends javax.swing.JInternalFrame {
             carregaLista(null, null, null);
         } catch (SQLException ex) {
             EnvioExcecao envioExcecao = new EnvioExcecao(Controle.getDefaultGj(), ex);
-            EnvioExcecao.envio();
+            EnvioExcecao.envio(null);
         }
     }//GEN-LAST:event_btnEditarActionPerformed
 
@@ -550,7 +550,7 @@ public class UsuarioCadastro extends javax.swing.JInternalFrame {
             carregaLista(null, null, null);
         } catch (SQLException ex) {
             EnvioExcecao envioExcecao = new EnvioExcecao(Controle.getDefaultGj(), ex);
-            EnvioExcecao.envio();
+            EnvioExcecao.envio(null);
         }
     }//GEN-LAST:event_btnDesativarActionPerformed
 
@@ -566,7 +566,7 @@ public class UsuarioCadastro extends javax.swing.JInternalFrame {
             carregaLista(null, null, null);
         } catch (SQLException ex) {
             EnvioExcecao envioExcecao = new EnvioExcecao(Controle.getDefaultGj(), ex);
-            EnvioExcecao.envio();
+            EnvioExcecao.envio(null);
         }
     }//GEN-LAST:event_btnAtivarActionPerformed
 
@@ -586,7 +586,7 @@ public class UsuarioCadastro extends javax.swing.JInternalFrame {
                 JOptionPane.showMessageDialog(null, "SENHA RESETADA COM SUCESSO", "CONFIRMAÇÃO", JOptionPane.INFORMATION_MESSAGE);
             } catch (SQLException ex) {
                 EnvioExcecao envioExcecao = new EnvioExcecao(Controle.getDefaultGj(), ex);
-                EnvioExcecao.envio();
+                EnvioExcecao.envio(null);
             }
         }
     }//GEN-LAST:event_btnResetarSenhaActionPerformed
@@ -604,7 +604,7 @@ public class UsuarioCadastro extends javax.swing.JInternalFrame {
             }
         } catch (SQLException ex) {
             EnvioExcecao envioExcecao = new EnvioExcecao(Controle.getDefaultGj(), ex);
-            EnvioExcecao.envio();
+            EnvioExcecao.envio(null);
         }
     }//GEN-LAST:event_jftfCodigoUsrFocusLost
 
@@ -621,7 +621,7 @@ public class UsuarioCadastro extends javax.swing.JInternalFrame {
             }
         } catch (SQLException ex) {
             EnvioExcecao envioExcecao = new EnvioExcecao(Controle.getDefaultGj(), ex);
-            EnvioExcecao.envio();
+            EnvioExcecao.envio(null);
         }
     }//GEN-LAST:event_jtfLoginUsrFocusLost
 
@@ -669,7 +669,7 @@ public class UsuarioCadastro extends javax.swing.JInternalFrame {
             }
         } catch (SQLException ex) {
             EnvioExcecao envioExcecao = new EnvioExcecao(Controle.getDefaultGj(), ex);
-            EnvioExcecao.envio();
+            EnvioExcecao.envio(null);
         }
     }
 

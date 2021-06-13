@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 import entities.sisgrafex.OrdemProducao;
 import entities.sisgrafex.CalculosOpBEAN;
+import entities.sisgrafex.Cliente;
 import entities.sisgrafex.Servicos;
 import entities.sisgrafex.StsOp;
 import java.util.Date;
@@ -22,10 +23,7 @@ import static model.dao.OrdemProducaoDAO.alteraDtCancelamento;
 import static model.dao.OrdemProducaoDAO.alteraStatusOp;
 import static model.dao.OrdemProducaoDAO.consultaOp;
 import static model.dao.OrdemProducaoDAO.retornaCodOpOrcProd;
-import ui.cadastros.clientes.ClienteBEAN;
-import ui.cadastros.clientes.ClienteDAO;
-import static ui.cadastros.clientes.ClienteDAO.selInfoNota;
-import ui.cadastros.produtos.ProdutoDAO;
+import static model.dao.ClienteDAO.selInfoNota;
 
 /**
  *
@@ -1040,19 +1038,19 @@ public class OrdemProducaoDAO {
      * @return
      * @throws SQLException
      */
-    public static List<Integer> retornaCodOpCliente(List<ClienteBEAN> clientes) throws SQLException {
+    public static List<Integer> retornaCodOpCliente(List<Cliente> clientes) throws SQLException {
         Connection con = ConnectionFactory.getConnection();
         PreparedStatement stmt = null;
         ResultSet rs = null;
         List<Integer> retorno = new ArrayList();
 
         try {
-            for (ClienteBEAN cliente : clientes) {
+            for (Cliente cliente : clientes) {
                 stmt = con.prepareStatement("SELECT cod "
                         + "FROM tabela_ordens_producao "
                         + "WHERE cod_cliente = ? AND tipo_cliente = ?");
-                stmt.setInt(1, cliente.getCod());
-                stmt.setInt(2, cliente.getTipoCliente());
+                stmt.setInt(1, cliente.getCodigo());
+                stmt.setInt(2, cliente.getTipoPessoa());
                 rs = stmt.executeQuery();
                 while (rs.next()) {
                     retorno.add(rs.getInt("cod"));

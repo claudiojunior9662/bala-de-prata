@@ -130,12 +130,10 @@ public class EnviarEstoque extends javax.swing.JInternalFrame {
                     }
                 } catch (SQLException ex) {
                     EnvioExcecao envioExcecao = new EnvioExcecao(Controle.getDefaultGj(), ex);
-                    EnvioExcecao.envio();
+                    EnvioExcecao.envio(null);
                 }
             }
         }.start();
-
-
     }//GEN-LAST:event_enviarEstoqueActionPerformed
 
 

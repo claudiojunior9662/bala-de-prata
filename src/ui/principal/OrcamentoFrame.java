@@ -19,9 +19,9 @@ import model.dao.OrdemProducaoDAO;
 import ui.cadastros.acabamentos.AcabamentosCadastro;
 import ui.cadastros.chapas.ChapaCadastro;
 import ui.cadastros.clientes.ClienteCadastro;
-import ui.cadastros.clientes.ClienteDAO;
+import model.dao.ClienteDAO;
 import ui.cadastros.papeis.PapelCadastro;
-import ui.cadastros.produtos.ProdutoDAO;
+import model.dao.ProdutoDAO;
 import ui.cadastros.produtos.ProdutoFrame;
 import ui.cadastros.produtos.ProdutoPrEntBEAN;
 import ui.cadastros.servicos.ServicosFrame;
@@ -108,16 +108,15 @@ public class OrcamentoFrame extends javax.swing.JFrame {
         cancelaPorPrazo();
 
         try {
-            SimpleDateFormat data = new SimpleDateFormat("dd/MM/yyyy");
             StringBuilder listaAlteracoes = new StringBuilder();
             listaAlteracoes.append("ALTERAÇÕES NAS DATAS DE ENTREGA DE OP!!\n\n");
             for (AlteraData ad : OrcamentoDAO.consultarAlteracoes()) {
-                listaAlteracoes.append("OP: " + ad.getCodigoOp() + "\n" + "DATA: " + data.format(OrdemProducaoDAO.retornaDataEntregaOp(ad.getCodigoOp())) + "\n" + "MOTIVO: " + ad.getMotivo() + "\n" + "USUÁRIO: " + ad.getUsuario() + "\n\n");
+                listaAlteracoes.append("OP: " + ad.getCodigoOp() + "\n" + "DATA: " + Controle.dataPadrao.format(OrdemProducaoDAO.retornaDataEntregaOp(ad.getCodigoOp())) + "\n" + "MOTIVO: " + ad.getMotivo() + "\n" + "USUÁRIO: " + ad.getUsuario() + "\n\n");
             }
             JOptionPane.showMessageDialog(null, listaAlteracoes.toString(), "ALTERAÇÕES DE ORDEM DE PRODUÇÃO", JOptionPane.INFORMATION_MESSAGE);
         } catch (SQLException ex) {
             EnvioExcecao envioExcecao = new EnvioExcecao(Controle.getDefaultGj(), ex);
-            EnvioExcecao.envio();
+            EnvioExcecao.envio(loading);
         }
 
     }
@@ -646,7 +645,7 @@ public class OrcamentoFrame extends javax.swing.JFrame {
                     }
                 } catch (SQLException ex) {
                     EnvioExcecao envioExcecao = new EnvioExcecao(Controle.getDefaultGj(), ex);
-                    EnvioExcecao.envio();
+                    EnvioExcecao.envio(loading);
                 }
             }
         }.start();

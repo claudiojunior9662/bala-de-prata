@@ -5,6 +5,7 @@
  */
 package ui.cadastros.clientes;
 
+import model.dao.ClienteDAO;
 import ui.relatorios.financeiro.*;
 import com.itextpdf.text.DocumentException;
 import com.itextpdf.text.Font;
@@ -20,7 +21,6 @@ import com.lowagie.text.Element;
 import entities.sisgrafex.Cliente;
 import exception.EnvioExcecao;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.sql.SQLException;
@@ -388,14 +388,13 @@ public class RelatorioContabilidade extends javax.swing.JInternalFrame {
         new Thread() {
             @Override
             public void run() {
-
-                loading.setVisible(true);
-                loading.setText("GERANDO RELATÓRIO...");
-
-                String hora = Controle.horaPadraoDiretorio.format(new Date());
-                String data = Controle.dataPadraoDiretorio.format(new Date());
-
                 try {
+                    loading.setVisible(true);
+                    loading.setText("GERANDO RELATÓRIO...");
+
+                    String hora = Controle.horaPadraoDiretorio.format(new Date());
+                    String data = Controle.dataPadraoDiretorio.format(new Date());
+
                     if (System.getProperty("os.name").toLowerCase().contains("windows")) {
                         PdfWriter.getInstance(document, new FileOutputStream(Controle.urlTempWindows + data + hora + ".pdf"));
                     } else {
@@ -429,25 +428,16 @@ public class RelatorioContabilidade extends javax.swing.JInternalFrame {
                     document.add(tabelaPrincipal);
 
                     document.close();
-                } catch (FileNotFoundException ex) {
-                    EnvioExcecao envioExcecao = new EnvioExcecao(Controle.getDefaultGj(), ex);
-                    EnvioExcecao.envio();
-                } catch (DocumentException | IOException ex) {
-                    EnvioExcecao envioExcecao = new EnvioExcecao(Controle.getDefaultGj(), ex);
-                    EnvioExcecao.envio();
-                }
 
-                try {
                     if (System.getProperty("os.name").toLowerCase().contains("windows")) {
                         java.awt.Desktop.getDesktop().open(new File(Controle.urlTempWindows + data + hora + ".pdf"));
                     } else {
                         java.awt.Desktop.getDesktop().open(new File(Controle.urlTempUnix + data + hora + ".pdf"));
                     }
-                } catch (IOException ex) {
+                } catch (DocumentException | IOException  ex) {
                     EnvioExcecao envioExcecao = new EnvioExcecao(Controle.getDefaultGj(), ex);
-                    EnvioExcecao.envio();
+                    EnvioExcecao.envio(loading);
                 }
-
                 loading.setVisible(false);
             }
         }.start();
@@ -656,31 +646,31 @@ public class RelatorioContabilidade extends javax.swing.JInternalFrame {
                 condOrdenar = 4;
             }
 
-            for (ClienteBEAN cliente : ClienteDAO.retornaContRelContabilidade(condCliente, condOrdenar)) {
+            for (Cliente cliente : ClienteDAO.retornaContRelContabilidade(condCliente, condOrdenar)) {
                 if (campoCodigo.isSelected()) {
-                    celula = new PdfPCell(new Phrase(String.valueOf(cliente.getCod()),
+                    celula = new PdfPCell(new Phrase(String.valueOf(cliente.getCodigo()),
                             FontFactory.getFont("arial.ttf", 6)));
                     celula.setHorizontalAlignment(Element.ALIGN_CENTER);
                     retorno.addCell(celula);
                 }
                 if (campoNomeCliente.isSelected()) {
-                    celula = new PdfPCell(new Phrase(cliente.getTipoCliente() == 1 ? cliente.getNome()
+                    celula = new PdfPCell(new Phrase(cliente.getTipoPessoa() == 1 ? cliente.getNome()
                             : cliente.getNome() + " - " + cliente.getNomeFantasia(),
                             FontFactory.getFont("arial.ttf", 6)));
                     celula.setHorizontalAlignment(Element.ALIGN_CENTER);
                     retorno.addCell(celula);
                 }
                 if (campoTipoPessoa.isSelected()) {
-                    if (cliente.getTipoCliente() == 1) {
+                    if (cliente.getTipoPessoa() == 1) {
                         celula = new PdfPCell(new Phrase("PF", FontFactory.getFont("arial.ttf", 6)));
-                    } else if (cliente.getTipoCliente() == 2) {
+                    } else if (cliente.getTipoPessoa() == 2) {
                         celula = new PdfPCell(new Phrase("PJ", FontFactory.getFont("arial.ttf", 6)));
                     }
                     celula.setHorizontalAlignment(Element.ALIGN_CENTER);
                     retorno.addCell(celula);
                 }
                 if (campoTipoDoc.isSelected()) {
-                    celula = new PdfPCell(new Phrase(cliente.getTipoCliente() == 1 ? "CPF - " + cliente.getCpf()
+                    celula = new PdfPCell(new Phrase(cliente.getTipoPessoa() == 1 ? "CPF - " + cliente.getCpf()
                             : "CNPJ - " + cliente.getCnpj(),
                             FontFactory.getFont("arial.ttf", 6)));
                     celula.setHorizontalAlignment(Element.ALIGN_CENTER);
@@ -703,7 +693,7 @@ public class RelatorioContabilidade extends javax.swing.JInternalFrame {
             return retorno;
         } catch (SQLException ex) {
             EnvioExcecao envioExcecao = new EnvioExcecao(Controle.getDefaultGj(), ex);
-            EnvioExcecao.envio();
+            EnvioExcecao.envio(loading);
         }
         return null;
     }

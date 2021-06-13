@@ -5,18 +5,18 @@
  */
 package ui.cadastros.notas;
 
+import model.dao.NotaDAO;
 import entities.sisgrafex.Cliente;
 import entities.sisgrafex.Faturamento;
 import entities.sisgrafex.OrdemProducao;
-import ui.cadastros.clientes.ClienteBEAN;
-import ui.cadastros.contatos.ContatoBEAN;
-import ui.cadastros.enderecos.EnderecoBEAN;
+import entities.sisgrafex.Contato;
+import entities.sisgrafex.Endereco;
 import java.text.ParseException;
 import java.util.List;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.text.DefaultFormatterFactory;
 import javax.swing.text.MaskFormatter;
-import ui.cadastros.produtos.ProdutoBEAN;
+import entities.sisgrafex.ProdutoBEAN;
 import java.sql.SQLException;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -26,10 +26,11 @@ import exception.EnvioExcecao;
 import model.dao.OrcamentoDAO;
 import model.dao.OrdemProducaoDAO;
 import model.tabelas.FatPesqTableModel;
-import ui.cadastros.clientes.ClienteDAO;
-import ui.cadastros.produtos.ProdutoDAO;
+import model.dao.ClienteDAO;
+import model.dao.EnderecoDAO;
+import model.dao.ProdutoDAO;
 import ui.cadastros.produtos.ProdutoPrEntBEAN;
-import ui.cadastros.servicos.ServicoDAO;
+import model.dao.ServicoDAO;
 import ui.controle.Controle;
 
 /**
@@ -267,49 +268,42 @@ public class FatPesquisa extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_p1ActionPerformed
 
     private void p2ItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_p2ItemStateChanged
-        if (p2.getItemCount() != 0) {
-            switch (p2.getSelectedIndex()) {
-                case 0:
-                case 1:
-                case 3:
-                case 4:
-                case 5:
-                    p3Texto.setEnabled(true);
-                    p3Texto.requestFocus();
-                    p3Formatado.setEnabled(false);
-                    p3Data.setEnabled(false);
-                    break;
-                case 2:
-                    p3Formatado.setEnabled(true);
-                    p3Formatado.requestFocus();
-                    p3Data.setEnabled(false);
-                    p3Texto.setEnabled(false);
-                    try {
+        try {
+            if (p2.getItemCount() != 0) {
+                switch (p2.getSelectedIndex()) {
+                    case 0:
+                    case 1:
+                    case 3:
+                    case 4:
+                    case 5:
+                        p3Texto.setEnabled(true);
+                        p3Texto.requestFocus();
+                        p3Formatado.setEnabled(false);
+                        p3Data.setEnabled(false);
+                        break;
+                    case 2:
+                        p3Formatado.setEnabled(true);
+                        p3Formatado.requestFocus();
+                        p3Data.setEnabled(false);
+                        p3Texto.setEnabled(false);
                         mascaraPesquisa = new MaskFormatter("###.###.###-##");
                         p3Formatado.setFormatterFactory(new DefaultFormatterFactory(mascaraPesquisa));
                         p3Formatado.setValue("");
-                    } catch (ParseException ex) {
-                        EnvioExcecao envioExcecao = new EnvioExcecao(Controle.getDefaultGj(), ex);
-                        EnvioExcecao.envio();
-                        return;
-                    }
-                    break;
-                case 6:
-                    p3Formatado.setEnabled(true);
-                    p3Formatado.requestFocus();
-                    p3Data.setEnabled(false);
-                    p3Texto.setEnabled(false);
-                    try {
+                        break;
+                    case 6:
+                        p3Formatado.setEnabled(true);
+                        p3Formatado.requestFocus();
+                        p3Data.setEnabled(false);
+                        p3Texto.setEnabled(false);
                         mascaraPesquisa = new MaskFormatter("##.###.###/####-##");
                         p3Formatado.setFormatterFactory(new DefaultFormatterFactory(mascaraPesquisa));
                         p3Formatado.setValue("");
-                    } catch (ParseException ex) {
-                        EnvioExcecao envioExcecao = new EnvioExcecao(Controle.getDefaultGj(), ex);
-                        EnvioExcecao.envio();
-                        return;
-                    }
-                    break;
+                        break;
+                }
             }
+        } catch (ParseException ex) {
+            EnvioExcecao envioExcecao = new EnvioExcecao(Controle.getDefaultGj(), ex);
+            EnvioExcecao.envio(loading);
         }
     }//GEN-LAST:event_p2ItemStateChanged
 
@@ -360,35 +354,29 @@ public class FatPesquisa extends javax.swing.JInternalFrame {
     private javax.swing.JTable tabelaConsulta;
     // End of variables declaration//GEN-END:variables
     private synchronized String retornaTelefoneFormatado(String telefone) {
-        String formatar = telefone;
-        formatar = formatar.replace("(", "");
-        formatar = formatar.replace(")", "");
-        formatar = formatar.replace(" ", "");
-        formatar = formatar.replace("-", "");
-        MaskFormatter formatoTelefone = null;
-        if (formatar.length() == 10) {
-            try {
+        try {
+            String formatar = telefone;
+            formatar = formatar.replace("(", "");
+            formatar = formatar.replace(")", "");
+            formatar = formatar.replace(" ", "");
+            formatar = formatar.replace("-", "");
+            MaskFormatter formatoTelefone = null;
+            if (formatar.length() == 10) {
                 formatoTelefone = new MaskFormatter("(##) ####-####");
                 formatoTelefone.setValueContainsLiteralCharacters(false);
                 formatar = formatoTelefone.valueToString(formatar);
-            } catch (ParseException ex) {
-                EnvioExcecao envioExcecao = new EnvioExcecao(Controle.getDefaultGj(), ex);
-                EnvioExcecao.envio();
-                return "";
             }
-        }
-        if (formatar.length() == 11) {
-            try {
+            if (formatar.length() == 11) {
                 formatoTelefone = new MaskFormatter("(##) # ####-####");
                 formatoTelefone.setValueContainsLiteralCharacters(false);
                 formatar = formatoTelefone.valueToString(formatar);
-            } catch (ParseException ex) {
-                EnvioExcecao envioExcecao = new EnvioExcecao(Controle.getDefaultGj(), ex);
-                EnvioExcecao.envio();
-                return "";
             }
+            return formatar;
+        } catch (ParseException ex) {
+            EnvioExcecao envioExcecao = new EnvioExcecao(Controle.getDefaultGj(), ex);
+            EnvioExcecao.envio(loading);
+            return null;
         }
-        return formatar;
     }
 
     private synchronized void selFat() {
@@ -424,8 +412,8 @@ public class FatPesquisa extends javax.swing.JInternalFrame {
              */
             TransporteBEAN transporte = NotaDAO.selTransporte(fat.getCod());
             OrdemProducao op = OrdemProducaoDAO.selecionaInformacoesNota(fat.getCodOp());
-            ContatoBEAN contato = ClienteDAO.selInfoContato(op.getCodContato());
-            EnderecoBEAN endereco = ClienteDAO.selInfoEndereco(op.getCodEndereco());
+            Contato contato = ClienteDAO.selInfoContato(op.getCodContato());
+            Endereco endereco = EnderecoDAO.selInfoEndereco(op.getCodEndereco());
             Cliente cliente = ClienteDAO.selInfoNota((byte) op.getTipoPessoa(), op.getCodCliente());
 
             if (transporte.getModalidadeFrete().contains("COR")) {
@@ -468,7 +456,7 @@ public class FatPesquisa extends javax.swing.JInternalFrame {
             FatFrame.cidadeCliente.setText(endereco.getCidade());
             FatFrame.ufCliente.setText(endereco.getUf());
             FatFrame.complementoCliente.setText(endereco.getComplemento());
-            FatFrame.cepCliente.setText(EnderecoBEAN.retornaCepFormatado(endereco.getCep()));
+            FatFrame.cepCliente.setText(Endereco.retornaCepFormatado(endereco.getCep()));
             FatFrame.nomeCliente.setText(cliente.getNome());
             FatFrame.cnpjCpf.setText(op.getTipoPessoa() == 1 ? "PESSOA FÍSICA" : "PESSOA JURÍDICA");
             FatFrame.tipoCliente.setText(op.getTipoPessoa() == 1 ? "PESSOA FÍSICA" : "PESSOA JURÍDICA");
@@ -525,9 +513,8 @@ public class FatPesquisa extends javax.swing.JInternalFrame {
 
         } catch (SQLException ex) {
             EnvioExcecao envioExcecao = new EnvioExcecao(Controle.getDefaultGj(), ex);
-            EnvioExcecao.envio();
+            EnvioExcecao.envio(loading);
         }
-
         loading.setVisible(false);
     }
 
@@ -541,9 +528,8 @@ public class FatPesquisa extends javax.swing.JInternalFrame {
             }
         } catch (SQLException ex) {
             EnvioExcecao envioExcecao = new EnvioExcecao(Controle.getDefaultGj(), ex);
-            EnvioExcecao.envio();
+            EnvioExcecao.envio(loading);
         }
-
         loading.setVisible(false);
     }
 
@@ -576,7 +562,7 @@ public class FatPesquisa extends javax.swing.JInternalFrame {
                     }
                     break;
                 case 5:
-                    List<ClienteBEAN> clientes;
+                    List<Cliente> clientes;
                     switch (p2.getSelectedIndex()) {
                         case 2:
                         case 6:
@@ -598,9 +584,8 @@ public class FatPesquisa extends javax.swing.JInternalFrame {
             }
         } catch (SQLException ex) {
             EnvioExcecao envioExcecao = new EnvioExcecao(Controle.getDefaultGj(), ex);
-            EnvioExcecao.envio();
+            EnvioExcecao.envio(loading);
         }
-
         loading.setVisible(false);
     }
 

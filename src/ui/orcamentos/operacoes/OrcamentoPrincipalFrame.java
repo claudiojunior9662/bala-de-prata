@@ -7,8 +7,8 @@ package ui.orcamentos.operacoes;
 
 import ui.ordemProducao.enviar.EnviarOrdemProducaoFrame;
 import entities.sisgrafex.Cliente;
-import ui.cadastros.contatos.ContatoBEAN;
-import ui.cadastros.enderecos.EnderecoBEAN;
+import entities.sisgrafex.Contato;
+import entities.sisgrafex.Endereco;
 import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.util.ArrayList;
@@ -18,10 +18,10 @@ import java.util.List;
 import javax.swing.table.DefaultTableModel;
 import ui.cadastros.produtos.AcabamentoProdBEAN;
 import ui.cadastros.papeis.PapelBEAN;
-import ui.cadastros.produtos.ProdutoBEAN;
+import entities.sisgrafex.ProdutoBEAN;
 import entities.sisgrafex.Orcamento;
 import entities.sisgrafex.CalculosOpBEAN;
-import ui.cadastros.produtos.ProdutoDAO;
+import model.dao.ProdutoDAO;
 import model.dao.OrcamentoDAO;
 import entities.sisgrafex.Servicos;
 import entities.sisgrafex.StsOrcamento;
@@ -44,14 +44,14 @@ import javax.swing.JComboBox;
 import model.tabelas.OrcamentoExtTableModel;
 import model.tabelas.OrcamentoIntTableModel;
 import ui.cadastros.acabamentos.AcabamentoDAO;
-import ui.cadastros.clientes.ClienteBEAN;
-import ui.cadastros.clientes.ClienteDAO;
+import model.dao.ClienteDAO;
+import model.dao.EnderecoDAO;
 import ui.cadastros.clientes.ClienteCadastro;
-import ui.cadastros.papeis.PapelDAO;
+import model.dao.PapelDAO;
 import ui.cadastros.produtos.ProdutoFrame;
 import ui.cadastros.produtos.ProdutoPrEntBEAN;
 import ui.cadastros.servicos.ServicosFrame;
-import ui.cadastros.servicos.ServicoDAO;
+import model.dao.ServicoDAO;
 import ui.controle.Controle;
 import ui.login.TelaAutenticacao;
 import ui.principal.Estoque;
@@ -1844,8 +1844,9 @@ public class OrcamentoPrincipalFrame extends javax.swing.JInternalFrame {
                     loading.setVisible(false);
                 } catch (SQLException ex) {
                     EnvioExcecao envioExcecao = new EnvioExcecao(Controle.getDefaultGj(), ex);
-                    EnvioExcecao.envio();
+                    EnvioExcecao.envio(loading);
                 }
+                loading.setVisible(false);
             }
         }.start();
     }//GEN-LAST:event_tabelaConsultaMouseClicked
@@ -1899,13 +1900,13 @@ public class OrcamentoPrincipalFrame extends javax.swing.JInternalFrame {
                     /**
                      * Carrega as informações do contato do cliente
                      */
-                    ContatoBEAN contato = ClienteDAO.selInfoContato(orcamento.getCodContato());
+                    Contato contato = ClienteDAO.selInfoContato(orcamento.getCodContato());
                     CODIGO_CONTATO = orcamento.getCodContato();
 
                     /**
                      * Carrega as informações do endereço do cliente
                      */
-                    EnderecoBEAN endereco = ClienteDAO.selInfoEndereco(orcamento.getCodEndereco());
+                    Endereco endereco = EnderecoDAO.selInfoEndereco(orcamento.getCodEndereco());
                     CODIGO_ENDERECO = orcamento.getCodEndereco();
 
                     /**
@@ -2077,7 +2078,7 @@ public class OrcamentoPrincipalFrame extends javax.swing.JInternalFrame {
                     estadoProdSv(tabelaProdutos.getRowCount() == 0 ? (byte) 2 : (byte) 1);
                 } catch (SQLException | ParseException ex) {
                     EnvioExcecao envioExcecao = new EnvioExcecao(Controle.getDefaultGj(), ex);
-                    EnvioExcecao.envio();
+                    EnvioExcecao.envio(loading);
                 }
                 loading.setVisible(false);
             }
@@ -2174,8 +2175,9 @@ public class OrcamentoPrincipalFrame extends javax.swing.JInternalFrame {
             }
         } catch (ParseException ex) {
             EnvioExcecao envioExcecao = new EnvioExcecao(Controle.getDefaultGj(), ex);
-            EnvioExcecao.envio();
+            EnvioExcecao.envio(loading);
         }
+        loading.setVisible(false);
     }//GEN-LAST:event_p2ItemStateChanged
 
     private void gerarPdfActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_gerarPdfActionPerformed
@@ -2293,7 +2295,7 @@ public class OrcamentoPrincipalFrame extends javax.swing.JInternalFrame {
                 //--------------------------------------------------------------
 
                 //CARREGA OS DADOS DO CLIENTE-----------------------------------
-                ClienteBEAN cliente = ClienteDAO.selInfoOp(orcamento.getTipoPessoa(), orcamento.getCodCliente());
+                Cliente cliente = ClienteDAO.selInfoOp(orcamento.getTipoPessoa(), orcamento.getCodCliente());
                 if (orcamento.getTipoPessoa() == 1) {
                     EnviarOrdemProducaoFrame.tipoPessoa.setText("PESSOA FÍSICA");
                     EnviarOrdemProducaoFrame.cpfCliente.setValue(cliente.getCpf());
@@ -2303,12 +2305,12 @@ public class OrcamentoPrincipalFrame extends javax.swing.JInternalFrame {
                 }
                 EnviarOrdemProducaoFrame.codigoCliente.setValue(orcamento.getCodCliente());
                 EnviarOrdemProducaoFrame.nomeCliente.setText(cliente.getNome());
-                for (ContatoBEAN a1 : OrcamentoDAO.retornaInformacoesContatos(orcamento.getCodContato())) {
+                for (Contato a1 : OrcamentoDAO.retornaInformacoesContatos(orcamento.getCodContato())) {
                     EnviarOrdemProducaoFrame.nomeContato.setText(a1.getNomeContato());
                     EnviarOrdemProducaoFrame.telefoneContato.setText(a1.getTelefone());
                 }
                 EnviarOrdemProducaoFrame.setCOD_CONTATO(orcamento.getCodContato());
-                for (EnderecoBEAN a1 : OrcamentoDAO.retornaInformacoesEnderecos(orcamento.getCodEndereco())) {
+                for (Endereco a1 : OrcamentoDAO.retornaInformacoesEnderecos(orcamento.getCodEndereco())) {
                     EnviarOrdemProducaoFrame.cidade.setText(a1.getCidade());
                     EnviarOrdemProducaoFrame.uf.setText(a1.getUf());
                 }
@@ -2449,8 +2451,9 @@ public class OrcamentoPrincipalFrame extends javax.swing.JInternalFrame {
             }
         } catch (SQLException ex) {
             EnvioExcecao envioExcecao = new EnvioExcecao(Controle.getDefaultGj(), ex);
-            EnvioExcecao.envio();
+            EnvioExcecao.envio(loading);
         }
+        loading.setVisible(false);
     }//GEN-LAST:event_enviarProducaoActionPerformed
 
     private void enviarEmailAnexoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_enviarEmailAnexoActionPerformed
@@ -2496,67 +2499,64 @@ public class OrcamentoPrincipalFrame extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_creditoActionPerformed
 
     private void naoAprovadoClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_naoAprovadoClienteActionPerformed
-        int dialogButton = JOptionPane.YES_NO_OPTION;
-        int dialogResult = JOptionPane.showConfirmDialog(this,
-                "ESTE ORÇAMENTO NÃO PODERÁ MAIS SOFRER MODIFICAÇÕES",
-                "CONFIRMAÇÃO",
-                dialogButton);
-        if (dialogResult == 0) {
-            try {
+        try {
+            int dialogButton = JOptionPane.YES_NO_OPTION;
+            int dialogResult = JOptionPane.showConfirmDialog(this,
+                    "ESTE ORÇAMENTO NÃO PODERÁ MAIS SOFRER MODIFICAÇÕES",
+                    "CONFIRMAÇÃO",
+                    dialogButton);
+            if (dialogResult == 0) {
                 OrcamentoDAO.alteraStatus(Integer.valueOf(tabelaConsulta.getValueAt(tabelaConsulta.getSelectedRow(), 0).toString()), 6);
                 mostraTodos();
-            } catch (SQLException ex) {
-                EnvioExcecao envioExcecao = new EnvioExcecao(Controle.getDefaultGj(), ex);
-                EnvioExcecao.envio();
+            } else {
+                return;
             }
-        } else {
-            return;
+        } catch (SQLException ex) {
+            EnvioExcecao envioExcecao = new EnvioExcecao(Controle.getDefaultGj(), ex);
+            EnvioExcecao.envio(loading);
         }
+        loading.setVisible(false);
     }//GEN-LAST:event_naoAprovadoClienteActionPerformed
 
     private void autorizarProducaoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_autorizarProducaoActionPerformed
         new Thread("Autorizar produção") {
             @Override
             public void run() {
-                if (rdOdGrafica.isSelected()) {
-                    int dialogButton = JOptionPane.YES_NO_OPTION;
-                    int dialogResult = JOptionPane.showConfirmDialog(null,
-                            "AUTORIZAR PRODUÇÃO PARA O ORÇAMENTO "
-                            + tabelaConsulta.getValueAt(tabelaConsulta.getSelectedRow(), 0).toString() + "?",
-                            "CONFIRMAÇÃO",
-                            dialogButton);
-                    if (dialogResult == 0) {
-                        try {
+                try {
+                    if (rdOdGrafica.isSelected()) {
+                        int dialogButton = JOptionPane.YES_NO_OPTION;
+                        int dialogResult = JOptionPane.showConfirmDialog(null,
+                                "AUTORIZAR PRODUÇÃO PARA O ORÇAMENTO "
+                                + tabelaConsulta.getValueAt(tabelaConsulta.getSelectedRow(), 0).toString() + "?",
+                                "CONFIRMAÇÃO",
+                                dialogButton);
+                        if (dialogResult == 0) {
                             OrcamentoDAO.alteraStatus(Integer.valueOf(tabelaConsulta.getValueAt(
                                     tabelaConsulta.getSelectedRow(), 0).toString()), 4);
                             pesquisar();
-                        } catch (SQLException ex) {
-                            EnvioExcecao envioExcecao = new EnvioExcecao(Controle.getDefaultGj(), ex);
-                            EnvioExcecao.envio();
+                        } else {
+                            return;
                         }
-                    } else {
-                        return;
-                    }
-                } else if (rdOdCliente.isSelected()) {
-                    int dialogButton = JOptionPane.YES_NO_OPTION;
-                    int dialogResult = JOptionPane.showConfirmDialog(null,
-                            "AUTORIZAR PRODUÇÃO PARA O ORÇAMENTO "
-                            + tabelaConsulta.getValueAt(tabelaConsulta.getSelectedRow(), 0).toString() + "?",
-                            "CONFIRMAÇÃO",
-                            dialogButton);
-                    if (dialogResult == 0) {
-                        try {
+                    } else if (rdOdCliente.isSelected()) {
+                        int dialogButton = JOptionPane.YES_NO_OPTION;
+                        int dialogResult = JOptionPane.showConfirmDialog(null,
+                                "AUTORIZAR PRODUÇÃO PARA O ORÇAMENTO "
+                                + tabelaConsulta.getValueAt(tabelaConsulta.getSelectedRow(), 0).toString() + "?",
+                                "CONFIRMAÇÃO",
+                                dialogButton);
+                        if (dialogResult == 0) {
                             OrcamentoDAO.alteraStatus(Integer.valueOf(tabelaConsulta.getValueAt(
                                     tabelaConsulta.getSelectedRow(), 0).toString()), 11);
                             pesquisar();
-                        } catch (SQLException ex) {
-                            EnvioExcecao envioExcecao = new EnvioExcecao(Controle.getDefaultGj(), ex);
-                            EnvioExcecao.envio();
+                        } else {
+                            return;
                         }
-                    } else {
-                        return;
                     }
+                } catch (SQLException ex) {
+                    EnvioExcecao envioExcecao = new EnvioExcecao(Controle.getDefaultGj(), ex);
+                    EnvioExcecao.envio(loading);
                 }
+                loading.setVisible(false);
             }
         }.start();
     }//GEN-LAST:event_autorizarProducaoActionPerformed
@@ -2565,45 +2565,41 @@ public class OrcamentoPrincipalFrame extends javax.swing.JInternalFrame {
         new Thread("Negar Producao") {
             @Override
             public void run() {
-                if (rdOdGrafica.isSelected()) {
-                    int dialogButton = JOptionPane.YES_NO_OPTION;
-                    int dialogResult = JOptionPane.showConfirmDialog(null,
-                            "NEGAR PRODUÇÃO PARA O ORÇAMENTO "
-                            + tabelaConsulta.getValueAt(tabelaConsulta.getSelectedRow(), 0).toString() + "?",
-                            "CONFIRMAÇÃO",
-                            dialogButton);
-                    if (dialogResult == 0) {
-                        try {
+                try {
+                    if (rdOdGrafica.isSelected()) {
+                        int dialogButton = JOptionPane.YES_NO_OPTION;
+                        int dialogResult = JOptionPane.showConfirmDialog(null,
+                                "NEGAR PRODUÇÃO PARA O ORÇAMENTO "
+                                + tabelaConsulta.getValueAt(tabelaConsulta.getSelectedRow(), 0).toString() + "?",
+                                "CONFIRMAÇÃO",
+                                dialogButton);
+                        if (dialogResult == 0) {
                             OrcamentoDAO.alteraStatus(Integer.valueOf(tabelaConsulta.getValueAt(
                                     tabelaConsulta.getSelectedRow(), 0).toString()), 5);
                             pesquisar();
-                        } catch (SQLException ex) {
-                            EnvioExcecao envioExcecao = new EnvioExcecao(Controle.getDefaultGj(), ex);
-                            EnvioExcecao.envio();
+                        } else {
+                            return;
                         }
-                    } else {
-                        return;
-                    }
-                } else if (rdOdCliente.isSelected()) {
-                    int dialogButton = JOptionPane.YES_NO_OPTION;
-                    int dialogResult = JOptionPane.showConfirmDialog(null,
-                            "NEGAR PRODUÇÃO PARA O ORÇAMENTO "
-                            + tabelaConsulta.getValueAt(tabelaConsulta.getSelectedRow(), 0).toString() + "?",
-                            "CONFIRMAÇÃO",
-                            dialogButton);
-                    if (dialogResult == 0) {
-                        try {
+                    } else if (rdOdCliente.isSelected()) {
+                        int dialogButton = JOptionPane.YES_NO_OPTION;
+                        int dialogResult = JOptionPane.showConfirmDialog(null,
+                                "NEGAR PRODUÇÃO PARA O ORÇAMENTO "
+                                + tabelaConsulta.getValueAt(tabelaConsulta.getSelectedRow(), 0).toString() + "?",
+                                "CONFIRMAÇÃO",
+                                dialogButton);
+                        if (dialogResult == 0) {
                             OrcamentoDAO.alteraStatus(Integer.valueOf(tabelaConsulta.getValueAt(
                                     tabelaConsulta.getSelectedRow(), 0).toString()), 12);
                             pesquisar();
-                        } catch (SQLException ex) {
-                            EnvioExcecao envioExcecao = new EnvioExcecao(Controle.getDefaultGj(), ex);
-                            EnvioExcecao.envio();
+                        } else {
+                            return;
                         }
-                    } else {
-                        return;
                     }
+                } catch (SQLException ex) {
+                    EnvioExcecao envioExcecao = new EnvioExcecao(Controle.getDefaultGj(), ex);
+                    EnvioExcecao.envio(loading);
                 }
+                loading.setVisible(false);
             }
         }.start();
     }//GEN-LAST:event_negarProducaoActionPerformed
@@ -2714,7 +2710,7 @@ public class OrcamentoPrincipalFrame extends javax.swing.JInternalFrame {
                 //--------------------------------------------------------------
 
                 //CARREGA OS DADOS DO CLIENTE-----------------------------------
-                ClienteBEAN cliente = ClienteDAO.selInfoOp(orcamento.getTipoPessoa(), orcamento.getCodCliente());
+                Cliente cliente = ClienteDAO.selInfoOp(orcamento.getTipoPessoa(), orcamento.getCodCliente());
                 if (orcamento.getTipoPessoa() == 1) {
                     EnviarOrdemProducaoFrame.tipoPessoa.setText("PESSOA FÍSICA");
                     EnviarOrdemProducaoFrame.cpfCliente.setValue(cliente.getCpf());
@@ -2724,12 +2720,12 @@ public class OrcamentoPrincipalFrame extends javax.swing.JInternalFrame {
                 }
                 EnviarOrdemProducaoFrame.codigoCliente.setValue(orcamento.getCodCliente());
                 EnviarOrdemProducaoFrame.nomeCliente.setText(cliente.getNome());
-                for (ContatoBEAN a1 : OrcamentoDAO.retornaInformacoesContatos(orcamento.getCodContato())) {
+                for (Contato a1 : OrcamentoDAO.retornaInformacoesContatos(orcamento.getCodContato())) {
                     EnviarOrdemProducaoFrame.nomeContato.setText(a1.getNomeContato());
                     EnviarOrdemProducaoFrame.telefoneContato.setText(a1.getTelefone());
                 }
                 EnviarOrdemProducaoFrame.setCOD_CONTATO(orcamento.getCodContato());
-                for (EnderecoBEAN a1 : OrcamentoDAO.retornaInformacoesEnderecos(orcamento.getCodEndereco())) {
+                for (Endereco a1 : OrcamentoDAO.retornaInformacoesEnderecos(orcamento.getCodEndereco())) {
                     EnviarOrdemProducaoFrame.cidade.setText(a1.getCidade());
                     EnviarOrdemProducaoFrame.uf.setText(a1.getUf());
                 }
@@ -2828,8 +2824,9 @@ public class OrcamentoPrincipalFrame extends javax.swing.JInternalFrame {
             }
         } catch (SQLException ex) {
             EnvioExcecao envioExcecao = new EnvioExcecao(Controle.getDefaultGj(), ex);
-            EnvioExcecao.envio();
+            EnvioExcecao.envio(loading);
         }
+        loading.setVisible(false);
     }//GEN-LAST:event_enviarExpedicaoActionPerformed
 
     private void jckbArteItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_jckbArteItemStateChanged
@@ -3118,7 +3115,7 @@ public class OrcamentoPrincipalFrame extends javax.swing.JInternalFrame {
             }
         } catch (SQLException ex) {
             EnvioExcecao envioExcecao = new EnvioExcecao(Controle.getDefaultGj(), ex);
-            EnvioExcecao.envio();
+            EnvioExcecao.envio(loading);
         }
         loading.setVisible(false);
     }
@@ -3311,10 +3308,9 @@ public class OrcamentoPrincipalFrame extends javax.swing.JInternalFrame {
                     break;
             }
             pagAtual.setValue(1);
-
         } catch (SQLException | ParseException ex) {
             EnvioExcecao envioExcecao = new EnvioExcecao(Controle.getDefaultGj(), ex);
-            EnvioExcecao.envio();
+            EnvioExcecao.envio(loading);
         }
         loading.setVisible(false);
     }
@@ -3335,7 +3331,7 @@ public class OrcamentoPrincipalFrame extends javax.swing.JInternalFrame {
 
         } catch (SQLException ex) {
             EnvioExcecao envioExcecao = new EnvioExcecao(Controle.getDefaultGj(), ex);
-            EnvioExcecao.envio();
+            EnvioExcecao.envio(loading);
         }
     }
 
@@ -3527,7 +3523,7 @@ public class OrcamentoPrincipalFrame extends javax.swing.JInternalFrame {
             loading.setVisible(false);
         } catch (SQLException | ParseException ex) {
             EnvioExcecao envioExcecao = new EnvioExcecao(Controle.getDefaultGj(), ex);
-            EnvioExcecao.envio();
+            EnvioExcecao.envio(loading);
         }
     }
 
@@ -3638,7 +3634,7 @@ public class OrcamentoPrincipalFrame extends javax.swing.JInternalFrame {
 
             } catch (SQLException ex) {
                 EnvioExcecao envioExcecao = new EnvioExcecao(Controle.getDefaultGj(), ex);
-                EnvioExcecao.envio();
+                EnvioExcecao.envio(loading);
             }
         }
     }
@@ -3750,7 +3746,7 @@ public class OrcamentoPrincipalFrame extends javax.swing.JInternalFrame {
 
             } catch (SQLException ex) {
                 EnvioExcecao envioExcecao = new EnvioExcecao(Controle.getDefaultGj(), ex);
-                EnvioExcecao.envio();
+                EnvioExcecao.envio(loading);
             }
         }
     }
@@ -3801,7 +3797,7 @@ public class OrcamentoPrincipalFrame extends javax.swing.JInternalFrame {
                     if (Boolean.valueOf(tabelaTiragens.getValueAt(i, 2).toString())) {
                         valorImpressao += Double.valueOf(tabelaTiragens.getValueAt(i, 4).toString());
                     }
-                    
+
                     valorAcabamentos += AcabamentoDAO.retornaPrecoUnitarioProduto(Integer.valueOf(tabelaTiragens.getValueAt(i, 0).toString()));
 
                     valorUnitario += (double) (valorAcabamentos * (Integer.valueOf(tabelaTiragens.getValueAt(i, 1).toString())));
@@ -3828,7 +3824,7 @@ public class OrcamentoPrincipalFrame extends javax.swing.JInternalFrame {
 
             } catch (SQLException ex) {
                 EnvioExcecao envioExcecao = new EnvioExcecao(Controle.getDefaultGj(), ex);
-                EnvioExcecao.envio();
+                EnvioExcecao.envio(loading);
             }
         }
     }
@@ -3837,38 +3833,37 @@ public class OrcamentoPrincipalFrame extends javax.swing.JInternalFrame {
      * Calcula o valor total
      */
     private synchronized void calculaValorTotal() {
-        boolean semProduto = tabelaProdutos.getRowCount() == 0 ? true : false;
-        double valorTotal = 0d;
-        DecimalFormat df = new DecimalFormat("###,##0.000");
+        try {
+            boolean semProduto = tabelaProdutos.getRowCount() == 0 ? true : false;
+            double valorTotal = 0d;
+            DecimalFormat df = new DecimalFormat("###,##0.000");
 
-        if (!semProduto) {
-            for (int i = 0; i < tabelaTiragens.getRowCount(); i++) {
-                valorTotal += Double.valueOf(tabelaTiragens.getValueAt(i, 1).toString())
-                        * Double.valueOf(tabelaTiragens.getValueAt(i, 5).toString());
+            if (!semProduto) {
+                for (int i = 0; i < tabelaTiragens.getRowCount(); i++) {
+                    valorTotal += Double.valueOf(tabelaTiragens.getValueAt(i, 1).toString())
+                            * Double.valueOf(tabelaTiragens.getValueAt(i, 5).toString());
+                }
             }
-        }
 
-        if (haFrete.isSelected()) {
-            valorTotal += Double.valueOf(frete.getText().replace(",", "."));
-        }
+            if (haFrete.isSelected()) {
+                valorTotal += Double.valueOf(frete.getText().replace(",", "."));
+            }
 
-        if (jckbArte.isSelected()) {
-            valorTotal += Double.valueOf(jftfArte.getText().replace(",", "."));
-        }
+            if (jckbArte.isSelected()) {
+                valorTotal += Double.valueOf(jftfArte.getText().replace(",", "."));
+            }
 
-        for (int i = 0; i < tabelaServicos.getRowCount(); i++) {
-            try {
+            for (int i = 0; i < tabelaServicos.getRowCount(); i++) {
                 valorTotal += ServicoDAO.retornaVlrSrvOrcNExistente(Integer.valueOf(tabelaServicos.getValueAt(i, 0).toString()));
-
-            } catch (SQLException ex) {
-                EnvioExcecao envioExcecao = new EnvioExcecao(Controle.getDefaultGj(), ex);
-                EnvioExcecao.envio();
-                return;
             }
+
+            BigDecimal format = new BigDecimal(Double.toString(valorTotal)).setScale(2, RoundingMode.HALF_EVEN);
+            vlrTotal.setValue(format.doubleValue());
+        } catch (SQLException ex) {
+            EnvioExcecao envioExcecao = new EnvioExcecao(Controle.getDefaultGj(), ex);
+            EnvioExcecao.envio(loading);
         }
 
-        BigDecimal format = new BigDecimal(Double.toString(valorTotal)).setScale(2, RoundingMode.HALF_EVEN);
-        vlrTotal.setValue(format.doubleValue());
     }
 
     /**
@@ -4063,19 +4058,14 @@ public class OrcamentoPrincipalFrame extends javax.swing.JInternalFrame {
                 /**
                  * preenche a tabela acabamentos
                  */
-                try {
-                    DefaultTableModel modeloAcabamentos = (DefaultTableModel) tabelaAcabamentos.getModel();
-                    for (AcabamentoProdBEAN cadastroProdutosComponentesBEAN : AcabamentoDAO.retornaAcabamentosProduto(codProd)) {
-                        modeloAcabamentos.addRow(new Object[]{
-                            codProd,
-                            cadastroProdutosComponentesBEAN.getCodigoAcabamento(),
-                            AcabamentoDAO.retornaDescricaoAcabamentos(cadastroProdutosComponentesBEAN.getCodigoAcabamento()),
-                            AcabamentoDAO.retornaValorAcabamento(cadastroProdutosComponentesBEAN.getCodigoAcabamento())
-                        });
-                    }
-                } catch (SemAcabamentoException ex) {
-                    EnvioExcecao envioExcecao = new EnvioExcecao(Controle.getDefaultGj(), ex);
-                    EnvioExcecao.envio();
+                DefaultTableModel modeloAcabamentos = (DefaultTableModel) tabelaAcabamentos.getModel();
+                for (AcabamentoProdBEAN cadastroProdutosComponentesBEAN : AcabamentoDAO.retornaAcabamentosProduto(codProd)) {
+                    modeloAcabamentos.addRow(new Object[]{
+                        codProd,
+                        cadastroProdutosComponentesBEAN.getCodigoAcabamento(),
+                        AcabamentoDAO.retornaDescricaoAcabamentos(cadastroProdutosComponentesBEAN.getCodigoAcabamento()),
+                        AcabamentoDAO.retornaValorAcabamento(cadastroProdutosComponentesBEAN.getCodigoAcabamento())
+                    });
                 }
 
             }
@@ -4084,9 +4074,9 @@ public class OrcamentoPrincipalFrame extends javax.swing.JInternalFrame {
              */
             estadoProdSv((byte) 1);
 
-        } catch (SQLException ex) {
+        } catch (SQLException | SemAcabamentoException ex) {
             EnvioExcecao envioExcecao = new EnvioExcecao(Controle.getDefaultGj(), ex);
-            EnvioExcecao.envio();
+            EnvioExcecao.envio(loading);
 
         }
     }
@@ -4095,15 +4085,14 @@ public class OrcamentoPrincipalFrame extends javax.swing.JInternalFrame {
      * Ação do botão calcular
      */
     private void btnCalcularAction() {
+        try {
+            //CARREGA IMAGEM CALCULANDO---------------------------------------------
+            loading.setVisible(true);
+            loading.setText("CALCULANDO...");
+            //----------------------------------------------------------------------
 
-        //CARREGA IMAGEM CALCULANDO---------------------------------------------
-        loading.setVisible(true);
-        loading.setText("CALCULANDO...");
-        //----------------------------------------------------------------------
-
-        //VERIFICA O ESTOQUE PARA PRODUTOS PR ENT-------------------------------
-        if (TIPO_ORCAMENTO == 1) {
-            try {
+            //VERIFICA O ESTOQUE PARA PRODUTOS PR ENT-------------------------------
+            if (TIPO_ORCAMENTO == 1) {
                 if (ProdutoDAO.verificaEstoque(
                         Integer.valueOf(tabelaTiragens.getValueAt(0, 0).toString()),
                         Integer.valueOf(tabelaTiragens.getValueAt(0, 1).toString()))) {
@@ -4114,97 +4103,89 @@ public class OrcamentoPrincipalFrame extends javax.swing.JInternalFrame {
                     loading.setVisible(false);
                     return;
                 }
-            } catch (SQLException ex) {
-                EnvioExcecao envioExcecao = new EnvioExcecao(Controle.getDefaultGj(), ex);
-                EnvioExcecao.envio();
-                loading.setVisible(false);
-                return;
             }
-        }
-        //----------------------------------------------------------------------
+            //----------------------------------------------------------------------
 
-        //VERIFICA ERROS--------------------------------------------------------
-        if (TIPO_ORCAMENTO != 1) {
-            for (int i = 0; i < tabelaPapeis.getRowCount(); i++) {
-                if (Integer.valueOf(tabelaPapeis.getValueAt(i, 6).toString()) == 0) {
-                    JOptionPane.showMessageDialog(null, "DIGITE O FORMATO DE IMPRESSÃO DO PRODUTO!", "INFO", JOptionPane.INFORMATION_MESSAGE);
-                    loading.setVisible(false);
-                    return;
+            //VERIFICA ERROS--------------------------------------------------------
+            if (TIPO_ORCAMENTO != 1) {
+                for (int i = 0; i < tabelaPapeis.getRowCount(); i++) {
+                    if (Integer.valueOf(tabelaPapeis.getValueAt(i, 6).toString()) == 0) {
+                        JOptionPane.showMessageDialog(null, "DIGITE O FORMATO DE IMPRESSÃO DO PRODUTO!", "INFO", JOptionPane.INFORMATION_MESSAGE);
+                        loading.setVisible(false);
+                        return;
+                    }
                 }
-            }
 
-            for (int i = 0; i < tabelaTiragens.getRowCount(); i++) {
-                try {
+                for (int i = 0; i < tabelaTiragens.getRowCount(); i++) {
                     if (ProdutoDAO.retornaTipoProduto(Integer.valueOf(tabelaTiragens.getValueAt(i, 0).toString())).equals("BLOCO")
                             & Integer.valueOf(tabelaTiragens.getValueAt(i, 1).toString()) == 0) {
                         JOptionPane.showMessageDialog(null, "DIGITE O NÚMERO DE JOGOS DO PRODUTO", "INFO", JOptionPane.INFORMATION_MESSAGE);
                         loading.setVisible(false);
                         return;
                     }
-                } catch (SQLException ex) {
-                    EnvioExcecao envioExcecao = new EnvioExcecao(Controle.getDefaultGj(), ex);
-                    EnvioExcecao.envio();
-                    loading.setVisible(false);
-                    return;
                 }
-            }
 
-            for (int i = 0; i < tabelaProdutos.getRowCount(); i++) {
-                int codigoProduto = Integer.valueOf(tabelaProdutos.getValueAt(i, 0).toString());
-                if (tabelaTiragens.getValueAt(i, 2).equals(true) & tabelaTiragens.getValueAt(i, 3).equals(false)) {
-                    if (Double.valueOf(tabelaTiragens.getValueAt(i, 4).toString()) == 0d) {
-                        JOptionPane.showMessageDialog(null, "DIGITE O VALOR DA IMPRESSÃO DIGITAL DO PRODUTO " + codigoProduto + "!", "INFO", JOptionPane.INFORMATION_MESSAGE);
-                        loading.setVisible(false);
+                for (int i = 0; i < tabelaProdutos.getRowCount(); i++) {
+                    int codigoProduto = Integer.valueOf(tabelaProdutos.getValueAt(i, 0).toString());
+                    if (tabelaTiragens.getValueAt(i, 2).equals(true) & tabelaTiragens.getValueAt(i, 3).equals(false)) {
+                        if (Double.valueOf(tabelaTiragens.getValueAt(i, 4).toString()) == 0d) {
+                            JOptionPane.showMessageDialog(null, "DIGITE O VALOR DA IMPRESSÃO DIGITAL DO PRODUTO " + codigoProduto + "!", "INFO", JOptionPane.INFORMATION_MESSAGE);
+                            loading.setVisible(false);
+                            return;
+                        }
+                    } else if ((tabelaTiragens.getValueAt(i, 2).equals(true) && tabelaTiragens.getValueAt(i, 3).equals(true))) {
+                        JOptionPane.showMessageDialog(null, "SELECIONE SOMENTE UMA MÁQUINA DE IMPRESSÃO.", "ERRO", JOptionPane.ERROR_MESSAGE);
+                        OrcamentoFrame.loadingHide();
                         return;
-                    }
-                } else if ((tabelaTiragens.getValueAt(i, 2).equals(true) && tabelaTiragens.getValueAt(i, 3).equals(true))) {
-                    JOptionPane.showMessageDialog(null, "SELECIONE SOMENTE UMA MÁQUINA DE IMPRESSÃO.", "ERRO", JOptionPane.ERROR_MESSAGE);
-                    OrcamentoFrame.loadingHide();
-                    return;
-                } else if ((tabelaTiragens.getValueAt(i, 2).equals(false) && tabelaTiragens.getValueAt(i, 3).equals(false))) {
-                    JOptionPane.showMessageDialog(null, "SELECIONE UMA MÁQUINA DE IMPRESSÃO.", "ERRO", JOptionPane.ERROR_MESSAGE);
-                    loading.setVisible(false);
-                    return;
-                }
-            }
-        }
-
-        if (tabelaProdutos.getRowCount() == 0) {
-            for (int i = 0; i < tabelaProdutos.getRowCount(); i++) {
-                String codigoProdutoAux = tabelaProdutos.getValueAt(i, 0).toString();
-                for (int j = 0; j < tabelaProdutos.getRowCount(); j++) {
-                    if (j != i
-                            & (codigoProdutoAux == tabelaProdutos.getValueAt(j, 0).toString()
-                            & (tabelaProdutos.getValueAt(j, 5).toString().equals(tabelaProdutos.getValueAt(j, 5).toString())))) {
-                        JOptionPane.showMessageDialog(null, "PRODUTOS COM MESMO CÓDIGO E MESMA OBSERVAÇÃO", "ERRO", JOptionPane.ERROR_MESSAGE);
+                    } else if ((tabelaTiragens.getValueAt(i, 2).equals(false) && tabelaTiragens.getValueAt(i, 3).equals(false))) {
+                        JOptionPane.showMessageDialog(null, "SELECIONE UMA MÁQUINA DE IMPRESSÃO.", "ERRO", JOptionPane.ERROR_MESSAGE);
                         loading.setVisible(false);
                         return;
                     }
                 }
             }
+
+            if (tabelaProdutos.getRowCount() == 0) {
+                for (int i = 0; i < tabelaProdutos.getRowCount(); i++) {
+                    String codigoProdutoAux = tabelaProdutos.getValueAt(i, 0).toString();
+                    for (int j = 0; j < tabelaProdutos.getRowCount(); j++) {
+                        if (j != i
+                                & (codigoProdutoAux == tabelaProdutos.getValueAt(j, 0).toString()
+                                & (tabelaProdutos.getValueAt(j, 5).toString().equals(tabelaProdutos.getValueAt(j, 5).toString())))) {
+                            JOptionPane.showMessageDialog(null, "PRODUTOS COM MESMO CÓDIGO E MESMA OBSERVAÇÃO", "ERRO", JOptionPane.ERROR_MESSAGE);
+                            loading.setVisible(false);
+                            return;
+                        }
+                    }
+                }
+            }
+            //----------------------------------------------------------------------
+
+            //CÁLCULOS--------------------------------------------------------------
+            if (TIPO_ORCAMENTO != 1) {
+                calculaPapeis();
+                calculaChapas();
+            }
+
+            if (!valoresManuais.isSelected()) {
+                calculaValoresUnitarios();
+            }
+
+            calculaValorTotal();
+            //----------------------------------------------------------------------
+
+            //HABILITA O SALVAMENTO-------------------------------------------------        
+            salvarOrcamento.setEnabled(true);
+            //----------------------------------------------------------------------
+
+            //FECHA A O STATUS CARREGANDO-------------------------------------------
+            loading.setVisible(false);
+            //----------------------------------------------------------------------
+        } catch (SQLException ex) {
+            EnvioExcecao envioExcecao = new EnvioExcecao(Controle.getDefaultGj(), ex);
+            EnvioExcecao.envio(loading);
         }
-        //----------------------------------------------------------------------
-
-        //CÁLCULOS--------------------------------------------------------------
-        if (TIPO_ORCAMENTO != 1) {
-            calculaPapeis();
-            calculaChapas();
-        }
-
-        if(!valoresManuais.isSelected()){
-            calculaValoresUnitarios();
-        }
-        
-        calculaValorTotal();
-        //----------------------------------------------------------------------
-
-        //HABILITA O SALVAMENTO-------------------------------------------------        
-        salvarOrcamento.setEnabled(true);
-        //----------------------------------------------------------------------
-
-        //FECHA A O STATUS CARREGANDO-------------------------------------------
         loading.setVisible(false);
-        //----------------------------------------------------------------------
     }
 
     //Crud----------------------------------------------------------------------
@@ -4378,9 +4359,9 @@ public class OrcamentoPrincipalFrame extends javax.swing.JInternalFrame {
 
         } catch (OrcamentoInexistenteException | SQLException ex) {
             EnvioExcecao envioExcecao = new EnvioExcecao(Controle.getDefaultGj(), ex);
-            EnvioExcecao.envio();
-            loading.setVisible(false);
+            EnvioExcecao.envio(loading);
         }
+        loading.setVisible(false);
     }
 
     /**
@@ -4414,8 +4395,9 @@ public class OrcamentoPrincipalFrame extends javax.swing.JInternalFrame {
             enviarProducao.setEnabled(false);
         } catch (SQLException ex) {
             EnvioExcecao envioExcecao = new EnvioExcecao(Controle.getDefaultGj(), ex);
-            EnvioExcecao.envio();
+            EnvioExcecao.envio(loading);
         }
+        loading.setVisible(false);
     }
 
     private static synchronized int verificaCodProd(int codProd) {

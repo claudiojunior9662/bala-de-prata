@@ -10,6 +10,7 @@ import java.io.StringWriter;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import ui.erros.ErroBEAN;
 import ui.erros.ErroDAO;
@@ -36,8 +37,11 @@ public class EnvioExcecao {
         this.ex = ex;
     }
 
-    public static void envio() {
+    public static void envio(JLabel carregando) {
         try {
+            if(carregando != null){
+                carregando.setVisible(false);
+            }
             StringWriter sw = new StringWriter();
             PrintWriter pw = new PrintWriter(sw);
             ex.printStackTrace(pw);

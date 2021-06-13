@@ -26,8 +26,8 @@ import org.joda.time.DateTime;
 import org.joda.time.Days;
 import ui.administrador.UsuarioBEAN;
 import ui.administrador.UsuarioDAO;
-import ui.cadastros.clientes.ClienteDAO;
-import ui.cadastros.produtos.ProdutoDAO;
+import model.dao.ClienteDAO;
+import model.dao.ProdutoDAO;
 import ui.controle.Controle;
 import ui.login.TelaAutenticacao;
 import ui.principal.GerenteJanelas;
@@ -1056,12 +1056,12 @@ public final class TelaAcompanhamento extends javax.swing.JInternalFrame {
                         }
                     }
                     codOpTexto.setValue(null);
+                    OrdemProducao.corTabela(tabelaConsulta, (byte) 1);
+                    loading.setVisible(false);
                 } catch (SQLException ex) {
                     EnvioExcecao envioExcecao = new EnvioExcecao(Controle.getDefaultGj(), ex);
-                    EnvioExcecao.envio();
+                    EnvioExcecao.envio(loading);
                 }
-                OrdemProducao.corTabela(tabelaConsulta, (byte) 1);
-                loading.setVisible(false);
             }
         }.start();
     }//GEN-LAST:event_aplicarTextoActionPerformed
@@ -1493,7 +1493,7 @@ public final class TelaAcompanhamento extends javax.swing.JInternalFrame {
              */
         } catch (SQLException ex) {
             EnvioExcecao envioExcecao = new EnvioExcecao(Controle.getDefaultGj(), ex);
-            EnvioExcecao.envio();
+            EnvioExcecao.envio(loading);
         }
     }
 
@@ -1551,12 +1551,13 @@ public final class TelaAcompanhamento extends javax.swing.JInternalFrame {
             OrdemProducao.corTabela(tabelaConsulta, (byte) 1);
         } catch (SQLException ex) {
             EnvioExcecao envioExcecao = new EnvioExcecao(Controle.getDefaultGj(), ex);
-            EnvioExcecao.envio();
+            EnvioExcecao.envio(loading);
         }
     }
 
     /**
-     * Atualização automática da tabela de seleção e acompanhamento de Ordem de Produção
+     * Atualização automática da tabela de seleção e acompanhamento de Ordem de
+     * Produção
      */
     public void refresh() {
         DefaultTableModel modeloAcompanhamento = (DefaultTableModel) tabelaConsulta.getModel();
@@ -1578,9 +1579,8 @@ public final class TelaAcompanhamento extends javax.swing.JInternalFrame {
                         Thread.sleep(300000);
                     } catch (SQLException | InterruptedException ex) {
                         EnvioExcecao envioExcecao = new EnvioExcecao(Controle.getDefaultGj(), ex);
-                        EnvioExcecao.envio();
+                        EnvioExcecao.envio(loading);
                     }
-
                 }
             }
         }.start();
@@ -1833,10 +1833,6 @@ public final class TelaAcompanhamento extends javax.swing.JInternalFrame {
                         stmt.setInt(2, (int) TelaAcompanhamento.numeroOp.getValue());
                     }
                     stmt.executeUpdate();
-                } catch (SQLException ex) {
-                    EnvioExcecao envioExcecao = new EnvioExcecao(Controle.getDefaultGj(), ex);
-                    EnvioExcecao.envio();
-                    return;
                 } finally {
                     ConnectionFactory.closeConnection(con, stmt);
                     botao = null;
@@ -1851,7 +1847,7 @@ public final class TelaAcompanhamento extends javax.swing.JInternalFrame {
                     + Controle.horaPadrao.format(new Date()));
         } catch (SQLException ex) {
             EnvioExcecao envioExcecao = new EnvioExcecao(Controle.getDefaultGj(), ex);
-            EnvioExcecao.envio();
+            EnvioExcecao.envio(loading);
         }
     }
 }

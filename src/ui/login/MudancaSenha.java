@@ -158,7 +158,7 @@ public class MudancaSenha extends javax.swing.JFrame {
                 this.dispose();
             } catch (AtualizaSenhaException ex) {
                 EnvioExcecao envioExcecao = new EnvioExcecao(Controle.getDefaultGj(), ex);
-                EnvioExcecao.envio();
+                EnvioExcecao.envio(null);
             }
         }
     }//GEN-LAST:event_atualizarSenhaActionPerformed
@@ -175,7 +175,7 @@ public class MudancaSenha extends javax.swing.JFrame {
             }
         } catch (SQLException ex) {
             EnvioExcecao envioExcecao = new EnvioExcecao(Controle.getDefaultGj(), ex);
-            EnvioExcecao.envio();
+            EnvioExcecao.envio(null);
         }
     }//GEN-LAST:event_senhaAnteriorFocusLost
 

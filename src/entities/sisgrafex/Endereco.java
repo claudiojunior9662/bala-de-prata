@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package ui.cadastros.enderecos;
+package entities.sisgrafex;
 
 import java.text.ParseException;
 import java.util.logging.Level;
@@ -14,7 +14,7 @@ import javax.swing.text.MaskFormatter;
  *
  * @author claudio
  */
-public class EnderecoBEAN {
+public class Endereco {
 
     private int codigo;
     private String cep;
@@ -26,7 +26,12 @@ public class EnderecoBEAN {
     private String complemento;
     private String cidade;
 
-    public EnderecoBEAN(String logradouro,
+    @Override
+    public String toString() {
+        return "Endereco{" + "codigo=" + codigo + ", cep=" + cep + ", codCliente=" + codCliente + ", tipoEndereco=" + tipoEndereco + ", logradouro=" + logradouro + ", bairro=" + bairro + ", uf=" + uf + ", complemento=" + complemento + ", cidade=" + cidade + '}';
+    }
+
+    public Endereco(String logradouro,
             String complemento,
             String bairro,
             String cidade,
@@ -38,7 +43,7 @@ public class EnderecoBEAN {
         this.uf = uf;
     }
 
-    public EnderecoBEAN(int codigo,
+    public Endereco(int codigo,
             String cep,
             String tipoEndereco,
             String logradouro,
@@ -56,7 +61,7 @@ public class EnderecoBEAN {
         this.cidade = cidade;
     }
 
-    public EnderecoBEAN(String cep,
+    public Endereco(String cep,
             String tipoEndereco,
             String logradouro,
             String bairro,
@@ -72,7 +77,7 @@ public class EnderecoBEAN {
         this.cidade = cidade;
     }
 
-    public EnderecoBEAN() {
+    public Endereco() {
 
     }
 
@@ -155,7 +160,7 @@ public class EnderecoBEAN {
             formatoTelefone.setValueContainsLiteralCharacters(false);
             formatar = formatoTelefone.valueToString(formatar);
         } catch (ParseException ex) {
-            Logger.getLogger(EnderecoBEAN.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Endereco.class.getName()).log(Level.SEVERE, null, ex);
             return null;
         }
         return formatar;

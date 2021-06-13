@@ -27,7 +27,7 @@ public class Estoque extends javax.swing.JFrame {
      */
     public Estoque() {
         initComponents();
-        
+
         atualizacao.setVisible(false);
 
         new Thread("Atualizações estoque") {
@@ -36,8 +36,8 @@ public class Estoque extends javax.swing.JFrame {
                 while (true) {
                     try {
                         try {
-                            if(Controle.verificaVersao(TelaAutenticacao.getCodVersao(), 
-                                    TelaAutenticacao.getUpdate())){
+                            if (Controle.verificaVersao(TelaAutenticacao.getCodVersao(),
+                                    TelaAutenticacao.getUpdate())) {
                                 atualizacao.setVisible(true);
                             }
                             Thread.sleep(600000);
@@ -52,7 +52,7 @@ public class Estoque extends javax.swing.JFrame {
                 }
             }
         }.start();
-        
+
         Controle.setDefaultGj(new GerenteJanelas(areaDeTrabalho));
         Controle.defineStatus(statusPane);
         loadingHide();
@@ -324,31 +324,26 @@ public static void loadingVisible(String texto) {
                             File[] files = file.listFiles();
                             for (int i = 0; i < files.length; ++i) {
                                 if (files[i].getName().contains(Controle.ESTOQUE_NAME)) {
-                                    try {
-                                        java.awt.Desktop.getDesktop().open(files[i]);
-                                        if (className == 1) {
-                                            Estoque.loadingHide();
-                                        } else {
-                                            OrcamentoFrame.loadingHide();
-                                        }
-                                        return;
-                                    } catch (IOException ex) {
-                                        EnvioExcecao envioExcecao = new EnvioExcecao(Controle.getDefaultGj(), ex);
-                                        EnvioExcecao.envio();
-                                        if (className == 1) {
-                                            Estoque.loadingHide();
-                                        } else {
-                                            OrcamentoFrame.loadingHide();
-                                        }
-                                        return;
+                                    java.awt.Desktop.getDesktop().open(files[i]);
+                                    if (className == 1) {
+                                        Estoque.loadingHide();
+                                    } else {
+                                        OrcamentoFrame.loadingHide();
                                     }
+                                    return;
                                 }
                             }
                         }
                     }
-                } catch (Exception ex) {
+                } catch (IOException ex) {
                     EnvioExcecao envioExcecao = new EnvioExcecao(Controle.getDefaultGj(), ex);
-                    EnvioExcecao.envio();
+                    EnvioExcecao.envio(null);
+                    if (className == 1) {
+                        Estoque.loadingHide();
+                    } else {
+                        OrcamentoFrame.loadingHide();
+                    }
+                    return;
                 }
             }
         }.start();

@@ -5,19 +5,13 @@
  */
 package ui.principal;
 
-import java.awt.Dimension;
-import java.awt.Graphics;
-import java.awt.Image;
-import java.awt.Toolkit;
-import java.net.URL;
+import entities.sisgrafex.Cliente;
 import java.sql.SQLException;
 import java.text.DecimalFormat;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.swing.ImageIcon;
-import ui.cadastros.clientes.ClienteBEAN;
 import ui.cadastros.clientes.ClienteCadastro;
-import ui.cadastros.clientes.ClienteDAO;
+import model.dao.ClienteDAO;
 import ui.cadastros.clientes.RelatorioContabilidade;
 import ui.cadastros.notas.NCFrame;
 import ui.controle.Controle;
@@ -48,10 +42,10 @@ public class Financeiro extends javax.swing.JFrame {
                 while (true) {
                     try {
                         try {
-                            for (ClienteBEAN cliente : ClienteDAO.retornaCredNeg()) {
+                            for (Cliente cliente : ClienteDAO.retornaCredNeg()) {
                                 DecimalFormat df = new DecimalFormat("###,##0.00");
-                                avProd.append("\n\n- " + cliente.getCod() + " (" + (cliente.getTipoCliente() == 1 ? "PF" : "PJ") + ")");
-                                avProd.append(" / " + (cliente.getTipoCliente() == 1 ? cliente.getNome() : cliente.getNomeFantasia()));
+                                avProd.append("\n\n- " + cliente.getCodigo()+ " (" + (cliente.getTipoPessoa()== 1 ? "PF" : "PJ") + ")");
+                                avProd.append(" / " + (cliente.getTipoPessoa() == 1 ? cliente.getNome() : cliente.getNomeFantasia()));
                                 avProd.append(" / R$ " + df.format(cliente.getCredito()));
                             }
                             

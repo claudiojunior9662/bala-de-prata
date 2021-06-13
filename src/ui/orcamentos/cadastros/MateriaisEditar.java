@@ -179,7 +179,7 @@ public class MateriaisEditar extends javax.swing.JFrame {
             this.dispose();
         } catch (SQLException ex) {
             EnvioExcecao envioExcecao = new EnvioExcecao(Controle.getDefaultGj(), ex);
-            EnvioExcecao.envio();
+            EnvioExcecao.envio(null);
         }
     }//GEN-LAST:event_confirmar_alteracoesActionPerformed
 

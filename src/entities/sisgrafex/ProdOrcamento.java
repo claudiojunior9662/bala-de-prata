@@ -22,6 +22,11 @@ public class ProdOrcamento {
     private int maquina;
     private Double valorDigital;
 
+    @Override
+    public String toString() {
+        return "ProdOrcamento{" + "codOrcamento=" + codOrcamento + ", codProduto=" + codProduto + ", tipoProduto=" + tipoProduto + ", descricaoProduto=" + descricaoProduto + ", quantidade=" + quantidade + ", observacaoProduto=" + observacaoProduto + ", precoUnitario=" + precoUnitario + ", tipoTrabalho=" + tipoTrabalho + ", maquina=" + maquina + ", valorDigital=" + valorDigital + '}';
+    }
+
     public ProdOrcamento(String descricaoProduto,
             int quantidade,
             float precoUnitario,
@@ -36,6 +41,18 @@ public class ProdOrcamento {
     }
 
     public ProdOrcamento() {
+    }
+
+    public ProdOrcamento(int codProduto,
+            byte tipoProduto,
+            String descricaoProduto,
+            int quantidade,
+            float precoUnitario) {
+        this.codProduto = codProduto;
+        this.tipoProduto = tipoProduto;
+        this.descricaoProduto = descricaoProduto;
+        this.quantidade = quantidade;
+        this.precoUnitario = precoUnitario;
     }
 
     public Double getValorDigital() {

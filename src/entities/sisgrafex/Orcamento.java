@@ -5,9 +5,8 @@
  */
 package entities.sisgrafex;
 
-import ui.cadastros.contatos.ContatoBEAN;
 import ui.cadastros.produtos.AcabamentoProdBEAN;
-import ui.cadastros.produtos.ProdutoDAO;
+import model.dao.ProdutoDAO;
 import ui.controle.Controle;
 import com.itextpdf.text.DocumentException;
 import com.itextpdf.text.Element;
@@ -37,10 +36,9 @@ import javax.swing.JOptionPane;
 import model.dao.OrcamentoDAO;
 import model.dao.OrdemProducaoDAO;
 import ui.cadastros.acabamentos.AcabamentoDAO;
-import ui.cadastros.clientes.ClienteBEAN;
-import ui.cadastros.clientes.ClienteDAO;
-import ui.cadastros.papeis.PapelDAO;
-import ui.cadastros.servicos.ServicoDAO;
+import model.dao.ClienteDAO;
+import model.dao.PapelDAO;
+import model.dao.ServicoDAO;
 import ui.login.TelaAutenticacao;
 
 /**
@@ -524,12 +522,12 @@ public class Orcamento {
                     document.add(p2);
                     document.add(new Phrase("\n"));
 
-                    ClienteBEAN cliente = ClienteDAO.selecionaInformacoes((byte) orcamento.getTipoPessoa(), orcamento.getCodCliente());
+                    Cliente cliente = ClienteDAO.selecionaInformacoes((byte) orcamento.getTipoPessoa(), orcamento.getCodCliente());
                     p2 = new Paragraph("CLIENTE: " + cliente.getNome() + "        CÓDIGO CLIENTE: " + orcamento.getCodCliente(), FontFactory.getFont("arial.ttf", 9));
                     document.add(p2);
 
                     //INFORMAÇÕES DOS CONTATOS----------------------------------
-                    ContatoBEAN contato = ClienteDAO.selInfoContato(orcamento.getCodContato());
+                    Contato contato = ClienteDAO.selInfoContato(orcamento.getCodContato());
                     p2 = new Paragraph("CONTATO: " + contato.getNomeContato().toString()
                             + "        TELEFONE: " + contato.getTelefone().toString(), FontFactory.getFont("arial.ttf", 9));
                     document.add(p2);
@@ -835,7 +833,7 @@ public class Orcamento {
 
                 } catch (DocumentException | SQLException ex) {
                     EnvioExcecao envioExcecao = new EnvioExcecao(Controle.getDefaultGj(), ex);
-                    EnvioExcecao.envio();
+                    EnvioExcecao.envio(loading);
                 } catch (FileNotFoundException ex) {
                     JOptionPane.showMessageDialog(null,
                             "O ARQUIVO DEVE ESTAR SENDO UTILIZADO POR OUTRO PROCESSO OU\n"
@@ -844,7 +842,7 @@ public class Orcamento {
                             JOptionPane.ERROR_MESSAGE);
                 } catch (IOException ex) {
                     EnvioExcecao envioExcecao = new EnvioExcecao(Controle.getDefaultGj(), ex);
-                    EnvioExcecao.envio();
+                    EnvioExcecao.envio(loading);
                 }
                 loading.setVisible(false);
             }

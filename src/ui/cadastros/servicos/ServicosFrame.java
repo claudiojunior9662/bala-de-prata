@@ -5,6 +5,7 @@
  */
 package ui.cadastros.servicos;
 
+import model.dao.ServicoDAO;
 import exception.EnvioExcecao;
 import exception.ErroPesquisa;
 import java.sql.SQLException;
@@ -363,7 +364,7 @@ public class ServicosFrame extends javax.swing.JInternalFrame {
             EDITANDO = 2;
         } catch (SQLException ex) {
             EnvioExcecao envioExcecao = new EnvioExcecao(Controle.getDefaultGj(), ex);
-            EnvioExcecao.envio();
+            EnvioExcecao.envio(loading);
         }
     }//GEN-LAST:event_btnSalvarActionPerformed
 
@@ -382,7 +383,7 @@ public class ServicosFrame extends javax.swing.JInternalFrame {
             btnSelecionar.setEnabled(true);
         } catch (SQLException ex) {
             EnvioExcecao envioExcecao = new EnvioExcecao(Controle.getDefaultGj(), ex);
-            EnvioExcecao.envio();
+            EnvioExcecao.envio(loading);
         }
     }//GEN-LAST:event_tblConsultaMouseClicked
 
@@ -406,7 +407,7 @@ public class ServicosFrame extends javax.swing.JInternalFrame {
             }
         } catch (SQLException ex) {
             EnvioExcecao envioExcecao = new EnvioExcecao(Controle.getDefaultGj(), ex);
-            EnvioExcecao.envio();
+            EnvioExcecao.envio(loading);
         }
     }//GEN-LAST:event_btnEditarActionPerformed
 
@@ -432,7 +433,7 @@ public class ServicosFrame extends javax.swing.JInternalFrame {
             btnDesativar.setEnabled(false);
         } catch (SQLException ex) {
             EnvioExcecao envioExcecao = new EnvioExcecao(Controle.getDefaultGj(), ex);
-            EnvioExcecao.envio();
+            EnvioExcecao.envio(loading);
         }
     }//GEN-LAST:event_btnDesativarActionPerformed
 
@@ -445,7 +446,7 @@ public class ServicosFrame extends javax.swing.JInternalFrame {
             DefaultTableModel modelo_consulta = (DefaultTableModel) tblConsulta.getModel();
             modelo_consulta.setNumRows(0);
             String servico_geral;
-            for (ServicoBEAN sb : ServicoDAO.pesquisaReg((String) cbTipoPesquisa.getSelectedItem(), 
+            for (ServicoBEAN sb : ServicoDAO.pesquisaReg((String) cbTipoPesquisa.getSelectedItem(),
                     tfPesquisa.getText())) {
                 if (sb.getServicoGeral() == 1) {
                     servico_geral = "SIM";
@@ -462,9 +463,9 @@ public class ServicosFrame extends javax.swing.JInternalFrame {
             }
         } catch (SQLException ex) {
             EnvioExcecao envioExcecao = new EnvioExcecao(Controle.getDefaultGj(), ex);
-            EnvioExcecao.envio();
-        }catch(ErroPesquisa ex){
-            JOptionPane.showMessageDialog(null, 
+            EnvioExcecao.envio(loading);
+        } catch (ErroPesquisa ex) {
+            JOptionPane.showMessageDialog(null,
                     "VERIFIQUE OS PARÂMETROS DE PESQUISA E TENTE NOVAMENTE",
                     "ERRO AO PESQUISAR",
                     JOptionPane.ERROR_MESSAGE);
@@ -492,7 +493,7 @@ public class ServicosFrame extends javax.swing.JInternalFrame {
             }
         } catch (SQLException ex) {
             EnvioExcecao envioExcecao = new EnvioExcecao(Controle.getDefaultGj(), ex);
-            EnvioExcecao.envio();
+            EnvioExcecao.envio(loading);
         }
     }//GEN-LAST:event_btnMostrarTodosActionPerformed
 
@@ -507,9 +508,13 @@ public class ServicosFrame extends javax.swing.JInternalFrame {
                         pcBEAN.getValorUnitario()});
                 }
                 OrcamentoPrincipalFrame.estadoProdSv((byte) 1);
+
             } catch (SQLException ex) {
                 EnvioExcecao envioExcecao = new EnvioExcecao(Controle.getDefaultGj(), ex);
-                EnvioExcecao.envio();
+                EnvioExcecao.envio(loading);
+                orcamentoPrincipal = false;
+                orcamentoEditar = false;
+                this.dispose();
             }
         }
         orcamentoPrincipal = false;

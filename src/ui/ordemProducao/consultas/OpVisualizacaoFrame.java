@@ -12,7 +12,7 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import model.bean.TelaAcompanhamentoBEAN;
-import ui.cadastros.produtos.ProdutoDAO;
+import model.dao.ProdutoDAO;
 import ui.controle.Controle;
 import ui.principal.GerenteJanelas;
 import ui.sproducao.contrrole.TelaAcompanhamentoDAO;
@@ -473,11 +473,11 @@ public class OpVisualizacaoFrame extends javax.swing.JInternalFrame {
                         }
                     }
                     codOpTexto.setValue(null);
+                    loading.setVisible(false);
                 } catch (SQLException ex) {
                     EnvioExcecao envioExcecao = new EnvioExcecao(Controle.getDefaultGj(), ex);
-                    EnvioExcecao.envio();
+                    EnvioExcecao.envio(loading);
                 }
-                loading.setVisible(false);
             }
         }.start();
     }//GEN-LAST:event_aplicarTextoActionPerformed
@@ -564,11 +564,11 @@ public class OpVisualizacaoFrame extends javax.swing.JInternalFrame {
                         }
                         OrdemProducao.corTabela(tabelaConsulta, (byte) 1);
                         Thread.sleep(300000);
+                        loading.setVisible(false);
                     } catch (SQLException | InterruptedException ex) {
                         EnvioExcecao envioExcecao = new EnvioExcecao(Controle.getDefaultGj(), ex);
-                        EnvioExcecao.envio();
+                        EnvioExcecao.envio(loading);
                     }
-
                 }
             }
         }.start();

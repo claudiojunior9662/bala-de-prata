@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package ui.cadastros.servicos;
+package model.dao;
 
 import connection.ConnectionFactory;
 import entities.sisgrafex.Servicos;
@@ -14,6 +14,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import ui.cadastros.servicos.ServicoBEAN;
 
 /**
  *

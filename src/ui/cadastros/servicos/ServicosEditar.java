@@ -5,6 +5,7 @@
  */
 package ui.cadastros.servicos;
 
+import model.dao.ServicoDAO;
 import javax.swing.JOptionPane;
 
 /**

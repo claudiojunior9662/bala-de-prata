@@ -182,7 +182,7 @@ public class ConsultaSimatexFrame extends javax.swing.JInternalFrame {
 
                 } catch (SQLException ex) {
                     EnvioExcecao envioExcecao = new EnvioExcecao(Controle.getDefaultGj(), ex);
-                    EnvioExcecao.envio();
+                    EnvioExcecao.envio(loading);
                 }
                 loading.setVisible(false);
             }

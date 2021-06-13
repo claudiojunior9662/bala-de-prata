@@ -140,7 +140,7 @@ public class TintasEditar extends javax.swing.JFrame {
             TintasCadastroDAO.alteraRegistro((int) codigo_editar.getValue(), tcBEAN);
         } catch (SQLException ex) {
             EnvioExcecao envioExcecao = new EnvioExcecao(Controle.getDefaultGj(), ex);
-            EnvioExcecao.envio();
+            EnvioExcecao.envio(null);
         }
     }//GEN-LAST:event_confirmar_alteracoesActionPerformed
 

@@ -8,8 +8,6 @@ package ui.sproducao.controle.observacoes;
 import exception.EnvioExcecao;
 import java.sql.SQLException;
 import java.util.Date;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import model.tabelas.ObsOpTableModel;
@@ -52,7 +50,7 @@ public class ObservacaoOp extends javax.swing.JInternalFrame {
             }
         } catch (SQLException ex) {
             EnvioExcecao envioExcecao = new EnvioExcecao(Controle.getDefaultGj(), ex);
-            EnvioExcecao.envio();
+            EnvioExcecao.envio(loading);
         }
     }
 
@@ -247,7 +245,7 @@ public class ObservacaoOp extends javax.swing.JInternalFrame {
             estadoExcluirGravar();
         } catch (SQLException ex) {
             EnvioExcecao envioExcecao = new EnvioExcecao(Controle.getDefaultGj(), ex);
-            EnvioExcecao.envio();
+            EnvioExcecao.envio(loading);
         }
     }//GEN-LAST:event_btnGravarActionPerformed
 
@@ -264,33 +262,32 @@ public class ObservacaoOp extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_tblConsultaMouseClicked
 
     private void btnExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExcluirActionPerformed
-        int dialogButton = JOptionPane.YES_NO_OPTION;
-        int dialogResult = JOptionPane.showConfirmDialog(
-                this,
-                "EXCLUIR OBSERVAÇÃO SELECIONADA?",
-                "CONFIRMAÇÃO DE EXCLUSÃO",
-                dialogButton
-        );
-        if (dialogResult == 0) {
-            try {
+        try {
+            int dialogButton = JOptionPane.YES_NO_OPTION;
+            int dialogResult = JOptionPane.showConfirmDialog(
+                    this,
+                    "EXCLUIR OBSERVAÇÃO SELECIONADA?",
+                    "CONFIRMAÇÃO DE EXCLUSÃO",
+                    dialogButton
+            );
+            if (dialogResult == 0) {
                 ObservacaoBEAN obsEx = model.getValueAt(tblConsulta.getSelectedRow());
                 ObservacaoDAO.excluiObs(obsEx.getCodigoOp(), obsEx.getObservacao());
                 JOptionPane.showMessageDialog(null, "OBSERVAÇÃO EXCLUÍDA COM SUCESSO!",
                         "CONFIRMAÇÃO",
                         JOptionPane.INFORMATION_MESSAGE);
-                
+
                 model.setNumRows(0);
                 for (ObservacaoBEAN obs : ObservacaoDAO.carregaObs(codigoOp)) {
                     model.addRow(obs);
                 }
-                
                 estadoExcluirGravar();
-            } catch (SQLException ex) {
-                EnvioExcecao envioExcecao = new EnvioExcecao(Controle.getDefaultGj(), ex);
-                EnvioExcecao.envio();
+            } else {
+                return;
             }
-        } else {
-            return;
+        } catch (SQLException ex) {
+            EnvioExcecao envioExcecao = new EnvioExcecao(Controle.getDefaultGj(), ex);
+            EnvioExcecao.envio(loading);
         }
     }//GEN-LAST:event_btnExcluirActionPerformed
 

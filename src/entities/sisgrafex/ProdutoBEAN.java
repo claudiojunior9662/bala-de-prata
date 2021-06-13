@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package ui.cadastros.produtos;
+package entities.sisgrafex;
 
 /**
  *
@@ -33,6 +33,11 @@ public class ProdutoBEAN {
     //PREÇOS
     private float valorCusto;
     private float valorPromocional;
+
+    @Override
+    public String toString() {
+        return "ProdutoBEAN{" + "codigo=" + codigo + ", codigoOrcamento=" + codigoOrcamento + ", codigoProduto=" + codigoProduto + ", descricao=" + descricao + ", largura=" + largura + ", altura=" + altura + ", espessura=" + espessura + ", peso=" + peso + ", usoEcommerce=" + usoEcommerce + ", precoPromocional=" + precoPromocional + ", qtdPaginas=" + qtdPaginas + ", quantidadeProduto=" + quantidadeProduto + ", tipoProduto=" + tipoProduto + ", descricaoProduto=" + descricaoProduto + ", quantidadeProduzida=" + quantidadeProduzida + ", ativo=" + ativo + ", valorCusto=" + valorCusto + ", valorPromocional=" + valorPromocional + '}';
+    }
 
     public ProdutoBEAN() {
     }

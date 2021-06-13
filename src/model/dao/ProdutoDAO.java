@@ -3,8 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package ui.cadastros.produtos;
+package model.dao;
 
+import entities.sisgrafex.ProdutoBEAN;
 import ui.cadastros.papeis.PapelBEAN;
 import connection.ConnectionFactory;
 import entities.sisgrafex.Produto;
@@ -18,6 +19,7 @@ import java.util.List;
 import entities.sisgrafex.ProdOrcamento;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import ui.cadastros.produtos.ProdutoPrEntBEAN;
 
 /**
  *
@@ -666,7 +668,11 @@ public class ProdutoDAO {
         Produto retorno = null;
 
         try {
-            stmt = con.prepareStatement("SELECT CODIGO, DESCRICAO, TIPO FROM produtos WHERE DESCRICAO = ?");
+            stmt = con.prepareStatement("SELECT CODIGO, "
+                    + "DESCRICAO, "
+                    + "TIPO "
+                    + "FROM produtos "
+                    + "WHERE DESCRICAO = ?");
             stmt.setString(1, descricaoProduto);
             rs = stmt.executeQuery();
             if (rs.next()) {

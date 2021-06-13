@@ -5,6 +5,7 @@
  */
 package ui.cadastros.notas;
 
+import model.dao.NotaDAO;
 import entities.sisgrafex.NotaCredito;
 import ui.login.TelaAutenticacao;
 import com.itextpdf.text.DocumentException;
@@ -26,7 +27,7 @@ import java.util.Date;
 import java.util.List;
 import model.dao.OrcamentoDAO;
 import model.dao.OrdemProducaoDAO;
-import ui.cadastros.clientes.ClienteDAO;
+import model.dao.ClienteDAO;
 import ui.controle.Controle;
 import ui.ordemProducao.consultas.OpConsultaFrame;
 import ui.principal.GerenteJanelas;
@@ -1178,14 +1179,13 @@ public class FatFrame extends javax.swing.JInternalFrame {
                 NotaDAO.removeFat(CODIGO_FAT);
                 OrdemProducaoDAO.alteraStatusOp(Integer.valueOf(codOp.getText()),
                         "ENCAMINHADO PARA EXPEDIÇÃO");
+                JOptionPane.showMessageDialog(null, "A NOTA DE VENDA " + CODIGO_FAT + " FOI EXCLUÍDA COM SUCESSO."
+                        + "\nO CRÉDITO DO CLIENTE FOI RESTAURADO.");
+                estadoPosExcluir();
             } catch (SQLException ex) {
                 EnvioExcecao envioExcecao = new EnvioExcecao(Controle.getDefaultGj(), ex);
-                EnvioExcecao.envio();
-                return;
+                EnvioExcecao.envio(loading);
             }
-            JOptionPane.showMessageDialog(null, "A NOTA DE VENDA " + CODIGO_FAT + " FOI EXCLUÍDA COM SUCESSO."
-                    + "\nO CRÉDITO DO CLIENTE FOI RESTAURADO.");
-            estadoPosExcluir();
         }
     }//GEN-LAST:event_botaoExcluirNotaActionPerformed
 
@@ -1206,7 +1206,7 @@ public class FatFrame extends javax.swing.JInternalFrame {
             }
         } catch (SQLException ex) {
             EnvioExcecao envioExcecao = new EnvioExcecao(Controle.getDefaultGj(), ex);
-            EnvioExcecao.envio();
+            EnvioExcecao.envio(loading);
         }
     }//GEN-LAST:event_botaoGerarArquivoActionPerformed
 
@@ -2075,35 +2075,29 @@ public class FatFrame extends javax.swing.JInternalFrame {
 
     //FUNÇÕES DE FORMATAR DADOS-------------------------------------------------
     public String retornaTelefoneFormatado(String telefone) {
-        String formatar = telefone;
-        formatar = formatar.replace("(", "");
-        formatar = formatar.replace(")", "");
-        formatar = formatar.replace(" ", "");
-        formatar = formatar.replace("-", "");
-        MaskFormatter formatoTelefone = null;
-        if (formatar.length() == 10) {
-            try {
+        try {
+            String formatar = telefone;
+            formatar = formatar.replace("(", "");
+            formatar = formatar.replace(")", "");
+            formatar = formatar.replace(" ", "");
+            formatar = formatar.replace("-", "");
+            MaskFormatter formatoTelefone = null;
+            if (formatar.length() == 10) {
                 formatoTelefone = new MaskFormatter("(##) ####-####");
                 formatoTelefone.setValueContainsLiteralCharacters(false);
                 formatar = formatoTelefone.valueToString(formatar);
-            } catch (ParseException ex) {
-                EnvioExcecao envioExcecao = new EnvioExcecao(Controle.getDefaultGj(), ex);
-                EnvioExcecao.envio();
-                return null;
             }
-        }
-        if (formatar.length() == 11) {
-            try {
+            if (formatar.length() == 11) {
                 formatoTelefone = new MaskFormatter("(##) # ####-####");
                 formatoTelefone.setValueContainsLiteralCharacters(false);
                 formatar = formatoTelefone.valueToString(formatar);
-            } catch (ParseException ex) {
-                EnvioExcecao envioExcecao = new EnvioExcecao(Controle.getDefaultGj(), ex);
-                EnvioExcecao.envio();
-                return null;
             }
+            return formatar;
+        } catch (ParseException ex) {
+            EnvioExcecao envioExcecao = new EnvioExcecao(Controle.getDefaultGj(), ex);
+            EnvioExcecao.envio(loading);
+            return null;
         }
-        return formatar;
     }
 
     //--------------------------------------------------------------------------
@@ -2139,7 +2133,7 @@ public class FatFrame extends javax.swing.JInternalFrame {
             }
         } catch (SQLException ex) {
             EnvioExcecao envioExcecao = new EnvioExcecao(Controle.getDefaultGj(), ex);
-            EnvioExcecao.envio();
+            EnvioExcecao.envio(loading);
         }
     }
 
@@ -2315,13 +2309,7 @@ public class FatFrame extends javax.swing.JInternalFrame {
             transportesBEAN.setEspessuraProduto(Float.valueOf(espessuraProduto.getValue().toString()));
             transportesBEAN.setPesoProduto(Float.valueOf(pesoProduto.getValue().toString()));
 
-            try {
-                NotaDAO.gravaTransportes(transportesBEAN);
-            } catch (Exception ex) {
-                EnvioExcecao envioExcecao = new EnvioExcecao(Controle.getDefaultGj(), ex);
-                EnvioExcecao.envio();
-                return;
-            }
+            NotaDAO.gravaTransportes(transportesBEAN);
 
             /**
              * Grava volumes
@@ -2337,14 +2325,7 @@ public class FatFrame extends javax.swing.JInternalFrame {
                     beanVolumes.setLarguraVolume(Float.valueOf(tabelaVolumes.getValueAt(i, 2).toString()));
                     beanVolumes.setPesoVolume(Float.valueOf(tabelaVolumes.getValueAt(i, 3).toString()));
 
-                    try {
-                        NotaDAO.gravaVolumes(beanVolumes, codVolume);
-                    } catch (Exception ex) {
-                        EnvioExcecao envioExcecao = new EnvioExcecao(Controle.getDefaultGj(), ex);
-                        EnvioExcecao.envio();
-                        loading.setVisible(false);
-                        return;
-                    }
+                    NotaDAO.gravaVolumes(beanVolumes, codVolume);
                 }
             }
 
@@ -2438,17 +2419,10 @@ public class FatFrame extends javax.swing.JInternalFrame {
                     break;
             }
 
-            try {
-                if (EDITAR) {
-                    NotaDAO.atualizaFat(FAT);
-                } else {
-                    NotaDAO.insereFat(FAT);
-                }
-            } catch (SQLException ex) {
-                EnvioExcecao envioExcecao = new EnvioExcecao(Controle.getDefaultGj(), ex);
-                EnvioExcecao.envio();
-                loading.setVisible(false);
-                return;
+            if (EDITAR) {
+                NotaDAO.atualizaFat(FAT);
+            } else {
+                NotaDAO.insereFat(FAT);
             }
 
             STATUS_FATURAMENTO = 0;
@@ -2464,9 +2438,8 @@ public class FatFrame extends javax.swing.JInternalFrame {
 
         } catch (SQLException ex) {
             EnvioExcecao envioExcecao = new EnvioExcecao(Controle.getDefaultGj(), ex);
-            EnvioExcecao.envio();
+            EnvioExcecao.envio(loading);
         }
-
         loading.setVisible(false);
     }
 }

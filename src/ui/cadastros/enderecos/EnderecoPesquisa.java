@@ -5,12 +5,14 @@
  */
 package ui.cadastros.enderecos;
 
+import entities.sisgrafex.Endereco;
 import exception.EnvioExcecao;
 import java.sql.SQLException;
 import javax.swing.JOptionPane;
 import ui.cadastros.transportadoras.CadastroTransportadoras;
-import ui.cadastros.clientes.ClienteDAO;
+import model.dao.ClienteDAO;
 import javax.swing.table.DefaultTableModel;
+import model.dao.EnderecoDAO;
 import ui.cadastros.clientes.ClienteCadastro;
 import ui.controle.Controle;
 
@@ -210,7 +212,7 @@ public class EnderecoPesquisa extends javax.swing.JFrame {
             ClienteDAO cadastroClientes2DAO = new ClienteDAO();
             DefaultTableModel modeloPesquisa = (DefaultTableModel) tabelaPesquisa.getModel();
             modeloPesquisa.setNumRows(0);
-            for (EnderecoBEAN auxBEAN : cadastroClientes2DAO.retornaPesquisaEnderecos(p1.getSelectedItem().toString(), p2.getText().toString(), false)) {
+            for (Endereco auxBEAN : EnderecoDAO.retornaPesquisaEnderecos(p1.getSelectedItem().toString(), p2.getText().toString(), false)) {
                 modeloPesquisa.addRow(new Object[]{
                     auxBEAN.getCodigo(),
                     auxBEAN.getCep(),
@@ -224,7 +226,7 @@ public class EnderecoPesquisa extends javax.swing.JFrame {
             }
         } catch (SQLException ex) {
             EnvioExcecao envioExcecao = new EnvioExcecao(Controle.getDefaultGj(), ex);
-            EnvioExcecao.envio();
+            EnvioExcecao.envio(null);
         }
     }//GEN-LAST:event_botaoPesquisarActionPerformed
 
@@ -233,7 +235,7 @@ public class EnderecoPesquisa extends javax.swing.JFrame {
             ClienteDAO auxDAO = new ClienteDAO();
             DefaultTableModel modeloPesquisa = (DefaultTableModel) tabelaPesquisa.getModel();
             modeloPesquisa.setNumRows(0);
-            for (EnderecoBEAN auxBEAN : auxDAO.retornaPesquisaEnderecos("", "", true)) {
+            for (Endereco auxBEAN : EnderecoDAO.retornaPesquisaEnderecos("", "", true)) {
                 modeloPesquisa.addRow(new Object[]{
                     auxBEAN.getCodigo(),
                     auxBEAN.getCep(),
@@ -247,7 +249,7 @@ public class EnderecoPesquisa extends javax.swing.JFrame {
             }
         } catch (SQLException ex) {
             EnvioExcecao envioExcecao = new EnvioExcecao(Controle.getDefaultGj(), ex);
-            EnvioExcecao.envio();
+            EnvioExcecao.envio(null);
         }
     }//GEN-LAST:event_botaoMostrarTodosActionPerformed
 
@@ -302,7 +304,7 @@ public class EnderecoPesquisa extends javax.swing.JFrame {
             int dialogButton = JOptionPane.YES_NO_OPTION;
             int dialogResult = JOptionPane.showConfirmDialog(this, "ESTA AÇÃO PODERÁ AFETAR OUTROS CLIENTES RELACIONADOS A ESTE ENDEREÇO.\nDESEJA CONTINUAR?", "ATENÇÃO!", dialogButton);
             if (dialogResult == 0) {
-                ClienteDAO.desativaAtivaEnderecos(0,
+                EnderecoDAO.desativaAtivaEnderecos(0,
                         CODIGO_ENDERECO,
                         (byte) 0,
                         (byte) 1,
@@ -312,7 +314,7 @@ public class EnderecoPesquisa extends javax.swing.JFrame {
 
             DefaultTableModel modeloPesquisa = (DefaultTableModel) tabelaPesquisa.getModel();
             modeloPesquisa.setNumRows(0);
-            for (EnderecoBEAN auxBEAN : ClienteDAO.retornaPesquisaEnderecos("", "", true)) {
+            for (Endereco auxBEAN : EnderecoDAO.retornaPesquisaEnderecos("", "", true)) {
                 modeloPesquisa.addRow(new Object[]{
                     auxBEAN.getCodigo(),
                     auxBEAN.getCep(),
@@ -326,7 +328,7 @@ public class EnderecoPesquisa extends javax.swing.JFrame {
             }
         } catch (SQLException ex) {
             EnvioExcecao envioExcecao = new EnvioExcecao(Controle.getDefaultGj(), ex);
-            EnvioExcecao.envio();
+            EnvioExcecao.envio(null);
         }
     }//GEN-LAST:event_botaoDesativarActionPerformed
 

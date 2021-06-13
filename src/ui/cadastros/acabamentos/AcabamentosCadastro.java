@@ -348,7 +348,7 @@ public class AcabamentosCadastro extends javax.swing.JInternalFrame {
 
                 } catch (SQLException ex) {
                     EnvioExcecao envioExcecao = new EnvioExcecao(Controle.getDefaultGj(), ex);
-                    EnvioExcecao.envio();
+                    EnvioExcecao.envio(loading);
                 }
 
                 /**
@@ -425,7 +425,7 @@ public class AcabamentosCadastro extends javax.swing.JInternalFrame {
             }
         } catch (SQLException ex) {
             EnvioExcecao envioExcecao = new EnvioExcecao(Controle.getDefaultGj(), ex);
-            EnvioExcecao.envio();
+            EnvioExcecao.envio(loading);
         }
 
         loading.setVisible(false);
@@ -475,7 +475,7 @@ public class AcabamentosCadastro extends javax.swing.JInternalFrame {
             }
         } catch (SQLException ex) {
             EnvioExcecao envioExcecao = new EnvioExcecao(Controle.getDefaultGj(), ex);
-            EnvioExcecao.envio();
+            EnvioExcecao.envio(loading);
         }
 
         loading.setVisible(false);
@@ -505,7 +505,7 @@ public class AcabamentosCadastro extends javax.swing.JInternalFrame {
             }
         } catch (SQLException ex) {
             EnvioExcecao envioExcecao = new EnvioExcecao(Controle.getDefaultGj(), ex);
-            EnvioExcecao.envio();
+            EnvioExcecao.envio(loading);
         }
     }//GEN-LAST:event_tabelaConsultaMouseClicked
 
@@ -522,7 +522,7 @@ public class AcabamentosCadastro extends javax.swing.JInternalFrame {
                 mostraTodos();
             } catch (SQLException ex) {
                 EnvioExcecao envioExcecao = new EnvioExcecao(Controle.getDefaultGj(), ex);
-                EnvioExcecao.envio();
+                EnvioExcecao.envio(loading);
             }
 
         }
@@ -541,7 +541,7 @@ public class AcabamentosCadastro extends javax.swing.JInternalFrame {
                 mostraTodos();
             } catch (SQLException ex) {
                 EnvioExcecao envioExcecao = new EnvioExcecao(Controle.getDefaultGj(), ex);
-                EnvioExcecao.envio();
+                EnvioExcecao.envio(loading);
             }
 
         }
@@ -606,7 +606,7 @@ public class AcabamentosCadastro extends javax.swing.JInternalFrame {
                     }
                 } catch (SQLException ex) {
                     EnvioExcecao envioExcecao = new EnvioExcecao(Controle.getDefaultGj(), ex);
-                    EnvioExcecao.envio();
+                    EnvioExcecao.envio(loading);
                 }
 
                 loading.setVisible(false);

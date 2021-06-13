@@ -27,13 +27,11 @@ import java.util.Date;
 import javax.swing.JOptionPane;
 import model.dao.OrcamentoDAO;
 import model.dao.OrdemProducaoDAO;
-import ui.cadastros.clientes.ClienteBEAN;
-import ui.cadastros.clientes.ClienteDAO;
-import ui.cadastros.contatos.ContatoBEAN;
-import ui.cadastros.enderecos.EnderecoBEAN;
-import ui.cadastros.notas.NotaDAO;
-import ui.cadastros.produtos.ProdutoDAO;
-import ui.cadastros.servicos.ServicoDAO;
+import model.dao.ClienteDAO;
+import model.dao.EnderecoDAO;
+import model.dao.NotaDAO;
+import model.dao.ProdutoDAO;
+import model.dao.ServicoDAO;
 import ui.controle.Controle;
 import ui.login.TelaAutenticacao;
 
@@ -307,18 +305,18 @@ public class NotaCredito {
                     /**
                      * Pesquisa pelo cliente
                      */
-                    ClienteBEAN cliente = ClienteDAO.selecionaInformacoes((byte) nota.getTipoPessoa(),
+                    Cliente cliente = ClienteDAO.selecionaInformacoes((byte) nota.getTipoPessoa(),
                             nota.getCodCliente());
 
                     /**
                      * Pesquisa pelo endereço
                      */
-                    EnderecoBEAN endereco = ClienteDAO.selInfoEndereco(nota.getCodEndereco());
+                    Endereco endereco = EnderecoDAO.selInfoEndereco(nota.getCodEndereco());
 
                     /**
                      * Pesquisa pelo contato
                      */
-                    ContatoBEAN contato = ClienteDAO.selInfoContato(nota.getCodContato());
+                    Contato contato = ClienteDAO.selInfoContato(nota.getCodContato());
 
                     /**
                      * Define o formato de número de moeda
@@ -452,7 +450,7 @@ public class NotaCredito {
                     tblRementente.addCell(cell1);
                     cell2 = new PdfPCell(new Phrase("BAIRRO\n\n" + endereco.getBairro(), FontFactory.getFont("arial.ttf", 9)));
                     cell3 = new PdfPCell(new Phrase("CIDADE\n\n" + endereco.getCidade(), FontFactory.getFont("arial.ttf", 9)));
-                    cell4 = new PdfPCell(new Phrase("CEP\n\n" + EnderecoBEAN.retornaCepFormatado(
+                    cell4 = new PdfPCell(new Phrase("CEP\n\n" + Endereco.retornaCepFormatado(
                             endereco.getCep()), FontFactory.getFont("arial.ttf", 9)));
                     cell1 = new PdfPCell(new Phrase("UF\n\n" + endereco.getUf(), FontFactory.getFont("arial.ttf", 9)));
 
@@ -534,7 +532,7 @@ public class NotaCredito {
 
                 } catch (DocumentException | SQLException ex) {
                     EnvioExcecao envioExcecao = new EnvioExcecao(Controle.getDefaultGj(), ex);
-                    EnvioExcecao.envio();
+                    EnvioExcecao.envio(null);
                 } catch (IOException ex) {
                     JOptionPane.showMessageDialog(null,
                             "O ARQUIVO ESTÁ SENDO UTILIZADO POR OUTRO PROCESSO.\nVERIFIQUE E TENTE NOVAMENTE",
@@ -580,17 +578,17 @@ public class NotaCredito {
                     /**
                      * Procura pelo endereço
                      */
-                    EnderecoBEAN endereco = ClienteDAO.selInfoEndereco(op.getCodEndereco());
+                    Endereco endereco = EnderecoDAO.selInfoEndereco(op.getCodEndereco());
 
                     /**
                      * Procura as informações do cliente
                      */
-                    ClienteBEAN cliente = ClienteDAO.selInfoOp(op.getTipoPessoa(), op.getCodCliente());
+                    Cliente cliente = ClienteDAO.selInfoOp(op.getTipoPessoa(), op.getCodCliente());
 
                     /**
                      * Procura as informações do contato
                      */
-                    ContatoBEAN contato = ClienteDAO.selInfoContato(op.getCodContato());
+                    Contato contato = ClienteDAO.selInfoContato(op.getCodContato());
 
                     /**
                      * Procura as informações do produto
@@ -714,7 +712,7 @@ public class NotaCredito {
                             FontFactory.getFont("arial.ttf", 9)));
                     cell3 = new PdfPCell(new Phrase("CIDADE\n\n" + endereco.getCidade(),
                             FontFactory.getFont("arial.ttf", 9)));
-                    cell4 = new PdfPCell(new Phrase("CEP\n\n" + EnderecoBEAN.retornaCepFormatado(
+                    cell4 = new PdfPCell(new Phrase("CEP\n\n" + Endereco.retornaCepFormatado(
                             endereco.getCep()), FontFactory.getFont("arial.ttf", 9)));
                     cell1 = new PdfPCell(new Phrase("UF\n\n" + endereco.getUf(),
                             FontFactory.getFont("arial.ttf", 9)));
@@ -877,7 +875,7 @@ public class NotaCredito {
                     p = new Paragraph("NOME: ______________ DOCUMENTO: ______________ EMISSOR: ________", FontFactory.getFont("arial.ttf", 9));
                     p.setAlignment(1);
                     document.add(p);
-                    p = new Paragraph(cliente.getTipoCliente() == 1
+                    p = new Paragraph(cliente.getTipoPessoa() == 1
                             ? cliente.getNome()
                             : cliente.getNome() + " - " + cliente.getNomeFantasia(),
                             FontFactory.getFont("arial.ttf", 9));
@@ -897,7 +895,7 @@ public class NotaCredito {
 
                 } catch (SQLException | DocumentException | IOException ex) {
                     EnvioExcecao envioExcecao = new EnvioExcecao(Controle.getDefaultGj(), ex);
-                    EnvioExcecao.envio();
+                    EnvioExcecao.envio(null);
                 }
             }
         }.start();

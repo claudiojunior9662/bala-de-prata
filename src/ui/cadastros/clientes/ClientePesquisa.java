@@ -5,11 +5,12 @@
  */
 package ui.cadastros.clientes;
 
+import model.dao.ClienteDAO;
 import entities.sisgrafex.Cliente;
 import exception.EnvioExcecao;
 import exception.TipoPessoaIncorretoException;
-import ui.cadastros.enderecos.EnderecoBEAN;
-import ui.cadastros.contatos.ContatoBEAN;
+import entities.sisgrafex.Endereco;
+import entities.sisgrafex.Contato;
 import ui.cadastros.notas.FatFrame;
 import java.sql.SQLException;
 import java.text.ParseException;
@@ -17,6 +18,8 @@ import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.text.MaskFormatter;
+import model.dao.ContatoDAO;
+import model.dao.EnderecoDAO;
 import ui.controle.Controle;
 
 /**
@@ -29,7 +32,7 @@ public class ClientePesquisa extends javax.swing.JInternalFrame {
      * 1 - CADASTRO DE CLIENTES, 2 - NOTA DE CRÉDITO
      */
     private static byte tela = 0;
-    private ClienteBEAN clienteSel = null;
+    private Cliente clienteSel = null;
 
     public static byte getTela() {
         return tela;
@@ -249,7 +252,7 @@ public class ClientePesquisa extends javax.swing.JInternalFrame {
                             ClienteCadastro.nomeCliente.setText(clienteSel.getNome());
                             ClienteCadastro.cpf.setText(clienteSel.getCpf().replace(".", "").replace("-", ""));
                             ClienteCadastro.atividade.setText(clienteSel.getAtividade());
-                            ClienteCadastro.codigoAtendente.setText(clienteSel.getCodAtendente());
+                            ClienteCadastro.codigoAtendente.setText(clienteSel.getCodigoAtendente());
                             ClienteCadastro.nomeAtendente.setText(clienteSel.getNomeAtendente());
                             ClienteCadastro.observacoes.setText(clienteSel.getObservacoes());
                             ClienteCadastro.creditoDisponivel.setValue(clienteSel.getCredito());
@@ -263,7 +266,7 @@ public class ClientePesquisa extends javax.swing.JInternalFrame {
                             ClienteCadastro.cnpj.setText(clienteSel.getCnpj().replace(".", "").replace("-", "").replace("/", ""));
                             ClienteCadastro.atividade.setText(clienteSel.getAtividade());
                             ClienteCadastro.filialColigada.setText(clienteSel.getFilialColigada());
-                            ClienteCadastro.codigoAtendente.setText(clienteSel.getCodAtendente());
+                            ClienteCadastro.codigoAtendente.setText(clienteSel.getCodigoAtendente());
                             ClienteCadastro.nomeAtendente.setText(clienteSel.getNomeAtendente());
                             ClienteCadastro.observacoes.setText(clienteSel.getObservacoes());
                             ClienteCadastro.creditoDisponivel.setValue(clienteSel.getCredito());
@@ -275,19 +278,13 @@ public class ClientePesquisa extends javax.swing.JInternalFrame {
                     //ENDERECOS-------------------------------------------------
                     DefaultTableModel modeloEnderecos = (DefaultTableModel) ClienteCadastro.tabelaEnderecos.getModel();
                     modeloEnderecos.setNumRows(0);
-                    List retorno = ClienteDAO.selecionaEnderecos(ClienteCadastro.TIPO_PESSOA,
+                    List retorno = EnderecoDAO.selecionaEnderecos(ClienteCadastro.TIPO_PESSOA,
                             ClienteCadastro.CODIGO_CLIENTE);
-                    for (EnderecoBEAN cadastroClientes2EnderecosBEAN : ClienteDAO.retornaDescricaoEnderecos(retorno)) {
+                    for (Endereco cadastroClientes2EnderecosBEAN : EnderecoDAO.retornaEnderecos(retorno)) {
                         String cep = null;
-                        try {
-                            MaskFormatter mascaraCep = new MaskFormatter("##.###-###");
-                            mascaraCep.setValueContainsLiteralCharacters(false);
-                            cep = mascaraCep.valueToString(cadastroClientes2EnderecosBEAN.getCep().replace(".", "").replace("-", ""));
-                        } catch (ParseException ex) {
-                            EnvioExcecao envioExcecao = new EnvioExcecao(Controle.getDefaultGj(), ex);
-                            EnvioExcecao.envio();
-                            return;
-                        }
+                        MaskFormatter mascaraCep = new MaskFormatter("##.###-###");
+                        mascaraCep.setValueContainsLiteralCharacters(false);
+                        cep = mascaraCep.valueToString(cadastroClientes2EnderecosBEAN.getCep().replace(".", "").replace("-", ""));
 
                         modeloEnderecos.addRow(new Object[]{
                             cadastroClientes2EnderecosBEAN.getCodigo(),
@@ -304,8 +301,8 @@ public class ClientePesquisa extends javax.swing.JInternalFrame {
                     //CONTATOS--------------------------------------------------
                     DefaultTableModel modeloContatos = (DefaultTableModel) ClienteCadastro.tabelaContatos.getModel();
                     modeloContatos.setNumRows(0);
-                    retorno = ClienteDAO.selecionaContatos(ClienteCadastro.TIPO_PESSOA, ClienteCadastro.CODIGO_CLIENTE);
-                    for (ContatoBEAN auxBEAN : ClienteDAO.retornaDescricaoContatos(retorno)) {
+                    retorno = ContatoDAO.selecionaContatos(ClienteCadastro.TIPO_PESSOA, ClienteCadastro.CODIGO_CLIENTE);
+                    for (Contato auxBEAN : ClienteDAO.retornaDescricaoContatos(retorno)) {
                         modeloContatos.addRow(new Object[]{
                             auxBEAN.getCod(),
                             auxBEAN.getNomeContato(),
@@ -339,17 +336,12 @@ public class ClientePesquisa extends javax.swing.JInternalFrame {
                     FatFrame.nomeCliente.setText(cliente.getNome());
 
                     //ENDEREÇOS--------------------------------------------------
-                    retorno = ClienteDAO.selecionaEnderecos(ClienteCadastro.TIPO_PESSOA, ClienteCadastro.CODIGO_CLIENTE);
-                    for (EnderecoBEAN auxBEAN : ClienteDAO.retornaDescricaoEnderecos(retorno)) {
+                    retorno = EnderecoDAO.selecionaEnderecos(ClienteCadastro.TIPO_PESSOA, ClienteCadastro.CODIGO_CLIENTE);
+                    for (Endereco auxBEAN : EnderecoDAO.retornaEnderecos(retorno)) {
                         String cep = null;
-                        try {
-                            MaskFormatter mascaraCep = new MaskFormatter("##.###-###");
-                            mascaraCep.setValueContainsLiteralCharacters(false);
-                            cep = mascaraCep.valueToString(auxBEAN.getCep());
-                        } catch (ParseException ex) {
-                            EnvioExcecao envioExcecao = new EnvioExcecao(Controle.getDefaultGj(), ex);
-                            EnvioExcecao.envio();
-                        }
+                        MaskFormatter mascaraCep = new MaskFormatter("##.###-###");
+                        mascaraCep.setValueContainsLiteralCharacters(false);
+                        cep = mascaraCep.valueToString(auxBEAN.getCep());
                         FatFrame.bairroCliente.setText(auxBEAN.getBairro());
                         FatFrame.cidadeCliente.setText(auxBEAN.getCidade());
                         FatFrame.ufCliente.setText(auxBEAN.getUf());
@@ -360,9 +352,9 @@ public class ClientePesquisa extends javax.swing.JInternalFrame {
                     }
                     break;
             }
-        } catch (SQLException | TipoPessoaIncorretoException ex) {
+        } catch (SQLException | TipoPessoaIncorretoException | ParseException ex) {
             EnvioExcecao envioExcecao = new EnvioExcecao(Controle.getDefaultGj(), ex);
-            EnvioExcecao.envio();
+            EnvioExcecao.envio(null);
         }
         this.dispose();
     }//GEN-LAST:event_botaoSelecionarActionPerformed
@@ -415,61 +407,44 @@ public class ClientePesquisa extends javax.swing.JInternalFrame {
 
             MaskFormatter mascaraCnpj = null;
             MaskFormatter mascaraCpf = null;
-            try {
-                mascaraCnpj = new MaskFormatter("##.###.###/####-##");
-                mascaraCpf = new MaskFormatter("###.###.###-##");
-            } catch (ParseException ex) {
-                EnvioExcecao envioExcecao = new EnvioExcecao(Controle.getDefaultGj(), ex);
-                EnvioExcecao.envio();
-            }
+            mascaraCnpj = new MaskFormatter("##.###.###/####-##");
+            mascaraCpf = new MaskFormatter("###.###.###-##");
             mascaraCnpj.setValueContainsLiteralCharacters(false);
             mascaraCpf.setValueContainsLiteralCharacters(false);
 
             String p3Txt = null;
             switch (p2.getSelectedItem().toString()) {
                 case "CPF":
-                    try {
-                        p3Txt = mascaraCpf.valueToString(p3.getText()
-                                .replace(".", "")
-                                .replace(" ", "")
-                                .replace("-", ""));
-                    } catch (ParseException ex) {
-                        EnvioExcecao envioExcecao = new EnvioExcecao(Controle.getDefaultGj(), ex);
-                        EnvioExcecao.envio();
-                        return;
-                    }
+                    p3Txt = mascaraCpf.valueToString(p3.getText()
+                            .replace(".", "")
+                            .replace(" ", "")
+                            .replace("-", ""));
                     break;
                 case "CNPJ":
-                    try {
-                        p3Txt = mascaraCnpj.valueToString(p3.getText().replace("/", "")
-                                .replace(".", "")
-                                .replace("-", "")
-                                .replace(" ", ""));
-                    } catch (ParseException ex) {
-                        EnvioExcecao envioExcecao = new EnvioExcecao(Controle.getDefaultGj(), ex);
-                        EnvioExcecao.envio();
-                        return;
-                    }
+                    p3Txt = mascaraCnpj.valueToString(p3.getText().replace("/", "")
+                            .replace(".", "")
+                            .replace("-", "")
+                            .replace(" ", ""));
                     break;
                 default:
                     p3Txt = p3.getText();
                     break;
             }
 
-            for (ClienteBEAN cadastroClientes2BEAN : ClienteDAO.retornaPesquisa(p1.getSelectedItem().toString(), p2.getSelectedItem().toString(), p3Txt)) {
+            for (Cliente cliente : ClienteDAO.retornaPesquisa(p1.getSelectedItem().toString(), p2.getSelectedItem().toString(), p3Txt)) {
                 modeloPesquisa.addRow(new Object[]{
-                    cadastroClientes2BEAN.getCod(),
-                    cadastroClientes2BEAN.getNome(),
-                    cadastroClientes2BEAN.getNomeFantasia(),
-                    cadastroClientes2BEAN.getCpf(),
-                    cadastroClientes2BEAN.getCnpj(),
-                    cadastroClientes2BEAN.getAtividade(),
-                    cadastroClientes2BEAN.getCredito()
+                    cliente.getCodigo(),
+                    cliente.getNome(),
+                    cliente.getNomeFantasia(),
+                    cliente.getCpf(),
+                    cliente.getCnpj(),
+                    cliente.getAtividade(),
+                    cliente.getCredito()
                 });
             }
-        } catch (SQLException ex) {
+        } catch (SQLException | ParseException ex) {
             EnvioExcecao envioExcecao = new EnvioExcecao(Controle.getDefaultGj(), ex);
-            EnvioExcecao.envio();
+            EnvioExcecao.envio(null);
         }
     }//GEN-LAST:event_botaoPesquisarActionPerformed
 
@@ -479,9 +454,9 @@ public class ClientePesquisa extends javax.swing.JInternalFrame {
 
             modeloPesquisa.setNumRows(0);
 
-            for (ClienteBEAN cliente : ClienteDAO.mostraUltimos(p1.getSelectedItem().toString())) {
+            for (Cliente cliente : ClienteDAO.mostraUltimos(p1.getSelectedItem().toString())) {
                 modeloPesquisa.addRow(new Object[]{
-                    cliente.getCod(),
+                    cliente.getCodigo(),
                     cliente.getNome(),
                     cliente.getNomeFantasia(),
                     cliente.getCpf(),
@@ -492,7 +467,7 @@ public class ClientePesquisa extends javax.swing.JInternalFrame {
             }
         } catch (SQLException ex) {
             EnvioExcecao envioExcecao = new EnvioExcecao(Controle.getDefaultGj(), ex);
-            EnvioExcecao.envio();
+            EnvioExcecao.envio(null);
         }
     }//GEN-LAST:event_botaoMostrarUltimosActionPerformed
 

@@ -11,6 +11,7 @@ import entities.sisgrafex.StsOp;
 import entities.sisgrafex.StsOrcamento;
 import exception.EnvioExcecao;
 import java.awt.Color;
+import java.sql.Timestamp;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -43,7 +44,7 @@ public class Controle {
      * @param tipoVersao 1 - produção 2 - desenvolvimento rede 3 -
      * desenvolvimento local 4 - peixoto
      */
-    private static byte tipoVersao = 1;
+    private static byte tipoVersao = 3;
 
     //VARIÁVEIS DE SISTEMA------------------------------------------------------
     //CONEXÃO COM SERVIDOR ARQUIVOS---------------------------------------------
@@ -73,6 +74,7 @@ public class Controle {
     public static String VERSAO_API = null;
     public static String SEPARADOR = "/";
     public static String FORMATO_SAIDA = "json";
+    public static Timestamp SYNC_PEDIDOS = null;
 
     //VARIÁVEIS PARA CONEXÃO INTERNET-------------------------------------------
     public static boolean USO_PROXY = false;
@@ -89,6 +91,7 @@ public class Controle {
     public static SimpleDateFormat dataPadraoDiretorio = new SimpleDateFormat("dd-MM-yyyy");
     public static SimpleDateFormat horaPadrao = new SimpleDateFormat("HH:mm:ss");
     public static SimpleDateFormat horaPadraoDiretorio = new SimpleDateFormat("HH-mm-ss");
+    public static SimpleDateFormat dataPadraoLojaIntegrada = new SimpleDateFormat("yyyy-MM-dd");
     public static DecimalFormat formatoVlrPadrao = new DecimalFormat("###,##0.00");
     public static String tipoDesign = "";
     public static String urlTempWindows = System.getProperty("java.io.tmpdir") + "\\";
@@ -508,7 +511,7 @@ public class Controle {
             }
         } catch (SQLException ex) {
             EnvioExcecao envioExcecao = new EnvioExcecao(Controle.getDefaultGj(), ex);
-            EnvioExcecao.envio();
+            EnvioExcecao.envio(null);
         }
     }
 
@@ -523,7 +526,8 @@ public class Controle {
             stmt = con.prepareStatement("SELECT CHAVE_APP_LI, "
                     + "CHAVE_API_LI, "
                     + "LINK_API_LI, "
-                    + "VERSAO_API_LI "
+                    + "VERSAO_API_LI,"
+                    + "SYNC_PEDIDOS "
                     + "FROM tabela_controle");
             rs = stmt.executeQuery();
             if (rs.next()) {
@@ -531,10 +535,11 @@ public class Controle {
                 CHAVE_API = rs.getString("CHAVE_API_LI");
                 LINK_API = rs.getString("LINK_API_LI");
                 VERSAO_API = rs.getString("VERSAO_API_LI");
+                SYNC_PEDIDOS = rs.getTimestamp("SYNC_PEDIDOS");
             }
         } catch (SQLException ex) {
             EnvioExcecao envioExcecao = new EnvioExcecao(Controle.getDefaultGj(), ex);
-            EnvioExcecao.envio();
+            EnvioExcecao.envio(null);
         }
     }
 
@@ -562,7 +567,7 @@ public class Controle {
             }
         } catch (SQLException ex) {
             EnvioExcecao envioExcecao = new EnvioExcecao(Controle.getDefaultGj(), ex);
-            EnvioExcecao.envio();
+            EnvioExcecao.envio(null);
         }
     }
 
@@ -634,7 +639,7 @@ public class Controle {
 
         } catch (ParseException ex) {
             EnvioExcecao envioExcecao = new EnvioExcecao(Controle.getDefaultGj(), ex);
-            EnvioExcecao.envio();
+            EnvioExcecao.envio(null);
             return null;
         }
     }

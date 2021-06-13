@@ -7,16 +7,14 @@ package ui.ordemProducao.consultas;
 
 import entities.sisgrafex.Cliente;
 import entities.sisgrafex.Faturamento;
-import ui.cadastros.contatos.ContatoBEAN;
-import ui.cadastros.enderecos.EnderecoBEAN;
-import ui.cadastros.notas.NotaDAO;
+import entities.sisgrafex.Contato;
+import entities.sisgrafex.Endereco;
+import model.dao.NotaDAO;
 import java.text.ParseException;
 import javax.swing.JLabel;
-import javax.swing.JPasswordField;
-import javax.swing.table.DefaultTableModel;
 import javax.swing.text.DefaultFormatterFactory;
 import javax.swing.text.MaskFormatter;
-import ui.cadastros.produtos.ProdutoBEAN;
+import entities.sisgrafex.ProdutoBEAN;
 import entities.sisgrafex.OrdemProducao;
 import java.sql.SQLException;
 import javax.swing.JOptionPane;
@@ -31,11 +29,12 @@ import model.dao.OrcamentoDAO;
 import model.dao.OrdemProducaoDAO;
 import model.tabelas.OpExtTableModel;
 import model.tabelas.OpIntTableModel;
-import ui.cadastros.clientes.ClienteDAO;
+import model.dao.ClienteDAO;
+import model.dao.EnderecoDAO;
 import ui.cadastros.notas.FatFrame;
-import ui.cadastros.produtos.ProdutoDAO;
+import model.dao.ProdutoDAO;
 import ui.cadastros.produtos.ProdutoPrEntBEAN;
-import ui.cadastros.servicos.ServicoDAO;
+import model.dao.ServicoDAO;
 import ui.controle.Controle;
 import ui.login.TelaAutenticacao;
 
@@ -404,8 +403,9 @@ public class OpConsultaFrame extends javax.swing.JInternalFrame {
             }
         } catch (ParseException ex) {
             EnvioExcecao envioExcecao = new EnvioExcecao(Controle.getDefaultGj(), ex);
-            EnvioExcecao.envio();
+            EnvioExcecao.envio(loading);
         }
+        loading.setVisible(false);
     }//GEN-LAST:event_p2ItemStateChanged
 
     private void botaoGerarPdfActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botaoGerarPdfActionPerformed
@@ -527,9 +527,10 @@ public class OpConsultaFrame extends javax.swing.JInternalFrame {
                 List<Integer> opAssociadas = OrdemProducaoDAO.retornaOpsAssociadas(CODIGO_ORCAMENTO_BASE, true);
                 JOptionPane.showMessageDialog(null, "A OP " + CODIGO_OP + " FOI CANCELADA COM SUCESSO.");
             }
+            loading.setVisible(false);
         } catch (SQLException ex) {
             EnvioExcecao envioExcecao = new EnvioExcecao(Controle.getDefaultGj(), ex);
-            EnvioExcecao.envio();
+            EnvioExcecao.envio(loading);
         }
     }//GEN-LAST:event_botaoCancelarOpActionPerformed
 
@@ -603,10 +604,11 @@ public class OpConsultaFrame extends javax.swing.JInternalFrame {
                 formatar = formatoTelefone.valueToString(formatar);
 
             }
+            loading.setVisible(false);
             return formatar;
         } catch (ParseException ex) {
             EnvioExcecao envioExcecao = new EnvioExcecao(Controle.getDefaultGj(), ex);
-            EnvioExcecao.envio();
+            EnvioExcecao.envio(loading);
             return null;
         }
     }
@@ -639,12 +641,12 @@ public class OpConsultaFrame extends javax.swing.JInternalFrame {
             /**
              * Carrega informações sobre o contato
              */
-            ContatoBEAN contato = ClienteDAO.selInfoContato(op.getCodContato());
+            Contato contato = ClienteDAO.selInfoContato(op.getCodContato());
 
             /**
              * Carrega informações sobre o endereço
              */
-            EnderecoBEAN endereco = ClienteDAO.selInfoEndereco(op.getCodEndereco());
+            Endereco endereco = EnderecoDAO.selInfoEndereco(op.getCodEndereco());
 
             /**
              * Define o código do orçamento base
@@ -692,7 +694,7 @@ public class OpConsultaFrame extends javax.swing.JInternalFrame {
             FatFrame.cidadeCliente.setText(endereco.getCidade());
             FatFrame.ufCliente.setText(endereco.getUf());
             FatFrame.complementoCliente.setText(endereco.getComplemento());
-            FatFrame.cepCliente.setText(EnderecoBEAN.retornaCepFormatado(endereco.getCep()));
+            FatFrame.cepCliente.setText(Endereco.retornaCepFormatado(endereco.getCep()));
             FatFrame.setCOD_ENDERECO(op.getCodEndereco());
 
             /**
@@ -739,14 +741,12 @@ public class OpConsultaFrame extends javax.swing.JInternalFrame {
              */
             FatFrame.valorUnitario.setValue((double) prodOrc.getPrecoUnitario());
             FatFrame.verificaFaturamento();
-
+            SEL_NOTA = false;
+            loading.setVisible(false);
         } catch (SQLException ex) {
             EnvioExcecao envioExcecao = new EnvioExcecao(Controle.getDefaultGj(), ex);
-            EnvioExcecao.envio();
+            EnvioExcecao.envio(loading);
         }
-        SEL_NOTA = false;
-
-        loading.setVisible(false);
     }
 
     private synchronized void mudarPag() {
@@ -774,12 +774,10 @@ public class OpConsultaFrame extends javax.swing.JInternalFrame {
                 modelInt.addRow(op);
             }
             OrdemProducao.corTabela(tabelaConsulta, (byte) 2);
-
             loading.setVisible(false);
-
         } catch (SQLException ex) {
             EnvioExcecao envioExcecao = new EnvioExcecao(Controle.getDefaultGj(), ex);
-            EnvioExcecao.envio();
+            EnvioExcecao.envio(loading);
         }
     }
 
@@ -830,7 +828,7 @@ public class OpConsultaFrame extends javax.swing.JInternalFrame {
 
         } catch (SQLException ex) {
             EnvioExcecao envioExcecao = new EnvioExcecao(Controle.getDefaultGj(), ex);
-            EnvioExcecao.envio();
+            EnvioExcecao.envio(loading);
         }
     }
 
@@ -1010,7 +1008,7 @@ public class OpConsultaFrame extends javax.swing.JInternalFrame {
                     loading.setVisible(false);
                 } catch (SQLException ex) {
                     EnvioExcecao envioExcecao = new EnvioExcecao(Controle.getDefaultGj(), ex);
-                    EnvioExcecao.envio();
+                    EnvioExcecao.envio(loading);
                 }
             }
         }.start();

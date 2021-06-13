@@ -58,7 +58,7 @@ public class Avisos extends javax.swing.JInternalFrame {
                     }
                 } catch (SQLException ex) {
                     EnvioExcecao envioExcecao = new EnvioExcecao(Controle.getDefaultGj(), ex);
-                    EnvioExcecao.envio();
+                    EnvioExcecao.envio(loading);
                 }
             }
         }.start();
@@ -244,7 +244,7 @@ public class Avisos extends javax.swing.JInternalFrame {
                             JOptionPane.INFORMATION_MESSAGE);
                 } catch (SQLException ex) {
                     EnvioExcecao envioExcecao = new EnvioExcecao(Controle.getDefaultGj(), ex);
-                    EnvioExcecao.envio();
+                    EnvioExcecao.envio(loading);
                 }
                 loading.setVisible(false);
             }

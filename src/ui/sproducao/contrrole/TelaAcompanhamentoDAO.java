@@ -17,7 +17,7 @@ import java.util.Date;
 import entities.sisgrafex.ProdOrcamento;
 import java.time.Instant;
 import model.bean.TelaAcompanhamentoBEAN;
-import ui.cadastros.produtos.ProdutoDAO;
+import model.dao.ProdutoDAO;
 
 /**
  *

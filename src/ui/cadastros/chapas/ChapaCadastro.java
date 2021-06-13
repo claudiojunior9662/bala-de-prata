@@ -5,6 +5,7 @@
  */
 package ui.cadastros.chapas;
 
+import model.dao.ChapaDAO;
 import java.sql.SQLException;
 import javax.swing.table.DefaultTableModel;
 import entities.sisgrafex.Chapa;
@@ -306,7 +307,7 @@ public class ChapaCadastro extends javax.swing.JFrame {
             ccDAO.create(cc);
         } catch (SQLException ex) {
             EnvioExcecao envioExcecao = new EnvioExcecao(Controle.getDefaultGj(), ex);
-            EnvioExcecao.envio();
+            EnvioExcecao.envio(null);
         }
 
         limpa();
@@ -331,7 +332,7 @@ public class ChapaCadastro extends javax.swing.JFrame {
             }
         } catch (SQLException ex) {
             EnvioExcecao envioExcecao = new EnvioExcecao(Controle.getDefaultGj(), ex);
-            EnvioExcecao.envio();
+            EnvioExcecao.envio(null);
         }
     }//GEN-LAST:event_botao_pesquisarActionPerformed
 
@@ -352,7 +353,7 @@ public class ChapaCadastro extends javax.swing.JFrame {
             }
         } catch (SQLException ex) {
             EnvioExcecao envioExcecao = new EnvioExcecao(Controle.getDefaultGj(), ex);
-            EnvioExcecao.envio();
+            EnvioExcecao.envio(null);
         }
     }//GEN-LAST:event_mostra_todosActionPerformed
 
@@ -383,7 +384,7 @@ public class ChapaCadastro extends javax.swing.JFrame {
                 }
             } catch (SQLException ex) {
                 EnvioExcecao envioExcecao = new EnvioExcecao(Controle.getDefaultGj(), ex);
-                EnvioExcecao.envio();
+                EnvioExcecao.envio(null);
             }
         }
     }//GEN-LAST:event_excluirActionPerformed
@@ -408,7 +409,7 @@ public class ChapaCadastro extends javax.swing.JFrame {
             ce.setVisible(true);
         } catch (SQLException ex) {
             EnvioExcecao envioExcecao = new EnvioExcecao(Controle.getDefaultGj(), ex);
-            EnvioExcecao.envio();
+            EnvioExcecao.envio(null);
         }
     }//GEN-LAST:event_editarActionPerformed
 

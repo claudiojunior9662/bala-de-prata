@@ -84,7 +84,7 @@ public class EscolhaDatas extends javax.swing.JInternalFrame {
                 calendario.setDate(data);
                 texto_info.setText("A DATA PODE SER REDEFINIDA.");
             }
-            
+
             if (TelaAcompanhamento.botao.equals("entrada_digital") & (opBEAN.getDataEntDigital() != null)) {
                 data = opBEAN.getDataEntDigital();
                 calendario.setDate(data);
@@ -209,11 +209,11 @@ public class EscolhaDatas extends javax.swing.JInternalFrame {
                 opBEAN.setDataEnvioDivCmcl(rs.getDate("data_envio_div_cmcl"));
                 cadastroop.add(opBEAN);
             }
+            return cadastroop;
         } catch (SQLException ex) {
             EnvioExcecao envioExcecao = new EnvioExcecao(Controle.getDefaultGj(), ex);
-            EnvioExcecao.envio();
+            EnvioExcecao.envio(null);
             return null;
         }
-        return cadastroop;
     }
 }

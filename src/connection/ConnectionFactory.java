@@ -9,7 +9,7 @@ import com.jcraft.jsch.JSchException;
 import com.jcraft.jsch.Session;
 import com.jcraft.jsch.SftpException;
 import exception.EnvioExcecao;
-import ui.cadastros.enderecos.EnderecoBEAN;
+import entities.sisgrafex.Endereco;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
@@ -117,7 +117,7 @@ public class ConnectionFactory {
             }
         } catch (SQLException ex) {
             EnvioExcecao envioExcecao = new EnvioExcecao(Controle.getDefaultGj(), ex);
-            EnvioExcecao.envio();
+            EnvioExcecao.envio(null);
         }
     }
 
@@ -131,7 +131,7 @@ public class ConnectionFactory {
 
         } catch (SQLException ex) {
             EnvioExcecao envioExcecao = new EnvioExcecao(Controle.getDefaultGj(), ex);
-            EnvioExcecao.envio();
+            EnvioExcecao.envio(null);
         }
         closeConnection(con);
     }
@@ -148,7 +148,7 @@ public class ConnectionFactory {
 
         } catch (SQLException ex) {
             EnvioExcecao envioExcecao = new EnvioExcecao(Controle.getDefaultGj(), ex);
-            EnvioExcecao.envio();
+            EnvioExcecao.envio(null);
         }
     }
 
@@ -193,10 +193,10 @@ public class ConnectionFactory {
             }
         } catch (MalformedURLException ex) {
             EnvioExcecao envioExcecao = new EnvioExcecao(Controle.getDefaultGj(), ex);
-            EnvioExcecao.envio();
+            EnvioExcecao.envio(null);
         } catch (IOException ex) {
             EnvioExcecao envioExcecao = new EnvioExcecao(Controle.getDefaultGj(), ex);
-            EnvioExcecao.envio();
+            EnvioExcecao.envio(null);
         } finally {
             con.disconnect();
         }
@@ -204,7 +204,7 @@ public class ConnectionFactory {
         return retorno;
     }
 
-    public static EnderecoBEAN retornaInformacoesCEP(String cep) {
+    public static Endereco retornaInformacoesCEP(String cep) {
         HashMap values = new HashMap();
         ObjectMapper objectMapper = null;
         String requestBody = null;
@@ -212,7 +212,7 @@ public class ConnectionFactory {
         HttpRequest request = null;
         HttpResponse<String> response = null;
         HttpHeaders headers = null;
-        EnderecoBEAN retorno = null;
+        Endereco retorno = null;
 
         try {
 
@@ -260,7 +260,7 @@ public class ConnectionFactory {
                 JOptionPane.showMessageDialog(null, "O 'CEP' DIGITADO NÃO EXISTE!");
             } else {
                 Map<String, Object> responseMap = new ObjectMapper().readValue(response.body(), HashMap.class);
-                retorno = new EnderecoBEAN(responseMap.get("logradouro").toString(),
+                retorno = new Endereco(responseMap.get("logradouro").toString(),
                         responseMap.get("complemento").toString(),
                         responseMap.get("bairro").toString(),
                         responseMap.get("localidade").toString(),
@@ -324,7 +324,7 @@ public class ConnectionFactory {
             }
             ready = false;
             EnvioExcecao envioExcecao = new EnvioExcecao(Controle.getDefaultGj(), ex);
-            EnvioExcecao.envio();
+            EnvioExcecao.envio(null);
         }
         return false;
     }
@@ -357,13 +357,13 @@ public class ConnectionFactory {
         } catch (JSchException ex) {
             ready = false;
             EnvioExcecao envioExcecao = new EnvioExcecao(Controle.getDefaultGj(), ex);
-            EnvioExcecao.envio();
+            EnvioExcecao.envio(null);
         } catch (SftpException ex) {
             EnvioExcecao envioExcecao = new EnvioExcecao(Controle.getDefaultGj(), ex);
-            EnvioExcecao.envio();
+            EnvioExcecao.envio(null);
         } catch (Exception ex) {
             EnvioExcecao envioExcecao = new EnvioExcecao(Controle.getDefaultGj(), ex);
-            EnvioExcecao.envio();
+            EnvioExcecao.envio(null);
         }
         return false;
     }
@@ -401,10 +401,10 @@ public class ConnectionFactory {
                 OrcamentoFrame.loadingHide();
             }
             EnvioExcecao envioExcecao = new EnvioExcecao(Controle.getDefaultGj(), ex);
-            EnvioExcecao.envio();
+            EnvioExcecao.envio(null);
         } catch (Exception ex) {
             EnvioExcecao envioExcecao = new EnvioExcecao(Controle.getDefaultGj(), ex);
-            EnvioExcecao.envio();
+            EnvioExcecao.envio(null);
         }
         return false;
     }
@@ -430,7 +430,7 @@ public class ConnectionFactory {
             return stringBuilder.toString();
         } catch (JSchException | IOException ex) {
             EnvioExcecao envioExcecao = new EnvioExcecao(Controle.getDefaultGj(), ex);
-            EnvioExcecao.envio();
+            EnvioExcecao.envio(null);
         }
         return null;
     }
@@ -446,7 +446,7 @@ public class ConnectionFactory {
             }
         } catch (Exception ex) {
             EnvioExcecao envioExcecao = new EnvioExcecao(Controle.getDefaultGj(), ex);
-            EnvioExcecao.envio();
+            EnvioExcecao.envio(null);
         }
         return false;
     }
@@ -458,7 +458,7 @@ public class ConnectionFactory {
             }
         } catch (Exception ex) {
             EnvioExcecao envioExcecao = new EnvioExcecao(Controle.getDefaultGj(), ex);
-            EnvioExcecao.envio();
+            EnvioExcecao.envio(null);
         }
     }
 
@@ -476,7 +476,7 @@ public class ConnectionFactory {
             }
         } catch (Exception ex) {
             EnvioExcecao envioExcecao = new EnvioExcecao(Controle.getDefaultGj(), ex);
-            EnvioExcecao.envio();
+            EnvioExcecao.envio(null);
         }
     }
 

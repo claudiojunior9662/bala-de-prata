@@ -5,6 +5,8 @@
  */
 package ui.cadastros.produtos;
 
+import model.dao.ProdutoDAO;
+import entities.sisgrafex.ProdutoBEAN;
 import static connection.IntegracaoLojaIntegrada.realizaRequisicaoPOST;
 import static connection.IntegracaoLojaIntegrada.realizaRequisicaoPUT;
 import entities.lojaIntegrada.Product;
@@ -16,11 +18,13 @@ import javax.swing.table.DefaultTableModel;
 import ui.cadastros.papeis.PapelCadastro;
 import java.sql.SQLException;
 import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import ui.cadastros.acabamentos.AcabamentoDAO;
 import ui.cadastros.acabamentos.AcabamentosCadastro;
-import ui.cadastros.papeis.PapelDAO;
+import model.dao.PapelDAO;
 import ui.controle.Controle;
 import ui.orcamentos.operacoes.OrcamentoPrincipalFrame;
 import ui.principal.GerenteJanelas;
@@ -1068,7 +1072,7 @@ public final class ProdutoFrame extends javax.swing.JInternalFrame {
                     FUNCAO = 3;
                 } catch (SQLException ex) {
                     EnvioExcecao envioExcecao = new EnvioExcecao(Controle.getDefaultGj(), ex);
-                    EnvioExcecao.envio();
+                    EnvioExcecao.envio(loading);
                 }
                 loading.setVisible(false);
             }
@@ -1214,7 +1218,7 @@ public final class ProdutoFrame extends javax.swing.JInternalFrame {
 
                 } catch (SQLException ex) {
                     EnvioExcecao envioExcecao = new EnvioExcecao(Controle.getDefaultGj(), ex);
-                    EnvioExcecao.envio();
+                    EnvioExcecao.envio(loading);
                 }
                 loading.setVisible(false);
             }
@@ -1256,7 +1260,7 @@ public final class ProdutoFrame extends javax.swing.JInternalFrame {
             }
         } catch (SQLException ex) {
             EnvioExcecao envioExcecao = new EnvioExcecao(Controle.getDefaultGj(), ex);
-            EnvioExcecao.envio();
+            EnvioExcecao.envio(loading);
         }
     }//GEN-LAST:event_btnMostrarUltPeActionPerformed
 
@@ -1275,7 +1279,8 @@ public final class ProdutoFrame extends javax.swing.JInternalFrame {
                         }
                     } catch (SQLException ex) {
                         EnvioExcecao envioExcecao = new EnvioExcecao(Controle.getDefaultGj(), ex);
-                        EnvioExcecao.envio();
+                        EnvioExcecao.envio(loading);
+                        return;
                     }
                 }
             } else if (jrdConsultaProntaEntrega.isSelected()) {
@@ -1301,7 +1306,7 @@ public final class ProdutoFrame extends javax.swing.JInternalFrame {
             }
         } catch (SQLException ex) {
             EnvioExcecao envioExcecao = new EnvioExcecao(Controle.getDefaultGj(), ex);
-            EnvioExcecao.envio();
+            EnvioExcecao.envio(loading);
         }
     }//GEN-LAST:event_btnPesqPeActionPerformed
 
@@ -1657,7 +1662,8 @@ public final class ProdutoFrame extends javax.swing.JInternalFrame {
             }
         } catch (SQLException ex) {
             EnvioExcecao envioExcecao = new EnvioExcecao(Controle.getDefaultGj(), ex);
-            EnvioExcecao.envio();
+            EnvioExcecao.envio(loading);
+            return;
         }
     }
     //--------------------------------------------------------------------------
@@ -1873,7 +1879,7 @@ public final class ProdutoFrame extends javax.swing.JInternalFrame {
             tabPane.setSelectedIndex(0);
         } catch (SQLException ex) {
             EnvioExcecao envioExcecao = new EnvioExcecao(Controle.getDefaultGj(), ex);
-            EnvioExcecao.envio();
+            EnvioExcecao.envio(loading);
         }
         loading.setVisible(false);
     }
@@ -1933,7 +1939,7 @@ public final class ProdutoFrame extends javax.swing.JInternalFrame {
                             if (jckbUtilizadoEcommerce.isSelected()) {
                                 try {
                                     loading.setText("INSERINDO NO E-COMMERCE...");
-                                    realizaRequisicaoPOST((byte) 5, new Product(
+                                    realizaRequisicaoPUT((byte) 1, new Product(
                                             String.valueOf(COD_PROD),
                                             "PP" + String.valueOf(COD_PROD),
                                             produto.getDescricao(),
@@ -1955,7 +1961,12 @@ public final class ProdutoFrame extends javax.swing.JInternalFrame {
                                     loading.setText("SALVANDO...");
                                 } catch (IOException | InterruptedException | SQLException ex) {
                                     EnvioExcecao envioExcecao = new EnvioExcecao(Controle.getDefaultGj(), ex);
-                                    EnvioExcecao.envio();
+                                    EnvioExcecao.envio(loading);
+                                    return;
+                                } catch (Exception ex) {
+                                    EnvioExcecao envioExcecao = new EnvioExcecao(Controle.getDefaultGj(), ex);
+                                    EnvioExcecao.envio(loading);
+                                    return;
                                 }
                             }
 
@@ -1992,12 +2003,15 @@ public final class ProdutoFrame extends javax.swing.JInternalFrame {
                                     loading.setText("SALVANDO...");
                                 } catch (IOException | InterruptedException | SQLException ex) {
                                     EnvioExcecao envioExcecao = new EnvioExcecao(Controle.getDefaultGj(), ex);
-                                    EnvioExcecao.envio();
+                                    EnvioExcecao.envio(loading);
+                                    return;
+                                } catch (Exception ex) {
+                                    EnvioExcecao envioExcecao = new EnvioExcecao(Controle.getDefaultGj(), ex);
+                                    EnvioExcecao.envio(loading);
+                                    return;
                                 }
                             }
-
                             break;
-
                     }
 
                     switch (FUNCAO) {
@@ -2089,7 +2103,12 @@ public final class ProdutoFrame extends javax.swing.JInternalFrame {
                                     loading.setText("SALVANDO...");
                                 } catch (IOException | InterruptedException | SQLException ex) {
                                     EnvioExcecao envioExcecao = new EnvioExcecao(Controle.getDefaultGj(), ex);
-                                    EnvioExcecao.envio();
+                                    EnvioExcecao.envio(loading);
+                                    return;
+                                } catch (Exception ex) {
+                                    EnvioExcecao envioExcecao = new EnvioExcecao(Controle.getDefaultGj(), ex);
+                                    EnvioExcecao.envio(loading);
+                                    return;
                                 }
 
                                 //INTERAÇÃO COM O USUÁRIO---------------------------------------
@@ -2170,7 +2189,12 @@ public final class ProdutoFrame extends javax.swing.JInternalFrame {
                                     loading.setText("SALVANDO...");
                                 } catch (IOException | InterruptedException | SQLException ex) {
                                     EnvioExcecao envioExcecao = new EnvioExcecao(Controle.getDefaultGj(), ex);
-                                    EnvioExcecao.envio();
+                                    EnvioExcecao.envio(loading);
+                                    return;
+                                } catch (Exception ex) {
+                                    EnvioExcecao envioExcecao = new EnvioExcecao(Controle.getDefaultGj(), ex);
+                                    EnvioExcecao.envio(loading);
+                                    return;
                                 }
                             }
 
@@ -2190,8 +2214,7 @@ public final class ProdutoFrame extends javax.swing.JInternalFrame {
             JOptionPane.showMessageDialog(null, "PRODUTO Nº " + COD_PROD + " CADASTRADO COM SUCESSO!");
         } catch (SQLException ex) {
             EnvioExcecao envioExcecao = new EnvioExcecao(Controle.getDefaultGj(), ex);
-            EnvioExcecao.envio();
-            loading.setVisible(false);
+            EnvioExcecao.envio(loading);
             return;
         }
         loading.setVisible(false);
@@ -2401,8 +2424,7 @@ public final class ProdutoFrame extends javax.swing.JInternalFrame {
             return 0;
         } catch (SQLException ex) {
             EnvioExcecao envioExcecao = new EnvioExcecao(Controle.getDefaultGj(), ex);
-            EnvioExcecao.envio();
-            loading.setVisible(false);
+            EnvioExcecao.envio(loading);
             return 1;
         }
 

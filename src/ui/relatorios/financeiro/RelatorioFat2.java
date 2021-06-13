@@ -550,30 +550,20 @@ public class RelatorioFat2 extends javax.swing.JInternalFrame {
                             + data
                             + " "
                             + hora
-                            + " - SISTEMA BALA DE PRATA\n\n", FontFactory.getFont("arial.ttf", 9))));
+                            + " - SISGRAFEX\n\n", FontFactory.getFont("arial.ttf", 9))));
                     
-
                     document.close();
-                } catch (FileNotFoundException ex) {
-                    EnvioExcecao envioExcecao = new EnvioExcecao(Controle.getDefaultGj(), ex);
-                    EnvioExcecao.envio();
-                } catch (DocumentException ex) {
-                    EnvioExcecao envioExcecao = new EnvioExcecao(Controle.getDefaultGj(), ex);
-                    EnvioExcecao.envio();
-                }
-
-                try {
+                    
                     if (System.getProperty("os.name").toLowerCase().contains("windows")) {
                         java.awt.Desktop.getDesktop().open(new File(Controle.urlTempWindows + data + hora + ".pdf"));
                     } else {
                         java.awt.Desktop.getDesktop().open(new File(Controle.urlTempUnix + data + hora + ".pdf"));
                     }
-                } catch (IOException ex) {
+                    loading.setVisible(false);
+                } catch (IOException | DocumentException ex) {
                     EnvioExcecao envioExcecao = new EnvioExcecao(Controle.getDefaultGj(), ex);
-                    EnvioExcecao.envio();
-                }
-
-                loading.setVisible(false);
+                    EnvioExcecao.envio(loading);
+                } 
             }
         }.start();
     }

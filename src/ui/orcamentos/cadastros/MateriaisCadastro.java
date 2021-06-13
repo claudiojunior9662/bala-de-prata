@@ -309,7 +309,7 @@ public class MateriaisCadastro extends javax.swing.JFrame {
             limpa();
         } catch (SQLException ex) {
             EnvioExcecao envioExcecao = new EnvioExcecao(Controle.getDefaultGj(), ex);
-            EnvioExcecao.envio();
+            EnvioExcecao.envio(null);
         }
     }//GEN-LAST:event_cadastrar_materialActionPerformed
 
@@ -334,7 +334,7 @@ public class MateriaisCadastro extends javax.swing.JFrame {
             materiaisEditar.setVisible(true);
         } catch (SQLException ex) {
             EnvioExcecao envioExcecao = new EnvioExcecao(Controle.getDefaultGj(), ex);
-            EnvioExcecao.envio();
+            EnvioExcecao.envio(null);
         }
     }//GEN-LAST:event_editarActionPerformed
 
@@ -359,7 +359,7 @@ public class MateriaisCadastro extends javax.swing.JFrame {
                 }
             } catch (SQLException ex) {
                 EnvioExcecao envioExcecao = new EnvioExcecao(Controle.getDefaultGj(), ex);
-            EnvioExcecao.envio();
+            EnvioExcecao.envio(null);
             }
         }
     }//GEN-LAST:event_excluirActionPerformed
@@ -383,7 +383,7 @@ public class MateriaisCadastro extends javax.swing.JFrame {
             }
         } catch (SQLException ex) {
             EnvioExcecao envioExcecao = new EnvioExcecao(Controle.getDefaultGj(), ex);
-            EnvioExcecao.envio();
+            EnvioExcecao.envio(null);
         }
     }//GEN-LAST:event_botao_pesquisarActionPerformed
 
@@ -402,7 +402,7 @@ public class MateriaisCadastro extends javax.swing.JFrame {
             }
         } catch (SQLException ex) {
             EnvioExcecao envioExcecao = new EnvioExcecao(Controle.getDefaultGj(), ex);
-            EnvioExcecao.envio();
+            EnvioExcecao.envio(null);
         }
     }//GEN-LAST:event_mostra_todosActionPerformed
 

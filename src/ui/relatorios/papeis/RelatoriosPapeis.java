@@ -31,7 +31,7 @@ import java.text.DecimalFormat;
 import javax.swing.DefaultListModel;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
-import ui.cadastros.papeis.PapelDAO;
+import model.dao.PapelDAO;
 import ui.controle.Controle;
 
 /**
@@ -772,7 +772,7 @@ public class RelatoriosPapeis extends javax.swing.JInternalFrame {
 
         } catch (SQLException ex) {
             EnvioExcecao envioExcecao = new EnvioExcecao(Controle.getDefaultGj(), ex);
-            EnvioExcecao.envio();
+            EnvioExcecao.envio(loading);
         }
     }//GEN-LAST:event_papelDescricaoKeyReleased
 
@@ -785,7 +785,7 @@ public class RelatoriosPapeis extends javax.swing.JInternalFrame {
             papelDescricao.setText(listaPesquisaPapeis.getSelectedValue());
         } catch (SQLException ex) {
             EnvioExcecao envioExcecao = new EnvioExcecao(Controle.getDefaultGj(), ex);
-            EnvioExcecao.envio();
+            EnvioExcecao.envio(loading);
         }
     }//GEN-LAST:event_listaPesquisaPapeisMouseClicked
 
@@ -1137,7 +1137,7 @@ public class RelatoriosPapeis extends javax.swing.JInternalFrame {
             return retorno;
         } catch (SQLException ex) {
             EnvioExcecao envioExcecao = new EnvioExcecao(Controle.getDefaultGj(), ex);
-            EnvioExcecao.envio();
+            EnvioExcecao.envio(loading);
             return null;
         } catch (ConsultaSemResultadoException ex) {
             throw new ConsultaSemResultadoException();
@@ -1262,18 +1262,12 @@ public class RelatoriosPapeis extends javax.swing.JInternalFrame {
                     } else {
                         java.awt.Desktop.getDesktop().open(new File(Controle.urlTempUnix + data + hora + ".pdf"));
                     }
-
-                } catch (FileNotFoundException | ConsultaSemResultadoException ex) {
+                    
+                    loading.setVisible(false);
+                } catch (IOException | ConsultaSemResultadoException | DocumentException ex) {
                     EnvioExcecao envioExcecao = new EnvioExcecao(Controle.getDefaultGj(), ex);
-                    EnvioExcecao.envio();
-                } catch (DocumentException | IOException ex) {
-                    EnvioExcecao envioExcecao = new EnvioExcecao(Controle.getDefaultGj(), ex);
-                    EnvioExcecao.envio();
-                    return;
+                    EnvioExcecao.envio(loading);
                 }
-
-                loading.setVisible(false);
-
             }
         }.start();
     }

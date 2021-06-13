@@ -16,7 +16,7 @@ import ui.principal.ModulosInt;
 import model.dao.OrcamentoDAO;
 import ui.administrador.UsuarioBEAN;
 import ui.administrador.UsuarioDAO;
-import ui.cadastros.clientes.ClienteDAO;
+import model.dao.ClienteDAO;
 import ui.controle.Controle;
 import ui.principal.ModulosExt;
 import java.sql.SQLException;
@@ -402,7 +402,7 @@ public class TelaAutenticacao extends javax.swing.JFrame {
             }
         } catch (SQLException ex) {
             EnvioExcecao envioExcecao = new EnvioExcecao(Controle.getDefaultGj(), ex);
-            EnvioExcecao.envio();
+            EnvioExcecao.envio(null);
         }
         lblEntrar.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
     }//GEN-LAST:event_lblEntrarMouseClicked

@@ -16,7 +16,7 @@ import java.util.logging.Logger;
 import javax.swing.ImageIcon;
 import ui.cadastros.clientes.ClienteCadastro;
 import ui.cadastros.notas.FatFrame;
-import ui.cadastros.produtos.ProdutoDAO;
+import model.dao.ProdutoDAO;
 import ui.cadastros.produtos.ProdutoPrEntBEAN;
 import ui.controle.Controle;
 import ui.login.TelaAutenticacao;

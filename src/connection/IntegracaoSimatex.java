@@ -28,7 +28,7 @@ public class IntegracaoSimatex {
             connection = DriverManager.getConnection("jdbc:firebirdsql:" + Controle.SERVIDOR + "/" + Controle.PORTA + ":" + Controle.ENDERECO_BD + Controle.CHARSET, Controle.USUARIO, Controle.SENHA);
         } catch (ClassNotFoundException | SQLException ex) {
             EnvioExcecao envioExcecao = new EnvioExcecao(Controle.getDefaultGj(), ex);
-            EnvioExcecao.envio();
+            EnvioExcecao.envio(null);
         }
         return connection;
     }

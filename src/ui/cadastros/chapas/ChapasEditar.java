@@ -5,6 +5,7 @@
  */
 package ui.cadastros.chapas;
 
+import model.dao.ChapaDAO;
 import javax.swing.table.DefaultTableModel;
 import entities.sisgrafex.Chapa;
 import exception.EnvioExcecao;
@@ -239,7 +240,7 @@ public class ChapasEditar extends javax.swing.JFrame {
             this.dispose();
         } catch (SQLException ex) {
             EnvioExcecao envioExcecao = new EnvioExcecao(Controle.getDefaultGj(), ex);
-            EnvioExcecao.envio();
+            EnvioExcecao.envio(null);
         }
     }//GEN-LAST:event_confirmar_edicaoActionPerformed
 

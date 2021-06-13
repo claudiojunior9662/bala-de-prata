@@ -18,7 +18,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import model.dao.OrdemProducaoDAO;
-import ui.cadastros.clientes.ClienteDAO;
+import model.dao.ClienteDAO;
 
 /**
  *

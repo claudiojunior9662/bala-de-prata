@@ -5,12 +5,6 @@
  */
 package ui.cadastros.transportadoras;
 
-import ui.cadastros.clientes.ClienteBEAN;
-import ui.cadastros.clientes.ClienteDAO;
-import java.sql.SQLException;
-import javax.swing.JOptionPane;
-import javax.swing.table.DefaultTableModel;
-
 /**
  *
  * @author spd3

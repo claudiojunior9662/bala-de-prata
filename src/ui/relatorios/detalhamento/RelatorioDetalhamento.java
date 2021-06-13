@@ -31,8 +31,8 @@ import java.util.List;
 import javax.swing.DefaultListModel;
 import javax.swing.JLabel;
 import model.dao.OrdemProducaoDAO;
-import ui.cadastros.clientes.ClienteDAO;
-import ui.cadastros.notas.NotaDAO;
+import model.dao.ClienteDAO;
+import model.dao.NotaDAO;
 import ui.controle.Controle;
 
 /**
@@ -252,7 +252,7 @@ public class RelatorioDetalhamento extends javax.swing.JInternalFrame {
             }
         } catch (SQLException ex) {
             EnvioExcecao envioExcecao = new EnvioExcecao(Controle.getDefaultGj(), ex);
-            EnvioExcecao.envio();
+            EnvioExcecao.envio(loading);
         }
     }//GEN-LAST:event_jtfNomeClienteKeyReleased
 
@@ -305,7 +305,7 @@ public class RelatorioDetalhamento extends javax.swing.JInternalFrame {
             listPesquisaCliente.setVisible(false);
         } catch (SQLException ex) {
             EnvioExcecao envioExcecao = new EnvioExcecao(Controle.getDefaultGj(), ex);
-            EnvioExcecao.envio();
+            EnvioExcecao.envio(loading);
         }
     }//GEN-LAST:event_listPesquisaClienteMouseClicked
 
@@ -414,26 +414,20 @@ public class RelatorioDetalhamento extends javax.swing.JInternalFrame {
                     document.add(tabelaSaldoFinal);
 
                     document.close();
-                } catch (FileNotFoundException | DocumentException ex) {
-                    EnvioExcecao envioExcecao = new EnvioExcecao(Controle.getDefaultGj(), ex);
-                    EnvioExcecao.envio();
-                } catch (SQLException ex) {
-                    EnvioExcecao envioExcecao = new EnvioExcecao(Controle.getDefaultGj(), ex);
-                    EnvioExcecao.envio();
-                }
 
-                try {
                     if (System.getProperty("os.name").toLowerCase().contains("windows")) {
                         java.awt.Desktop.getDesktop().open(new File(Controle.urlTempWindows + data + hora + ".pdf"));
                     } else {
                         java.awt.Desktop.getDesktop().open(new File(Controle.urlTempUnix + data + hora + ".pdf"));
                     }
-                } catch (IOException ex) {
+                    loading.setVisible(false);
+                } catch (IOException | DocumentException ex) {
                     EnvioExcecao envioExcecao = new EnvioExcecao(Controle.getDefaultGj(), ex);
-                    EnvioExcecao.envio();
+                    EnvioExcecao.envio(loading);
+                } catch (SQLException ex) {
+                    EnvioExcecao envioExcecao = new EnvioExcecao(Controle.getDefaultGj(), ex);
+                    EnvioExcecao.envio(loading);
                 }
-
-                loading.setVisible(false);
             }
         }.start();
     }
@@ -488,12 +482,12 @@ public class RelatorioDetalhamento extends javax.swing.JInternalFrame {
             celula.setColspan(3);
             celula.setHorizontalAlignment(Element.ALIGN_RIGHT);
             retorno.addCell(celula);
-
+            return retorno;
         } catch (SQLException ex) {
             EnvioExcecao envioExcecao = new EnvioExcecao(Controle.getDefaultGj(), ex);
-            EnvioExcecao.envio();
+            EnvioExcecao.envio(loading);
+            return null;
         }
-        return retorno;
     }
 
     /**
@@ -558,12 +552,12 @@ public class RelatorioDetalhamento extends javax.swing.JInternalFrame {
             celula.setColspan(5);
             celula.setHorizontalAlignment(Element.ALIGN_RIGHT);
             retorno.addCell(celula);
-
+            return retorno;
         } catch (SQLException ex) {
             EnvioExcecao envioExcecao = new EnvioExcecao(Controle.getDefaultGj(), ex);
-            EnvioExcecao.envio();
+            EnvioExcecao.envio(loading);
+            return null;
         }
-        return retorno;
     }
 
     /**
@@ -707,7 +701,7 @@ public class RelatorioDetalhamento extends javax.swing.JInternalFrame {
             }
 
             addCabecalho = false;
-            
+
             for (OrdemProducao op : listaOp) {
                 if (op.getStatus() != 12 && op.getStatus() != 11 && op.getStatus() != 13) {
                     if (!addCabecalho) {
@@ -747,12 +741,12 @@ public class RelatorioDetalhamento extends javax.swing.JInternalFrame {
             celula.setColspan(7);
             celula.setHorizontalAlignment(Element.ALIGN_RIGHT);
             retorno.addCell(celula);
+            return retorno;
         } catch (SQLException ex) {
             EnvioExcecao envioExcecao = new EnvioExcecao(Controle.getDefaultGj(), ex);
-            EnvioExcecao.envio();
+            EnvioExcecao.envio(loading);
+            return null;
         }
-        return retorno;
-
     }
 
     /**
@@ -770,7 +764,7 @@ public class RelatorioDetalhamento extends javax.swing.JInternalFrame {
         celula.setHorizontalAlignment(Element.ALIGN_CENTER);
         celula.setColspan(4);
         retorno.addCell(celula);
-        
+
         celula = new PdfPCell(new Phrase("CRÉDITO", FontFactory.getFont("arial.ttf", 6, Font.BOLD)));
         celula.setHorizontalAlignment(Element.ALIGN_CENTER);
         retorno.addCell(celula);
@@ -783,7 +777,7 @@ public class RelatorioDetalhamento extends javax.swing.JInternalFrame {
         celula = new PdfPCell(new Phrase("TOTAL", FontFactory.getFont("arial.ttf", 6, Font.BOLD)));
         celula.setHorizontalAlignment(Element.ALIGN_CENTER);
         retorno.addCell(celula);
-        
+
         celula = new PdfPCell(new Phrase("R$ (+) " + Controle.formatoVlrPadrao.format(saldoNC), FontFactory.getFont("arial.ttf", 6, Font.BOLD)));
         celula.setHorizontalAlignment(Element.ALIGN_CENTER);
         retorno.addCell(celula);
@@ -797,8 +791,8 @@ public class RelatorioDetalhamento extends javax.swing.JInternalFrame {
         celula = new PdfPCell(new Phrase("R$ " + Controle.formatoVlrPadrao.format(vlrTotal), FontFactory.getFont("arial.ttf", 6, Font.BOLD)));
         celula.setHorizontalAlignment(Element.ALIGN_CENTER);
         retorno.addCell(celula);
-        
-        return retorno;        
+
+        return retorno;
     }
 
 }

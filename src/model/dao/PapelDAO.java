@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package ui.cadastros.papeis;
+package model.dao;
 
 import connection.ConnectionFactory;
 import java.sql.Connection;
@@ -13,6 +13,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import entities.sisgrafex.Papel;
+import ui.cadastros.papeis.PapelBEAN;
 
 /**
  *

@@ -19,6 +19,11 @@ public class Produto {
     private String tipo;
     private byte sistema;
 
+    @Override
+    public String toString() {
+        return "Produto{" + "codigo=" + codigo + ", descricao=" + descricao + ", altura=" + altura + ", largura=" + largura + ", quantidadePaginas=" + quantidadePaginas + ", tipo=" + tipo + ", sistema=" + sistema + '}';
+    }
+
     public int getCodigo() {
         return codigo;
     }

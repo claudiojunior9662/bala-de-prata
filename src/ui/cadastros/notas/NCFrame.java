@@ -5,20 +5,20 @@
  */
 package ui.cadastros.notas;
 
+import model.dao.NotaDAO;
 import entities.sisgrafex.NotaCredito;
 import exception.EnvioExcecao;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.Date;
 import javax.swing.ImageIcon;
-import ui.cadastros.contatos.ContatoBEAN;
-import ui.cadastros.enderecos.EnderecoBEAN;
+import entities.sisgrafex.Contato;
+import entities.sisgrafex.Endereco;
 import ui.login.TelaAutenticacao;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
-import javax.swing.JPasswordField;
 import ui.cadastros.clientes.ClienteCadastro;
-import ui.cadastros.clientes.ClienteDAO;
+import model.dao.ClienteDAO;
 import ui.controle.Controle;
 import ui.principal.GerenteJanelas;
 
@@ -785,7 +785,7 @@ public class NCFrame extends javax.swing.JInternalFrame {
             estadoPosExcluir();
         } catch (SQLException ex) {
             EnvioExcecao envioExcecao = new EnvioExcecao(Controle.getDefaultGj(), ex);
-            EnvioExcecao.envio();
+            EnvioExcecao.envio(loading);
         }
     }//GEN-LAST:event_botaoExcluirNotaActionPerformed
 
@@ -1068,9 +1068,8 @@ public class NCFrame extends javax.swing.JInternalFrame {
                     estadoGravar();
                 } catch (SQLException ex) {
                     EnvioExcecao envioExcecao = new EnvioExcecao(Controle.getDefaultGj(), ex);
-                    EnvioExcecao.envio();
+                    EnvioExcecao.envio(loading);
                 }
-
                 loading.setVisible(false);
             }
         }.start();
@@ -1096,20 +1095,20 @@ public class NCFrame extends javax.swing.JInternalFrame {
         if (codigosEnderecos.getSelectedItem() != null) {
             if (codigosEnderecos.getSelectedItem().toString() != "SELECIONE...") {
                 try {
-                    for (EnderecoBEAN bean : NotaDAO.retornaEndereco(
+                    for (Endereco bean : NotaDAO.retornaEndereco(
                             Integer.valueOf(codigosEnderecos.getSelectedItem().toString()))) {
                         tipoEndereco.setText(bean.getTipoEndereco());
                         bairroCliente.setText(bean.getBairro());
                         cidadeCliente.setText(bean.getCidade());
                         ufCliente.setText(bean.getUf());
                         complementoCliente.setText(bean.getComplemento());
-                        cepCliente.setText(EnderecoBEAN.retornaCepFormatado(bean.getCep().toString()));
+                        cepCliente.setText(Endereco.retornaCepFormatado(bean.getCep().toString()));
                         logadouroCliente.setText(bean.getLogadouro());
 
                     }
                 } catch (SQLException ex) {
                     EnvioExcecao envioExcecao = new EnvioExcecao(Controle.getDefaultGj(), ex);
-                    EnvioExcecao.envio();
+                    EnvioExcecao.envio(loading);
                 }
             }
         }
@@ -1119,7 +1118,7 @@ public class NCFrame extends javax.swing.JInternalFrame {
         if (codigosContatos.getSelectedItem() != null) {
             if (codigosContatos.getSelectedItem().toString() != "SELECIONE...") {
                 try {
-                    for (ContatoBEAN contato : NotaDAO.retornaContato(
+                    for (Contato contato : NotaDAO.retornaContato(
                             Integer.valueOf(codigosContatos.getSelectedItem().toString()))) {
                         nomeContatoCliente.setText(contato.getNomeContato());
                         telefoneCliente.setText(contato.getTelefone());
@@ -1128,7 +1127,7 @@ public class NCFrame extends javax.swing.JInternalFrame {
                     }
                 } catch (SQLException ex) {
                     EnvioExcecao envioExcecao = new EnvioExcecao(Controle.getDefaultGj(), ex);
-                    EnvioExcecao.envio();
+                    EnvioExcecao.envio(loading);
                 }
             }
         }

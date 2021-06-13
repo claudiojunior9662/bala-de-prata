@@ -30,7 +30,7 @@ import javax.swing.DefaultListModel;
 import javax.swing.JLabel;
 import ui.administrador.UsuarioBEAN;
 import ui.administrador.UsuarioDAO;
-import ui.cadastros.clientes.ClienteDAO;
+import model.dao.ClienteDAO;
 import ui.controle.Controle;
 
 /**
@@ -67,7 +67,7 @@ public class RelatorioFat extends javax.swing.JInternalFrame {
             estadoInicial();
         } catch (SQLException ex) {
             EnvioExcecao envioExcecao = new EnvioExcecao(Controle.getDefaultGj(), ex);
-            EnvioExcecao.envio();
+            EnvioExcecao.envio(loading);
         }
     }
 
@@ -923,7 +923,7 @@ public class RelatorioFat extends javax.swing.JInternalFrame {
             }
         } catch (SQLException ex) {
             EnvioExcecao envioExcecao = new EnvioExcecao(Controle.getDefaultGj(), ex);
-            EnvioExcecao.envio();
+            EnvioExcecao.envio(loading);
         }
     }//GEN-LAST:event_nomeClienteKeyReleased
 
@@ -934,7 +934,7 @@ public class RelatorioFat extends javax.swing.JInternalFrame {
             listaPesquisaCliente.setVisible(false);
         } catch (SQLException ex) {
             EnvioExcecao envioExcecao = new EnvioExcecao(Controle.getDefaultGj(), ex);
-            EnvioExcecao.envio();
+            EnvioExcecao.envio(loading);
         }
     }//GEN-LAST:event_listaPesquisaClienteMouseClicked
 
@@ -1390,25 +1390,18 @@ public class RelatorioFat extends javax.swing.JInternalFrame {
                     document.add(tabelaPrincipal);
 
                     document.close();
-                } catch (FileNotFoundException ex) {
-                    EnvioExcecao envioExcecao = new EnvioExcecao(Controle.getDefaultGj(), ex);
-                    EnvioExcecao.envio();
-                } catch (DocumentException ex) {
-                    Logger.getLogger(RelatorioFat.class.getName()).log(Level.SEVERE, null, ex);
-                }
-
-                try {
+                    
                     if (System.getProperty("os.name").toLowerCase().contains("windows")) {
                         java.awt.Desktop.getDesktop().open(new File(Controle.urlTempWindows + data + hora + ".pdf"));
                     } else {
                         java.awt.Desktop.getDesktop().open(new File(Controle.urlTempUnix + data + hora + ".pdf"));
                     }
-                } catch (IOException ex) {
+                    loading.setVisible(false);
+                } catch (IOException | DocumentException ex) {
                     EnvioExcecao envioExcecao = new EnvioExcecao(Controle.getDefaultGj(), ex);
-                    EnvioExcecao.envio();
+                    EnvioExcecao.envio(loading);
                 }
-
-                loading.setVisible(false);
+                
             }
         }.start();
     }
@@ -2587,8 +2580,8 @@ public class RelatorioFat extends javax.swing.JInternalFrame {
             return retorno;
         } catch (SQLException ex) {
             EnvioExcecao envioExcecao = new EnvioExcecao(Controle.getDefaultGj(), ex);
-            EnvioExcecao.envio();
+            EnvioExcecao.envio(loading);
+            return null;
         }
-        return null;
     }
 }

@@ -281,7 +281,7 @@ public class TintasCadastro extends javax.swing.JFrame {
             TintasCadastroDAO.create(tintasCadastroBEAN);
         } catch (SQLException ex) {
             EnvioExcecao envioExcecao = new EnvioExcecao(Controle.getDefaultGj(), ex);
-            EnvioExcecao.envio();
+            EnvioExcecao.envio(null);
         }
     }//GEN-LAST:event_cadastrar_tintasActionPerformed
 
@@ -309,7 +309,7 @@ public class TintasCadastro extends javax.swing.JFrame {
             te.setVisible(true);
         } catch (SQLException ex) {
             EnvioExcecao envioExcecao = new EnvioExcecao(Controle.getDefaultGj(), ex);
-            EnvioExcecao.envio();
+            EnvioExcecao.envio(null);
         }
     }//GEN-LAST:event_editarActionPerformed
 
@@ -332,7 +332,7 @@ public class TintasCadastro extends javax.swing.JFrame {
                 }
             } catch (SQLException ex) {
                 EnvioExcecao envioExcecao = new EnvioExcecao(Controle.getDefaultGj(), ex);
-                EnvioExcecao.envio();
+                EnvioExcecao.envio(null);
             }
         }
     }//GEN-LAST:event_excluirActionPerformed
@@ -354,7 +354,7 @@ public class TintasCadastro extends javax.swing.JFrame {
             }
         } catch (SQLException ex) {
             EnvioExcecao envioExcecao = new EnvioExcecao(Controle.getDefaultGj(), ex);
-            EnvioExcecao.envio();
+            EnvioExcecao.envio(null);
         }
     }//GEN-LAST:event_botao_pesquisarActionPerformed
 
@@ -371,7 +371,7 @@ public class TintasCadastro extends javax.swing.JFrame {
             }
         } catch (SQLException ex) {
             EnvioExcecao envioExcecao = new EnvioExcecao(Controle.getDefaultGj(), ex);
-            EnvioExcecao.envio();
+            EnvioExcecao.envio(null);
         }
     }//GEN-LAST:event_mostra_todosActionPerformed
 

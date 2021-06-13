@@ -13,8 +13,8 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.table.AbstractTableModel;
-import ui.cadastros.clientes.ClienteDAO;
-import ui.cadastros.produtos.ProdutoDAO;
+import model.dao.ClienteDAO;
+import model.dao.ProdutoDAO;
 import ui.controle.Controle;
 
 /**
@@ -25,7 +25,7 @@ public class OpIntTableModel extends AbstractTableModel {
 
     private List<OrdemProducao> dados = new ArrayList<>();
     private String[] colunas = {"OP", "ORÇAMENTO", "PRODUTO", "CLIENTE", "TIPO DE CLIENTE", "DATA DE EMISSÃO", "DATA DE ENTREGA", "STATUS"};
-    
+
     @Override
     public String getColumnName(int col) {
         return colunas[col];
@@ -52,15 +52,10 @@ public class OpIntTableModel extends AbstractTableModel {
                 case 2:
                     return ProdutoDAO.retornaDescricaoProduto(dados.get(linha).getCodProduto(), dados.get(linha).getTipoProduto());
                 case 3:
-                    try {
-                        return ClienteDAO.retornaNomeCliente(
-                                dados.get(linha).getCodCliente(),
-                                dados.get(linha).getTipoPessoa()
-                        );
-                    } catch (SQLException ex) {
-                        EnvioExcecao envioExcecao = new EnvioExcecao(Controle.getDefaultGj(), ex);
-                        EnvioExcecao.envio();
-                    }
+                    return ClienteDAO.retornaNomeCliente(
+                            dados.get(linha).getCodCliente(),
+                            dados.get(linha).getTipoPessoa()
+                    );
                 case 4:
                     return Controle.retornaTipoCliente(dados.get(linha).getTipoPessoa());
                 case 5:
@@ -71,7 +66,8 @@ public class OpIntTableModel extends AbstractTableModel {
                     return Controle.stsOp.get(dados.get(linha).getStatus() - 1).toString();
             }
         } catch (SQLException ex) {
-            Logger.getLogger(OpIntTableModel.class.getName()).log(Level.SEVERE, null, ex);
+            EnvioExcecao envioExcecao = new EnvioExcecao(Controle.getDefaultGj(), ex);
+            EnvioExcecao.envio(null);
         }
         return null;
     }

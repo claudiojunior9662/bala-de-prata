@@ -8,8 +8,8 @@ package model.dao;
 import connection.ConnectionFactory;
 import entities.sisgrafex.AlteraData;
 import entities.sisgrafex.Cliente;
-import ui.cadastros.contatos.ContatoBEAN;
-import ui.cadastros.enderecos.EnderecoBEAN;
+import entities.sisgrafex.Contato;
+import entities.sisgrafex.Endereco;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -522,19 +522,19 @@ public class OrcamentoDAO {
     }
 
     //CONTATOS------------------------------------------------------------------
-    public static List<ContatoBEAN> retornaInformacoesContatos(int codContato) throws SQLException {
+    public static List<Contato> retornaInformacoesContatos(int codContato) throws SQLException {
         Connection con = ConnectionFactory.getConnection();
         PreparedStatement stmt = null;
         ResultSet rs = null;
 
-        List<ContatoBEAN> retorno = new ArrayList();
+        List<Contato> retorno = new ArrayList();
 
         try {
             stmt = con.prepareStatement("SELECT nome_contato, telefone FROM tabela_contatos WHERE cod = ?");
             stmt.setInt(1, codContato);
             rs = stmt.executeQuery();
             while (rs.next()) {
-                ContatoBEAN a2 = new ContatoBEAN();
+                Contato a2 = new Contato();
                 a2.setNomeContato(rs.getString("nome_contato"));
                 a2.setTelefone(rs.getString("telefone"));
                 retorno.add(a2);
@@ -548,19 +548,19 @@ public class OrcamentoDAO {
     }
 
     //ENDERECOS-----------------------------------------------------------------
-    public static List<EnderecoBEAN> retornaInformacoesEnderecos(int codEndereco) throws SQLException {
+    public static List<Endereco> retornaInformacoesEnderecos(int codEndereco) throws SQLException {
         Connection con = ConnectionFactory.getConnection();
         PreparedStatement stmt = null;
         ResultSet rs = null;
 
-        List<EnderecoBEAN> retorno = new ArrayList();
+        List<Endereco> retorno = new ArrayList();
 
         try {
             stmt = con.prepareStatement("SELECT cidade, uf FROM tabela_enderecos WHERE cod = ?");
             stmt.setInt(1, codEndereco);
             rs = stmt.executeQuery();
             while (rs.next()) {
-                EnderecoBEAN a2 = new EnderecoBEAN();
+                Endereco a2 = new Endereco();
                 a2.setCidade(rs.getString("cidade"));
                 a2.setUf(rs.getString("uf"));
                 retorno.add(a2);

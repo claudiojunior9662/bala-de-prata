@@ -15,8 +15,8 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import static model.dao.OrdemProducaoDAO.retornaNomeCliente;
-import ui.cadastros.clientes.ClienteDAO;
-import ui.cadastros.produtos.ProdutoDAO;
+import model.dao.ClienteDAO;
+import model.dao.ProdutoDAO;
 
 /**
  *

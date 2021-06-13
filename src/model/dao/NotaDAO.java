@@ -3,15 +3,14 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package ui.cadastros.notas;
+package model.dao;
 
 import entities.sisgrafex.NotaCredito;
 import connection.ConnectionFactory;
 import entities.sisgrafex.Cliente;
 import entities.sisgrafex.Faturamento;
-import ui.cadastros.clientes.ClienteBEAN;
-import ui.cadastros.contatos.ContatoBEAN;
-import ui.cadastros.enderecos.EnderecoBEAN;
+import entities.sisgrafex.Contato;
+import entities.sisgrafex.Endereco;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -19,12 +18,12 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Date;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import model.dao.OrdemProducaoDAO;
-import ui.cadastros.clientes.ClienteDAO;
-import static ui.cadastros.notas.NotaDAO.verificaQuantidadeEntregue;
-import ui.cadastros.produtos.ProdutoDAO;
+import model.dao.ClienteDAO;
+import ui.cadastros.notas.LancGru;
+import ui.cadastros.notas.LancSigaSiafi;
+import ui.cadastros.notas.TransporteBEAN;
+import ui.cadastros.notas.VolumeBEAN;
+import static model.dao.NotaDAO.verificaQuantidadeEntregue;
 
 /**
  *
@@ -313,43 +312,6 @@ public class NotaDAO {
                 aux.setData(rs.getString("data"));
                 aux.setObservacoes(rs.getString("observacoes"));
                 retorno.add(aux);
-            }
-        } catch (SQLException ex) {
-            throw new SQLException(ex);
-        } finally {
-            ConnectionFactory.closeConnection(con, stmt, rs);
-        }
-        return retorno;
-    }
-
-    public static List<ClienteBEAN> carregaClientes(int codCliente, int tipoCliente) throws SQLException {
-        Connection con = ConnectionFactory.getConnection();
-        PreparedStatement stmt = null;
-        ResultSet rs = null;
-
-        List<ClienteBEAN> retorno = new ArrayList();
-
-        try {
-            if (tipoCliente == 1) {
-                stmt = con.prepareStatement("SELECT * FROM tabela_clientes_fisicos WHERE cod = ?");
-                stmt.setInt(1, codCliente);
-                rs = stmt.executeQuery();
-                while (rs.next()) {
-                    ClienteBEAN aux = new ClienteBEAN();
-                    aux.setNome(rs.getString("nome"));
-                    aux.setCpf(rs.getString("cpf"));
-                    retorno.add(aux);
-                }
-            } else if (tipoCliente == 2) {
-                stmt = con.prepareStatement("SELECT * FROM tabela_clientes_juridicos WHERE cod = ?");
-                stmt.setInt(1, codCliente);
-                rs = stmt.executeQuery();
-                while (rs.next()) {
-                    ClienteBEAN aux = new ClienteBEAN();
-                    aux.setNome(rs.getString("nome"));
-                    aux.setCnpj(rs.getString("cnpj"));
-                    retorno.add(aux);
-                }
             }
         } catch (SQLException ex) {
             throw new SQLException(ex);
@@ -693,12 +655,12 @@ public class NotaDAO {
      * @return
      * @throws SQLException
      */
-    public static List<EnderecoBEAN> retornaEndereco(int codEndereco) throws SQLException {
+    public static List<Endereco> retornaEndereco(int codEndereco) throws SQLException {
         Connection con = ConnectionFactory.getConnection();
         PreparedStatement stmt = null;
         ResultSet rs = null;
 
-        List<EnderecoBEAN> retorno = new ArrayList();
+        List<Endereco> retorno = new ArrayList();
 
         try {
             stmt = con.prepareStatement("SELECT tipo_endereco, bairro, cidade, uf, complemento, cep, logadouro "
@@ -706,7 +668,7 @@ public class NotaDAO {
             stmt.setInt(1, codEndereco);
             rs = stmt.executeQuery();
             while (rs.next()) {
-                EnderecoBEAN aux = new EnderecoBEAN();
+                Endereco aux = new Endereco();
                 aux.setTipoEndereco(rs.getString("tipo_endereco"));
                 aux.setBairro(rs.getString("bairro"));
                 aux.setCidade(rs.getString("cidade"));
@@ -731,12 +693,12 @@ public class NotaDAO {
      * @return
      * @throws SQLException
      */
-    public static List<ContatoBEAN> retornaContato(int codContato) throws SQLException {
+    public static List<Contato> retornaContato(int codContato) throws SQLException {
         Connection con = ConnectionFactory.getConnection();
         PreparedStatement stmt = null;
         ResultSet rs = null;
 
-        List<ContatoBEAN> retorno = new ArrayList();
+        List<Contato> retorno = new ArrayList();
 
         try {
             stmt = con.prepareStatement("SELECT nome_contato, email, telefone, telefone2 "
@@ -744,7 +706,7 @@ public class NotaDAO {
             stmt.setInt(1, codContato);
             rs = stmt.executeQuery();
             while (rs.next()) {
-                ContatoBEAN aux = new ContatoBEAN();
+                Contato aux = new Contato();
                 aux.setNomeContato(rs.getString("nome_contato"));
                 aux.setEmail(rs.getString("email"));
                 aux.setTelefone(rs.getString("telefone"));

@@ -34,8 +34,8 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import ui.administrador.UsuarioBEAN;
 import ui.administrador.UsuarioDAO;
-import ui.cadastros.clientes.ClienteDAO;
-import ui.cadastros.produtos.ProdutoDAO;
+import model.dao.ClienteDAO;
+import model.dao.ProdutoDAO;
 import ui.controle.Controle;
 
 /**
@@ -74,7 +74,7 @@ public class RelatorioOrcamentos extends javax.swing.JInternalFrame {
             }
         } catch (SQLException ex) {
             EnvioExcecao envioExcecao = new EnvioExcecao(Controle.getDefaultGj(), ex);
-            EnvioExcecao.envio();
+            EnvioExcecao.envio(loading);
         }
     }
 
@@ -1022,7 +1022,7 @@ public class RelatorioOrcamentos extends javax.swing.JInternalFrame {
                     listaPesquisaCliente.setVisible(false);
                 } catch (SQLException ex) {
                     EnvioExcecao envioExcecao = new EnvioExcecao(Controle.getDefaultGj(), ex);
-                    EnvioExcecao.envio();
+                    EnvioExcecao.envio(loading);
                 }
             }
         }.start();
@@ -1119,7 +1119,7 @@ public class RelatorioOrcamentos extends javax.swing.JInternalFrame {
                     }
                 } catch (SQLException ex) {
                     EnvioExcecao envioExcecao = new EnvioExcecao(Controle.getDefaultGj(), ex);
-                    EnvioExcecao.envio();
+                    EnvioExcecao.envio(loading);
                 }
             }
         }.start();
@@ -1244,7 +1244,7 @@ public class RelatorioOrcamentos extends javax.swing.JInternalFrame {
                     }
                 } catch (SQLException ex) {
                     EnvioExcecao envioExcecao = new EnvioExcecao(Controle.getDefaultGj(), ex);
-                    EnvioExcecao.envio();
+                    EnvioExcecao.envio(loading);
                 }
             }
         }.start();
@@ -1269,7 +1269,7 @@ public class RelatorioOrcamentos extends javax.swing.JInternalFrame {
                     listaPesquisaProdutos.setVisible(false);
                 } catch (SQLException ex) {
                     EnvioExcecao envioExcecao = new EnvioExcecao(Controle.getDefaultGj(), ex);
-                    EnvioExcecao.envio();
+                    EnvioExcecao.envio(loading);
                 }
             }
         }.start();
@@ -3484,7 +3484,7 @@ public class RelatorioOrcamentos extends javax.swing.JInternalFrame {
             return retorno;
         } catch (SQLException ex) {
             EnvioExcecao envioExcecao = new EnvioExcecao(Controle.getDefaultGj(), ex);
-            EnvioExcecao.envio();
+            EnvioExcecao.envio(loading);
         }
         return null;
     }
@@ -3532,18 +3532,11 @@ public class RelatorioOrcamentos extends javax.swing.JInternalFrame {
             } else {
                 java.awt.Desktop.getDesktop().open(new File(Controle.urlTempUnix + data + hora + ".pdf"));
             }
-
-        } catch (FileNotFoundException | ConsultaSemResultadoException ex) {
+            loading.setVisible(false);
+        } catch (IOException | ConsultaSemResultadoException | DocumentException ex) {
             EnvioExcecao envioExcecao = new EnvioExcecao(Controle.getDefaultGj(), ex);
-            EnvioExcecao.envio();
-        } catch (DocumentException | IOException ex) {
-            EnvioExcecao envioExcecao = new EnvioExcecao(Controle.getDefaultGj(), ex);
-            EnvioExcecao.envio();
-            return;
+            EnvioExcecao.envio(loading);
         }
-
-        loading.setVisible(false);
-
     }
 
     private boolean verificaCondicoes() {

@@ -6,8 +6,6 @@
 package entities.sisgrafex;
 
 import com.itextpdf.text.BaseColor;
-import ui.cadastros.contatos.ContatoBEAN;
-import ui.cadastros.produtos.ProdutoBEAN;
 import ui.cadastros.produtos.AcabamentoProdBEAN;
 import ui.cadastros.papeis.PapelBEAN;
 import ui.controle.Controle;
@@ -44,16 +42,14 @@ import javax.swing.table.DefaultTableCellRenderer;
 import model.dao.OrcamentoDAO;
 import model.dao.OrdemProducaoDAO;
 import ui.cadastros.acabamentos.AcabamentoDAO;
-import ui.cadastros.clientes.ClienteBEAN;
-import ui.cadastros.clientes.ClienteDAO;
-import ui.cadastros.enderecos.EnderecoBEAN;
-import ui.cadastros.enderecos.EnderecoDAO;
-import ui.cadastros.notas.NotaDAO;
+import model.dao.ClienteDAO;
+import model.dao.EnderecoDAO;
+import model.dao.NotaDAO;
 import ui.cadastros.notas.TransporteBEAN;
 import ui.cadastros.notas.VolumeBEAN;
-import ui.cadastros.papeis.PapelDAO;
-import ui.cadastros.produtos.ProdutoDAO;
-import ui.cadastros.servicos.ServicoDAO;
+import model.dao.PapelDAO;
+import model.dao.ProdutoDAO;
+import model.dao.ServicoDAO;
 
 /**
  *
@@ -668,12 +664,12 @@ public class OrdemProducao {
                     /**
                      * Procura as informações do cliente
                      */
-                    ClienteBEAN cliente = ClienteDAO.selInfoOp(op.getTipoPessoa(), op.getCodCliente());
+                    Cliente cliente = ClienteDAO.selInfoOp(op.getTipoPessoa(), op.getCodCliente());
 
                     /**
                      * Procura as informações do contato
                      */
-                    ContatoBEAN contato = ClienteDAO.selInfoContato(op.getCodContato());
+                    Contato contato = ClienteDAO.selInfoContato(op.getCodContato());
 
                     /**
                      * Procura o produto
@@ -911,7 +907,7 @@ public class OrdemProducao {
                             /**
                              * Procura o endereço
                              */
-                            EnderecoBEAN endereco = ClienteDAO.selInfoEndereco(op.getCodEndereco());
+                            Endereco endereco = EnderecoDAO.selInfoEndereco(op.getCodEndereco());
 
                             /**
                              * Preenche informações do endereço
@@ -920,7 +916,7 @@ public class OrdemProducao {
                             tblIdDest.addCell(cell1);
                             cell2 = new PdfPCell(new Phrase("BAIRRO\n\n" + endereco.getBairro(), FontFactory.getFont("arial.ttf", 9)));
                             cell3 = new PdfPCell(new Phrase("CIDADE\n\n" + endereco.getCidade(), FontFactory.getFont("arial.ttf", 9)));
-                            cell4 = new PdfPCell(new Phrase("CEP\n\n" + EnderecoBEAN.retornaCepFormatado(
+                            cell4 = new PdfPCell(new Phrase("CEP\n\n" + Endereco.retornaCepFormatado(
                                     endereco.getCep()), FontFactory.getFont("arial.ttf", 9)));
                             cell1 = new PdfPCell(new Phrase("UF\n\n" + endereco.getUf(), FontFactory.getFont("arial.ttf", 9)));
 
@@ -1588,7 +1584,7 @@ public class OrdemProducao {
                         p = new Paragraph("NOME: ______________ DOCUMENTO: ______________ EMISSOR: ________", FontFactory.getFont("arial.ttf", 9));
                         p.setAlignment(1);
                         document.add(p);
-                        p = new Paragraph(cliente.getTipoCliente() == 1
+                        p = new Paragraph(cliente.getTipoPessoa() == 1
                                 ? cliente.getNome()
                                 : (cliente.getNome() + " - " + cliente.getNomeFantasia()),
                                 FontFactory.getFont("arial.ttf", 9));
@@ -1609,7 +1605,7 @@ public class OrdemProducao {
                         tblPostagem.addCell(cell1);
                         cell1 = new PdfPCell(new Phrase("ENDEREÇO DE ENTREGA",
                                 FontFactory.getFont("arial.ttf", 9, Font.BOLD)));
-                        cell2 = new PdfPCell(new Phrase(EnderecoDAO.retornaEndereço(op.getCodEndereco()),
+                        cell2 = new PdfPCell(new Phrase(EnderecoDAO.retornaEndereco(op.getCodEndereco()),
                                 FontFactory.getFont("arial.ttf", 9)));
                         tblPostagem.addCell(cell1);
                         tblPostagem.addCell(cell2);
@@ -1654,7 +1650,7 @@ public class OrdemProducao {
                     //------------------------------------------------------------------
                 } catch (SQLException | DocumentException ex) {
                     EnvioExcecao envioExcecao = new EnvioExcecao(Controle.getDefaultGj(), ex);
-                    EnvioExcecao.envio();
+                    EnvioExcecao.envio(null);
                 } catch (IOException ex) {
                     JOptionPane.showMessageDialog(null,
                             "O ARQUIVO ESTÁ SENDO UTILIZADO POR OUTRO PROCESSO.\nVERIFIQUE E TENTE NOVAMENTE",
@@ -1768,7 +1764,7 @@ public class OrdemProducao {
                     jTable.setSelectionForeground(Color.BLUE);
                 } catch (RuntimeException ex) {
                     EnvioExcecao envioExcecao = new EnvioExcecao(Controle.getDefaultGj(), ex);
-                    EnvioExcecao.envio();
+                    EnvioExcecao.envio(null);
                 }
 
             }

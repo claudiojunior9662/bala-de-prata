@@ -5,7 +5,9 @@
  */
 package ui.cadastros.clientes;
 
+import model.dao.ClienteDAO;
 import connection.ConnectionFactory;
+import entities.sisgrafex.Cliente;
 import entities.sisgrafex.Orcamento;
 import exception.ClienteNaoEncontradoException;
 import exception.EnvioExcecao;
@@ -21,9 +23,11 @@ import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.text.DefaultFormatterFactory;
 import javax.swing.text.MaskFormatter;
-import ui.cadastros.contatos.ContatoBEAN;
+import entities.sisgrafex.Contato;
 import ui.cadastros.contatos.ContatoPesquisa;
-import ui.cadastros.enderecos.EnderecoBEAN;
+import entities.sisgrafex.Endereco;
+import model.dao.ContatoDAO;
+import model.dao.EnderecoDAO;
 import ui.cadastros.enderecos.EnderecoPesquisa;
 import ui.cadastros.notas.NCFrame;
 import ui.controle.Controle;
@@ -42,7 +46,7 @@ public class ClienteCadastro extends javax.swing.JInternalFrame {
      * Define o tipo de pessoa 1 - Pessoa física, 2 - Pessoa jurídica
      */
     public static byte TIPO_PESSOA = 0;
-    private final JLabel loading;
+    private final static JLabel loading = null;
     private final GerenteJanelas gj;
     /**
      * 1 - Orçamento, 3 - Nota de crédito
@@ -95,7 +99,7 @@ public class ClienteCadastro extends javax.swing.JInternalFrame {
      */
     public ClienteCadastro(JLabel loading, GerenteJanelas gj, byte CLASSE_PAI) {
         initComponents();
-        this.loading = loading;
+        loading = loading;
         this.gj = gj;
         this.CLASSE_PAI = CLASSE_PAI;
         estado1();
@@ -1327,7 +1331,7 @@ public class ClienteCadastro extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_botaoEditarEnderecosActionPerformed
 
     private void botaoGravarEnderecosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botaoGravarEnderecosActionPerformed
-        EnderecoBEAN cadastroClientes2EnderecosBEAN = new EnderecoBEAN();
+        Endereco cadastroClientes2EnderecosBEAN = new Endereco();
 
         try {
             if (tipoEndereco.getSelectedItem().toString().equals("SELECIONE...")) {
@@ -1384,7 +1388,7 @@ public class ClienteCadastro extends javax.swing.JInternalFrame {
                 tabelaEnderecos.setValueAt(cidade.getText().toString().toUpperCase(), linhaEdicaoEndereco, 4);
                 tabelaEnderecos.setValueAt(complemento.getText().toString().toUpperCase(), linhaEdicaoEndereco, 7);
 
-                ClienteDAO.atualizaEnderecos(new EnderecoBEAN(EnderecoPesquisa.CODIGO_ENDERECO,
+                EnderecoDAO.atualizaEnderecos(new Endereco(EnderecoPesquisa.CODIGO_ENDERECO,
                         cep.getValue().toString(),
                         tipoEndereco.getSelectedItem().toString(),
                         logradouro.getText().toString().toUpperCase(),
@@ -1394,9 +1398,9 @@ public class ClienteCadastro extends javax.swing.JInternalFrame {
                         cidade.getText().toString().toUpperCase()));
                 JOptionPane.showMessageDialog(null, "ENDEREÇO ATUALIZADO COM SUCESSO.");
             } else {
-                EnderecoPesquisa.CODIGO_ENDERECO = ClienteDAO.retornaUltimoRegistroEnderecos() + 1;
+                EnderecoPesquisa.CODIGO_ENDERECO = EnderecoDAO.retornaUltimoRegistroEnderecos() + 1;
 
-                ClienteDAO.gravarEnderecos(new EnderecoBEAN(EnderecoPesquisa.CODIGO_ENDERECO,
+                EnderecoDAO.gravarEnderecos(new Endereco(EnderecoPesquisa.CODIGO_ENDERECO,
                         cep.getValue().toString(),
                         tipoEndereco.getSelectedItem().toString(),
                         logradouro.getText().toString().toUpperCase(),
@@ -1429,7 +1433,7 @@ public class ClienteCadastro extends javax.swing.JInternalFrame {
             codEndereco = 0;
         } catch (SQLException ex) {
             EnvioExcecao envioExcecao = new EnvioExcecao(Controle.getDefaultGj(), ex);
-            EnvioExcecao.envio();
+            EnvioExcecao.envio(loading);
         }
     }//GEN-LAST:event_botaoGravarEnderecosActionPerformed
 
@@ -1454,7 +1458,7 @@ public class ClienteCadastro extends javax.swing.JInternalFrame {
     private void botaoBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botaoBuscarActionPerformed
         String cepAux = cep.getText().replace(".", "").replace("-", "");
         if (!cepAux.equals("")) {
-            EnderecoBEAN enderecoAux = ConnectionFactory.retornaInformacoesCEP(cepAux);
+            Endereco enderecoAux = ConnectionFactory.retornaInformacoesCEP(cepAux);
             if (enderecoAux != null) {
                 logradouro.setText(enderecoAux.getLogadouro());
                 complemento.setText(enderecoAux.getComplemento());
@@ -1493,72 +1497,63 @@ public class ClienteCadastro extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_departamentoActionPerformed
 
     private void tipoTelefoneItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_tipoTelefoneItemStateChanged
-        if (tipoTelefone.getSelectedItem().equals("SELECIONE...") == false) {
-            if (tipoTelefone.getSelectedItem().equals("FIXO")) {
-                try {
+        try {
+            if (tipoTelefone.getSelectedItem().equals("SELECIONE...") == false) {
+                if (tipoTelefone.getSelectedItem().equals("FIXO")) {
                     mascaraTelefone = new MaskFormatter("(##) ####-####");
                     telefone.setFormatterFactory(new DefaultFormatterFactory(new MaskFormatter("(##) ####-####")));
                     telefone.setValue("");
                     dicaFormato.setText("DDD + NÚMERO - SOMENTE NÚMEROS SEM ESPAÇOS OU CARACTERES");
                     ramal.setEnabled(true);
                     telefone.setEnabled(true);
-                } catch (ParseException ex) {
-                    EnvioExcecao envioExcecao = new EnvioExcecao(Controle.getDefaultGj(), ex);
-                    EnvioExcecao.envio();
-                }
-            } else {
-                try {
+                } else {
                     mascaraTelefone = new MaskFormatter("(##) # ####-####");
                     telefone.setFormatterFactory(new DefaultFormatterFactory(new MaskFormatter("(##) # ####-####")));
                     telefone.setValue("");
                     dicaFormato.setText("DDD + 9 + NÚMERO - SOMENTE NÚMEROS SEM ESPAÇOS OU CARACTERES");
                     telefone.setEnabled(true);
                     ramal.setEnabled(false);
-                } catch (ParseException ex) {
-                    EnvioExcecao envioExcecao = new EnvioExcecao(Controle.getDefaultGj(), ex);
-                    EnvioExcecao.envio();
                 }
+            } else {
+                mascaraTelefone = null;
+                dicaFormato.setText("");
+                ramal.setEnabled(false);
+                telefone.setEnabled(false);
             }
-        } else {
-            mascaraTelefone = null;
-            dicaFormato.setText("");
-            ramal.setEnabled(false);
-            telefone.setEnabled(false);
+        } catch (ParseException ex) {
+            EnvioExcecao envioExcecao = new EnvioExcecao(Controle.getDefaultGj(), ex);
+            EnvioExcecao.envio(loading);
         }
+
     }//GEN-LAST:event_tipoTelefoneItemStateChanged
 
     private void tipoTelefone2ItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_tipoTelefone2ItemStateChanged
-        if (tipoTelefone2.getSelectedItem().equals("SELECIONE...") == false) {
-            if (tipoTelefone2.getSelectedItem().equals("FIXO")) {
-                try {
+        try {
+            if (tipoTelefone2.getSelectedItem().equals("SELECIONE...") == false) {
+                if (tipoTelefone2.getSelectedItem().equals("FIXO")) {
                     mascaraTelefone = new MaskFormatter("(##) ####-####");
                     telefone2.setFormatterFactory(new DefaultFormatterFactory(new MaskFormatter("(##) ####-####")));
                     telefone2.setValue("");
                     dicaFormato2.setText("DDD + NÚMERO - SOMENTE NÚMEROS SEM ESPAÇOS OU CARACTERES");
                     ramal2.setEnabled(true);
                     telefone2.setEnabled(true);
-                } catch (ParseException ex) {
-                    EnvioExcecao envioExcecao = new EnvioExcecao(Controle.getDefaultGj(), ex);
-                    EnvioExcecao.envio();
-                }
-            } else {
-                try {
+                } else {
                     mascaraTelefone = new MaskFormatter("(##) # ####-####");
                     telefone2.setFormatterFactory(new DefaultFormatterFactory(new MaskFormatter("(##) # ####-####")));
                     telefone2.setValue("");
                     dicaFormato2.setText("DDD + 9 + NÚMERO - SOMENTE NÚMEROS SEM ESPAÇOS OU CARACTERES");
                     telefone2.setEnabled(true);
                     ramal2.setEnabled(false);
-                } catch (ParseException ex) {
-                    EnvioExcecao envioExcecao = new EnvioExcecao(Controle.getDefaultGj(), ex);
-                    EnvioExcecao.envio();
                 }
+            } else {
+                mascaraTelefone = null;
+                dicaFormato2.setText("");
+                ramal2.setEnabled(false);
+                telefone2.setEnabled(false);
             }
-        } else {
-            mascaraTelefone = null;
-            dicaFormato2.setText("");
-            ramal2.setEnabled(false);
-            telefone2.setEnabled(false);
+        } catch (ParseException ex) {
+            EnvioExcecao envioExcecao = new EnvioExcecao(Controle.getDefaultGj(), ex);
+            EnvioExcecao.envio(loading);
         }
     }//GEN-LAST:event_tipoTelefone2ItemStateChanged
 
@@ -1581,94 +1576,79 @@ public class ClienteCadastro extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_botaoIncluirContatosActionPerformed
 
     private void botaoEditarContatosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botaoEditarContatosActionPerformed
-        estadoEditarContato();
-        linhaEdicaoContato = tabelaContatos.getSelectedRow();
-        codContato = Integer.valueOf(tabelaContatos.getValueAt(tabelaContatos.getSelectedRow(), 0).toString());
-        nomeContato.setText((String) tabelaContatos.getValueAt(tabelaContatos.getSelectedRow(), 1));
-        email.setText((String) tabelaContatos.getValueAt(tabelaContatos.getSelectedRow(), 2));
-        String formatar = tabelaContatos.getValueAt(tabelaContatos.getSelectedRow(), 3).toString();
-        formatar = formatar.replace("(", "");
-        formatar = formatar.replace(")", "");
-        formatar = formatar.replace(" ", "");
-        formatar = formatar.replace("-", "");
-        MaskFormatter formatoTelefone = null;
-        if (formatar.length() == 10) {
-            tipoTelefone.setSelectedIndex(1);
-            tipoTelefone.setEnabled(true);
-            try {
+        try {
+            estadoEditarContato();
+            linhaEdicaoContato = tabelaContatos.getSelectedRow();
+            codContato = Integer.valueOf(tabelaContatos.getValueAt(tabelaContatos.getSelectedRow(), 0).toString());
+            nomeContato.setText((String) tabelaContatos.getValueAt(tabelaContatos.getSelectedRow(), 1));
+            email.setText((String) tabelaContatos.getValueAt(tabelaContatos.getSelectedRow(), 2));
+            String formatar = tabelaContatos.getValueAt(tabelaContatos.getSelectedRow(), 3).toString();
+            formatar = formatar.replace("(", "");
+            formatar = formatar.replace(")", "");
+            formatar = formatar.replace(" ", "");
+            formatar = formatar.replace("-", "");
+            MaskFormatter formatoTelefone = null;
+            if (formatar.length() == 10) {
+                tipoTelefone.setSelectedIndex(1);
+                tipoTelefone.setEnabled(true);
                 formatoTelefone = new MaskFormatter("(##) ####-####");
                 formatoTelefone.setValueContainsLiteralCharacters(false);
                 formatar = formatoTelefone.valueToString(formatar);
                 telefone.setFormatterFactory(new DefaultFormatterFactory(new MaskFormatter("(##) ####-####")));
-            } catch (ParseException ex) {
-                EnvioExcecao envioExcecao = new EnvioExcecao(Controle.getDefaultGj(), ex);
-                EnvioExcecao.envio();
+                telefone.setValue(formatar);
+                telefone.setEnabled(true);
+                ramal.setValue(Integer.valueOf(tabelaContatos.getValueAt(tabelaContatos.getSelectedRow(), 4).toString()));
+                ramal.setEnabled(true);
             }
-            telefone.setValue(formatar);
-            telefone.setEnabled(true);
-            ramal.setValue(Integer.valueOf(tabelaContatos.getValueAt(tabelaContatos.getSelectedRow(), 4).toString()));
-            ramal.setEnabled(true);
-        }
-        if (formatar.length() == 11) {
-            tipoTelefone.setSelectedIndex(2);
-            tipoTelefone.setEnabled(true);
-            try {
+            if (formatar.length() == 11) {
+                tipoTelefone.setSelectedIndex(2);
+                tipoTelefone.setEnabled(true);
                 formatoTelefone = new MaskFormatter("(##) # ####-####");
                 formatoTelefone.setValueContainsLiteralCharacters(false);
                 formatar = formatoTelefone.valueToString(formatar);
                 telefone.setFormatterFactory(new DefaultFormatterFactory(new MaskFormatter("(##) # ####-####")));
-            } catch (ParseException ex) {
-                EnvioExcecao envioExcecao = new EnvioExcecao(Controle.getDefaultGj(), ex);
-                EnvioExcecao.envio();
+                telefone.setValue(formatar);
+                telefone.setEnabled(true);
             }
-            telefone.setValue(formatar);
-            telefone.setEnabled(true);
-        }
 
-        formatar = tabelaContatos.getValueAt(tabelaContatos.getSelectedRow(), 5).toString();
-        formatar = formatar.replace("(", "");
-        formatar = formatar.replace(")", "");
-        formatar = formatar.replace(" ", "");
-        formatar = formatar.replace("-", "");
-        formatoTelefone = null;
-        if (formatar.length() == 10) {
-            tipoTelefone2.setSelectedIndex(1);
-            tipoTelefone2.setEnabled(true);
-            try {
+            formatar = tabelaContatos.getValueAt(tabelaContatos.getSelectedRow(), 5).toString();
+            formatar = formatar.replace("(", "");
+            formatar = formatar.replace(")", "");
+            formatar = formatar.replace(" ", "");
+            formatar = formatar.replace("-", "");
+            formatoTelefone = null;
+            if (formatar.length() == 10) {
+                tipoTelefone2.setSelectedIndex(1);
+                tipoTelefone2.setEnabled(true);
                 formatoTelefone = new MaskFormatter("(##) ####-####");
                 formatoTelefone.setValueContainsLiteralCharacters(false);
                 formatar = formatoTelefone.valueToString(formatar);
                 telefone2.setFormatterFactory(new DefaultFormatterFactory(new MaskFormatter("(##) ####-####")));
-            } catch (ParseException ex) {
-                EnvioExcecao envioExcecao = new EnvioExcecao(Controle.getDefaultGj(), ex);
-                EnvioExcecao.envio();
-            }
-            telefone2.setValue(formatar);
-            telefone2.setEnabled(true);
-            ramal2.setValue(Integer.valueOf(tabelaContatos.getValueAt(tabelaContatos.getSelectedRow(), 6).toString()));
-            ramal2.setEnabled(true);
-        } else if (formatar.length() == 11) {
-            tipoTelefone2.setSelectedIndex(2);
-            tipoTelefone2.setEnabled(true);
-            try {
+                telefone2.setValue(formatar);
+                telefone2.setEnabled(true);
+                ramal2.setValue(Integer.valueOf(tabelaContatos.getValueAt(tabelaContatos.getSelectedRow(), 6).toString()));
+                ramal2.setEnabled(true);
+            } else if (formatar.length() == 11) {
+                tipoTelefone2.setSelectedIndex(2);
+                tipoTelefone2.setEnabled(true);
                 formatoTelefone = new MaskFormatter("(##) # ####-####");
                 formatoTelefone.setValueContainsLiteralCharacters(false);
                 formatar = formatoTelefone.valueToString(formatar);
                 telefone2.setFormatterFactory(new DefaultFormatterFactory(new MaskFormatter("(##) # ####-####")));
-            } catch (ParseException ex) {
-                EnvioExcecao envioExcecao = new EnvioExcecao(Controle.getDefaultGj(), ex);
-                EnvioExcecao.envio();
+                telefone2.setValue(formatar);
+                telefone2.setEnabled(true);
             }
-            telefone2.setValue(formatar);
-            telefone2.setEnabled(true);
+            departamento.setText(tabelaContatos.getValueAt(tabelaContatos.getSelectedRow(), 7).toString());
+        } catch (ParseException ex) {
+            EnvioExcecao envioExcecao = new EnvioExcecao(Controle.getDefaultGj(), ex);
+            EnvioExcecao.envio(loading);
         }
-        departamento.setText(tabelaContatos.getValueAt(tabelaContatos.getSelectedRow(), 7).toString());
+
     }//GEN-LAST:event_botaoEditarContatosActionPerformed
 
     private void botaoGravarContatosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botaoGravarContatosActionPerformed
         try {
-            ClienteDAO cadastroClientes2DAO = new ClienteDAO();
-            ContatoBEAN cadastroClientes2ContatosBEAN = new ContatoBEAN();
+            Contato cadastroClientes2ContatosBEAN = new Contato();
 
             if (nomeContato.getText().equals("")) {
                 JOptionPane.showMessageDialog(null, "CAMPO 'NOME PARA CONTATO' NÃO PREENCHIDO!");
@@ -1736,11 +1716,11 @@ public class ClienteCadastro extends javax.swing.JInternalFrame {
                 cadastroClientes2ContatosBEAN.setTelefone2(telefone2.getText().toString().toUpperCase());
                 cadastroClientes2ContatosBEAN.setRamal2(ramal2.getText().toString().toUpperCase());
                 cadastroClientes2ContatosBEAN.setDepartamento(departamento.getText().toString().toUpperCase());
-                cadastroClientes2DAO.atualizaContatos(cadastroClientes2ContatosBEAN, codContato);
+                ContatoDAO.atualizaContatos(cadastroClientes2ContatosBEAN, codContato);
 
                 JOptionPane.showMessageDialog(null, "CONTATO ATUALIZADO COM SUCESSO.");
             } else {
-                codContato = cadastroClientes2DAO.retornaUltimoRegistroContatos() + 1;
+                codContato = ContatoDAO.retornaUltimoRegistroContatos() + 1;
 
                 cadastroClientes2ContatosBEAN.setCod(codContato);
                 cadastroClientes2ContatosBEAN.setNomeContato(nomeContato.getText().toString().toUpperCase());
@@ -1750,7 +1730,7 @@ public class ClienteCadastro extends javax.swing.JInternalFrame {
                 cadastroClientes2ContatosBEAN.setTelefone2(telefone2.getText().toString().toUpperCase());
                 cadastroClientes2ContatosBEAN.setRamal2(ramal2.getText().toString().toUpperCase());
                 cadastroClientes2ContatosBEAN.setDepartamento(departamento.getText().toString().toUpperCase());
-                cadastroClientes2DAO.gravarContatos(cadastroClientes2ContatosBEAN);
+                ContatoDAO.gravaContatos(cadastroClientes2ContatosBEAN);
 
                 JOptionPane.showMessageDialog(null, "CONTATO GRAVADO COM SUCESSO.\nCÓDIGO = " + codContato);
 
@@ -1776,7 +1756,7 @@ public class ClienteCadastro extends javax.swing.JInternalFrame {
             codContato = 0;
         } catch (SQLException ex) {
             EnvioExcecao envioExcecao = new EnvioExcecao(Controle.getDefaultGj(), ex);
-            EnvioExcecao.envio();
+            EnvioExcecao.envio(loading);
         }
     }//GEN-LAST:event_botaoGravarContatosActionPerformed
 
@@ -1877,7 +1857,7 @@ public class ClienteCadastro extends javax.swing.JInternalFrame {
                 dialogResult = JOptionPane.showConfirmDialog(this, "DESEJA DESATIVAR TAMBÉM OS ENDEREÇOS E CONTATOS VINCULADOS AO CLIENTE?", "DESATIVAR ENDEREÇOS E CONTATOS", dialogButton);
                 if (dialogResult == 0) {
                     ClienteDAO.desativaAtivaCliente(CODIGO_CLIENTE, TIPO_PESSOA, (byte) 1);
-                    ClienteDAO.desativaAtivaEnderecos(CODIGO_CLIENTE, 0, TIPO_PESSOA, (byte) 1, true);
+                    EnderecoDAO.desativaAtivaEnderecos(CODIGO_CLIENTE, 0, TIPO_PESSOA, (byte) 1, true);
                     ClienteDAO.desativaAtivaContatos(CODIGO_CLIENTE, 0, TIPO_PESSOA, (byte) 1, true);
                 } else {
                     ClienteDAO.desativaAtivaCliente(CODIGO_CLIENTE, TIPO_PESSOA, (byte) 1);
@@ -1890,13 +1870,13 @@ public class ClienteCadastro extends javax.swing.JInternalFrame {
             estado1();
         } catch (SQLException ex) {
             EnvioExcecao envioExcecao = new EnvioExcecao(Controle.getDefaultGj(), ex);
-            EnvioExcecao.envio();
+            EnvioExcecao.envio(loading);
         }
     }//GEN-LAST:event_botaoDesativarClientesActionPerformed
 
     private void botaoGravarClientesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botaoGravarClientesActionPerformed
         try {
-            ClienteBEAN cadastroClientes2BEAN = new ClienteBEAN();
+            Cliente cliente = new Cliente();
             List codigosEnderecos = new ArrayList();
             List codigosContatos = new ArrayList();
             String formatar = null;
@@ -1984,48 +1964,48 @@ public class ClienteCadastro extends javax.swing.JInternalFrame {
             }
 
             if (novoCliente == true) {
-                cadastroClientes2BEAN.setCod(CODIGO_CLIENTE);
-                cadastroClientes2BEAN.setNome(nomeCliente.getText().toUpperCase());
-                cadastroClientes2BEAN.setNomeFantasia(nomeFantasia.getText().toUpperCase());
-                cadastroClientes2BEAN.setCnpj(cnpj.getText());
-                cadastroClientes2BEAN.setCpf(cpf.getText());
-                cadastroClientes2BEAN.setAtividade(atividade.getText().toUpperCase());
-                cadastroClientes2BEAN.setFilialColigada(filialColigada.getText().toUpperCase());
-                cadastroClientes2BEAN.setCodAtendente(codigoAtendente.getText());
-                cadastroClientes2BEAN.setNomeAtendente(nomeAtendente.getText());
-                cadastroClientes2BEAN.setObservacoes(observacoes.getText().toUpperCase());
+                cliente.setCodigo(CODIGO_CLIENTE);
+                cliente.setNome(nomeCliente.getText().toUpperCase());
+                cliente.setNomeFantasia(nomeFantasia.getText().toUpperCase());
+                cliente.setCnpj(cnpj.getText());
+                cliente.setCpf(cpf.getText());
+                cliente.setAtividade(atividade.getText().toUpperCase());
+                cliente.setFilialColigada(filialColigada.getText().toUpperCase());
+                cliente.setCodigoAtendente(codigoAtendente.getText());
+                cliente.setNomeAtendente(nomeAtendente.getText());
+                cliente.setObservacoes(observacoes.getText().toUpperCase());
                 if (TIPO_PESSOA == 1) {
-                    if (ClienteDAO.verificaCpfCnpj(TIPO_PESSOA, cadastroClientes2BEAN.getCpf(), false)) {
+                    if (ClienteDAO.verificaCpfCnpj(TIPO_PESSOA, cliente.getCpf(), false)) {
                         if (ClienteDAO.verificaAtrelamentoCliente(CODIGO_CLIENTE, TIPO_PESSOA)) {
                             JOptionPane.showMessageDialog(null, "O 'CPF' DIGITADO JÁ ESTÁ CADASTRADO NO SISTEMA E ESTÁ VINCULADO.", "ERRO DE INCLUSÃO", 0);
                             return;
                         }
                     }
                 } else {
-                    if (ClienteDAO.verificaCpfCnpj(TIPO_PESSOA, cadastroClientes2BEAN.getCnpj(), true)) {
+                    if (ClienteDAO.verificaCpfCnpj(TIPO_PESSOA, cliente.getCnpj(), true)) {
                         if (ClienteDAO.verificaAtrelamentoCliente(CODIGO_CLIENTE, TIPO_PESSOA)) {
                             JOptionPane.showMessageDialog(null, "O 'CNPJ' DIGITADO JÁ ESTÁ CADASTRADO NO SISTEMA E ESTÁ VINCULADO.", "ERRO DE INCLUSÃO", 0);
                             return;
                         }
                     }
                 }
-                ClienteDAO.gravarClientes(cadastroClientes2BEAN, TIPO_PESSOA);
+                ClienteDAO.gravarClientes(cliente, TIPO_PESSOA);
                 ClienteDAO.associacaoClientes(codigosEnderecos, codigosContatos, CODIGO_CLIENTE, TIPO_PESSOA);
                 JOptionPane.showMessageDialog(null, "CLIENTE GRAVADO COM SUCESSO!\nCÓDIGO = " + CODIGO_CLIENTE);
             }
             if (editarCliente == true) {
                 CODIGO_CLIENTE = Integer.valueOf(codigo.getText());
-                cadastroClientes2BEAN.setCod(CODIGO_CLIENTE);
-                cadastroClientes2BEAN.setNome(nomeCliente.getText().toUpperCase());
-                cadastroClientes2BEAN.setNomeFantasia(nomeFantasia.getText().toUpperCase());
-                cadastroClientes2BEAN.setCnpj(cnpj.getText());
-                cadastroClientes2BEAN.setCpf(cpf.getText());
-                cadastroClientes2BEAN.setAtividade(atividade.getText().toUpperCase());
-                cadastroClientes2BEAN.setFilialColigada(filialColigada.getText().toUpperCase());
-                cadastroClientes2BEAN.setCodAtendente(codigoAtendente.getText());
-                cadastroClientes2BEAN.setNomeAtendente(nomeAtendente.getText());
-                cadastroClientes2BEAN.setObservacoes(observacoes.getText().toUpperCase());
-                ClienteDAO.atualizaClientes(cadastroClientes2BEAN, TIPO_PESSOA);
+                cliente.setCodigo(CODIGO_CLIENTE);
+                cliente.setNome(nomeCliente.getText().toUpperCase());
+                cliente.setNomeFantasia(nomeFantasia.getText().toUpperCase());
+                cliente.setCnpj(cnpj.getText());
+                cliente.setCpf(cpf.getText());
+                cliente.setAtividade(atividade.getText().toUpperCase());
+                cliente.setFilialColigada(filialColigada.getText().toUpperCase());
+                cliente.setCodigoAtendente(codigoAtendente.getText());
+                cliente.setNomeAtendente(nomeAtendente.getText());
+                cliente.setObservacoes(observacoes.getText().toUpperCase());
+                ClienteDAO.atualizaClientes(cliente, TIPO_PESSOA);
                 ClienteDAO.excluirAssociacaoClientes(CODIGO_CLIENTE, TIPO_PESSOA);
                 ClienteDAO.associacaoClientes(codigosEnderecos, codigosContatos, CODIGO_CLIENTE, TIPO_PESSOA);
                 JOptionPane.showMessageDialog(null, "CLIENTE Nº " + CODIGO_CLIENTE + " ATUALIZADO COM SUCESSO!", "AVISO", JOptionPane.INFORMATION_MESSAGE);
@@ -2037,7 +2017,7 @@ public class ClienteCadastro extends javax.swing.JInternalFrame {
             estadoGravarCliente();
         } catch (SQLException ex) {
             EnvioExcecao envioExcecao = new EnvioExcecao(Controle.getDefaultGj(), ex);
-            EnvioExcecao.envio();
+            EnvioExcecao.envio(loading);
         }
     }//GEN-LAST:event_botaoGravarClientesActionPerformed
 
@@ -2126,7 +2106,7 @@ public class ClienteCadastro extends javax.swing.JInternalFrame {
             }
         } catch (SQLException ex) {
             EnvioExcecao envioExcecao = new EnvioExcecao(Controle.getDefaultGj(), ex);
-            EnvioExcecao.envio();
+            EnvioExcecao.envio(loading);
         }
     }//GEN-LAST:event_cnpjFocusLost
 
@@ -2163,7 +2143,7 @@ public class ClienteCadastro extends javax.swing.JInternalFrame {
             }
         } catch (SQLException | ClienteNaoEncontradoException ex) {
             EnvioExcecao envioExcecao = new EnvioExcecao(Controle.getDefaultGj(), ex);
-            EnvioExcecao.envio();
+            EnvioExcecao.envio(loading);
         }
     }//GEN-LAST:event_cpfFocusLost
 
@@ -2755,7 +2735,7 @@ public void estado1() {
         botaoGravarClientes.setEnabled(false);
         botaoCancelarClientes.setEnabled(true);
         botaoSelecionarOrcamento.setEnabled(true);
-        
+
 //        switch(CLASSE_PAI){
 //            case 1:
 //            case 2:
@@ -2765,7 +2745,6 @@ public void estado1() {
 //                botaoSelecionarOrcamento.setEnabled(false);
 //                break;
 //        }
-        
         //BOTOES ORCAMENTOS-----------------------------------------------------
         radioMesAnoOrcamentos.setEnabled(true);
         radioMesAnoOrcamentos.setSelected(true);
@@ -3753,7 +3732,7 @@ public void estado1() {
             valorTotalOrcamentos.setText(String.valueOf(valorTotal));
         } catch (SQLException ex) {
             EnvioExcecao envioExcecao = new EnvioExcecao(Controle.getDefaultGj(), ex);
-            EnvioExcecao.envio();
+            EnvioExcecao.envio(loading);
         }
     }
 
@@ -3811,7 +3790,7 @@ public void estado1() {
             valorTotalOrcamentos.setText(String.valueOf(valorTotal));
         } catch (SQLException ex) {
             EnvioExcecao envioExcecao = new EnvioExcecao(Controle.getDefaultGj(), ex);
-            EnvioExcecao.envio();
+            EnvioExcecao.envio(loading);
         }
     }
 

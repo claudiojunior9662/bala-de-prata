@@ -5,28 +5,23 @@
  */
 package ui.cadastros.notas;
 
-import entities.sisgrafex.NotaCredito;
+import model.dao.NotaDAO;
 import entities.sisgrafex.Cliente;
-import ui.cadastros.clientes.ClienteBEAN;
-import ui.cadastros.contatos.ContatoBEAN;
-import ui.cadastros.enderecos.EnderecoBEAN;
+import entities.sisgrafex.NotaCredito;
+import entities.sisgrafex.Contato;
+import entities.sisgrafex.Endereco;
 import java.text.ParseException;
 import java.util.List;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.text.DefaultFormatterFactory;
 import javax.swing.text.MaskFormatter;
-import ui.cadastros.produtos.ProdutoBEAN;
 import java.sql.SQLException;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
-import javax.swing.SpinnerNumberModel;
-import entities.sisgrafex.ProdOrcamento;
 import exception.EnvioExcecao;
-import model.dao.OrcamentoDAO;
 import ui.administrador.UsuarioDAO;
-import ui.cadastros.clientes.ClienteDAO;
-import ui.cadastros.produtos.ProdutoDAO;
-import ui.cadastros.servicos.ServicoDAO;
+import model.dao.ClienteDAO;
+import model.dao.EnderecoDAO;
 import ui.controle.Controle;
 
 /**
@@ -283,40 +278,41 @@ public class NotaPesquisa extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_p1ActionPerformed
 
     private void p2ItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_p2ItemStateChanged
-        if (p2.getItemCount() != 0) {
-            String s = p2.getSelectedItem().toString();
-            if (s == "PESSOA FÍSICA - CÓDIGO" || s == "PESSOA FÍSICA - NOME" || s == "PESSOA JURÍDICA - CÓDIGO" || s == "PESSOA JURÍDICA - NOME" || s == "PESSOA JURÍDICA - NOME FANTASIA") {
-                p3Texto.setEnabled(true);
-                p3Formatado.setEnabled(false);
-                p3Data.setEnabled(false);
-            } else if (s == "PESSOA FÍSICA - CPF (SOMENTE NÚMEROS)" || s == "PESSOA JURÍDICA - CNPJ (SOMENTE NÚMEROS)") {
-                p3Formatado.setEnabled(true);
-                p3Data.setEnabled(false);
-                p3Texto.setEnabled(false);
-                if (s == "PESSOA FÍSICA - CPF (SOMENTE NÚMEROS)") {
-                    try {
+        try {
+            if (p2.getItemCount() != 0) {
+                switch (p2.getSelectedItem().toString()) {
+                    case "PESSOA FÍSICA - CÓDIGO":
+                    case "PESSOA FÍSICA - NOME":
+                    case "PESSOA JURÍDICA - CÓDIGO":
+                    case "PESSOA JURÍDICA - NOME":
+                    case "PESSOA JURÍDICA - NOME FANTASIA":
+                        p3Texto.setEnabled(true);
+                        p3Formatado.setEnabled(false);
+                        p3Data.setEnabled(false);
+                        break;
+                    case "PESSOA FÍSICA - CPF (SOMENTE NÚMEROS)":
+                        p3Formatado.setEnabled(true);
+                        p3Data.setEnabled(false);
+                        p3Texto.setEnabled(false);
                         mascaraPesquisa = new MaskFormatter("###.###.###-##");
                         p3Formatado.setFormatterFactory(new DefaultFormatterFactory(mascaraPesquisa));
                         p3Formatado.setValue("");
                         p3Formatado.setEnabled(true);
-                    } catch (ParseException ex) {
-                        EnvioExcecao envioExcecao = new EnvioExcecao(Controle.getDefaultGj(), ex);
-                        EnvioExcecao.envio();
-                        return;
-                    }
-                } else if (s == "PESSOA JURÍDICA - CNPJ (SOMENTE NÚMEROS)") {
-                    try {
+                        break;
+                    case "PESSOA JURÍDICA - CNPJ (SOMENTE NÚMEROS)":
+                        p3Formatado.setEnabled(true);
+                        p3Data.setEnabled(false);
+                        p3Texto.setEnabled(false);
                         mascaraPesquisa = new MaskFormatter("##.###.###/####-##");
                         p3Formatado.setFormatterFactory(new DefaultFormatterFactory(mascaraPesquisa));
                         p3Formatado.setValue("");
                         p3Formatado.setEnabled(true);
-                    } catch (ParseException ex) {
-                        EnvioExcecao envioExcecao = new EnvioExcecao(Controle.getDefaultGj(), ex);
-                        EnvioExcecao.envio();
-                        return;
-                    }
+                        break;
                 }
             }
+        } catch (ParseException ex) {
+            EnvioExcecao envioExcecao = new EnvioExcecao(Controle.getDefaultGj(), ex);
+            EnvioExcecao.envio(loading);
         }
     }//GEN-LAST:event_p2ItemStateChanged
 
@@ -367,36 +363,33 @@ public class NotaPesquisa extends javax.swing.JInternalFrame {
     private javax.swing.JTextField p3Texto;
     private javax.swing.JTable tabelaConsulta;
     // End of variables declaration//GEN-END:variables
+
     private synchronized String retornaTelefoneFormatado(String telefone) {
-        String formatar = telefone;
-        formatar = formatar.replace("(", "");
-        formatar = formatar.replace(")", "");
-        formatar = formatar.replace(" ", "");
-        formatar = formatar.replace("-", "");
-        MaskFormatter formatoTelefone = null;
-        if (formatar.length() == 10) {
-            try {
-                formatoTelefone = new MaskFormatter("(##) ####-####");
-                formatoTelefone.setValueContainsLiteralCharacters(false);
-                formatar = formatoTelefone.valueToString(formatar);
-            } catch (ParseException ex) {
-                EnvioExcecao envioExcecao = new EnvioExcecao(Controle.getDefaultGj(), ex);
-                EnvioExcecao.envio();
-                return "";
+        try {
+            String formatar = telefone;
+            formatar = formatar.replace("(", "");
+            formatar = formatar.replace(")", "");
+            formatar = formatar.replace(" ", "");
+            formatar = formatar.replace("-", "");
+            MaskFormatter formatoTelefone = null;
+            switch (formatar.length()) {
+                case 10:
+                    formatoTelefone = new MaskFormatter("(##) ####-####");
+                    formatoTelefone.setValueContainsLiteralCharacters(false);
+                    formatar = formatoTelefone.valueToString(formatar);
+                    break;
+                case 11:
+                    formatoTelefone = new MaskFormatter("(##) # ####-####");
+                    formatoTelefone.setValueContainsLiteralCharacters(false);
+                    formatar = formatoTelefone.valueToString(formatar);
+                    break;
             }
+            return formatar;
+        } catch (ParseException ex) {
+            EnvioExcecao envioExcecao = new EnvioExcecao(Controle.getDefaultGj(), ex);
+            EnvioExcecao.envio(loading);
+            return null;
         }
-        if (formatar.length() == 11) {
-            try {
-                formatoTelefone = new MaskFormatter("(##) # ####-####");
-                formatoTelefone.setValueContainsLiteralCharacters(false);
-                formatar = formatoTelefone.valueToString(formatar);
-            } catch (ParseException ex) {
-                EnvioExcecao envioExcecao = new EnvioExcecao(Controle.getDefaultGj(), ex);
-                EnvioExcecao.envio();
-                return "";
-            }
-        }
-        return formatar;
     }
 
     private synchronized void selNota() {
@@ -409,14 +402,7 @@ public class NotaPesquisa extends javax.swing.JInternalFrame {
         try {
             for (NotaCredito nota : NotaDAO.selecionaNotaCredito(CODIGO_NOTA)) {
                 NCFrame.numeroNota.setValue(nota.getCod());
-                try {
-                    NCFrame.data.setDate(Controle.dataPadrao.parse(nota.getData()));
-                } catch (ParseException ex) {
-                    EnvioExcecao envioExcecao = new EnvioExcecao(Controle.getDefaultGj(), ex);
-                    EnvioExcecao.envio();
-                    loading.setVisible(false);
-                    return;
-                }
+                NCFrame.data.setDate(Controle.dataPadrao.parse(nota.getData()));
                 if (nota.getTipo() == 1) {
                     NCFrame.descricaoNota.setSelectedIndex(0);
                 } else {
@@ -429,28 +415,28 @@ public class NotaPesquisa extends javax.swing.JInternalFrame {
                     NCFrame.tipoCliente.setText("PESSOA JURÍDICA");
                 }
                 NCFrame.codigoCliente.setValue(nota.getCodCliente());
-                for (ClienteBEAN aux2 : NotaDAO.carregaClientes(nota.getCodCliente(), nota.getTipoPessoa())) {
-                    NCFrame.nomeCliente.setText(aux2.getNome());
+                for (Cliente cliente : ClienteDAO.carregaClientes(nota.getCodCliente(), nota.getTipoPessoa())) {
+                    NCFrame.nomeCliente.setText(cliente.getNome());
                     if (nota.getTipoPessoa() == 1) {
-                        NCFrame.cnpjCpf.setText(aux2.getCpf());
+                        NCFrame.cnpjCpf.setText(cliente.getCpf());
                     } else if (nota.getTipoPessoa() == 2) {
-                        NCFrame.cnpjCpf.setText(aux2.getCnpj());
+                        NCFrame.cnpjCpf.setText(cliente.getCnpj());
                     }
                 }
                 NCFrame.codigosEnderecos.addItem(String.valueOf(nota.getCodEndereco()));
                 NCFrame.codigosEnderecos.setSelectedItem(String.valueOf(nota.getCodEndereco()));
-                EnderecoBEAN endereco = ClienteDAO.selInfoEndereco(nota.getCodEndereco());
+                Endereco endereco = EnderecoDAO.selInfoEndereco(nota.getCodEndereco());
                 NCFrame.tipoEndereco.setText(endereco.getTipoEndereco());
                 NCFrame.bairroCliente.setText(endereco.getBairro());
                 NCFrame.cidadeCliente.setText(endereco.getCidade());
                 NCFrame.ufCliente.setText(endereco.getUf());
                 NCFrame.complementoCliente.setText(endereco.getComplemento());
-                NCFrame.cepCliente.setText(EnderecoBEAN.retornaCepFormatado(endereco.getCep()));
+                NCFrame.cepCliente.setText(Endereco.retornaCepFormatado(endereco.getCep()));
                 NCFrame.logadouroCliente.setText(endereco.getLogadouro());
 
                 NCFrame.codigosContatos.addItem(String.valueOf(nota.getCodContato()));
                 NCFrame.codigosContatos.setSelectedItem(String.valueOf(nota.getCodContato()));
-                ContatoBEAN contato = ClienteDAO.selInfoContato(nota.getCodContato());
+                Contato contato = ClienteDAO.selInfoContato(nota.getCodContato());
                 NCFrame.nomeContatoCliente.setText(contato.getNomeContato());
                 NCFrame.telefoneCliente.setText(contato.getTelefone());
                 NCFrame.telefoneCliente2.setText(contato.getTelefone2());
@@ -500,12 +486,10 @@ public class NotaPesquisa extends javax.swing.JInternalFrame {
                 NCFrame.areaObservacoes.setText(nota.getObservacoes());
             }
             NCFrame.estadoPosPesquisar();
-
-        } catch (SQLException ex) {
+        } catch (SQLException | ParseException ex) {
             EnvioExcecao envioExcecao = new EnvioExcecao(Controle.getDefaultGj(), ex);
-            EnvioExcecao.envio();
+            EnvioExcecao.envio(loading);
         }
-
         loading.setVisible(false);
     }
 
@@ -532,9 +516,8 @@ public class NotaPesquisa extends javax.swing.JInternalFrame {
             }
         } catch (SQLException ex) {
             EnvioExcecao envioExcecao = new EnvioExcecao(Controle.getDefaultGj(), ex);
-            EnvioExcecao.envio();
+            EnvioExcecao.envio(loading);
         }
-
         loading.setVisible(false);
     }
 
@@ -636,44 +619,47 @@ public class NotaPesquisa extends javax.swing.JInternalFrame {
             }
         } catch (SQLException ex) {
             EnvioExcecao envioExcecao = new EnvioExcecao(Controle.getDefaultGj(), ex);
-            EnvioExcecao.envio();
+            EnvioExcecao.envio(loading);
         }
-
         loading.setVisible(false);
     }
 
     private synchronized void pesquisarPorSC() {
-        p2.removeAllItems();
-        if (p1.getSelectedItem().toString() != "SELECIONE...") {
-            if (p1.getSelectedItem().toString().equals("SÉRIE")) {
-                p2.setEnabled(false);
-                p3Data.setEnabled(false);
-                p3Texto.setEnabled(true);
-                p3Formatado.setEnabled(false);
-            } else if (p1.getSelectedItem().toString().equals("OP")) {
-                p2.setEnabled(false);
-                p3Data.setEnabled(false);
-                p3Texto.setEnabled(true);
-                p3Formatado.setEnabled(false);
-            } else if (p1.getSelectedItem().toString().equals("DATA LANÇAMENTO")) {
-                p2.setEnabled(false);
-                p3Data.setEnabled(true);
-                p3Texto.setEnabled(false);
-                p3Formatado.setEnabled(false);
-            } else if (p1.getSelectedItem().toString().equals("CLIENTE")) {
-                p2.setEnabled(true);
-                p3Data.setEnabled(false);
-                p3Texto.setEnabled(false);
-                p3Formatado.setEnabled(false);
-                p2.addItem("PESSOA FÍSICA - CÓDIGO");
-                p2.addItem("PESSOA FÍSICA - NOME");
-                p2.addItem("PESSOA FÍSICA - CPF (SOMENTE NÚMEROS)");
-                p2.addItem("PESSOA JURÍDICA - CÓDIGO");
-                p2.addItem("PESSOA JURÍDICA - NOME");
-                p2.addItem("PESSOA JURÍDICA - NOME FANTASIA");
-                p2.addItem("PESSOA JURÍDICA - CNPJ (SOMENTE NÚMEROS)");
-            } else if (p1.getSelectedItem().toString().equals("EMISSOR")) {
-                try {
+        try {
+            p2.removeAllItems();
+            switch (p1.getSelectedItem().toString()) {
+                case "SÉRIE":
+                    p2.setEnabled(false);
+                    p3Data.setEnabled(false);
+                    p3Texto.setEnabled(true);
+                    p3Formatado.setEnabled(false);
+                    break;
+                case "OP":
+                    p2.setEnabled(false);
+                    p3Data.setEnabled(false);
+                    p3Texto.setEnabled(true);
+                    p3Formatado.setEnabled(false);
+                    break;
+                case "DATA LANÇAMENTO":
+                    p2.setEnabled(false);
+                    p3Data.setEnabled(true);
+                    p3Texto.setEnabled(false);
+                    p3Formatado.setEnabled(false);
+                    break;
+                case "CLIENTE":
+                    p2.setEnabled(true);
+                    p3Data.setEnabled(false);
+                    p3Texto.setEnabled(false);
+                    p3Formatado.setEnabled(false);
+                    p2.addItem("PESSOA FÍSICA - CÓDIGO");
+                    p2.addItem("PESSOA FÍSICA - NOME");
+                    p2.addItem("PESSOA FÍSICA - CPF (SOMENTE NÚMEROS)");
+                    p2.addItem("PESSOA JURÍDICA - CÓDIGO");
+                    p2.addItem("PESSOA JURÍDICA - NOME");
+                    p2.addItem("PESSOA JURÍDICA - NOME FANTASIA");
+                    p2.addItem("PESSOA JURÍDICA - CNPJ (SOMENTE NÚMEROS)");
+                    break;
+                case "EMISSOR":
                     p2.setEnabled(true);
                     p3Data.setEnabled(false);
                     p3Texto.setEnabled(false);
@@ -682,17 +668,19 @@ public class NotaPesquisa extends javax.swing.JInternalFrame {
                     for (int i = 0; i < retorno.size(); i++) {
                         p2.addItem(String.valueOf(retorno.get(i)));
                     }
-                } catch (SQLException ex) {
-                    EnvioExcecao envioExcecao = new EnvioExcecao(Controle.getDefaultGj(), ex);
-                    EnvioExcecao.envio();
-                    return;
-                }
-            } else if (p1.getSelectedItem().toString().equals("CÓDIGO")) {
-                p2.setEnabled(false);
-                p3Data.setEnabled(false);
-                p3Texto.setEnabled(true);
-                p3Formatado.setEnabled(false);
+                    break;
+                case "CÓDIGO":
+                    p2.setEnabled(false);
+                    p3Data.setEnabled(false);
+                    p3Texto.setEnabled(true);
+                    p3Formatado.setEnabled(false);
+                    break;
+
             }
+        } catch (SQLException ex) {
+            EnvioExcecao envioExcecao = new EnvioExcecao(Controle.getDefaultGj(), ex);
+            EnvioExcecao.envio(loading);
         }
+
     }
 }

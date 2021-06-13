@@ -18,8 +18,8 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import model.dao.OrcamentoDAO;
 import model.dao.OrdemProducaoDAO;
-import ui.cadastros.clientes.ClienteDAO;
-import ui.cadastros.produtos.ProdutoDAO;
+import model.dao.ClienteDAO;
+import model.dao.ProdutoDAO;
 import ui.controle.Controle;
 import ui.orcamentos.operacoes.OrcamentoPrincipalFrame;
 import ui.principal.GerenteJanelas;
@@ -553,26 +553,25 @@ public class EnviarOrdemProducaoFrame extends javax.swing.JInternalFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void confirmarEnvioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_confirmarEnvioActionPerformed
-        OrdemProducao op = new OrdemProducao();
-        CalculosOpBEAN calculosBEAN = new CalculosOpBEAN();
-
-        //VERIFICA SE EXISTEM PRODUTOS SEM A DATA DE ENTREGA SELECIONADA--------
-        for (int i = 0; i < tabelaProdutos.getRowCount(); i++) {
-            if (tabelaProdutos.getValueAt(i, 5).equals("")) {
-                JOptionPane.showMessageDialog(null, "EXISTEM PRODUTOS SEM A DATA DE ENTREGA!\nSELECIONE A DATA DE TODOS OS PRODUTOS E TENTE NOVAMENTE.");
-                return;
-            }
-        }
-        //----------------------------------------------------------------------
-
-        //INSTANCIA A LISTA DE OPS QUE SERÁ CRIADA------------------------------
-        List listaOps = new ArrayList();
-        //----------------------------------------------------------------------
-        
         try {
+            OrdemProducao op = new OrdemProducao();
+            CalculosOpBEAN calculosBEAN = new CalculosOpBEAN();
+
+            //VERIFICA SE EXISTEM PRODUTOS SEM A DATA DE ENTREGA SELECIONADA--------
             for (int i = 0; i < tabelaProdutos.getRowCount(); i++) {
-                
-                int codOp = OrdemProducaoDAO.retornaCodOp((int) codigoOrcamentoBase.getValue(), i+1);
+                if (tabelaProdutos.getValueAt(i, 5).equals("")) {
+                    JOptionPane.showMessageDialog(null, "EXISTEM PRODUTOS SEM A DATA DE ENTREGA!\nSELECIONE A DATA DE TODOS OS PRODUTOS E TENTE NOVAMENTE.");
+                    return;
+                }
+            }
+            //----------------------------------------------------------------------
+
+            //INSTANCIA A LISTA DE OPS QUE SERÁ CRIADA------------------------------
+            List listaOps = new ArrayList();
+            //----------------------------------------------------------------------
+            for (int i = 0; i < tabelaProdutos.getRowCount(); i++) {
+
+                int codOp = OrdemProducaoDAO.retornaCodOp((int) codigoOrcamentoBase.getValue(), i + 1);
                 int codProd = Integer.valueOf(tabelaProdutos.getValueAt(i, 0).toString());
 
                 op.setCodigo(codOp);
@@ -582,23 +581,16 @@ public class EnviarOrdemProducaoFrame extends javax.swing.JInternalFrame {
                 op.setDataEmissao(new Date());
                 op.setStatus(getTIPO_PROD() == 2 ? (byte) 10
                         : (byte) 1);
-                try {
-                    op.setDataEntrega(Controle.dataPadrao.parse(tabelaProdutos.getValueAt(i, 5).toString()));
+                op.setDataEntrega(Controle.dataPadrao.parse(tabelaProdutos.getValueAt(i, 5).toString()));
 
-                    if (TIPO_PROD == 1) {
-                        op.setDataEntgProva(null);
+                if (TIPO_PROD == 1) {
+                    op.setDataEntgProva(null);
+                } else {
+                    if (tabelaProdutos.getValueAt(i, 6).toString().equals("")) {
+                        Controle.avisosUsuario((byte) 1, "INSIRA A DATA DE ENTREGA DA PROVA.");
                     } else {
-                        if (tabelaProdutos.getValueAt(i, 6).toString().equals("")) {
-                            Controle.avisosUsuario((byte) 1, "INSIRA A DATA DE ENTREGA DA PROVA.");
-                        } else {
-                            op.setDataEntgProva(Controle.dataPadrao.parse(tabelaProdutos.getValueAt(i, 6).toString()));
-                        }
+                        op.setDataEntgProva(Controle.dataPadrao.parse(tabelaProdutos.getValueAt(i, 6).toString()));
                     }
-
-                } catch (ParseException ex) {
-                    EnvioExcecao envioExcecao = new EnvioExcecao(Controle.getDefaultGj(), ex);
-                    EnvioExcecao.envio();
-                    return;
                 }
                 op.setDescricao(observacoesOrdemProducao.getText());
                 op.setCodEmissor(TelaAutenticacao.getUsrLogado().getCodigo());
@@ -666,25 +658,24 @@ public class EnviarOrdemProducaoFrame extends javax.swing.JInternalFrame {
              */
             OrcamentoDAO.atualizaStatusFaturamento(op.getOrcBase(), (byte) 1);
 
-        } catch (SQLException ex) {
+            if (getTIPO_PROD() == 2) {
+                JOptionPane.showMessageDialog(null, "PEDIDO DE VENDA ENVIADO COM SUCESSO."
+                        + "\nCÓDIGO DO(S) PEDIDO(OS) DE VENDA: "
+                        + listaOps
+                        + "\nDISPONÍVEL CONSULTA NA TELA DE CONSULTAS - ORDEM DE PRODUÇÃO.");
+            } else {
+                JOptionPane.showMessageDialog(null, "ORDEM DE PRODUÇÃO CRIADA COM SUCESSO."
+                        + "\nCÓDIGO DA(S) ORDEM(NS) DE PRODUÇÃO: "
+                        + listaOps
+                        + "\nDISPONÍVEL CONSULTA NA TELA DE CONSULTAS - ORDEM DE PRODUÇÃO.");
+            }
+
+            OrcamentoPrincipalFrame.mostraTodos();
+            this.dispose();
+        } catch (ParseException | SQLException ex) {
             EnvioExcecao envioExcecao = new EnvioExcecao(Controle.getDefaultGj(), ex);
-            EnvioExcecao.envio();
+            EnvioExcecao.envio(loading);
         }
-
-        if (getTIPO_PROD() == 2) {
-            JOptionPane.showMessageDialog(null, "PEDIDO DE VENDA ENVIADO COM SUCESSO."
-                    + "\nCÓDIGO DO(S) PEDIDO(OS) DE VENDA: "
-                    + listaOps
-                    + "\nDISPONÍVEL CONSULTA NA TELA DE CONSULTAS - ORDEM DE PRODUÇÃO.");
-        } else {
-            JOptionPane.showMessageDialog(null, "ORDEM DE PRODUÇÃO CRIADA COM SUCESSO."
-                    + "\nCÓDIGO DA(S) ORDEM(NS) DE PRODUÇÃO: "
-                    + listaOps
-                    + "\nDISPONÍVEL CONSULTA NA TELA DE CONSULTAS - ORDEM DE PRODUÇÃO.");
-        }
-
-        OrcamentoPrincipalFrame.mostraTodos();
-        this.dispose();
     }//GEN-LAST:event_confirmarEnvioActionPerformed
 
     private void tabelaProdutosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tabelaProdutosMouseClicked

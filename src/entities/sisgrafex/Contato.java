@@ -3,13 +3,14 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package ui.cadastros.contatos;
+package entities.sisgrafex;
 
 /**
  *
  * @author claudio
  */
-public class ContatoBEAN {
+public class Contato {
+
     private int cod;
     private String tabela;
     private int codCliente;
@@ -22,13 +23,18 @@ public class ContatoBEAN {
     private String departamento;
     private String tipoPessoa;
 
-    public ContatoBEAN(int cod, 
-            String nomeContato, 
-            String email, 
-            String telefone, 
-            String ramal, 
-            String telefone2, 
-            String ramal2, 
+    @Override
+    public String toString() {
+        return "Contato{" + "cod=" + cod + ", tabela=" + tabela + ", codCliente=" + codCliente + ", nomeContato=" + nomeContato + ", email=" + email + ", telefone=" + telefone + ", ramal=" + ramal + ", telefone2=" + telefone2 + ", ramal2=" + ramal2 + ", departamento=" + departamento + ", tipoPessoa=" + tipoPessoa + '}';
+    }
+
+    public Contato(int cod,
+            String nomeContato,
+            String email,
+            String telefone,
+            String ramal,
+            String telefone2,
+            String ramal2,
             String departamento) {
         this.cod = cod;
         this.nomeContato = nomeContato;
@@ -40,19 +46,17 @@ public class ContatoBEAN {
         this.departamento = departamento;
     }
 
-    public ContatoBEAN(String nomeContato, String email, String telefone, String telefone2) {
+    public Contato(String nomeContato, String email, String telefone, String telefone2) {
         this.nomeContato = nomeContato;
         this.email = email;
         this.telefone = telefone;
         this.telefone2 = telefone2;
     }
-    
-    
 
-    public ContatoBEAN(){
-        
+    public Contato() {
+
     }
-    
+
     public String getTelefone2() {
         return telefone2;
     }
@@ -68,8 +72,6 @@ public class ContatoBEAN {
     public void setRamal2(String ramal2) {
         this.ramal2 = ramal2;
     }
-    
-    
 
     public String getTipoPessoa() {
         return tipoPessoa;
@@ -78,8 +80,6 @@ public class ContatoBEAN {
     public void setTipoPessoa(String tipoPessoa) {
         this.tipoPessoa = tipoPessoa;
     }
-    
-    
 
     public String getTabela() {
         return tabela;
@@ -88,8 +88,6 @@ public class ContatoBEAN {
     public void setTabela(String tabela) {
         this.tabela = tabela;
     }
-    
-    
 
     public int getCod() {
         return cod;
@@ -146,8 +144,5 @@ public class ContatoBEAN {
     public void setDepartamento(String departamento) {
         this.departamento = departamento;
     }
-    
-    
-    
-    
+
 }
