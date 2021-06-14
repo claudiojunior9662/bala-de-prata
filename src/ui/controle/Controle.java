@@ -44,7 +44,7 @@ public class Controle {
      * @param tipoVersao 1 - produção 2 - desenvolvimento rede 3 -
      * desenvolvimento local 4 - peixoto
      */
-    private static byte tipoVersao = 3;
+    private static byte tipoVersao = 1;
 
     //VARIÁVEIS DE SISTEMA------------------------------------------------------
     //CONEXÃO COM SERVIDOR ARQUIVOS---------------------------------------------
@@ -637,6 +637,40 @@ public class Controle {
             }
             return formatar;
 
+        } catch (ParseException ex) {
+            EnvioExcecao envioExcecao = new EnvioExcecao(Controle.getDefaultGj(), ex);
+            EnvioExcecao.envio(null);
+            return null;
+        }
+    }
+
+    /**
+     * Retorna o CNPJ/CPF formatado
+     *
+     * @param documento documento
+     * @param tipoPessoa
+     * @return
+     */
+    public static synchronized String retornaDocumentoFormatado(String documento, byte tipoPessoa) {
+        try {
+            String formatar = documento;
+            formatar = formatar.replace(".", "");
+            formatar = formatar.replace("-", "");
+            formatar = formatar.replace(" ", "");
+            MaskFormatter formatoDocumento = null;
+            switch (tipoPessoa) {
+                case 1:
+                    formatoDocumento = new MaskFormatter("###.###.###-##");
+                    formatoDocumento.setValueContainsLiteralCharacters(false);
+                    formatar = formatoDocumento.valueToString(formatar);
+                    break;
+                case 2:
+                    formatoDocumento = new MaskFormatter("##.###.###/####-##");
+                    formatoDocumento.setValueContainsLiteralCharacters(false);
+                    formatar = formatoDocumento.valueToString(formatar);
+                    break;
+            }
+            return formatar;
         } catch (ParseException ex) {
             EnvioExcecao envioExcecao = new EnvioExcecao(Controle.getDefaultGj(), ex);
             EnvioExcecao.envio(null);

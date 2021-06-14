@@ -13,6 +13,7 @@ import entities.lojaIntegrada.Product;
 import entities.sisgrafex.Cliente;
 import entities.sisgrafex.Contato;
 import entities.sisgrafex.Endereco;
+import entities.sisgrafex.Orcamento;
 import entities.sisgrafex.ProdOrcamento;
 import exception.EnvioExcecao;
 import java.io.IOException;
@@ -214,10 +215,10 @@ public class IntegracaoLojaIntegrada {
                                     ? orderEsp.getJSONObject("cliente").getString("razao_social").toUpperCase()
                                     : null,
                                     orderEsp.getJSONObject("endereco_entrega").getString("tipo").equals("PF")
-                                    ? orderEsp.getJSONObject("cliente").getString("cpf")
+                                    ? Controle.retornaDocumentoFormatado(orderEsp.getJSONObject("cliente").getString("cpf"), (byte) 1)
                                     : null,
                                     orderEsp.getJSONObject("endereco_entrega").getString("tipo").equals("PJ")
-                                    ? orderEsp.getJSONObject("cliente").getString("cnpj")
+                                    ? Controle.retornaDocumentoFormatado(orderEsp.getJSONObject("cliente").getString("cnpj"), (byte) 2)
                                     : null,
                                     orderEsp.getJSONObject("endereco_entrega").getString("tipo").equals("PF")
                                     ? (byte) 1
@@ -666,8 +667,6 @@ public class IntegracaoLojaIntegrada {
                                     codigoEndereco.add(orderDet.getEndereco().getCodigo());
                                     ClienteDAO.associacaoClientes(codigoEndereco, codigoContato, orderDet.getCliente().getCodigo(), orderDet.getCliente().getTipoPessoa());
                                 }
-                                
-                                
                                 break;
                         }
                     }

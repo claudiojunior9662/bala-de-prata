@@ -1319,7 +1319,7 @@ public class ClienteDAO {
                                 "",
                                 "",
                                 "",
-                                rs.getString("observacoes"),
+                                rs.getString("observacao"),
                                 0f,
                                 (byte) 2
                         );
