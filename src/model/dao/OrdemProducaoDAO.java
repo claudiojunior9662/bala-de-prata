@@ -633,12 +633,19 @@ public class OrdemProducaoDAO {
             if (pagina == 1) {
                 stmt = con.prepareStatement("SELECT cod, orcamento_base, cod_produto, tipo_produto, "
                         + "cod_cliente, tipo_cliente, data_emissao, data_entrega, status "
-                        + "FROM tabela_ordens_producao ORDER BY cod DESC LIMIT 45");
+                        + "FROM tabela_ordens_producao "
+                        + "ORDER BY tabela_ordens_producao.data_emissao "
+                        + "DESC "
+                        + "LIMIT 45");
             } else {
                 offset = (pagina * limite) - limite;
                 stmt = con.prepareStatement("SELECT cod, orcamento_base, cod_produto, tipo_produto, "
                         + "cod_cliente, tipo_cliente, data_emissao, data_entrega, status "
-                        + "FROM tabela_ordens_producao ORDER BY cod DESC LIMIT 45 OFFSET ?");
+                        + "FROM tabela_ordens_producao "
+                        + "ORDER BY tabela_ordens_producao.data_emissao "
+                        + "DESC "
+                        + "LIMIT 45 "
+                        + "OFFSET ?");
                 stmt.setInt(1, offset);
             }
             rs = stmt.executeQuery();
