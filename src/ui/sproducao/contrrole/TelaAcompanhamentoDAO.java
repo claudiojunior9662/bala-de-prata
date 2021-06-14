@@ -41,7 +41,7 @@ public class TelaAcompanhamentoDAO {
         try {
             stmt = con.prepareStatement("SELECT cod, data_emissao, data_entrega, status, cod_produto, tipo_produto "
                     + "FROM tabela_ordens_producao "
-                    + "ORDER BY tabela_ordens_producao.cod "
+                    + "ORDER BY tabela_ordens_producao.data_emissao "
                     + "DESC LIMIT " + limite);
             rs = stmt.executeQuery();
             while (rs.next()) {
@@ -132,7 +132,7 @@ public class TelaAcompanhamentoDAO {
                     stmt = con.prepareStatement("SELECT cod, data_emissao, data_entrega, status, cod_produto, tipo_produto "
                             + "FROM tabela_ordens_producao "
                             + "WHERE cod = ? "
-                            + "ORDER BY cod "
+                            + "ORDER BY tabela_ordens_producao.data_emissao "
                             + "DESC LIMIT 1");
                     stmt.setLong(1, (Long) param);
                     rs = stmt.executeQuery();
@@ -152,7 +152,7 @@ public class TelaAcompanhamentoDAO {
                     stmt = con.prepareStatement("SELECT cod, data_emissao, data_entrega, status, cod_produto, tipo_produto "
                             + "FROM tabela_ordens_producao "
                             + "WHERE orcamento_base = ? "
-                            + "ORDER BY cod "
+                            + "ORDER BY tabela_ordens_producao.data_emissao "
                             + "DESC");
                     stmt.setLong(1, (Long) param);
                     rs = stmt.executeQuery();
@@ -192,7 +192,7 @@ public class TelaAcompanhamentoDAO {
                             + "FROM tabela_ordens_producao "
                             + "WHERE MONTH(data_emissao) = ? "
                             + "AND YEAR(data_emissao) = ? "
-                            + "ORDER BY cod "
+                            + "ORDER BY tabela_ordens_producao.data_emissao "
                             + "ASC");
                     dataFiltro = (Date) param;
                     stmt.setInt(1, dataFiltro.getMonth() + 1);
@@ -215,7 +215,7 @@ public class TelaAcompanhamentoDAO {
                             + "FROM tabela_ordens_producao "
                             + "WHERE MONTH(data_entrega) = ? "
                             + "AND YEAR(data_entrega) = ? "
-                            + "ORDER BY cod "
+                            + "ORDER BY tabela_ordens_producao.data_emissao "
                             + "ASC");
                     dataFiltro = (Date) param;
                     stmt.setInt(1, dataFiltro.getMonth() + 1);
