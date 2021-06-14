@@ -666,7 +666,8 @@ public class IntegracaoLojaIntegrada {
                                     codigoEndereco.add(orderDet.getEndereco().getCodigo());
                                     ClienteDAO.associacaoClientes(codigoEndereco, codigoContato, orderDet.getCliente().getCodigo(), orderDet.getCliente().getTipoPessoa());
                                 }
-
+                                
+                                
                                 break;
                         }
                     }
