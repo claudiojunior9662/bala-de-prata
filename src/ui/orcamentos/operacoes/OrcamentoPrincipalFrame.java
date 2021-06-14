@@ -3805,7 +3805,6 @@ public class OrcamentoPrincipalFrame extends javax.swing.JInternalFrame {
                     valorUnitario += valorChapas;
                     valorUnitario /= Double.valueOf(tabelaTiragens.getValueAt(i, 1).toString());
                     valorUnitario += valorImpressao;
-                    valorUnitario = Double.valueOf(tabelaTiragens.getValueAt(i, 5).toString());
                     valorUnitario += (double) (valorUnitario * cifDividido) / 100d;
                     valorUnitario -= (double) (valorUnitario * descontoDividido) / 100d;
 
