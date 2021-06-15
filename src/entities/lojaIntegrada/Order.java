@@ -38,6 +38,7 @@ public class Order {
     private Contato contato;
     private Endereco endereco;
     private List<ProdOrcamento> produtos;
+    private Orcamento orcamento;
 
     @Override
     public String toString() {
@@ -68,11 +69,20 @@ public class Order {
         this.total = total;
     }
 
-    public Order(Cliente cliente, Contato contato, Endereco endereco, List<ProdOrcamento> produtos) {
+    public Order(Cliente cliente, Contato contato, Endereco endereco, Orcamento orcamento, List<ProdOrcamento> produtos) {
         this.cliente = cliente;
         this.contato = contato;
         this.endereco = endereco;
+        this.orcamento = orcamento;
         this.produtos = produtos;
+    }
+
+    public Orcamento getOrcamento() {
+        return orcamento;
+    }
+
+    public void setOrcamento(Orcamento orcamento) {
+        this.orcamento = orcamento;
     }
 
     public Cliente getCliente() {

@@ -44,7 +44,7 @@ public class Controle {
      * @param tipoVersao 1 - produção 2 - desenvolvimento rede 3 -
      * desenvolvimento local 4 - peixoto
      */
-    private static byte tipoVersao = 1;
+    private static byte tipoVersao = 3;
 
     //VARIÁVEIS DE SISTEMA------------------------------------------------------
     //CONEXÃO COM SERVIDOR ARQUIVOS---------------------------------------------
@@ -611,32 +611,23 @@ public class Controle {
 
     //funções de formatação de string-------------------------------------------
     /**
-     * Retorna o telefone formatado
+     * Retorna o cep formatado
      *
-     * @param telefone número de telefone
+     * @param cep número de telefone
      * @return
      */
-    public static synchronized String retornaTelefoneFormatado(String telefone) {
+    public static synchronized String retornaCepFormatado(String cep) {
         try {
-            String formatar = telefone;
-            formatar = formatar.replace("(", "");
-            formatar = formatar.replace(")", "");
-            formatar = formatar.replace(" ", "");
+            String formatar = cep;
+            formatar = formatar.replace(".", "");
             formatar = formatar.replace("-", "");
-            MaskFormatter formatoTelefone = null;
-            if (formatar.length() == 10) {
-                formatoTelefone = new MaskFormatter("(##) ####-####");
-                formatoTelefone.setValueContainsLiteralCharacters(false);
-                formatar = formatoTelefone.valueToString(formatar);
-            }
-            if (formatar.length() == 11) {
-                formatoTelefone = new MaskFormatter("(##) # ####-####");
-                formatoTelefone.setValueContainsLiteralCharacters(false);
-                formatar = formatoTelefone.valueToString(formatar);
+            MaskFormatter formatoCep = null;
 
-            }
+            formatoCep = new MaskFormatter("##.###-###");
+            formatoCep.setValueContainsLiteralCharacters(false);
+            formatar = formatoCep.valueToString(formatar);
+
             return formatar;
-
         } catch (ParseException ex) {
             EnvioExcecao envioExcecao = new EnvioExcecao(Controle.getDefaultGj(), ex);
             EnvioExcecao.envio(null);
@@ -671,6 +662,40 @@ public class Controle {
                     break;
             }
             return formatar;
+        } catch (ParseException ex) {
+            EnvioExcecao envioExcecao = new EnvioExcecao(Controle.getDefaultGj(), ex);
+            EnvioExcecao.envio(null);
+            return null;
+        }
+    }
+
+    /**
+     * Retorna o telefone formatado
+     *
+     * @param telefone número de telefone
+     * @return
+     */
+    public static synchronized String retornaTelefoneFormatado(String telefone) {
+        try {
+            String formatar = telefone;
+            formatar = formatar.replace("(", "");
+            formatar = formatar.replace(")", "");
+            formatar = formatar.replace(" ", "");
+            formatar = formatar.replace("-", "");
+            MaskFormatter formatoTelefone = null;
+            if (formatar.length() == 10) {
+                formatoTelefone = new MaskFormatter("(##) ####-####");
+                formatoTelefone.setValueContainsLiteralCharacters(false);
+                formatar = formatoTelefone.valueToString(formatar);
+            }
+            if (formatar.length() == 11) {
+                formatoTelefone = new MaskFormatter("(##) # ####-####");
+                formatoTelefone.setValueContainsLiteralCharacters(false);
+                formatar = formatoTelefone.valueToString(formatar);
+
+            }
+            return formatar;
+
         } catch (ParseException ex) {
             EnvioExcecao envioExcecao = new EnvioExcecao(Controle.getDefaultGj(), ex);
             EnvioExcecao.envio(null);

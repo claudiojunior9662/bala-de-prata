@@ -36,6 +36,7 @@ import org.json.JSONObject;
 import model.dao.ClienteDAO;
 import model.dao.ContatoDAO;
 import model.dao.EnderecoDAO;
+import model.dao.OrcamentoDAO;
 import model.dao.ProdutoDAO;
 import ui.controle.Controle;
 
@@ -198,7 +199,7 @@ public class IntegracaoLojaIntegrada {
                     for (int i = 0; i < orderProducts.length(); i++) {
                         orderProductsList.add(new ProdOrcamento(
                                 orderProducts.getJSONObject(i).getJSONObject("produto").getInt("id_externo"),
-                                orderProducts.getJSONObject(i).getString("sku").substring(0, 2) == "PP"
+                                orderProducts.getJSONObject(i).getString("sku").substring(0, 2).equals("PP")
                                 ? (byte) 1
                                 : (byte) 2,
                                 orderProducts.getJSONObject(i).getString("nome"),
@@ -231,7 +232,7 @@ public class IntegracaoLojaIntegrada {
                                     Controle.retornaTelefoneFormatado(orderEsp.getJSONObject("cliente").getString("telefone_celular"))
                             ),
                             new Endereco(
-                                    orderEsp.getJSONObject("endereco_entrega").getString("cep"),
+                                    Controle.retornaCepFormatado(orderEsp.getJSONObject("endereco_entrega").getString("cep")),
                                     orderEsp.getJSONObject("endereco_entrega").getString("tipo").equals("PF")
                                     ? "RESIDENCIAL"
                                     : "COMERCIAL",
@@ -240,6 +241,26 @@ public class IntegracaoLojaIntegrada {
                                     orderEsp.getJSONObject("endereco_entrega").getString("estado"),
                                     orderEsp.getJSONObject("endereco_entrega").getString("complemento"),
                                     orderEsp.getJSONObject("endereco_entrega").getString("cidade")
+                            ),
+                            new Orcamento(
+                                    0,
+                                    0,
+                                    "SIS",
+                                    Timestamp.valueOf(orderEsp.getString("data_expiracao").replace("T", " ")),
+                                    Timestamp.valueOf(orderEsp.getString("data_criacao").replace("T", " ")),
+                                    0f,
+                                    (byte) 1,
+                                    "PEDIDO DE ORÇAMENTO RECEBIDO PELO MÓDULO INTEGRADOR",
+                                    orderEsp.getJSONObject("endereco_entrega").getString("tipo").equals("PF")
+                                    ? (byte) 1
+                                    : (byte) 2,
+                                    0f,
+                                    (float) orderEsp.getDouble("valor_total"),
+                                    0,
+                                    0,
+                                    1,
+                                    orderEsp.getJSONArray("envios").getJSONObject(0).getDouble("valor"),
+                                    0d
                             ),
                             orderProductsList
                     );
@@ -606,6 +627,54 @@ public class IntegracaoLojaIntegrada {
                         switch (order.getSituacao()) {
                             case 9:
                                 Order orderDet = (Order) realizaRequisicaoGET((byte) 3, order.getNumero());
+                                List codigoContato = new ArrayList();
+                                List codigoEndereco = new ArrayList();
+                                boolean enderecoNovo = false;
+                                boolean contatoNovo = false;
+                                boolean clienteNovo = false;
+
+                                /**
+                                 * Verifica se o endereço está cadastrado no
+                                 * sistema
+                                 */
+                                if (!EnderecoDAO.verificaEndereco(orderDet.getEndereco().getCep())) {
+                                    /**
+                                     * Se o endereço não está cadastrado,
+                                     * realiza o cadastro
+                                     */
+                                    orderDet.getEndereco().setCodigo(EnderecoDAO.retornaUltimoRegistroEnderecos() + 1);
+                                    EnderecoDAO.gravarEnderecos(orderDet.getEndereco());
+                                    codigoEndereco.add(orderDet.getEndereco().getCodigo());
+                                    enderecoNovo = true;
+                                } /**
+                                 * Se o endereço existir, atribui o código ao
+                                 * cliente
+                                 */
+                                else {
+                                    orderDet.getEndereco().setCodigo(EnderecoDAO.retornaCodPorCep(orderDet.getEndereco().getCep()));
+                                    codigoEndereco.add(orderDet.getEndereco().getCodigo());
+                                }
+                                /**
+                                 * Verifica se o contato está cadastrado no
+                                 * sistema
+                                 */
+                                if (!ContatoDAO.verificaContato(orderDet.getContato())) {
+                                    /**
+                                     * Se o contato não está cadastrado, realiza
+                                     * o cadastro
+                                     */
+                                    orderDet.getContato().setCod(ContatoDAO.retornaUltimoRegistroContatos() + 1);
+                                    ContatoDAO.gravaContatos(orderDet.getContato());
+                                    codigoContato.add(orderDet.getContato().getCod());
+                                    contatoNovo = true;
+                                }/**
+                                 * Se o contato existir, atribui o código ao
+                                 * cliente
+                                 */
+                                else {
+                                    orderDet.getContato().setCod(ContatoDAO.retornaCodPorTelefone(orderDet.getContato()));
+                                    codigoContato.add(orderDet.getContato().getCod());
+                                }
                                 /**
                                  * Verifica se o cliente está cadastrado no
                                  * sistema
@@ -620,52 +689,56 @@ public class IntegracaoLojaIntegrada {
                                     orderDet.getCliente().setNomeAtendente("SISTEMA DE VENDAS ONLINE");
                                     orderDet.getCliente().setAtividade("MILITAR");
                                     ClienteDAO.gravarClientes(orderDet.getCliente(), orderDet.getCliente().getTipoPessoa());
-
-                                    /**
-                                     * Verifica se o endereço está cadastrado no
-                                     * sistema
-                                     */
-                                    if (!EnderecoDAO.verificaEndereco(orderDet.getEndereco().getCep())) {
-                                        /**
-                                         * Se o endereço não está cadastrado,
-                                         * realiza o cadastro
-                                         */
-                                        orderDet.getEndereco().setCodigo(EnderecoDAO.retornaUltimoRegistroEnderecos() + 1);
-                                        EnderecoDAO.gravarEnderecos(orderDet.getEndereco());
-                                    } /**
-                                     * Se o endereço existir, atribui o código
-                                     * ao cliente
-                                     */
-                                    else {
-                                        orderDet.getEndereco().setCodigo(EnderecoDAO.retornaCodPorCep(orderDet.getEndereco().getCep()));
-                                    }
-                                    /**
-                                     * Verifica se o contato está cadastrado no
-                                     * sistema
-                                     */
-                                    if (!ContatoDAO.verificaContato(orderDet.getContato())) {
-                                        /**
-                                         * Se o contato não está cadastrado,
-                                         * realiza o cadastro
-                                         */
-                                        orderDet.getContato().setCod(ContatoDAO.retornaUltimoRegistroContatos() + 1);
-                                        ContatoDAO.gravaContatos(orderDet.getContato());
-                                    }/**
-                                     * Se o contato existir, atribui o código ao
-                                     * cliente
-                                     */
-                                    else {
-                                        orderDet.getContato().setCod(ContatoDAO.retornaCodPorTelefone(orderDet.getContato()));
-                                    }
+                                    clienteNovo = true;
                                     /**
                                      * Faz a associação do endereço e contato
                                      * cadastrados ao cliente
                                      */
-                                    List codigoContato = new ArrayList();
-                                    codigoContato.add(orderDet.getContato().getCod());
-                                    List codigoEndereco = new ArrayList();
-                                    codigoEndereco.add(orderDet.getEndereco().getCodigo());
-                                    ClienteDAO.associacaoClientes(codigoEndereco, codigoContato, orderDet.getCliente().getCodigo(), orderDet.getCliente().getTipoPessoa());
+                                    if (contatoNovo) {
+                                        ClienteDAO.associacaoClientesContatos(codigoContato, orderDet.getCliente().getCodigo(), orderDet.getCliente().getTipoPessoa());
+                                    } else if (enderecoNovo) {
+                                        ClienteDAO.associacaoClientesEnderecos(codigoEndereco, orderDet.getCliente().getCodigo(), orderDet.getCliente().getTipoPessoa());
+                                    } else if (clienteNovo) {
+                                        ClienteDAO.associacaoClientes(codigoEndereco, codigoContato, orderDet.getCliente().getCodigo(), orderDet.getCliente().getTipoPessoa());
+                                    }
+                                } /**
+                                 * Caso o cliente já esteja cadastrado no
+                                 * sistema, atribui o código ao cliente
+                                 */
+                                else {
+                                    switch (orderDet.getCliente().getTipoPessoa()) {
+                                        case 1:
+                                            orderDet.getCliente().setCodigo(ClienteDAO.retornaCodPorDoc(
+                                                    Controle.retornaDocumentoFormatado(orderDet.getCliente().getCpf(), orderDet.getCliente().getTipoPessoa()),
+                                                    orderDet.getCliente().getTipoPessoa()));
+                                            break;
+                                        case 2:
+                                            orderDet.getCliente().setCodigo(ClienteDAO.retornaCodPorDoc(
+                                                    Controle.retornaDocumentoFormatado(orderDet.getCliente().getCnpj(), orderDet.getCliente().getTipoPessoa()),
+                                                    orderDet.getCliente().getTipoPessoa()));
+                                            break;
+                                    }
+                                }
+
+                                /**
+                                 * Realiza o cadastro do orçamento
+                                 */
+                                orderDet.getOrcamento().setCod(OrcamentoDAO.retornaUltimoRegistro() + 1);
+                                orderDet.getOrcamento().setCodCliente(orderDet.getCliente().getCodigo());
+                                orderDet.getOrcamento().setTipoPessoa(orderDet.getCliente().getTipoPessoa());
+                                orderDet.getOrcamento().setCodContato(orderDet.getContato().getCod());
+                                orderDet.getOrcamento().setCodEndereco(orderDet.getEndereco().getCodigo());
+                                OrcamentoDAO.createOrcamentos(orderDet.getOrcamento());
+
+                                /**
+                                 * Realiza o cadastro dos produtos associados ao
+                                 * orçamento
+                                 */
+                                for (ProdOrcamento produto : orderDet.getProdutos()) {
+                                    produto.setCodOrcamento(orderDet.getOrcamento().getCod());
+                                    produto.setValorDigital(0.01d);
+                                    produto.setMaquina(1);
+                                    OrcamentoDAO.criaProdOrc(produto);
                                 }
                                 break;
                         }

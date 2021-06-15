@@ -18,6 +18,8 @@ import entities.sisgrafex.Orcamento;
 import exception.ClienteNaoEncontradoException;
 import java.sql.Timestamp;
 import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -452,6 +454,76 @@ public class ClienteDAO {
         } finally {
             ConnectionFactory.closeConnection(con, stmt);
             ConnectionFactory.closeConnection(con, stmt2);
+        }
+    }
+    
+    /**
+     * Realiza a associação dos endereços cadastrados ao cliente
+     * @param codigosEnderecos
+     * @param codCliente
+     * @param tipoPessoa
+     * @throws SQLException 
+     */
+    public static void associacaoClientesEnderecos(List codigosEnderecos, int codCliente, byte tipoPessoa) throws SQLException {
+        Connection con = ConnectionFactory.getConnection();
+        PreparedStatement stmt = null;
+        int tipo = 0;
+
+        if (tipoPessoa == 1) {
+            tipo = 1;
+        }
+        if (tipoPessoa == 2) {
+            tipo = 2;
+        }
+
+        try {
+            for (int i = 0; i < codigosEnderecos.size(); i++) {
+                stmt = con.prepareStatement("INSERT INTO tabela_associacao_enderecos(cod_endereco,"
+                        + "cod_cliente, tipo_cliente) VALUES(?,?,?)");
+                stmt.setInt(1, Integer.valueOf(codigosEnderecos.get(i).toString()));
+                stmt.setInt(2, codCliente);
+                stmt.setInt(3, tipo);
+                stmt.executeUpdate();
+            }
+        } catch (SQLException ex) {
+            throw new SQLException(ex);
+        } finally {
+            ConnectionFactory.closeConnection(con, stmt);
+        }
+    }
+    
+    /**
+     * Realiza a associação dos contatos cadastrados ao cliente
+     * @param codigosContatos
+     * @param codCliente
+     * @param tipoPessoa
+     * @throws SQLException 
+     */
+    public static void associacaoClientesContatos(List codigosContatos, int codCliente, byte tipoPessoa) throws SQLException {
+        Connection con = ConnectionFactory.getConnection();
+        PreparedStatement stmt = null;
+        int tipo = 0;
+
+        if (tipoPessoa == 1) {
+            tipo = 1;
+        }
+        if (tipoPessoa == 2) {
+            tipo = 2;
+        }
+
+        try {
+            for (int i = 0; i < codigosContatos.size(); i++) {
+                stmt = con.prepareStatement("INSERT INTO tabela_associacao_contatos(cod_contato,"
+                        + "cod_cliente, tipo_cliente) VALUES(?,?,?)");
+                stmt.setInt(1, Integer.valueOf(codigosContatos.get(i).toString()));
+                stmt.setInt(2, codCliente);
+                stmt.setInt(3, tipo);
+                stmt.executeUpdate();
+            }
+        } catch (SQLException ex) {
+            throw new SQLException(ex);
+        } finally {
+            ConnectionFactory.closeConnection(con, stmt);
         }
     }
 
@@ -1654,5 +1726,54 @@ public class ClienteDAO {
             ConnectionFactory.closeConnection(con, stmt, rs);
         }
         return retorno;
+    }
+
+    /**
+     * Retorna o código do cliente a partir do documento informado
+     *
+     * @param documento documento do cliente (já formatado)
+     * @param tipoPessoa
+     * @return
+     */
+    public static synchronized int retornaCodPorDoc(String documento, byte tipoPessoa) throws SQLException {
+        Connection con = ConnectionFactory.getConnection();
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+
+        try {
+            switch (tipoPessoa) {
+                case 1:
+                    stmt = con.prepareStatement("SELECT tabela_clientes_fisicos.cod "
+                            + "FROM tabela_clientes_fisicos "
+                            + "WHERE tabela_clientes_fisicos.cpf = ? "
+                            + "ORDER BY tabela_clientes_fisicos.cod "
+                            + "ASC "
+                            + "LIMIT 1");
+                    stmt.setString(1, documento);
+                    rs = stmt.executeQuery();
+                    if (rs.next()) {
+                        return rs.getInt("tabela_clientes_fisicos.cod");
+                    }
+                    return 0;
+                case 2:
+                    stmt = con.prepareStatement("SELECT tabela_clientes_juridicos.cod "
+                            + "FROM tabela_clientes_juridicos "
+                            + "WHERE tabela_clientes_juridicos.cnpj = ? "
+                            + "ORDER BY tabela_clientes_juridicos.cod "
+                            + "ASC "
+                            + "LIMIT 1");
+                    stmt.setString(1, documento);
+                    rs = stmt.executeQuery();
+                    if (rs.next()) {
+                        return rs.getInt("tabela_clientes_juridicos.cod");
+                    }
+                    return 0;
+            }
+            return 0;
+        } catch (SQLException ex) {
+            throw new SQLException(ex);
+        } finally {
+            ConnectionFactory.closeConnection(con, stmt, rs);
+        }
     }
 }

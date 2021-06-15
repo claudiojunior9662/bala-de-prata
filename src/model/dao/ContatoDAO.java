@@ -49,8 +49,15 @@ public class ContatoDAO {
             ConnectionFactory.closeConnection(con, stmt, rs);
         }
     }
-    
-    public synchronized static int retornaCodPorTelefone(Contato contato) throws SQLException{
+
+    /**
+     * Retorna o código do contato a partir dos telefones informados
+     *
+     * @param contato
+     * @return
+     * @throws SQLException
+     */
+    public synchronized static int retornaCodPorTelefone(Contato contato) throws SQLException {
         Connection con = ConnectionFactory.getConnection();
         PreparedStatement stmt = null;
         ResultSet rs = null;
