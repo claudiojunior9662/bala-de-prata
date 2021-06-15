@@ -1648,7 +1648,17 @@ public final class TelaAcompanhamento extends javax.swing.JInternalFrame {
                 operadorSecao.setEnabled(false);
                 tipoTrabalho.setEnabled(false);
                 break;
+            case 12:
+                statusOrdemProducao.addItem(Controle.stsOp.get(11).toString());
+                statusOrdemProducao.setSelectedItem(Controle.stsOp.get(11).toString());
+                dataPrevEntrega.setEnabled(true);
+                operadorSecao.setEnabled(true);
+                tipoTrabalho.setEnabled(true);
+                btnGravar.setVisible(true);
+                statusOrdemProducao.setVisible(true);
+                break;
             default:
+                statusOrdemProducao.removeItem(Controle.stsOp.get(11).toString());
                 dataPrevEntrega.setEnabled(true);
                 operadorSecao.setEnabled(true);
                 tipoTrabalho.setEnabled(true);
