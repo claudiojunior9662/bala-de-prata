@@ -512,6 +512,8 @@ public class Controle {
         } catch (SQLException ex) {
             EnvioExcecao envioExcecao = new EnvioExcecao(Controle.getDefaultGj(), ex);
             EnvioExcecao.envio(null);
+        }finally{
+            ConnectionFactory.closeConnection(con, stmt, rs);
         }
     }
 
@@ -540,6 +542,8 @@ public class Controle {
         } catch (SQLException ex) {
             EnvioExcecao envioExcecao = new EnvioExcecao(Controle.getDefaultGj(), ex);
             EnvioExcecao.envio(null);
+        }finally{
+            ConnectionFactory.closeConnection(con, stmt, rs);
         }
     }
 
@@ -568,6 +572,28 @@ public class Controle {
         } catch (SQLException ex) {
             EnvioExcecao envioExcecao = new EnvioExcecao(Controle.getDefaultGj(), ex);
             EnvioExcecao.envio(null);
+        }finally{
+            ConnectionFactory.closeConnection(con, stmt, rs);
+        }
+    }
+    
+    /**
+     * Atualiza a última sincronização no banco de dados
+     * @param novoDateTime 
+     */
+    public static void atualizaSyncPedidos(java.sql.Timestamp novoDateTime){
+        Connection con = ConnectionFactory.getConnection();
+        PreparedStatement stmt = null;
+        try{
+            stmt = con.prepareStatement("UPDATE tabela_controle "
+                    + "SET tabela_controle.SYNC_PEDIDOS = ? ");
+            stmt.setTimestamp(1, novoDateTime);
+            stmt.executeUpdate();
+        }catch(SQLException ex){
+            EnvioExcecao envioExcecao = new EnvioExcecao(Controle.getDefaultGj(), ex);
+            EnvioExcecao.envio(null);
+        }finally{
+            ConnectionFactory.closeConnection(con, stmt);
         }
     }
 

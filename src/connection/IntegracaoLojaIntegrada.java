@@ -30,6 +30,7 @@ import java.net.http.HttpHeaders;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -718,6 +719,12 @@ public class IntegracaoLojaIntegrada {
                                                     orderDet.getCliente().getTipoPessoa()));
                                             break;
                                     }
+                                    
+                                    if (contatoNovo) {
+                                        ClienteDAO.associacaoClientesContatos(codigoContato, orderDet.getCliente().getCodigo(), orderDet.getCliente().getTipoPessoa());
+                                    } else if (enderecoNovo) {
+                                        ClienteDAO.associacaoClientesEnderecos(codigoEndereco, orderDet.getCliente().getCodigo(), orderDet.getCliente().getTipoPessoa());
+                                    }
                                 }
 
                                 /**
@@ -740,6 +747,8 @@ public class IntegracaoLojaIntegrada {
                                     produto.setMaquina(1);
                                     OrcamentoDAO.criaProdOrc(produto);
                                 }
+                                
+                                Controle.atualizaSyncPedidos(new java.sql.Timestamp(new Date().getTime()));
                                 break;
                         }
                     }
