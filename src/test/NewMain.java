@@ -41,6 +41,7 @@ public class NewMain {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
+        ajustaTelefone();
     }
 
     //--------------------------------------------------------------------------
@@ -384,7 +385,7 @@ public class NewMain {
                         statusNovo = (byte) 13;
                         break;
                 }
-                
+
                 stmt = con.prepareStatement("UPDATE tabela_ordens_producao "
                         + "SET status = ? "
                         + "WHERE cod = ?");
@@ -394,6 +395,52 @@ public class NewMain {
             }
         } catch (SQLException ex) {
             Logger.getLogger(NewMain.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+    }
+
+    private static void ajustaCEP() {
+        Connection con = ConnectionFactory.getConnection();
+        PreparedStatement stmt = null;
+        PreparedStatement stmt2 = null;
+        ResultSet rs = null;
+
+        try {
+            stmt = con.prepareStatement("SELECT cod, cep FROM tabela_enderecos");
+            rs = stmt.executeQuery();
+            while (rs.next()) {
+                stmt2 = con.prepareStatement("UPDATE tabela_enderecos SET cep = ? WHERE cod = ?");
+                stmt2.setString(1, Controle.retornaCepFormatado(rs.getString("cep")));
+                stmt2.setInt(2, rs.getInt("cod"));
+                stmt2.executeUpdate();
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(NewMain.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            ConnectionFactory.closeConnection(con, stmt, rs);
+        }
+    }
+
+    private static void ajustaTelefone() {
+        Connection con = ConnectionFactory.getConnection();
+        PreparedStatement stmt = null;
+        PreparedStatement stmt2 = null;
+        ResultSet rs = null;
+        
+        try {
+            stmt = con.prepareStatement("SELECT cod, telefone, telefone2 FROM tabela_contatos");
+            rs = stmt.executeQuery();
+            while (rs.next()) {
+                stmt2 = con.prepareStatement("UPDATE tabela_contatos SET telefone = ?, telefone2 = ? WHERE cod = ?");
+                stmt2.setString(1, Controle.retornaTelefoneFormatado(rs.getString("telefone")));
+                stmt2.setString(2, Controle.retornaTelefoneFormatado(rs.getString("telefone2")));
+                stmt2.setInt(3, rs.getInt("cod"));
+                stmt2.executeUpdate();
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(NewMain.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            ConnectionFactory.closeConnection(con, stmt, rs);
         }
 
     }

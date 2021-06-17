@@ -503,7 +503,7 @@ public class RelatoriosOrcamentosDAO {
                     orcamento.setDescricaoProduto(rs.getString("produtos.DESCRICAO"));
                 }
                 if (tipoPessoa | nomeCliente) {
-                    orcamento.setTipo_pessoa(rs.getInt("tabela_orcamentos.tipo_cliente"));
+                    orcamento.setTipoPessoa(rs.getInt("tabela_orcamentos.tipo_cliente"));
                 }
                 if (quantidade) {
                     orcamento.setQuantidade(rs.getInt("tabela_produtos_orcamento.quantidade"));

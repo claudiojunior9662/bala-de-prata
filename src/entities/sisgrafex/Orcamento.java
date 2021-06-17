@@ -327,7 +327,7 @@ public class Orcamento {
         return tipoPessoa;
     }
 
-    public void setTipo_pessoa(int tipo_pessoa) {
+    public void setTipoPessoa(int tipo_pessoa) {
         this.tipoPessoa = tipo_pessoa;
     }
 

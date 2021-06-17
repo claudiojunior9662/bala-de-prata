@@ -4245,9 +4245,9 @@ public class OrcamentoPrincipalFrame extends javax.swing.JInternalFrame {
 
             orcamento.setCodCliente(Integer.valueOf(codigoCliente.getText()));
             if (tipoPessoa.getText().equals("PESSOA FÍSICA")) {
-                orcamento.setTipo_pessoa(1);
+                orcamento.setTipoPessoa(1);
             } else if (tipoPessoa.getText().equals("PESSOA JURÍDICA")) {
-                orcamento.setTipo_pessoa(2);
+                orcamento.setTipoPessoa(2);
             }
             orcamento.setDataValidade(dataValidade.getDate());
             orcamento.setDataEmissao(new Date());

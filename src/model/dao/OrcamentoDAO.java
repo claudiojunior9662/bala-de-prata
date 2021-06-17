@@ -25,8 +25,6 @@ import java.text.ParseException;
 import entities.sisgrafex.ProdOrcamento;
 import java.sql.Timestamp;
 import java.util.Date;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import ui.controle.Controle;
 
 /**
@@ -153,7 +151,7 @@ public class OrcamentoDAO {
                 orcamento.setDataValidade(rs.getDate("data_validade"));
                 orcamento.setValorTotal(rs.getFloat("valor_total"));
                 orcamento.setStatus(rs.getByte("status"));
-                orcamento.setTipo_pessoa(rs.getInt("tipo_cliente"));
+                orcamento.setTipoPessoa(rs.getInt("tipo_cliente"));
                 retorno.add(orcamento);
             }
             return retorno;
@@ -794,7 +792,7 @@ public class OrcamentoDAO {
                         aux.setNomeCliente(rs.getInt("tabela_orcamentos.tipo_cliente") == 1
                                 ? retornaNomeCliente(rs.getInt("tabela_clientes_fisicos.cod"), rs.getInt("tabela_orcamentos.tipo_cliente"))
                                 : retornaNomeCliente(rs.getInt("tabela_clientes_juridicos.cod"), rs.getInt("tabela_orcamentos.tipo_cliente")));
-                        aux.setTipo_pessoa(rs.getInt("tabela_orcamentos.tipo_cliente"));
+                        aux.setTipoPessoa(rs.getInt("tabela_orcamentos.tipo_cliente"));
                         aux.setDataEmissao(rs.getDate("tabela_orcamentos.data_emissao"));
                         aux.setDataValidade(rs.getDate("tabela_orcamentos.data_validade"));
                         aux.setValorTotal(rs.getFloat("tabela_orcamentos.valor_total"));
@@ -807,7 +805,7 @@ public class OrcamentoDAO {
                         Orcamento aux = new Orcamento();
                         aux.setCod(rs.getInt("tabela_orcamentos.cod"));
                         aux.setNomeCliente(retornaNomeCliente(rs.getInt("tabela_orcamentos.cod_cliente"), rs.getInt("tabela_orcamentos.tipo_cliente")));
-                        aux.setTipo_pessoa(rs.getInt("tabela_orcamentos.tipo_cliente"));
+                        aux.setTipoPessoa(rs.getInt("tabela_orcamentos.tipo_cliente"));
                         aux.setDataEmissao(rs.getDate("tabela_orcamentos.data_emissao"));
                         aux.setDataValidade(rs.getDate("tabela_orcamentos.data_validade"));
                         aux.setValorTotal(rs.getFloat("tabela_orcamentos.valor_total"));
@@ -1032,7 +1030,7 @@ public class OrcamentoDAO {
                         aux.setNomeCliente(rs.getInt("tabela_orcamentos.tipo_cliente") == 1
                                 ? retornaNomeCliente(rs.getInt("tabela_clientes_fisicos.cod"), rs.getInt("tabela_orcamentos.tipo_cliente"))
                                 : retornaNomeCliente(rs.getInt("tabela_clientes_juridicos.cod"), rs.getInt("tabela_orcamentos.tipo_cliente")));
-                        aux.setTipo_pessoa(rs.getInt("tabela_orcamentos.tipo_cliente"));
+                        aux.setTipoPessoa(rs.getInt("tabela_orcamentos.tipo_cliente"));
                         aux.setDataEmissao(rs.getDate("tabela_orcamentos.data_emissao"));
                         aux.setDataValidade(rs.getDate("tabela_orcamentos.data_validade"));
                         aux.setValorTotal(rs.getFloat("tabela_orcamentos.valor_total"));
@@ -1047,7 +1045,7 @@ public class OrcamentoDAO {
                         aux.setNomeCliente(rs.getInt("tabela_orcamentos.tipo_cliente") == 1
                                 ? retornaNomeCliente(rs.getInt("tabela_clientes_fisicos.cod"), rs.getInt("tabela_orcamentos.tipo_cliente"))
                                 : retornaNomeCliente(rs.getInt("tabela_clientes_juridicos.cod"), rs.getInt("tabela_orcamentos.tipo_cliente")));
-                        aux.setTipo_pessoa(rs.getInt("tabela_orcamentos.tipo_cliente"));
+                        aux.setTipoPessoa(rs.getInt("tabela_orcamentos.tipo_cliente"));
                         aux.setDataEmissao(rs.getDate("tabela_orcamentos.data_emissao"));
                         aux.setDataValidade(rs.getDate("tabela_orcamentos.data_validade"));
                         aux.setValorTotal(rs.getFloat("tabela_orcamentos.valor_total"));
