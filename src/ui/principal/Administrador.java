@@ -14,6 +14,7 @@ import java.util.logging.Logger;
 import ui.administrador.AnaliseErros;
 import ui.administrador.Avisos;
 import ui.administrador.Configuracoes;
+import ui.administrador.ModuloIntegrador;
 import ui.administrador.UsuarioCadastro;
 import ui.administrador.SelData;
 import ui.controle.Controle;
@@ -96,6 +97,7 @@ public class Administrador extends javax.swing.JFrame {
         menAvisos = new javax.swing.JMenuItem();
         menAnaliseErr = new javax.swing.JMenuItem();
         jMenuItem1 = new javax.swing.JMenuItem();
+        jMenuItem2 = new javax.swing.JMenuItem();
         modulos = new javax.swing.JMenu();
         sair = new javax.swing.JMenu();
 
@@ -195,6 +197,15 @@ public class Administrador extends javax.swing.JFrame {
             }
         });
         menu.add(jMenuItem1);
+
+        jMenuItem2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icones/proximo.png"))); // NOI18N
+        jMenuItem2.setText("EXECUTAR MÓDULO INTEGRADOR");
+        jMenuItem2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem2ActionPerformed(evt);
+            }
+        });
+        menu.add(jMenuItem2);
 
         jMenuBar1.add(menu);
 
@@ -302,6 +313,10 @@ public class Administrador extends javax.swing.JFrame {
         Controle.getDefaultGj().abrirJanelas(Configuracoes.getInstancia(loading), "CONFIGURAÇÕES DO SISTEMA");
     }//GEN-LAST:event_jMenuItem1ActionPerformed
 
+    private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
+        Controle.getDefaultGj().abrirJanelas(ModuloIntegrador.getInstancia(loading), "MÓDULO INTEGRADOR");
+    }//GEN-LAST:event_jMenuItem2ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -343,6 +358,7 @@ public class Administrador extends javax.swing.JFrame {
     private javax.swing.JDialog dialogSelOrigem;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem jMenuItem1;
+    private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JScrollPane jScrollPane1;
     public static javax.swing.JLabel loading;
     private javax.swing.JMenuItem menAnaliseErr;

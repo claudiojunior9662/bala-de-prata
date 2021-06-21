@@ -55,6 +55,13 @@ public class ProdOrcamento {
         this.precoUnitario = precoUnitario;
     }
 
+    public ProdOrcamento(int codProduto, String descricaoProduto, int quantidade, float precoUnitario) {
+        this.codProduto = codProduto;
+        this.descricaoProduto = descricaoProduto;
+        this.quantidade = quantidade;
+        this.precoUnitario = precoUnitario;
+    }
+
     public Double getValorDigital() {
         return valorDigital;
     }

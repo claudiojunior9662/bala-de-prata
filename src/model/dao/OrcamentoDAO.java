@@ -1729,5 +1729,77 @@ public class OrcamentoDAO {
             ConnectionFactory.closeConnection(con, stmt, rs);
         }
     }
+    
+    /**
+     * Retorna as propostas de orçamento associadas ao cliente
+     * @param cliente
+     * @return
+     * @throws SQLException 
+     */
+    public static List<Orcamento> retornaPropostasCliente(Cliente cliente) throws SQLException{
+        Connection con = ConnectionFactory.getConnection();
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+        List<Orcamento> retorno = new ArrayList();
+        
+        try{
+            stmt = con.prepareStatement("SELECT tabela_orcamentos.cod, tabela_orcamentos.data_emissao, tabela_orcamentos.data_validade, tabela_orcamentos.status, tabela_orcamentos.valor_total "
+                    + "FROM tabela_orcamentos "
+                    + "WHERE tabela_orcamentos.cod_cliente = ? AND tabela_orcamentos.tipo_cliente = ?");
+            stmt.setInt(1, cliente.getCodigo());
+            stmt.setByte(2, cliente.getTipoPessoa());
+            rs = stmt.executeQuery();
+            while(rs.next()){
+                retorno.add(new Orcamento(
+                        rs.getInt("tabela_orcamentos.cod"),
+                        Controle.dataPadrao.format(rs.getDate("tabela_orcamentos.data_emissao")),
+                        Controle.dataPadrao.format(rs.getDate("tabela_orcamentos.data_validade")),
+                        rs.getFloat("tabela_orcamentos.valor_total"),
+                        Controle.stsOrcamento.get(rs.getInt("tabela_orcamentos.status")).toString(),
+                        rs.getInt("tabela_orcamentos.status")
+                        
+                ));
+            }
+            return retorno;
+        }catch(SQLException ex){
+            throw new SQLException(ex);
+        }finally{
+            ConnectionFactory.closeConnection(con, stmt, rs);
+        }
+    }
+    
+    /**
+     * Retorna os produtos associados à proposta de orçamento
+     * @param orcamento
+     * @return
+     * @throws SQLException 
+     */
+    public static List<ProdOrcamento> retornaProdutosOrcamento(Orcamento orcamento) throws SQLException{
+        Connection con = ConnectionFactory.getConnection();
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+        List<ProdOrcamento> retorno = new ArrayList();
+        
+        try{
+            stmt = con.prepareStatement("SELECT tabela_produtos_orcamento.cod_produto, tabela_produtos_orcamento.descricao_produto, tabela_produtos_orcamento.quantidade, tabela_produtos_orcamento.preco_unitario "
+                    + "FROM tabela_produtos_orcamento "
+                    + "WHERE tabela_produtos_orcamento.cod_orcamento = ?");
+            stmt.setInt(1, orcamento.getCod());
+            rs = stmt.executeQuery();
+            while(rs.next()){
+                retorno.add(new ProdOrcamento(
+                        rs.getInt("tabela_produtos_orcamento.cod_produto"),
+                        rs.getString("tabela_produtos_orcamento.descricao_produto"),
+                        rs.getInt("tabela_produtos_orcamento.quantidade"),
+                        rs.getFloat("tabela_produtos_orcamento.preco_unitario")
+                ));
+            }
+            return retorno;
+        }catch(SQLException ex){
+            throw new SQLException(ex);
+        }finally{
+            ConnectionFactory.closeConnection(con, stmt, rs);
+        }
+    }
 
 }

@@ -18,7 +18,9 @@ import com.itextpdf.text.pdf.PdfWriter;
 import com.lowagie.text.Element;
 import entities.sisgrafex.Cliente;
 import entities.sisgrafex.Faturamento;
+import entities.sisgrafex.Orcamento;
 import entities.sisgrafex.OrdemProducao;
+import entities.sisgrafex.ProdOrcamento;
 import exception.EnvioExcecao;
 import java.awt.Font;
 import java.io.File;
@@ -33,6 +35,7 @@ import javax.swing.JLabel;
 import model.dao.OrdemProducaoDAO;
 import model.dao.ClienteDAO;
 import model.dao.NotaDAO;
+import model.dao.OrcamentoDAO;
 import ui.controle.Controle;
 
 /**
@@ -409,9 +412,17 @@ public class RelatorioDetalhamento extends javax.swing.JInternalFrame {
                     tabelaOrdemProducao.setWidthPercentage(100);
                     document.add(tabelaOrdemProducao);
                     document.add(new Paragraph("\n\n"));
+                    PdfPTable tabelaPropostas = geraTabelaPropostasOrcamento();
+                    tabelaPropostas.setWidthPercentage(100);
+                    document.add(tabelaPropostas);
+                    
+                    document.add(new Phrase("(1) - O valor total referente as propostas de orçamento não é somado ao saldo final.", FontFactory.getFont("arial.ttf", 8, Font.BOLD)));
+                    
+                    document.add(new Paragraph("\n\n"));
                     PdfPTable tabelaSaldoFinal = geraTabelaSaldoFinal();
                     tabelaSaldoFinal.setWidthPercentage(100);
                     document.add(tabelaSaldoFinal);
+                    
 
                     document.close();
 
@@ -739,6 +750,91 @@ public class RelatorioDetalhamento extends javax.swing.JInternalFrame {
             saldoEmAberto = vlrTotal;
             celula = new PdfPCell(new Phrase("VALOR TOTAL: (-) R$ " + Controle.formatoVlrPadrao.format(vlrTotal), FontFactory.getFont("arial.ttf", 8, Font.BOLD)));
             celula.setColspan(7);
+            celula.setHorizontalAlignment(Element.ALIGN_RIGHT);
+            retorno.addCell(celula);
+            return retorno;
+        } catch (SQLException ex) {
+            EnvioExcecao envioExcecao = new EnvioExcecao(Controle.getDefaultGj(), ex);
+            EnvioExcecao.envio(loading);
+            return null;
+        }
+    }
+
+    /**
+     * Retorna as propostas de orçamento relacionadas ao cliente
+     *
+     * @return
+     */
+    public PdfPTable geraTabelaPropostasOrcamento() {
+        PdfPTable retorno = new PdfPTable(new float[]{5f, 5f, 5f, 5f, 5f, 5f});
+        Double vlrTotal = 0d;
+
+        if (jrbPorCodigo.isSelected()) {
+            cliente = new Cliente();
+            cliente.setTipoPessoa((byte) (jcbTipoPessoa.getSelectedIndex() + 1));
+            cliente.setCodigo(Integer.valueOf(jftfCodigoCliente.getText()));
+        }
+
+        try {
+            //CABEÇALHO---------------------------------------------------------
+            PdfPCell celula = new PdfPCell();
+            celula = new PdfPCell(new Phrase("PROPOSTAS DE ORÇAMENTO", FontFactory.getFont("arial.ttf", 8, Font.BOLD, BaseColor.WHITE)));
+            celula.setBackgroundColor(BaseColor.BLACK);
+            celula.setHorizontalAlignment(Element.ALIGN_CENTER);
+            celula.setColspan(6);
+            retorno.addCell(celula);
+            celula = new PdfPCell(new Phrase("Nº DA PROPOSTA", FontFactory.getFont("arial.ttf", 6, Font.BOLD)));
+            celula.setHorizontalAlignment(Element.ALIGN_CENTER);
+            retorno.addCell(celula);
+            celula = new PdfPCell(new Phrase("DATA DE EMISSÃO", FontFactory.getFont("arial.ttf", 6, Font.BOLD)));
+            celula.setHorizontalAlignment(Element.ALIGN_CENTER);
+            retorno.addCell(celula);
+            celula = new PdfPCell(new Phrase("DATA DE VALIDADE", FontFactory.getFont("arial.ttf", 6, Font.BOLD)));
+            celula.setHorizontalAlignment(Element.ALIGN_CENTER);
+            retorno.addCell(celula);
+            celula = new PdfPCell(new Phrase("PRODUTOS", FontFactory.getFont("arial.ttf", 6, Font.BOLD)));
+            celula.setHorizontalAlignment(Element.ALIGN_CENTER);
+            retorno.addCell(celula);
+            celula = new PdfPCell(new Phrase("STATUS", FontFactory.getFont("arial.ttf", 6, Font.BOLD)));
+            celula.setHorizontalAlignment(Element.ALIGN_CENTER);
+            retorno.addCell(celula);
+            celula = new PdfPCell(new Phrase("VALOR", FontFactory.getFont("arial.ttf", 6, Font.BOLD)));
+            celula.setHorizontalAlignment(Element.ALIGN_CENTER);
+            retorno.addCell(celula);
+
+            for (Orcamento orcamento : OrcamentoDAO.retornaPropostasCliente(cliente)) {
+                celula = new PdfPCell(new Phrase(String.valueOf(orcamento.getCod()), FontFactory.getFont("arial.ttf", 6)));
+                celula.setHorizontalAlignment(Element.ALIGN_CENTER);
+                retorno.addCell(celula);
+                celula = new PdfPCell(new Phrase(orcamento.getDataEmissaoString(), FontFactory.getFont("arial.ttf", 6)));
+                celula.setHorizontalAlignment(Element.ALIGN_CENTER);
+                retorno.addCell(celula);
+                celula = new PdfPCell(new Phrase(orcamento.getDataValidadeString(), FontFactory.getFont("arial.ttf", 6)));
+                celula.setHorizontalAlignment(Element.ALIGN_CENTER);
+                retorno.addCell(celula);
+
+                String produtos = "";
+                int ordem = 1;
+                for (ProdOrcamento produto : OrcamentoDAO.retornaProdutosOrcamento(orcamento)) {
+                    produtos += ordem + " - " + "CÓD: " + produto.getCodProduto() + "/" + produto.getDescricaoProduto() + "/QTD: " + produto.getQuantidade() + "/UNIT: R$ " + Controle.formatoVlrPadrao.format(produto.getPrecoUnitario());
+                    produtos += "\n\n";
+                    ordem += 1;
+                }
+                celula = new PdfPCell(new Phrase(produtos, FontFactory.getFont("arial.ttf", 6)));
+                celula.setHorizontalAlignment(Element.ALIGN_CENTER);
+                retorno.addCell(celula);
+                celula = new PdfPCell(new Phrase(orcamento.getStatusString(), FontFactory.getFont("arial.ttf", 6)));
+                celula.setHorizontalAlignment(Element.ALIGN_CENTER);
+                retorno.addCell(celula);
+                celula = new PdfPCell(new Phrase("R$ " + Controle.formatoVlrPadrao.format(orcamento.getValorTotal()), FontFactory.getFont("arial.ttf", 6)));
+                celula.setHorizontalAlignment(Element.ALIGN_CENTER);
+                retorno.addCell(celula);
+
+                vlrTotal += orcamento.getValorTotal();
+
+            }
+            celula = new PdfPCell(new Phrase("VALOR TOTAL: (-) R$ " + Controle.formatoVlrPadrao.format(vlrTotal) + " *(1)", FontFactory.getFont("arial.ttf", 8, Font.BOLD)));
+            celula.setColspan(6);
             celula.setHorizontalAlignment(Element.ALIGN_RIGHT);
             retorno.addCell(celula);
             return retorno;
