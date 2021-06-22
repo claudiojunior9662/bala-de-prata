@@ -25,6 +25,8 @@ import java.text.ParseException;
 import entities.sisgrafex.ProdOrcamento;
 import java.sql.Timestamp;
 import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import ui.controle.Controle;
 
 /**
@@ -1796,6 +1798,31 @@ public class OrcamentoDAO {
             }
             return retorno;
         }catch(SQLException ex){
+            throw new SQLException(ex);
+        }finally{
+            ConnectionFactory.closeConnection(con, stmt, rs);
+        }
+    }
+    
+    public static Boolean verificaOrcamentoExistente(int codOrcamento) throws SQLException{
+        Connection con = ConnectionFactory.getConnection();
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+        
+        try{
+            stmt = con.prepareStatement("SELECT tabela_orcamentos.cod "
+                    + "FROM tabela_orcamentos "
+                    + "WHERE tabela_orcamentos.cod = ? "
+                    + "ORDER BY tabela_orcamentos.cod "
+                    + "DESC "
+                    + "LIMIT 1");
+            stmt.setInt(1, codOrcamento);
+            rs = stmt.executeQuery();
+            if(rs.next()){
+                return true;
+            }
+            return false;
+        } catch (SQLException ex) {
             throw new SQLException(ex);
         }finally{
             ConnectionFactory.closeConnection(con, stmt, rs);

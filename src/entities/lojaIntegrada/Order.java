@@ -10,7 +10,6 @@ import entities.sisgrafex.Contato;
 import entities.sisgrafex.Endereco;
 import entities.sisgrafex.Orcamento;
 import entities.sisgrafex.ProdOrcamento;
-import entities.sisgrafex.ProdutoBEAN;
 import java.sql.Timestamp;
 import java.util.List;
 
@@ -32,6 +31,7 @@ public class Order {
     private String situacaoDescricao;
     private double subtotal;
     private double total;
+    private int idExterno;
 
     //Informações específicas do pedido-----------------------------------------
     private Cliente cliente;
@@ -50,6 +50,7 @@ public class Order {
             Timestamp dataExpiracao,
             Timestamp dataAtualizacao,
             int numero,
+            int idExterno,
             boolean aprovado,
             boolean cancelado,
             int situacao,
@@ -61,6 +62,7 @@ public class Order {
         this.dataExpiracao = dataExpiracao;
         this.dataAtualizacao = dataAtualizacao;
         this.numero = numero;
+        this.idExterno = idExterno;
         this.aprovado = aprovado;
         this.cancelado = cancelado;
         this.situacao = situacao;
@@ -69,12 +71,26 @@ public class Order {
         this.total = total;
     }
 
-    public Order(Cliente cliente, Contato contato, Endereco endereco, Orcamento orcamento, List<ProdOrcamento> produtos) {
+    public Order(Cliente cliente,
+            Contato contato,
+            Endereco endereco,
+            Orcamento orcamento,
+            List<ProdOrcamento> produtos,
+            int idExterno) {
         this.cliente = cliente;
         this.contato = contato;
         this.endereco = endereco;
         this.orcamento = orcamento;
         this.produtos = produtos;
+        this.idExterno = idExterno;
+    }
+
+    public int getIdExterno() {
+        return idExterno;
+    }
+
+    public void setIdExterno(int idExterno) {
+        this.idExterno = idExterno;
     }
 
     public Orcamento getOrcamento() {

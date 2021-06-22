@@ -40,7 +40,6 @@ import model.dao.ContatoDAO;
 import model.dao.EnderecoDAO;
 import model.dao.OrcamentoDAO;
 import model.dao.ProdutoDAO;
-import ui.administrador.ModuloIntegrador;
 import ui.controle.Controle;
 
 /**
@@ -50,7 +49,7 @@ import ui.controle.Controle;
 public class IntegracaoLojaIntegrada {
 
     public static void main(String[] args) {
-        
+
     }
 
     /**
@@ -137,16 +136,18 @@ public class IntegracaoLojaIntegrada {
                             .GET()
                             .build();
                     response = client.send(request, HttpResponse.BodyHandlers.ofString());
-
+                    
                     JSONObject json = new JSONObject(response.body());
                     JSONArray jsonArray = json.getJSONArray("objects");
                     for (int i = 0; i < (int) json.getJSONObject("meta").get("total_count"); i++) {
+                        System.out.println(jsonArray.getJSONObject(i).get("id_externo"));
                         ordersGeral.add(new Order(
                                 jsonArray.getJSONObject(i).getString("cliente"),
                                 Timestamp.valueOf(jsonArray.getJSONObject(i).getString("data_criacao").replace("T", " ")),
                                 Timestamp.valueOf(jsonArray.getJSONObject(i).getString("data_expiracao").replace("T", " ")),
                                 Timestamp.valueOf(jsonArray.getJSONObject(i).getString("data_modificacao").replace("T", " ")),
                                 jsonArray.getJSONObject(i).getInt("numero"),
+                                jsonArray.getJSONObject(i).isNull("id_externo") ? 0 : (int) jsonArray.getJSONObject(i).get("id_externo"),
                                 jsonArray.getJSONObject(i).getJSONObject("situacao").getBoolean("aprovado"),
                                 jsonArray.getJSONObject(i).getJSONObject("situacao").getBoolean("cancelado"),
                                 jsonArray.getJSONObject(i).getJSONObject("situacao").getInt("id"),
@@ -204,6 +205,7 @@ public class IntegracaoLojaIntegrada {
                                 (float) orderProducts.getJSONObject(i).getDouble("preco_venda")
                         ));
                     }
+
                     return new Order(
                             new Cliente(
                                     0,
@@ -259,7 +261,8 @@ public class IntegracaoLojaIntegrada {
                                     orderEsp.getJSONArray("envios").getJSONObject(0).getDouble("valor"),
                                     0d
                             ),
-                            orderProductsList
+                            orderProductsList,
+                            orderEsp.isNull("id_externo") ? 0 : (int) orderEsp.get("id_externo")
                     );
                 case 4:
                     break;
@@ -431,7 +434,7 @@ public class IntegracaoLojaIntegrada {
      * Realiza requisições PUT para o e-commerce
      *
      * @param tipo 1 - Alterar produto, 2 - Alterar/Adicionar preço produto, 3 -
-     * Alterar/Adicionar estoque produto
+     * Alterar/Adicionar estoque produto, 4 - Atualiza ID Externo pedido
      * @param requisicao
      * @throws IOException
      * @throws InterruptedException
@@ -501,8 +504,6 @@ public class IntegracaoLojaIntegrada {
                             .build();
                     response = client.send(request,
                             HttpResponse.BodyHandlers.ofString());
-                    System.out.println(response.body());
-                    System.out.println(request);
                     break;
                 case 2:
                     product = (Product) requisicao;
@@ -547,8 +548,6 @@ public class IntegracaoLojaIntegrada {
                             .build();
                     response = client.send(request,
                             HttpResponse.BodyHandlers.ofString());
-                    System.out.println(response.body());
-                    System.out.println(request);
                     break;
                 case 3:
                     product = (Product) requisicao;
@@ -597,12 +596,55 @@ public class IntegracaoLojaIntegrada {
                             .build();
                     response = client.send(request,
                             HttpResponse.BodyHandlers.ofString());
-                    System.out.println(response.body());
-                    System.out.println(request);
+                    break;
+                case 4:
+                    int idExterno = (int) requisicao;
+
+                    values = new HashMap<String, Object>() {
+                        {
+                            put("pedido_id", requisicao);
+                        }
+                    };
+
+                    objectMapper = new ObjectMapper();
+                    requestBody = objectMapper.writeValueAsString(values);
+
+                    if (Controle.USO_PROXY) {
+                        client = HttpClient.newBuilder()
+                                .proxy(ProxySelector.of(new InetSocketAddress(Controle.HOST_PROXY, Controle.PORT_PROXY)))
+                                .build();
+                    } else {
+                        client = HttpClient.newBuilder()
+                                .build();
+                    }
+
+                    request = HttpRequest.newBuilder()
+                            .uri(URI.create(Controle.LINK_API
+                                    + Controle.SEPARADOR
+                                    + Controle.VERSAO_API
+                                    + Controle.SEPARADOR
+                                    + "pedido"
+                                    + Controle.SEPARADOR
+                                    + "pedido_id"
+                                    + Controle.SEPARADOR
+                                    + "?format=json&"
+                                    + "chave_api="
+                                    + Controle.CHAVE_API
+                                    + "&"
+                                    + "chave_aplicacao="
+                                    + Controle.CHAVE_APLICACAO))
+                            .PUT(HttpRequest.BodyPublishers.ofString(requestBody))
+                            .build();
+                    response = client.send(request,
+                            HttpResponse.BodyHandlers.ofString());
                     break;
             }
-        } catch (IOException | SQLException | InterruptedException ex) {
-            throw new Exception(ex);
+        } catch (IOException ex) {
+            throw new IOException(ex);
+        } catch (SQLException ex) {
+            throw new SQLException(ex);
+        } catch (InterruptedException ex) {
+            throw new InterruptedException();
         }
     }
 
@@ -623,6 +665,141 @@ public class IntegracaoLojaIntegrada {
                     while (true) {
                         for (Order order : (List<Order>) realizaRequisicaoGET((byte) 2, null)) {
                             switch (order.getSituacao()) {
+                                case 7:
+                                case 16:
+                                case 8:
+                                    if (order.getIdExterno() != 0) {
+                                        if (OrcamentoDAO.verificaOrcamentoExistente(Integer.valueOf((int) order.getIdExterno()))) {
+                                            OrcamentoDAO.alteraStatus(Integer.valueOf((int) order.getIdExterno()), (byte) 13);
+                                        }
+                                    } else {
+                                        Order orderDet = (Order) realizaRequisicaoGET((byte) 3, order.getNumero());
+                                        List codigoContato = new ArrayList();
+                                        List codigoEndereco = new ArrayList();
+                                        boolean enderecoNovo = false;
+                                        boolean contatoNovo = false;
+                                        boolean clienteNovo = false;
+
+                                        /**
+                                         * Verifica se o endereço está
+                                         * cadastrado no sistema
+                                         */
+                                        if (!EnderecoDAO.verificaEndereco(orderDet.getEndereco().getCep())) {
+                                            /**
+                                             * Se o endereço não está
+                                             * cadastrado, realiza o cadastro
+                                             */
+                                            orderDet.getEndereco().setCodigo(EnderecoDAO.retornaUltimoRegistroEnderecos() + 1);
+                                            EnderecoDAO.gravarEnderecos(orderDet.getEndereco());
+                                            codigoEndereco.add(orderDet.getEndereco().getCodigo());
+                                            enderecoNovo = true;
+                                        } /**
+                                         * Se o endereço existir, atribui o
+                                         * código ao cliente
+                                         */
+                                        else {
+                                            orderDet.getEndereco().setCodigo(EnderecoDAO.retornaCodPorCep(orderDet.getEndereco().getCep()));
+                                            codigoEndereco.add(orderDet.getEndereco().getCodigo());
+                                        }
+                                        /**
+                                         * Verifica se o contato está cadastrado
+                                         * no sistema
+                                         */
+                                        if (!ContatoDAO.verificaContato(orderDet.getContato())) {
+                                            /**
+                                             * Se o contato não está cadastrado,
+                                             * realiza o cadastro
+                                             */
+                                            orderDet.getContato().setCod(ContatoDAO.retornaUltimoRegistroContatos() + 1);
+                                            ContatoDAO.gravaContatos(orderDet.getContato());
+                                            codigoContato.add(orderDet.getContato().getCod());
+                                            contatoNovo = true;
+                                        }/**
+                                         * Se o contato existir, atribui o
+                                         * código ao cliente
+                                         */
+                                        else {
+                                            orderDet.getContato().setCod(ContatoDAO.retornaCodPorTelefone(orderDet.getContato()));
+                                            codigoContato.add(orderDet.getContato().getCod());
+                                        }
+                                        /**
+                                         * Verifica se o cliente está cadastrado
+                                         * no sistema
+                                         */
+                                        if (!ClienteDAO.verificaCadastroCliente(orderDet.getCliente())) {
+                                            /**
+                                             * Se o cliente não está cadastrado,
+                                             * realiza o cadastro
+                                             */
+                                            orderDet.getCliente().setCodigo(ClienteDAO.retornaUltimoRegistroClientes(orderDet.getCliente().getTipoPessoa()) + 1);
+                                            orderDet.getCliente().setCodigoAtendente("SIS");
+                                            orderDet.getCliente().setNomeAtendente("SISTEMA DE VENDAS ONLINE");
+                                            orderDet.getCliente().setAtividade("MILITAR");
+                                            ClienteDAO.gravarClientes(orderDet.getCliente(), orderDet.getCliente().getTipoPessoa());
+                                            clienteNovo = true;
+                                            /**
+                                             * Faz a associação do endereço e
+                                             * contato cadastrados ao cliente
+                                             */
+                                            if (contatoNovo) {
+                                                ClienteDAO.associacaoClientesContatos(codigoContato, orderDet.getCliente().getCodigo(), orderDet.getCliente().getTipoPessoa());
+                                            } else if (enderecoNovo) {
+                                                ClienteDAO.associacaoClientesEnderecos(codigoEndereco, orderDet.getCliente().getCodigo(), orderDet.getCliente().getTipoPessoa());
+                                            } else if (clienteNovo) {
+                                                ClienteDAO.associacaoClientes(codigoEndereco, codigoContato, orderDet.getCliente().getCodigo(), orderDet.getCliente().getTipoPessoa());
+                                            }
+                                        } /**
+                                         * Caso o cliente já esteja cadastrado
+                                         * no sistema, atribui o código ao
+                                         * cliente
+                                         */
+                                        else {
+                                            switch (orderDet.getCliente().getTipoPessoa()) {
+                                                case 1:
+                                                    orderDet.getCliente().setCodigo(ClienteDAO.retornaCodPorDoc(
+                                                            Controle.retornaDocumentoFormatado(orderDet.getCliente().getCpf(), orderDet.getCliente().getTipoPessoa()),
+                                                            orderDet.getCliente().getTipoPessoa()));
+                                                    break;
+                                                case 2:
+                                                    orderDet.getCliente().setCodigo(ClienteDAO.retornaCodPorDoc(
+                                                            Controle.retornaDocumentoFormatado(orderDet.getCliente().getCnpj(), orderDet.getCliente().getTipoPessoa()),
+                                                            orderDet.getCliente().getTipoPessoa()));
+                                                    break;
+                                            }
+
+                                            if (contatoNovo) {
+                                                ClienteDAO.associacaoClientesContatos(codigoContato, orderDet.getCliente().getCodigo(), orderDet.getCliente().getTipoPessoa());
+                                            } else if (enderecoNovo) {
+                                                ClienteDAO.associacaoClientesEnderecos(codigoEndereco, orderDet.getCliente().getCodigo(), orderDet.getCliente().getTipoPessoa());
+                                            }
+                                        }
+
+                                        /**
+                                         * Realiza o cadastro do orçamento
+                                         */
+                                        orderDet.getOrcamento().setCod(OrcamentoDAO.retornaUltimoRegistro() + 1);
+                                        orderDet.getOrcamento().setCodCliente(orderDet.getCliente().getCodigo());
+                                        orderDet.getOrcamento().setTipoPessoa(orderDet.getCliente().getTipoPessoa());
+                                        orderDet.getOrcamento().setCodContato(orderDet.getContato().getCod());
+                                        orderDet.getOrcamento().setCodEndereco(orderDet.getEndereco().getCodigo());
+                                        OrcamentoDAO.createOrcamentos(orderDet.getOrcamento());
+
+                                        /**
+                                         * Realiza o cadastro dos produtos
+                                         * associados ao orçamento
+                                         */
+                                        for (ProdOrcamento produto : orderDet.getProdutos()) {
+                                            produto.setCodOrcamento(orderDet.getOrcamento().getCod());
+                                            produto.setValorDigital(0.01d);
+                                            produto.setMaquina(1);
+                                            OrcamentoDAO.criaProdOrc(produto);
+                                        }
+
+                                        OrcamentoDAO.alteraStatus(orderDet.getOrcamento().getCod(), (byte) 13);
+                                        realizaRequisicaoPUT((byte) 4, orderDet.getOrcamento().getCod());
+                                        Controle.atualizaSyncPedidos(new java.sql.Timestamp(new Date().getTime()));
+                                    }
+                                    break;
                                 case 9:
                                     Order orderDet = (Order) realizaRequisicaoGET((byte) 3, order.getNumero());
                                     List codigoContato = new ArrayList();
@@ -744,7 +921,8 @@ public class IntegracaoLojaIntegrada {
                                         produto.setMaquina(1);
                                         OrcamentoDAO.criaProdOrc(produto);
                                     }
-                                    
+
+                                    realizaRequisicaoPUT((byte) 4, orderDet.getOrcamento().getCod());
                                     Controle.atualizaSyncPedidos(new java.sql.Timestamp(new Date().getTime()));
                                     break;
                             }
@@ -753,6 +931,9 @@ public class IntegracaoLojaIntegrada {
                         Thread.sleep(300000);
                     }
                 } catch (InterruptedException | IOException | SQLException ex) {
+                    EnvioExcecao envioExcecao = new EnvioExcecao(Controle.getDefaultGj(), ex);
+                    EnvioExcecao.envio(null);
+                } catch (Exception ex) {
                     EnvioExcecao envioExcecao = new EnvioExcecao(Controle.getDefaultGj(), ex);
                     EnvioExcecao.envio(null);
                 }
