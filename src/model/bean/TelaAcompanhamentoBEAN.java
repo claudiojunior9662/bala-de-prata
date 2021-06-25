@@ -24,6 +24,14 @@ public class TelaAcompanhamentoBEAN {
         return "TelaAcompanhamentoBEAN{" + "numero=" + numero + ", dataEntrega=" + dataEntrega + ", status=" + status + ", descricaoProduto=" + descricaoProduto + '}';
     }
 
+    public TelaAcompanhamentoBEAN(int numero, Date dataEmissao, Date dataEntrega, byte status, String descricaoProduto) {
+        this.numero = numero;
+        this.dataEmissao = dataEmissao;
+        this.dataEntrega = dataEntrega;
+        this.status = status;
+        this.descricaoProduto = descricaoProduto;
+    }
+
     public String getDescricaoProduto() {
         return descricaoProduto;
     }

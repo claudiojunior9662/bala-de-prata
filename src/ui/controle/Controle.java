@@ -29,7 +29,6 @@ import javax.swing.JTextPane;
 import static javax.swing.WindowConstants.EXIT_ON_CLOSE;
 import javax.swing.border.Border;
 import javax.swing.text.MaskFormatter;
-import ui.administrador.ModuloIntegrador;
 import ui.login.TelaAutenticacao;
 import ui.principal.GerenteJanelas;
 
@@ -45,7 +44,7 @@ public class Controle {
      * @param tipoVersao 1 - produção 2 - desenvolvimento rede 3 -
      * desenvolvimento local 4 - peixoto
      */
-    private static byte tipoVersao = 1;
+    private static byte tipoVersao = 3;
 
     //VARIÁVEIS DE SISTEMA------------------------------------------------------
     //CONEXÃO COM SERVIDOR ARQUIVOS---------------------------------------------

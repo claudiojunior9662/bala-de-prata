@@ -74,7 +74,8 @@ public class OrdemProducaoDAO {
                         rs.getInt("cod_contato"),
                         rs.getInt("cod_endereco"),
                         rs.getDate("DT_CANCELAMENTO"),
-                        rs.getString("tipo_trabalho")
+                        rs.getString("tipo_trabalho"),
+                        rs.getString("COD_ATENDENTE")
                 );
             }
             return null;

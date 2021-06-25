@@ -28,6 +28,7 @@ import ui.administrador.UsuarioBEAN;
 import ui.administrador.UsuarioDAO;
 import model.dao.ClienteDAO;
 import model.dao.ProdutoDAO;
+import model.lists.OperadoresModel;
 import ui.controle.Controle;
 import ui.login.TelaAutenticacao;
 import ui.principal.GerenteJanelas;
@@ -55,6 +56,8 @@ public final class TelaAcompanhamento extends javax.swing.JInternalFrame {
     public static TelaAcompanhamento getInstancia(JLabel loading, GerenteJanelas gj) {
         return new TelaAcompanhamento(loading, gj);
     }
+    
+    private static final OperadoresModel modeloOperadores = new OperadoresModel();
 
     /**
      * Creates new form TelaAcompanhamentoNovo
@@ -78,6 +81,7 @@ public final class TelaAcompanhamento extends javax.swing.JInternalFrame {
         System.setProperty("verde4", "#98FB98");
         qtdDiasOp.setValue(0);
         refresh();
+        operadorSecao.setModel(modeloOperadores);
     }
 
     /**
@@ -1443,14 +1447,25 @@ public final class TelaAcompanhamento extends javax.swing.JInternalFrame {
             /**
              * Retorna atendentes
              */
-            operadorSecao.removeAllItems();
-            operadorSecao.addItem("SELECIONE...");
-
-            for (UsuarioBEAN funcionario : UsuarioDAO.retornaAtendentes((byte) 1)) {
-                operadorSecao.addItem(funcionario.getNome());
+            modeloOperadores.removeAllItems();
+            modeloOperadores.addItem(new UsuarioBEAN("SEL","SELECIONE..."));
+            
+            for (UsuarioBEAN usuario : UsuarioDAO.retornaAtendentes((byte) 1)) {
+                if (TelaAutenticacao.getUsrLogado().getAcessoProdAdm() == 1) {
+                    modeloOperadores.addItem(usuario);
+                } else {
+                    if (usuario.getAcessoProdAdm() == 1) {
+                        modeloOperadores.addItem(usuario);
+                    }else if(TelaAutenticacao.getUsrLogado().getCodigo().equals(usuario.getCodigo())){
+                        modeloOperadores.addItem(usuario);
+                    }
+                }
             }
-            if (op.getOpSecao() != null) {
-                operadorSecao.setSelectedItem(op.getOpSecao());
+
+            
+            if (op.getCodAtendente() != null) {
+                UsuarioBEAN usuarioSelecionado = new UsuarioBEAN(op.getCodAtendente(), op.getOpSecao());
+                modeloOperadores.setSelectedItem(usuarioSelecionado);
             } else {
                 operadorSecao.setSelectedIndex(0);
             }
@@ -1536,7 +1551,7 @@ public final class TelaAcompanhamento extends javax.swing.JInternalFrame {
             /**
              * Atualiza a tabela
              */
-            for (TelaAcompanhamentoBEAN acompanhamento : TelaAcompanhamentoDAO.refreshTabela(45)) {
+            for (TelaAcompanhamentoBEAN acompanhamento : TelaAcompanhamentoDAO.refreshTabela(45, TelaAutenticacao.getUsrLogado())) {
                 mdlAcompanhamento.addRow(new Object[]{
                     acompanhamento.getNumero(),
                     Controle.dataPadrao.format(acompanhamento.getDataEmissao()),
@@ -1567,7 +1582,7 @@ public final class TelaAcompanhamento extends javax.swing.JInternalFrame {
                 while (realTime) {
                     try {
                         modeloAcompanhamento.setNumRows(0);
-                        for (TelaAcompanhamentoBEAN telaAcompanhamentoBEAN : TelaAcompanhamentoDAO.refreshTabela(45)) {
+                        for (TelaAcompanhamentoBEAN telaAcompanhamentoBEAN : TelaAcompanhamentoDAO.refreshTabela(45, TelaAutenticacao.getUsrLogado())) {
                             modeloAcompanhamento.addRow(new Object[]{
                                 telaAcompanhamentoBEAN.getNumero(),
                                 Controle.dataPadrao.format(telaAcompanhamentoBEAN.getDataEmissao()),
@@ -1693,6 +1708,7 @@ public final class TelaAcompanhamento extends javax.swing.JInternalFrame {
                 return;
             } else {
                 op.setOpSecao(operadorSecao.getSelectedItem().toString());
+                op.setCodAtendente(operadorSecao.getSelectedItem().toString().split(" ")[0]);
             }
             dataAlterada = dataPrevEntrega.getDate().compareTo(dataPrevEntregaBkp) != 0;
             /**

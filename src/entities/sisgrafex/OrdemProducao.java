@@ -93,6 +93,7 @@ public class OrdemProducao {
     private String tipoTrabalho;
     private String opSecao;
     private String obsFrete;
+    private String codAtendente;
 
     private int quantidade;
     private float valorParcial;
@@ -108,12 +109,19 @@ public class OrdemProducao {
 
     }
 
-    public OrdemProducao( Date dataEmissao, Date dataEntrega) {
+    public OrdemProducao(Date dataEmissao, Date dataEntrega) {
         this.dataEmissao = dataEmissao;
         this.dataEntrega = dataEntrega;
     }
 
-    public OrdemProducao(int codigo, int orcamentoBase, String dataEmissaoString, String dataEntregaString, String descricao, String statusString, String clienteString, String tipoPessoaString) {
+    public OrdemProducao(int codigo, 
+            int orcamentoBase, 
+            String dataEmissaoString, 
+            String dataEntregaString, 
+            String descricao, 
+            String statusString, 
+            String clienteString, 
+            String tipoPessoaString) {
         this.codigo = codigo;
         this.orcamentoBase = orcamentoBase;
         this.dataEmissaoString = dataEmissaoString;
@@ -245,7 +253,8 @@ public class OrdemProducao {
             int codContato,
             int codEndereco,
             Date dataCancelamento,
-            String tipoTrabalho) {
+            String tipoTrabalho,
+            String codAtendente) {
         this.codigo = cod;
         this.codCliente = codCliente;
         this.tipoCliente = tipoPessoa;
@@ -277,6 +286,7 @@ public class OrdemProducao {
         this.dataCancelamento = dataCancelamento;
         this.tipoTrabalho = tipoTrabalho;
         this.tipoProduto = tipoProduto;
+        this.codAtendente = codAtendente;
     }
 
     public OrdemProducao(int cod,
@@ -313,6 +323,14 @@ public class OrdemProducao {
         this.descricao = descricao;
         this.valorParcial = valorParcial;
         this.status = status;
+    }
+
+    public String getCodAtendente() {
+        return codAtendente;
+    }
+
+    public void setCodAtendente(String codAtendente) {
+        this.codAtendente = codAtendente;
     }
 
     public String getDataEmissaoString() {

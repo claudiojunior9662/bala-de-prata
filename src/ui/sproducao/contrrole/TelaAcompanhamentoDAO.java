@@ -15,9 +15,9 @@ import java.util.List;
 import entities.sisgrafex.OrdemProducao;
 import java.util.Date;
 import entities.sisgrafex.ProdOrcamento;
-import java.time.Instant;
 import model.bean.TelaAcompanhamentoBEAN;
 import model.dao.ProdutoDAO;
+import ui.administrador.UsuarioBEAN;
 
 /**
  *
@@ -26,12 +26,15 @@ import model.dao.ProdutoDAO;
 public class TelaAcompanhamentoDAO {
 
     /**
-     * Carrega as últimas 45 ordens de produção
+     * Carrega as últimas 45 ordens de produção de acordo com o limite repassado
+     * e o código de atendente
      *
+     * @param limite limite de consulta
+     * @param usuario
      * @return
      * @throws SQLException
      */
-    public static List<TelaAcompanhamentoBEAN> refreshTabela(int limite) throws SQLException {
+    public static List<TelaAcompanhamentoBEAN> refreshTabela(int limite, UsuarioBEAN usuario) throws SQLException {
         Connection con = ConnectionFactory.getConnection();
         PreparedStatement stmt = null;
         ResultSet rs = null;
@@ -39,20 +42,39 @@ public class TelaAcompanhamentoDAO {
         List<TelaAcompanhamentoBEAN> retorno = new ArrayList();
 
         try {
-            stmt = con.prepareStatement("SELECT cod, data_emissao, data_entrega, status, cod_produto, tipo_produto "
-                    + "FROM tabela_ordens_producao "
-                    + "ORDER BY tabela_ordens_producao.data_emissao "
-                    + "DESC LIMIT " + limite);
+            if (usuario.getAcessoProdAdm() == 1) {
+                stmt = con.prepareStatement("SELECT tabela_ordens_producao.cod, "
+                        + "tabela_ordens_producao.data_emissao, "
+                        + "tabela_ordens_producao.data_entrega, "
+                        + "tabela_ordens_producao.status, "
+                        + "tabela_ordens_producao.cod_produto, "
+                        + "tabela_ordens_producao.tipo_produto "
+                        + "FROM tabela_ordens_producao "
+                        + "ORDER BY tabela_ordens_producao.data_emissao "
+                        + "DESC LIMIT " + limite);
+            } else {
+                stmt = con.prepareStatement("SELECT tabela_ordens_producao.cod, "
+                        + "tabela_ordens_producao.data_emissao, "
+                        + "tabela_ordens_producao.data_entrega, "
+                        + "tabela_ordens_producao.status, "
+                        + "tabela_ordens_producao.cod_produto, "
+                        + "tabela_ordens_producao.tipo_produto "
+                        + "FROM tabela_ordens_producao "
+                        + "WHERE tabela_ordens_producao.COD_ATENDENTE = ? "
+                        + "ORDER BY tabela_ordens_producao.data_emissao "
+                        + "DESC LIMIT " + limite);
+                stmt.setString(1, usuario.getCodigo());
+            }
             rs = stmt.executeQuery();
             while (rs.next()) {
-                TelaAcompanhamentoBEAN telaAcompanhamentoBEAN = new TelaAcompanhamentoBEAN();
-                telaAcompanhamentoBEAN.setNumero(rs.getInt("cod"));
-                telaAcompanhamentoBEAN.setDataEmissao(rs.getDate("data_emissao"));
-                telaAcompanhamentoBEAN.setDataEntrega(rs.getDate("data_entrega"));
-                telaAcompanhamentoBEAN.setStatus(rs.getByte("status"));
-                telaAcompanhamentoBEAN.setDescricaoProduto(
-                        ProdutoDAO.retornaDescricaoProduto(rs.getInt("cod_produto"), rs.getByte("tipo_produto")));
-                retorno.add(telaAcompanhamentoBEAN);
+                retorno.add(new TelaAcompanhamentoBEAN(
+                        rs.getInt("tabela_ordens_producao.cod"),
+                        rs.getDate("tabela_ordens_producao.data_emissao"),
+                        rs.getDate("tabela_ordens_producao.data_entrega"),
+                        rs.getByte("tabela_ordens_producao.status"),
+                        ProdutoDAO.retornaDescricaoProduto(rs.getInt("tabela_ordens_producao.cod_produto"),
+                                rs.getByte("tabela_ordens_producao.tipo_produto"))
+                ));
             }
         } catch (SQLException ex) {
             throw new SQLException(ex);
@@ -73,16 +95,22 @@ public class TelaAcompanhamentoDAO {
 
         try {
             stmt = con.prepareStatement("UPDATE tabela_ordens_producao "
-                    + "SET  ind_ent_prazo=?, ind_ent_erro=?,"
-                    + "op_secao=?, status=?, data_entrega = ?, tipo_trabalho = ? "
-                    + "WHERE cod = ?");
+                    + "SET  tabela_ordens_producao.ind_ent_prazo = ?, "
+                    + "tabela_ordens_producao.ind_ent_erro = ?, "
+                    + "tabela_ordens_producao.op_secao = ?, "
+                    + "tabela_ordens_producao.status = ?, "
+                    + "tabela_ordens_producao.data_entrega = ?, "
+                    + "tabela_ordens_producao.tipo_trabalho = ?, "
+                    + "tabela_ordens_producao.COD_ATENDENTE = ?"
+                    + "WHERE tabela_ordens_producao.cod = ?");
             stmt.setInt(1, op.getIndEntPrazo());
             stmt.setInt(2, op.getIndEntErro());
             stmt.setString(3, op.getOpSecao());
             stmt.setByte(4, op.getStatus());
             stmt.setDate(5, new java.sql.Date(op.getDataEntrega().getTime()));
             stmt.setString(6, op.getTipoTrabalho());
-            stmt.setInt(7, op.getCodigo());
+            stmt.setString(7, op.getCodAtendente());
+            stmt.setInt(8, op.getCodigo());
             stmt.executeUpdate();
         } catch (SQLException ex) {
             throw new SQLException(ex);

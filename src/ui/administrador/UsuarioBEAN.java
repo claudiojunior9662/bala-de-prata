@@ -82,6 +82,11 @@ public class UsuarioBEAN {
 
     }
 
+    @Override
+    public String toString() {
+        return codigoAtendente + " - " + nomeAtendente;
+    }
+
     public Date getUltMudSenha() {
         return ultMudSenha;
     }
@@ -182,8 +187,8 @@ public class UsuarioBEAN {
         return codigoAtendente;
     }
 
-    public void setCodigo(String codigo_atendente) {
-        this.codigoAtendente = codigo_atendente;
+    public void setCodigo(String codigoAtendente) {
+        this.codigoAtendente = codigoAtendente;
     }
 
     public String getLogin() {

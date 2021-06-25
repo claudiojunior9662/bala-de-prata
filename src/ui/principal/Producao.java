@@ -17,7 +17,6 @@ import javax.swing.ImageIcon;
 import ui.controle.Controle;
 import ui.login.TelaAutenticacao;
 import ui.orcamentos.operacoes.VisualizadorProdutosFrame;
-import ui.ordemProducao.consultas.OpVisualizacaoFrame;
 import ui.relatorios.ordemProducao.RelatoriosOrdemProducao;
 import ui.sproducao.contrrole.TelaAcompanhamento;
 
