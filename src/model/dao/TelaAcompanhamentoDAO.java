@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package ui.sproducao.contrrole;
+package model.dao;
 
 import connection.ConnectionFactory;
 import java.sql.Connection;

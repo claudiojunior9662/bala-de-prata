@@ -18,10 +18,10 @@ import com.lowagie.text.Element;
 import entities.sisgrafex.Cliente;
 import entities.sisgrafex.OrdemProducao;
 import entities.sisgrafex.Produto;
+import entities.sisgrafex.StsOp;
 import exception.ConsultaSemResultadoException;
 import exception.EnvioExcecao;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.sql.SQLException;
@@ -672,7 +672,6 @@ public class RelatoriosOrdemProducao extends javax.swing.JInternalFrame {
             }
         });
 
-        comboStatus.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "EM AVALIAÇÃO PELA SEÇ TÉCNICA", "ENCAMINHADO PARA PRÉ IMP", "DIAGRAMAÇÃO", "PRODUZINDO PROVA", "AGUARDANDO APR CLIENTE", "ENCAMINHADO PARA OFFSET", "ENCAMINHADO PARA TIPOGRAFIA", "ENCAMINHADO PARA ACABAMENTO", "EM FINALIZAÇÃO", "ENCAMINHADO PARA EXPEDIÇÃO", "ENTREGUE PARCIALMENTE", "CANCELADA", "ENTREGUE" }));
         comboStatus.setEnabled(false);
 
         javax.swing.GroupLayout jPanel8Layout = new javax.swing.GroupLayout(jPanel8);
@@ -2680,20 +2679,21 @@ public class RelatoriosOrdemProducao extends javax.swing.JInternalFrame {
             } else if (porTodosPeriodos.isSelected()) {
                 tipoCondicaoPeriodo = 5;
             }
-            
+
             /**
-            * @param tipoCondicaoStatus 1 - POR STATUS 2 - POR TODOS
-            * @param textoStatus
-            **/
+             * @param tipoCondicaoStatus 1 - POR STATUS 2 - POR TODOS
+             * @param textoStatus
+            *
+             */
             byte tipoCondicaoStatus = 0;
             String textoStatus = null;
-            if(porStatus.isSelected()){
+            if (porStatus.isSelected()) {
                 tipoCondicaoStatus = 1;
                 textoStatus = comboStatus.getSelectedItem().toString();
-            }else if(porTodosStatus.isSelected()){
+            } else if (porTodosStatus.isSelected()) {
                 tipoCondicaoStatus = 0;
             }
-            
+
             /*
              @param tipoCondicaoOrdenar
              1 - codigo op crescente
@@ -2939,6 +2939,10 @@ public class RelatoriosOrdemProducao extends javax.swing.JInternalFrame {
         porDataEntregaMaisAntiga.setEnabled(false);
         //orientacao
         orientacaoRetrato.setSelected(true);
+
+        for (StsOp status : Controle.stsOp) {
+            comboStatus.addItem(status.toString());
+        }
     }
 
     //CONDIÇÕES

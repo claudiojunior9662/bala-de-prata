@@ -34,7 +34,6 @@ public class LoginDAO extends RuntimeException {
         Connection con = ConnectionFactory.getConnection();
         PreparedStatement stmt = null;
         ResultSet rs = null;
-        System.out.println(con);
         
         try {
             switch (login) {

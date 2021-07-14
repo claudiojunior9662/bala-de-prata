@@ -5,6 +5,7 @@
  */
 package ui.sproducao.contrrole;
 
+import model.dao.TelaAcompanhamentoDAO;
 import connection.ConnectionFactory;
 import entities.sisgrafex.AlteraData;
 import javax.swing.table.DefaultTableModel;

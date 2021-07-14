@@ -883,21 +883,7 @@
             <Component class="javax.swing.JComboBox" name="comboStatus">
               <Properties>
                 <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
-                  <StringArray count="13">
-                    <StringItem index="0" value="EM AVALIA&#xc7;&#xc3;O PELA SE&#xc7; T&#xc9;CNICA"/>
-                    <StringItem index="1" value="ENCAMINHADO PARA PR&#xc9; IMP"/>
-                    <StringItem index="2" value="DIAGRAMA&#xc7;&#xc3;O"/>
-                    <StringItem index="3" value="PRODUZINDO PROVA"/>
-                    <StringItem index="4" value="AGUARDANDO APR CLIENTE"/>
-                    <StringItem index="5" value="ENCAMINHADO PARA OFFSET"/>
-                    <StringItem index="6" value="ENCAMINHADO PARA TIPOGRAFIA"/>
-                    <StringItem index="7" value="ENCAMINHADO PARA ACABAMENTO"/>
-                    <StringItem index="8" value="EM FINALIZA&#xc7;&#xc3;O"/>
-                    <StringItem index="9" value="ENCAMINHADO PARA EXPEDI&#xc7;&#xc3;O"/>
-                    <StringItem index="10" value="ENTREGUE PARCIALMENTE"/>
-                    <StringItem index="11" value="CANCELADA"/>
-                    <StringItem index="12" value="ENTREGUE"/>
-                  </StringArray>
+                  <StringArray count="0"/>
                 </Property>
                 <Property name="enabled" type="boolean" value="false"/>
               </Properties>

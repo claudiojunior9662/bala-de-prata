@@ -358,7 +358,7 @@ public class RelatoriosOrdemProducaoDAO {
                     comando = comando + " WHERE";
                     primeiro++;
                 }
-                comando = comando + " tabela_ordens_producao.status = '" + textoStatus + "'";
+                comando = comando + " tabela_ordens_producao.status = '" + textoStatus.split(" ")[0] + "'";
                 break;
         }
 
